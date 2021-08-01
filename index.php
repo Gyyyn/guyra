@@ -5,6 +5,10 @@
  * @package guyra
  */
 
+if($_GET['json']) {
+  include get_template_directory() . '/json.php';
+}
+
 // Handle admin actions
 if (current_user_can('manage_options')) {
 
