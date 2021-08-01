@@ -126,7 +126,7 @@ function LevelChooserLevel(props) {
           values: props.items[item],
           className: 'section',
           level: props.level,
-          key: props.items[item]
+          key: props.items[item].id
         }
       )
     }))
@@ -142,17 +142,13 @@ function LevelChooser(props) {
         className: 'container-fluid exercise-level-chooser',
         'data-aos': "fade-right"
       },
-      e(
-        'h2',
-        {className: 'entry-title'},
-        'Level 1'
-      ),
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
         return e(
           LevelChooserLevel,
           {
             items: levelMap[level],
-            level: level
+            level: level,
+            key: level
           }
         )
       }))
@@ -220,6 +216,8 @@ class App extends React.Component {
 
     this.LevelChooser = e(LevelChooser);
 
+    this.LoadingPage = e('span', {className: 'loading', 'data-aos': 'fade-right'}, 'Loading...')
+
     this.state = {
       values: this.ExerciseObject,
       setExerciseObject: this.setExerciseObject,
@@ -227,7 +225,7 @@ class App extends React.Component {
       setNewActivity: this.setNewActivity,
       CheckAnswer: this.CheckAnswer,
       hintArea: this.hintAreaInfo,
-      page: this.LevelChooser,
+      page: this.LoadingPage,
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON
     };
@@ -236,7 +234,10 @@ class App extends React.Component {
   componentDidMount() {
     fetch('https://guyra.test/?json=levelmap')
       .then(res => res.json())
-      .then(json => this.setState({ levelMap: json }));
+      .then(json => this.setState({
+        page: this.LevelChooser,
+        levelMap: json
+      }));
   }
 
   setNewActivity = () => {
@@ -252,7 +253,6 @@ class App extends React.Component {
     } else {
       while(this.questionsAlreadyAnswered.includes(this.currentQuestion)) {
         this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
-        console.log(this.currentQuestion);
       }
     }
 
@@ -291,6 +291,10 @@ class App extends React.Component {
   }
 
   loadExerciseJSON = (level, id) => {
+    this.setState({
+      page: this.LoadingPage
+    })
+
     fetch('https://guyra.test/?json=exercise&level='.concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
