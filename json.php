@@ -20,32 +20,71 @@ $masterJSON = [
   ]
 ];
 
+$levelMap = [
+  "level1" => [
+
+    "unit1" => [
+      "id" => "unit1",
+      "name" => "Convites",
+      "description" => "temp",
+      "image" => "none"
+    ],
+
+    "unit2" => [
+      "id" => "unit2",
+      "name" => "Historias",
+      "description" => "temp",
+      "image" => "none"
+    ]
+
+  ],
+
+  "level2" => [
+
+    "unit3" => [
+      "id" => "unit3",
+      "name" => "test",
+      "description" => "temp",
+      "image" => "none"
+    ]
+
+  ]
+];
+
+
 $responseJSON = Array();
-$used_numbers = Array();
-
-$level = 'level' . $_GET['level'];
-$unit = 'unit' . $_GET['unit'];
-$length = $_GET['length'];
-
-$rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
-
-header("Content-Type: application/json");
 
 if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
-  $masterJSON = ['error: range not specified'];
-}
 
-for ($x=0; $x < $length; $x++) {
-
-  while(in_array($rnd, $used_numbers)) {
-    $rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
+  if ($_GET['json'] == 'levelmap') {
+    $responseJSON = $levelMap;
+  } else {
+    $responseJSON = ['error: range not specified'];
   }
 
-  array_push($used_numbers, $rnd);
+} else {
 
-  array_push($responseJSON, $masterJSON[$level][$unit][$rnd]);
+  $used_numbers = Array();
+
+  $level = $_GET['level'];
+  $unit = $_GET['unit'];
+  $length = $_GET['length'];
+
+  $rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
+
+  for ($x=0; $x < $length; $x++) {
+
+    while(in_array($rnd, $used_numbers)) {
+      $rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
+    }
+
+    array_push($used_numbers, $rnd);
+
+    array_push($responseJSON, $masterJSON[$level][$unit][$rnd]);
+  }
 }
 
+header("Content-Type: application/json");
 echo json_encode($responseJSON);
 
 exit;

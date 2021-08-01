@@ -533,6 +533,7 @@ a:hover {
 
 .exercise-level-chooser .section {
   display: flex;
+  margin-bottom: 3px;
 }
 
 .exercise-level-chooser .section .btn {

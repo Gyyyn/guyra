@@ -104,36 +104,36 @@ function CurrentQuestion(props) {
 // Level Chooser
 //
 
-function loadJSON(path, success, error) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function()
-    {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                if (success)
-                    success(JSON.parse(xhr.responseText));
-            } else {
-                if (error)
-                    error(xhr);
-            }
+function LevelChooserButton(props) {
+  return (
+    e(ExerciseContext.Consumer, null, ({loadExerciseJSON}) => e(
+      'a',
+      {
+        className: 'btn',
+        onClick: () => { loadExerciseJSON(props.level, props.values.id) }
+      },
+      props.values.name
+    ))
+  )
+}
+
+function LevelChooserLevel(props) {
+  return (
+    e('div', {className: 'section'}, Object.keys(props.items).map( (item) => {
+      return e(
+        LevelChooserButton,
+        {
+          values: props.items[item],
+          className: 'section',
+          level: props.level,
+          key: props.items[item]
         }
-    };
-    xhr.open("GET", path, true);
-    xhr.send();
+      )
+    }))
+  )
 }
 
 function LevelChooser(props) {
-
-  let phrases = [];
-  let phrases2 = [];
-
-  loadJSON('https://guyra.test/?json=exercise&level=1&unit=1&length=5',
-           (data) => { phrases = data; }
-  );
-
-  loadJSON('https://guyra.test/?json=exercise&level=1&unit=2&length=5',
-           (data) => { phrases2 = data; }
-  );
 
   return (
     e(
@@ -147,26 +147,15 @@ function LevelChooser(props) {
         {className: 'entry-title'},
         'Level 1'
       ),
-      e(ExerciseContext.Consumer, null, ({setExerciseObject}) => e(
-        'div',
-        { className: 'section' },
-        e(
-          'a',
+      e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
+        return e(
+          LevelChooserLevel,
           {
-            className: 'btn',
-            onClick: () => { setExerciseObject(phrases) }
-          },
-          'Unit 1'
-        ),
-        e(
-          'a',
-          {
-            className: 'btn',
-            onClick: () => { setExerciseObject(phrases2) }
-          },
-          'Unit 2'
+            items: levelMap[level],
+            level: level
+          }
         )
-      ))
+      }))
     )
   )
 }
@@ -238,8 +227,16 @@ class App extends React.Component {
       setNewActivity: this.setNewActivity,
       CheckAnswer: this.CheckAnswer,
       hintArea: this.hintAreaInfo,
-      page: this.LevelChooser
+      page: this.LevelChooser,
+      levelMap: {},
+      loadExerciseJSON: this.loadExerciseJSON
     };
+  }
+
+  componentDidMount() {
+    fetch('https://guyra.test/?json=levelmap')
+      .then(res => res.json())
+      .then(json => this.setState({ levelMap: json }));
   }
 
   setNewActivity = () => {
@@ -291,6 +288,12 @@ class App extends React.Component {
     })
 
     this.exerciseStartSound.play();
+  }
+
+  loadExerciseJSON = (level, id) => {
+    fetch('https://guyra.test/?json=exercise&level='.concat(level, '&unit=', id, '&length=5'))
+      .then(res => res.json())
+      .then(json => this.setExerciseObject(json));
   }
 
   render() {
