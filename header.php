@@ -49,7 +49,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <?php wp_body_open(); ?>
 <div id="page" class="site">
 <header>
-  <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0" <?php if(is_admin_bar_showing() && current_user_can('manage_options')) {?> style="margin-top:32px!important;"<?php } ?>>
+  <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container">
       <div class="navbar-brand me-3 p-0 position-relative" href="#">
       	<?php echo get_custom_logo(); ?>
@@ -95,7 +95,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
             <img class="navbar-profile ms-2" alt="profile-picture" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png">
           </li>
         <?php } else { ?>
-          <li class="nav-item me-3">
+          <li class="nav-item me-3 profile-item">
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_myaccount'] ?></a>
             <div class="dropstart m-0 d-inline">
               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>

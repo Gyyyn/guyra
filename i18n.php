@@ -68,6 +68,6 @@ $gi18n = [
 	'meet_link' => get_site_url() . '/meet',
 	'courses_link' => get_site_url() . '/courses',
 	'profile_link' => get_site_url() . '/account/edit-profile',
-	'logout_link' => get_site_url() . '/account/user-logout'
+	'logout_link' => get_site_url() . '/account/user-logout',
+	'admin_link' => get_admin_url()
 ];
-?>

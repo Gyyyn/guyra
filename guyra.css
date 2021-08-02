@@ -143,6 +143,15 @@ label[for="comment"],
 	.navbar-nav li a {
 		width: 100%;
 	}
+
+  .navbar-profile {
+    width: auto;
+    margin: 1rem;
+  }
+
+  .navbar .profile-item {
+    text-align: center;
+  }
 }
 
 .card-header {
@@ -797,3 +806,7 @@ a.element-container:visited {
 .page-squeeze #user-registration.horizontal .user-registration-MyAccount-navigation {
 	border: unset;
 }
+
+/* Misc */
+
+#wpadminbar { position: absolute !important; display: none !important; }

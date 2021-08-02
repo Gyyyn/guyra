@@ -232,12 +232,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+
     fetch('https://guyra.test/?json=levelmap')
       .then(res => res.json())
       .then(json => this.setState({
         page: this.LevelChooser,
         levelMap: json
       }));
+
+
   }
 
   setNewActivity = () => {

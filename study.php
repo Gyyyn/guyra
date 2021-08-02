@@ -68,102 +68,20 @@ if ($user_studypage_object == null) {
       <a href="<?php echo get_site_url() ?>" class="list-group-item active"><?php echo $gi18n['homework']; ?></a>
       <a href="<?php echo get_site_url() ?>/courses" class="list-group-item"><?php echo $gi18n['courses']; ?></a>
       <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super"><?php echo $gi18n['practice']; ?></a>
-      <?php if(current_user_can('manage_options')) { echo '
-        <a class="list-group-item" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
-          Admin panel
-        </a>
-        '; } ?>
     </div>
     <?php
     // If current user is admin allow him to access all user pages
     if (current_user_can('manage_options')) {
 
-      echo '<div class="collapse hide" id="collapse-admin">';
-      // Get users
-      $users = get_users();
-      echo '
-      <h4>User admin:</h4>
-      <div class="mb-4 alert alert-info" role="alert">
-        <p>Everything in this panel is pretty basic and easy to break to make sure to follow instructions exactly!</p>
+      include 'Guyra_admin.php';
 
-        <p>To add an user to a group get the ID of the user listed below and type the tag of the group.
-        Users with the same tag will see the same homework page.</p>
-      </div>
-      ';
-      ?>
-      <h5 class="mt-4">Management:</h5>
-      <div class="admin-forms border rounded p-5 m-0">
-
-        <h5>Assign to group:</h5>
-        <form action="<?php echo get_site_url(); ?>" method="GET">
-            User ID: <input type="text" name="user">
-            Group tag: <input type="text" name="assigntogroup">
-            <input type="submit" value="Go" />
-        </form>
-
-        <hr />
-
-        <h5>Assign to teacher:</h5>
-        <form action="<?php echo get_site_url(); ?>" method="GET">
-            User ID: <input type="text" name="user">
-            Teacher ID: <input type="text" name="assigntoteacher">
-            <input type="submit" value="Go" />
-        </form>
-
-        <hr />
-
-        <h5>Give premium:</h5>
-        <form action="<?php echo get_site_url(); ?>" method="GET">
-            User ID: <input type="text" name="user">
-            dd-mm-yyyy formatted date: <input type="text" name="premiumtill">
-            <input type="submit" value="Go" />
-        </form>
-
-        <h5>Give lite:</h5>
-        <form action="<?php echo get_site_url(); ?>" method="GET">
-            User ID: <input type="text" name="user">
-            dd-mm-yyyy formatted date: <input type="text" name="litetill">
-            <input type="submit" value="Go" />
-        </form>
-
-      </div>
-      <?php
-      echo '<h5 class="mt-4">Info:</h5>';
-      echo '<ul class="list-group m-0">';
-      foreach ($users as $x) {
-        // Lord have mercy on those who will maintain this shit
-        $userdata = get_user_meta($x->ID);
-
-        if($userdata['studygroup'][0] != "") {
-          $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
-        } else {
-          $page_link = get_site_url() . '/' . sha1($x->ID);
-        }
-
-        echo '<li class="list-group-item">' .
-        'ID: ' . $x->ID . ' ' .
-        '<a href="' . $page_link . '">' .
-        $userdata['first_name'][0] . ' ' .
-        $userdata['last_name'][0] . '</a> ' .
-        $x->user_email . ' | ' .
-        '<span class="text-muted text-end">' .
-        'Group: <span class="badge bg-secondary">' . $userdata['studygroup'][0] . '</span>' .
-        '</span> ' .
-        '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '" class="btn btn-outline-primary btn-sm">Clear Group</a>' .
-        '</li>';
-
-      }
-      echo '</ul>';
-
-      echo '<hr />';
-      echo '</div>';
     } // Admin panel
 
     ?>
 
     <div class="collapse hide" id="exercise-container-super">
       <div class="d-flex justify-content-between align-items-center my-5">
-        <h2><?php echo $gi18n['studypage_practice_title']; ?></h2>
+        <h1><?php echo $gi18n['studypage_practice_title']; ?></h1>
         <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
       </div>
       <div id="exercise-container"></div>
@@ -171,7 +89,7 @@ if ($user_studypage_object == null) {
 
     <div class="study-page position-relative">
     <div class="d-flex justify-content-between align-items-center my-5">
-      <h2><?php echo $gi18n['studypage_homework_title']; ?></h2>
+      <h1><?php echo $gi18n['studypage_homework_title']; ?></h1>
       <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
     </div>
 
@@ -183,7 +101,7 @@ if ($user_studypage_object == null) {
 
     <div class="study-answers">
     <div class="d-flex justify-content-between align-items-center my-5">
-      <h2><?php echo $gi18n['studypage_homework_replytitle']; ?></h2>
+      <h1><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
       <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
     </div>
 
