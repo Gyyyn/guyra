@@ -35,8 +35,8 @@ body {
 	background-repeat: repeat;
 	padding: 0;
 	margin: 0;
-	background-size: 35%;
-  background-image: url("./assets/img/bg2.png");
+	background-size: auto;
+  background-image: url("./assets/img/bg.png");
 }
 
 body.wp-admin {
@@ -462,7 +462,16 @@ a:hover {
     border-left: rgba(0,212,255,1) 2px dashed;
 }
 
+.page-squeeze .list-group .list-group-item {
+  border-width: 0 0 inherit 0;
+  color: rgba(0,212,255,1);
+}
+
 /* Exercise area */
+
+#exercise-container-super {
+  padding-bottom: 3rem;
+}
 
 .exercise-dialog {
 	border: 2px solid #111;
@@ -485,7 +494,7 @@ a:hover {
 	box-shadow: none;
 	cursor: pointer;
 	display: inline-block;
-	font-size: 0.95em;
+	font-size: calc(0.75rem + 0.35vw);
 	padding: .667em 1.333em;
 	text-align: center;
 	text-decoration: none;

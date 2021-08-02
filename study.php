@@ -65,9 +65,9 @@ if ($user_studypage_object == null) {
 
   <div class="page-squeeze" data-aos="fade-up" data-aos-once="true"><div>
     <div class="list-group list-group-horizontal container-fluid overflow-hidden">
-      <a href="<?php echo get_site_url() ?>" class="list-group-item active">Homework</a>
-      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">Courses</a>
-      <a class="list-group-item disabled">Practice <span class="badge bg-primary rounded-pill">Soon!</span></a>
+      <a href="<?php echo get_site_url() ?>" class="list-group-item active"><?php echo $gi18n['homework']; ?></a>
+      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item"><?php echo $gi18n['courses']; ?></a>
+      <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super"><?php echo $gi18n['practice']; ?></a>
       <?php if(current_user_can('manage_options')) { echo '
         <a class="list-group-item" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
           Admin panel
@@ -159,7 +159,17 @@ if ($user_studypage_object == null) {
       echo '</div>';
     } // Admin panel
 
-    ?> <div class="study-page position-relative">
+    ?>
+
+    <div class="collapse hide" id="exercise-container-super">
+      <div class="d-flex justify-content-between align-items-center my-5">
+        <h2><?php echo $gi18n['studypage_practice_title']; ?></h2>
+        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
+      </div>
+      <div id="exercise-container"></div>
+    </div>
+
+    <div class="study-page position-relative">
     <div class="d-flex justify-content-between align-items-center my-5">
       <h2><?php echo $gi18n['studypage_homework_title']; ?></h2>
       <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
