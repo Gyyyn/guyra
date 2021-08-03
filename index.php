@@ -196,7 +196,7 @@ include get_template_directory() . '/i18n.php';
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Privacy</a></li>
         <li class="breadcrumb-item" aria-current="page"><a href="#">Terms</a></li>
-        <li class="breadcrumb-item"><a href="#">Investors</a></li>
+        <li class="breadcrumb-item"><a href="#">Schools</a></li>
       </ol>
     </nav>
     <p>&copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name'] . ' | ' . $gi18n['company_cnpj']; ?></p>

@@ -15,6 +15,15 @@ h1, h2, h3, h4, h5 {
 	cursor: default;
 }
 
+.page-squeeze h1 {
+  font-size: calc(1.8em + 1.2vw);
+}
+
+.text-shadow {
+  text-shadow: -1px 1px #457b8a, -2px 2px #457b8a, -3px 3px #457b8a, -4px 4px rgb(0 0 0 / 50%);
+  color: #a5eaff;
+}
+
 body,
 .page-squeeze .user-registration,
 .element-container,
@@ -607,6 +616,14 @@ a:hover {
 .exercise-icon > img {
   max-width: calc(1.5rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
+}
+
+footer.squeeze {
+  text-align: center;
+}
+
+footer nav a {
+  text-decoration: none;
 }
 
 /* Courses page */

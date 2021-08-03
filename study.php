@@ -81,7 +81,7 @@ if ($user_studypage_object == null) {
 
     <div class="collapse hide" id="exercise-container-super">
       <div class="d-flex justify-content-between align-items-center my-5">
-        <h1><?php echo $gi18n['studypage_practice_title']; ?></h1>
+        <h1 class="text-shadow"><?php echo $gi18n['studypage_practice_title']; ?></h1>
         <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
       </div>
       <div id="exercise-container"></div>
@@ -89,7 +89,7 @@ if ($user_studypage_object == null) {
 
     <div class="study-page position-relative">
     <div class="d-flex justify-content-between align-items-center my-5">
-      <h1><?php echo $gi18n['studypage_homework_title']; ?></h1>
+      <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
       <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
     </div>
 
@@ -101,7 +101,7 @@ if ($user_studypage_object == null) {
 
     <div class="study-answers">
     <div class="d-flex justify-content-between align-items-center my-5">
-      <h1><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
+      <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
       <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
     </div>
 
