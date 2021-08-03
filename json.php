@@ -2,10 +2,92 @@
 
 include 'i18n.php';
 
+function GuyraGetIcon($path='') {
+  return get_template_directory_uri() . '/assets/icons/' . $path;
+}
+
 $masterJSON = [
+
   "level1" => [
 
     "unit1" => [
+      ["I am John.", "am"],
+      ["Hello! How are you?", "are"],
+      ["Are you from here?", "from"],
+      ["We are from England.", "are from"],
+      ["She is really pretty!", "is"],
+      ["I am English.", "I"],
+      ["My friend is from Brazil.", "is from"],
+      ["Nice to meet you.", "meet"],
+      ["I'm from Rio, my friend is from Los Angeles.", "I'm"],
+      ["My friend and I are students.", "and I"],
+      ["We are American.", "We"]
+    ],
+
+    "unit2" => [
+      ["What's in your bag?", "in your"],
+      ["This is my phone.", "is my"],
+      ["Are these your keys?", "these your"],
+      ["These are his books.", "are his"],
+      ["I have a car.", "have a"],
+      ["Our house is big!", "Our"],
+      ["Do you have a TV at home?", "you have"],
+      ["I have three watches and a clock.", "have three"],
+      ["Where is your house?", "your house"],
+      ["What's her address?", "'s her"],
+      ["It is far from here.", "is far"],
+      ["What's your phone number", "your phone"],
+      ["Can you help me?", "me"]
+    ],
+
+  ],
+
+  "level2" => [
+
+    "unit3" => [
+      ["It's four thirty three. (4:33)", "four thirty three"],
+      ["It's five past five. (5:05)", "five past five"],
+      ["It's twenty to four. (3:40)", "twenty to four"],
+      ["It's three fourty seven AM. (3:47AM)", "three fourty seven AM"],
+      ["It's noon. (12:00PM)", "noon"],
+      ["It's midnight. (12:00AM)", "midnight"],
+      ["It's a quarter past noon. (12:15PM)", "a quarter past noon"],
+      ["It's a quarter past four. (4:15)", "a quarter past four"],
+      ["It's nine in the evening. (9:00PM)", "nine in the evening"],
+      ["It's three in the morning. (3:00AM)", "three in the morning"],
+    ],
+
+    "unit4" => [
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+    ],
+
+    "unit5" => [
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+    ]
+
+  ],
+
+  "level3" => [
+
+    "unit5" => [
       ["Would you like to go to a restaurant?", "Would you"],
       ["Do you want to take a trip to Hawaii?", "you want"],
       ["Would you like to go see a Coldplay concert?", "Would you like"],
@@ -13,7 +95,7 @@ $masterJSON = [
       ["Do you want to see a movie", "Do you"]
     ],
 
-    "unit2" => [
+    "unit6" => [
       ["Did you work yesterday?", "you work"],
       ["I made some cake, would you like some?", "made some"],
       ["She didn't go anywhere this week.", "didn't go"],
@@ -23,9 +105,9 @@ $masterJSON = [
 
   ],
 
-  "level2" => [
+  "level4" => [
 
-    "unit3" => [
+    "unit7" => [
       ["Brazil is a lot bigger than Italy.", "a lot bigger"],
       ["Which country is the most populous, the U.S., China or Japan?", "most populous"],
       ["This place is very relaxing and not stressful at all!", "very relaxing"],
@@ -33,7 +115,7 @@ $masterJSON = [
       ["My hometown is nice but it's too boring!", "nice but"]
     ],
 
-    "unit4" => [
+    "unit8" => [
       ["You shouldn't use this medicine, it won't work.", "shouldn't use"],
       ["What do you suggest for a cold?", "you suggest"],
       ["It's important to get some rest.", "to get"],
@@ -45,20 +127,21 @@ $masterJSON = [
 ];
 
 $levelMap = [
+
   "level1" => [
 
     "unit1" => [
       "id" => "unit1",
-      "name" => "Convites",
+      "name" => "Hello!",
       "description" => "temp",
-      "image" => "none"
+      "image" => GuyraGetIcon('exercises/chat.png')
     ],
 
     "unit2" => [
       "id" => "unit2",
-      "name" => "Historias",
+      "name" => "Coisas",
       "description" => "temp",
-      "image" => "none"
+      "image" => GuyraGetIcon('exercises/reading-glasses.png')
     ]
 
   ],
@@ -67,16 +150,60 @@ $levelMap = [
 
     "unit3" => [
       "id" => "unit3",
-      "name" => "Lugares",
+      "name" => "Horas",
       "description" => "temp",
-      "image" => "none"
+      "image" => GuyraGetIcon('exercises/time.png')
     ],
 
     "unit4" => [
       "id" => "unit4",
+      "name" => "Atividades",
+      "description" => "temp",
+      "image" => GuyraGetIcon('exercises/running.png')
+    ],
+
+    "unit5" => [
+      "id" => "unit5",
+      "name" => "Frequencia",
+      "description" => "temp",
+      "image" => GuyraGetIcon('exercises/schedule.png')
+    ]
+
+  ],
+
+
+  "level3" => [
+
+    "unit5" => [
+      "id" => "unit5",
+      "name" => "Convites",
+      "description" => "temp",
+      "image" => GuyraGetIcon('exercises/card.png')
+    ],
+
+    "unit6" => [
+      "id" => "unit6",
+      "name" => "Historias",
+      "description" => "temp",
+      "image" => GuyraGetIcon('exercises/script.png')
+    ]
+
+  ],
+
+  "level4" => [
+
+    "unit7" => [
+      "id" => "unit7",
+      "name" => "Lugares",
+      "description" => "temp",
+      "image" => GuyraGetIcon('exercises/shop.png')
+    ],
+
+    "unit8" => [
+      "id" => "unit8",
       "name" => "Sugestoes",
       "description" => "temp",
-      "image" => "none"
+      "image" => GuyraGetIcon('exercises/idea.png')
     ],
 
   ]

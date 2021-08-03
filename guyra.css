@@ -126,6 +126,15 @@ label[for="comment"],
 
 .navbar-toggler {
   padding: .3rem .5rem;
+  border: 0;
+}
+
+.navbar-toggler:focus {
+  box-shadow: unset;
+}
+
+.navbar .navbar-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(0, 0, 0, 0.60)' stroke-linecap='flat' stroke-miterlimit='10' stroke-width='3.5' d='M4 7h22M4 15h22M4 23h22'/></svg>");
 }
 
 @media (max-width: 766px) {
@@ -149,7 +158,7 @@ label[for="comment"],
 	}
 
   .navbar-profile {
-    width: auto;
+    width: calc(5rem + 5vw);
     margin: 1rem;
   }
 
@@ -266,6 +275,7 @@ label[for="comment"],
 .featurette {
 	color: white;
 	box-shadow: 0 0 1em rgba(0,0,0, 0.3);
+  overflow: hidden;
 }
 
 .featurette p {
@@ -283,53 +293,27 @@ label[for="comment"],
 }
 
 @media (min-width: 766px) {
-	.squeeze { max-width: calc(40vw + 20rem); margin: 5rem auto; }
-	.squeeze-big { max-width: 85vw; margin: 5rem auto; }
+	.squeeze { max-width: calc(40vw + 20rem); margin: calc(3rem + 2vw) auto; }
+	.squeeze-big { max-width: 85vw; margin: calc(3rem + 2vw) auto; }
 }
 
 @media (max-width: 766px) {
-	.squeeze { max-width: unset; margin: 5rem auto; }
-	.squeeze-big { max-width: unset; margin: 5rem auto; }
+	.squeeze { max-width: unset; margin: 2rem auto; }
+	.squeeze-big { max-width: unset; margin: 2rem auto; }
 }
 
 .prices-container {
 	justify-content: center;
+  flex-direction: column;
 }
 
 .col.prices {
 	padding: 0;
-	width: 23em;
+  width: auto;
 }
-
-@media (min-width: 766px) {
-.col.prices .card:hover,
-.col.prices:nth-child(1) .card:hover,
-.col.prices:nth-child(3) .card:hover {
-	z-index: 3;
-	box-shadow: rgba(0,0,0,0.5) 0 0 2em;
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
-	position: relative;
-	transform: scale(1.02);
-}
-
-@keyframes prices-left-popforward {
-    from { left: 0%; }
-    to{ left: 5%; }
-}
-
-@keyframes prices-right-popforward {
-    from { left: 0%; }
-    to{ left: -5%; }
-}
-
-.col.prices:nth-child(1) .card:hover { animation: prices-left-popforward 0.35s; left: 5%; }
-.col.prices:nth-child(3) .card:hover { animation: prices-right-popforward 0.35s; left: -5%; }
-
-} /* responsive */
 
 .col.prices.primary {
 	padding: 0;
-	width: 25em;
 	box-shadow: rgba(70,12,186,1) 0 0 1em;
 	z-index: 2;
 }
@@ -342,6 +326,45 @@ label[for="comment"],
 	box-shadow: rgba(70,12,186,1) 0 0 2em;
 	transition: all 0.35s cubic-bezier(.19,1,.22,1);
 }
+
+@media (min-width: 1280px) {
+
+  .prices-container {
+    flex-direction: row;
+  }
+
+  .col.prices {
+  	width: calc(10rem + 15vw);
+  }
+
+  .col.prices.primary {
+  	width: calc(13rem + 15vw);
+  }
+
+  .col.prices .card:hover,
+  .col.prices:nth-child(1) .card:hover,
+  .col.prices:nth-child(3) .card:hover {
+  	z-index: 3;
+  	box-shadow: rgba(0,0,0,0.5) 0 0 2em;
+  	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+  	position: relative;
+  	transform: scale(1.02);
+  }
+
+  @keyframes prices-left-popforward {
+      from { left: 0%; }
+      to{ left: 5%; }
+  }
+
+  @keyframes prices-right-popforward {
+      from { left: 0%; }
+      to{ left: -5%; }
+  }
+
+  .col.prices:nth-child(1) .card:hover { animation: prices-left-popforward 0.35s; left: 5%; }
+  .col.prices:nth-child(3) .card:hover { animation: prices-right-popforward 0.35s; left: -5%; }
+
+} /* responsive */
 
 .btn,
 .form-control,
@@ -476,8 +499,15 @@ a:hover {
 }
 
 .page-squeeze .list-group .list-group-item {
-  border-width: 0 0 inherit 0;
   color: rgba(0,212,255,1);
+  font-size: calc(.85rem + 0.55vw);
+  border: 0 !important;
+  border-bottom: calc(0.2rem + .05vw) solid #ddd !important;
+  background: #f0f0f0;
+}
+
+.page-squeeze .list-group .list-group-item.active {
+  border-bottom-color: rgb(7, 173, 206) !important;
 }
 
 /* Exercise area */
@@ -555,17 +585,28 @@ a:hover {
 
 .exercise-level-chooser .section {
   display: flex;
-  margin-bottom: 3px;
+  margin-bottom: calc(1rem + .5vw);
+  justify-content: center;
 }
 
 .exercise-level-chooser .section .btn {
-  flex-grow: 1;
+  flex-grow: 0;
   border-radius: 5rem;
   color: #72dff7;
   border: 3px #72dff7 solid;
-  padding: 1rem;
-  margin: 0 3px;
-  font-size: calc(0.95rem + 0.35vw);
+  padding: calc(.25rem + 1vw);
+  margin: 0 calc(.15rem + .7vw);
+  font-size: calc(0.65rem + 0.75vw);
+  box-shadow: 0 0 1rem rgba(0,0,0, 0.1);
+}
+
+.exercise-level-chooser .section .btn:hover {
+  box-shadow: 0 0 1.7rem rgba(0,0,0, 0.17);
+}
+
+.exercise-icon > img {
+  max-width: calc(1.5rem + 1.5vw);
+  margin-right: calc(.1rem + .1vw);
 }
 
 /* Courses page */

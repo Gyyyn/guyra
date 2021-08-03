@@ -192,8 +192,13 @@ include get_template_directory() . '/i18n.php';
   </div><!-- /.container -->
 
   <footer class="squeeze">
-    <hr class="featurette-divider">
-    <p class="float-end"><a href="#"><?php echo $gi18n['button_return'] ?></a></p>
+    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Privacy</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="#">Terms</a></li>
+        <li class="breadcrumb-item"><a href="#">Investors</a></li>
+      </ol>
+    </nav>
     <p>&copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name'] . ' | ' . $gi18n['company_cnpj']; ?></p>
   </footer>
 </main>

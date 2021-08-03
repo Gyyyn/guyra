@@ -119,6 +119,14 @@ function LevelChooserButton(props) {
         className: 'btn',
         onClick: () => { loadExerciseJSON(props.level, props.values.id) }
       },
+      e(
+        'span',
+        {className: 'exercise-icon'},
+        e(
+          'img',
+          {src: props.values.image}
+        )
+      ),
       props.values.name
     ))
   )
@@ -147,7 +155,7 @@ function LevelChooser(props) {
       'div',
       {
         className: 'container-fluid exercise-level-chooser',
-        'data-aos': "fade-right"
+        'data-aos': "fade-up"
       },
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
         return e(
@@ -215,7 +223,11 @@ class App extends React.Component {
           className: 'btn btn-sm btn-success',
           onClick: () => { this.setState({
             page: this.LevelChooser
-          }) }
+          });
+
+          this.reset();
+
+          }
         },
         'Voltar ao mapa'
       )
@@ -308,6 +320,17 @@ class App extends React.Component {
     fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
+  }
+
+  reset() {
+    this.ExerciseObject = [];
+    this.exerciseLength = 0;
+    this.currentQuestion = 0;
+    this.questionsAlreadyAnswered = [];
+
+    this.setState({
+      values: this.ExerciseObject
+    })
   }
 
   render() {

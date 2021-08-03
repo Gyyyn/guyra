@@ -70,5 +70,5 @@ $gi18n = [
 	'profile_link' => get_site_url() . '/account/edit-profile',
 	'logout_link' => get_site_url() . '/account/user-logout',
 	'admin_link' => get_admin_url(),
-	'template_link' => get_template_directory()
+	'template_link' => get_template_directory_uri()
 ];
