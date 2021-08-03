@@ -1,5 +1,12 @@
 let e = React.createElement;
 
+function getBaseUrl() {
+    var re = new RegExp(/^.*\//);
+    return re.exec(window.location.href)[0];
+}
+
+const rootUrl = getBaseUrl();
+
 function shuffleArray(a) {
  var j, x, i;
     for (i = a.length - 1; i > 0; i--) {
@@ -167,10 +174,10 @@ class App extends React.Component {
     this.currentQuestion = 0;
     this.questionsAlreadyAnswered = [];
 
-    this.exerciseStartSound = new Audio('https://guyra.test/wp-content/themes/guyra/audio/start.ogg');
-    this.exerciseEndSound = new Audio('https://guyra.test/wp-content/themes/guyra/audio/failure.ogg');
-    this.correctHitSound = new Audio('https://guyra.test/wp-content/themes/guyra/audio/hit.ogg');
-    this.wrongHitSound = new Audio('https://guyra.test/wp-content/themes/guyra/audio/miss.ogg');
+    this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
+    this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/failure.ogg'));
+    this.correctHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/hit.ogg'));
+    this.wrongHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/miss.ogg'));
 
     this.hintAreaInfo = e(
       'div',
@@ -233,7 +240,7 @@ class App extends React.Component {
 
   componentDidMount() {
 
-    fetch('https://guyra.test/?json=levelmap')
+    fetch(rootUrl.concat('?json=levelmap'))
       .then(res => res.json())
       .then(json => this.setState({
         page: this.LevelChooser,
@@ -298,7 +305,7 @@ class App extends React.Component {
       page: this.LoadingPage
     })
 
-    fetch('https://guyra.test/?json=exercise&level='.concat(level, '&unit=', id, '&length=5'))
+    fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
   }
@@ -312,4 +319,6 @@ class App extends React.Component {
   };
 }
 
-if(document.getElementById('exercise-container')) { ReactDOM.render(e(App), document.getElementById('exercise-container')); }
+if(document.getElementById('exercise-container')) {
+  ReactDOM.render(e(App), document.getElementById('exercise-container'));
+}

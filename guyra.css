@@ -124,6 +124,10 @@ label[for="comment"],
 	max-width: 3.5rem;
 }
 
+.navbar-toggler {
+  padding: .3rem .5rem;
+}
+
 @media (max-width: 766px) {
 	.page-squeeze .page-content,
 	.page-squeeze .entry-content,
@@ -279,7 +283,7 @@ label[for="comment"],
 }
 
 @media (min-width: 766px) {
-	.squeeze { max-width: 50vw; margin: 5rem auto; }
+	.squeeze { max-width: calc(40vw + 20rem); margin: 5rem auto; }
 	.squeeze-big { max-width: 85vw; margin: 5rem auto; }
 }
 
