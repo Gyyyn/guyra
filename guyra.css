@@ -519,6 +519,16 @@ a:hover {
   border-bottom-color: rgb(7, 173, 206) !important;
 }
 
+#comment {
+    border: .2rem solid #ddd;
+    background: #f7f7f7;
+    border-radius: 0.4em;
+}
+
+#comment:focus-visible {
+    border: .2rem solid #ccc;
+}
+
 /* Exercise area */
 
 #exercise-container-super {
@@ -619,10 +629,16 @@ a:hover {
 }
 
 footer.squeeze {
-  text-align: center;
+  text-align: left;
+  font-size: calc(0.55rem + 0.35vw);
 }
 
-footer nav a {
+footer.squeeze nav .breadcrumb {
+  justify-content: center;
+  font-size: calc(0.95rem + 0.35vw);
+}
+
+footer.squeeze nav a {
   text-decoration: none;
 }
 

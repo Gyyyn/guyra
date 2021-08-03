@@ -194,12 +194,15 @@ include get_template_directory() . '/i18n.php';
   <footer class="squeeze">
     <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Privacy</a></li>
-        <li class="breadcrumb-item" aria-current="page"><a href="#">Terms</a></li>
-        <li class="breadcrumb-item"><a href="#">Schools</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
+        <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
+        <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
       </ol>
     </nav>
-    <p>&copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name'] . ' | ' . $gi18n['company_cnpj']; ?></p>
+    <p>
+      &copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name']; ?> <br />
+      <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
+    </p>
   </footer>
 </main>
 

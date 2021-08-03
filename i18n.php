@@ -2,6 +2,7 @@
 $gi18n = [
 	'comapny_name' => 'Guyra.',
 	'company_cnpj' => '41.915.538/0001-03',
+	'company_address' => 'Rua Luiz Razera, 676, Piracicaba/SP - CEP 13417-530',
 	'info' => 'Informações',
 	'homepage' => 'Início',
 	'prices' => 'Preços',
@@ -19,6 +20,9 @@ $gi18n = [
 	'practice' => 'Praticar',
 	'homework' => 'Homework',
 	'courses' => 'Cursos',
+	'privacy' => 'Privacidade',
+	'terms' => 'Termos de uso',
+	'schools' => 'Escolas',
 	'header_carousel_title1' => 'Aulas presenciais e video aulas.',
 	'header_carousel_title2' => 'Diversos cursos já disponiveis.',
 	'header_carousel_title3' => 'Todas as ferramentas para o aprendizado.',
@@ -69,6 +73,9 @@ $gi18n = [
 	'courses_link' => get_site_url() . '/courses',
 	'profile_link' => get_site_url() . '/account/edit-profile',
 	'logout_link' => get_site_url() . '/account/user-logout',
+	'privacy_link' => get_site_url() . '/privacy',
+	'terms_link' => get_site_url() . '/terms',
+	'schools_footer_link' => get_site_url() . '/work-with-us',
 	'admin_link' => get_admin_url(),
 	'template_link' => get_template_directory_uri()
 ];
