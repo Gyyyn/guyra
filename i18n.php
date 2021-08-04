@@ -18,7 +18,9 @@ $gi18n = [
 	'profile' => 'Perfil',
 	'logout' => 'Sair',
 	'practice' => 'Praticar',
-	'homework' => 'Homework',
+	'homework' => 'Lição de casa',
+	'study' => 'Estudar',
+	'reference' => 'Referência',
 	'courses' => 'Cursos',
 	'privacy' => 'Privacidade',
 	'terms' => 'Termos de uso',
@@ -59,8 +61,8 @@ $gi18n = [
 	'accountpage_registeredsince' => 'Você está com a gente desde:',
 	'accountpage_subscriptionsince' => 'e voce é Premium desde:',
 	'studypage_practice_title' => 'Exercícios',
-	'studypage_homework_title' => 'Sua lição de casa',
-	'studypage_homework_replytitle' => 'Answers',
+	'studypage_homework_title' => 'Lições',
+	'studypage_homework_replytitle' => 'Responder',
 	'buy_warning' => '
     <div class="mb-4 alert alert-info" role="alert">
       Ao clicar no botão a baixo você sera levado a uma pagina do Mercado Pago para concluir a compra.

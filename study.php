@@ -64,10 +64,27 @@ if ($user_studypage_object == null) {
 <main id="intro-content" class="site-main squeeze">
 
   <div class="page-squeeze" data-aos="fade-up" data-aos-once="true"><div>
-    <div class="list-group list-group-horizontal container-fluid overflow-hidden">
-      <a href="<?php echo get_site_url() ?>" class="list-group-item active"><?php echo $gi18n['homework']; ?></a>
-      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item"><?php echo $gi18n['courses']; ?></a>
-      <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super"><?php echo $gi18n['practice']; ?></a>
+
+    <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
+      <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/learning.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['study']; ?></span>
+      </a>
+
+      <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/target.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
+      </a>
+
+      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/notebook.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['reference']; ?></span>
+      </a>
+
+      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
+      </a>
     </div>
     <?php
     // If current user is admin allow him to access all user pages
@@ -80,55 +97,58 @@ if ($user_studypage_object == null) {
     ?>
 
     <div class="collapse hide" id="exercise-container-super">
-      <div class="d-flex justify-content-between align-items-center my-5">
+      <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_practice_title']; ?></h1>
         <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
       </div>
       <div id="exercise-container"></div>
+      <hr class="my-5 thick" />
     </div>
 
-    <div class="study-page position-relative">
-    <div class="d-flex justify-content-between align-items-center my-5">
-      <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
-      <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
+    <div class="study-page position-relative show" id="study-container">
+
+      <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
+        <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
+        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
+      </div>
+
+      <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
+
+      <hr class="my-5 thick" />
+
     </div>
-
-    <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
-
-    </div>
-
-    <hr class="my-5" />
 
     <div class="study-answers">
-    <div class="d-flex justify-content-between align-items-center my-5">
-      <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
-      <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
-    </div>
 
-    <?php
-    $args = array(
-      'post_id' => $user_studypage_object->ID,
-      'date_query' => array(
-        'after' => '4 weeks ago',
-        'before' => 'tomorrow',
-        'inclusive' => true,
-      )
-    );
+      <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
+        <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
+        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
+      </div>
 
-    $comments = get_comments( $args );
+      <?php
+      $args = array(
+        'post_id' => $user_studypage_object->ID,
+        'date_query' => array(
+          'after' => '4 weeks ago',
+          'before' => 'tomorrow',
+          'inclusive' => true,
+        )
+      );
 
-    if($comments != '') {
-      echo '<ol class="comment-list ms-0 p-0">';
-			wp_list_comments(
-				array(
-					'style'      => 'ol',
-					'short_ping' => true,
-				),
-        $comments
-			);
-  		echo '</ol>';
-    }
-    ?>
+      $comments = get_comments( $args );
+
+      if($comments != '') {
+        echo '<ol class="comment-list ms-0 p-0">';
+  			wp_list_comments(
+  				array(
+  					'style'      => 'ol',
+  					'short_ping' => true,
+  				),
+          $comments
+  			);
+    		echo '</ol>';
+      }
+      ?>
 
     </div>
 
