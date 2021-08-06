@@ -12,29 +12,39 @@
  * @package guyra
  */
 
-get_header();
-?>
+ get_header();
+ ?>
 
-	<main id="intro-content" class="site-main squeeze" data-aos="fade-up" data-aos-once="true">
-        <div class="page-squeeze"><div>
+ 	<main id="intro-content" class="site-main archive squeeze">
+         <div class="page-squeeze"><div>
 
-		<?php
-		while ( have_posts() ) :
-			the_post();
+ 		<?php if ( have_posts() ) : ?>
 
-			get_template_part( 'template-parts/content', 'page' );
+ 			<?php
+ 			/* Start the Loop */
+ 			while ( have_posts() ) :
+ 				the_post();
 
-		endwhile; // End of the loop.
+ 				/*
+ 				 * Include the Post-Type-specific template for the content.
+ 				 * If you want to override this in a child theme, then include a file
+ 				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
+ 				 */
+ 				get_template_part( 'template-parts/content', get_post_type() );
 
-        if ( comments_open() || get_comments_number() ) :
-            comments_template();
-        endif;
-		?>
+ 			endwhile;
 
-        </div></div>
+ 			the_posts_navigation();
 
-	</main><!-- #main -->
+ 		else :
 
-<?php
-get_sidebar();
-get_footer();
+ 			get_template_part( 'template-parts/content', 'none' );
+
+ 		endif;
+ 		?>
+ 		</div></div>
+
+ 	</main><!-- #main -->
+
+ <?php
+ get_footer();

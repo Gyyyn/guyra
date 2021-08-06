@@ -12,40 +12,12 @@ if($_GET['json']) {
 // Handle admin actions
 if (current_user_can('manage_options')) {
 
-  $user = $_GET['user'];
+  include get_template_directory() . '/Guyra_actions.php';
 
-  if($user) {
-
-    if ($_GET['assigntogroup']) {
-      update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
-    }
-
-    if ($_GET['cleargroup']) {
-      delete_user_meta($user, 'studygroup' );
-    }
-
-    if ($_GET['litetill']) {
-      update_user_meta($user, 'subscription', 'lite' );
-      update_user_meta($user, 'subscribed-until', $_GET['litetill'] );
-    }
-
-    if ($_GET['premiumtill']) {
-      update_user_meta($user, 'subscription', 'premium' );
-      update_user_meta($user, 'subscribed-until', $_GET['premiumtill'] );
-    }
-
-    wp_redirect(get_site_url());
-  }
 }
 
-// Allow normal wordpress to be loaded
-if ($_GET['page'] == 'blog') {
-
-  /* Try to find blog.php, freak out if nothing is found */
-  if( locate_template('blog.php') ) { load_template (locate_template('blog.php') ); } else { echo "disaster! no blog.php found"; return; }
-
 // Allow logged users to go straight to a home page
-} elseif (is_user_logged_in()) {
+if (is_user_logged_in()) {
 
   if( locate_template('study.php') ) { load_template( locate_template('study.php') ); } else { echo "disaster! no study.php found"; return; }
 
@@ -57,61 +29,33 @@ get_header();
 include get_template_directory() . '/i18n.php';
 ?>
 
-	<main>
+  <div class="cover">
+    <div class="cover-container d-flex w-100 h-100">
+      <main class="squeeze d-flex flex-column flex-md-row align-items-center">
 
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-interval="10000">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <div class="d-flex flex-column justify-content-between" data-aos="fade">
+          <img class="page-icon large" alt="Learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+        </div>
+
+        <div class="d-flex flex-column m-5" data-aos="fade" data-aos-delay="500">
+          <h1><?php echo $gi18n['landing_title1'] ?></h1>
+          <p><?php echo $gi18n['landing_explain1'] ?></p>
+          <h3><?php echo $gi18n['landing_title2'] ?></h1>
+          <p><?php echo $gi18n['landing_explain2'] ?></p>
+          <h3><?php echo $gi18n['landing_title3'] ?></h1>
+          <p><?php echo $gi18n['landing_explain3'] ?></p>
+        </div>
+
+      </main>
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="<?php echo $gi18n['template_link'] . '/assets/img/carrousel.png' ?>" />
-
-        <div class="container">
-          <div class="carousel-caption text-start">
-            <h1><?php echo $gi18n['header_carousel_title1'] ?></h1>
-            <p><?php echo $gi18n['header_carousel_explain1'] ?></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption">
-            <h1><?php echo $gi18n['header_carousel_title2'] ?></h1>
-            <p><?php echo $gi18n['header_carousel_explain2'] ?></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption text-end">
-            <h1><?php echo $gi18n['header_carousel_title3'] ?></h1>
-            <p><?php echo $gi18n['header_carousel_explain3'] ?></p>
-            <p><a class="btn btn-lg btn-primary" href="#"><?php echo $gi18n['button_tryit'] ?></a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
 
-  <div id="jump-info" class="container marketing">
+	<main>
 
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
+  <div id="jump-info" class="container">
+
+    <div class="row featurette px-5 feature1 text-dark">
+      <div class="col-md-7 order-md-2 px-md-5">
         <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title1'] ?></h2>
         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain1'] ?></div>
       </div>
@@ -122,8 +66,8 @@ include get_template_directory() . '/i18n.php';
       </div>
     </div>
 
-    <div class="row featurette">
-      <div class="col-md-7">
+    <div class="row featurette px-5 feature2 text-dark">
+      <div class="col-md-7 px-md-5">
         <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title2'] ?></h2>
         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain2'] ?></div>
       </div>
@@ -140,8 +84,8 @@ include get_template_directory() . '/i18n.php';
 
     </div>
 
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
+    <div class="row featurette px-5 feature3 text-dark">
+      <div class="col-md-7 order-md-2 px-md-5">
         <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title3'] ?></h2>
         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain3'] ?></div>
       </div>
@@ -152,20 +96,20 @@ include get_template_directory() . '/i18n.php';
       </div>
     </div>
 
-    <div class="row featurette">
-      <div class="row">
-        <div class="col-md-7">
+    <div class="row featurette px-md-5 feature4">
+      <div class="row px-5">
+        <div class="col-md-7 px-md-5">
           <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
           <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
         </div>
         <div class="col-md-5">
-          <div class="picture" data-aos="fade-left">
+          <div class="picture" data-aos="fade-right">
             <img alt="laptop" src="<?php echo get_template_directory_uri(); ?>/assets/icons/laptop.png">
           </div>
         </div>
       </div>
 
-      <div class="row bg-white text-dark p-5" data-aos="fade-up">
+      <div class="row course-showcase bg-white text-dark p-5 mx-auto" data-aos="fade-up">
         <h2 class="mb-4">Interchange</h2>
         <div class="col-md-7">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
@@ -176,7 +120,7 @@ include get_template_directory() . '/i18n.php';
         </div>
       </div>
 
-      <div class="row bg-white text-dark p-5" data-aos="fade-up">
+      <div class="row course-showcase bg-white text-dark p-5 mx-auto" data-aos="fade-up">
         <h2 class="mb-4">Interchange</h2>
         <div class="col-md-7">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
@@ -191,18 +135,23 @@ include get_template_directory() . '/i18n.php';
 
   </div><!-- /.container -->
 
-  <footer class="squeeze">
-    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
-      </ol>
-    </nav>
-    <p>
-      &copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name']; ?> <br />
-      <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
-    </p>
+  <footer class="bg-white">
+    <div class="squeeze mx-3 mx-md-auto">
+      <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
+          <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
+          <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
+        </ol>
+      </nav>
+      <p class="mt-3">
+        &copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name']; ?> <br />
+        <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
+      </p>
+
+      <img class="float-end" alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
+
+    </div>
   </footer>
 </main>
 

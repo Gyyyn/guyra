@@ -52,10 +52,10 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container">
-      <div class="navbar-brand me-3 p-0 position-relative" href="#">
-      	<?php echo get_custom_logo(); ?>
-        <span class="navbar-center-title"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title.png" /></span>
-      </div>
+      <div class="navbar-brand me-3 p-0 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+      	<img alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
+        <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
+      </a></div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -66,10 +66,10 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
           <?php if (!is_user_logged_in()) { ?>
           <li class="nav-item me-3">
-            <a class=" btn btn-sm btn-outline-primary" href="#jump-info"><?php echo $gi18n['info'] ?></a>
+            <a class=" btn btn-sm btn-outline-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
           </li>
           <li class="nav-item me-3">
-            <a class=" btn btn-sm btn-primary text-white" href="#jump-prices"><?php echo $gi18n['prices'] ?></a>
+            <a class=" btn btn-sm btn-primary text-white" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
           </li>
           <span class="me-3 p-0 vertical-divider"></span>
           <?php } ?>
@@ -93,7 +93,6 @@ if($user_subscription != '' && $user_subscription_till < $now) {
           <li class="nav-item my-auto me-3"><?php echo $gi18n['button_alreadyregistered'] ?></li>
           <li class="nav-item me-3">
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-outline-primary"><?php echo $gi18n['button_login'] ?></a>
-            <img class="navbar-profile ms-2" alt="profile-picture" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png">
           </li>
         <?php } else { ?>
           <li class="nav-item me-3 profile-item">

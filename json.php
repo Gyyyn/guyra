@@ -144,85 +144,301 @@ $masterJSON = [
   "level4" => [
 
     "unit10" => [
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""]
+      ["I'm going to go the store in a few minutes.", "go to the"],
+      ["He's going to have a party tonight.", "going to"],
+      ["What are you going to do for ", "you going"],
+      ["I'm not going to take the class today.", "to take"],
+      ["Where are you going to eat?", "are you"],
+      ["What are you going to do tomorrow?", "do tomorrow"],
+      ["They are not going to take the car.", "not going"],
+      ["This is the first time I'm going to eat there.", "first time"],
+      ["Are you going to exercise today?", "exercise today"],
+      ["We are going to work late today unfortunately.", "late today"],
+      ["My friends and I aren't going, sorry?", "aren't"]
     ],
 
     "unit11" => [
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""]
+      ["I will be home today.", "be"],
+      ["He won't like that present.", "like that"],
+      ["We will go on vacation in Italy.", "will go"],
+      ["I'll probably go out for dinner.", "go out for"],
+      ["Won't you come with us? ", "come with"],
+      ["I'll be waiting for you", "waiting"],
+      ["Will you come with us?", "you come"],
+      ["I'll be there in a few minutes.", "in a few"],
+      ["Will this much be enough?", "this much"],
+      ["We'll see.", "'ll see'"]
     ],
 
     "unit12" => [
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
+      ["Today's the fifth. (5th)", "fifth"],
+      ["Tomorrow will be the seventeenth 17th", "seventeenth"],
+      ["I'm going there tomorrow.", "'m going'"],
+      ["Are you free on Monday afternoon?", "on Monday"],
+      ["This week is crazy but how about on the fourth? (4th)", "fourth"],
+      ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth"],
+      ["What are you going to do for Valentine's?", "going to do"],
+      ["My birthday is on the thirtieth. (30th)", "thirtieth"],
+      ["Easter is next week on the third! (3rd)", "third"],
+      ["I'm going to visit my parents on New Year's.", "on New"]
+    ]
+
+  ],
+
+  "level5" => [
+
+    "unit13" => [
+      ["Would you like to go to a restaurant?", "Would you"],
+      ["Do you want to take a trip to Hawaii?", "you want"],
+      ["Would you like to go see a Coldplay concert?", "Would you like"],
+      ["Would you like a piece of the cake?", "you like a"],
+      ["Do you want to see a movie", "Do you"],
+      ["Do you want to watch old movies together?", "to watch"],
+      ["Do you think she'd like to go on a date with me?", "to go on a"],
+      ["Are you free this afternoon?", "free this"],
+      ["There's a cool movie playing in the cinema!", "playing in"],
+      ["Well, I'm free today...", "'m free"]
+    ],
+
+    "unit14" => [
+      ["Did you work yesterday?", "you work"],
+      ["I made some cake, would you like some?", "made some"],
+      ["She didn't go anywhere this week.", "didn't go"],
+      ["Did you and your friends have fun yesterday?", "Did you"],
+      ["Have you finished for the day already?", "you finished"],
+      ["He didn't come today.", "come"],
+      ["Did she like the trip?", "like the"],
+      ["We went swimming and then walked on the beach.", "went"],
+      ["I saw fireworks!", "saw"],
+      ["I remember visiting there last year! ", "remember"],
+    ]
+
+  ],
+
+  "level6" => [
+
+    "unit15" => [
+      ["I was a quiet child.", "was a"],
+      ["Were you born in 1998?", "you born"],
+      ["I lived in my hometown for 10 years.", "lived in my"],
+      ["I went to the same high school as you!", "as you"],
+      ["Was that your childhood home?", "Was that"],
+      ["I wasn't well behaved!", "wasn't"],
+      ["He was my best friend.", "was my"],
+      ["Was she your first girlfriend?", "she your"],
+      ["My favorite teacher was the science teacher.", "was the"],
+      ["He wasn't very nice to me before.", "to me"]
+    ],
+
+    "unit16" => [
       ["", ""]
+    ]
+
+  ],
+
+  "level7" => [
+
+    "unit17" => [
+      ["c u later today yeah?", "later"],
+      ["yo this song slaps so hard!", "slaps"],
+      ["u going with?", "going"],
+      ["sup man how u doing ", "sup"],
+      ["wassup, this is jake", "this is"],
+      ["miss me with that stuff, i hate it", "miss me"],
+      ["we going or what?", "or what"],
+      ["lol man can u send me that pic?", "can u"]
+    ]
+
+  ],
+
+  "level8" => [
+
+    "unit18" => [
+      ["There are some stores in this street.", ""],
+      ["Are there any groceries stores around here?", ""],
+      ["There aren't any good restaurants here.", ""],
+      ["There is a bank on Third Avenue.", ""],
+      ["Is there a post office in this area?", ""],
+      ["There is one opposite the train station.", ""],
+      ["It's on the corner of First and Main.", ""],
+      ["There are no bakeries in this entire street.", ""],
+      ["There are many companies in the industrial district.", ""],
+      ["There isn't any crime in this neighborhood..", ""]
+    ],
+
+    "unit19" => [
+      ["Keep going forward and turn left.", ""],
+      ["Take the street behind the shop.", ""],
+      ["Take the roundbout and then the third exit...", ""],
+      ["It's too blocks from here, on the corner of Pine St. and Second Ave.", ""],
+      ["Walk until the bus stop and take a left.", ""],
+      ["It's not far from here.", ""],
+      ["It's between the coffee shop and the Mexican restaurant.", ""],
+      ["It's down the street from here.", ""],
+      ["Walk three blocks and you're there.", ""],
+      ["You can find it in the mall on First Avenue.", ""]
+    ],
+
+    "unit20" => [
+      ["Brazil is a lot bigger than Italy.", "a lot bigger"],
+      ["Which country is the most populous, the U.S., China or Japan?", "most populous"],
+      ["This place is very relaxing and not stressful at all!", "very relaxing"],
+      ["How expensive is it to live in Hong Kong?", "expensive is"],
+      ["My hometown is nice but it's too boring!", "nice but"],
+      ["I think New York is the most expensive city.", "the most"],
+      ["Cold places are way drier than hot places.", "drier than"],
+      ["Hot countries are usually wetter than cold ones.", "countries are"],
+      ["That city is not expensive, it's cheap!", "cheap"],
+      ["How far away is Australia?", "away is"]
     ]
 
   ],
 
   "level9" => [
 
-    "unit5" => [
-      ["Would you like to go to a restaurant?", "Would you"],
-      ["Do you want to take a trip to Hawaii?", "you want"],
-      ["Would you like to go see a Coldplay concert?", "Would you like"],
-      ["Would you like a piece of the cake?", "you like a"],
-      ["Do you want to see a movie", "Do you"]
+    "unit21" => [
+      ["What does he look like?", "he look"],
+      ["She has long blonde hair and blue eyes.", "long blonde"],
+      ["She is pretty tall for his age.", "tall for"],
+      ["He is not very handsome.", "not very"],
+      ["She is very tall.", "very tall"],
+      ["He is fairly short with a mustache and a beard.", "short with a"],
+      ["How tall is she?", "tall is"],
+      ["How long is his hair?", "How"],
+      ["Does she wear glasses?", "she wear"],
+      ["He's in his early twenties.", "twenties"],
     ],
 
-    "unit6" => [
-      ["Did you work yesterday?", "you work"],
-      ["I made some cake, would you like some?", "made some"],
-      ["She didn't go anywhere this week.", "didn't go"],
-      ["Did you and your friends have fun yesterday?", "Did you"],
-      ["Have you finished for the day already?", "you finished"]
+    "unit22" => [
+      ["She's the one with long hair.", "with long"],
+      ["He's the one looking out the window.", "the one looking"],
+      ["Which one would you prefer?", "would you"],
+      ["I'd like the strawberry flavored one please.", "one"],
+      ["They're the ones in the green car.", "in the green"],
+      ["She's the one in red.", "one in"],
+      ["I'd prefer the lighter one.", "the lighter"],
+      ["I want the one with less spice.", "one with less"],
+      ["Which one do you mean?", "one do"]
+    ],
+
+    "unit23" => [
+      ["Have you ever been there?", "you ever"],
+      ["I haven't been there since last year.", "been there"],
+      ["I have made dinner for you!", "made dinner"],
+      ["Has she found her car?", "found her"],
+      ["He hasn't come back yet.", "He has"],
+      ["She's gone to a party now.", "gone to"],
+      ["Have you already finished work?", "you already"],
+      ["Have you ever seen a whale?", "Have you"],
+      ["I've been to Europe twice now.", "'ve been'"],
+      ["I've been going to the gym recently.", "going to"]
     ]
 
   ],
 
   "level10" => [
 
-    "unit7" => [
-      ["Brazil is a lot bigger than Italy.", "a lot bigger"],
-      ["Which country is the most populous, the U.S., China or Japan?", "most populous"],
-      ["This place is very relaxing and not stressful at all!", "very relaxing"],
-      ["How expensive is it to live in Hong Kong?", "expensive is"],
-      ["My hometown is nice but it's too boring!", "nice but"]
-    ],
-
-    "unit8" => [
+    "unit24" => [
       ["You shouldn't use this medicine, it won't work.", "shouldn't use"],
       ["What do you suggest for a cold?", "you suggest"],
       ["It's important to get some rest.", "to get"],
       ["I'd recommend a nice relaxing bath.", "recommend"],
-      ["Could I have some painkillers, please?", "have some"]
+      ["Could I have some painkillers, please?", "have some"],
+      ["May I see your prescription?", "see your"],
+      ["Can you get the Aspirin for me?", "get the"],
+      ["You should see a doctor.", "should see"],
+      ["Should I be worried?", "I be"],
+      ["It's a good idea to see a dentist.", "good idea"]
+    ],
+
+    "unit25" => [
+      ["I'd like a beef bowl please.", "like a"],
+      ["I was thinking of going out for dinner actually.", "thinking of"],
+      ["I can't stand that music.", "stand that"],
+      ["I want to see that concert for sure!", "to see"],
+      ["I'd like to hear your opinion.", "like to"],
+      ["She wants a glass of water.", "a glass of"],
+      ["He'd like to see the menu if you don't mind.", "'d like"],
+      ["We are ready to order.", "ready to"],
+      ["We're just browsing, thanks.", "thanks"],
+      ["I'd like that one.", "that"]
+    ],
+
+    "unit26" => [
+      ["I'm not in college anymore.", "not in"],
+      ["I wear my hair long now.", ""],
+      ["I've just start a job in this new company...", ""],
+      ["It's way more crowded nowadays.", ""],
+      ["I'm slimmer than I was.", ""],
+      ["I got engaged last year!", ""],
+      ["I didn't move out yet.", ""],
+      ["My life is busier now.", ""],
+      ["We've moved to a new city.", ""],
+      ["We are still working at the same place.", ""]
+    ]
+
+  ],
+
+  "level11" => [
+
+    "unit27" => [
+      ["It's as big as our old one.", "you ever"],
+      ["This car is not big enough.", "is not big"],
+      ["I thought the other one was better.", "the other one"],
+      ["It's not as pretty as I thought.", "pretty as I"],
+      ["I hoped it was nicer. ", "it was"],
+      ["It's just as I thought!", "just as"],
+      ["This is as much fun as I imagined.", "is as much"],
+      ["There are too many lights.", "too many"],
+      ["We need more windows.", "need more"],
+      ["There should be less noise.", "should be"]
+    ],
+
+    "unit28" => [
+      ["Have you ever been there?", "you ever"],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""]
+    ]
+
+  ],
+
+  "level12" => [
+
+    "unit29" => [
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""]
+    ],
+
+    "unit30" => [
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
+      ["", ""],
     ]
 
   ]
+
 ];
 
 $levelMap = [
@@ -231,8 +447,9 @@ $levelMap = [
 
     "unit1" => [
       "id" => "unit1",
-      "name" => "Hello!",
+      "name" => "Olá!",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/chat.png')
     ],
 
@@ -240,6 +457,7 @@ $levelMap = [
       "id" => "unit2",
       "name" => "Coisas",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/reading-glasses.png')
     ]
 
@@ -251,6 +469,7 @@ $levelMap = [
       "id" => "unit3",
       "name" => "Horas",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/time.png')
     ],
 
@@ -258,6 +477,7 @@ $levelMap = [
       "id" => "unit4",
       "name" => "Atividades",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/running.png')
     ],
 
@@ -265,6 +485,7 @@ $levelMap = [
       "id" => "unit5",
       "name" => "Frequencia",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/schedule.png')
     ]
 
@@ -276,6 +497,7 @@ $levelMap = [
       "id" => "unit6",
       "name" => "Lar",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/house.png')
     ],
 
@@ -283,6 +505,7 @@ $levelMap = [
       "id" => "unit7",
       "name" => "Trabalho",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/hard-work.png')
     ],
 
@@ -290,6 +513,7 @@ $levelMap = [
       "id" => "unit8",
       "name" => "Trabalho 2",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/portfolio.png')
     ],
 
@@ -297,6 +521,7 @@ $levelMap = [
       "id" => "unit9",
       "name" => "Rotinas",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/routine.png')
     ]
 
@@ -308,6 +533,7 @@ $levelMap = [
       "id" => "unit10",
       "name" => "Futuro",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/clock-speeding.png')
     ],
 
@@ -315,6 +541,7 @@ $levelMap = [
       "id" => "unit11",
       "name" => "Futuro 2",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/hourglass.png')
     ],
 
@@ -322,47 +549,189 @@ $levelMap = [
       "id" => "unit12",
       "name" => "Planos",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/plan.png')
     ]
 
   ],
 
 
-  "level9" => [
+  "level5" => [
 
-    "unit5" => [
+    "unit13" => [
       "id" => "unit5",
       "name" => "Convites",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/card.png')
     ],
 
-    "unit6" => [
+    "unit14" => [
       "id" => "unit6",
       "name" => "Historias",
       "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/script.png')
+    ]
+
+  ],
+
+  "level6" => [
+
+    "unit15" => [
+      "id" => "unit15",
+      "name" => "Infância",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/childhood.png')
+    ],
+
+    "unit16" => [
+      "id" => "unit16",
+      "name" => "Compras",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/shopping-basket.png')
+    ]
+
+  ],
+
+  "level7" => [
+
+    "unit17" => [
+      "id" => "unit17",
+      "name" => "txting & msgs",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/smartphone.png')
+    ]
+
+  ],
+
+  "level8" => [
+
+    "unit18" => [
+      "id" => "unit18",
+      "name" => "Lugares",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/shop.png')
+    ],
+
+    "unit19" => [
+      "id" => "unit19",
+      "name" => "Direções",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/map.png')
+    ],
+
+    "unit20" => [
+      "id" => "unit20",
+      "name" => "Geografia",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/planet.png')
+    ],
+
+  ],
+
+  "level9" => [
+
+    "unit21" => [
+      "id" => "unit21",
+      "name" => "Aparência",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/influencer.png')
+    ],
+
+    "unit22" => [
+      "id" => "unit22",
+      "name" => "Especificidade",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/flag.png')
+    ],
+
+    "unit23" => [
+      "id" => "unit23",
+      "name" => "Experiências",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/bio-energy.png')
     ]
 
   ],
 
   "level10" => [
 
-    "unit7" => [
-      "id" => "unit7",
-      "name" => "Geografia",
+    "unit24" => [
+      "id" => "unit24",
+      "name" => "Sugestões",
       "description" => "temp",
-      "image" => GuyraGetIcon('exercises/planet.png')
-    ],
-
-    "unit8" => [
-      "id" => "unit8",
-      "name" => "Sugestoes",
-      "description" => "temp",
+      "type" => "CompleteThePhrase",
       "image" => GuyraGetIcon('exercises/idea.png')
     ],
 
+    "unit25" => [
+      "id" => "unit25",
+      "name" => "Desejos",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/love.png')
+    ],
+
+    "unit26" => [
+      "id" => "unit26",
+      "name" => "Mudanças",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/surprise.png')
+    ]
+
+  ],
+
+  "level11" => [
+
+    "unit27" => [
+      "id" => "unit27",
+      "name" => "Comparação",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/scale.png')
+    ],
+
+    "unit28" => [
+      "id" => "unit28",
+      "name" => "Viagem",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/plane-ticket.png')
+    ]
+
+  ],
+
+  "level12" => [
+
+    "unit29" => [
+      "id" => "unit29",
+      "name" => "Favores",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/agreement.png')
+    ],
+
+    "unit30" => [
+      "id" => "unit30",
+      "name" => "Propósito",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/blueprint.png')
+    ]
+
   ]
+
 ];
 
 

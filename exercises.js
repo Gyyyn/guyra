@@ -1,3 +1,10 @@
+/*
+* -------- EXERCISES.JS
+*
+*
+*
+*/
+
 let e = React.createElement;
 
 function getBaseUrl() {
@@ -39,6 +46,13 @@ function getPossibleAnswers(phraseList) {
 
 }
 
+/*
+* -------- Activity handlers
+*
+*
+*
+*/
+
 function activityCompleteThePhrase(phraseList, question) {
   let poi = phraseList[question][1];
   let phrase = phraseList[question][0];
@@ -50,6 +64,13 @@ function activityCompleteThePhrase(phraseList, question) {
       poi
     ];
 }
+
+/*
+* -------- Exercise in action
+*
+*
+*
+*/
 
 class AnswerButton extends React.Component {
   constructor(props) {
@@ -63,11 +84,11 @@ class AnswerButton extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({values, CheckAnswer}) => e(
+    return e(ExerciseContext.Consumer, null, ({currentQuestion, CheckAnswer}) => e(
       'a',
       {
         className: 'btn',
-        onClick: () => { CheckAnswer(this.props.value) }
+        onClick: () => { CheckAnswer(this.props.value, currentQuestion) }
       },
       this.props.value
     ));
@@ -107,9 +128,12 @@ function CurrentQuestion(props) {
   )
 }
 
-//
-// Level Chooser
-//
+/*
+* -------- Level map
+*
+*
+*
+*/
 
 function LevelChooserButton(props) {
   return (
@@ -117,7 +141,10 @@ function LevelChooserButton(props) {
       'a',
       {
         className: 'btn',
-        onClick: () => { loadExerciseJSON(props.level, props.values.id) }
+        onClick: () => {
+          loadExerciseJSON(props.level, props.values.id);
+          window.scrollTo(0, 0);
+        }
       },
       e(
         'span',
@@ -171,6 +198,13 @@ function LevelChooser(props) {
   )
 }
 
+/*
+* -------- App class
+*
+*
+*
+*/
+
 const ExerciseContext = React.createContext();
 
 class App extends React.Component {
@@ -180,73 +214,114 @@ class App extends React.Component {
     this.ExerciseObject = [];
     this.exerciseLength = 0;
     this.currentQuestion = 0;
+    this.score = 100;
     this.questionsAlreadyAnswered = [];
+    this.needToRetry = [];
 
     this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
-    this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/failure.ogg'));
+    this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/end.ogg'));
+    this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/perfect.ogg'));
     this.correctHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/hit.ogg'));
     this.wrongHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/miss.ogg'));
+
+    this.LoadingIcon = e(
+      'img',
+      {
+        src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+      }
+    )
+
+    this.exerciseActiveContainer = e(CurrentQuestion);
+
+    this.returnToLevelMapButton = e(
+      'a',
+      {
+        className: 'btn btn-sm',
+        onClick: () => {
+
+        this.setState({
+          page: this.LevelChooser
+        });
+
+        this.reset();
+
+        }
+      },
+      'Voltar ao mapa'
+    )
 
     this.hintAreaInfo = e(
       'div',
       {className: 'exercise-hints info'},
-      e('span', {className: 'exercise-hints-hint'}, 'Clique na resposta certa...')
+      e('span', {className: 'exercise-hints-hint'}, 'Clique na resposta certa...'),
+      this.returnToLevelMapButton
     )
 
     this.hintAreaCorrectAnswer = e(
       'div',
-      {className: 'exercise-hints correct'},
+      {
+        className: 'exercise-hints correct'
+      },
       e('span', {className: 'exercise-hints-hint'}, 'Muito bem!'),
       e(
         'a',
         {
           className: 'btn btn-sm btn-success',
-          'data-aos': "fade-right",
           onClick: () => { this.setNewActivity() }
         },
         'Continue'
       )
     )
 
-    this.exerciseActiveContainer = e(CurrentQuestion);
+    this.hintAreaWrongAnswer = e(
+      'div',
+      {
+        className: 'exercise-hints wrong'
+      },
+      e('span', {className: 'exercise-hints-hint'}, 'Não era essa!'),
+      e(
+        'a',
+        {
+          className: 'btn btn-sm btn-danger',
+          onClick: () => { this.setNewActivity() }
+        },
+        'Continue'
+      )
+    )
 
     this.exerciseDone = e(
       'div',
       {
-        className: 'exercise-hints correct',
-        'data-aos': "fade-right"
+        className: 'exercise-hints correct'
       },
       e('span', {className: 'exercise-hints-hint'}, 'Done!'),
-      e(
-        'a',
-        {
-          className: 'btn btn-sm btn-success',
-          onClick: () => { this.setState({
-            page: this.LevelChooser
-          });
-
-          this.reset();
-
-          }
-        },
-        'Voltar ao mapa'
-      )
+      this.returnToLevelMapButton
     )
 
     this.LevelChooser = e(LevelChooser);
 
-    this.LoadingPage = e('span', {className: 'loading', 'data-aos': 'fade-right'}, 'Loading...')
+    this.LoadingPage = e(
+      'span',
+      {className: 'loading', 'data-aos': 'fade'},
+      this.LoadingIcon
+    )
 
     this.state = {
       values: this.ExerciseObject,
+      currentQuestion: 0,
       setExerciseObject: this.setExerciseObject,
+      alreadyAnswered: false,
       answeredCorrect: false,
       setNewActivity: this.setNewActivity,
       CheckAnswer: this.CheckAnswer,
       hintArea: this.hintAreaInfo,
       page: this.LoadingPage,
       levelMap: {},
-      loadExerciseJSON: this.loadExerciseJSON
+      loadExerciseJSON: this.loadExerciseJSON,
+      score: this.score,
+      answers: [],
+      difficulty: 0,
+      activityType: ''
     };
   }
 
@@ -263,39 +338,102 @@ class App extends React.Component {
   }
 
   setNewActivity = () => {
+
     this.questionsAlreadyAnswered.push(this.currentQuestion);
 
     if(this.questionsAlreadyAnswered.length == this.exerciseLength) {
-      this.setState({
-        page: this.exerciseDone
-      });
 
-      this.exerciseEndSound.play();
+      if (this.needToRetry.length == 0) {
+
+        this.setState({
+          page: this.exerciseDone
+        });
+
+        if(this.state.score == 100) {
+          this.exerciseEndPerfectSound.play();
+        } else {
+          this.exerciseEndSound.play();
+        }
+
+      } else {
+
+        this.questionsAlreadyAnswered.pop();
+
+        this.currentQuestion = this.needToRetry.shift();
+
+      }
 
     } else {
+
       while(this.questionsAlreadyAnswered.includes(this.currentQuestion)) {
         this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
       }
+
     }
 
-    this.setState({values: activityCompleteThePhrase(this.ExerciseObject, this.currentQuestion)})
+    this.setState({values: this.loadActivityByType(this.ExerciseObject, this.state.activityType)})
 
     this.setState({
+      alreadyAnswered: false,
+      currentQuestion: this.currentQuestion,
       answeredCorrect: false,
       hintArea: this.hintAreaInfo
     })
   };
 
-  CheckAnswer = (answer) => {
-    if(answer == this.state.values[2]) {
-      this.setState({
-        answeredCorrect: true,
-        hintArea: this.hintAreaCorrectAnswer
-      })
+  scoreFunction(f, weight) {
+    // Function type, weight of operation
+    // Temp-ly only does 1 operations
+    this.score = this.score - weight;
+  }
 
-      this.correctHitSound.play();
-    } else {
-      this.wrongHitSound.play();
+  CheckAnswer = (answer, answerID) => {
+    if(this.state.alreadyAnswered == false) {
+
+      if(answer == this.state.values[2]) {
+
+        this.setState({
+          answeredCorrect: true,
+          alreadyAnswered: true,
+          hintArea: this.hintAreaCorrectAnswer
+        });
+
+        this.correctHitSound.play();
+
+      } else {
+
+        if (this.needToRetry.indexOf(answerID) === -1) {
+          this.needToRetry.push(answerID);
+        }
+
+        this.setState({
+          answeredCorrect: false,
+          alreadyAnswered: true,
+          hintArea: this.hintAreaWrongAnswer
+        });
+
+        // temp
+        this.scoreFunction('wrong', 1)
+
+        this.wrongHitSound.play();
+      }
+
+      if(this.state.answers[this.currentQuestion] == undefined) {
+        this.state.answers[this.currentQuestion] = [answer];
+      } else if (this.state.answers[this.currentQuestion].indexOf(answer) === -1) {
+        this.state.answers[this.currentQuestion].push(answer);
+      }
+
+    }
+
+  }
+
+  loadActivityByType(object, type) {
+
+    if (type == 'CompleteThePhrase') {
+
+      return activityCompleteThePhrase(object, this.currentQuestion);
+
     }
   }
 
@@ -305,7 +443,8 @@ class App extends React.Component {
     this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
 
     this.setState({
-      values: activityCompleteThePhrase(object, this.currentQuestion),
+      values: this.loadActivityByType(object, this.state.activityType),
+      currentQuestion: this.currentQuestion,
       page: this.exerciseActiveContainer
     })
 
@@ -314,7 +453,8 @@ class App extends React.Component {
 
   loadExerciseJSON = (level, id) => {
     this.setState({
-      page: this.LoadingPage
+      page: this.LoadingPage,
+      activityType: this.state.levelMap[level][id].type
     })
 
     fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
@@ -329,7 +469,13 @@ class App extends React.Component {
     this.questionsAlreadyAnswered = [];
 
     this.setState({
-      values: this.ExerciseObject
+      values: this.ExerciseObject,
+      hintArea: this.hintAreaInfo,
+      alreadyAnswered: false,
+      answeredCorrect: false,
+      answers: [],
+      score: this.score,
+      activityType: ''
     })
   }
 

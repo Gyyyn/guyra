@@ -22,8 +22,15 @@
   --guyra-green-lightest: rgba(219, 255, 164, 1);
   --guyra-green-darker: rgba(121, 200, 0, 1);
 
+  --guyra-red: rgba(255, 35, 0, 1);
+  --guyra-red-lighter: rgba(255, 131, 112, 1);
+  --guyra-red-lightest: rgba(255, 176, 164, 1);
+  --guyra-red-darker: rgba(217, 30, 0, 1);
+
   --guyra-blue-purple-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
   --guyra-blue-purple-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
+  --guyra-blue-transparent-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
+  --guyra-blue-transparent-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
 
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
@@ -37,6 +44,16 @@
 
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
   --guyra-fonts-title: 'Akzidenz-Grotesk',var(--bs-font-sans-serif);
+  --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
+  --guyra-fonts-textsize-ss: calc(0.45rem + 0.65vw);
+  --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
+  --guyra-fonts-textsize-n: calc(0.85rem + 0.45vw);
+  --guyra-fonts-textsize-x: calc(0.95rem + 0.55vw);
+  --guyra-fonts-textsize-xx: calc(1.25rem + 0.85vw);
+  --guyra-fonts-textsize-xxx: calc(1.35rem + 0.85vw);
+  --guyra-fonts-textsize-super: calc(1.8em + 1.2vw);
+
+  --guyra-navbar-size: 70px;
 }
 
 /*
@@ -63,6 +80,10 @@
 *
 */
 
+h1 { font-size: var(--guyra-fonts-textsize-xxx); }
+h2 { font-size: var(--guyra-fonts-textsize-xx); }
+h3 { font-size: var(--guyra-fonts-textsize-x); }
+
 h1, h2, h3, h4, h5 {
 	font-family: var(--guyra-fonts-title);
 	cursor: default;
@@ -83,7 +104,7 @@ body,
 .element-container,
 .gradient-button a {
 	font-family: var(--guyra-fonts-text);
-	font-size: calc(0.85rem + 0.35vw);
+	font-size: var(--guyra-fonts-textsize-n);
 }
 
 body,
@@ -125,11 +146,6 @@ body.wp-admin {
 	background: var(--guyra-blue-purple-gradient);
 }
 
-.navbar > div {
-	background: #fff;
-  margin-top: 5px;
-}
-
 hr {
 	background-color: var(--guyra-blue);
 }
@@ -146,6 +162,27 @@ hr.thick {
   }
 }
 
+.bg-gradient { background: var(--guyra-blue-purple-gradient); }
+.bg-gradient-reverse { background: var(--guyra-blue-purple-gradient-reverse); }
+
+footer .squeeze {
+  text-align: left;
+  font-size: var(--guyra-fonts-textsize-sss);
+  max-width: calc(40vw + 20rem);
+  margin: 0 auto;
+  padding: calc(3rem + 2vw) 0;
+}
+
+footer .squeeze nav .breadcrumb {
+  justify-content: center;
+  font-size: var(--guyra-fonts-textsize-n);
+  margin: 0;
+}
+
+footer .squeeze nav a {
+  text-decoration: none;
+}
+
 .page-squeeze .border,
 .page-squeeze .list-group-item,
 .page-squeeze textarea,
@@ -154,8 +191,12 @@ hr.thick {
 	border-width: 1px !important;
 }
 
-.page-squeeze .page-icon {
+.page-icon {
 	width: calc(2.5vh + 4.5vw);
+}
+
+.page-icon.large {
+  width: calc(15vw + 5rem);
 }
 
 /* what do i do with this */
@@ -174,13 +215,30 @@ label[for="comment"],
 .btn-group-lg > .btn, .btn-lg,
 .btn-group-sm >.btn, .btn-sm { border-radius: 0.4em; }
 
-.navbar {
-	min-height: 64px;
-	box-shadow: var(--guyra-box-shadow);
+.vertical-divider {
+    border-left: var(--guyra-blue) 2px dashed;
 }
 
+*.disabled {
+  filter: saturate(0) !important;
+}
+
+/*
+* -------- Navbar
+*
+*
+*
+*/
+
 .navbar > div {
-	min-height: 64px;
+	background: #fff;
+  margin-top: 5px;
+  height: var(--guyra-navbar-size);
+}
+
+.navbar {
+	height: var(--guyra-navbar-size);
+	box-shadow: var(--guyra-box-shadow);
 }
 
 .navbar-center-title {
@@ -204,6 +262,24 @@ label[for="comment"],
 
 .navbar .navbar-toggler .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(0, 0, 0, 0.60)' stroke-linecap='flat' stroke-miterlimit='10' stroke-width='3.5' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+/*
+* -------- Landing page
+*
+*
+*
+*/
+
+.cover {
+  height: calc(100vh - var(--guyra-navbar-size));
+  margin-top: var(--guyra-navbar-size);
+  color: var(--guyra-white);
+background: var(--guyra-blue) url(./assets/img/bg3.png);
+}
+
+.cover-container {
+  background: rgba(0,0,0,0.75);
 }
 
 @media (max-width: 766px) {
@@ -236,105 +312,14 @@ label[for="comment"],
   }
 }
 
-.card-header {
-	border: none;
-	background: #f2f2f2;
-}
-
-/* Carousel base class */
-.carousel {
-  margin-bottom: 0;
-}
-/* Since positioning the image, we need to help out the caption */
-.carousel-caption {
-  bottom: 3rem;
-  z-index: 10;
-}
-
-/* Declare heights because of positioning of img element */
-.carousel-item {
-  height: 40rem;
-}
-.carousel-item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 32rem;
-}
-
-/* Center align the text within the three columns below the carousel */
-.marketing .col-lg-4 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.marketing h2 {
-  font-weight: 400;
-}
-/* rtl:begin:ignore */
-.marketing .col-lg-4 p {
-  margin-right: .75rem;
-  margin-left: .75rem;
-}
-/* rtl:end:ignore */
-
-.featurette-divider {
-  margin: 5rem 0; /* Space out the Bootstrap <hr> more */
-}
-
-/* Thin out the marketing headings */
-.featurette-heading {
-  font-weight: 300;
-  line-height: 1;
-  /* rtl:remove */
-  letter-spacing: -.05rem;
-}
-
-@media (min-width: 40em) {
-  /* Bump up size of carousel content */
-  .carousel-caption p {
-    margin-bottom: 1.25rem;
-    font-size: 1.25rem;
-    line-height: 1.4;
-  }
-
-  .featurette-heading {
-    font-size: 50px;
-  }
-}
-
 .featurette-heading {
 	margin-top: calc(3vw + 2rem);
-}
-
-
-.carousel-control-next, .carousel-control-prev {
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
-}
-
-.carousel-control-next:hover {
-	background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
-}
-
-.carousel-control-prev:hover {
-	background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+  letter-spacing: -.05rem;
 }
 
 .container { max-width: none; }
 
-.featurette:nth-child(2n+1) {
-	padding: 0 10vw;
-	position: static;
-	background: var(--guyra-blue-purple-gradient);
-}
-
-.featurette:nth-child(2n) {
-	padding: 0 10vw;
-	position: static;
-	background: var(--guyra-blue-purple-gradient-reverse);
-}
-
-.featurette:hover, #myCarousel:hover {
+.featurette:hover {
 	transition: all 0.35s cubic-bezier(.19,1,.22,1);
 	box-shadow: 0 0 5em rgba(0,0,0,0.5);
 	position: relative;
@@ -345,10 +330,29 @@ label[for="comment"],
 	color: var(--guyra-white);
 	box-shadow: 0 0 1em rgba(0,0,0, 0.3);
   overflow: hidden;
+	position: static;
 }
 
+.feature1 {
+  background: var(--guyra-blue-transparent-gradient), url('./assets/img/feature1.jpg') right no-repeat white;
+}
+
+.feature2 {
+  background: var(--guyra-blue-transparent-gradient-reverse), url('./assets/img/feature2.jpg') left no-repeat white;
+}
+
+.feature3 {
+  background: var(--guyra-blue-transparent-gradient), url('./assets/img/feature3.jpg') right no-repeat white;
+}
+
+.feature4 {
+  background: var(--guyra-blue-purple-gradient-reverse);
+}
+
+.course-showcase { width: calc(30rem + 50vw); }
+
 .featurette p {
-	font-size: calc(0.9rem + 0.3vw);
+	font-size: var(--guyra-fonts-textsize-n);
 }
 
 .featurette .picture img {
@@ -364,6 +368,7 @@ label[for="comment"],
 @media (min-width: 766px) {
 	.squeeze { max-width: calc(40vw + 20rem); margin: calc(3rem + 2vw) auto; }
 	.squeeze-big { max-width: 85vw; margin: calc(3rem + 2vw) auto; }
+  .page-squeeze .padded-squeeze { padding: calc(3rem + 2vw) calc(17vw + 2rem); }
 }
 
 @media (max-width: 766px) {
@@ -388,7 +393,7 @@ label[for="comment"],
 }
 
 .col.prices.primary .card-title {
-	font-size: 2.5rem;
+	font-size: calc(var(--guyra-fonts-textsize-xxx) + .5rem);
 }
 
 .col.prices.primary:hover {
@@ -435,12 +440,6 @@ label[for="comment"],
 
 } /* responsive */
 
-.btn,
-.form-control,
-.form-check-input[type="checkbox"] {
-	border-radius: 0.4em;
-}
-
 .prices.primary .card {
 	height: 105%;
 	top: -5%;
@@ -459,7 +458,7 @@ label[for="comment"],
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	font-size: 1.1rem;
+	font-size: var(--guyra-fonts-textsize-n);
 	text-align: left;
 	margin: 0 5px 5px 0;
 }
@@ -499,6 +498,13 @@ a:hover {
 
 .bg-secondary { background-color: var(--guyra-purple-darker) !important; }
 
+/*
+* -------- Buttons
+*
+*
+*
+*/
+
 .btn-wa {
 	border-color: #25D366 !important;
 	color: #25D366 !important;
@@ -509,13 +515,17 @@ a:hover {
 	background-color: #25D366 !important;
 }
 
-.btn-primary {
+.btn-primary,
+.dropdown-item.active,
+.dropdown-item:active,
+.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a {
 	background-color: var(--guyra-blue) !important;
 	border-color: var(--guyra-blue) !important;
 	color: var(--guyra-white) !important;
 }
 
 .btn,
+button, input[type="button"], input[type="reset"], input[type="submit"],
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a,
 .page-squeeze #user-registration .ur-frontend-form input.button,
 .page-squeeze .user-registration-error > a,
@@ -528,9 +538,12 @@ a:hover {
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
   border-radius: .2rem;
   border: 1px solid transparent;
+  background: var(--guyra-white);
+  font-size: var(--guyra-fonts-textsize-n);
 }
 
 .btn:hover,
+button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:hover,
 .page-squeeze #user-registration .ur-frontend-form input.button:hover,
 .page-squeeze .user-registration-error > a:hover,
@@ -539,9 +552,14 @@ a:hover {
 {
   color: var(--guyra-grey-darkest);
   background: var(--guyra-grey);
+  border: 1px solid transparent;
+  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .btn:hover,
+button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
 .btn-primary:hover,
 .btn-outline-primary:hover,
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:hover,
@@ -556,6 +574,7 @@ a:hover {
 }
 
 .btn:active,
+button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active,
 .btn-primary:active,
 .btn-outline-primary:active
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:active,
@@ -569,8 +588,12 @@ a:hover {
 	box-shadow: unset;
 }
 
-.btn-sm {
+.btn-sm,
+.page-squeeze .user-registration-error > a,
+.page-squeeze .user-registration-info > a,
+.page-squeeze .user-registration-message > a {
   font-weight: normal;
+  font-size: var(--guyra-fonts-textsize-s);
 }
 
 .btn-primary:focus,
@@ -598,10 +621,6 @@ a:hover {
   border-color: var(--guyra-grey-darker) !important;
 }
 
-.vertical-divider {
-    border-left: var(--guyra-blue) 2px dashed;
-}
-
 .page-squeeze .list-group.study-menu {
   margin-bottom: calc(2vh + .25rem);
   justify-content: center;
@@ -614,9 +633,11 @@ a:hover {
 }
 
 .page-squeeze .list-group.study-menu .list-group-item,
-.lost_password a {
+.lost_password a,
+.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
+.ur-frontend-form .ur-button-container .ur-submit-button {
   color: var(--guyra-blue);
-  font-size: calc(.85rem + 0.55vw);
+  font-size: var(--guyra-fonts-textsize-n);
   border: 0 !important;
   border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark) !important;
   background: var(--guyra-grey);
@@ -626,19 +647,22 @@ a:hover {
 }
 
 .page-squeeze .list-group.study-menu .list-group-item:hover,
-.lost_password a:hover {
+.lost_password a:hover,
+.ur-frontend-form .ur-button-container .ur-submit-button:hover {
   background: var(--guyra-grey-dark);
   border-bottom-color: var(--guyra-grey-darker) !important;
 }
 
 .page-squeeze .list-group.study-menu .list-group-item.active,
-.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"] {
+.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"],
+.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button {
   border-bottom-color: var(--guyra-blue-darker) !important;
   background-color: var(--guyra-blue) !important;
     color: var(--guyra-white);
 }
 
-.page-squeeze .list-group.study-menu .list-group-item.active:hover {
+.page-squeeze .list-group.study-menu .list-group-item.active:hover,
+.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover {
   background: var(--guyra-blue-darker) !important;
   border-bottom-color: var(--guyra-blue-darkest) !important;
 }
@@ -662,32 +686,41 @@ a:hover {
 *
 */
 
-.exercise-dialog {
-	border: 2px solid #111;
-	border-radius: 2rem 2rem 2rem 0;
-	padding: 2rem;
-	font-size: 1.5rem;
-	font-family: "Komika Slim";
+.exercise-squeeze .loading {
+  display: flex;
+  justify-content: center;
 }
 
-@keyframes size-down {
-	from { font-size: 5rem; top: -5rem; }
-	to { font-size: 1.5rem; top: 0; }
+.exercise-squeeze .loading img {
+  width: calc(3rem + 3vw);
+}
+
+.exercise-dialog {
+	border: .25rem solid var(--guyra-black);
+	border-radius: 2rem 2rem 2rem 0;
+	padding: 2rem;
+	font-size: var(--guyra-fonts-textsize-x);
+	font-family: "Komika Slim";
+  box-shadow: var(--guyra-box-shadow-bigger);
+}
+
+.exercise-hints,
+#exercise-container .exercise-answers-wordbank .btn {
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
 }
 
 #exercise-container .exercise-answers-wordbank .btn {
 	color: var(--guyra-white);
 	background-color: var(--guyra-grey-darkest);
-	border: none;
+  border-bottom-color: var(--guyra-black);
 	border-radius: 1.2em;
 	box-shadow: none;
 	cursor: pointer;
 	display: inline-block;
-	font-size: calc(0.75rem + 0.35vw);
+	font-size: var(--guyra-fonts-textsize-n);
 	padding: .667em 1.333em;
 	text-align: center;
 	text-decoration: none;
-	overflow-wrap: break-word;
 	margin: .25rem;
 	margin-top: 1rem;
 }
@@ -713,19 +746,32 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: .25rem;
 }
 
 .exercise-hints.info {
   background: var(--guyra-blue-lightest);
+  border-bottom-color: var(--guyra-blue-lighter);
 }
 
 .exercise-hints.correct {
   background: var(--guyra-green-lightest);
+  border-bottom-color: var(--guyra-green-lighter);
+}
+
+.exercise-hints.wrong {
+  background: var(--guyra-red-lightest);
+  border-bottom-color: var(--guyra-red-lighter);
 }
 
 .exercise-hints .btn-success {
   background-color: var(--guyra-green) !important;
   border-color: var(--guyra-green) !important;
+}
+
+.exercise-hints .btn-danger {
+  background-color: var(--guyra-red) !important;
+  border-color: var(--guyra-red) !important;
 }
 
 .exercise-level-chooser .section {
@@ -741,7 +787,7 @@ a:hover {
   border: 3px  var(--guyra-blue-lighter) solid;
   padding: calc(.25rem + 1vw);
   margin: 0 calc(.15rem + .7vw);
-  font-size: calc(0.65rem + 0.75vw);
+  font-size: var(--guyra-fonts-textsize-n);
   box-shadow: var(--guyra-box-shadow);
 }
 
@@ -752,20 +798,6 @@ a:hover {
 .exercise-icon > img {
   max-width: calc(1.5rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
-}
-
-footer.squeeze {
-  text-align: left;
-  font-size: calc(0.55rem + 0.35vw);
-}
-
-footer.squeeze nav .breadcrumb {
-  justify-content: center;
-  font-size: calc(0.95rem + 0.35vw);
-}
-
-footer.squeeze nav a {
-  text-decoration: none;
 }
 
 /*
@@ -800,7 +832,7 @@ a.element-container:visited {
 
 #collapse-admin {
   font-family: var(--bs-font-sans-serif);
-  font-size: calc(0.55rem + 0.35vw);
+  font-size: var(--guyra-fonts-textsize-ss);
 }
 
 #collapse-admin h1,
@@ -843,7 +875,7 @@ a.element-container:visited {
     border-radius: 0.4em;
     padding: 1rem;
     font-family: var(--guyra-fonts-text);
-    font-size: calc(.7rem + .5vw);
+    font-size: var(--guyra-fonts-textsize-n);
     margin-bottom: 1.5em;
 }
 
@@ -869,7 +901,7 @@ a.element-container:visited {
 
 .page-squeeze article .entry-title,
 .archive .page-squeeze article .entry-title:hover {
-	font-size: 50px;
+	font-size: var(--guyra-fonts-textsize-super);
 	background-image: url(./assets/img/marker.png);
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -946,18 +978,20 @@ a.element-container:visited {
 
 .page-squeeze .ur-frontend-form legend {
   margin-bottom: calc(1rem + 1vw) !important;
-  font-size: calc(1rem + 1vw) !important;
+  font-size: var(--guyra-fonts-textsize-s) !important;
 }
 
 .page-squeeze .ur-frontend-form label {
   margin: .5rem 0 !important;
-  font-size: calc(.5rem + .35vw) !important;
+  font-size: var(--guyra-fonts-textsize-ss) !important;
 }
 
 .page-squeeze .ur-frontend-form input:not(.button),
-.lost_password a {
+.page-squeeze .user-registration-message,
+.page-squeeze .user-registration-error,
+.page-squeeze .user-registration-info {
   padding: .5rem !important;
-  font-size: calc(.7rem + .5vw);
+  font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
   font-family: var(--guyra-fonts-text);
   border: unset;
@@ -970,22 +1004,14 @@ a.element-container:visited {
   padding: 0 .15rem;
 }
 
-.page-squeeze .user-registration-message,
-.page-squeeze .user-registration-error,
-.page-squeeze .user-registration-info {
-	display: inline-flex !important;
-	align-items: center;
-	margin-bottom: 1rem !important;
-	border: 3px solid;
-	border-radius: 1rem;
-	box-shadow: var(--guyra-box-shadow);
-}
-
-.page-squeeze .user-registration-message {
-	border-color: var(--guyra-blue);
-	background-color: var(--guyra-blue-lightest);
-	color: var(--guyra-black);
-  box-shadow: var(--guyra-box-shadow-lighter);
+.page-squeeze #user-registration .user-registration-message,
+.page-squeeze #user-registration .user-registration-error,
+.page-squeeze #user-registration .user-registration-info {
+	font-size: var(--guyra-fonts-textsize-s);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: .5rem !important;
 }
 
 .page-squeeze #user-registration .premium-badge {
@@ -1021,13 +1047,31 @@ a.element-container:visited {
 
 .lost_password a {
   justify-content: center;
+  display: inline-flex;
+  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
+  border-radius: .2rem;
 }
 
+.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
+.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover,
+.ur-frontend-form .ur-button-container .ur-submit-button,
+.ur-frontend-form .ur-button-container .ur-submit-button:hover {
+  transform: none;
+  transition: unset;
+  float: none;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
 
 /*
 * -------- Misc
 *
 *
 */
+
+a[href="#collapse-admin"] { opacity: 0; }
+
+a[href="#collapse-admin"]:hover { opacity: inherit;; }
 
 body:not(.wp-admin) #wpadminbar { position: absolute !important; display: none !important; }

@@ -27,3 +27,7 @@ get_header();
 
 <?php
 get_footer();
+
+sleep(10);
+
+wp_redirect(get_site_url());
