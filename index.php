@@ -55,9 +55,11 @@ include get_template_directory() . '/i18n.php';
   <div id="jump-info" class="container">
 
     <div class="row featurette px-5 feature1 text-dark">
-      <div class="col-md-7 order-md-2 px-md-5">
-        <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title1'] ?></h2>
-        <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain1'] ?></div>
+      <div class="col-md-7 order-md-2 px-md-5 align-self-center">
+        <div class="bg-gradient-white-reverse p-5">
+          <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title1'] ?></h2>
+          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain1'] ?></div>
+        </div>
       </div>
       <div class="col-md-5 order-md-1">
         <div class="picture" data-aos="fade-left">
@@ -67,9 +69,11 @@ include get_template_directory() . '/i18n.php';
     </div>
 
     <div class="row featurette px-5 feature2 text-dark">
-      <div class="col-md-7 px-md-5">
-        <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title2'] ?></h2>
-        <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain2'] ?></div>
+      <div class="col-md-7 px-md-5 align-self-center">
+        <div class="bg-gradient-white p-5">
+          <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title2'] ?></h2>
+          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain2'] ?></div>
+        </div>
       </div>
       <div class="col-md-5">
         <div class="picture" data-aos="fade-right">
@@ -85,9 +89,11 @@ include get_template_directory() . '/i18n.php';
     </div>
 
     <div class="row featurette px-5 feature3 text-dark">
-      <div class="col-md-7 order-md-2 px-md-5">
-        <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title3'] ?></h2>
-        <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain3'] ?></div>
+      <div class="col-md-7 order-md-2 px-md-5 align-self-center">
+        <div class="bg-gradient-white-reverse p-5">
+          <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title3'] ?></h2>
+          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain3'] ?></div>
+        </div>
       </div>
       <div class="col-md-5 order-md-1">
         <div class="picture" data-aos="fade-left">
@@ -96,11 +102,13 @@ include get_template_directory() . '/i18n.php';
       </div>
     </div>
 
-    <div class="row featurette px-md-5 feature4">
+    <div class="row featurette px-md-5 feature4 text-dark">
       <div class="row px-5">
-        <div class="col-md-7 px-md-5">
-          <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
-          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
+        <div class="col-md-7 px-md-5 align-self-center">
+          <div class="bg-white p-5">
+            <h2 class="featurette-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
+            <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
+          </div>
         </div>
         <div class="col-md-5">
           <div class="picture" data-aos="fade-right">

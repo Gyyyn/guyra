@@ -31,6 +31,8 @@
   --guyra-blue-purple-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
   --guyra-blue-transparent-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
   --guyra-blue-transparent-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
+  --guyra-white-transparent-gradient: linear-gradient(90deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
+  --guyra-white-transparent-gradient-reverse: linear-gradient(210deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
 
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
@@ -86,6 +88,7 @@ h3 { font-size: var(--guyra-fonts-textsize-x); }
 
 h1, h2, h3, h4, h5 {
 	font-family: var(--guyra-fonts-title);
+  letter-spacing: -.05rem;
 	cursor: default;
 }
 
@@ -164,6 +167,8 @@ hr.thick {
 
 .bg-gradient { background: var(--guyra-blue-purple-gradient); }
 .bg-gradient-reverse { background: var(--guyra-blue-purple-gradient-reverse); }
+.bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
+.bg-gradient-white-reverse { background: var(--guyra-white-transparent-gradient-reverse); }
 
 footer .squeeze {
   text-align: left;
@@ -312,11 +317,6 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
   }
 }
 
-.featurette-heading {
-	margin-top: calc(3vw + 2rem);
-  letter-spacing: -.05rem;
-}
-
 .container { max-width: none; }
 
 .featurette:hover {
@@ -359,6 +359,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	padding: 5rem;
 	max-width: 500px;
 	max-height: 500px;
+  width: calc(25vw + 10rem);
 }
 
 .featurette .text-muted {
@@ -401,18 +402,18 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	transition: all 0.35s cubic-bezier(.19,1,.22,1);
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 980px) {
 
   .prices-container {
     flex-direction: row;
   }
 
   .col.prices {
-  	width: calc(10rem + 15vw);
+  	width: calc(8rem + 15vw);
   }
 
   .col.prices.primary {
-  	width: calc(13rem + 15vw);
+  	width: calc(10rem + 15vw);
   }
 
   .col.prices .card:hover,
@@ -458,7 +459,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	font-size: var(--guyra-fonts-textsize-n);
+	font-size: var(--guyra-fonts-textsize-s);
 	text-align: left;
 	margin: 0 5px 5px 0;
 }
