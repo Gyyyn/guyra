@@ -353,7 +353,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	box-shadow: 0 0 1em rgba(0,0,0, 0.3);
   overflow: hidden;
 	position: static;
-  height: 500px;
+  min-height: 500px;
 }
 
 .featurette.row > * {

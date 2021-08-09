@@ -58,29 +58,29 @@ $masterJSON = [
     ],
 
     "unit4" => [
-      ["I'm working today.", "'m work", "()"],
-      ["Are you studying now?", "study", "()"],
-      ["She works at night.", "works", "()"],
-      ["I'm living downtown nowadays.", "I'm", "()"],
-      ["Where are you going?", "Where", "()"],
-      ["What are you going to do later?", "going", "()"],
-      ["What are you doing?", "are you", "()"],
-      ["What's she doing?", "doing", "()"],
-      ["She's having breakfast.", "having", "()"],
-      ["It's late so he's sleeping.", "'s sleeping", "()"]
+      ["I'm working today.", "'m work", "(abbreviated to be + verb starting with W)"],
+      ["Are you studying now?", "study", "(verb starting with S)"],
+      ["She works at night.", "works", "(verb starting with W)"],
+      ["I'm living downtown nowadays.", "I'm", "(pronoun + abbreviated to be)"],
+      ["Where are you going?", "Where", "(place question word)"],
+      ["What are you going to do later?", "going", "(verb starting with G)"],
+      ["What are you doing?", "are you", "(to be + pronoun starting with Y)"],
+      ["What's she doing?", "doing", "(verb starting with D)"],
+      ["She's having breakfast.", "having", "(verb starting with H)"],
+      ["It's late so he's sleeping.", "'s sleeping", "(abbreviated to be + verb starting with S)"]
     ],
 
     "unit5" => [
-      ["I always eat breakfast.", "always eat"],
-      ["I sometimes work late.", "late"],
-      ["He works a lot.", "works"],
-      ["We always eat in that restaurant.", "eat in"],
-      ["He usually drives to work.", "drives"],
-      ["She rarely plays tennis.", "plays"],
-      ["I always sleep late on weekends.", "I always"],
-      ["Do you ever eat out?", "you"],
-      ["I never take the bus.", "bus"],
-      ["My friend always studies a lot for exams.", "studies"]
+      ["I always eat breakfast.", "always eat", "(adverb starting with A + verb starting with E)"],
+      ["I sometimes work late.", "late", "(adjective starting with L)"],
+      ["He works a lot.", "works", "(verb starting with W)"],
+      ["We always eat in that restaurant.", "eat in", "(verb starting with E + preposition)"],
+      ["He usually drives to work.", "drives", "(verb starting with D)"],
+      ["She rarely plays tennis.", "plays", "(verb starting with P)"],
+      ["I always sleep late on weekends.", "I always", "()"],
+      ["Do you ever eat out?", "you", "(pronoun starting with Y)"],
+      ["I never take the bus.", "bus", "(noun starting with B)"],
+      ["My friend always studies a lot for exams.", "studies", "(verb starting with S)"]
     ]
 
   ],
@@ -88,55 +88,55 @@ $masterJSON = [
   "level3" => [
 
     "unit6" => [
-      ["Do you live in an apartment?", "live in"],
-      ["Where do you live?", "do you"],
-      ["There isn't a TV in my house.", "isn't"],
-      ["There are two fridges in my kitchen.", "are two"],
-      ["There aren't any pictures in my apartment.", "There aren't"],
-      ["Is there a bathroom here?", "a bathroom"],
-      ["Where is the toilet?", "the toilet"],
-      ["There are thirteen rooms in this house.", "in this house"],
-      ["What things are in the house?", "things are"],
-      ["There is a café near here.", "is a café"]
+      ["Do you live in an apartment?", "live in", "()"],
+      ["Where do you live?", "do you", "()"],
+      ["There isn't a TV in my house.", "isn't", "()"],
+      ["There are two fridges in my kitchen.", "are two", "()"],
+      ["There aren't any pictures in my apartment.", "There aren't", "()"],
+      ["Is there a bathroom here?", "a bathroom", "()"],
+      ["Where is the toilet?", "the toilet", "()"],
+      ["There are thirteen rooms in this house.", "in this house", "()"],
+      ["What things are in the house?", "things are", "()"],
+      ["There is a café near here.", "is a café", "()"]
     ],
 
     "unit7" => [
-      ["I'm a mechanic. I work with cars.", "mechanic"],
-      ["I work in an office. I'm an accountant.", "an office"],
-      ["I work in a restaurant as a server.", "restaurant as a"],
-      ["My friend is a manager in a hotel.", "friend is a"],
-      ["My mother works at home.", "works"],
-      ["Where do you work?", "Where"],
-      ["How do you like your job?", "like your"],
-      ["How does he like working as a journalist?", "does he like"],
-      ["Photographer is a difficult job.", "a difficult"],
-      ["Working as a firefighter is stressful", "is stressful"]
+      ["I'm a mechanic. I work with cars.", "mechanic", "()"],
+      ["I work in an office. I'm an accountant.", "an office", "()"],
+      ["I work in a restaurant as a server.", "restaurant as a", "()"],
+      ["My friend is a manager in a hotel.", "friend is a", "()"],
+      ["My mother works at home.", "works", "()"],
+      ["Where do you work?", "Where", "()"],
+      ["How do you like your job?", "like your", "()"],
+      ["How does he like working as a journalist?", "does he like", "()"],
+      ["Photographer is a difficult job.", "a difficult", "()"],
+      ["Working as a firefighter is stressful", "is stressful", "()"]
     ],
 
     "unit8" => [
-      ["I study animals. It's very interesting.", "I study"],
-      ["I work as a taxi driver. I sit all day in my car.", "taxi driver"],
-      ["My friend is a waiter. It's very busy", "very busy"],
-      ["My girlfriend is a chef. She's very talented with food.", "talented with food"],
-      ["My brother is a dancer. He's needs to be fit!", "be fit"],
-      ["We are travel agents. We talk to people all day.", "talk to people"],
-      ["I'm a consultant. I visit many companies.", "visit many"],
-      ["I need to wake up early for my job.", "need to"],
-      ["I travel to a lot of different countries.", "lot of different"],
-      ["When do you start work?", "you start"]
+      ["I study animals. It's very interesting.", "I study", "()"],
+      ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "()"],
+      ["My friend is a waiter. It's very busy", "very busy", "()"],
+      ["My girlfriend is a chef. She's very talented with food.", "talented with food", "()"],
+      ["My brother is a dancer. He's needs to be fit!", "be fit", "()"],
+      ["We are travel agents. We talk to people all day.", "talk to people", "()"],
+      ["I'm a consultant. I visit many companies.", "visit many", "()"],
+      ["I need to wake up early for my job.", "need to", "()"],
+      ["I travel to a lot of different countries.", "lot of different", "()"],
+      ["When do you start work?", "you start", "()"]
     ],
 
     "unit9" => [
-      ["I wake up early every day.", "every"],
-      ["I'm working in a new company.", "a new"],
-      ["She's a morning person. She likes the early hours.", "morning person"],
-      ["He works better at night. He's a night owl.", "night owl"],
-      ["How do you feel in the morning?", "feel in"],
-      ["What's your routine like?", "your routine"],
-      ["I need to go to the store.", "need to"],
-      ["I'll make dinner now.", "now"],
-      ["Oh, I don't study. I already finished university.", "don't study"],
-      ["Can you speak English?", "speak"]
+      ["I wake up early every day.", "every", "()"],
+      ["I'm working in a new company.", "a new", "()"],
+      ["She's a morning person. She likes the early hours.", "morning person", "()"],
+      ["He works better at night. He's a night owl.", "night owl", "()"],
+      ["How do you feel in the morning?", "feel in", "()"],
+      ["What's your routine like?", "your routine", "()"],
+      ["I need to go to the store.", "need to", "()"],
+      ["I'll make dinner now.", "now", "()"],
+      ["Oh, I don't study. I already finished university.", "don't study", "()"],
+      ["Can you speak English?", "speak", "()"]
     ]
 
   ],
