@@ -54,6 +54,7 @@ function getPossibleAnswers(phraseList) {
 */
 
 function activityCompleteThePhrase(phraseList, question) {
+  let hint = phraseList[question][2];
   let poi = phraseList[question][1];
   let phrase = phraseList[question][0];
   let regex = new RegExp(poi,'g');
@@ -61,7 +62,8 @@ function activityCompleteThePhrase(phraseList, question) {
   return [
       phrase.replace(regex,'____'),
       getPossibleAnswers(phraseList),
-      poi
+      poi,
+      hint
     ];
 }
 
@@ -130,7 +132,10 @@ function CurrentQuestion(props) {
           'data-aos': "fade-up"
         },
         hintArea,
-        e('div', {className: "exercise-dialog"}, values[0]),
+        e('div',
+          {className: "exercise-dialog"},
+          values[0].concat(' ', values[3])
+        ),
         e(
           'div',
           {

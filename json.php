@@ -11,33 +11,33 @@ $masterJSON = [
   "level1" => [
 
     "unit1" => [
-      ["I am John.", "am"],
-      ["Hello! How are you?", "are"],
-      ["Are you from here?", "from"],
-      ["We are from England.", "are from"],
-      ["She is really pretty!", "is"],
-      ["I am English.", "I"],
-      ["My friend is from Brazil.", "is from"],
-      ["Nice to meet you.", "meet"],
-      ["I'm from Rio, my friend is from Los Angeles.", "I'm"],
-      ["My friend and I are students.", "and I"],
-      ["We are American.", "We"]
+      ["I am John.", "am", "(to be)"],
+      ["Hello! How are you?", "are", "(to be)"],
+      ["Are you from here?", "from", "(preposition)"],
+      ["We are from England.", "are from", "(to be + preposition)"],
+      ["She is really pretty!", "is", "(to be)"],
+      ["I am English.", "I", "(pronoun)"],
+      ["My friend is from Brazil.", "is from", "(to be + preposition)"],
+      ["Nice to meet you.", "meet", "(verb starting with M)"],
+      ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(pronoun + to be abbreviated)"],
+      ["My friend and I are students.", "and I", "(conjuction + pronoun)"],
+      ["We are American.", "We", "(pronoun)"]
     ],
 
     "unit2" => [
-      ["What's in your bag?", "in your"],
-      ["This is my phone.", "is my"],
-      ["Are these your keys?", "these your"],
-      ["These are his books.", "are his"],
-      ["I have a car.", "have a"],
-      ["Our house is big!", "Our"],
-      ["Do you have a TV at home?", "you have"],
-      ["I have three watches and a clock.", "have three"],
-      ["Where is your house?", "your house"],
-      ["What's her address?", "'s her"],
-      ["It is far from here.", "is far"],
-      ["What's your phone number", "your phone"],
-      ["Can you help me?", "me"]
+      ["What's in your bag?", "in your", "(preposition + possesive starting with Y)"],
+      ["This is my phone. It has my case.", "is my", "(to be + possesive)"],
+      ["Are these your keys?", "these your", "(determiner + possesive starting with Y)"],
+      ["These are his books.", "are his", "(to be + possesive starting with H)"],
+      ["I have a car.", "have a", "(verb starting with H + article)"],
+      ["Our house is big!", "Our", "(possesive starting with O)"],
+      ["Do you have a TV at home?", "you have", "(pronoun + verb starting with H)"],
+      ["I have three watches and a clock.", "have three", "(verb starting with H + numeral)"],
+      ["Where is your house?", "your house", "(possesive starting with Y + noun)"],
+      ["What's her address?", "'s her", "(abbreviated to be + possesive)"],
+      ["It is far from here, not close.", "is far", "(to be + adjective)"],
+      ["What's your phone number", "your phone", "(possesive starting with Y + noun)"],
+      ["Can you help me?", "me", "(pronoun starting with M)"]
     ],
 
   ],
@@ -45,29 +45,29 @@ $masterJSON = [
   "level2" => [
 
     "unit3" => [
-      ["It's four thirty three. (4:33)", "four thirty three"],
-      ["It's five past five. (5:05)", "five past five"],
-      ["It's twenty to four. (3:40)", "twenty to four"],
-      ["It's three fourty seven AM. (3:47AM)", "three fourty seven AM"],
-      ["It's noon. (12:00PM)", "noon"],
-      ["It's midnight. (12:00AM)", "midnight"],
-      ["It's a quarter past noon. (12:15PM)", "a quarter past noon"],
-      ["It's a quarter past four. (4:15)", "a quarter past four"],
-      ["It's nine in the evening. (9:00PM)", "nine in the evening"],
-      ["It's three in the morning. (3:00AM)", "three in the morning"]
+      ["It's four thirty three.", "four thirty three", "(4:33)"],
+      ["It's five past five.", "five past five", "(5:05)"],
+      ["It's twenty to four.", "twenty to four", "(3:40)"],
+      ["It's three fourty seven AM.", "three fourty seven AM", "(3:47AM)"],
+      ["It's noon.", "noon", "(12:00PM)"],
+      ["It's midnight.", "midnight", "(12:00AM as time expression)"],
+      ["It's a quarter past noon.", "a quarter past noon", "(12:15PM as fractionary time)"],
+      ["It's a quarter past four.", "a quarter past four", "(4:15 as fractionary time)"],
+      ["It's nine in the evening.", "nine in the evening", "(9:00PM as time expression)"],
+      ["It's three in the morning.", "three in the morning", "(3:00AM as time expression)"]
     ],
 
     "unit4" => [
-      ["I'm working today.", "'m work"],
-      ["Are you studying now?", "study"],
-      ["She works at night.", "works"],
-      ["I'm living downtown nowadays.", "I'm"],
-      ["Where are you going?", "Where"],
-      ["What are you going to do later?", "going"],
-      ["What are you doing?", "are you"],
-      ["What's she doing?", "doing"],
-      ["She's having breakfast.", "having"],
-      ["It's late so he's sleeping.", "'s sleeping"]
+      ["I'm working today.", "'m work", "()"],
+      ["Are you studying now?", "study", "()"],
+      ["She works at night.", "works", "()"],
+      ["I'm living downtown nowadays.", "I'm", "()"],
+      ["Where are you going?", "Where", "()"],
+      ["What are you going to do later?", "going", "()"],
+      ["What are you doing?", "are you", "()"],
+      ["What's she doing?", "doing", "()"],
+      ["She's having breakfast.", "having", "()"],
+      ["It's late so he's sleeping.", "'s sleeping", "()"]
     ],
 
     "unit5" => [

@@ -78,6 +78,15 @@
          url('./assets/fonts/Rubik-Regular.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Komika';
+    src: url('./assets/fonts/komikask-webfont.woff2') format('woff2'),
+         url('./assets/fonts/komikask-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 /*
 * -------- General
 *
@@ -344,6 +353,16 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	box-shadow: 0 0 1em rgba(0,0,0, 0.3);
   overflow: hidden;
 	position: static;
+  height: 500px;
+}
+
+.featurette.row > * {
+  padding: 0;
+}
+
+.featurette .picture {
+  width: calc(15vw + 5rem);
+  padding: 1rem;
 }
 
 .feature1 {
@@ -366,13 +385,6 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 .featurette p {
 	font-size: var(--guyra-fonts-textsize-n);
-}
-
-.featurette .picture img {
-	padding: 5rem;
-	max-width: 500px;
-	max-height: 500px;
-  width: calc(25vw + 10rem);
 }
 
 .featurette .text-muted {
@@ -412,7 +424,6 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 .col.prices.primary {
 	padding: 0;
-	box-shadow: var(--guyra-purple-darker) 0 0 1em;
 	z-index: 2;
 }
 
@@ -467,6 +478,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 .prices.primary .card {
 	height: 105%;
 	top: -5%;
+  box-shadow: var(--guyra-purple-darker) 0 0 1em;
 }
 
 .prices .card .card-body {
@@ -735,7 +747,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 	border-radius: 2rem 2rem 2rem 0;
 	padding: 2rem;
 	font-size: var(--guyra-fonts-textsize-x);
-	font-family: "Komika Slim";
+	font-family: "Komika";
   box-shadow: var(--guyra-box-shadow-bigger);
 }
 

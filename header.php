@@ -61,7 +61,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="collapse navbar-collapse p-3 bg-white rounded" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0 ms-0">
 
           <?php if (!is_user_logged_in()) { ?>
