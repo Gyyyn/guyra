@@ -77,12 +77,6 @@ class AnswerButton extends React.Component {
     super(props);
   }
 
-  CheckAnswer(x) {
-    if(x == this.props.correctAnswer) {
-      return true;
-    }
-  }
-
   render() {
     return e(ExerciseContext.Consumer, null, ({currentQuestion, CheckAnswer}) => e(
       'a',
@@ -112,17 +106,39 @@ class AnswersWordBank extends React.Component {
   }
 }
 
+class AnswerTextArea extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return e(ExerciseContext.Consumer, null, ({textareaCheck}) => e(
+      'textarea',
+      {
+        id: "exercise-answer-textarea"
+      }
+    ));
+  }
+}
+
 function CurrentQuestion(props) {
   return (
-    e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea}) => e(
+    e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType}) => e(
         'div',
         {
           className: 'exercise',
-          'data-aos': "fade-right"
+          'data-aos': "fade-up"
         },
+        hintArea,
         e('div', {className: "exercise-dialog"}, values[0]),
-        e(AnswersWordBank, {answers: values[1], correctAnswer: values[2]}),
-        hintArea
+        e(
+          'div',
+          {
+            className: "d-flex my-3 exercise-answers"
+          },
+          e(answerType, {answers: values[1], correctAnswer: values[2]}),
+        ),
+        controlArea
       ),
     )
   )
@@ -250,6 +266,29 @@ class App extends React.Component {
       'Voltar ao mapa'
     )
 
+    this.checkAnswerButton = e(
+      'a',
+      {
+        className: 'btn btn-correct',
+        onClick: () => { this.CheckAnswer(document.getElementById("exercise-answer-textarea").value) }
+      },
+      'Checar'
+    )
+
+    this.controlArea = e(
+      'div',
+      {className: 'control-area'},
+      this.checkAnswerButton,
+      e(ExerciseContext.Consumer, null, ({switchAnswerType}) => e(
+        'button',
+        {
+          onClick: () => { switchAnswerType() },
+          className: "btn btn-primary"
+        },
+        '💬'
+      ))
+    )
+
     this.hintAreaInfo = e(
       'div',
       {className: 'exercise-hints info'},
@@ -313,15 +352,19 @@ class App extends React.Component {
       alreadyAnswered: false,
       answeredCorrect: false,
       setNewActivity: this.setNewActivity,
+      textareaCheck: this.textareaCheck,
+      switchAnswerType: this.switchAnswerType,
       CheckAnswer: this.CheckAnswer,
       hintArea: this.hintAreaInfo,
+      controlArea: this.controlArea,
       page: this.LoadingPage,
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON,
       score: this.score,
       answers: [],
       difficulty: 0,
-      activityType: ''
+      activityType: '',
+      answerType: AnswerTextArea
     };
   }
 
@@ -335,6 +378,27 @@ class App extends React.Component {
       }));
 
 
+  }
+
+  switchAnswerType = () => {
+
+    if (this.state.answerType == AnswersWordBank) {
+      this.setState({
+        answerType: AnswerTextArea
+      });
+    } else {
+      this.setState({
+        answerType: AnswersWordBank
+      });
+    }
+
+  }
+
+  textareaCheck = (value) => {
+    var key = window.event.keyCode;
+    if (key === 13) {
+        console.log("did");
+    }
   }
 
   setNewActivity = () => {
@@ -422,6 +486,10 @@ class App extends React.Component {
         this.state.answers[this.currentQuestion] = [answer];
       } else if (this.state.answers[this.currentQuestion].indexOf(answer) === -1) {
         this.state.answers[this.currentQuestion].push(answer);
+      }
+
+      if (this.state.answerType == AnswerTextArea) {
+        document.getElementById("exercise-answer-textarea").value = "";
       }
 
     }

@@ -47,7 +47,7 @@
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
   --guyra-fonts-title: 'Akzidenz-Grotesk',var(--bs-font-sans-serif);
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
-  --guyra-fonts-textsize-ss: calc(0.45rem + 0.65vw);
+  --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
   --guyra-fonts-textsize-n: calc(0.85rem + 0.45vw);
   --guyra-fonts-textsize-x: calc(0.95rem + 0.55vw);
@@ -56,6 +56,8 @@
   --guyra-fonts-textsize-super: calc(1.8em + 1.2vw);
 
   --guyra-navbar-size: 70px;
+  --guyra-border-radius: calc(.25rem - 1px);
+  --guyra-transition: all 0.15s cubic-bezier(.19,1,.22,1);
 }
 
 /*
@@ -99,7 +101,7 @@ h1, h2, h3, h4, h5 {
 
 .text-shadow {
   text-shadow: -1px 1px var(--guyra-blue-darker), -1px 3px var(--guyra-blue-darker), -2px 4px var(--guyra-blue-darker);
-  color: var(--guyra-blue-lighter);
+  color: var(--guyra-blue);
 }
 
 body,
@@ -217,9 +219,6 @@ label[for="comment"],
     color: var(--guyra-grey-dark) !important;
 }
 
-.btn-group-lg > .btn, .btn-lg,
-.btn-group-sm >.btn, .btn-sm { border-radius: 0.4em; }
-
 .vertical-divider {
     border-left: var(--guyra-blue) 2px dashed;
 }
@@ -267,6 +266,20 @@ label[for="comment"],
 
 .navbar .navbar-toggler .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(0, 0, 0, 0.60)' stroke-linecap='flat' stroke-miterlimit='10' stroke-width='3.5' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+.dropdown-menu {
+  font-size: var(--guyra-fonts-textsize-s);
+  padding: 0;
+  border-radius: var(--guyra-border-radius);
+  min-width: 7vw;
+  color: var(--guyra-black);
+  background-color: var(--guyra-white);
+  border: 1px solid var(--guyra-grey-dark);
+}
+
+.dropdown-item {
+  padding: var(--guyra-fonts-textsize-sss);
 }
 
 /*
@@ -320,7 +333,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 .container { max-width: none; }
 
 .featurette:hover {
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+	transition: var(--guyra-transition);
 	box-shadow: 0 0 5em rgba(0,0,0,0.5);
 	position: relative;
 	z-index: 2;
@@ -382,6 +395,16 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
   flex-direction: column;
 }
 
+.card {
+  border-radius: var(--guyra-border-radius);
+}
+
+.card-header,
+.card-header:first-child {
+  border-radius: 0;
+  border: 0;
+}
+
 .col.prices {
 	padding: 0;
   width: auto;
@@ -399,7 +422,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 .col.prices.primary:hover {
 	box-shadow: var(--guyra-purple-darker) 0 0 2em;
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+	transition: var(--guyra-transition);
 }
 
 @media (min-width: 980px) {
@@ -421,7 +444,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
   .col.prices:nth-child(3) .card:hover {
   	z-index: 3;
   	box-shadow: rgba(0,0,0,0.5) 0 0 2em;
-  	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+  	transition: var(--guyra-transition);
   	position: relative;
   	transform: scale(1.02);
   }
@@ -525,6 +548,12 @@ a:hover {
 	color: var(--guyra-white) !important;
 }
 
+.btn-primary:hover,
+.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a:hover {
+  background-color: var(--guyra-blue-lighter) !important;
+	border-color: var(--guyra-blue-lighter) !important;
+}
+
 .btn,
 button, input[type="button"], input[type="reset"], input[type="submit"],
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a,
@@ -534,13 +563,14 @@ button, input[type="button"], input[type="reset"], input[type="submit"],
 .page-squeeze .user-registration-message > a
 {
   color: var(--guyra-black);
-  font-weight: bold;
+  font-weight: normal;
   text-decoration: none;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  border-radius: .2rem;
+  border-radius: var(--guyra-border-radius);
   border: 1px solid transparent;
   background: var(--guyra-white);
   font-size: var(--guyra-fonts-textsize-n);
+  transition: none;
 }
 
 .btn:hover,
@@ -555,10 +585,11 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
   background: var(--guyra-grey);
   border: 1px solid transparent;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  font-weight: bold;
-  text-decoration: none;
+  font-weight: normal;
+  transition: var(--guyra-transition);
 }
 
+.hover-pop:hover,
 .btn:hover,
 button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
 .btn-primary:hover,
@@ -569,11 +600,14 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
 .page-squeeze .user-registration-info > a:hover,
 .page-squeeze .user-registration-message > a:hover
 {
-	transform: scale(1.01);
+	transform: scale(1.05);
 	opacity: 80%;
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+	transition: var(--guyra-transition);
+  z-index: 2;
+  position: relative;
 }
 
+.hover-pop:active,
 .btn:active,
 button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active,
 .btn-primary:active,
@@ -585,7 +619,6 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .page-squeeze .user-registration-message > a:active
 {
 	transform: scale(0.95);
-	opacity: 80%;
 	box-shadow: unset;
 }
 
@@ -610,7 +643,8 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 	background-color: transparent;
 }
 
-.btn-outline-primary:hover  {
+.btn-outline-primary:hover,
+.btn-outline-primary:active  {
     color: var(--guyra-white);
     background-color: var(--guyra-blue);
     border-color: var(--guyra-blue);
@@ -728,26 +762,37 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 
 #exercise-container .exercise-squeeze .btn.btn-correct {
 	background-color: var(--guyra-green);
-	transition: all 0.35s cubic-bezier(.19,1,.22,1);
+	transition: var(--guyra-transition);
+}
+
+.exercise-answers {
+  height: 150px;
 }
 
 .exercise-answers-wordbank {
   display: flex;
   justify-content: space-between;
+  flex-grow: 1;
+  height: max-content;
 }
 
 .exercise-answers-wordbank .btn {
   flex-grow: 1;
 }
 
+.control-area {
+  display: flex;
+  justify-content: space-between;
+}
+
 .exercise-hints {
   height: 5rem;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: .25rem;
+  border-radius: var(--guyra-border-radius);
 }
 
 .exercise-hints.info {
@@ -869,11 +914,11 @@ a.element-container:visited {
 }
 
 .page-squeeze #comment,
-.page-squeeze .comment-content {
-    border-radius: 0.4em;
+.page-squeeze .comment-content,
+#exercise-answer-textarea {
+    border-radius: var(--guyra-border-radius);
     border: .2rem solid #ddd !important;
     background: #f9f9f9;
-    border-radius: 0.4em;
     padding: 1rem;
     font-family: var(--guyra-fonts-text);
     font-size: var(--guyra-fonts-textsize-n);
@@ -882,7 +927,8 @@ a.element-container:visited {
 
 .page-squeeze .comment-content > p { margin: 0; }
 
-.page-squeeze #comment:focus-visible {
+.page-squeeze #comment:focus-visible,
+#exercise-answer-textarea:focus-visible {
     border: .2rem solid #bdbdbd !important;
     background: #f5f5f5;
     outline: none;
@@ -997,7 +1043,7 @@ a.element-container:visited {
   font-family: var(--guyra-fonts-text);
   border: unset;
   background: var(--guyra-grey);
-  border-radius: 0.25rem !important;
+  border-radius: var(--guyra-border-radius) !important;
   border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark) !important;
 }
 
@@ -1050,7 +1096,7 @@ a.element-container:visited {
   justify-content: center;
   display: inline-flex;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  border-radius: .2rem;
+  border-radius: var(--guyra-border-radius);
 }
 
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
@@ -1070,6 +1116,11 @@ a.element-container:visited {
 *
 *
 */
+
+.btn-check:active + .btn-primary:focus, .btn-check:checked + .btn-primary:focus, .btn-primary.active:focus, .btn-primary:active:focus, .show > .btn-primary.dropdown-toggle:focus,
+.btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus {
+    box-shadow: unset;
+}
 
 a[href="#collapse-admin"] { opacity: 0; }
 

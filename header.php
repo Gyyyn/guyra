@@ -52,7 +52,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container">
-      <div class="navbar-brand me-3 p-0 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+      <div class="navbar-brand hover-pop me-3 p-0 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
       	<img alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
         <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
       </a></div>

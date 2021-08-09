@@ -24,47 +24,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 include get_template_directory() . '/i18n.php';
 
-$user_info = get_userdata(get_current_user_id());
-$user_subscription = get_user_meta(get_current_user_id(), 'subscription')[0];
-$user_subscription_activesince = get_user_meta(get_current_user_id(), 'subscription-active-since')[0];
+$user_id = get_current_user_id();
+$user_info = get_userdata($user_id);
+
+$user_subscription = get_user_meta($user_id, 'subscription', true);
+$user_subscription_activesince = get_user_meta($user_id, 'subscription-active-since', true);
+
+$first_name = get_user_meta( $user_id, 'first_name', true );
+if (empty($first_name)) {
+	$first_name = $user_info->name;
+}
+
+$gravatar_image = get_avatar_url( $user_id, $args = null );
+$profile_picture_url = get_user_meta( $user_id, 'user_registration_profile_pic_url', true );
+$image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+
 ?>
 
 <div class="user-registration-profile-header position-relative">
+
 	<span class="page-icon position-absolute end-0" style="top: -5rem;"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png"></span>
-	<div class="ur-profile d-inline-flex align-items-center">
-		<?php
-			$gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
-			$profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
-			$image               = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
-			if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) {
-
-			?>
+	<div class="d-flex flex-column align-items-center">
+		<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
 				<img class="ur-profile-picture me-3" alt="profile-picture" src="<?php echo $image; ?>">
-			<?php } ?>
+		<?php } ?>
 
-		<div>
+		<div class="py-3">
+
 			<h2 class="ur-profile-welcome m-0 d-flex">
-				<?php
-				$first_name = ucfirst( get_user_meta( get_current_user_id(), 'first_name', true ) );
-				printf("Welcome, ");
-				printf(
-						__( '%1$s', 'user-registration' ),
-						esc_html( $first_name )
-					);
-				printf("!");
-				?>
-				<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-uppercase ms-3"><?php echo $gi18n['pricesfeature_titlepro'];?></span><?php } ?>
+
+				<?php echo "Welcome, ", $first_name, "!";
+				if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-uppercase ms-3"><?php echo $gi18n['pricesfeature_titlepro'];?></span><?php } ?>
+
 			</h2>
+
 			<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
 			<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
 			</p>
+
 		</div>
 
 	</div>
+
 	<div class="d-flex align-items-center">
-		<a href="<?php echo get_site_url() ?>" type="button" class="flex-grow-1 btn btn-lg btn-outline-primary me-1"><?php echo $gi18n['button_studypage'];?></a>
-		<a href="<?php echo $gi18n['courses_link'] ?>" type="button" class="flex-grow-1 btn btn-lg btn-outline-primary ms-1"><?php echo $gi18n['button_coursespage'];?></a>
+
+		<div class="px-3">
+
+		</div>
+
+		<div class="px-3">
+
+		</div>
+
 	</div>
 
 	<?php if($user_subscription == '') {?><div class="profile-subscriptions pt-3">

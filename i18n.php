@@ -69,6 +69,9 @@ $gi18n = [
       Ao clicar no botão a baixo você sera levado a uma pagina do Mercado Pago para concluir a compra.
     </div>
     ',
+	/* Reference page */
+	'reference_irregulars' => 'Verbos Irregulares',
+	'reference_grammar' => 'Transformação Gramatical',
 	/* Links */
 	'home_link' => get_site_url(),
 	'blog_link' => get_site_url() . '/category/blog',
