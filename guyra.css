@@ -39,20 +39,20 @@
   --guyra-grey-dark: #dddddd;
   --guyra-grey-darker: #777777;
   --guyra-grey-darkest: #555555;
-  --guyra-black: #333333;
+  --guyra-black: #444;
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
 
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
-  --guyra-fonts-title: 'Akzidenz-Grotesk',var(--bs-font-sans-serif);
+  --guyra-fonts-title: 'Campton Black',var(--bs-font-sans-serif);
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
   --guyra-fonts-textsize-n: calc(0.85rem + 0.45vw);
-  --guyra-fonts-textsize-x: calc(0.95rem + 0.55vw);
-  --guyra-fonts-textsize-xx: calc(1.25rem + 0.85vw);
-  --guyra-fonts-textsize-xxx: calc(1.35rem + 0.85vw);
+  --guyra-fonts-textsize-x: calc(0.95rem + 0.85vw);
+  --guyra-fonts-textsize-xx: calc(1.65rem + 0.95vw);
+  --guyra-fonts-textsize-xxx: calc(1.85rem + 1.05vw);
   --guyra-fonts-textsize-super: calc(1.8em + 1.2vw);
 
   --guyra-navbar-size: 70px;
@@ -67,9 +67,21 @@
 */
 
 @font-face {
-    font-family: 'Akzidenz-Grotesk';
-    src: url('./assets/fonts/akzidenzgrotesk-extended-webfont.woff2') format('woff2'),
-         url('/assets/fonts/akzidenzgrotesk-extended-webfont.woff') format('woff');
+    font-family: 'Campton Book';
+    src: url('./assets/fonts/campton_book.woff2') format('woff2'),
+         url('./assets/fonts/campton_book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Campton Black';
+    src: url('./assets/fonts/campton_black.woff2') format('woff2'),
+         url('./assets/fonts/campton_black.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 @font-face {
@@ -99,8 +111,13 @@ h3 { font-size: var(--guyra-fonts-textsize-x); }
 
 h1, h2, h3, h4, h5 {
 	font-family: var(--guyra-fonts-title);
+  font-weight: 900;
   letter-spacing: -.05rem;
 	cursor: default;
+}
+
+p {
+  color: var(--guyra-black);
 }
 
 .page-squeeze h1 {
@@ -109,7 +126,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .text-shadow {
-  text-shadow: -1px 1px var(--guyra-blue-darker), -1px 3px var(--guyra-blue-darker), -2px 4px var(--guyra-blue-darker);
+  /*text-shadow: -1px 1px var(--guyra-blue-darker), -1px 3px var(--guyra-blue-darker), -2px 4px var(--guyra-blue-darker);*/
+  text-shadow: 0px 0px 3px rgba(0,0,0,0.17);
   color: var(--guyra-blue);
 }
 
@@ -207,11 +225,11 @@ footer .squeeze nav a {
 	border-width: 1px !important;
 }
 
-.page-icon {
+.page-icon > img {
 	width: calc(2.5vh + 4.5vw);
 }
 
-.page-icon.large {
+img.page-icon.large {
   width: calc(15vw + 5rem);
 }
 
@@ -243,10 +261,29 @@ label[for="comment"],
 *
 */
 
-.navbar > div {
+.navbar > .container {
 	background: #fff;
   margin-top: 5px;
   height: var(--guyra-navbar-size);
+}
+
+.navbar > .container > div {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 1200px) {
+
+  .navbar > .container {
+    display: block;
+  }
+
+  .navbar > .container > div {
+    width: calc(40vw + 20rem);
+    margin: 0 auto;
+  }
 }
 
 .navbar {
@@ -307,6 +344,14 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 .cover-container {
   background: rgba(0,0,0,0.75);
+  color: var(--guyra-white) !important;
+}
+
+.cover-container p,
+.cover-container h1,
+.cover-container h2,
+.cover-container h3 {
+    color: var(--guyra-white);
 }
 
 @media (max-width: 766px) {
@@ -356,11 +401,16 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
   min-height: 500px;
 }
 
+.featurette h1,
+.featurette h2 {
+	color: var(--guyra-black);
+}
+
 .featurette.row > * {
   padding: 0;
 }
 
-.featurette .picture {
+.featurette .picture > img {
   width: calc(15vw + 5rem);
   padding: 1rem;
 }
@@ -777,7 +827,8 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 	transition: var(--guyra-transition);
 }
 
-.exercise-answers {
+.exercise-answers,
+.exercise-answers textarea {
   height: 150px;
 }
 
@@ -939,6 +990,12 @@ a.element-container:visited {
 
 .page-squeeze .comment-content > p { margin: 0; }
 
+.page-squeeze #comment,
+#exercise-answer-textarea {
+  width: 100%;
+  height: 15rem;
+}
+
 .page-squeeze #comment:focus-visible,
 #exercise-answer-textarea:focus-visible {
     border: .2rem solid #bdbdbd !important;
@@ -1043,6 +1100,13 @@ a.element-container:visited {
 .page-squeeze .ur-frontend-form label {
   margin: .5rem 0 !important;
   font-size: var(--guyra-fonts-textsize-ss) !important;
+}
+
+.page-squeeze #user-registration .user-registration-MyAccount-content .edit-password legend,
+.page-squeeze #user-registration .user-registration-MyAccount-content h2 {
+  font-family: var(--guyra-fonts-title);
+  font-size: var(--guyra-fonts-textsize-xx);
+  font-weight: 900;
 }
 
 .page-squeeze .ur-frontend-form input:not(.button),

@@ -290,7 +290,7 @@ class App extends React.Component {
           onClick: () => { switchAnswerType() },
           className: "btn btn-primary"
         },
-        '💬'
+        '🍭'
       ))
     )
 

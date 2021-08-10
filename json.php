@@ -77,7 +77,7 @@ $masterJSON = [
       ["We always eat in that restaurant.", "eat in", "(verb starting with E + preposition)"],
       ["He usually drives to work.", "drives", "(verb starting with D)"],
       ["She rarely plays tennis.", "plays", "(verb starting with P)"],
-      ["I always sleep late on weekends.", "I always", "()"],
+      ["I always sleep late on weekends.", "I always", "(pronoun + adverb starting with A)"],
       ["Do you ever eat out?", "you", "(pronoun starting with Y)"],
       ["I never take the bus.", "bus", "(noun starting with B)"],
       ["My friend always studies a lot for exams.", "studies", "(verb starting with S)"]
@@ -88,24 +88,24 @@ $masterJSON = [
   "level3" => [
 
     "unit6" => [
-      ["Do you live in an apartment?", "live in", "()"],
-      ["Where do you live?", "do you", "()"],
-      ["There isn't a TV in my house.", "isn't", "()"],
-      ["There are two fridges in my kitchen.", "are two", "()"],
-      ["There aren't any pictures in my apartment.", "There aren't", "()"],
-      ["Is there a bathroom here?", "a bathroom", "()"],
-      ["Where is the toilet?", "the toilet", "()"],
-      ["There are thirteen rooms in this house.", "in this house", "()"],
-      ["What things are in the house?", "things are", "()"],
-      ["There is a café near here.", "is a café", "()"]
+      ["Do you live in an apartment?", "live in", "(verb starting with L + preposition)"],
+      ["Where do you live?", "do you", "(auxiliary + pronoun starting with Y)"],
+      ["There isn't a TV in my house.", "isn't", "(negative abbreviated to be)"],
+      ["There are two fridges in my kitchen. I need a second one.", "are two", "(to be + numeral)"],
+      ["There aren't any pictures in my apartment.", "There aren't", "(pronoun + negative to be)"],
+      ["Is there a bathroom here? I want to take a shower.", "a bathroom", "(article + noun starting with B)"],
+      ["Where is the toilet? I need to wash my hands.", "the toilet", "(article + noun starting with T)"],
+      ["There are thirteen rooms in this house.", "in this house", "(preposition + determiner + noun starting with H)"],
+      ["Where is your room?", "is your", "(to be + pronoun starting with Y)"],
+      ["There is a café near here, it's only one block.", "near here", "(adjective starting with N + adverb)"]
     ],
 
     "unit7" => [
-      ["I'm a mechanic. I work with cars.", "mechanic", "()"],
-      ["I work in an office. I'm an accountant.", "an office", "()"],
-      ["I work in a restaurant as a server.", "restaurant as a", "()"],
-      ["My friend is a manager in a hotel.", "friend is a", "()"],
-      ["My mother works at home.", "works", "()"],
+      ["I'm a mechanic. I work with cars.", "mechanic", "(noun starting with M)"],
+      ["I work in an office. I'm an accountant.", "an office", "(article + noun starting with M)"],
+      ["I work in a restaurant as a server.", "restaurant as a", "(noun + adverb + article)"],
+      ["My friend is a manager in a hotel.", "friend is a", "(noun starting F + to be + article)"],
+      ["My mother works at home.", "works", "(verb starting with W)"],
       ["Where do you work?", "Where", "()"],
       ["How do you like your job?", "like your", "()"],
       ["How does he like working as a journalist?", "does he like", "()"],
@@ -231,7 +231,12 @@ $masterJSON = [
     ],
 
     "unit16" => [
-      ["", ""]
+      ["testing", "testing"],
+      ["testing", "testing"],
+      ["testing", "testing"],
+      ["testing", "testing"],
+      ["testing", "testing"],
+      ["testing", "testing"]
     ]
 
   ],

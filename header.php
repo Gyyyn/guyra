@@ -35,11 +35,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00d4ff"/>
 
-<?php if (!current_user_can('manage_options')) { ?>
-<style type="text/css">#wpadminbar { display: none }</style>
-<?php } ?>
-
-<link rel='stylesheet' id='bootstrap-css'  href='<?php echo get_template_directory_uri(); ?>/assets/dist/css/bootstrap.min.css' media='all' />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <?php wp_head(); ?>
@@ -51,7 +47,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <div id="page" class="site">
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
-    <div class="container">
+    <div class="container"><div>
       <div class="navbar-brand hover-pop me-3 p-0 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
       	<img alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
         <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
@@ -108,6 +104,6 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <?php } ?>
         </ul>
       </div>
-    </div>
+    </div></div>
   </nav>
 </header>

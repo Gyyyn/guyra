@@ -29,8 +29,19 @@ if ( ! function_exists( 'guyra_setup' ) ) :
 		 */
 		load_theme_textdomain( 'guyra', get_template_directory() . '/languages' );
 
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
+
+		// Kill all feeds
+		function itsme_disable_feed() {
+		 wp_die( __( 'No feed available, please visit the <a href="'. esc_url( home_url( '/' ) ) .'">homepage</a>!' ) );
+		}
+
+		add_action('do_feed', 'itsme_disable_feed', 1);
+		add_action('do_feed_rdf', 'itsme_disable_feed', 1);
+		add_action('do_feed_rss', 'itsme_disable_feed', 1);
+		add_action('do_feed_rss2', 'itsme_disable_feed', 1);
+		add_action('do_feed_atom', 'itsme_disable_feed', 1);
+		add_action('do_feed_rss2_comments', 'itsme_disable_feed', 1);
+		add_action('do_feed_atom_comments', 'itsme_disable_feed', 1);
 
 		/*
 		 * Let WordPress manage the document title.
@@ -165,17 +176,10 @@ require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/template-functions.php';
 
 /**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-wp_enqueue_style( 'guyra-style', get_stylesheet_uri(), array(), _S_VERSION );
-wp_style_add_data( 'guyra-style', 'rtl', 'replace' );
 wp_enqueue_style('guyra', get_template_directory_uri() . '/guyra.css');

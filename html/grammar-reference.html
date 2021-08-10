@@ -1,0 +1,481 @@
+<style>
+.grammar-reference {
+  font-size: var(--guyra-fonts-textsize-s);
+}
+
+.grammar-reference > li {
+  border: 0;
+  background: none;
+}
+
+.grammar-reference li ul li:hover .highlight {
+  color: var(--guyra-blue);
+}
+
+.grammar-reference li:hover .highlight {
+  color: var(--guyra-blue-darker);
+}
+
+.grammar-reference li ul li:hover .text-muted {
+  color: var(--guyra-blue) !important;
+}
+</style>
+
+<ul class="nav nav-pills justify-content-center m-5" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <span class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#grammar-regular" type="button" role="tab" aria-controls="grammar-regular" aria-selected="true">Regular</span>
+  </li>
+  <li class="nav-item" role="presentation">
+    <span class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#grammar-irregular" type="button" role="tab" aria-controls="grammar-irregular" aria-selected="false">Irregular</span>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="grammar-regular" role="tabpanel" aria-labelledby="grammar-regular">
+
+    <div class="text-center">
+      <span class="d-inline p-2 bg-dark text-white">Verb: to <input id="verb-input" type="text" value="work" onchange="regularTransform(this.value)" /></span>
+      <span class="d-inline p-2 bg-dark text-white">Pronoun: <input id="pronoun-input" type="text" value="I" onchange="regularTransform(document.getElementById('verb-input').value)" /></span>
+    </div>
+
+    <ul class="grammar-reference list-group list-group-flush">
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Past: </span>
+
+            </span>
+            <span class="col-md-7">
+               <span class="pronoun">I</span> <span class="regular-verb">work</span><span class="highlight">ed</span>.
+            </span>
+          </li>
+
+          <li class="list-group-item d-flex">
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Present: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="pronoun">I</span> <span class="highlight"><span class="regular-verb">work</span></span>.
+            </span>
+          </li>
+
+          <li class="list-group-item d-flex">
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Future:</span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="pronoun">I</span> <span class="highlight">will</span> <span class="regular-verb">work</span>/<span class="highlight"><span class="aux">am</span> going to</span> <span class="regular-verb">work</span>.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight"><span class="aux">was</span></span> <span class="regular-verb">work</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight"><span class="aux">am</span></span> <span class="regular-verb">work</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Continuous:</span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight">will be</span> <span class="regular-verb">work</span><span class="highlight">ing</span>/<span class="highlight"><span class="aux">am</span> going to be</span> <span class="regular-verb">work</span><span class="highlight">ing.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Perfect: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight">had</span> <span class="regular-verb">work</span><span class="highlight">ed</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Perfect: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight"><span class="aux">have</span></span> <span class="regular-verb">work</span><span class="highlight">ed</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Perfect: </span>
+            </span>
+
+              <span class="col-md-7">
+                <span class="pronoun">I</span> <span class="highlight">will have</span> <span class="regular-verb">work</span><span class="highlight">ed</span>.
+              </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group-flush border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight">had been</span> <span class="regular-verb">work</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight">have been</span> <span class="regular-verb">work</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+              <span class="pronoun">I</span> <span class="highlight">will have</span> been <span class="regular-verb">work</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+    </ul>
+
+    <script>
+      function regularTransform(x) {
+        let verbs = document.getElementsByClassName("regular-verb");
+        let pronoun = document.getElementById("pronoun-input").value.toLowerCase();
+        let pronouns = document.getElementsByClassName("pronoun");
+        let aux = document.getElementsByClassName("aux");
+        x = x.toLowerCase();
+        let x2 = "";
+        matchCons = new RegExp("[bcdfghjklmnpqrstvwxyz]");
+        matchVowel = new RegExp("[aeiou]");
+        matchY = new RegExp("[y]");
+        matchSib = new RegExp("[sc]");
+
+        for (var i = 0; i < pronouns.length; i++) {
+          pronouns[i].innerHTML = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+        }
+
+        // Pronoun auxiliary stuff
+        for (var i = 0; i < aux.length; i++) {
+
+          // for present to be
+          if (i == 0 || i == 2 || i == 3) {
+
+            if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
+              aux[i].innerHTML = "is";
+            } else if (pronoun == "i") {
+              aux[i].innerHTML = "am";
+            } else {
+              aux[i].innerHTML = "are";
+            }
+
+          }
+
+          // for past to be
+          if (i == 1) {
+
+            if(pronoun == "we" || pronoun == "they") {
+              aux[i].innerHTML = "were";
+            } else {
+              aux[i].innerHTML = "was";
+            }
+
+          }
+
+          if (i == 4) {
+
+            if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
+              aux[i].innerHTML = "has";
+            } else {
+              aux[i].innerHTML = "have";
+            }
+
+          }
+
+        }
+
+        for (var i = 0; i < verbs.length; i++) {
+
+          verbs[i].innerHTML = x;
+
+          // Third person s
+          if(i == 1) {
+            if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
+
+              if ( (matchSib.test(x[x.length - 2]) && matchCons.test(x[x.length - 1])) || (x[x.length - 1] == "o" || x[x.length - 1] == "x") ) {
+                verbs[i].innerHTML = x.concat("es");
+              } else {
+                verbs[i].innerHTML = x.concat("s");
+              }
+
+            }
+          }
+
+          // consonant y ending words get an i
+          if(i == 0 || i == 8 || i == 9 || i == 10) {
+
+            // Test for consonant + y
+            if ( matchCons.test(x[x.length - 2]) && matchY.test(x[x.length - 1]) ) {
+              x2 = x;
+              x2 = x2.replace(matchY, "i")
+              verbs[i].innerHTML = x2;
+            }
+          }
+
+          // if verb ends with e it is trimmed except on positions 1 2 3
+          if(x[x.length - 1] == "e") {
+            if(i != 1 && i != 2 && i != 3) {
+              verbs[i].innerHTML = x.slice(0, x.length - 1);
+            }
+          }
+
+          // CVC words get consonant doubling on pos 0 8 9 10
+          if (i == 0 || i == 8 || i == 9 || i == 10) {
+            if( matchCons.test(x[x.length - 3]) && matchVowel.test(x[x.length - 2]) && matchCons.test(x[x.length - 1]) ) {
+              if (x[x.length - 1] != "x") {
+                verbs[i].innerHTML = x.concat(x[x.length - 1]);
+              }
+            }
+          }
+
+        }
+      }
+    </script>
+
+  </div>
+  <div class="tab-pane fade" id="grammar-irregular" role="tabpanel" aria-labelledby="grammar-irregular">
+
+    <div class="text-center">
+      <span class="d-inline p-2 bg-dark text-white">Verb: to eat</span>
+      <span class="d-inline p-2 bg-dark text-white">Pronoun: I</span>
+    </div>
+
+    <ul class="grammar-reference list-group list-group-flush">
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Past: </span>
+
+            </span>
+            <span class="col-md-7">
+               <span class="highlight"><span class="irregular-verb">ate</span></span>.
+            </span>
+          </li>
+
+          <li class="list-group-item d-flex">
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Present: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight"><span class="irregular-verb">eat</span></span>.
+            </span>
+          </li>
+
+          <li class="list-group-item d-flex">
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Simple Future:</span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">will</span> <span class="irregular-verb">eat</span>/<span class="highlight">am going to</span> <span class="irregular-verb">eat</span>.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">was</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">am</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Continuous:</span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">will be</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>/<span class="highlight">am going to be</span> <span class="irregular-verb">eat</span><span class="highlight">ing.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Perfect: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">had</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Perfect: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Perfect: </span>
+            </span>
+
+              <span class="col-md-7">
+                 <span class="highlight">will have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+              </span>
+
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="list-group-item">
+        <ul class="list-group list-group-flush border-0 m-0">
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Past Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">had been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Present Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">have been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+          <li class="list-group-item d-flex">
+
+            <span class="col-md-3 text-end me-1">
+              <span class="text-muted">Future Perfect Continuous: </span>
+            </span>
+
+            <span class="col-md-7">
+               <span class="highlight">will have</span> been <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+            </span>
+
+          </li>
+
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</div>
