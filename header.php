@@ -49,7 +49,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
 <?php wp_head(); ?>
 
-<link href="<?php echo get_template_directory_uri(); ?>/guyra.css" rel="stylesheet">
+<link href="<?php echo get_template_directory_uri(); ?>/style.css" rel="stylesheet">
 
 </head>
 
