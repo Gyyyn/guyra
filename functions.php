@@ -181,5 +181,3 @@ require get_template_directory() . '/inc/template-functions.php';
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
-
-wp_enqueue_style('guyra', get_template_directory_uri() . '/guyra.css');

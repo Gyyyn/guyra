@@ -106,11 +106,11 @@ $masterJSON = [
       ["I work in a restaurant as a server.", "restaurant as a", "(noun + adverb + article)"],
       ["My friend is a manager in a hotel.", "friend is a", "(noun starting F + to be + article)"],
       ["My mother works at home.", "works", "(verb starting with W)"],
-      ["Where do you work?", "Where", "()"],
-      ["How do you like your job?", "like your", "()"],
-      ["How does he like working as a journalist?", "does he like", "()"],
-      ["Photographer is a difficult job.", "a difficult", "()"],
-      ["Working as a firefighter is stressful", "is stressful", "()"]
+      ["Where do you work?", "Where", "(place question word)"],
+      ["How do you like your job?", "like your", "(verb starting with L + pronoun starting with Y)"],
+      ["How does he like working as a journalist?", "does he like", "(auxiliary verb + pronoun starting with H + verb starting with L)"],
+      ["Photographer is a difficult job.", "a difficult", "(article + adjective starting with A)"],
+      ["Working as a firefighter is stressful", "is stressful", "(to be + adjective starting with S)"]
     ],
 
     "unit8" => [

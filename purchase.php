@@ -24,23 +24,23 @@
               <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h4>
             </div>
             <div class="card-body">
-              <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
+              <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
               <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
                 <li><span>Acesso as video aulas</span> <span>✅</span></li>
                 <li><span>Tire suas duvidas por WhatsApp ou na aula</span> <span>✅</span></li>
                 <li><span>Uma aula por semana</span> <span>✅</span></li>
                 <li><span>Exercicios de conversasao</span> <span>✅</span></li>
               </ul>
-              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg btn-primary"><?php echo $gi18n['button_want'] ?></button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg btn-secondary"><?php echo $gi18n['button_want'] ?></button>
             </div>
           </div>
         </div>
         <div class="col prices business">
-          <div class="card mb-4">
-            <div class="card-header py-2">
+          <div class="card border-dark mb-4">
+            <div class="card-header bg-black text-white py-2">
               <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h4>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-dark text-white">
               <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['student'] ?></small></h1>
               <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
                 <li><span>Todos os beneficios do plano premium</span> <span>✅</span></li>

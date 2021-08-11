@@ -1,5 +1,6 @@
 <?php
 $gi18n = [
+	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
 	'comapny_name' => 'Guyra.',
 	'company_cnpj' => '41.915.538/0001-03',
 	'company_address' => 'Piracicaba - SP',

@@ -34,21 +34,30 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00d4ff"/>
+<meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff2" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff2" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff2" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg.png" as="image">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg3.png" as="image">
 
 <?php wp_head(); ?>
 
+<link href="<?php echo get_template_directory_uri(); ?>/guyra.css" rel="stylesheet">
+
 </head>
 
-<body <?php body_class('patterned-bg sparse'); ?>>
-<?php wp_body_open(); ?>
-<div id="page" class="site">
+<body <?php body_class(); ?>>
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container"><div>
-      <div class="navbar-brand hover-pop me-3 p-0 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+      <div class="navbar-brand hover-pop pe-3 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
       	<img alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
         <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
       </a></div>
@@ -57,7 +66,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse p-3 bg-white rounded" id="navbarCollapse">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0 ms-0">
 
           <?php if (!is_user_logged_in()) { ?>
@@ -91,7 +100,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-outline-primary"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
-          <li class="nav-item me-3 profile-item">
+          <li class="nav-item profile-item">
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_myaccount'] ?></a>
             <div class="dropstart m-0 d-inline">
               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
