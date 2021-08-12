@@ -4,7 +4,7 @@
         <div class="col prices lite">
           <div class="card mb-4 border-primary">
             <div class="card-header py-2 text-white bg-primary border-primary">
-              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlelite'] ?></h4>
+              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlelite'] ?></h3>
             </div>
             <div class="card-body">
               <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricelite'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
@@ -21,7 +21,7 @@
         <div class="col prices primary pro">
           <div class="card mb-4 border-secondary">
             <div class="card-header py-2 text-white bg-secondary border-secondary">
-              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h4>
+              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
             </div>
             <div class="card-body">
               <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
@@ -38,7 +38,7 @@
         <div class="col prices business">
           <div class="card border-dark mb-4">
             <div class="card-header bg-black text-white py-2">
-              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h4>
+              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h3>
             </div>
             <div class="card-body bg-dark text-white">
               <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['student'] ?></small></h1>

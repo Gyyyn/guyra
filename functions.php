@@ -43,6 +43,9 @@ if ( ! function_exists( 'guyra_setup' ) ) :
 		add_action('do_feed_rss2_comments', 'itsme_disable_feed', 1);
 		add_action('do_feed_atom_comments', 'itsme_disable_feed', 1);
 
+		// Remove generator tag
+		remove_action('wp_head', 'wp_generator');
+
 		/*
 		 * Let WordPress manage the document title.
 		 * By adding theme support, we declare that this theme does not use a

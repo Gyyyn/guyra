@@ -17,12 +17,12 @@
            <img class="page-icon large" alt="Learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
          </div>
 
-         <div class="d-flex flex-column m-5" data-aos="fade" data-aos-delay="500">
+         <div class="d-flex flex-column m-5">
            <h1><?php echo $gi18n['landing_title1'] ?></h1>
            <p><?php echo $gi18n['landing_explain1'] ?></p>
-           <h3><?php echo $gi18n['landing_title2'] ?></h1>
+           <h3><?php echo $gi18n['landing_title2'] ?></h3>
            <p><?php echo $gi18n['landing_explain2'] ?></p>
-           <h3><?php echo $gi18n['landing_title3'] ?></h1>
+           <h3><?php echo $gi18n['landing_title3'] ?></h3>
            <p><?php echo $gi18n['landing_explain3'] ?></p>
          </div>
 
@@ -64,7 +64,7 @@
 
      <div id="jump-prices" class="squeeze-big">
 
-       <?php include 'purchase.php'; ?>
+       <?php include 'Guyra_purchase.php'; ?>
 
      </div>
 
@@ -145,4 +145,3 @@
 
  <?php
  get_footer();
- 

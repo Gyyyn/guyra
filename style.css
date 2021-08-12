@@ -672,8 +672,7 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
 .page-squeeze .user-registration-info > a:hover,
 .page-squeeze .user-registration-message > a:hover
 {
-	transform: scale(1.05);
-	opacity: 80%;
+	transform: scale(1.04);
 	transition: var(--guyra-transition);
   z-index: 2;
   position: relative;
@@ -690,7 +689,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .page-squeeze .user-registration-info > a:active,
 .page-squeeze .user-registration-message > a:active
 {
-	transform: scale(0.95);
+	transform: scale(0.98);
 	box-shadow: unset;
 }
 
@@ -1196,6 +1195,10 @@ a.element-container:visited {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.page-squeeze .ur-frontend-form .ur-button-container {
+  padding: 0;
 }
 
 /*

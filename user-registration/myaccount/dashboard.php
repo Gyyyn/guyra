@@ -97,7 +97,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				margin-bottom: 3rem;
 			}
 		</style>
-		<?php include get_template_directory() . '/purchase.php'; ?>
+		<?php include get_template_directory() . '/Guyra_purchase.php'; ?>
 	</div>
 
 	<?php } //no subscription ?>

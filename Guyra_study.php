@@ -61,9 +61,9 @@ if ($user_studypage_object == null) {
 }
 
 ?>
-<main id="intro-content" class="site-main squeeze">
+<main id="intro-content" class="site-main squeeze position-relative">
 
-  <div class="page-squeeze" data-aos="fade-up" data-aos-once="true"><div>
+  <div class="page-squeeze"><div>
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
       <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">

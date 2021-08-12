@@ -24,5 +24,5 @@ if (is_user_logged_in()) {
 
 // No special pages requested, continue as normal
 } else {
-  load_template(locate_template('Guyra_landing.php'));
+  load_template(locate_template('Guyra_landing_loginonly.php'));
 }
