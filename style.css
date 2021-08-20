@@ -21,6 +21,7 @@
   --guyra-green-lighter: rgba(199, 255, 112, 1);
   --guyra-green-lightest: rgba(219, 255, 164, 1);
   --guyra-green-darker: rgba(121, 200, 0, 1);
+  --guyra-green-darkest: rgba(93, 154, 0, 1);
 
   --guyra-red: rgba(255, 35, 0, 1);
   --guyra-red-lighter: rgba(255, 131, 112, 1);
@@ -33,6 +34,11 @@
   --guyra-blue-transparent-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
   --guyra-white-transparent-gradient: linear-gradient(90deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
   --guyra-white-transparent-gradient-reverse: linear-gradient(210deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
+
+  --guyra-levelmap-buttonbg-25: linear-gradient(90deg, var(--guyra-green-lightest) 0%, rgba(255, 255, 255, 0) 50%);
+  --guyra-levelmap-buttonbg-50: linear-gradient(90deg, var(--guyra-green-lightest) 25%, rgba(255, 255, 255, 0) 75%);
+  --guyra-levelmap-buttonbg-75: linear-gradient(90deg, var(--guyra-green-lightest) 50%, rgba(255, 255, 255, 0) 100%);
+  --guyra-levelmap-buttonbg-100: linear-gradient(90deg, var(--guyra-green-lightest) 100%, rgba(255, 255, 255, 0) 100%);
 
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
@@ -183,7 +189,7 @@ hr.thick {
   hr.thick {
     width: calc(40vw + 20rem);
     position: relative;
-    left: -2vw;
+    left: calc(-1rem - 3vw);
   }
 }
 
@@ -218,12 +224,19 @@ footer .squeeze nav a {
 	border-width: 1px !important;
 }
 
-.page-icon > img {
+.page-icon > img,
+img.page-icon {
 	width: calc(2.5vh + 4.5vw);
+  height: 100%;
 }
 
 img.page-icon.large {
   width: calc(15vw + 5rem);
+  height: 100%;
+}
+
+img.page-icon.medium {
+  width: calc(2.5vh + 4.5vw + 3rem);
 }
 
 /* what do i do with this */
@@ -441,13 +454,13 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 }
 
 @media (min-width: 766px) {
-	.squeeze { max-width: calc(40vw + 20rem); margin: calc(3rem + 2vw) auto; }
+	.squeeze { max-width: calc(40vw + 20rem); margin: 0 auto; }
 	.squeeze-big { max-width: 85vw; margin: calc(3rem + 2vw) auto; }
   .page-squeeze .padded-squeeze { padding: calc(3rem + 2vw) calc(17vw + 2rem); }
 }
 
 @media (max-width: 766px) {
-	.squeeze { max-width: unset; margin: calc(70px + 2vw) auto; }
+	.squeeze { max-width: unset; margin: 1rem auto; }
 	.squeeze-big { max-width: unset; margin: 2rem auto; }
 }
 
@@ -738,6 +751,17 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   max-width: unset;
 }
 
+.btn-tall {
+  padding: .5rem 1rem;
+  border-radius: calc(var(--guyra-border-radius) + 0.5rem);
+  cursor: pointer;
+}
+
+.btn-tall:active {
+  border-bottom: 0 !important;
+}
+
+.btn-tall,
 .page-squeeze .list-group.study-menu .list-group-item,
 .lost_password a,
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
@@ -752,6 +776,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   text-decoration: none;
 }
 
+.btn-tall:hover,
 .page-squeeze .list-group.study-menu .list-group-item:hover,
 .lost_password a:hover,
 .ur-frontend-form .ur-button-container .ur-submit-button:hover {
@@ -759,18 +784,49 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   border-bottom-color: var(--guyra-grey-darker) !important;
 }
 
+.btn-tall.blue,
 .page-squeeze .list-group.study-menu .list-group-item.active,
 .page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"],
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button {
   border-bottom-color: var(--guyra-blue-darker) !important;
   background-color: var(--guyra-blue) !important;
-    color: var(--guyra-white);
+  color: var(--guyra-white);
 }
 
+.btn-tall.blue:hover,
 .page-squeeze .list-group.study-menu .list-group-item.active:hover,
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover {
   background: var(--guyra-blue-darker) !important;
   border-bottom-color: var(--guyra-blue-darkest) !important;
+}
+
+.btn-tall.green {
+  border-bottom-color: var(--guyra-green-darker) !important;
+  background-color: var(--guyra-green) !important;
+  color: var(--guyra-white);
+}
+
+.btn-tall.green:hover {
+  background: var(--guyra-green-darker) !important;
+  border-bottom-color: var(--guyra-green-darkest) !important;
+}
+
+.btn-tall.black {
+	background-color: var(--guyra-grey-darker) !important;
+  border-bottom-color: var(--guyra-grey-darkest) !important;
+  color: var(--guyra-white);
+}
+
+.btn-tall.black:hover {
+	background-color: var(--guyra-grey-darkest) !important;
+  border-bottom-color: var(--guyra-black) !important;
+}
+
+#exercise-container .exercise-answers .btn-tall {
+  flex-grow: 1;
+  justify-content: center;
+  margin: .25rem;
+  min-width: 5rem;
 }
 
 @media (max-width: 766px) {
@@ -803,37 +859,29 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 
 .exercise-dialog {
 	border: .25rem solid var(--guyra-black);
-	border-radius: 2rem 2rem 2rem 0;
+	border-radius: 2rem;
 	padding: 2rem;
 	font-size: var(--guyra-fonts-textsize-x);
 	font-family: "Komika";
   box-shadow: var(--guyra-box-shadow-bigger);
 }
 
-.exercise-hints,
-#exercise-container .exercise-answers-wordbank .btn {
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
-}
-
-#exercise-container .exercise-answers-wordbank .btn {
-	color: var(--guyra-white);
-	background-color: var(--guyra-grey-darkest);
-  border-bottom-color: var(--guyra-black);
-	border-radius: 1.2em;
-	box-shadow: none;
-	cursor: pointer;
-	display: inline-block;
-	font-size: var(--guyra-fonts-textsize-n);
-	padding: .667em 1.333em;
-	text-align: center;
-	text-decoration: none;
-	margin: .25rem;
-	margin-top: 1rem;
-}
-
 #exercise-container .exercise-squeeze .btn.btn-correct {
 	background-color: var(--guyra-green);
 	transition: var(--guyra-transition);
+}
+
+.dialog-arrow {
+  width: 0;
+  height: 0;
+  border-right: 2rem var(--guyra-black) solid;
+  border-top: 0rem solid transparent;
+  border-bottom: 2rem solid transparent;
+  margin-bottom: 3rem;
+}
+
+.exercise-question {
+  margin-bottom: 1rem;
 }
 
 .exercise-answers,
@@ -846,15 +894,13 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   justify-content: space-between;
   flex-grow: 1;
   height: max-content;
-}
-
-.exercise-answers-wordbank .btn {
-  flex-grow: 1;
+  flex-wrap: wrap;
 }
 
 .control-area {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .exercise-hints {
@@ -865,6 +911,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   align-items: center;
   justify-content: space-between;
   border-radius: var(--guyra-border-radius);
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
 }
 
 .exercise-hints.info {
@@ -872,12 +919,14 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
   border-bottom-color: var(--guyra-blue-lighter);
 }
 
-.exercise-hints.correct {
+.exercise-hints.correct,
+.answers-review-card.correct {
   background: var(--guyra-green-lightest);
   border-bottom-color: var(--guyra-green-lighter);
 }
 
-.exercise-hints.wrong {
+.exercise-hints.wrong,
+.answers-review-card.wrong {
   background: var(--guyra-red-lightest);
   border-bottom-color: var(--guyra-red-lighter);
 }
@@ -916,6 +965,27 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .exercise-icon > img {
   max-width: calc(1.5rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
+}
+
+.answers-review {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.answers-review-card {
+    padding: 2rem;
+    border-radius: var(--guyra-border-radius);
+    background: var(--guyra-grey);
+    margin: 1rem;
+    flex-grow: 1;
+    font-size: var(--guyra-fonts-textsize-s);
+    border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+}
+
+.answers-review-question {
+    border-bottom: .25rem solid var(--guyra-black);
+    margin-bottom: 1rem;
+    font-size: var(--guyra-fonts-textsize-n);
 }
 
 /*
@@ -1022,7 +1092,7 @@ a.element-container:visited {
 
 .page-squeeze > div {
 	background: #fff;
-	padding: 2vw;
+	padding: calc(1rem + 3vw);
 }
 
 .page-squeeze article .entry-title,
@@ -1148,10 +1218,11 @@ a.element-container:visited {
 }
 
 .page-squeeze #user-registration .premium-badge {
-	padding: 0.1rem 0.3rem;
-	font-size: 0.7rem;
-	align-self: center;
-	cursor: default;
+  padding: .1rem .3rem;
+  font-size: var(--guyra-fonts-textsize-sss);
+  align-self: center;
+  cursor: default;
+  letter-spacing: 0;
 }
 
 .page-squeeze .ur-profile-picture { border-radius: 50%; }

@@ -46,6 +46,38 @@ function getPossibleAnswers(phraseList) {
 
 }
 
+function synthSpeak(phrase) {
+  var synth = window.speechSynthesis;
+  var uttern = new SpeechSynthesisUtterance(phrase);
+  synth.speak(uttern);
+}
+
+function getRandomAvatar() {
+  rand = randomNumber(1, 4);
+  switch (rand) {
+    case 1:
+      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/boy.png')
+    break;
+
+    case 2:
+        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/man.png')
+    break;
+
+    case 3:
+        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/girl.png')
+    break;
+
+    case 4:
+        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
+    break;
+
+    default:
+        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
+    break;
+
+  }
+}
+
 /*
 * -------- Activity handlers
 *
@@ -63,7 +95,8 @@ function activityCompleteThePhrase(phraseList, question) {
       phrase.replace(regex,'____'),
       getPossibleAnswers(phraseList),
       poi,
-      hint
+      hint,
+      phrase
     ];
 }
 
@@ -83,7 +116,7 @@ class AnswerButton extends React.Component {
     return e(ExerciseContext.Consumer, null, ({currentQuestion, CheckAnswer}) => e(
       'a',
       {
-        className: 'btn',
+        className: 'btn-tall black',
         onClick: () => { CheckAnswer(this.props.value, currentQuestion) }
       },
       this.props.value
@@ -114,39 +147,110 @@ class AnswerTextArea extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({textareaCheck}) => e(
+    return e(ExerciseContext.Consumer, null, ({CheckAnswer, alreadyAnswered, setNewActivity}) => e(
       'textarea',
       {
-        id: "exercise-answer-textarea"
+        id: "exercise-answer-textarea",
+        onKeyDown: (i) => {
+          let t = document.getElementById("exercise-answer-textarea");
+          if (i.keyCode === 13) {
+            i.preventDefault();
+              if(!alreadyAnswered) {
+                CheckAnswer(t.value);
+              } else {
+                setNewActivity()
+              }
+          }
+        }
       }
     ));
   }
 }
 
-function CurrentQuestion(props) {
+function QuestionDialog(props) {
   return (
-    e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType}) => e(
+    e('div',
+      {
+        className: "exercise-question d-flex flex-row justify-content-center align-items-end"
+      },
+
+      e(
+        'img',
+        {
+          className: "page-icon medium",
+          src: props.avatarURL
+        }
+      ),
+      e('div', {className: "dialog-arrow"}),
+      e(
+        'div',
+        {
+          className: "exercise-dialog"
+        },
+        props.values[0]
+      )
+    )
+  )
+}
+
+class CurrentQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType, avatarURL}) => e(
         'div',
         {
           className: 'exercise',
           'data-aos': "fade-up"
         },
+        e(QuestionDialog, {values: values, avatarURL: avatarURL}),
         hintArea,
-        e('div',
-          {className: "exercise-dialog"},
-          values[0].concat(' ', values[3])
-        ),
         e(
           'div',
           {
-            className: "d-flex my-3 exercise-answers"
+            className: "d-flex exercise-answers"
           },
           e(answerType, {answers: values[1], correctAnswer: values[2]}),
         ),
         controlArea
-      ),
+      )
     )
-  )
+  }
+}
+
+function hintAreaHint(props) {
+
+  return e(ExerciseContext.Consumer, null, ({values}) => e(
+    'div',
+    null,
+    "Hint: ".concat(values[3])
+  ));
+
+}
+
+class ReviewAnswers extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return e(
+      'div',
+      {'data-aos': "fade-up"},
+      e('div', {className: "answers-review"}, this.props.answers.map((x) => {
+        return e(
+          'div',
+          {className: "answers-review-card ".concat(x[3])},
+          e('div', {className: "answers-review-question"}, x[0]),
+          e('div', {className: "answers-review-correct"}, "Resposta certa: ".concat(x[1])),
+          e('div', {className: "answers-review-answer"}, "Sua resposta: ".concat(x[2]))
+        )
+      })),
+      e(ExerciseContext.Consumer, null, ({returnToLevelMapButton}) => returnToLevelMapButton)
+    )
+  }
 }
 
 /*
@@ -220,6 +324,75 @@ function LevelChooser(props) {
 }
 
 /*
+* -------- Misc Buttons & other reusable elements
+*
+*
+*
+*/
+
+// Returns a bootstrap modal and the corresponding button trigger
+function BootstrapModal(props) {
+  return e(
+    'div',
+    null,
+    e(
+      'a',
+      {
+        type: "button",
+        className: props.buttonclasses,
+        "data-bs-toggle": "modal",
+        "data-bs-target": '#'.concat(props.target)
+      },
+      props.button
+    ),
+    e(
+      'div',
+      {
+        class:"modal fade",
+        id: props.target,
+        tabindex: "-1",
+        "aria-hidden": "true",
+        "data-bs-backdrop": "false"
+      },
+      e(
+        'div',
+        {
+          class:"modal-dialog",
+        },
+        e(
+          'div',
+          {
+            class:"modal-content",
+          },
+          e(
+            'div',
+            {
+              class:"modal-header",
+            },
+            e(
+              'button',
+              {
+                type: "button",
+                className: "btn-close",
+                "data-bs-dismiss": "modal",
+                "aria-label": "close"
+              }
+            )
+          ),
+          e(
+            'div',
+            {
+              class:"modal-body",
+            },
+            props.text
+          )
+        )
+      )
+    )
+  )
+}
+
+/*
 * -------- App class
 *
 *
@@ -257,7 +430,7 @@ class App extends React.Component {
     this.returnToLevelMapButton = e(
       'a',
       {
-        className: 'btn btn-sm',
+        className: 'btn-tall',
         onClick: () => {
 
         this.setState({
@@ -274,30 +447,46 @@ class App extends React.Component {
     this.checkAnswerButton = e(
       'a',
       {
-        className: 'btn btn-correct',
-        onClick: () => { this.CheckAnswer(document.getElementById("exercise-answer-textarea").value) }
+        className: 'btn-tall green',
+        onClick: () => { this.CheckAnswerWithTextArea() }
       },
       'Checar'
+    )
+
+    this.controlAreaButtons = e(
+      'div',
+      { className: "d-flex" },
+      e(
+        BootstrapModal,
+        {
+          target: "explain-modal",
+          text: "text",
+          buttonclasses: "btn-tall",
+          button: "❔"
+        }
+      ),
+      e(ExerciseContext.Consumer, null, ({switchAnswerType}) => e(
+        'a',
+        {
+          onClick: () => { switchAnswerType() },
+          className: "btn-tall dark ms-1"
+        },
+        '🍭'
+      ))
+
     )
 
     this.controlArea = e(
       'div',
       {className: 'control-area'},
       this.checkAnswerButton,
-      e(ExerciseContext.Consumer, null, ({switchAnswerType}) => e(
-        'button',
-        {
-          onClick: () => { switchAnswerType() },
-          className: "btn btn-primary"
-        },
-        '🍭'
-      ))
+      this.controlAreaButtons
     )
 
     this.hintAreaInfo = e(
       'div',
       {className: 'exercise-hints info'},
-      e('span', {className: 'exercise-hints-hint'}, 'Clique na resposta certa...'),
+      e('span', {className: 'exercise-hints-hint'}, e(hintAreaHint)),
       this.returnToLevelMapButton
     )
 
@@ -338,8 +527,25 @@ class App extends React.Component {
       {
         className: 'exercise-hints correct'
       },
-      e('span', {className: 'exercise-hints-hint'}, 'Done!'),
-      this.returnToLevelMapButton
+      e('div', {className: 'd-flex'},
+        e('span', {className: 'exercise-hints-hint me-1'}, 'Muito bem!'),
+        e('span', {className: 'exercise-hints-hint me-1'}, 'Sua nota: '.concat(this.score)),
+      ),
+      e('div', {className: 'd-flex'},
+        e(
+          'a',
+          {
+            className: 'btn-tall me-1',
+            onClick: () => {
+              this.setState({
+                  page: e(ReviewAnswers, {answers: this.state.answers})
+              });
+            }
+          },
+          'Review'
+        ),
+        this.returnToLevelMapButton
+      )
     )
 
     this.LevelChooser = e(LevelChooser);
@@ -357,11 +563,11 @@ class App extends React.Component {
       alreadyAnswered: false,
       answeredCorrect: false,
       setNewActivity: this.setNewActivity,
-      textareaCheck: this.textareaCheck,
       switchAnswerType: this.switchAnswerType,
       CheckAnswer: this.CheckAnswer,
       hintArea: this.hintAreaInfo,
       controlArea: this.controlArea,
+      returnToLevelMapButton: this.returnToLevelMapButton,
       page: this.LoadingPage,
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON,
@@ -369,8 +575,10 @@ class App extends React.Component {
       answers: [],
       difficulty: 0,
       activityType: '',
-      answerType: AnswerTextArea
+      answerType: AnswerTextArea,
+      avatarURL: getRandomAvatar()
     };
+
   }
 
   componentDidMount() {
@@ -399,16 +607,14 @@ class App extends React.Component {
 
   }
 
-  textareaCheck = (value) => {
-    var key = window.event.keyCode;
-    if (key === 13) {
-        console.log("did");
-    }
-  }
-
   setNewActivity = () => {
 
     this.questionsAlreadyAnswered.push(this.currentQuestion);
+
+    this.setState({
+      answerType: AnswerTextArea,
+      avatarURL: getRandomAvatar()
+    });
 
     if(this.questionsAlreadyAnswered.length == this.exerciseLength) {
 
@@ -457,9 +663,16 @@ class App extends React.Component {
   }
 
   CheckAnswer = (answer, answerID) => {
+
+    let answered = "wrong";
+
+    // Check if answer was already given
     if(this.state.alreadyAnswered == false) {
 
-      if(answer == this.state.values[2]) {
+      // Check the answer, all in lower case
+      if(answer.toLowerCase() == this.state.values[2].toLowerCase()) {
+
+        answered = "correct";
 
         this.setState({
           answeredCorrect: true,
@@ -468,9 +681,12 @@ class App extends React.Component {
         });
 
         this.correctHitSound.play();
+        synthSpeak(this.state.values[4]);
 
       } else {
 
+        // If answer was wrong push exercise num to retry list,
+        // reset state and apply score function
         if (this.needToRetry.indexOf(answerID) === -1) {
           this.needToRetry.push(answerID);
         }
@@ -487,18 +703,23 @@ class App extends React.Component {
         this.wrongHitSound.play();
       }
 
-      if(this.state.answers[this.currentQuestion] == undefined) {
-        this.state.answers[this.currentQuestion] = [answer];
-      } else if (this.state.answers[this.currentQuestion].indexOf(answer) === -1) {
-        this.state.answers[this.currentQuestion].push(answer);
-      }
+      this.setState({
+        score: this.score,
+      });
 
+      this.state.answers.push([this.state.values[0], this.state.values[4], answer, answered]);
+
+      // Resets answer field
       if (this.state.answerType == AnswerTextArea) {
         document.getElementById("exercise-answer-textarea").value = "";
       }
 
     }
 
+  }
+
+  CheckAnswerWithTextArea() {
+    this.CheckAnswer(document.getElementById("exercise-answer-textarea").value)
   }
 
   loadActivityByType(object, type) {
@@ -518,7 +739,8 @@ class App extends React.Component {
     this.setState({
       values: this.loadActivityByType(object, this.state.activityType),
       currentQuestion: this.currentQuestion,
-      page: this.exerciseActiveContainer
+      page: this.exerciseActiveContainer,
+      hintArea: this.hintAreaInfo
     })
 
     this.exerciseStartSound.play();
@@ -547,7 +769,7 @@ class App extends React.Component {
       alreadyAnswered: false,
       answeredCorrect: false,
       answers: [],
-      score: this.score,
+      score: 100,
       activityType: ''
     })
   }

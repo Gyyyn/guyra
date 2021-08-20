@@ -102,7 +102,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <?php } else { ?>
           <li class="nav-item profile-item">
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_myaccount'] ?></a>
-            <div class="dropstart m-0 d-inline">
+            <div class="dropdown m-0 d-inline">
               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil</a></li>

@@ -11,33 +11,33 @@ $masterJSON = [
   "level1" => [
 
     "unit1" => [
-      ["I am John.", "am", "(to be)"],
-      ["Hello! How are you?", "are", "(to be)"],
-      ["Are you from here?", "from", "(preposition)"],
-      ["We are from England.", "are from", "(to be + preposition)"],
-      ["She is really pretty!", "is", "(to be)"],
-      ["I am English.", "I", "(pronoun)"],
-      ["My friend is from Brazil.", "is from", "(to be + preposition)"],
-      ["Nice to meet you.", "meet", "(verb starting with M)"],
-      ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(pronoun + to be abbreviated)"],
-      ["My friend and I are students.", "and I", "(conjuction + pronoun)"],
-      ["We are American.", "We", "(pronoun)"]
+      ["I am John.", "am", "(sou)"],
+      ["Hello! How are you?", "are", "(está)"],
+      ["Are you from here?", "from", "(da)"],
+      ["We are from England.", "are from", "(somos da)"],
+      ["She is really pretty!", "is", "(é)"],
+      ["I am English.", "I", "(eu)"],
+      ["My friend is from Brazil.", "is from", "(é do)"],
+      ["Nice to meet you.", "meet", "(conhecer)"],
+      ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(eu sou)"],
+      ["My friend and I are students.", "and I", "(e eu)"],
+      ["We are American.", "We", "(nós)"]
     ],
 
     "unit2" => [
-      ["What's in your bag?", "in your", "(preposition + possesive starting with Y)"],
-      ["This is my phone. It has my case.", "is my", "(to be + possesive)"],
-      ["Are these your keys?", "these your", "(determiner + possesive starting with Y)"],
-      ["These are his books.", "are his", "(to be + possesive starting with H)"],
-      ["I have a car.", "have a", "(verb starting with H + article)"],
-      ["Our house is big!", "Our", "(possesive starting with O)"],
-      ["Do you have a TV at home?", "you have", "(pronoun + verb starting with H)"],
-      ["I have three watches and a clock.", "have three", "(verb starting with H + numeral)"],
-      ["Where is your house?", "your house", "(possesive starting with Y + noun)"],
-      ["What's her address?", "'s her", "(abbreviated to be + possesive)"],
-      ["It is far from here, not close.", "is far", "(to be + adjective)"],
-      ["What's your phone number", "your phone", "(possesive starting with Y + noun)"],
-      ["Can you help me?", "me", "(pronoun starting with M)"]
+      ["What's in your bag?", "in your", "(na sua)"],
+      ["This is my phone. It has my case.", "is my", "(é meu)"],
+      ["Are these your keys?", "these your", "(essas são)"],
+      ["These are his books.", "are his", "(são dele)"],
+      ["I have a car.", "have a", "(tenho um)"],
+      ["Our house is big!", "Our", "(nosso)"],
+      ["Do you have a TV at home?", "you have", "(você tem)"],
+      ["I have three watches and a clock.", "have three", "(tenho três)"],
+      ["Where is your house?", "your house", "(sua casa)"],
+      ["What is her address?", "is her", "(é dela)"],
+      ["It is far from here, not close.", "is far", "(é longe)"],
+      ["What's your phone number", "your phone", "(seu celular)"],
+      ["Can you help me?", "me", "(eu)"]
     ],
 
   ],
@@ -58,29 +58,29 @@ $masterJSON = [
     ],
 
     "unit4" => [
-      ["I'm working today.", "'m work", "(abbreviated to be + verb starting with W)"],
-      ["Are you studying now?", "study", "(verb starting with S)"],
-      ["She works at night.", "works", "(verb starting with W)"],
-      ["I'm living downtown nowadays.", "I'm", "(pronoun + abbreviated to be)"],
-      ["Where are you going?", "Where", "(place question word)"],
-      ["What are you going to do later?", "going", "(verb starting with G)"],
-      ["What are you doing?", "are you", "(to be + pronoun starting with Y)"],
-      ["What's she doing?", "doing", "(verb starting with D)"],
-      ["She's having breakfast.", "having", "(verb starting with H)"],
-      ["It's late so he's sleeping.", "'s sleeping", "(abbreviated to be + verb starting with S)"]
+      ["I am working today.", "am work", "(estou trabalhando)"],
+      ["Are you studying now?", "study", "(estudando)"],
+      ["She works at night.", "works", "(trabalha)"],
+      ["I am living downtown nowadays.", "I am", "(eu estou)"],
+      ["Where are you going?", "Where", "(onde)"],
+      ["What are you going to do later?", "going", "(vai)"],
+      ["What are you doing?", "are you", "(você está)"],
+      ["What's she doing?", "doing", "(fazendo)"],
+      ["She's having breakfast.", "having", "(tomando)"],
+      ["It's late so he is sleeping.", "is sleeping", "(está dormindo)"]
     ],
 
     "unit5" => [
-      ["I always eat breakfast.", "always eat", "(adverb starting with A + verb starting with E)"],
-      ["I sometimes work late.", "late", "(adjective starting with L)"],
-      ["He works a lot.", "works", "(verb starting with W)"],
-      ["We always eat in that restaurant.", "eat in", "(verb starting with E + preposition)"],
-      ["He usually drives to work.", "drives", "(verb starting with D)"],
-      ["She rarely plays tennis.", "plays", "(verb starting with P)"],
-      ["I always sleep late on weekends.", "I always", "(pronoun + adverb starting with A)"],
-      ["Do you ever eat out?", "you", "(pronoun starting with Y)"],
-      ["I never take the bus.", "bus", "(noun starting with B)"],
-      ["My friend always studies a lot for exams.", "studies", "(verb starting with S)"]
+      ["I always eat breakfast.", "always eat", "(sempre como)"],
+      ["I sometimes work late.", "late", "(tarde)"],
+      ["He works a lot.", "works", "(trabalha)"],
+      ["We always eat in that restaurant.", "eat in", "(come na)"],
+      ["He usually drives to work.", "drives", "(dirige)"],
+      ["She rarely plays tennis.", "plays", "(joga)"],
+      ["I always sleep late on weekends.", "I always", "(eu sempre)"],
+      ["Do you ever eat out?", "Do you", "(você)"],
+      ["I never take the bus.", "bus", "(ônibus)"],
+      ["My friend always studies a lot for exams.", "studies", "(estuda)"]
     ]
 
   ],
@@ -88,55 +88,55 @@ $masterJSON = [
   "level3" => [
 
     "unit6" => [
-      ["Do you live in an apartment?", "live in", "(verb starting with L + preposition)"],
-      ["Where do you live?", "do you", "(auxiliary + pronoun starting with Y)"],
-      ["There isn't a TV in my house.", "isn't", "(negative abbreviated to be)"],
-      ["There are two fridges in my kitchen. I need a second one.", "are two", "(to be + numeral)"],
-      ["There aren't any pictures in my apartment.", "There aren't", "(pronoun + negative to be)"],
-      ["Is there a bathroom here? I want to take a shower.", "a bathroom", "(article + noun starting with B)"],
-      ["Where is the toilet? I need to wash my hands.", "the toilet", "(article + noun starting with T)"],
-      ["There are thirteen rooms in this house.", "in this house", "(preposition + determiner + noun starting with H)"],
-      ["Where is your room?", "is your", "(to be + pronoun starting with Y)"],
-      ["There is a café near here, it's only one block.", "near here", "(adjective starting with N + adverb)"]
+      ["Do you live in an apartment?", "live in", "(mora em)"],
+      ["Where do you live?", "do you", "(você)"],
+      ["There isn't a TV in my house.", "isn't", "(não é)"],
+      ["There are two fridges in my kitchen. I need a second one.", "are two", "(tem dois)"],
+      ["There aren't any pictures in my apartment.", "There aren't", "(não tem)"],
+      ["Is there a bathroom here? I want to take a shower.", "a bathroom", "(um banheiro)"],
+      ["Where is the toilet? I need to wash my hands.", "the toilet", "(o banheiro)"],
+      ["There are thirteen rooms in this house.", "in this house", "(nessa casa)"],
+      ["Where is your room?", "is your", "(é seu)"],
+      ["There is a café near here, it's only one block.", "near here", "(perto daqui)"]
     ],
 
     "unit7" => [
-      ["I'm a mechanic. I work with cars.", "mechanic", "(noun starting with M)"],
-      ["I work in an office. I'm an accountant.", "an office", "(article + noun starting with M)"],
-      ["I work in a restaurant as a server.", "restaurant as a", "(noun + adverb + article)"],
-      ["My friend is a manager in a hotel.", "friend is a", "(noun starting F + to be + article)"],
-      ["My mother works at home.", "works", "(verb starting with W)"],
-      ["Where do you work?", "Where", "(place question word)"],
-      ["How do you like your job?", "like your", "(verb starting with L + pronoun starting with Y)"],
-      ["How does he like working as a journalist?", "does he like", "(auxiliary verb + pronoun starting with H + verb starting with L)"],
-      ["Photographer is a difficult job.", "a difficult", "(article + adjective starting with A)"],
-      ["Working as a firefighter is stressful", "is stressful", "(to be + adjective starting with S)"]
+      ["I'm a mechanic. I work with cars.", "mechanic", "(mecânico)"],
+      ["I work in an office. I'm an accountant.", "an office", "(um escritorio)"],
+      ["I work in a restaurant as a server.", "restaurant as a", "(restaurante como um)"],
+      ["My friend is a manager in a hotel.", "friend is a", "(amigo é um)"],
+      ["My mother works at home.", "works", "(trabalha)"],
+      ["Where do you work?", "Where", "(onde)"],
+      ["How do you like your job?", "like your", "(gosta do seu)"],
+      ["How does he like working as a journalist?", "does he like", "(ele gosta)"],
+      ["Photographer is a difficult job.", "a difficult", "(um dificil)"],
+      ["Working as a firefighter is stressful", "is stressful", "(é estressante)"]
     ],
 
     "unit8" => [
-      ["I study animals. It's very interesting.", "I study", "()"],
-      ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "()"],
-      ["My friend is a waiter. It's very busy", "very busy", "()"],
-      ["My girlfriend is a chef. She's very talented with food.", "talented with food", "()"],
-      ["My brother is a dancer. He's needs to be fit!", "be fit", "()"],
-      ["We are travel agents. We talk to people all day.", "talk to people", "()"],
-      ["I'm a consultant. I visit many companies.", "visit many", "()"],
-      ["I need to wake up early for my job.", "need to", "()"],
-      ["I travel to a lot of different countries.", "lot of different", "()"],
-      ["When do you start work?", "you start", "()"]
+      ["I study animals. It's very interesting.", "I study", "(eu estudo)"],
+      ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "(motorista de taxi)"],
+      ["My friend is a waiter. It's very busy", "very busy", "(muito agitado)"],
+      ["My girlfriend is a chef. She's very talented with food.", "talented with food", "(talentosa com comida)"],
+      ["My brother is a dancer. He's needs to be fit!", "be fit", "(estar em forma)"],
+      ["We are travel agents. We talk to people all day.", "talk to people", "(falamos com pessoas)"],
+      ["I'm a consultant. I visit many companies.", "visit many", "(visitamos vários)"],
+      ["I need to wake up early for my job.", "need to", "(preciso)"],
+      ["I travel to a lot of different countries.", "lot of different", "(muitos diferentes)"],
+      ["When do you start work?", "you start", "(você começa)"]
     ],
 
     "unit9" => [
-      ["I wake up early every day.", "every", "()"],
-      ["I'm working in a new company.", "a new", "()"],
-      ["She's a morning person. She likes the early hours.", "morning person", "()"],
-      ["He works better at night. He's a night owl.", "night owl", "()"],
-      ["How do you feel in the morning?", "feel in", "()"],
-      ["What's your routine like?", "your routine", "()"],
-      ["I need to go to the store.", "need to", "()"],
-      ["I'll make dinner now.", "now", "()"],
-      ["Oh, I don't study. I already finished university.", "don't study", "()"],
-      ["Can you speak English?", "speak", "()"]
+      ["I wake up early every day.", "every", "(todos)"],
+      ["I'm working in a new company.", "a new", "(um novo)"],
+      ["She's a morning person. She likes the early hours.", "morning person", "(pessoa matinal)"],
+      ["He works better at night. He's a night owl.", "night owl", "(coruja noturna)"],
+      ["How do you feel in the morning?", "feel in", "(sente na)"],
+      ["What's your routine like?", "your routine", "(sua rotina)"],
+      ["I need to go to the store.", "need to", "(precisa)"],
+      ["I'll make dinner now.", "now", "(agora)"],
+      ["Oh, I don't study. I already finished university.", "don't study", "(não estudo)"],
+      ["Can you speak English?", "speak", "(falar)"]
     ]
 
   ],
@@ -144,43 +144,43 @@ $masterJSON = [
   "level4" => [
 
     "unit10" => [
-      ["I'm going to go the store in a few minutes.", "go to the"],
-      ["He's going to have a party tonight.", "going to"],
-      ["What are you going to do for ", "you going"],
-      ["I'm not going to take the class today.", "to take"],
-      ["Where are you going to eat?", "are you"],
-      ["What are you going to do tomorrow?", "do tomorrow"],
-      ["They are not going to take the car.", "not going"],
-      ["This is the first time I'm going to eat there.", "first time"],
-      ["Are you going to exercise today?", "exercise today"],
-      ["We are going to work late today unfortunately.", "late today"],
-      ["My friends and I aren't going, sorry?", "aren't"]
+      ["I'm going to go the store in a few minutes.", "go to the", "(ir a)"],
+      ["He's going to have a party tonight.", "going to", "(vai)"],
+      ["What are you going to do for ", "you going", "(você vai)"],
+      ["I'm not going to take the class today.", "to take", "(fazer)"],
+      ["Where are you going to eat?", "are you", "(você)"],
+      ["What are you going to do tomorrow?", "do tomorrow", "(fazer amanhã)"],
+      ["They are not going to take the car.", "not going", "(não vai)"],
+      ["This is the first time I'm going to eat there.", "first time", "(primeira vez)"],
+      ["Are you going to exercise today?", "exercise today", "(se exercitar hoje)"],
+      ["We are going to work late today unfortunately.", "late today", "(tarde hoje)"],
+      ["My friends and I aren't going, sorry?", "aren't", "(não)"]
     ],
 
     "unit11" => [
-      ["I will be home today.", "be"],
-      ["He won't like that present.", "like that"],
-      ["We will go on vacation in Italy.", "will go"],
-      ["I'll probably go out for dinner.", "go out for"],
-      ["Won't you come with us? ", "come with"],
-      ["I'll be waiting for you", "waiting"],
-      ["Will you come with us?", "you come"],
-      ["I'll be there in a few minutes.", "in a few"],
-      ["Will this much be enough?", "this much"],
-      ["We'll see.", "'ll see'"]
+      ["I will be home today.", "be", "(estar)"],
+      ["He won't like that present.", "like that", "(gostar desse)"],
+      ["We will go on vacation in Italy.", "will go", "(vamos ir)"],
+      ["I'll probably go out for dinner.", "go out for", "(sair para)"],
+      ["Won't you come with us? ", "come with", "(vir junto)"],
+      ["I'll be waiting for you", "waiting", "(esperando)"],
+      ["Will you come with us?", "you come", "(você vem)"],
+      ["I'll be there in a few minutes.", "in a few", "(em alguns)"],
+      ["Will this much be enough?", "this much", "(essa quantidade)"],
+      ["We will see.", "will see'", "(vamos ver)"]
     ],
 
     "unit12" => [
-      ["Today's the fifth. (5th)", "fifth"],
-      ["Tomorrow will be the seventeenth 17th", "seventeenth"],
-      ["I'm going there tomorrow.", "'m going'"],
-      ["Are you free on Monday afternoon?", "on Monday"],
-      ["This week is crazy but how about on the fourth? (4th)", "fourth"],
-      ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth"],
-      ["What are you going to do for Valentine's?", "going to do"],
-      ["My birthday is on the thirtieth. (30th)", "thirtieth"],
-      ["Easter is next week on the third! (3rd)", "third"],
-      ["I'm going to visit my parents on New Year's.", "on New"]
+      ["Today's the fifth. (5th)", "fifth", "(quinto)"],
+      ["Tomorrow will be the seventeenth 17th", "seventeenth", "(décimo sétimo)"],
+      ["I am going there tomorrow.", "am going'", "(estou indo)"],
+      ["Are you free on Monday afternoon?", "on Monday", "(na segunda)"],
+      ["This week is crazy but how about on the fourth? (4th)", "fourth", "(quarto)"],
+      ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth", "(vigésimo quinto)"],
+      ["What are you going to do for Valentine's?", "going to do", "(vai fazer)"],
+      ["My birthday is on the thirtieth. (30th)", "thirtieth", "(décimo terceiro)"],
+      ["Easter is next week on the third! (3rd)", "third", "(terceiro)"],
+      ["I'm going to visit my parents on New Year's.", "on New", "(no Novo)"]
     ]
 
   ],
@@ -188,24 +188,24 @@ $masterJSON = [
   "level5" => [
 
     "unit13" => [
-      ["Would you like to go to a restaurant?", "Would you"],
-      ["Do you want to take a trip to Hawaii?", "you want"],
-      ["Would you like to go see a Coldplay concert?", "Would you like"],
-      ["Would you like a piece of the cake?", "you like a"],
-      ["Do you want to see a movie", "Do you"],
-      ["Do you want to watch old movies together?", "to watch"],
-      ["Do you think she'd like to go on a date with me?", "to go on a"],
-      ["Are you free this afternoon?", "free this"],
-      ["There's a cool movie playing in the cinema!", "playing in"],
-      ["Well, I'm free today...", "'m free"]
+      ["Would you like to go to a restaurant?", "Would you", "(você)"],
+      ["Do you want to take a trip to Hawaii?", "you want", "(você quer)"],
+      ["Would you like to go see a Coldplay concert?", "Would you like", "(você gostaria)"],
+      ["Would you like a piece of the cake?", "you like a", "(você gostaria de um)"],
+      ["Do you want to see a movie", "Do you", "(você)"],
+      ["Do you want to watch old movies together?", "to watch", "(assistir)"],
+      ["Do you think she'd like to go on a date with me?", "to go on a", "(ir em um)"],
+      ["Are you free this afternoon?", "free this", "(livre essa)"],
+      ["There's a cool movie playing in the cinema!", "playing in", "(passando no)"],
+      ["Well, I am free today...", "am free", "(estou livre)"]
     ],
 
     "unit14" => [
-      ["Did you work yesterday?", "you work"],
-      ["I made some cake, would you like some?", "made some"],
-      ["She didn't go anywhere this week.", "didn't go"],
-      ["Did you and your friends have fun yesterday?", "Did you"],
-      ["Have you finished for the day already?", "you finished"],
+      ["Did you work yesterday?", "you work", "(você trabalhou)"],
+      ["I made some cake, would you like some?", "made some", "(fiz um pouco)"],
+      ["She didn't go anywhere this week.", "didn't go", "(não foi)"],
+      ["Did you and your friends have fun yesterday?", "Did you", "(você)"],
+      ["Have you finished for the day already?", "you finished", "(você terminou)"],
       ["He didn't come today.", "come"],
       ["Did she like the trip?", "like the"],
       ["We went swimming and then walked on the beach.", "went"],

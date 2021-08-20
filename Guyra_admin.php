@@ -1,6 +1,6 @@
 <?php
 echo '
-  <a class="btn btn-primary position-absolute top-0 start-0 translate-middle" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
+  <a class="btn btn-primary position-absolute top-25 start-0 translate-middle" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
     🎁
   </a>';
 
@@ -52,6 +52,10 @@ echo '
       dd-mm-yyyy formatted date: <input type="text" name="litetill">
       <input type="submit" value="Go" />
   </form>
+
+  <hr />
+
+  <?php print_r($_COOKIE); ?>
 
 </div>
 <?php
