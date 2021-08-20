@@ -27,28 +27,6 @@
 			)
 		);
 		?>
-	</div><!-- .entry-content -->
+	</div>
 
-	<?php if ( get_edit_post_link() ) : ?>
-		<footer class="entry-footer mt-5 pt-3 text-end fs-4">
-			<?php
-			edit_post_link(
-				sprintf(
-					wp_kses(
-						/* translators: %s: Name of current post. Only visible to screen readers */
-						__( 'Editar <span class="screen-reader-text">%s</span>', 'guyra' ),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					),
-					wp_kses_post( get_the_title() )
-				),
-				'<span class="edit-link">',
-				'</span>'
-			);
-			?>
-		</footer><!-- .entry-footer -->
-	<?php endif; ?>
-</article><!-- #post-<?php the_ID(); ?> -->
+</article>

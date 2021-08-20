@@ -15,7 +15,7 @@
  get_header();
  ?>
 
- 	<main id="intro-content" class="site-main archive squeeze">
+ 	<main id="intro-content" class="site-main page squeeze">
          <div class="page-squeeze"><div>
 
  		<?php if ( have_posts() ) : ?>

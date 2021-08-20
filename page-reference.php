@@ -11,7 +11,7 @@ get_header();
 include get_template_directory() . '/i18n.php';
 ?>
 
-<main id="intro-content" class="site-main squeeze">
+<main id="intro-content" class="site-main study squeeze">
 
   <div class="page-squeeze" data-aos="fade-up" data-aos-once="true"><div>
 

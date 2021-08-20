@@ -27,6 +27,7 @@ $gi18n = [
 	'privacy' => 'Privacidade',
 	'terms' => 'Termos de uso',
 	'schools' => 'Escolas',
+	'writtenby' => 'Escrito por:',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
 	'landing_title2' => 'Diversos cursos já disponiveis.',
 	'landing_title3' => 'Todas as ferramentas para o aprendizado.',

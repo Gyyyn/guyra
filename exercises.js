@@ -357,7 +357,7 @@ function BootstrapModal(props) {
       e(
         'div',
         {
-          class:"modal-dialog",
+          class:"modal-dialog modal-dialog-centered",
         },
         e(
           'div',
@@ -370,7 +370,7 @@ function BootstrapModal(props) {
               class:"modal-header",
             },
             e(
-              'button',
+              'a',
               {
                 type: "button",
                 className: "btn-close",

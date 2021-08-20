@@ -7,21 +7,24 @@
  * @package guyra
  */
 
+/* Set up translations independent of Wordpress */
+include get_template_directory() . '/i18n.php';
+
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> data-aos="fade-up" data-aos-once="true">
-	<header class="entry-header d-flex align-items-baseline justify-content-between mb-3">
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<header class="entry-header">
 		<?php
 		if ( is_singular() ) :
 			the_title( '<h1 class="entry-title">', '</h1>' );
 		else :
 			the_title( '<h2 class="entry-title">', '</h2>' );
 		endif; ?>
-	</header><!-- .entry-header -->
+	</header>
 
 	<?php guyra_post_thumbnail(); ?>
 
-	<div class="entry-content px-5">
+	<div class="entry-content squeeze-small">
 		<?php
 		the_content(
 			sprintf(
@@ -45,9 +48,10 @@
 			)
 		);
 		?>
-	</div><!-- .entry-content -->
+	</div>
 
-	<footer class="entry-footer border-top mt-5 pt-3 text-end fs-4">
-		<?php guyra_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
-</article><!-- #post-<?php the_ID(); ?> -->
+	<footer class="entry-footer">
+		<p class="written-by"><?php echo $gi18n['writtenby'] . ' ' . get_the_author(); ?></p>
+		<span class="author-avatar rounded-circle"><?php echo get_avatar( get_the_author_meta( 'ID' ), 128 ); ?></span>
+	</footer>
+</article>

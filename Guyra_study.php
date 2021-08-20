@@ -61,7 +61,7 @@ if ($user_studypage_object == null) {
 }
 
 ?>
-<main id="intro-content" class="site-main squeeze position-relative">
+<main id="intro-content" class="site-main study squeeze position-relative">
 
   <div class="page-squeeze"><div>
 

@@ -62,9 +62,9 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
       </a></div>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </a>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0 ms-0">
@@ -90,7 +90,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav collapse navbar-collapse justify-content-end nav-rightside" id="navbarCollapse">
+        <ul class="navbar-nav justify-content-end nav-rightside">
           <li class="nav-item me-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><span class="dashicons dashicons-whatsapp"></span> WhatsApp</a>
           </li>

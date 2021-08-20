@@ -72,8 +72,8 @@ foreach ($users as $x) {
   }
 
   echo '<li class="list-group-item">' .
-  'ID: ' . $x->ID . ' ' .
   '<a href="' . $page_link . '">' .
+  'ID: ' . $x->ID . ' ' .
   $userdata['first_name'][0] . ' ' .
   $userdata['last_name'][0] . '</a> ' .
   $x->user_email . ' | ' .

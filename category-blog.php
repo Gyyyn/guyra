@@ -10,8 +10,7 @@
 get_header();
 ?>
 
-	<main id="intro-content" class="site-main archive">
-        <div class="page-squeeze"><div class="padded-squeeze">
+	<main id="intro-content" class="site-main blog">
 
 		<?php if ( have_posts() ) : ?>
 
@@ -37,7 +36,6 @@ get_header();
 
 		endif;
 		?>
-		</div></div>
 
 	</main><!-- #main -->
 

@@ -7,21 +7,14 @@
  * @package guyra
  */
 
-// Currently we don't want this working
+// If the user has admin permissions he edits the page, otherwise
+// gtfo of here
 if (!current_user_can('manage_options')) {
+
   wp_redirect(get_site_url());
+
 } else {
 
-get_header();
-
-?>
-<script>
-  document.querySelector('#wp-admin-bar-edit a').click();
-</script>
-
-<?php
-echo "<div class='container-fluid' style='background: #fff; margin-top: 10rem;'>If nothing happened, click the edit button above</div>";
+  wp_redirect(get_admin_url() . 'post.php?post=' . get_the_ID() . '&action=edit');
 
 }
-
-?>
