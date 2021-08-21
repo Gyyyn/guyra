@@ -13,7 +13,7 @@ include get_template_directory() . '/i18n.php';
 
 <main id="intro-content" class="site-main study squeeze">
 
-  <div class="page-squeeze" data-aos="fade-up" data-aos-once="true"><div>
+  <div class="page-squeeze"><div>
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
 
