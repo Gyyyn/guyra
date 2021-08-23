@@ -14,7 +14,7 @@ get_header();
 
 		<section class="error-404 not-found">
 			<header class="page-header">
-				<span class="w-25 d-inline-block"><?php echo get_custom_logo(); ?></span>
+				<span class="w-25 d-inline-block"><img class="float-end" alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1.png" /></span>
 				<h1 class="page-title"><?php esc_html_e( 'Are you lost?', 'guyra' ); ?></h1>
 			</header><!-- .page-header -->
 
@@ -25,9 +25,11 @@ get_header();
 
 	</main><!-- #main -->
 
+	<script>
+
+		setTimeout(function(){ window.location.href = "<?php echo get_site_url(); ?>"; }, 5000);
+
+	</script>
+
 <?php
 get_footer();
-
-sleep(10);
-
-wp_redirect(get_site_url());

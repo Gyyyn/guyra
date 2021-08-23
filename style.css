@@ -199,6 +199,10 @@ hr.thick {
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
 .bg-gradient-white-reverse { background: var(--guyra-white-transparent-gradient-reverse); }
 
+footer {
+  background: linear-gradient(0deg, var(--guyra-white) 75%, rgba(255, 255, 255, 0) 100%);
+}
+
 footer .squeeze {
   text-align: left;
   font-size: var(--guyra-fonts-textsize-sss);
@@ -982,11 +986,13 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 
 .exercise-level-chooser .section .btn {
   flex-grow: 0;
-  border-radius: 5rem;
+  border-radius: 50vw;
   color: var(--guyra-blue);
-  border: 3px  var(--guyra-blue) solid;
-  padding: calc(.25rem + 1vw);
-  margin: 0 calc(.15rem + .7vw);
+  border: .1rem var(--guyra-grey-dark) solid;
+  border-bottom: .5rem var(--guyra-grey-dark) solid;
+  background: var(--guyra-grey);
+  padding: calc(.25rem + 1.2vw);
+  margin: 0 calc(.15rem + 0.5vw);
   font-size: var(--guyra-fonts-textsize-n);
   box-shadow: var(--guyra-box-shadow);
 }

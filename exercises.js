@@ -412,6 +412,18 @@ class App extends React.Component {
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
 
+    // Temp, reserve the i18n keys we are going to use later
+    this.i18n = {
+      correctanswer: 'Resposta certa: ',
+      wronganswer: 'Não era essa!',
+      goodjob: 'Boa!',
+      yourscore: 'Sua nota: ',
+      explainexercises: 'Use as dicas para completar os exercicios. Para uma explicacao mais detalhada veja aqui:',
+      check: 'Verificar',
+      returntomap: 'Voltar ao Mapa',
+      continue: 'Continuar'
+    }
+
     this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
     this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/end.ogg'));
     this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/perfect.ogg'));
@@ -441,7 +453,7 @@ class App extends React.Component {
 
         }
       },
-      'Voltar ao mapa'
+      this.i18n.returntomap
     )
 
     this.checkAnswerButton = e(
@@ -450,7 +462,7 @@ class App extends React.Component {
         className: 'btn-tall green',
         onClick: () => { this.CheckAnswerWithTextArea() }
       },
-      'Checar'
+      this.i18n.check
     )
 
     this.controlAreaButtons = e(
@@ -460,7 +472,7 @@ class App extends React.Component {
         BootstrapModal,
         {
           target: "explain-modal",
-          text: "text",
+          text: this.i18n.explainexercises,
           buttonclasses: "btn-tall",
           button: "❔"
         }
@@ -502,7 +514,7 @@ class App extends React.Component {
           className: 'btn btn-sm btn-success',
           onClick: () => { this.setNewActivity() }
         },
-        'Continue'
+        this.i18n.continue
       )
     )
 
@@ -518,7 +530,7 @@ class App extends React.Component {
           className: 'btn btn-sm btn-danger',
           onClick: () => { this.setNewActivity() }
         },
-        'Continue'
+        this.i18n.continue
       )
     )
 
@@ -542,7 +554,7 @@ class App extends React.Component {
               });
             }
           },
-          'Review'
+          this.i18n.review
         ),
         this.returnToLevelMapButton
       )
@@ -576,19 +588,24 @@ class App extends React.Component {
       difficulty: 0,
       activityType: '',
       answerType: AnswerTextArea,
-      avatarURL: getRandomAvatar()
+      avatarURL: getRandomAvatar(),
+      i18n: this.i18n
     };
 
   }
 
   componentDidMount() {
 
-    fetch(rootUrl.concat('?json=levelmap'))
+    fetch(rootUrl.concat('?json=levelmap&i18n=full'))
       .then(res => res.json())
-      .then(json => this.setState({
-        page: this.LevelChooser,
-        levelMap: json
-      }));
+      .then(json => {
+        this.i18n = json.i18n
+        this.setState({
+          page: this.LevelChooser,
+          levelMap: json.levelmap,
+          i18n: json.i18n
+        })
+      });
 
 
   }

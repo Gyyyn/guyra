@@ -27,6 +27,7 @@ $gi18n = [
 	'privacy' => 'Privacidade',
 	'terms' => 'Termos de uso',
 	'schools' => 'Escolas',
+	'thanks' => 'Agradecimentos',
 	'writtenby' => 'Escrito por:',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
 	'landing_title2' => 'Diversos cursos já disponiveis.',
@@ -71,6 +72,16 @@ $gi18n = [
       Ao clicar no botão a baixo você sera levado a uma pagina do Mercado Pago para concluir a compra.
     </div>
     ',
+	/* Exercises */
+	'correctanswer' => 'Resposta correta: ',
+	'wronganswer' => 'Não era essa!',
+	'goodjob' => 'Boa!',
+	'yourscore' => 'Sua nota: ',
+	'explainexercises' => 'Use as dicas para completar os exercicios. Para uma explicacao mais detalhada veja aqui:',
+	'check' => 'Verificar',
+	'returntomap' => 'Voltar ao Mapa',
+	'continue' => 'Continuar',
+	'review' => 'Revisar',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
@@ -84,6 +95,7 @@ $gi18n = [
 	'privacy_link' => get_site_url() . '/privacy',
 	'terms_link' => get_site_url() . '/terms',
 	'schools_footer_link' => get_site_url() . '/work-with-us',
+	'thanks_footer_link' => get_site_url() . '/thanks',
 	'admin_link' => get_admin_url(),
 	'template_link' => get_template_directory_uri()
 ];

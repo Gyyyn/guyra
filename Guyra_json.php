@@ -1,6 +1,6 @@
 <?php
 
-include 'i18n.php';
+include get_template_directory() . '/i18n.php';
 
 function GuyraGetIcon($path='') {
   return get_template_directory_uri() . '/assets/icons/' . $path;
@@ -218,25 +218,29 @@ $masterJSON = [
   "level6" => [
 
     "unit15" => [
-      ["I was a quiet child.", "was a"],
-      ["Were you born in 1998?", "you born"],
-      ["I lived in my hometown for 10 years.", "lived in my"],
-      ["I went to the same high school as you!", "as you"],
-      ["Was that your childhood home?", "Was that"],
-      ["I wasn't well behaved!", "wasn't"],
-      ["He was my best friend.", "was my"],
-      ["Was she your first girlfriend?", "she your"],
-      ["My favorite teacher was the science teacher.", "was the"],
-      ["He wasn't very nice to me before.", "to me"]
+      ["I was a quiet child.", "was a", "(era uma)"],
+      ["Were you born in 1998?", "you born", "(você nasceu)"],
+      ["I lived in my hometown for 10 years.", "lived in my", "(vivi na minha)"],
+      ["I went to the same high school as you!", "as you", "(que você)"],
+      ["Was that your childhood home?", "Was that", "(Esse era)"],
+      ["I was not well behaved!", "was not", "(não era)"],
+      ["He was my best friend.", "was my", "(era meu)"],
+      ["Was she your first girlfriend?", "she your", "(ela ____ sua)"],
+      ["My favorite teacher was the science teacher.", "was the", "(era o)"],
+      ["He wasn't very nice to me before.", "to me", "(para mim)"]
     ],
 
     "unit16" => [
-      ["testing", "testing"],
-      ["testing", "testing"],
-      ["testing", "testing"],
-      ["testing", "testing"],
-      ["testing", "testing"],
-      ["testing", "testing"]
+      ["What are you looking for?", "looking for", "(procurando)"],
+      ["Do you want to try them on?", "try them", "(experimenta-las)"],
+      ["What size are you?", "size are", "(tamanho ___ é)"],
+      ["How much are these?", "How much", "(Quanto)"],
+      ["You look good in red.", "look good", "(fica bem)"],
+      ["Silk is much nicer than cotton.", "nicer than", "(mais legal)"],
+      ["I need some new jeans.", "some new", "(umas novas)"],
+      ["That's pretty expensive.", "pretty", "(bem)"],
+      ["The brown boots are much more comfortable than the other ones.", "comfortable than", "(comfortavel que)"],
+      ["It looks very stylish!.", "stylish", "(estiloso)"]
     ]
 
   ],
@@ -244,14 +248,14 @@ $masterJSON = [
   "level7" => [
 
     "unit17" => [
-      ["c u later today yeah?", "later"],
-      ["yo this song slaps so hard!", "slaps"],
-      ["u going with?", "going"],
-      ["sup man how u doing ", "sup"],
-      ["wassup, this is jake", "this is"],
-      ["miss me with that stuff, i hate it", "miss me"],
-      ["we going or what?", "or what"],
-      ["lol man can u send me that pic?", "can u"]
+      ["c u later today yeah?", "later", "(mais tarde)"],
+      ["yo this song slaps so hard!", "slaps", "(é boa)"],
+      ["u going with?", "going", "(indo)"],
+      ["sup man how u doing ", "sup", "(como vai)"],
+      ["wassup, this is jake", "this is", "(aqui é)"],
+      ["miss me with that stuff, i hate it", "miss me", "(me erra)"],
+      ["we going or what?", "or what", "(ou o que)"],
+      ["lol man can u send me that pic?", "can u", "(você pode)"]
     ]
 
   ],
@@ -259,42 +263,42 @@ $masterJSON = [
   "level8" => [
 
     "unit18" => [
-      ["There are some stores in this street.", ""],
-      ["Are there any groceries stores around here?", ""],
-      ["There aren't any good restaurants here.", ""],
-      ["There is a bank on Third Avenue.", ""],
-      ["Is there a post office in this area?", ""],
-      ["There is one opposite the train station.", ""],
-      ["It's on the corner of First and Main.", ""],
-      ["There are no bakeries in this entire street.", ""],
-      ["There are many companies in the industrial district.", ""],
-      ["There isn't any crime in this neighborhood..", ""]
+      ["There are some stores in this street.", "some stores", "(algumas lojas)"],
+      ["Are there any groceries stores around here?", "around", "(por aqui)"],
+      ["There aren't any good restaurants here.", "There aren't", "(Não tem)"],
+      ["There is a bank on Third Avenue.", "bank on", "(banco na)"],
+      ["Is there a post office in this area?", "post office", "(correio)"],
+      ["There is one opposite the train station.", "opposite", "(oposto)"],
+      ["It's on the corner of First and Main.", "on the corner", "(na esquina)"],
+      ["There are no bakeries in this entire street.", "this entire", "(nessa ___ inteira)"],
+      ["There are many companies in the industrial district.", "district", "(distrito)"],
+      ["There isn't any crime in this neighborhood.", "any crime", "(nenhum crime)"]
     ],
 
     "unit19" => [
-      ["Keep going forward and turn left.", ""],
-      ["Take the street behind the shop.", ""],
-      ["Take the roundbout and then the third exit...", ""],
-      ["It's too blocks from here, on the corner of Pine St. and Second Ave.", ""],
-      ["Walk until the bus stop and take a left.", ""],
-      ["It's not far from here.", ""],
-      ["It's between the coffee shop and the Mexican restaurant.", ""],
-      ["It's down the street from here.", ""],
-      ["Walk three blocks and you're there.", ""],
-      ["You can find it in the mall on First Avenue.", ""]
+      ["Keep going forward and turn left.", "turn left", "(vire a direita)"],
+      ["Take the street behind the shop.", "the street", "(a rua)"],
+      ["Take the roundbout and then the third exit...", "roundabout", "(rotatoria)"],
+      ["It's two blocks from here, on the corner of Pine St. and Second Ave.", "two blocks", "(duas quadras)"],
+      ["Walk until the bus stop and take a left.", "Walk until", "(Ande até)"],
+      ["It's not far from here.", "not far", "(não ___ longe)"],
+      ["It's between the coffee shop and the Mexican restaurant.", "between", "(entre)"],
+      ["It's down the street from here.", "down the street", "(descendo a rua)"],
+      ["Walk three blocks and you're there.", "blocks and", "(quadras e)"],
+      ["You can find it in the mall on First Avenue.", "in the mall", "(no shopping)"]
     ],
 
     "unit20" => [
-      ["Brazil is a lot bigger than Italy.", "a lot bigger"],
-      ["Which country is the most populous, the U.S., China or Japan?", "most populous"],
-      ["This place is very relaxing and not stressful at all!", "very relaxing"],
-      ["How expensive is it to live in Hong Kong?", "expensive is"],
-      ["My hometown is nice but it's too boring!", "nice but"],
-      ["I think New York is the most expensive city.", "the most"],
-      ["Cold places are way drier than hot places.", "drier than"],
-      ["Hot countries are usually wetter than cold ones.", "countries are"],
-      ["That city is not expensive, it's cheap!", "cheap"],
-      ["How far away is Australia?", "away is"]
+      ["Brazil is a lot bigger than Italy.", "a lot bigger", "(muito maior)"],
+      ["Which country is the most populous, the U.S., China or Japan?", "most populous", "(o mais populoso)"],
+      ["This place is very relaxing and not stressful at all!", "very relaxing", "(muito relaxante)"],
+      ["How expensive is it to live in Hong Kong?", "expensive is", "(caro é)"],
+      ["My hometown is nice but it's too boring!", "nice but", "(bom mas)"],
+      ["I think New York is the most expensive city.", "the most", "(a mais)"],
+      ["Cold places are way drier than hot places.", "drier than", "(mais seco que)"],
+      ["Hot countries are usually wetter than cold ones.", "countries are", "(países são)"],
+      ["That city is not expensive, it's cheap!", "cheap", "(barato)"],
+      ["How far away is Australia?", "away is", "(longe é)"]
     ]
 
   ],
@@ -302,41 +306,41 @@ $masterJSON = [
   "level9" => [
 
     "unit21" => [
-      ["What does he look like?", "he look"],
-      ["She has long blonde hair and blue eyes.", "long blonde"],
-      ["She is pretty tall for his age.", "tall for"],
-      ["He is not very handsome.", "not very"],
-      ["She is very tall.", "very tall"],
-      ["He is fairly short with a mustache and a beard.", "short with a"],
-      ["How tall is she?", "tall is"],
-      ["How long is his hair?", "How"],
-      ["Does she wear glasses?", "she wear"],
-      ["He's in his early twenties.", "twenties"],
+      ["What does he look like?", "he look", "(ele parece)"],
+      ["She has long blonde hair and blue eyes.", "long blonde", "(longos loiros)"],
+      ["She is pretty tall for his age.", "tall for", "(alta para a)"],
+      ["He is not very handsome.", "not very", "(não muito)"],
+      ["She is very tall.", "very tall", "(muito alta)"],
+      ["He is fairly short with a mustache and a beard.", "short with a", "(baixo com um)"],
+      ["How tall is she?", "tall is", "(alta ___ é)"],
+      ["How long is his hair?", "How", "(Quão)"],
+      ["Does she wear glasses?", "she wear", "(ele usa)"],
+      ["He's in his early twenties.", "twenties", "(seus vinte anos)"],
     ],
 
     "unit22" => [
-      ["She's the one with long hair.", "with long"],
-      ["He's the one looking out the window.", "the one looking"],
-      ["Which one would you prefer?", "would you"],
-      ["I'd like the strawberry flavored one please.", "one"],
-      ["They're the ones in the green car.", "in the green"],
-      ["She's the one in red.", "one in"],
-      ["I'd prefer the lighter one.", "the lighter"],
-      ["I want the one with less spice.", "one with less"],
-      ["Which one do you mean?", "one do"]
+      ["She's the one with long hair.", "with long", "(com longo)"],
+      ["He's the one looking out the window.", "the one looking", "(o que está olhando)"],
+      ["Which one would you prefer?", "would you", "(você iria)"],
+      ["I'd like the strawberry flavored one please.", "one", "(um)"],
+      ["They're the ones in the green car.", "in the green", "(no ___ verde)"],
+      ["She's the one in red.", "one in", "(que está de)"],
+      ["I'd prefer the lighter one.", "the lighter", "(o mais leve)"],
+      ["I want the one with less spice.", "one with less", "(o que está com menos)"],
+      ["Which one do you mean?", "one do", "(qual)"]
     ],
 
     "unit23" => [
-      ["Have you ever been there?", "you ever"],
-      ["I haven't been there since last year.", "been there"],
-      ["I have made dinner for you!", "made dinner"],
-      ["Has she found her car?", "found her"],
-      ["He hasn't come back yet.", "He has"],
-      ["She's gone to a party now.", "gone to"],
-      ["Have you already finished work?", "you already"],
-      ["Have you ever seen a whale?", "Have you"],
-      ["I've been to Europe twice now.", "'ve been'"],
-      ["I've been going to the gym recently.", "going to"]
+      ["Have you ever been there?", "you ever", "(você já)"],
+      ["I haven't been there since last year.", "been there", "(esteve lá)"],
+      ["I have made dinner for you!", "made dinner", "(fiz jantar)"],
+      ["Has she found her car?", "found her", "(achamos ela)"],
+      ["He has not come back yet.", "He has", "(Ele não)"],
+      ["She's gone to a party now.", "gone to", "(foi para)"],
+      ["Have you already finished work?", "you already", "(você já)"],
+      ["Have you ever seen a whale?", "Have you", "(Você)"],
+      ["I have been to Europe twice now.", "have been", "(estive)"],
+      ["I have been going to the gym recently.", "going to", "(indo para)"]
     ]
 
   ],
@@ -344,42 +348,42 @@ $masterJSON = [
   "level10" => [
 
     "unit24" => [
-      ["You shouldn't use this medicine, it won't work.", "shouldn't use"],
-      ["What do you suggest for a cold?", "you suggest"],
-      ["It's important to get some rest.", "to get"],
-      ["I'd recommend a nice relaxing bath.", "recommend"],
-      ["Could I have some painkillers, please?", "have some"],
-      ["May I see your prescription?", "see your"],
-      ["Can you get the Aspirin for me?", "get the"],
-      ["You should see a doctor.", "should see"],
-      ["Should I be worried?", "I be"],
-      ["It's a good idea to see a dentist.", "good idea"]
+      ["You shouldn't use this medicine, it won't work.", "shouldn't use", "(não deveria)"],
+      ["What do you suggest for a cold?", "you suggest", "(você sugere)"],
+      ["It's important to get some rest.", "to get", "(descansar)"],
+      ["I'd recommend a nice relaxing bath.", "recommend", "(recomenda)"],
+      ["Could I have some painkillers, please?", "have some", "(ter um pouco)"],
+      ["May I see your prescription?", "see your", "(ver sua)"],
+      ["Can you get the Aspirin for me?", "get the", "(pegar a)"],
+      ["You should see a doctor.", "should see", "(deveria ver)"],
+      ["Should I be worried?", "I be", "(eu ___ estar)"],
+      ["It's a good idea to see a dentist.", "good idea", "(boa ideia)"]
     ],
 
     "unit25" => [
-      ["I'd like a beef bowl please.", "like a"],
-      ["I was thinking of going out for dinner actually.", "thinking of"],
-      ["I can't stand that music.", "stand that"],
-      ["I want to see that concert for sure!", "to see"],
-      ["I'd like to hear your opinion.", "like to"],
-      ["She wants a glass of water.", "a glass of"],
-      ["He'd like to see the menu if you don't mind.", "'d like"],
-      ["We are ready to order.", "ready to"],
-      ["We're just browsing, thanks.", "thanks"],
-      ["I'd like that one.", "that"]
+      ["I'd like a beef bowl please.", "like a", "(gostaria de um)"],
+      ["I was thinking of going out for dinner actually.", "thinking of", "(pensando sobre)"],
+      ["I can't stand that music.", "stand that", "(suportar aquela)"],
+      ["I want to see that concert for sure!", "to see", "(ver)"],
+      ["I'd like to hear your opinion.", "like to", "(gostaria de)"],
+      ["She wants a glass of water.", "a glass of", "(um copo de)"],
+      ["He would like to see the menu if you don't mind.", "would like", "(gostaria)"],
+      ["We are ready to order.", "ready to", "(preparados para)"],
+      ["We're just browsing, thanks.", "thanks", "(obrigado)"],
+      ["I'd like that one.", "that", "(aquele)"]
     ],
 
     "unit26" => [
-      ["I'm not in college anymore.", "not in"],
-      ["I wear my hair long now.", ""],
-      ["I've just start a job in this new company...", ""],
-      ["It's way more crowded nowadays.", ""],
-      ["I'm slimmer than I was.", ""],
-      ["I got engaged last year!", ""],
-      ["I didn't move out yet.", ""],
-      ["My life is busier now.", ""],
-      ["We've moved to a new city.", ""],
-      ["We are still working at the same place.", ""]
+      ["I'm not in college anymore.", "not in", "(não ___ no)"],
+      ["I wear my hair long now.", "wear my", "(uso meu)"],
+      ["I've just started a job in this new company...", "just started", "(acabei de começar)"],
+      ["It's way more crowded nowadays.", "way more", "(muito mais)"],
+      ["I'm slimmer than I was.", "slimmer", "(mais magro)"],
+      ["I got engaged last year!", "engaged", "(noivo(a))"],
+      ["I didn't move out yet.", "move out", "(me mudei)"],
+      ["My life is busier now.", "is busier", "(está mais ocupada)"],
+      ["We've moved to a new city.", "to a new", "(para uma nova)"],
+      ["We are still working at the same place.", "still working", "(ainda trabalhando)"]
     ]
 
   ],
@@ -387,29 +391,29 @@ $masterJSON = [
   "level11" => [
 
     "unit27" => [
-      ["It's as big as our old one.", "you ever"],
-      ["This car is not big enough.", "is not big"],
-      ["I thought the other one was better.", "the other one"],
-      ["It's not as pretty as I thought.", "pretty as I"],
-      ["I hoped it was nicer. ", "it was"],
-      ["It's just as I thought!", "just as"],
-      ["This is as much fun as I imagined.", "is as much"],
-      ["There are too many lights.", "too many"],
-      ["We need more windows.", "need more"],
-      ["There should be less noise.", "should be"]
+      ["It's as big as our old one.", "you ever", "(você já)"],
+      ["This car is not big enough.", "is not big", "(não é grande)"],
+      ["I thought the other one was better.", "the other one", "(o outro)"],
+      ["It's not as pretty as I thought.", "pretty as I", "(bonito quanto eu)"],
+      ["I hoped it was nicer. ", "it was", "(era')"],
+      ["It's just as I thought!", "just as", "(tanto quão)"],
+      ["This is as much fun as I imagined.", "is as much", "(é tanto quanto)"],
+      ["There are too many lights.", "too many", "(de mais)"],
+      ["We need more windows.", "need more", "(precisamos de mais)"],
+      ["There should be less noise.", "should be", "(deveria ter)"]
     ],
 
     "unit28" => [
-      ["Have you ever been there?", "you ever"],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""]
+      ["Have you ever been there?", "you ever", "(você já)"],
+      ["How was the weather?", "weather", "(clima)"],
+      ["How often do the trains leave?", "often do the", "(frequentemente os)"],
+      ["When will you come back?", "will you", "(você vai)"],
+      ["Can you tell me where I can buy a magazine?", "you tell me", "(você ___ me dizer)"],
+      ["We arrived in the rainy season.", "rainy season", "(temporada de chuva)"],
+      ["They don't speak much English.", "speak much", "(falam muito)"],
+      ["I was so tired I went straight to bed.", "straight to", "(direto para)"],
+      ["Can you turn off the radio, please?", "you turn off", "(você ___ desligar)"],
+      ["I hope to go next year.", "hope to go", "(espero ir)"]
     ]
 
   ],
@@ -417,36 +421,183 @@ $masterJSON = [
   "level12" => [
 
     "unit29" => [
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""]
+      ["Would you turn it off please?", "turn it", "(desligar)"],
+      ["Put the trash away.", "trash", "(lixo)"],
+      ["Would you mind parking your car someplace else?", "parking", "(estacionar)"],
+      ["Could you help me look for my keys?", "look for my", "(procurar minha)"],
+      ["Would you mind closing the door behind you?", "you mind", "(você se importaria de)"],
+      ["I'm sorry I didn't notice it there.", "didn't notice", "(não percebi)"],
+      ["Can you help me with the dishes today?", "with the dishes", "(com a louça)"],
+      ["Would you mind helping me with my homework.", "Would you mind", "(Você se importaria)"],
+      ["Could you tell me the answer to this question?", "the answer to", "(a resposta para)"],
+      ["There are clothes all over the floor, put them away!", "put them", "(guarde-os)"]
     ],
 
     "unit30" => [
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
-      ["", ""],
+      ["I use this for work.", "use this", "(uso isso)"],
+      ["My camera is useful for trips.", "is useful", "(é util)"],
+      ["I use WhatsApp to send messages.", "to send", "(para enviar)"],
+      ["I use this tablet for reading books.", "use this", "(uso isso)"],
+      ["People often use their phones for taking pictures.", "often uso", "(frequentemente usam)"],
+      ["I can use Netflix to watch series.", "to watch", "(para assistir)"],
+      ["Can you help me with my phone?", "me with my", "(me com o meu)"],
+      ["I know you like TikTok but could you stop looking at it every 20 minutes?", "but could you stop", "(mas você poderia)"],
+      ["I can't believe my phone froze again today.", "froze again", "(travou de novo)"],
+      ["In this situation I recommend you reset all your passwords.", "recommend you", "(recomendo que você)"]
+    ]
+
+  ],
+
+  "level13" => [
+
+    "unit31" => [
+      ["I looked in the mirror to check my hair before going out.", "look in the mirror", "(olhei no espelho)"],
+      ["I don't think I should go to bed yet.", "think I should", "(acho que eu deveria)"],
+      ["I decided not to go to Australia.", "decided", "(decidi)"],
+      ["I was surprised to get the job at the time.", "was surprised to", "(fiquei surpresa por)"],
+      ["Can you show me how to fix this problem.", "show me how", "(me mostrar como)"],
+      ["You should get up earlier to avoid feeling sleepy!", "get up earlier", "(levantar mais cedo)"],
+      ["She was dissapointed not to get the job.", "dissapointed", "(decepcionada)"],
+      ["It's expensive eating in restaurants every day.", "expensive eating", "(caro comer)"],
+      ["What a pity, I'm really sorry that happened!", "really sorry", "(sinto muito)"],
+      ["I'm worried about my cousin. She has not talked to me for months.", "not talked to me", "(não fala comigo)"]
+    ],
+
+    "unit32" => [
+      ["Facebook was created by Mark Zuckerberg in 2004.", "", "()"],
+      ["Beethoven's fifth symphony was written in the renaissance era.", "", "()"],
+      ["I'm very interested in music and performative arts.", "", "()"],
+      ["This picture was stolen from the museum last week.", "", "()"],
+      ["I've always hated horror movies.", "", "()"],
+      ["My car was made in Germany.", "", "()"],
+      ["Sushi is eaten all over the world.", "", "()"],
+      ["The Taj Mahal is visited by 3 million people every year.", "", "()"],
+      ["Pluto was discovered by Clyde Tombaugh in 1930.", "", "()"],
+      ["Game of Thrones was the most illegaly downloaded series in 2012.", "", "()"]
+    ],
+
+    "unit33" => [
+      ["If I pass the test I'm going to have a party!", "", "()"],
+      ["I'll give you the book if you promise to be careful.", "", "()"],
+      ["I'll be in trouble if I don't wake up early to go to work.", "", "()"],
+      ["I've managed to secure a position in that company!", "", "()"],
+      ["I'll get a promotion if I do my job really well.", "", "()"],
+      ["That could work if we work hard on it.", "", "()"],
+      ["I worked all my life in this project.", "", "()"],
+      ["I've won prizes for my dancing.", "", "()"],
+      ["I would work more on my hobbies if I had the time.", "", "()"],
+      ["You shouldn't take that to heart, it wasn't on purpose.", "", "()"]
+    ]
+
+  ],
+
+  "level14" => [
+
+    "unit34" => [
+      ["I can really recommend this movie for its story.", "", "()"],
+      ["I liked the characters even though the story was kind of dumb.", "", "()"],
+      ["I can't recommend that book, it's difficult to read.", "", "()"],
+      ["They are wonderful characters, I fell in love with them.", "", "()"],
+      ["It's brilliantly written for a first-time author.", "", "()"],
+      ["It's so good I couldn't put the book down.", "", "()"],
+      ["It's well-written and realistic. It's hard to follow however.", "", "()"],
+      ["It's a beautiful story but it's very sad near the end.", "", "()"],
+      ["All the hype surrounding it doesn't mean it will turn out to be good.", "", "()"],
+      ["I feel like it should use less gimmicks in the story.", "", "()"]
+    ],
+
+    "unit35" => [
+
+      ["This could mean that you need to pay more attention to how you speak.", "", "()"],
+      ["It could be caused by cultural differences.", "", "()"],
+      ["I don't understand why, but I'm trying to figure it out.", "", "()"],
+      ["I definitely don't see it that way.", "", "()"],
+      ["It probably means she doesn't want anything.", "", "()"],
+      ["I'm afraid you're not allowed to take pictures.", "", "()"],
+      ["That must be why I was having difficulty!", "", "()"],
+      ["You know how they say, birds of a feather flock together.", "", "()"],
+      ["The root cause needs to be identified before we can continue.", "", "()"],
+      ["I'm still trying to figure it out.", "", "()"]
+
+    ],
+
+    "unit36" => [
+      ["You should have been honest and told her about it.", "", "()"],
+      ["I wouldn't put so much effort if I was in your situation.", "", "()"],
+      ["What would you have done instead?", "", "()"],
+      ["I honestly didn't know what to do in that situation!", "", "()"],
+      ["I would've spoken to him about it.", "", "()"],
+      ["It can't be that bad, can it?", "", "()"],
+      ["You should've left her a note about it.", "", "()"],
+      ["If you had to pick between these two what would you do?", "", "()"],
+      ["I never should've mentioned it.", "", "()"],
+      ["Nevermind, it's not going to help me now.", "", "()"]
+    ]
+
+  ],
+
+  "level15" => [
+
+    "unit37" => [
+      ["I want to be friends with people who are supportive and kind.", "", "()"],
+      ["Outer space is the universe beyond the earth’s atmosphere. ", "", "()"],
+      ["We can say a robot is sentient if it is aware of itself.", "", "()"],
+      ["Yesterday I watched a TV show that argued aliens made the pyramids!", "", "()"],
+      ["Tim Berners-Lee was an MIT scientist who invented the world wide web protocol.", "", "()"],
+      ["Near where I work there is a gym that only charges about 50$.", "", "()"],
+      ["This is that phone that I told you about, the one that folds in half.", "", "()"],
+      ["He's that guy who is always talking on the phone to someone.", "", "()"],
+      ["The midwest is the area of the U.S. with the most farms.", "", "()"],
+      ["When I was in Canada I met a man who worked for a news station!", "", "()"]
+    ],
+
+    "unit38" => [
+      ["Working in an office all day sounds very boring.", "", "()"],
+      ["Developing games sounds fun!", "", "()"],
+      ["I'd enjoy working as a psychologist.", "", "()"],
+      ["Helping kids must be really rewarding.", "", "()"],
+      ["Having a high paying job you don't like must be really frustrating.", "", "()"],
+      ["I don't think you'd like being a fashion designer.", "", "()"],
+      ["Working as a veterinarian must be exhausting.", "", "()"],
+      ["Working all day in a hospital must be extremely stressful.", "", "()"],
+      ["He would enjoy that kind of work.", "", "()"],
+      ["Playing games all day should be a job!", "", "()"]
+    ],
+
+    "unit39" => [
+      ["Had you ever swimmed in the ocean before?", "", "()"],
+      ["I said that I could ride horses.", "", "()"],
+      ["She told me that she had just finished the book.", "", "()"],
+      ["I'm very close to my sister, she tells me everything.", "", "()"],
+      ["By the time I arrived at the train station it had already left.", "", "()"],
+      ["When we got to the cinema the movie had just started.", "", "()"],
+      ["We had to take an Uber because my car had broken down.", "", "()"],
+      ["We tried to buy another one but the were all out.", "", "()"],
+      ["I had come home to my house completely empty!", "", "()"],
+      ["He'd said that we'd arrive by tomorrow.", "", "()"]
+    ]
+
+  ],
+
+  "level16" => [
+
+    "unit40" => [
+      ["That doesn't sound as challenging as I thought.", "", "()"],
+      ["That idea would be more well recieved.", "", "()"],
+      ["We don't earn nearly as much as we should.", "", "()"],
+      ["It gets easier with time, believe me.", "", "()"],
+      ["Being a doctor is as difficult as being an engineer.", "", "()"],
+      ["I don't think being a chef is as difficult as people say.", "", "()"],
+      ["It's better than the alternative.", "", "()"],
+      ["We need to work harder on the project.", "", "()"],
+      ["I don't think you understand how difficult this is.", "", "()"]
     ]
 
   ]
 
 ];
 
-$levelMap = [
+$levelMap = ["levelmap" => [
 
   "level1" => [
 
@@ -735,9 +886,105 @@ $levelMap = [
       "image" => GuyraGetIcon('exercises/blueprint.png')
     ]
 
+  ],
+
+  "level13" => [
+
+    "unit31" => [
+      "id" => "unit31",
+      "name" => "Problemas",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/puzzle-pieces.png')
+    ],
+
+    "unit32" => [
+      "id" => "unit32",
+      "name" => "Cultura",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/parthenon.png')
+    ],
+
+    "unit33" => [
+      "id" => "unit33",
+      "name" => "Conquistas",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/achievement.png')
+    ]
+
+  ],
+
+  "level14" => [
+
+    "unit34" => [
+      "id" => "unit34",
+      "name" => "Filmes",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/popcorn.png')
+    ],
+
+    "unit35" => [
+      "id" => "unit35",
+      "name" => "Possibilidade",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/directions.png')
+    ],
+
+    "unit36" => [
+      "id" => "unit36",
+      "name" => "Situações",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/chess.png')
+    ]
+
+  ],
+
+  "level15" => [
+
+    "unit37" => [
+      "id" => "unit37",
+      "name" => "Definições",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/search.png')
+    ],
+
+    "unit38" => [
+      "id" => "unit38",
+      "name" => "Trabalho 3",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/rocket.png')
+    ],
+
+    "unit39" => [
+      "id" => "unit39",
+      "name" => "Historias 2",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/dialog.png')
+    ]
+
+  ],
+
+  "level16" => [
+
+    "unit40" => [
+      "id" => "unit40",
+      "name" => "Comparação 2",
+      "description" => "temp",
+      "type" => "CompleteThePhrase",
+      "image" => GuyraGetIcon('exercises/product.png')
+    ]
+
   ]
 
-];
+]];
 
 
 $responseJSON = Array();
@@ -778,6 +1025,10 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 
     array_push($responseJSON, $masterJSON[$level][$unit][$rnd]);
   }
+}
+
+if ($_GET['i18n'] == "full") {
+  $responseJSON['i18n'] = $gi18n;
 }
 
 header("Content-Type: application/json");
