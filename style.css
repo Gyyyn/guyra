@@ -424,6 +424,20 @@ nav .navbar-nav .btn-wa:hover {
   }
 }
 
+.navbar-center-title:hover::before {
+    content: "";
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAACRlBMVEUAAAA5fvVfR/AJu/5aQuwJu/5aUfIOwf9XRu0qnPxaQewatP1aQuwJu/4Ju/4Ju/4Ju/4Ju/4JvP4NtP0Ntf1yWf8Ju/5ZQewJvP4YpPtxW/8Juv5aQuwJvP4LuP5aQuxaQuwLt/5yWv9aQuwYpftvV/5mTvYIu/5mTvZzWv9icP9mbP8Ju/5aQuwdlPhzWv9aQuwJu/4Ju/5Xgf8Ju/5CnP4fm/kckvdLWO9AafJaQuwjlPhRi/91XP9VSe0SrPwJu/4Ju/4QsPw0evRRlf9aQuwJu/5wWP1aQuwokfhaQewKuP4clPcJu/5kTPMfm/l3X/9aQuwqifdGnP5aQuxaQuwaofoJu/4Ju/5aQuxyWf9aQewKuP4Osv0RrfwUqfsXpfsMtf0SrPwbn/o2dvRnav9sYf8Juv4Ltv0Qr/wWp/sfmPkjk/gmjfczfPU6cfM9bfNCZPFHXvBJWvBWR+1deP9pZ/9rZP9wXP8Zovodnfoem/klkPgpivcrh/YthPYxf/VMV+9PUe5RTu5TS+1ZRO1bQexOjP9Wg/9gdP9lbf8Psf0aofohlflDYfBNVO9VSe1dRe1XPuxJLupVPelOmv9bfP9lef9jcP9icP93Yv9uXv9vXf91XP8vgvUugPVkS/Q+avJAZ/FUO+tBJun///9Uk/9Wiv9Xif9dhP9af//e2fs+jvtPePsyjvlSbvlEe/g7fvewpfYgjfZdV/aom/UlhPQxd/ONfPI1bvF6Z/A6Zu9zXu9jTO1QNutPNetJTeo5HOis1UGTAAAAWHRSTlMAAgX7o6AaEQ8MCAb8z491ZE0zKQn38ezm4+Df2djIsZqXlYN3a0I/MiwrIh0V/fj49fTv5eTi4uLh3tHNx7y5t6unp5yPg4N0cnBtY19eUk9MQj48LCYbQcsl4wAAAl5JREFUSMdiGAVAwEiyBiZSdXCRqoOJi1Qr3FVJ1GA7V5O0oJGK0tckqAEgJB1saRVRohoo0hwaHOg6uLnhTK0yoI4oNYScLgtPpIF8CJoOEU64hhmp5XOiouA+D+WJBAMFNB2cwlBLtEtnppbPjopSgoayTCQUKKPpsJfkhOg0huqQ0gZxXSNhgIcNVYNiXIIKmGHTUdrZBfaIEhMDhzhY8cTJBydN9EDVAJB3Yma8pD+Q4dLeMQ2qQzTAbwpYw/49W/cuRvOFUDpQR6WZD0PwVKiOOVFzZy0Aa5g0efXSXZNZ0DwhG5HRnZRQZe5pOnXZilWlwMCaFbUgOhqsYfGmHfuiI5VRkxl/RERMbFJCsl7uujXty1dOn566pWRKdBvED0uWgCgZXWQNOswgHXFZydmbt83fuGHt+uIDLSWR0ZFIAM1RrBFAHYlx8T3VObXzt+/c3Vfc3zyhtQ2mRZ6NCS0/CgEWAQRgr1fn5Nbn5RcUFjUCdURDdSBSC8IKsI6MzPiEql6gjhSQjqYWqA5xLBlLOAIEwIGV3FtT15BSsAikoySyDeJ+TMAHUg8OLKDXQTryF/UVN0G8HohNgw4zTEdcVk92Tu28vPyFIK8D7bDCpl5AGqwcElggr9fWA3UUggPLC4tyMahqeGBV5cC9boep3CQCBaSD00lvbl0DSIcFeh71NQIpYhZD1pIBTCdQr1uiZgV2RaA0Lyu/YDijEL+DIVQ9LJ3U1M5zRolgRnVWXj51EUTuFuTjRQ6sausg1PKCXZgdw0Psgm6OcrISEtJyTiphDKNgFNAEAADhSvpc04uQ0gAAAABJRU5ErkJggg==);
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+    top: 6px;
+}
+
+.navbar-center-title:hover img {
+    display: none;
+}
+
 /*
 * -------- Landing page
 *
