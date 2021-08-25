@@ -222,10 +222,10 @@ class CurrentQuestion extends React.Component {
 
 function hintAreaHint(props) {
 
-  return e(ExerciseContext.Consumer, null, ({values}) => e(
+  return e(ExerciseContext.Consumer, null, ({values, i18n}) => e(
     'div',
     null,
-    "Hint: ".concat(values[3])
+    i18n.hint.concat(values[3])
   ));
 
 }
@@ -318,7 +318,9 @@ function LevelChooser(props) {
             key: level
           }
         )
-      }))
+      })),
+      e('hr', null, null),
+      e('div', {className: 'text-center text-muted'}, "Mais em breve!")
     )
   )
 }

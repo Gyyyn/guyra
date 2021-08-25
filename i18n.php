@@ -29,6 +29,7 @@ $gi18n = [
 	'schools' => 'Escolas',
 	'thanks' => 'Agradecimentos',
 	'writtenby' => 'Escrito por:',
+	'hint' => 'Dica: ',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
 	'landing_title2' => 'Diversos cursos já disponiveis.',
 	'landing_title3' => 'Todas as ferramentas para o aprendizado.',

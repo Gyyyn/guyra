@@ -46,6 +46,19 @@ if ( ! function_exists( 'guyra_setup' ) ) :
 		// Remove generator tag
 		remove_action('wp_head', 'wp_generator');
 
+		// Remove dashicons
+		function my_deregister_styles() {
+			wp_deregister_style('dashicons');
+			wp_deregister_style('sweetalert2');
+			wp_deregister_style('admin-bar');
+			wp_deregister_style('user-registration-general');
+			wp_deregister_style('user-registration-smallscreen');
+			wp_deregister_style('user-registration-my-account-layout');
+			wp_deregister_style('wp-block-library');
+		}
+
+		add_action('wp_print_styles', 'my_deregister_styles', 100);
+
 		/*
 		 * Let WordPress manage the document title.
 		 * By adding theme support, we declare that this theme does not use a

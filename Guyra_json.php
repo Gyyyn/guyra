@@ -464,29 +464,29 @@ $masterJSON = [
     ],
 
     "unit32" => [
-      ["Facebook was created by Mark Zuckerberg in 2004.", "", "()"],
-      ["Beethoven's fifth symphony was written in the renaissance era.", "", "()"],
-      ["I'm very interested in music and performative arts.", "", "()"],
-      ["This picture was stolen from the museum last week.", "", "()"],
-      ["I've always hated horror movies.", "", "()"],
-      ["My car was made in Germany.", "", "()"],
-      ["Sushi is eaten all over the world.", "", "()"],
-      ["The Taj Mahal is visited by 3 million people every year.", "", "()"],
-      ["Pluto was discovered by Clyde Tombaugh in 1930.", "", "()"],
-      ["Game of Thrones was the most illegaly downloaded series in 2012.", "", "()"]
+      ["Facebook was created by Mark Zuckerberg in 2004.", "was created", "(foi criado)"],
+      ["Beethoven's fifth symphony was written in the renaissance era.", "was written", "(foi escrita)"],
+      ["I'm very interested in music and performative arts.", "interested in music and", "(interessado em musica e)"],
+      ["This picture was stolen from the museum last week.", "was stolen", "(foi roubada)"],
+      ["I have always hated horror movies.", "always hated", "(sempre odiei)"],
+      ["My car was made in Germany.", "made in", "(feito na)"],
+      ["Sushi is eaten all over the world.", "eaten", "(comido)"],
+      ["The Taj Mahal is visited by 3 million people every year.", "million people", "(milhões de pessoas)"],
+      ["Pluto was discovered by Clyde Tombaugh in 1930.", "discovered", "(descoberto)"],
+      ["Game of Thrones was the most illegaly downloaded series in 2012.", "the most", "(a mais)"]
     ],
 
     "unit33" => [
-      ["If I pass the test I'm going to have a party!", "", "()"],
-      ["I'll give you the book if you promise to be careful.", "", "()"],
-      ["I'll be in trouble if I don't wake up early to go to work.", "", "()"],
-      ["I've managed to secure a position in that company!", "", "()"],
-      ["I'll get a promotion if I do my job really well.", "", "()"],
-      ["That could work if we work hard on it.", "", "()"],
-      ["I worked all my life in this project.", "", "()"],
-      ["I've won prizes for my dancing.", "", "()"],
-      ["I would work more on my hobbies if I had the time.", "", "()"],
-      ["You shouldn't take that to heart, it wasn't on purpose.", "", "()"]
+      ["If I pass the test I'm going to have a party!", "pass the test", "(passar o teste)"],
+      ["I'll give you the book if you promise to be careful.", "if you promise", "(se você prometer)"],
+      ["I'll be in trouble if I don't wake up early to go to work.", "don't wake up early", "(não acordar cedo)"],
+      ["I've managed to secure a position in that company!", "managed to secure", "(consegui garantir)"],
+      ["I'll get a promotion if I do my job really well.", "get a promotion", "(conseguir uma promoção)"],
+      ["That could work if we work hard on it.", "if we work", "(se trabalharmos)"],
+      ["I worked all my life in this project.", "all my life", "(toda minha vida)"],
+      ["I've won prizes for my dancing.", "won prizes", "(genhei prêmios)"],
+      ["I would work more on my hobbies if I had the time.", "would work", "(trabalharia)"],
+      ["You shouldn't take that to heart, it wasn't on purpose.", "take that to heart", "(levar isso a sério)"]
     ]
 
   ],
@@ -494,44 +494,44 @@ $masterJSON = [
   "level14" => [
 
     "unit34" => [
-      ["I can really recommend this movie for its story.", "", "()"],
-      ["I liked the characters even though the story was kind of dumb.", "", "()"],
-      ["I can't recommend that book, it's difficult to read.", "", "()"],
-      ["They are wonderful characters, I fell in love with them.", "", "()"],
-      ["It's brilliantly written for a first-time author.", "", "()"],
-      ["It's so good I couldn't put the book down.", "", "()"],
-      ["It's well-written and realistic. It's hard to follow however.", "", "()"],
-      ["It's a beautiful story but it's very sad near the end.", "", "()"],
-      ["All the hype surrounding it doesn't mean it will turn out to be good.", "", "()"],
-      ["I feel like it should use less gimmicks in the story.", "", "()"]
+      ["I can really recommend this movie for its story.", "for its story", "(por sua história)"],
+      ["I liked the characters even though the story was kind of dumb.", "even though", "(apesar da)"],
+      ["I can't recommend that book, it's difficult to read.", "difficult to read", "(difícil de ler)"],
+      ["They are wonderful characters, I fell in love with them.", "fell in love", "(me apaixonei)"],
+      ["It's brilliantly written for a first-time author.", "first-time", "(primeira vez)"],
+      ["It's so good I couldn't put the book down.", "the book down", "(deixar o livro)"],
+      ["It's well-written and realistic. It's hard to follow however.", "hard to follow", "(difícil de seguir)"],
+      ["It's a beautiful story but it's very sad near the end.", "very sad near the", "(muito triste perto do)"],
+      ["All the hype surrounding it doesn't mean it will turn out to be good.", "hype surrounding it", "(empolgação em torno disso)"],
+      ["I feel like it should use less gimmicks in the story.", "should use less", "(deveria usar menos)"]
     ],
 
     "unit35" => [
 
-      ["This could mean that you need to pay more attention to how you speak.", "", "()"],
-      ["It could be caused by cultural differences.", "", "()"],
-      ["I don't understand why, but I'm trying to figure it out.", "", "()"],
-      ["I definitely don't see it that way.", "", "()"],
-      ["It probably means she doesn't want anything.", "", "()"],
-      ["I'm afraid you're not allowed to take pictures.", "", "()"],
-      ["That must be why I was having difficulty!", "", "()"],
-      ["You know how they say, birds of a feather flock together.", "", "()"],
-      ["The root cause needs to be identified before we can continue.", "", "()"],
-      ["I'm still trying to figure it out.", "", "()"]
+      ["This could mean that you need to pay more attention to how you speak.", "could mean that you need", "(pode significar que você precisa)"],
+      ["It could be caused by cultural differences.", "could be caused", "(pode ser causado)"],
+      ["I don't understand why, but I'm trying to figure it out.", "trying to", "(tentando)"],
+      ["I definitely don't see it that way.", "see it that way", "(vejo desse jeito)"],
+      ["It probably means she doesn't want anything.", "probably means", "(provavelmente significa)"],
+      ["I'm afraid you're not allowed to take pictures.", "not allowed", "(não premitido)"],
+      ["That must be why I was having difficulty!", "be why", "(ser por que)"],
+      ["You know how they say, birds of a feather flock together.", "how they say", "(como eles dizem)"],
+      ["The root cause needs to be identified before we can continue.", "needs to be", "(precisa ser)"],
+      ["I'm still trying to figure it out.", "still trying", "(ainda tentando)"]
 
     ],
 
     "unit36" => [
-      ["You should have been honest and told her about it.", "", "()"],
-      ["I wouldn't put so much effort if I was in your situation.", "", "()"],
-      ["What would you have done instead?", "", "()"],
-      ["I honestly didn't know what to do in that situation!", "", "()"],
-      ["I would've spoken to him about it.", "", "()"],
-      ["It can't be that bad, can it?", "", "()"],
-      ["You should've left her a note about it.", "", "()"],
-      ["If you had to pick between these two what would you do?", "", "()"],
-      ["I never should've mentioned it.", "", "()"],
-      ["Nevermind, it's not going to help me now.", "", "()"]
+      ["You should have been honest and told her about it.", "should have been", "(deveria ter sido)"],
+      ["I wouldn't put so much effort if I was in your situation.", "in your situation", "(na sua situação)"],
+      ["What would you have done instead?", "you have done", "(você teria feito)"],
+      ["I honestly didn't know what to do in that situation!", "didn't know what to do", "(não sabia o que fazer)"],
+      ["I would've spoken to him about it.", "spoken to him", "(falado com ele)"],
+      ["It can't be that bad, can it?", "that bad", "(tão ruim)"],
+      ["You should've left her a note about it.", "left her", "(deixado pra ela)"],
+      ["If you had to pick between these two what would you do?", "to pick between", "(escolher entre)"],
+      ["I never should've mentioned it.", "mentioned", "(mencionado)"],
+      ["Nevermind, it's not going to help me now.", "not going to", "(não vai)"]
     ]
 
   ],
@@ -539,42 +539,42 @@ $masterJSON = [
   "level15" => [
 
     "unit37" => [
-      ["I want to be friends with people who are supportive and kind.", "", "()"],
-      ["Outer space is the universe beyond the earth’s atmosphere. ", "", "()"],
-      ["We can say a robot is sentient if it is aware of itself.", "", "()"],
-      ["Yesterday I watched a TV show that argued aliens made the pyramids!", "", "()"],
-      ["Tim Berners-Lee was an MIT scientist who invented the world wide web protocol.", "", "()"],
-      ["Near where I work there is a gym that only charges about 50$.", "", "()"],
-      ["This is that phone that I told you about, the one that folds in half.", "", "()"],
-      ["He's that guy who is always talking on the phone to someone.", "", "()"],
-      ["The midwest is the area of the U.S. with the most farms.", "", "()"],
-      ["When I was in Canada I met a man who worked for a news station!", "", "()"]
+      ["I want to be friends with people who are supportive and kind.", "with people who are", "(com pessoas que são)"],
+      ["Outer space is the universe beyond the earth’s atmosphere. ", "universe beyond", "(universo além)"],
+      ["We can say a robot is sentient if it is aware of itself.", "sentient if it", "(sentiente se ele)"],
+      ["Yesterday I watched a TV show that argued aliens made the pyramids!", "that argued", "(que argumentava)"],
+      ["Tim Berners-Lee was an MIT scientist who invented the world wide web protocol.", "who invented the", "(que inventou a)"],
+      ["Near where I work there is a gym that only charges about 50$.", "a gym that only", "(uma academia que só)"],
+      ["This is that phone that I told you about, the one that folds in half.", "told you about", "(te falei sobre)"],
+      ["He's that guy who is always talking on the phone to someone.", "who is always", "(que está sempre)"],
+      ["The midwest is the area of the U.S. with the most farms.", "with the most", "(com mais)"],
+      ["When I was in Canada I met a man who worked for a news station!", "who worked for a", "(que trabalhou para uma)"]
     ],
 
     "unit38" => [
-      ["Working in an office all day sounds very boring.", "", "()"],
-      ["Developing games sounds fun!", "", "()"],
-      ["I'd enjoy working as a psychologist.", "", "()"],
-      ["Helping kids must be really rewarding.", "", "()"],
-      ["Having a high paying job you don't like must be really frustrating.", "", "()"],
-      ["I don't think you'd like being a fashion designer.", "", "()"],
-      ["Working as a veterinarian must be exhausting.", "", "()"],
-      ["Working all day in a hospital must be extremely stressful.", "", "()"],
-      ["He would enjoy that kind of work.", "", "()"],
-      ["Playing games all day should be a job!", "", "()"]
+      ["Working in an office all day sounds very boring.", "in an office all day", "(num escritório o dia todo)"],
+      ["Developing games sounds fun!", "Developing", "(desenvolver)"],
+      ["I'd enjoy working as a psychologist.", "working as", "(trabalhar como)"],
+      ["Helping kids must be really rewarding.", "be really", "(ser realmente)"],
+      ["Having a high paying job you don't like must be really frustrating.", "high paying job", "(trabalho bem pago)"],
+      ["I don't think you'd like being a fashion designer.", "like being a", "(gostaria de ser uma)"],
+      ["Working as a veterinarian must be exhausting.", "exhausting", "(exaustivo)"],
+      ["Working all day in a hospital must be extremely stressful.", "stressful", "(estressante)"],
+      ["He would enjoy that kind of work.", "that kind of", "(aquele tipo de)"],
+      ["Playing games all day should be a job!", "games all day should", "(games o dia todo deveria)"]
     ],
 
     "unit39" => [
-      ["Had you ever swimmed in the ocean before?", "", "()"],
-      ["I said that I could ride horses.", "", "()"],
-      ["She told me that she had just finished the book.", "", "()"],
-      ["I'm very close to my sister, she tells me everything.", "", "()"],
-      ["By the time I arrived at the train station it had already left.", "", "()"],
-      ["When we got to the cinema the movie had just started.", "", "()"],
-      ["We had to take an Uber because my car had broken down.", "", "()"],
-      ["We tried to buy another one but the were all out.", "", "()"],
-      ["I had come home to my house completely empty!", "", "()"],
-      ["He'd said that we'd arrive by tomorrow.", "", "()"]
+      ["Had you ever swimmed in the ocean before?", "Had you ever", "(você já tinha)"],
+      ["I said that I could ride horses.", "that I could", "(que eu podia)"],
+      ["She told me that she had just finished the book.", "had just", "(tinha acabado de)"],
+      ["I'm very close to my sister, she tells me everything.", "very close to", "(muito próximo da)"],
+      ["By the time I arrived at the train station it had already left.", "I arrived", "(eu cheguei)"],
+      ["When we got to the cinema the movie had just started.", "started", "(começado)"],
+      ["We had to take an Uber because my car had broken down.", "to take an", "(pegar um)"],
+      ["We tried to buy another one but the were all out.", "another one but", "(um outro mas)"],
+      ["I had come home to my house completely empty!", "completely empty", "(completamente vazios)"],
+      ["He'd said that we'd arrive by tomorrow.", "said that", "(dito que)"]
     ]
 
   ],
@@ -582,15 +582,15 @@ $masterJSON = [
   "level16" => [
 
     "unit40" => [
-      ["That doesn't sound as challenging as I thought.", "", "()"],
-      ["That idea would be more well recieved.", "", "()"],
-      ["We don't earn nearly as much as we should.", "", "()"],
-      ["It gets easier with time, believe me.", "", "()"],
-      ["Being a doctor is as difficult as being an engineer.", "", "()"],
-      ["I don't think being a chef is as difficult as people say.", "", "()"],
-      ["It's better than the alternative.", "", "()"],
-      ["We need to work harder on the project.", "", "()"],
-      ["I don't think you understand how difficult this is.", "", "()"]
+      ["That doesn't sound as challenging as I thought.", "challenging", "(desafiador)"],
+      ["That idea would be more well recieved.", "be more well", "(seria mais bem)"],
+      ["We don't earn nearly as much as we should.", "nearly as much", "(nem perto de quanto)"],
+      ["It gets easier with time, believe me.", "believe me", "(acredite em mim)"],
+      ["Being a doctor is as difficult as being an engineer.", "as being an", "(quanto ser um)"],
+      ["I don't think being a chef is as difficult as people say.", "as difficult as", "(tão difícil quanto)"],
+      ["It's better than the alternative.", "better than", "(melhor que)"],
+      ["We need to work harder on the project.", "work harder", "(trablhar mais duro)"],
+      ["I don't think you understand how difficult this is.", "how difficult", "(quão difícil)"]
     ]
 
   ]

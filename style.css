@@ -43,9 +43,9 @@
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
   --guyra-grey-dark: #dddddd;
-  --guyra-grey-darker: #777777;
-  --guyra-grey-darkest: #555555;
-  --guyra-black: #444;
+  --guyra-grey-darker: #8e8e8e;
+  --guyra-grey-darkest: #797979;
+  --guyra-black: #6a6a6a;
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
@@ -86,7 +86,29 @@
     font-family: 'Rubik';
     src: url('./assets/fonts/Rubik-Regular.woff2') format('woff2'),
          url('./assets/fonts/Rubik-Regular.woff') format('woff');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
 }
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('./assets/fonts/Rubik-Black.woff2') format('woff2'),
+        url('./assets/fonts/Rubik-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('./assets/fonts/Rubik-Bold.woff2') format('woff2'),
+        url('./assets/fonts/Rubik-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 @font-face {
     font-family: 'Komika';
@@ -226,7 +248,7 @@ footer .squeeze nav a {
 .page-squeeze textarea,
 .page-squeeze hr,
 .page-squeeze .comment-content {
-	border-width: 1px !important;
+	border-width: 1px;
 }
 
 .page-icon > img,
@@ -254,7 +276,7 @@ label[for="comment"],
 }
 
 .text-muted {
-    color: var(--guyra-grey-dark) !important;
+    color: var(--guyra-grey-dark);
 }
 
 .vertical-divider {
@@ -262,7 +284,7 @@ label[for="comment"],
 }
 
 *.disabled {
-  filter: saturate(0) !important;
+  filter: saturate(0);
 }
 
 /*
@@ -355,12 +377,51 @@ main.page {
   color: var(--guyra-black);
   background-color: var(--guyra-white);
   border: .25rem solid var(--guyra-grey);
-  margin-top: 10px !important;
-  left: -85px !important;
+  margin-top: 10px;
+  left: -85px;
 }
 
 .dropdown-item {
   padding: var(--guyra-fonts-textsize-sss);
+  color: var(--guyra-blue);
+  font-size: var(--guyra-fonts-textsize-s);
+  font-weight: bold;
+}
+
+nav .navbar-nav .btn-sm {
+  border: 0;
+  background: none;
+  color: var(--guyra-blue);
+  border-bottom: .25rem solid var(--guyra-blue);
+  border-radius: .25rem;
+  font-weight: bold;
+}
+
+nav .navbar-nav .btn-sm.btn-primary:hover {
+  border-bottom-color: var(--guyra-blue-darker);
+  color: var(--guyra-blue-darker);
+}
+
+nav .navbar-nav .btn-wa {
+	border-color: #25D366;
+	color: #25D366;
+}
+
+nav .navbar-nav .btn-wa:hover {
+	color: var(--guyra-white);
+	background-color: #25D366;
+}
+
+@media (max-width: 766px) {
+  nav .navbar-nav .btn-sm {
+    padding: 1rem;
+    border: .25rem solid var(--guyra-blue);
+    font-size: var(--guyra-fonts-textsize-x);
+  }
+
+  nav .navbar-nav .btn-sm:hover {
+    border-color: var(--guyra-blue-darker);
+  }
 }
 
 /*
@@ -379,7 +440,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 .cover-container {
   background: rgba(0,0,0,0.75);
-  color: var(--guyra-white) !important;
+  color: var(--guyra-white);
 }
 
 .cover-container p,
@@ -393,7 +454,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	.page-squeeze .page-content,
 	.page-squeeze .entry-content,
 	.page-squeeze .entry-summary {
-		padding: 0.5rem !important; margin: 0;
+		padding: 0.5rem; margin: 0;
 	}
 
 	.navbar .nav-rightside {
@@ -402,7 +463,7 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 	}
 
 	.navbar-nav li {
-		margin: 0 0 5px !important;
+		margin: 0 0 5px;
 	}
 
 	.navbar-nav li a {
@@ -609,13 +670,13 @@ a:hover {
 	color: var(--guyra-blue-lighter);
 }
 
-.text-primary { color: var(--guyra-blue) !important; }
+.text-primary { color: var(--guyra-blue); }
 
-.text-secondary { color: var(--guyra-purple-darker) !important; }
+.text-secondary { color: var(--guyra-purple-darker); }
 
-.border-primary { border-color: var(--guyra-blue) !important;}
+.border-primary { border-color: var(--guyra-blue);}
 
-.border-secondary { border-color: var(--guyra-purple-darker) !important; }
+.border-secondary { border-color: var(--guyra-purple-darker); }
 
 .bg-primary { background-color: var(--guyra-blue) !important; }
 
@@ -628,40 +689,31 @@ a:hover {
 *
 */
 
-.btn-wa {
-	border-color: #25D366 !important;
-	color: #25D366 !important;
-}
-
-.btn-wa:hover {
-	color: var(--guyra-white) !important;
-	background-color: #25D366 !important;
-}
-
 .btn-primary,
 .dropdown-item.active,
 .dropdown-item:active,
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a {
-	background-color: var(--guyra-blue) !important;
-	border-color: var(--guyra-blue) !important;
-	color: var(--guyra-white) !important;
+	background-color: var(--guyra-blue);
+	border-color: var(--guyra-blue);
+	color: var(--guyra-white);
 }
 
 .btn-primary:hover,
 .page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a:hover {
-  background-color: var(--guyra-blue-lighter) !important;
-	border-color: var(--guyra-blue-lighter) !important;
+  background-color: var(--guyra-blue-lighter);
+	border-color: var(--guyra-blue-lighter);
+  color: var(--guyra-white);
 }
 
 .btn-secondary {
-  background-color: var(--guyra-purple) !important;
-	border-color: var(--guyra-purple) !important;
-	color: var(--guyra-white) !important;
+  background-color: var(--guyra-purple);
+	border-color: var(--guyra-purple);
+	color: var(--guyra-white);
 }
 
 .btn-secondary:hover {
-  background-color: var(--guyra-purple-lighter) !important;
-  border-color: var(--guyra-purple-lighter) !important;
+  background-color: var(--guyra-purple-lighter);
+  border-color: var(--guyra-purple-lighter);
 }
 
 .btn,
@@ -681,6 +733,8 @@ button, input[type="button"], input[type="reset"], input[type="submit"],
   background: var(--guyra-white);
   font-size: var(--guyra-fonts-textsize-n);
   transition: none;
+  font-weight: bold;
+  font-family: var(--guyra-fonts-text);
 }
 
 .btn:hover,
@@ -695,39 +749,12 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
   background: var(--guyra-grey);
   border: 1px solid transparent;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  font-weight: normal;
-  transition: var(--guyra-transition);
 }
 
-.hover-pop:hover,
-.btn:hover,
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
-.btn-primary:hover,
-.btn-outline-primary:hover,
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:hover,
-.page-squeeze #user-registration .ur-frontend-form input.button:hover,
-.page-squeeze .user-registration-error > a:hover,
-.page-squeeze .user-registration-info > a:hover,
-.page-squeeze .user-registration-message > a:hover
-{
-	transform: scale(1.04);
-	transition: var(--guyra-transition);
-  z-index: 2;
-  position: relative;
-}
-
-.hover-pop:active,
 .btn:active,
-button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active,
 .btn-primary:active,
 .btn-outline-primary:active
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:active,
-.page-squeeze #user-registration .ur-frontend-form input.button:active,
-.page-squeeze .user-registration-error > a:active,
-.page-squeeze .user-registration-info > a:active,
-.page-squeeze .user-registration-message > a:active
 {
-	transform: scale(0.98);
 	box-shadow: unset;
 }
 
@@ -747,7 +774,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 
 .btn-outline-primary  {
 	color: var(--guyra-blue);
-	border-color: var(--guyra-blue) !important;
+	border-color: var(--guyra-blue);
 	border: 1px solid;
 	background-color: transparent;
 }
@@ -762,7 +789,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .btn-outline-primary.disabled,
 .btn-outline-primary:disabled {
   color: var(--guyra-grey-darker);
-  border-color: var(--guyra-grey-darker) !important;
+  border-color: var(--guyra-grey-darker);
 }
 
 .page-squeeze .list-group.study-menu {
@@ -783,7 +810,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 }
 
 .btn-tall:active {
-  border-bottom: 0 !important;
+  border-bottom: 0;
 }
 
 .btn-tall,
@@ -793,8 +820,8 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .ur-frontend-form .ur-button-container .ur-submit-button {
   color: var(--guyra-blue);
   font-size: var(--guyra-fonts-textsize-n);
-  border: 0 !important;
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark) !important;
+  border: 0;
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
   background: var(--guyra-grey);
   display: flex;
   align-items: center;
@@ -806,45 +833,45 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 .lost_password a:hover,
 .ur-frontend-form .ur-button-container .ur-submit-button:hover {
   background: var(--guyra-grey-dark);
-  border-bottom-color: var(--guyra-grey-darker) !important;
+  border-bottom-color: var(--guyra-grey-darker);
 }
 
 .btn-tall.blue,
 .page-squeeze .list-group.study-menu .list-group-item.active,
 .page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"],
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button {
-  border-bottom-color: var(--guyra-blue-darker) !important;
-  background-color: var(--guyra-blue) !important;
+  border-bottom-color: var(--guyra-blue-darker);
+  background-color: var(--guyra-blue);
   color: var(--guyra-white);
 }
 
 .btn-tall.blue:hover,
 .page-squeeze .list-group.study-menu .list-group-item.active:hover,
 .page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover {
-  background: var(--guyra-blue-darker) !important;
-  border-bottom-color: var(--guyra-blue-darkest) !important;
+  background: var(--guyra-blue-darker);
+  border-bottom-color: var(--guyra-blue-darkest);
 }
 
 .btn-tall.green {
-  border-bottom-color: var(--guyra-green-darker) !important;
-  background-color: var(--guyra-green) !important;
+  border-bottom-color: var(--guyra-green-darker);
+  background-color: var(--guyra-green);
   color: var(--guyra-white);
 }
 
 .btn-tall.green:hover {
-  background: var(--guyra-green-darker) !important;
-  border-bottom-color: var(--guyra-green-darkest) !important;
+  background: var(--guyra-green-darker);
+  border-bottom-color: var(--guyra-green-darkest);
 }
 
 .btn-tall.black {
-	background-color: var(--guyra-grey-darker) !important;
-  border-bottom-color: var(--guyra-grey-darkest) !important;
+	background-color: var(--guyra-grey-darker);
+  border-bottom-color: var(--guyra-grey-darkest);
   color: var(--guyra-white);
 }
 
 .btn-tall.black:hover {
-	background-color: var(--guyra-grey-darkest) !important;
-  border-bottom-color: var(--guyra-black) !important;
+	background-color: var(--guyra-grey-darkest);
+  border-bottom-color: var(--guyra-black);
 }
 
 #exercise-container .exercise-answers .btn-tall {
@@ -969,13 +996,13 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 }
 
 .exercise-hints .btn-success {
-  background-color: var(--guyra-green) !important;
-  border-color: var(--guyra-green) !important;
+  background-color: var(--guyra-green);
+  border-color: var(--guyra-green);
 }
 
 .exercise-hints .btn-danger {
-  background-color: var(--guyra-red) !important;
-  border-color: var(--guyra-red) !important;
+  background-color: var(--guyra-red);
+  border-color: var(--guyra-red);
 }
 
 .exercise-level-chooser .section {
@@ -1036,7 +1063,7 @@ button:active, input[type="button"]:active, input[type="reset"]:active, input[ty
 a.element-container,
 a.element-container:visited {
   color: var(--guyra-black);
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 .element-container:hover {
@@ -1097,7 +1124,7 @@ a.element-container:visited {
 .page-squeeze .comment-content,
 #exercise-answer-textarea {
     border-radius: var(--guyra-border-radius);
-    border: .2rem solid #ddd !important;
+    border: .2rem solid #ddd;
     background: #f9f9f9;
     padding: 1rem;
     font-family: var(--guyra-fonts-text);
@@ -1118,7 +1145,7 @@ a.element-container:visited {
 
 .page-squeeze #comment:focus-visible,
 #exercise-answer-textarea:focus-visible {
-    border: .2rem solid #bdbdbd !important;
+    border: .2rem solid #bdbdbd;
     background: #f5f5f5;
     outline: none;
 }
@@ -1287,45 +1314,41 @@ a.element-container:visited {
 *
 */
 
-.page-squeeze #user-registration,
-.page-squeeze #user-registration.horizontal,
-.page-squeeze .ur-frontend-form fieldset,
-.page-squeeze #user-registration .user-registration-MyAccount-content .user-registration-profile-fields__field-wrapper,
-.page-squeeze .ur-frontend-form .ur-form-row .ur-form-grid,
-.page-squeeze #user-registration .user-registration-MyAccount-content
-{
-	border: unset !important;
-	box-shadow: unset !important;
-	margin: 0 !important;
-  padding: 0 !important;
-  text-align: left !important;
-}
-
 .page-squeeze #user-registration p {
   color: var(--guyra-black);
 }
 
+.ur-form-row {
+  margin-bottom: 1.5rem;
+}
+
 .page-squeeze .ur-frontend-form {
-  margin: 0 calc(1rem + 5vw) !important;
-  padding: 0 !important;
-  background: unset !important;
-  box-shadow: unset !important;
-  border: unset !important;
+  margin: 0 calc(1rem + 5vw);
   font-family: var(--guyra-fonts-text);
 }
 
+.page-squeeze .user-registration-form-row {
+    display: flex;
+    flex-direction: column;
+}
+
 .page-squeeze .ur-frontend-form legend {
-  margin-bottom: calc(1rem + 1vw) !important;
-  font-size: var(--guyra-fonts-textsize-s) !important;
+  margin-bottom: calc(1rem + 1vw);
+  font-size: var(--guyra-fonts-textsize-s);
 }
 
 .page-squeeze .ur-frontend-form label {
-  margin: .5rem 0 !important;
-  font-size: var(--guyra-fonts-textsize-ss) !important;
+  margin: .5rem 0;
+  font-size: var(--guyra-fonts-textsize-ss);
+  float: right;
 }
 
-.page-squeeze #user-registration .user-registration-MyAccount-content .edit-password legend,
-.page-squeeze #user-registration .user-registration-MyAccount-content h2 {
+#rememberme {
+  width: auto;
+}
+
+.page-squeeze .user-registration-MyAccount-content .edit-password legend,
+.page-squeeze .user-registration-MyAccount-content h2 {
   font-family: var(--guyra-fonts-title);
   font-size: var(--guyra-fonts-textsize-xx);
   font-weight: 900;
@@ -1335,31 +1358,32 @@ a.element-container:visited {
 .page-squeeze .user-registration-message,
 .page-squeeze .user-registration-error,
 .page-squeeze .user-registration-info {
-  padding: .5rem !important;
+  padding: .5rem;
   font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
   font-family: var(--guyra-fonts-text);
   border: unset;
   background: var(--guyra-grey);
-  border-radius: var(--guyra-border-radius) !important;
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark) !important;
+  border-radius: var(--guyra-border-radius);
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  width: 100%;
 }
 
 .page-squeeze .ur-frontend-form .ur-form-grid .ur-field-item {
   padding: 0 .15rem;
 }
 
-.page-squeeze #user-registration .user-registration-message,
-.page-squeeze #user-registration .user-registration-error,
-.page-squeeze #user-registration .user-registration-info {
+.page-squeeze .user-registration-message,
+.page-squeeze .user-registration-error,
+.page-squeeze .user-registration-info {
 	font-size: var(--guyra-fonts-textsize-s);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: .5rem !important;
+  margin-bottom: .5rem;
 }
 
-.page-squeeze #user-registration .premium-badge {
+.page-squeeze .premium-badge {
   padding: .1rem .3rem;
   font-size: var(--guyra-fonts-textsize-sss);
   align-self: center;
@@ -1369,26 +1393,13 @@ a.element-container:visited {
 
 .page-squeeze .ur-profile-picture, .avatar { border-radius: 50%; }
 
-.page-squeeze #user-registration .user-registration-MyAccount-navigation {
-	margin-bottom: 3rem;
-}
-
-.page-squeeze #user-registration .ur-edit-profile,
-.page-squeeze #user-registration .user-registration-MyAccount-content,
-.page-squeeze #user-registration.horizontal .ur-edit-profile,
-.page-squeeze #user-registration.horizontal .user-registration-MyAccount-content {
-	text-align: left;
-
-}
-
-.page-squeeze #user-registration .user-registration-MyAccount-navigation ul,
-.page-squeeze #user-registration.horizontal .user-registration-MyAccount-navigation ul {
+.page-squeeze .user-registration-MyAccount-navigation ul,
+.page-squeeze .horizontal .user-registration-MyAccount-navigation ul {
 	justify-content: left;
-}
-
-.page-squeeze #user-registration .user-registration-MyAccount-navigation,
-.page-squeeze #user-registration.horizontal .user-registration-MyAccount-navigation {
-	border: unset;
+  margin-bottom: 3rem;
+  display: flex;
+  list-style: none;
+  padding: 0;
 }
 
 .lost_password a {
@@ -1396,18 +1407,6 @@ a.element-container:visited {
   display: inline-flex;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
   border-radius: var(--guyra-border-radius);
-}
-
-.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
-.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover,
-.ur-frontend-form .ur-button-container .ur-submit-button,
-.ur-frontend-form .ur-button-container .ur-submit-button:hover {
-  transform: none;
-  transition: unset;
-  float: none;
-  display: flex;
-  width: 100%;
-  justify-content: center;
 }
 
 .page-squeeze .ur-frontend-form .ur-button-container {
@@ -1429,4 +1428,4 @@ a[href="#collapse-admin"] { opacity: 0; }
 
 a[href="#collapse-admin"]:hover { opacity: inherit; }
 
-body:not(.wp-admin) #wpadminbar { position: absolute !important; display: none !important; }
+body:not(.wp-admin) #wpadminbar { position: absolute; display: none; }

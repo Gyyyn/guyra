@@ -44,6 +44,8 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff" as="font">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff2" as="font">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg.png" as="image">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg3.png" as="image">
 
@@ -57,24 +59,30 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container"><div>
-      <div class="navbar-brand hover-pop pe-3 position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
-      	<img alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
-        <span class="navbar-center-title"><img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" /></span>
-      </a></div>
 
-      <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </a>
+      <div class="d-flex d-md-none w-100 justify-content-between">
 
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0 ms-0">
+        <div class="navbar-brand"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+          <span class="navbar-center-title">
+            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" />
+          </span>
+        </a></div>
+
+        <a class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </a>
+
+      </div>
+
+      <div class="justify-content-between collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mb-2 mb-md-0 ms-0">
 
           <?php if (!is_user_logged_in()) { ?>
           <li class="nav-item me-3">
-            <a class=" btn btn-sm btn-outline-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
           </li>
           <li class="nav-item me-3">
-            <a class=" btn btn-sm btn-primary text-white" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
           </li>
           <span class="me-3 p-0 vertical-divider"></span>
           <?php } ?>
@@ -82,14 +90,21 @@ if($user_subscription != '' && $user_subscription_till < $now) {
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
           </li>
           <li class="nav-item me-3">
-            <a class=" btn btn-sm btn-outline-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
           </li>
           <li class="nav-item me-3 position-relative">
-            <a class=" btn btn-sm btn-outline-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
+            <a class=" btn btn-sm btn-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
               <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
             </a>
           </li>
         </ul>
+
+        <div class="navbar-brand full d-none d-md-block position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+          <span class="navbar-center-title">
+            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" />
+          </span>
+        </a></div>
+
         <ul class="navbar-nav justify-content-end nav-rightside">
           <li class="nav-item me-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><span class="dashicons dashicons-whatsapp"></span> WhatsApp</a>
@@ -101,10 +116,10 @@ if($user_subscription != '' && $user_subscription_till < $now) {
           </li>
         <?php } else { ?>
           <li class="nav-item profile-item">
-            <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_myaccount'] ?></a>
             <div class="dropdown m-0 d-inline">
               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
               <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?></a></li>
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil</a></li>
                 <li><a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">Sair</a></li>
               </ul>
