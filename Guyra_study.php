@@ -61,29 +61,29 @@ if ($user_studypage_object == null) {
 }
 
 ?>
-<main id="intro-content" class="site-main study squeeze position-relative">
+<main id="intro-content" class="site-main study squeeze position-relative mb-5">
 
   <div class="page-squeeze"><div>
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
       <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/learning.png'; ?>"></span>
+        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['study']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/target.png'; ?>"></span>
+        <span class="menu-icon"><img alt="practice" src="<?php echo $gi18n['template_link'] . '/assets/icons/target.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
       </a>
 
       <a href="<?php echo get_site_url() ?>/reference" class="list-group-item">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/notebook.png'; ?>"></span>
+        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/notebook.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference']; ?></span>
       </a>
 
       <a href="<?php echo get_site_url() ?>/courses" class="list-group-item disabled position-relative">
         <span class="position-absolute top-50 start-50 translate-middle badge bg-primary rounded-pill">Soon!</span>
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
+        <span class="menu-icon"><img alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
       </a>
     </div>
@@ -100,7 +100,7 @@ if ($user_studypage_object == null) {
     <div class="collapse hide" id="exercise-container-super">
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_practice_title']; ?></h1>
-        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
+        <span class="page-icon"><img alt="practice" src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
       </div>
       <div id="exercise-container"></div>
       <hr class="my-5 thick" />
@@ -110,7 +110,7 @@ if ($user_studypage_object == null) {
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
-        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
+        <span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
       </div>
 
       <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
@@ -123,7 +123,7 @@ if ($user_studypage_object == null) {
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
-        <span class="page-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
+        <span class="page-icon"><img alt="homework" src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
       </div>
 
       <?php

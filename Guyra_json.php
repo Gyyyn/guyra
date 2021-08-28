@@ -12,16 +12,49 @@ $masterJSON = [
 
     "unit1" => [
       ["I am John.", "am", "(sou)"],
+      ["He is John.", "is", "(é)"],
+      ["We are friends.", "are", "(somos)"],
+      ["She is clara.", "is", "(é)"],
       ["Hello! How are you?", "are", "(está)"],
+      ["Hello! How are you doing?", "are", "(está)"],
+      ["Hello! Are you good?", "Are", "(está)"],
+      ["Hi! Good afternoon.", "Good", "(boa)"],
       ["Are you from here?", "from", "(da)"],
+      ["Is she from here?", "she from", "(ela ___ da)"],
+      ["Are you from here?", "here", "(daqui)"],
+      ["Are they from here?", "they", "(eles)"],
       ["We are from England.", "are from", "(somos da)"],
+      ["They are from Brazil.", "are", "(são)"],
+      ["I am from Germany.", "am from", "(sou da)"],
+      ["He is from Canada.", "is from", "(é da)"],
       ["She is really pretty!", "is", "(é)"],
+      ["He is really tall!", "is", "(é)"],
+      ["She is at home.", "is", "(é)"],
+      ["She is in her room", "is", "(é)"],
       ["I am English.", "I", "(eu)"],
+      ["I am Brazillian.", "am", "(sou)"],
+      ["I am Japanese.", "I", "(eu)"],
+      ["I am Norwegian.", "am", "(sou)"],
       ["My friend is from Brazil.", "is from", "(é do)"],
+      ["He is from Italy.", "is from", "(é do)"],
+      ["My sister is from China.", "is from", "(é do)"],
+      ["Carla is from Argentina.", "is from", "(é do)"],
       ["Nice to meet you.", "meet", "(conhecer)"],
+      ["Good evening.", "Good", "(Boa)"],
+      ["Good morning.", "Good", "(Bom)"],
+      ["Good afternoon.", "Good", "(Boa)"],
       ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(eu sou)"],
+      ["He is from New York, my friend is from Los Angeles.", "is from", "(é de)"],
+      ["I'm from Miami, he is from Los Angeles.", "he is", "(ele é)"],
+      ["I'm from Los Angeles, my friend is from Rio.", "I'm", "(eu sou)"],
       ["My friend and I are students.", "and I", "(e eu)"],
-      ["We are American.", "We", "(nós)"]
+      ["My friend and I are at home.", "and I", "(e eu)"],
+      ["We are students.", "are", "(somos)"],
+      ["They are at home.", "at", "(em)"],
+      ["We are American.", "We", "(nós)"],
+      ["We aren't Canadian.", "aren't", "(não somos)"],
+      ["I'm not Chinese.", "not", "(não)"],
+      ["He isn't Chilean.", "isn't", "(não é)"]
     ],
 
     "unit2" => [
@@ -715,7 +748,7 @@ $levelMap = ["levelmap" => [
   "level5" => [
 
     "unit13" => [
-      "id" => "unit5",
+      "id" => "unit13",
       "name" => "Convites",
       "description" => "temp",
       "type" => "CompleteThePhrase",
@@ -723,7 +756,7 @@ $levelMap = ["levelmap" => [
     ],
 
     "unit14" => [
-      "id" => "unit6",
+      "id" => "unit13",
       "name" => "Historias",
       "description" => "temp",
       "type" => "CompleteThePhrase",

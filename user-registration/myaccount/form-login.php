@@ -96,24 +96,22 @@ $enable_ajax = 'yes' === get_option( 'ur_login_ajax_submission', 'no' );
 
 					<?php do_action( 'user_registration_login_form' ); ?>
 
-					<p class="form-row">
+					<p class="form-row login-button">
 						<?php wp_nonce_field( 'user-registration-login', 'user-registration-login-nonce' ); ?>
-						<div>
-							<?php if($enable_ajax) { ?>
-							<input type="submit" class="user-registration-Button button ur-submit-button" id="user_registration_ajax_login_submit" name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
-							<span></span>
-							<?php } else { ?>
-							<input type="submit" class="user-registration-Button button " name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
-							<?php } ?>
-						</div>
+						<?php if($enable_ajax) { ?>
+						<input type="submit" class="user-registration-Button button ur-submit-button" id="user_registration_ajax_login_submit" name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
+						<span></span>
+						<?php } else { ?>
+						<input type="submit" class="user-registration-Button button " name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
+						<?php } ?>
 						<input type="hidden" name="redirect" value="<?php echo isset( $redirect ) ? $redirect : the_permalink(); ?>" />
 						<?php
 							$remember_me_enabled = get_option( 'user_registration_login_options_remember_me', 'yes' );
 
 						if ( 'yes' === $remember_me_enabled ) {
 							?>
-								<label class="user-registration-form__label user-registration-form__label-for-checkbox inline">
-									<input class="user-registration-form__input user-registration-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php echo esc_html( $labels['remember_me'] ); ?></span>
+								<label class="remember-me">
+									<input name="rememberme" type="checkbox" class="w-auto" id="rememberme" value="forever" /> <span><?php echo esc_html( $labels['remember_me'] ); ?></span>
 								</label>
 								<?php
 						}

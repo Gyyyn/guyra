@@ -30,6 +30,8 @@ $gi18n = [
 	'thanks' => 'Agradecimentos',
 	'writtenby' => 'Escrito por:',
 	'hint' => 'Dica: ',
+	'are_you_lost' => 'Não tem nada por aqui...',
+	'are_you_lost_explain' => 'Se você estava tentando acessar alguma coisa talvez ela tenha mudado de lugar ou houve um erro no nosso sistema, sorry 😔',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
 	'landing_title2' => 'Diversos cursos já disponiveis.',
 	'landing_title3' => 'Todas as ferramentas para o aprendizado.',
@@ -73,6 +75,12 @@ $gi18n = [
       Ao clicar no botão a baixo você sera levado a uma pagina do Mercado Pago para concluir a compra.
     </div>
     ',
+	/* User page */
+	'level' => 'Nível: ',
+	'level_explain' => 'Seu nível representa quanto você já praticou no Guyrá.',
+	'ranking' => 'Divisão: ',
+	'ranking_explain' => '<p>Sua divisão representa quão bem você está se saindo em comparação com pessoas do mesmo nível.</p><p>Você pode subir de divisão jogando mais na área de exercícios e fazendo o maior números de acertos possíveis!</p>',
+	'practice_more' => 'Quer praticar mais?',
 	/* Exercises */
 	'correctanswer' => 'Resposta correta: ',
 	'wronganswer' => 'Não era essa!',
@@ -90,6 +98,7 @@ $gi18n = [
 	'home_link' => get_site_url(),
 	'blog_link' => get_site_url() . '/category/blog',
 	'meet_link' => get_site_url() . '/meet',
+	'practice_link' => get_site_url() . '/practice',
 	'courses_link' => get_site_url() . '/courses',
 	'profile_link' => get_site_url() . '/account/edit-profile',
 	'logout_link' => get_site_url() . '/account/user-logout',

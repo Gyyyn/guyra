@@ -36,8 +36,10 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <meta name="theme-color" content="#00d4ff"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff2" as="font">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff" as="font">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff2" as="font">
@@ -64,7 +66,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
         <div class="navbar-brand"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
-            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" />
+            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
           </span>
         </a></div>
 
@@ -101,13 +103,13 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
         <div class="navbar-brand full d-none d-md-block position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
-            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-smaller.png" />
+            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
           </span>
         </a></div>
 
         <ul class="navbar-nav justify-content-end nav-rightside">
           <li class="nav-item me-3">
-            <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><span class="dashicons dashicons-whatsapp"></span> WhatsApp</a>
+            <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
           <?php if(!is_user_logged_in()) { ?>
           <li class="nav-item my-auto me-3"><?php echo $gi18n['button_alreadyregistered'] ?></li>
@@ -117,7 +119,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <?php } else { ?>
           <li class="nav-item profile-item">
             <div class="dropdown m-0 d-inline">
-              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
+              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?></a></li>
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil</a></li>

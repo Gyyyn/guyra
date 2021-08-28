@@ -7,12 +7,7 @@
 
 let e = React.createElement;
 
-function getBaseUrl() {
-    var re = new RegExp(/^.*\//);
-    return re.exec(window.location.href)[0];
-}
-
-const rootUrl = getBaseUrl();
+const rootUrl = window.location.origin.concat('/');
 
 function shuffleArray(a) {
  var j, x, i;
@@ -76,6 +71,154 @@ function getRandomAvatar() {
     break;
 
   }
+}
+
+function getEquivalentAnswersFor(answer) {
+
+  // This is bad. But it is temporary
+  switch (answer) {
+
+    case "'m":
+    case "am":
+      return ["'m", "am"];
+    break;
+
+    case "i'm":
+    case "i am":
+      return ["i'm", "i am"];
+    break;
+
+    case "i'm not":
+    case "i am not'":
+      return ["i'm not", "i am not"];
+    break;
+
+    case "is":
+    case "'s":
+      return ["'s", "is"];
+    break;
+
+    case "isn't":
+    case "is not":
+    case "'s not":
+      return ["'s not", "is not", "isn't"];
+    break;
+
+    case "are":
+    case "'re":
+      return ["'re", "are"];
+    break;
+
+    case "are not":
+    case "aren't":
+    case "'re not":
+      return ["'re not", "aren't", "are not"];
+    break;
+
+    case "'ve":
+    case "have":
+      return ["'ve", "have"];
+    break;
+
+    case "have not":
+    case "haven't":
+    case "'ve not":
+      return ["have not", "'ve not", "haven't"];
+    break;
+
+    case "would've":
+    case "would have":
+      return ["would've", "would have"];
+    break;
+
+    case "would not have":
+    case "wouldn't have":
+      return ["would not have", "wouldn't have"];
+    break;
+  }
+}
+
+function joinEquivalents(input) {
+  // Maybe in the future this could instead of joining just set up
+  // an independent map of grouped meanings
+  if (input.length > 1) {
+    input.forEach((item, i, arr) => {
+
+      let next = arr[i + 1];
+      let nextEquals = getEquivalentAnswersFor(item.concat(' ', next));
+
+      if (next != undefined && nextEquals != undefined) {
+        if (nextEquals.length > 1) {
+          arr[i] = arr[i].concat(' ', next);
+          arr.splice(i + 1, 1);
+        }
+      }
+
+    });
+  }
+
+  return input;
+}
+
+function isAnswerCorrect(correct, userInput) {
+  // This function checks if two inputs can be considered the same based
+  // on a database, currently the fucntion above
+  correct = correct.split(' ');
+  userInput = userInput.split(' ');
+  let passable = true;
+
+  // Join together some related pieces of grammatical structure
+  // such as "i am", "you are" for checking.
+  correct = joinEquivalents(correct);
+  userInput = joinEquivalents(userInput);
+
+  // Set up the list of alternative answers for each word
+  correct.forEach((item, i) => {
+
+    equal = getEquivalentAnswersFor(item);
+
+    if (equal != undefined) {
+      correct[i] = equal
+    } else {
+      correct[i] = item
+    }
+
+  });
+
+  // As long as each part of the sentence can be considered equivalent
+  // the eval returns true
+  userInput.forEach((item, i) => {
+
+    if (i > (correct.length - 1)) {
+      passable = false;
+    } else if (correct[i].indexOf(item) === -1) {
+      passable = false;
+    }
+
+    // If everything has checked out until now check if the last
+    // word of each array is equal to see if the two last words are the same
+    if (passable && i == (userInput.length - 1) && correct.length > userInput.length) {
+      let lastCorrect = getEquivalentAnswersFor(correct[correct.length - 1]);
+      let lastUserInput = getEquivalentAnswersFor(userInput[userInput.length - 1]);
+
+      if (lastCorrect == undefined) {
+        lastCorrect = correct[correct.length - 1];
+      }
+
+      if (lastUserInput == undefined) {
+        lastUserInput = userInput[userInput.length - 1];
+      }
+
+      if (lastCorrect != lastUserInput) {
+        passable = false;
+      }
+    }
+  });
+
+  console.log(correct, userInput);
+
+  return passable;
+
 }
 
 /*
@@ -684,12 +827,13 @@ class App extends React.Component {
   CheckAnswer = (answer, answerID) => {
 
     let answered = "wrong";
+    let correct = this.state.values[2].toLowerCase();
 
     // Check if answer was already given
     if(this.state.alreadyAnswered == false) {
 
       // Check the answer, all in lower case
-      if(answer.toLowerCase() == this.state.values[2].toLowerCase()) {
+      if(isAnswerCorrect(correct, answer)) {
 
         answered = "correct";
 

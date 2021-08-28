@@ -79,7 +79,7 @@
          url('./assets/fonts/campton_black.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
+    font-display: swap;
 }
 
 @font-face {
@@ -116,7 +116,7 @@
          url('./assets/fonts/komikask-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
+    font-display: swap;
 }
 
 /*
@@ -146,19 +146,27 @@ h1, h2, h3, h4, h5 {
 	cursor: default;
 }
 
+.page-squeeze h1 {
+  font-size: var(--guyra-fonts-textsize-super);
+  margin: 0;
+}
+
 p {
   color: var(--guyra-black);
 }
 
-.page-squeeze h1 {
-  font-size: var(--guyra-fonts-textsize-super);
-  margin: 0;
+.text-small {
+  font-size: var(--guyra-fonts-textsize-s);
 }
 
 .text-shadow {
   /*text-shadow: -1px 1px var(--guyra-blue-darker), -1px 3px var(--guyra-blue-darker), -2px 4px var(--guyra-blue-darker);*/
   text-shadow: 0 0 3px rgba(0,0,0,0.17);
   color: var(--guyra-blue);
+}
+
+.text-muted {
+    color: var(--guyra-grey-dark);
 }
 
 body,
@@ -182,17 +190,6 @@ body {
 	background-size: auto;
   background-image: url("./assets/img/bg.png");
 }
-
-body.wp-admin {
-	font-family: sans-serif;
-	background: var(--guyra-white);
-	color: var(--guyra-black);
-}
-
-#adminmenu .wp-has-current-submenu .wp-submenu,
-#adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu,
-.no-js li.wp-has-current-submenu:hover .wp-submenu { margin-left: 0; }
 
 .page-squeeze,
 .navbar,
@@ -222,7 +219,7 @@ hr.thick {
 .bg-gradient-white-reverse { background: var(--guyra-white-transparent-gradient-reverse); }
 
 footer {
-  background: linear-gradient(0deg, var(--guyra-white) 75%, rgba(255, 255, 255, 0) 100%);
+  background: var(--guyra-white);
 }
 
 footer .squeeze {
@@ -251,6 +248,10 @@ footer .squeeze nav a {
 	border-width: 1px;
 }
 
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
 .page-icon > img,
 img.page-icon {
 	width: calc(2.5vh + 4.5vw);
@@ -275,16 +276,16 @@ label[for="comment"],
 	display: none;
 }
 
-.text-muted {
-    color: var(--guyra-grey-dark);
-}
-
 .vertical-divider {
-    border-left: var(--guyra-blue) 2px dashed;
+    border-left: var(--guyra-blue) .25px dashed;
 }
 
 *.disabled {
   filter: saturate(0);
+}
+
+.bg-white {
+  background: var(--guyra-white);
 }
 
 /*
@@ -296,7 +297,8 @@ label[for="comment"],
 
 main.blog,
 main.study,
-main.page {
+main.page,
+main.practice {
   margin-top: var(--guyra-navbar-size);
   min-height: calc(100vh - var(--guyra-navbar-size) + 1px);
 }
@@ -678,10 +680,12 @@ background: var(--guyra-blue) url(./assets/img/bg3.png);
 
 a, a:visited {
 	color: var(--guyra-blue);
+  text-decoration: underline;
 }
 
 a:hover {
 	color: var(--guyra-blue-lighter);
+  text-decoration: none;
 }
 
 .text-primary { color: var(--guyra-blue); }
@@ -703,17 +707,44 @@ a:hover {
 *
 */
 
-.btn-primary,
+.btn,
+button, input[type="button"], input[type="reset"], input[type="submit"],
+.page-squeeze .ur-frontend-form input.button
+{
+  color: var(--guyra-black);
+  font-weight: normal;
+  text-decoration: none;
+  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
+  border-radius: var(--guyra-border-radius);
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: var(--guyra-fonts-textsize-n);
+  transition: none;
+  font-weight: bold;
+  font-family: var(--guyra-fonts-text);
+}
+
+.btn:hover,
+button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
+.page-squeeze .ur-frontend-form input.button:hover
+{
+  color: var(--guyra-grey-darkest);
+  background: var(--guyra-grey);
+  border: 1px solid transparent;
+  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
+}
+
+a.btn-primary,
+a.btn-primary:active,
+a.btn-primary:focus,
 .dropdown-item.active,
-.dropdown-item:active,
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a {
+.dropdown-item:focus {
 	background-color: var(--guyra-blue);
 	border-color: var(--guyra-blue);
 	color: var(--guyra-white);
 }
 
-.btn-primary:hover,
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link.is-active > a:hover {
+.btn-primary:hover {
   background-color: var(--guyra-blue-lighter);
 	border-color: var(--guyra-blue-lighter);
   color: var(--guyra-white);
@@ -728,41 +759,6 @@ a:hover {
 .btn-secondary:hover {
   background-color: var(--guyra-purple-lighter);
   border-color: var(--guyra-purple-lighter);
-}
-
-.btn,
-button, input[type="button"], input[type="reset"], input[type="submit"],
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a,
-.page-squeeze #user-registration .ur-frontend-form input.button,
-.page-squeeze .user-registration-error > a,
-.page-squeeze .user-registration-info > a,
-.page-squeeze .user-registration-message > a
-{
-  color: var(--guyra-black);
-  font-weight: normal;
-  text-decoration: none;
-  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  border-radius: var(--guyra-border-radius);
-  border: 1px solid transparent;
-  background: var(--guyra-white);
-  font-size: var(--guyra-fonts-textsize-n);
-  transition: none;
-  font-weight: bold;
-  font-family: var(--guyra-fonts-text);
-}
-
-.btn:hover,
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
-.page-squeeze #user-registration.user-registration.horizontal .user-registration-MyAccount-navigation ul .user-registration-MyAccount-navigation-link > a:hover,
-.page-squeeze #user-registration .ur-frontend-form input.button:hover,
-.page-squeeze .user-registration-error > a:hover,
-.page-squeeze .user-registration-info > a:hover,
-.page-squeeze .user-registration-message > a:hover
-{
-  color: var(--guyra-grey-darkest);
-  background: var(--guyra-grey);
-  border: 1px solid transparent;
-  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
 }
 
 .btn:active,
@@ -834,6 +830,7 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
 .ur-frontend-form .ur-button-container .ur-submit-button {
   color: var(--guyra-blue);
   font-size: var(--guyra-fonts-textsize-n);
+  font-weight: bold;
   border: 0;
   border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
   background: var(--guyra-grey);
@@ -913,6 +910,12 @@ button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type=
 *
 *
 */
+
+.exercise-squeeze {
+  max-width: 50vw;
+  margin: auto;
+  padding: 5rem 0;
+}
 
 .exercise-squeeze .loading {
   display: flex;
@@ -1256,29 +1259,34 @@ a.element-container:visited {
   margin: 5rem 0;
 }
 
-.blog .entry-content ul {
+.blog .entry-content ul,
+.study-page ul {
   list-style: none;
   padding: 0;
   margin-left: 2rem;
   margin-bottom: var(--guyra-line-height-blog);
 }
 
-.blog .entry-content ul li {
+.blog .entry-content ul li,
+.study-page ul li {
   margin-bottom: .25rem;
 }
 
-.blog .entry-content ul li::before {
+.blog .entry-content ul li::before,
+.study-page ul li::before {
   content: "👉";
   margin-right: 1rem;
 }
 
-.blog .entry-content .wp-block-preformatted {
+.blog .entry-content .wp-block-preformatted,
+.study-page .wp-block-preformatted {
   padding: 1rem;
   background: var(--guyra-grey-dark);
   margin-bottom: var(--guyra-line-height-blog);
 }
 
-.blog .entry-content .wp-block-quote {
+.blog .entry-content .wp-block-quote,
+.study-page .wp-block-quote {
   padding: 3rem 2rem;
   background: var(--guyra-grey);
   font-family: var(--bs-font-sans-serif);
@@ -1287,32 +1295,39 @@ a.element-container:visited {
 }
 
 .blog .entry-content .wp-block-quote cite,
-.blog .entry-content .wp-block-pullquote cite {
+.blog .entry-content .wp-block-pullquote cite,
+.study-page .wp-block-quote cite,
+.study-page .wp-block-pullquote cite {
   font-size: var(--guyra-fonts-textsize-s);
 }
 
-.blog .entry-content .wp-block-pullquote {
+.blog .entry-content .wp-block-pullquote,
+.study-page .wp-block-pullquote {
   border: solid var(--guyra-grey-darkest);
   border-width: .25rem 0 .25rem 0;
   margin-bottom: var(--guyra-line-height-blog);
 }
 
-.blog .entry-content .wp-block-table {
+.blog .entry-content .wp-block-table,
+.study-page .wp-block-table {
   padding: 3rem;
   margin-bottom: var(--guyra-line-height-blog);
 }
 
-.blog .entry-content .wp-block-table tr {
+.blog .entry-content .wp-block-table tr,
+.study-page .wp-block-table tr {
   border-bottom: .25rem solid;
   line-height: 3rem;
 }
 
-.blog .entry-content .wp-block-table figcaption {
+.blog .entry-content .wp-block-table figcaption,
+.study-page .wp-block-table figcaption {
   font-size: var(--guyra-fonts-textsize-sss);
   margin: 1rem 0;
 }
 
-.wp-block-verse {
+.wp-block-verse,
+.study-page .wp-block-verse {
   padding: 3rem 2rem;
   background: var(--guyra-grey);
   font-family: var(--guyra-fonts-text);
@@ -1320,6 +1335,18 @@ a.element-container:visited {
   font-style: italic;
   text-align: center;
   margin-bottom: var(--guyra-line-height-blog);
+}
+
+.wp-block-embed iframe {
+    width: 100%;
+    height: calc(10rem + 40vh);
+}
+
+.wp-block-image img,
+.wp-block-media-text img {
+    width: 100%;
+    height: auto;
+    image-rendering: auto;
 }
 
 /*
@@ -1354,11 +1381,15 @@ a.element-container:visited {
 .page-squeeze .ur-frontend-form label {
   margin: .5rem 0;
   font-size: var(--guyra-fonts-textsize-ss);
-  float: right;
 }
 
-#rememberme {
-  width: auto;
+.login-button {
+    display: flex;
+    justify-content: space-between;
+}
+
+.remember-me {
+    align-self: center;
 }
 
 .page-squeeze .user-registration-MyAccount-content .edit-password legend,
@@ -1383,6 +1414,10 @@ a.element-container:visited {
   width: 100%;
 }
 
+.page-squeeze .ur-frontend-form input:not(.button):focus-visible {
+    outline: unset;
+}
+
 .page-squeeze .ur-frontend-form .ur-form-grid .ur-field-item {
   padding: 0 .15rem;
 }
@@ -1397,10 +1432,11 @@ a.element-container:visited {
   margin-bottom: .5rem;
 }
 
-.page-squeeze .premium-badge {
+.premium-badge {
   padding: .1rem .3rem;
   font-size: var(--guyra-fonts-textsize-sss);
-  align-self: center;
+  font-weight: bold;
+  font-family: var(--guyra-fonts-title);
   cursor: default;
   letter-spacing: 0;
 }
@@ -1410,10 +1446,50 @@ a.element-container:visited {
 .page-squeeze .user-registration-MyAccount-navigation ul,
 .page-squeeze .horizontal .user-registration-MyAccount-navigation ul {
 	justify-content: left;
-  margin-bottom: 3rem;
   display: flex;
   list-style: none;
   padding: 0;
+}
+
+.user-registration {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-registration-MyAccount-navigation {
+  order: 0;
+}
+
+.user-registration-message {
+  order: 1;
+}
+
+.user-registration-MyAccount-content {
+  order: 2;
+}
+
+.page-squeeze .user-registration-MyAccount-navigation-link {
+    margin-right: .5rem;
+}
+
+.user-registration-MyAccount-navigation-link > a {
+  color: var(--guyra-grey-darker);
+  border-bottom: .25rem solid var(--guyra-grey-darker);
+  border-radius: .25rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.user-registration-MyAccount-navigation-link > a:hover,
+.user-registration-MyAccount-navigation-link > a:active,
+.user-registration-MyAccount-navigation-link.is-active > a:hover {
+  color: var(--guyra-blue-lighter);
+  border-bottom: .25rem solid var(--guyra-blue-lighter);
+}
+
+.user-registration-MyAccount-navigation-link.is-active > a {
+  color: var(--guyra-blue);
+  border-bottom: .25rem solid var(--guyra-blue);
 }
 
 .lost_password a {

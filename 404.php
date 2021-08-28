@@ -7,23 +7,26 @@
  * @package guyra
  */
 
+ /* Set up translations independent of Wordpress */
+ include get_template_directory() . '/i18n.php';
+
 get_header();
 ?>
 
-	<main id="primary" class="site-main container-fluid text-center p-5 m-auto">
+	<main id="primary" class="site-main container-fluid text-center p-5 m-auto bg-white">
 
 		<section class="error-404 not-found">
 			<header class="page-header">
 				<span class="w-25 d-inline-block"><img class="float-end" alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1.png" /></span>
-				<h1 class="page-title"><?php esc_html_e( 'Are you lost?', 'guyra' ); ?></h1>
-			</header><!-- .page-header -->
+				<h1 class="page-title"><?php echo $gi18n['are_you_lost']; ?></h1>
+			</header>
 
 			<div class="page-content">
-				<p><?php esc_html_e( 'It looks like nothing was found at this location...', 'guyra' ); ?></p>
-			</div><!-- .page-content -->
-		</section><!-- .error-404 -->
+				<p><?php echo $gi18n['are_you_lost_explain']; ?></p>
+			</div>
+		</section>
 
-	</main><!-- #main -->
+	</main>
 
 	<script>
 

@@ -16,7 +16,7 @@
 
 	<?php guyra_post_thumbnail(); ?>
 
-	<div class="entry-content px-5">
+	<div class="entry-content">
 		<?php
 		the_content();
 
