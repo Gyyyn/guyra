@@ -40,14 +40,14 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff2" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff2" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff2" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font">
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg.png" as="image">
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg3.png" as="image">
 
@@ -59,7 +59,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
 <body <?php body_class(); ?>>
 <header>
-  <nav class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
+  <nav id="guyra-navbar" class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
     <div class="container"><div>
 
       <div class="d-flex d-md-none w-100 justify-content-between">
@@ -70,7 +70,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
           </span>
         </a></div>
 
-        <a class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <a href="#guyra-navbar" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </a>
 

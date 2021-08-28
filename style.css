@@ -712,16 +712,15 @@ button, input[type="button"], input[type="reset"], input[type="submit"],
 .page-squeeze .ur-frontend-form input.button
 {
   color: var(--guyra-black);
-  font-weight: normal;
   text-decoration: none;
+  font-size: var(--guyra-fonts-textsize-n);
+  font-weight: bold;
+  font-family: var(--guyra-fonts-text);
+  transition: none;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
   border-radius: var(--guyra-border-radius);
   border: 1px solid transparent;
   background: transparent;
-  font-size: var(--guyra-fonts-textsize-n);
-  transition: none;
-  font-weight: bold;
-  font-family: var(--guyra-fonts-text);
 }
 
 .btn:hover,
@@ -956,7 +955,7 @@ a.btn-primary:focus,
   width: 0;
   height: 0;
   border-right: 2rem var(--guyra-black) solid;
-  border-top: 0rem solid transparent;
+  border-top: 0 solid transparent;
   border-bottom: 2rem solid transparent;
   margin-bottom: 3rem;
 }
@@ -1224,7 +1223,6 @@ a.element-container:visited {
   margin: 0;
   justify-content: center;
   height: 50vh;
-  align-items: center;
   background: var(--guyra-blue);
   color: var(--guyra-white);
   display: flex;
@@ -1304,7 +1302,7 @@ a.element-container:visited {
 .blog .entry-content .wp-block-pullquote,
 .study-page .wp-block-pullquote {
   border: solid var(--guyra-grey-darkest);
-  border-width: .25rem 0 .25rem 0;
+  border-width: .25rem 0;
   margin-bottom: var(--guyra-line-height-blog);
 }
 

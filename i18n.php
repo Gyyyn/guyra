@@ -29,7 +29,6 @@ $gi18n = [
 	'schools' => 'Escolas',
 	'thanks' => 'Agradecimentos',
 	'writtenby' => 'Escrito por:',
-	'hint' => 'Dica: ',
 	'are_you_lost' => 'Não tem nada por aqui...',
 	'are_you_lost_explain' => 'Se você estava tentando acessar alguma coisa talvez ela tenha mudado de lugar ou houve um erro no nosso sistema, sorry 😔',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
@@ -91,6 +90,7 @@ $gi18n = [
 	'returntomap' => 'Voltar ao Mapa',
 	'continue' => 'Continuar',
 	'review' => 'Revisar',
+	'hint' => 'Dica: ',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
