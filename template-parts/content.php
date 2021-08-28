@@ -22,7 +22,30 @@ include get_template_directory() . '/i18n.php';
 		endif; ?>
 	</header>
 
-	<?php guyra_post_thumbnail(); ?>
+	<?php if ( is_singular() ) :?>
+
+		<div class="post-thumbnail">
+			<?php the_post_thumbnail(); ?>
+		</div>
+
+	<?php else : ?>
+
+		<a class="post-thumbnail" aria-hidden="true" tabindex="-1">
+			<?php
+				the_post_thumbnail(
+					'post-thumbnail',
+					array(
+						'alt' => the_title_attribute(
+							array(
+								'echo' => false,
+							)
+						),
+					)
+				);
+			?>
+		</a>
+
+	<?php endif; ?>
 
 	<div class="entry-content squeeze-small">
 		<?php
