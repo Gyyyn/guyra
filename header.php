@@ -26,6 +26,9 @@ if($user_subscription != '' && $user_subscription_till < $now) {
   delete_user_meta(get_current_user_id(), 'subscribed-until');
 }
 
+// fetch user data
+$userdata = get_user_meta(get_current_user_id());
+
 ?>
 <!-- Hello :) -->
 <!doctype html>
@@ -99,6 +102,11 @@ if($user_subscription != '' && $user_subscription_till < $now) {
               <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
             </a>
           </li>
+          <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
+          <li class="nav-item me-3">
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
+          </li>
+        <?php endif; ?>
         </ul>
 
         <div class="navbar-brand full d-none d-md-block position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">

@@ -1,4 +1,14 @@
 <?php
+/**
+ * The admin panel
+ *
+ * @package guyra
+ */
+
+if (!current_user_can('manage_options')) {
+  exit;
+}
+
 echo '
   <a class="btn btn-primary position-absolute top-25 start-0 translate-middle" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
     🎁
@@ -8,7 +18,12 @@ echo '<div class="collapse hide" id="collapse-admin">';
 // Get users
 $users = get_users();
 echo '
-<h4 class="mt-4">User admin:</h4>
+<h1 class="mb-3">Welcome,</h1>
+<h2 class="mb-3">to the admin panel.</h2>
+
+<hr />
+
+<h3 class="mt-4">Warning:</h3>
 <div class="mb-4 alert alert-info" role="alert">
   <p>Everything in this panel is pretty basic and easy to break to make sure to follow instructions exactly!</p>
 
@@ -17,9 +32,20 @@ echo '
 </div>
 ';
 ?>
+<h4 class="mt-4">Extras:</h4>
 <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-lg btn-primary">Wordpress admin</a>
-<h5 class="mt-4">Management:</h5>
-<div class="admin-forms border rounded p-5 m-0">
+
+<h4 class="mt-4">Schools:</h4>
+<div class="admin-forms border rounded p-3 m-0">
+
+  <h5>Assign to teacher:</h5>
+  <form action="<?php echo get_site_url(); ?>" method="GET">
+      User ID: <input type="text" name="user">
+      Teacher ID: <input type="text" name="assigntoteacher">
+      <input type="submit" value="Go" />
+  </form>
+
+  <hr />
 
   <h5>Assign to group:</h5>
   <form action="<?php echo get_site_url(); ?>" method="GET">
@@ -37,7 +63,10 @@ echo '
       <input type="submit" value="Go" />
   </form>
 
-  <hr />
+</div>
+
+<h4 class="mt-4">Premium:</h4>
+<div class="admin-forms border rounded p-3 m-0">
 
   <h5>Give premium:</h5>
   <form action="<?php echo get_site_url(); ?>" method="GET">
@@ -53,13 +82,28 @@ echo '
       <input type="submit" value="Go" />
   </form>
 
-  <hr />
+</div>
 
-  <?php print_r($_COOKIE); ?>
+<h4 class="mt-4">Roles:</h4>
+<div class="admin-forms border rounded p-3 m-0">
+
+  <h5>Give user role:</h5>
+  <div class="mb-4 alert alert-info" role="alert">
+    <p>Currently working roles are:</p>
+    <ul>
+      <li>teacher - has access to the student admin panel and can be assigned students by site admins.</li>
+    </ul>
+  </div>
+  <form action="<?php echo get_site_url(); ?>" method="GET">
+      User ID: <input type="text" name="user">
+      Role: <input type="text" name="giverole">
+      <input type="submit" value="Go" />
+  </form>
 
 </div>
+
 <?php
-echo '<h5 class="mt-4">Info:</h5>';
+echo '<h4 class="mt-4">Registered Users:</h4>';
 echo '<ul class="list-group m-0">';
 foreach ($users as $x) {
   // Lord have mercy on those who will maintain this shit
@@ -71,17 +115,36 @@ foreach ($users as $x) {
     $page_link = get_site_url() . '/' . sha1($x->ID);
   }
 
-  echo '<li class="list-group-item">' .
-  '<a href="' . $page_link . '">' .
-  'ID: ' . $x->ID . ' ' .
-  $userdata['first_name'][0] . ' ' .
-  $userdata['last_name'][0] . '</a> ' .
-  $x->user_email . ' | ' .
-  '<span class="text-muted text-end">' .
-  'Group: <span class="badge bg-secondary">' . $userdata['studygroup'][0] . '</span>' .
-  '</span> ' .
-  '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '" class="btn btn-outline-primary btn-sm">Clear Group</a>' .
-  '</li>';
+  echo '<ul class="list-group list-group-horizontal">' .
+
+  '<li class="list-group-item col-1">' .
+    'ID: ' . $x->ID .
+  '</li>' .
+
+  '<a class="list-group-item col" href="' . $page_link . '">' .
+      $userdata['first_name'][0] . ' ' .
+      $userdata['last_name'][0] .
+      $x->user_email .
+    '<span class="badge bg-secondary ms-1">' . $userdata['role'][0] . '</span> ' .
+  '</a>' .
+
+  '<li class="list-group-item col-2">' .
+    '<span class="text-muted text-end">' .
+      'Teacher ID: <span class="badge bg-secondary">' . $userdata['teacherid'][0] . '</span>' .
+    '</span> ' .
+  '</li>' .
+
+  '<li class="list-group-item col">' .
+    '<span class="text-muted text-end">' .
+      'Group: <span class="badge bg-secondary">' . $userdata['studygroup'][0] . '</span>' .
+    '</span> ' .
+  '</li>' .
+
+  '<li class="list-group-item col">' .
+    '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
+  '</li>' .
+
+  '</ul>';
 
 }
 echo '</ul>';

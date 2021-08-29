@@ -104,6 +104,7 @@ $gi18n = [
 	'logout_link' => get_site_url() . '/account/user-logout',
 	'privacy_link' => get_site_url() . '/privacy',
 	'terms_link' => get_site_url() . '/terms',
+	'schools_link' => get_site_url() . '/schools',
 	'schools_footer_link' => get_site_url() . '/work-with-us',
 	'thanks_footer_link' => get_site_url() . '/thanks',
 	'admin_link' => get_admin_url(),

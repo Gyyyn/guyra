@@ -40,7 +40,7 @@ include get_template_directory() . '/i18n.php';
       <?php include 'html/grammar-reference.html'; ?>
     </div>
 
-  </div>
+  </div></div>
 
 </main>
 <?php

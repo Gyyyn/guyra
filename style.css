@@ -166,8 +166,11 @@ p {
 }
 
 .text-muted {
-    color: var(--guyra-grey-dark);
+    color: var(--guyra-grey-dark) !important;
 }
+
+.text-blue { color: var(--guyra-blue); }
+.text-purple { color: var(--guyra-purple); }
 
 body,
 .page-squeeze .user-registration,
@@ -288,6 +291,10 @@ label[for="comment"],
   background: var(--guyra-white);
 }
 
+.bg-grey {
+  background: var(--guyra-grey);
+}
+
 /*
 * -------- Navbar
 *
@@ -301,6 +308,10 @@ main.page,
 main.practice {
   margin-top: var(--guyra-navbar-size);
   min-height: calc(100vh - var(--guyra-navbar-size) + 1px);
+}
+
+.negate-navbar {
+  margin-top: var(--guyra-navbar-size);
 }
 
 .navbar > .container {
@@ -1345,6 +1356,41 @@ a.element-container:visited {
     width: 100%;
     height: auto;
     image-rendering: auto;
+}
+
+/*
+* -------- Schools
+*
+*
+*/
+
+.schools .list-group-item {
+  font-size: var(--guyra-fonts-textsize-s);
+  border: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  background: var(--guyra-grey);
+}
+
+.schools .list-group-horizontal>.list-group-item+.list-group-item {
+  border-top: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+}
+
+.schools .dialog {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--guyra-border-radius);
+  background: var(--guyra-grey);
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+}
+
+.schools .dialog.info {
+  background: var(--guyra-blue-lightest);
+  border-bottom-color: var(--guyra-blue-lighter);
+}
+
+.schools .admin-forms input {
+  border: unset;
+  background: var(--guyra-grey-dark);
+  border-radius: var(--guyra-border-radius);
 }
 
 /*
