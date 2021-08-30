@@ -62,8 +62,9 @@ $userdata = get_user_meta(get_current_user_id());
 
 <body <?php body_class(); ?>>
 <header>
-  <nav id="guyra-navbar" class="navbar navbar-expand-md navbar-light fixed-top m-0 p-0">
-    <div class="container"><div>
+  <nav id="guyra-navbar" class="navbar navbar-expand-md navbar-light fixed-top">
+
+    <div class="container-fluid">
 
       <div class="d-flex d-md-none w-100 justify-content-between">
 
@@ -80,6 +81,7 @@ $userdata = get_user_meta(get_current_user_id());
       </div>
 
       <div class="justify-content-between collapse navbar-collapse" id="navbarCollapse">
+
         <ul class="navbar-nav mb-2 mb-md-0 ms-0">
 
           <?php if (!is_user_logged_in()) { ?>
@@ -109,13 +111,14 @@ $userdata = get_user_meta(get_current_user_id());
         <?php endif; ?>
         </ul>
 
-        <div class="navbar-brand full d-none d-md-block position-relative" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
-          <span class="navbar-center-title">
-            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
-          </span>
-        </a></div>
-
         <ul class="navbar-nav justify-content-end nav-rightside">
+
+          <div class="navbar-brand full d-none d-md-block position-relative me-md-3" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+            <span class="navbar-center-title">
+              <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
+            </span>
+          </a></div>
+
           <li class="nav-item me-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
@@ -138,6 +141,8 @@ $userdata = get_user_meta(get_current_user_id());
         <?php } ?>
         </ul>
       </div>
-    </div></div>
+
+    </div>
+
   </nav>
 </header>

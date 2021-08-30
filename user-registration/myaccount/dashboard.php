@@ -32,7 +32,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 	<div class="row align-items-center mb-3">
 
 		<div class="col">
-			<h3><?php echo "Welcome, ", $first_name, "!";?></h3>
+			<h3 class="text-blue"><?php echo "Welcome, ", $first_name, "!";?></h3>
 			<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
 			<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
 			</p>
@@ -50,16 +50,16 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 	<div class="row align-items-center">
 
 		<div class="col">
-			<h2><?php echo $gi18n['level']?></h2>
+			<h2 class="text-blue"><?php echo $gi18n['level']?></h2>
 			<p><?php echo $gi18n['level_explain']?></p>
 			<a href="<?php echo $gi18n['practice_link']?>"><?php echo $gi18n['practice_more']?></a>
 		</div>
 
 		<div class="col">
-			<h2><?php echo $gi18n['ranking']?></h2>
+			<h2 class="text-blue"><?php echo $gi18n['ranking']?></h2>
 			<div class="text-center">
 				<img class="page-icon" alt="bronze 1" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/ranks/bronze-1.png'; ?>">
-				<h3>Bronze 1</h3>
+				<h3 class="bg-secondary text-white text-uppercase">Bronze 1</h3>
 			</div>
 			<p><?php echo $gi18n['ranking_explain']?></p>
 		</div>

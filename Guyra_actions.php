@@ -5,8 +5,19 @@
  * @package guyra
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+ exit; // Exit if accessed directly
+}
+
 $thisUser = get_user_meta(get_current_user_id());
 $user = $_GET['user'];
+$redirect = $_GET['redirect'];
+
+if (!$_GET['redirect']) {
+  $redirect = get_site_url();
+}
+
+include get_template_directory() . '/Guyra_database.php';
 
 // Case where user is site admin
 if (current_user_can('manage_options')) {
@@ -39,11 +50,17 @@ if (current_user_can('manage_options')) {
       update_user_meta($user, 'role', $_GET['giverole'] );
     }
 
-    wp_redirect(get_site_url());
+    if ($_GET['create_db']) {
+      guyra_database($_GET['create_db']);
+    }
+
   }
 
+}
+
 // Case where user is a teacher
-} elseif ($thisUser['role'][0] == "teacher") {
+
+if ($thisUser['role'][0] == "teacher") {
 
   $users = get_users();
 
@@ -68,8 +85,17 @@ if (current_user_can('manage_options')) {
 
   }
 
-  wp_redirect(get_site_url());
-
-} else {
-  wp_redirect(get_site_url());
 }
+
+// Non admin actions
+
+if ($_GET['get_user_meta']) {
+  guyra_database('get_user_meta', null, get_current_user_id());
+}
+
+if ($_GET['update_elo'] && $_GET['amount']) {
+  guyra_database('update_elo', $_GET['amount'], get_current_user_id());
+}
+
+// Redirect to main once we are done.
+wp_redirect(get_site_url());

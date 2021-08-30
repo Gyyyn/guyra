@@ -44,16 +44,17 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
     <h3>Ações</h3>
 
-    <div class="admin-forms dialog mb-5">
+    <div id="form" class="admin-forms dialog mb-5">
 
       <h4>Assign to group:</h4>
       <form action="<?php echo get_site_url(); ?>" method="GET">
 
         <div class="d-flex justify-content-between">
 
-          <span>User ID: <input type="text" name="user"></span>
-          <span>Group tag: <input type="text" name="assigntogroup"></span>
+          <span>ID do Aluno: <input id="user-id" type="text" name="user"></span>
+          <span>Nome do grupo: <input type="text" name="assigntogroup"></span>
           <span><input type="submit" value="Go" /></span>
+          <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
 
         </div>
 
@@ -72,17 +73,27 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
     $userdata = get_user_meta($x->ID);
 
+    if($userdata['studygroup'][0] != "") {
+      $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
+    } else {
+      $page_link = get_site_url() . '/' . sha1($x->ID);
+    }
+
     if ($userdata['teacherid'][0] == get_current_user_id()) {
-      echo '<ul class="list-group list-group-horizontal mb-1">' .
+      echo '<ul id="user-' . $x->ID .'" class="user-list list-group list-group-horizontal mb-1">' .
 
       '<li class="list-group-item col-1">' .
-        '<span class="text-muted">ID: </span>' . $x->ID .
+        '<span class="text-muted me-1">ID:</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $x->ID . '</a>' .
       '</li>' .
 
       '<a class="list-group-item col" href="' . $page_link . '">' .
-          $userdata['first_name'][0] . ' ' .
-          $userdata['last_name'][0] .
-          $x->user_email .
+          '<i class="me-1">' .
+            $userdata['first_name'][0] . ' ' .
+            $userdata['last_name'][0] .
+          '</i>' .
+          '<span class="text-muted text-end">' .
+            $x->user_email .
+          '</span> ' .
         '<span class="badge bg-secondary ms-1">' . $userdata['role'][0] . '</span> ' .
       '</a>' .
 
@@ -93,7 +104,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
       '</li>' .
 
       '<li class="list-group-item col">' .
-        '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
+        '<a class="btn btn-sm btn-primary" href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
       '</li>' .
 
       '</ul>';
@@ -103,7 +114,20 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
   echo '</div>';
 
   echo '<hr />';
-  echo '<p class="text-center text-muted text-small">Obrigado por escolher a Guyrá ❤️</p>';
+  echo '<p class="text-center text-muted text-small mb-0">Obrigado por escolher a Guyrá ❤️</p>';
+
+  ?>
+  <script>
+  let btn = document.querySelectorAll('.id-selector')
+  let targetform = document.querySelector('#user-id')
+  btn.forEach((item, i) => {
+    item.addEventListener('click', function (e) {
+      targetform.value = this.innerHTML
+    })
+  });
+
+  </script>
+  <?php
 
 else : // wp_redirect ain't working here ?>
 <script>setTimeout(function(){ window.location.href = "<?php echo $gi18n['schools_footer_link']; ?>"; }, 0);</script>

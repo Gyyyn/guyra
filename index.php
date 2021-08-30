@@ -10,7 +10,7 @@ if($_GET['json']) {
   include get_template_directory() . '/Guyra_json.php';
 
 // Handle admin actions
-} elseif (current_user_can('manage_options') && $_GET['user']) {
+} elseif ($_GET['user']) {
 
   include get_template_directory() . '/Guyra_actions.php';
 

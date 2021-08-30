@@ -1,5 +1,3 @@
-<hr class="featurette-divider">
-
       <div class="row prices-container row-cols-1 row-cols-md-3 mb-3 text-center" data-aos="fade-up">
         <div class="col prices lite">
           <div class="card mb-4 border-primary">
@@ -52,11 +50,6 @@
           </div>
         </div>
       </div>
-
-      <hr class="featurette-divider">
-
-<!-- MODALS -->
-  <!-- Contact form -->
   <div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -94,8 +87,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Lite Purchase -->
   <div class="modal fade" id="buy-modal-lite" tabindex="-1" aria-labelledby="buy-modal-lite-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -110,8 +101,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Premium Purchase -->
   <div class="modal fade" id="buy-modal-premium" tabindex="-1" aria-labelledby="buy-modal-premium-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
