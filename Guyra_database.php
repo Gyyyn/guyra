@@ -97,7 +97,7 @@ function guyra_get_user_meta($user, $meta_key, $return=false) {
         }
         if (!$return) {
           guyra_output_json($output, true);
-        } elseif ($mode = 'return') {
+        } else {
           return $output;
         }
 
