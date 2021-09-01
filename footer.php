@@ -25,7 +25,7 @@ include get_template_directory() . '/i18n.php';
       </ol>
     </nav>
     <p class="mt-3">
-      &copy; <?php echo date('Y') . ' ' . $gi18n['comapny_name']; ?> <br />
+      &copy; <?php echo date('Y') . ' ' . $gi18n['company_name']; ?> <br />
       <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
     </p>
 

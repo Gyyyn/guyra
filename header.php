@@ -9,10 +9,12 @@
  * @package guyra
  */
 
-/* Get a profile picture */
+// Get a profile picture and user data
 $gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
 $profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
 $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+$first_name = get_user_meta( get_current_user_id(), 'first_name', true );
+$userdata = get_user_meta(get_current_user_id());
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
@@ -25,9 +27,6 @@ if($user_subscription != '' && $user_subscription_till < $now) {
   delete_user_meta(get_current_user_id(), 'subscription');
   delete_user_meta(get_current_user_id(), 'subscribed-until');
 }
-
-// fetch user data
-$userdata = get_user_meta(get_current_user_id());
 
 ?>
 <!-- Hello :) -->
@@ -51,8 +50,6 @@ $userdata = get_user_meta(get_current_user_id());
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg.png" as="image">
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/img/bg3.png" as="image">
 
 <?php wp_head(); ?>
 
@@ -122,15 +119,19 @@ $userdata = get_user_meta(get_current_user_id());
           <li class="nav-item me-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
+          <span class="me-3 p-0 vertical-divider"></span>
           <?php if(!is_user_logged_in()) { ?>
           <li class="nav-item my-auto me-3"><?php echo $gi18n['button_alreadyregistered'] ?></li>
           <li class="nav-item me-3">
-            <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-outline-primary"><?php echo $gi18n['button_login'] ?></a>
+            <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
-          <li class="nav-item profile-item">
+          <li class="nav-item profile-item d-flex align-items-center">
             <div class="dropdown m-0 d-inline">
-              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>"></a>
+              <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="text-primary me-2"><?php echo $first_name; ?></span>
+                <img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
+              </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?></a></li>
                 <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil</a></li>

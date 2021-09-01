@@ -19,7 +19,39 @@
 .grammar-reference li ul li:hover .text-muted {
   color: var(--guyra-blue) !important;
 }
+
+.grammar-reference .list-group-item+.list-group-item {
+    border-top-width: 0;
+}
+
+.grammar-reference .list-group-item .list-group-item {
+    background: var(--guyra-grey);
+}
+
+.grammar-reference .list-group-item {
+    border-width: .25rem;
+}
+
+span.text-muted {
+    font-weight: bold;
+    color: var(--guyra-grey-darker) !important;
+}
+
+#grammar-regular input,
+#grammar-irregular input {
+    background: var(--guyra-purple-darkest);
+    border: 1px var(--guyra-purple) solid;
+    color: var(--guyra-white);
+    padding: 0 0.25rem;
+    border-radius: var(--guyra-border-radius);
+}
 </style>
+
+<div class="dialog-box info mb-5">
+
+  <p>Esta página ainda e um <i>work in progress</i> e pode conter <i>bugs</i>! Na dúvida veja num dicionário.</p>
+
+</div>
 
 <ul class="nav nav-pills justify-content-center m-5" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
@@ -32,12 +64,12 @@
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="grammar-regular" role="tabpanel" aria-labelledby="grammar-regular">
 
-    <div class="text-center">
-      <span class="d-inline p-2 bg-dark text-white">Verb: to <input id="verb-input" type="text" value="work" onchange="regularTransform(this.value)" /></span>
-      <span class="d-inline p-2 bg-dark text-white">Pronoun: <input id="pronoun-input" type="text" value="I" onchange="regularTransform(document.getElementById('verb-input').value)" /></span>
+    <div class="text-center mb-3">
+      <span class="d-inline p-2 bg-secondary text-white rounded">Verb: to <input id="verb-input" type="text" value="work" onchange="regularTransform(this.value)" /></span>
+      <span class="d-inline p-2 bg-secondary text-white rounded">Pronoun: <input id="pronoun-input" type="text" value="I" onchange="regularTransform(document.getElementById('verb-input').value)" /></span>
     </div>
 
-    <ul class="grammar-reference list-group list-group-flush">
+    <ul class="grammar-reference list-group">
 
       <li class="list-group-item">
         <ul class="list-group list-group border-0 m-0">
@@ -160,7 +192,7 @@
       </li>
 
       <li class="list-group-item">
-        <ul class="list-group list-group-flush border-0 m-0">
+        <ul class="list-group border-0 m-0">
           <li class="list-group-item d-flex">
 
             <span class="col-md-3 text-end me-1">
@@ -308,12 +340,12 @@
   </div>
   <div class="tab-pane fade" id="grammar-irregular" role="tabpanel" aria-labelledby="grammar-irregular">
 
-    <div class="text-center">
-      <span class="d-inline p-2 bg-dark text-white">Verb: to eat</span>
-      <span class="d-inline p-2 bg-dark text-white">Pronoun: I</span>
+    <div class="text-center mb-3">
+      <span class="d-inline p-2 bg-secondary text-white rounded">Verb: to eat</span>
+      <span class="d-inline p-2 bg-secondary text-white rounded">Pronoun: I</span>
     </div>
 
-    <ul class="grammar-reference list-group list-group-flush">
+    <ul class="grammar-reference list-group">
 
       <li class="list-group-item">
         <ul class="list-group list-group border-0 m-0">
@@ -325,7 +357,7 @@
 
             </span>
             <span class="col-md-7">
-               <span class="highlight"><span class="irregular-verb">ate</span></span>.
+               <span class="pronoun">I</span> <span class="highlight"><span class="irregular-verb">ate</span></span>.
             </span>
           </li>
 
@@ -335,7 +367,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight"><span class="irregular-verb">eat</span></span>.
+               <span class="pronoun">I</span> <span class="highlight"><span class="irregular-verb">eat</span></span>.
             </span>
           </li>
 
@@ -345,7 +377,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">will</span> <span class="irregular-verb">eat</span>/<span class="highlight">am going to</span> <span class="irregular-verb">eat</span>.
+               <span class="pronoun">I</span> <span class="highlight">will</span> <span class="irregular-verb">eat</span>/<span class="pronoun">I</span> <span class="highlight">am going to</span> <span class="irregular-verb">eat</span>.
             </span>
 
           </li>
@@ -362,7 +394,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">was</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+              <span class="pronoun">I</span> <span class="highlight">was</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
             </span>
 
           </li>
@@ -374,7 +406,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">am</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+              <span class="pronoun">I</span> <span class="highlight">am</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
             </span>
 
           </li>
@@ -386,7 +418,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">will be</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>/<span class="highlight">am going to be</span> <span class="irregular-verb">eat</span><span class="highlight">ing.
+               <span class="pronoun">I</span> <span class="highlight">will be</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>/<span class="pronoun">I</span> <span class="highlight">am going to be</span> <span class="irregular-verb">eat</span><span class="highlight">ing.
             </span>
 
           </li>
@@ -403,7 +435,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">had</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+               <span class="pronoun">I</span> <span class="highlight">had</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
             </span>
 
           </li>
@@ -415,7 +447,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+               <span class="pronoun">I</span> <span class="highlight">have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
             </span>
 
           </li>
@@ -427,7 +459,7 @@
             </span>
 
               <span class="col-md-7">
-                 <span class="highlight">will have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
+                 <span class="pronoun">I</span> <span class="highlight">will have</span> <span class="irregular-verb">eat</span><span class="highlight">en</span>.
               </span>
 
           </li>
@@ -436,7 +468,7 @@
       </li>
 
       <li class="list-group-item">
-        <ul class="list-group list-group-flush border-0 m-0">
+        <ul class="list-group border-0 m-0">
           <li class="list-group-item d-flex">
 
             <span class="col-md-3 text-end me-1">
@@ -444,7 +476,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">had been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+               <span class="pronoun">I</span> <span class="highlight">had been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
             </span>
 
           </li>
@@ -456,7 +488,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">have been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+               <span class="pronoun">I</span> <span class="highlight">have been</span> <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
             </span>
 
           </li>
@@ -468,7 +500,7 @@
             </span>
 
             <span class="col-md-7">
-               <span class="highlight">will have</span> been <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
+               <span class="pronoun">I</span> <span class="highlight">will have</span> been <span class="irregular-verb">eat</span><span class="highlight">ing</span>.
             </span>
 
           </li>

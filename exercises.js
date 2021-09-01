@@ -464,8 +464,7 @@ function LevelChooser(props) {
     e(
       'div',
       {
-        className: 'container-fluid exercise-level-chooser',
-        'data-aos': "fade-up"
+        className: 'container-fluid exercise-level-chooser'
       },
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
         return e(
@@ -739,7 +738,7 @@ class App extends React.Component {
       CheckAnswerWithTextArea: this.CheckAnswerWithTextArea,
       hintArea: hintAreaInfo,
       controlArea: controlArea,
-      page: e(LoadingPage),
+      page: e(LevelChooser),
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON,
       score: this.score,

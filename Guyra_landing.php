@@ -10,15 +10,15 @@
  ?>
 
    <div class="cover">
-     <div class="cover-container d-flex w-100 h-100">
-       <main class="squeeze d-flex flex-column flex-md-row align-items-center">
+     <div class="cover-container container pt-3">
 
-         <div class="d-flex flex-column justify-content-between" data-aos="fade">
-           <img class="page-icon large" alt="Learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
-         </div>
+       <div class="row row-cols-auto align-items-start cover-card">
 
-         <div class="d-flex flex-column m-5">
-           <h1><?php echo $gi18n['landing_title1'] ?></h1>
+         <div class="col-md text-small">
+           <div class="text-center">
+             <img class="page-icon medium mb-5" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+           </div>
+           <h3><?php echo $gi18n['landing_title1'] ?></h3>
            <p><?php echo $gi18n['landing_explain1'] ?></p>
            <h3><?php echo $gi18n['landing_title2'] ?></h3>
            <p><?php echo $gi18n['landing_explain2'] ?></p>
@@ -26,15 +26,92 @@
            <p><?php echo $gi18n['landing_explain3'] ?></p>
          </div>
 
-       </main>
+         <div class="col-md d-flex align-items-center flex-column" data-aos="fade">
+           <h2 class="marked mb-3">Let's go!</h2>
+
+           <div id="prices_carousel" class="carousel carousel-dark slide w-100" data-bs-ride="carousel">
+            <div class="carousel-inner text-center pt-3">
+
+              <div class="carousel-item active">
+                <div class="col mx-auto prices primary pro">
+                  <div class="card mb-4 border-secondary">
+                    <div class="card-header py-2">
+                      <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
+                    </div>
+                    <div class="card-body">
+                      <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
+                      <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
+                        <li><span>Acesso as video aulas</span> <span>✅</span></li>
+                        <li><span>Tire suas duvidas por WhatsApp ou na aula</span> <span>✅</span></li>
+                        <li><span>Uma aula por semana</span> <span>✅</span></li>
+                        <li><span>Exercicios de conversasao</span> <span>✅</span></li>
+                      </ul>
+                      <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="col mx-auto prices lite">
+                  <div class="card mb-4">
+                    <div class="card-header py-2">
+                      <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlelite'] ?></h3>
+                    </div>
+                    <div class="card-body">
+                      <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricelite'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
+                      <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
+                        <li><span>Acesso as video aulas</span> <span>✅</span></li>
+                        <li><span>Tire suas duvidas por WhatsApp</span> <span>✅</span></li>
+                        <li><span>Uma aula por semana</span> <span>❌</span></li>
+                        <li><span>Exercicios de conversasao</span> <span>❌</span></li>
+                      </ul>
+                      <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-lite" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="carousel-control-prev" type="button" data-bs-target="#prices_carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#prices_carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+
+            </div>
+          </div>
+
+       </div>
+
      </div>
    </div>
+  </div>
 
- 	<main class="landing bg-white">
+ 	<main id="jump-info" class="landing bg-white">
+
+    <div class="row feature squeeze pt-5">
+      <div class="col-md d-flex flex-column justify-content-center align-items-center">
+
+        <div class="p-1 p-md-5 order-2">
+          <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['company_name'] ?></h2>
+          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['meta_desc'] ?></div>
+        </div>
+
+        <div class="picture">
+          <img alt="phone" src="<?php echo $gi18n['logo_img'] ?>">
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="thick squeeze my-5">
 
    <div class="row feature squeeze pt-5">
      <div class="col order-md-2 px-md-5 align-self-center">
-       <div class="bg-gradient-white p-5">
+       <div class="p-1 p-md-5">
          <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title1'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain1'] ?></div>
        </div>
@@ -50,7 +127,7 @@
 
    <div class="row feature squeeze">
      <div class="col px-md-5 align-self-center">
-       <div class="bg-gradient-white-reverse p-5">
+       <div class="p-1 p-md-5">
          <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title2'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain2'] ?></div>
        </div>
@@ -64,7 +141,7 @@
 
    <hr class="thick squeeze my-5">
 
-   <div id="jump-prices" class="bg-grey-darker py-5"><div class="squeeze-big">
+   <div id="jump-prices" class="py-5"><div class="squeeze-big">
 
      <?php include 'Guyra_purchase.php'; ?>
 
@@ -74,7 +151,7 @@
 
    <div class="row feature squeeze">
      <div class="col order-md-2 px-md-5 align-self-center">
-       <div class="bg-gradient-white p-5">
+       <div class="p-1 p-md-5">
          <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title3'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain3'] ?></div>
        </div>
@@ -89,39 +166,53 @@
    <hr class="thick squeeze my-5">
 
    <div class="row feature squeeze">
+     <div class="col px-md-5 align-self-center">
+       <div class="p-1 p-md-5">
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
+       </div>
+     </div>
+     <div class="col-md-3 d-flex justify-content-center">
+       <div class="picture" data-aos="fade-right">
+         <img alt="Brazil" src="<?php echo get_template_directory_uri(); ?>/assets/icons/brazil-flag.png">
+       </div>
+     </div>
+   </div>
+
+   <hr class="thick squeeze my-5">
+
+   <div class="row feature squeeze">
      <div class="row justify-content-center align-items-center px-5">
-       <div class="col px-md-5 align-self-center">
-         <div class="bg-white p-5">
-           <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
-           <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
+       <div class="col order-md-2 px-md-5 align-self-center">
+         <div class="p-1 p-md-5">
+           <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title5'] ?></h2>
+           <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain5'] ?></div>
          </div>
        </div>
-       <div class="col-md-3 d-flex justify-content-center">
-         <div class="picture" data-aos="fade-right">
+       <div class="col-md-3 order-md-1 d-flex justify-content-center">
+         <div class="picture" data-aos="fade-left">
            <img alt="laptop" src="<?php echo get_template_directory_uri(); ?>/assets/icons/laptop.png">
          </div>
        </div>
      </div>
 
-     <div class="row course-showcase bg-white text-dark p-5 mx-auto" data-aos="fade-up">
+     <div class="row course-showcase text-dark p-1 p-md-5 mx-auto" data-aos="fade-up">
        <h2 class="feature-heading mb-4">Interchange</h2>
        <div class="col">
          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
          <p>Cras laoreet justo in justo gravida consectetur. Suspendisse vitae rhoncus orci. Cras efficitur, arcu id convallis scelerisque, purus tellus consectetur ipsum, sed vestibulum metus leo eu magna. </p>
        </div>
        <div class="col-md-5">
-         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ywuKYqF0cN4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
        </div>
      </div>
 
-     <div class="row course-showcase bg-white text-dark p-5 mx-auto" data-aos="fade-up">
+     <div class="row course-showcase text-dark p-1 p-md-5 mx-auto" data-aos="fade-up">
        <h2 class="feature-heading mb-4">Interchange</h2>
        <div class="col">
          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
          <p>Cras laoreet justo in justo gravida consectetur. Suspendisse vitae rhoncus orci. Cras efficitur, arcu id convallis scelerisque, purus tellus consectetur ipsum, sed vestibulum metus leo eu magna. </p>
        </div>
        <div class="col-md-5">
-         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ywuKYqF0cN4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
        </div>
      </div>
 

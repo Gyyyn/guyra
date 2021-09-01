@@ -59,7 +59,13 @@ $masterJSON = [
 
     "unit2" => [
       ["What's in your bag?", "in your", "(na sua)"],
+      ["What's in her bag?", "in her", "(na dela)"],
+      ["What's in his bag?", "in his", "(na dele)"],
+      ["What's in this bag?", "in this", "(nessa)"],
       ["This is my phone. It has my case.", "is my", "(é meu)"],
+      ["This is not her phone. It has my case.", "her", "(dela)"],
+      ["This is not my phone. It doesn't have my case.", "is not", "(não é)"],
+      ["This is not his phone. It has her case.", "not his", "(não é dele)"],
       ["Are these your keys?", "these your", "(essas são)"],
       ["These are his books.", "are his", "(são dele)"],
       ["I have a car.", "have a", "(tenho um)"],

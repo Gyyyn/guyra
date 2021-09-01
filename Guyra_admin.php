@@ -13,14 +13,17 @@ if (!current_user_can('manage_options')) {
   exit;
 }
 
+/* Set up translations independent of Wordpress */
+include get_template_directory() . '/i18n.php';
+
 // Get users
-$users = get_users(); ?>
+$users = get_users();
 
-<a class="btn btn-primary position-absolute top-25 start-0 translate-middle" data-bs-toggle="collapse" href="#collapse-admin" role="button" aria-expanded="false" aria-controls="collapse-admin">
-  🎁
-</a>
+get_header();
 
-<div class="collapse hide" id="collapse-admin">
+?>
+
+<main class="page squeeze" id="admin"><div class="page-squeeze rounded-box">
 
 <div class="admin-section">
 
@@ -49,6 +52,8 @@ $users = get_users(); ?>
 
   <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_meta_db' ?>" class="btn btn-lg btn-primary">Create Meta DB</a>
 
+  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_page=all' ?>" class="btn btn-lg btn-primary">Create Site Pages</a>
+
 </div>
 
 <div class="admin-section">
@@ -70,15 +75,6 @@ $users = get_users(); ?>
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         Group tag: <input type="text" name="assigntogroup">
-        <input type="submit" value="Go" />
-    </form>
-
-    <hr />
-
-    <h5>Assign to teacher:</h5>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
-        User ID: <input type="text" name="user">
-        Teacher ID: <input type="text" name="assigntoteacher">
         <input type="submit" value="Go" />
     </form>
 
@@ -151,7 +147,7 @@ $users = get_users(); ?>
     echo '<ul class="list-group list-group-horizontal">' .
 
     '<li class="list-group-item col-1">' .
-      'ID: ' . $x->ID .
+      '<span class="text-muted me-1">ID:</span><a href="#form" class="id-selector badge bg-secondary">' . $x->ID . '</a>' .
     '</li>' .
 
     '<a class="list-group-item col" href="' . $page_link . '">' .
@@ -167,13 +163,13 @@ $users = get_users(); ?>
       '</span> ' .
     '</li>' .
 
-    '<li class="list-group-item col">' .
+    '<li class="list-group-item col-2">' .
       '<span class="text-muted text-end">' .
         'Group: <span class="badge bg-secondary">' . $userdata['studygroup'][0] . '</span>' .
       '</span> ' .
     '</li>' .
 
-    '<li class="list-group-item col">' .
+    '<li class="list-group-item col-2">' .
       '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
     '</li>' .
 
@@ -186,4 +182,4 @@ $users = get_users(); ?>
 
 </div>
 
-</div>
+</main></div>

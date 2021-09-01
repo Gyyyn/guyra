@@ -32,11 +32,11 @@ include get_template_directory() . '/i18n.php';
       </a>
     </div>
 
-    <div class="collapse hide" id="irregulars-container">
+    <div class="collapse hide rounded-box" id="irregulars-container">
       <?php include 'html/irregular-verbs.html'; ?>
     </div>
 
-    <div class="collapse hide" id="grammar-container">
+    <div class="collapse hide rounded-box" id="grammar-container">
       <?php include 'html/grammar-reference.html'; ?>
     </div>
 

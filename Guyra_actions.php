@@ -54,6 +54,67 @@ if (current_user_can('manage_options')) {
       guyra_database($_GET['create_db']);
     }
 
+    if ($_GET['create_page'] == "all") {
+
+      $post_data = array(
+    		'post_title'    => '',
+    		'post_content'  => '',
+    		'post_status'   => 'publish',
+    		'post_type'     => 'page',
+    		'post_author'   => 1,
+    		'page_template' => null
+    	);
+
+      if (!is_object(get_page_by_title('Register'))) {
+        $post_data['post_title'] = 'Register';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Practice'))) {
+        $post_data['post_title'] = 'Practice';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Work With Us'))) {
+        $post_data['post_title'] = 'Work With Us';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Privacy Policy'))) {
+        $post_data['post_title'] = 'Privacy Policy';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Reference'))) {
+        $post_data['post_title'] = 'Reference';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Schools'))) {
+        $post_data['post_title'] = 'Schools';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Terms'))) {
+        $post_data['post_title'] = 'Terms';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Thanks'))) {
+        $post_data['post_title'] = 'Thanks';
+        wp_insert_post($post_data);
+      }
+
+      // This one is last so there's not danger of putting the
+      // 'post_title' everywhere else
+      if (!is_object(get_page_by_title('Account'))) {
+        $post_data['post_title'] = 'Account';
+        $post_data['post_content'] = '[user_registration_my_account]';
+        wp_insert_post($post_data);
+      }
+
+    }
+
   }
 
 }

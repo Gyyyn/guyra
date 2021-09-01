@@ -50,6 +50,10 @@ $placeholders = array(
 $hide_labels  = 'yes' === get_option( 'user_registration_login_options_hide_labels', 'no' );
 
 $enable_ajax = 'yes' === get_option( 'ur_login_ajax_submission', 'no' );
+
+/* Set up translations independent of Wordpress */
+include get_template_directory() . '/i18n.php';
+
 ?>
 
 <?php apply_filters( 'user_registration_login_form_before_notice', ur_print_notices() ); ?>
@@ -123,6 +127,7 @@ $enable_ajax = 'yes' === get_option( 'ur_login_ajax_submission', 'no' );
 
 					if ( 'yes' === $lost_password_enabled ) {
 						?>
+								<h2 class="border-bottom mb-3"><?php echo esc_html( $gi18n['something_wrong'] ); ?></h2>
 								<p class="user-registration-LostPassword lost_password">
 									<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php echo esc_html( $labels['lost_your_password'] ); ?></a>
 								</p>

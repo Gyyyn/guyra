@@ -16,7 +16,7 @@
  ?>
 
  	<main id="intro-content" class="site-main page squeeze">
-         <div class="page-squeeze"><div>
+         <div class="page-squeeze rounded-box">
 
  		<?php if ( have_posts() ) : ?>
 
@@ -42,9 +42,9 @@
 
  		endif;
  		?>
- 		</div></div>
+ 		</div>
 
- 	</main><!-- #main -->
+ 	</main>
 
  <?php
  get_footer();

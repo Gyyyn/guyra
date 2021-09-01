@@ -21,6 +21,7 @@ include get_template_directory() . '/i18n.php';
 $current_user = get_current_user_id();
 $user_studypage = get_user_meta($current_user, 'custompage_id')[0];
 $user_studygroup = get_user_meta($current_user, 'studygroup')[0];
+$newspage = get_page_by_title('News');
 
 // If user has a group assigned he should see the group's page instead
 if ($user_studygroup != '') {
@@ -63,7 +64,11 @@ if ($user_studypage_object == null) {
 ?>
 <main id="intro-content" class="site-main study squeeze position-relative mb-5">
 
-  <div class="page-squeeze"><div>
+  <a class="btn btn-primary position-absolute top-0 start-0 admin-btn" href="<?php echo $gi18n['guyra_admin_link'] ?>">
+    🎁
+  </a>
+
+  <div class="page-squeeze">
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
       <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">
@@ -71,7 +76,7 @@ if ($user_studypage_object == null) {
         <span class="menu-title"><?php echo $gi18n['study']; ?></span>
       </a>
 
-      <a class="list-group-item" data-bs-toggle="collapse" href="#exercise-container-super" role="button" aria-expanded="false" aria-controls="exercise-container-super">
+      <a class="list-group-item" href="<?php echo $gi18n['practice_link'] ?>">
         <span class="menu-icon"><img alt="practice" src="<?php echo $gi18n['template_link'] . '/assets/icons/target.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
       </a>
@@ -87,26 +92,23 @@ if ($user_studypage_object == null) {
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
       </a>
     </div>
-    <?php
-    // If current user is admin allow him to access all user pages
-    if (current_user_can('manage_options')) {
 
-      include 'Guyra_admin.php';
+    <?php if (is_object($newspage)) {
 
-    } // Admin panel
-
-    ?>
-
-    <div class="collapse hide" id="exercise-container-super">
+      echo '<div class="alert study-news rounded-box position-relative alert-dismissible fade show" role="alert">';
+      ?>
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="text-shadow"><?php echo $gi18n['studypage_practice_title']; ?></h1>
-        <span class="page-icon"><img alt="practice" src="<?php echo get_template_directory_uri(); ?>/assets/icons/lamp.png"></span>
+        <h2 class="text-shadow"><?php echo $gi18n['whatsnew']; ?></h2>
+        <span class="page-icon small"><img alt="sparkle" src="<?php echo get_template_directory_uri(); ?>/assets/icons/star.png"></span>
       </div>
-      <div id="exercise-container"></div>
-      <hr class="my-5 thick" />
-    </div>
+      <?php
+      echo apply_filters('the_content', $newspage->post_content);
+      echo '<a type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick="setCookie(\'dismissed\', true, 1);"></a>';
+      echo '</div>';
 
-    <div class="study-page position-relative show" id="study-container">
+    } ?>
+
+    <div class="study-page rounded-box position-relative show" id="study-container">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
@@ -119,7 +121,7 @@ if ($user_studypage_object == null) {
 
     </div>
 
-    <div class="study-answers">
+    <div class="study-answers rounded-box">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
@@ -151,12 +153,40 @@ if ($user_studypage_object == null) {
       }
       ?>
 
+      <?php comment_form( array('title_reply' => '', 'label_submit' => 'Deixar resposta'), $user_studypage_object->ID); ?>
+
     </div>
 
-    <?php comment_form( array('title_reply' => '', 'label_submit' => 'Deixar resposta'), $user_studypage_object->ID); ?>
-
-  </div></div>
+  </div>
 
 </main>
+
+<script>
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+}
+
+if (getCookie('dismissed') == "true") {
+  document.querySelector('.alert').className = 'd-none';
+}
+</script>
 <?php
 get_footer();

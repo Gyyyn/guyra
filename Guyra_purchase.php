@@ -1,7 +1,7 @@
-      <div class="row prices-container row-cols-1 row-cols-md-3 mb-3 text-center" data-aos="fade-up">
-        <div class="col prices lite">
-          <div class="card mb-4 border-primary">
-            <div class="card-header py-2 text-white bg-primary border-primary">
+      <div class="row prices-container with-animation row-cols-1 row-cols-md-3 mb-3 text-center" data-aos="fade-up">
+        <div class="col-md prices lite">
+          <div class="card mb-4">
+            <div class="card-header py-2">
               <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlelite'] ?></h3>
             </div>
             <div class="card-body">
@@ -12,13 +12,13 @@
                 <li><span>Uma aula por semana</span> <span>❌</span></li>
                 <li><span>Exercicios de conversasao</span> <span>❌</span></li>
               </ul>
-              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-lite" class="w-100 btn btn-lg btn-primary"><?php echo $gi18n['button_want'] ?></button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-lite" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
             </div>
           </div>
         </div>
-        <div class="col prices primary pro">
+        <div class="col-md prices primary">
           <div class="card mb-4 border-secondary">
-            <div class="card-header py-2 text-white bg-secondary border-secondary">
+            <div class="card-header py-2">
               <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
             </div>
             <div class="card-body">
@@ -29,23 +29,23 @@
                 <li><span>Uma aula por semana</span> <span>✅</span></li>
                 <li><span>Exercicios de conversasao</span> <span>✅</span></li>
               </ul>
-              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg btn-secondary"><?php echo $gi18n['button_want'] ?></button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
             </div>
           </div>
         </div>
-        <div class="col prices business">
-          <div class="card border-dark mb-4">
-            <div class="card-header bg-black text-white py-2">
+        <div class="col-md prices business">
+          <div class="card mb-4">
+            <div class="card-header">
               <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h3>
             </div>
-            <div class="card-body bg-dark text-white">
+            <div class="card-body">
               <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['student'] ?></small></h1>
               <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
                 <li><span>Todos os beneficios do plano premium</span> <span>✅</span></li>
                 <li><span>Preparatorio IELTS/Cambridge/TOEFL</span> <span>✅</span></li>
                 <li><span>A partir de 10 alunos</span> <span>ℹ</span></li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
+              <button type="button" class="w-100 btn btn-lg" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
             </div>
           </div>
         </div>

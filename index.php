@@ -18,13 +18,18 @@ if($_GET['json']) {
 } else {
 
   // Allow logged users to go straight to a home page
-  if (is_user_logged_in()) {
+  // and admins to load the admin page
+  if ($_GET['page'] == "admin" && current_user_can('manage_options')) {
+
+    load_template(locate_template('Guyra_admin.php'));
+
+  } elseif (is_user_logged_in()) {
 
     load_template(locate_template('Guyra_study.php'));
 
   // No special pages requested, continue as normal
   } else {
-    load_template(locate_template('Guyra_landing_loginonly.php'));
+    load_template(locate_template('Guyra_landing.php'));
   }
 
 }

@@ -17,6 +17,7 @@ $user_subscription = get_user_meta($user_id, 'subscription', true);
 $user_subscription_activesince = get_user_meta($user_id, 'subscription-active-since', true);
 
 $first_name = get_user_meta( $user_id, 'first_name', true );
+$last_name = get_user_meta( $user_id, 'last_name', true );
 if (empty($first_name)) {
 	$first_name = $user_info->name;
 }
@@ -42,7 +43,8 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 			<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
 					<img class="avatar page-icon" alt="Foto de perfil" src="<?php echo $image; ?>">
 			<?php } ?>
-			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-uppercase mt-3"><?php echo $gi18n['pricesfeature_titlepro'];?></span><?php } ?>
+			<h3 class="text-blue"><?php echo $first_name . ' ' . $last_name; ?></h3>
+			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro'];?>✨🌟</span><?php } ?>
 		</div>
 
 	</div>
@@ -59,7 +61,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 			<h2 class="text-blue"><?php echo $gi18n['ranking']?></h2>
 			<div class="text-center">
 				<img class="page-icon" alt="bronze 1" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/ranks/bronze-1.png'; ?>">
-				<h3 class="bg-secondary text-white text-uppercase">Bronze 1</h3>
+				<h3 class="bg-secondary text-white text-uppercase rounded">Bronze 1</h3>
 			</div>
 			<p><?php echo $gi18n['ranking_explain']?></p>
 		</div>

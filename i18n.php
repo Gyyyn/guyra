@@ -1,7 +1,7 @@
 <?php
 $gi18n = [
 	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
-	'comapny_name' => 'Guyra.',
+	'company_name' => 'Guyrá.',
 	'company_cnpj' => '41.915.538/0001-03',
 	'company_address' => 'Piracicaba - SP',
 	//'company_address' => 'Rua Luiz Razera, 676, Piracicaba/SP - CEP 13417-530',
@@ -13,7 +13,7 @@ $gi18n = [
 	'student' => 'Aluno',
 	'email' => 'Email',
 	'meet' => 'Meet',
-	'youchose' => 'Voce escolheu: ',
+	'youchose' => 'Você escolheu: ',
 	'payment' => 'Pagamento',
 	'pay' => 'Pagar',
 	'subscribe' => 'Escolha um plano!',
@@ -29,6 +29,7 @@ $gi18n = [
 	'schools' => 'Escolas',
 	'thanks' => 'Agradecimentos',
 	'writtenby' => 'Escrito por:',
+	'whatsnew' => 'Novidades',
 	'are_you_lost' => 'Não tem nada por aqui...',
 	'are_you_lost_explain' => 'Se você estava tentando acessar alguma coisa talvez ela tenha mudado de lugar ou houve um erro no nosso sistema, sorry 😔',
 	'landing_title1' => 'Aulas ao vivo e video aulas.',
@@ -43,8 +44,10 @@ $gi18n = [
 	'index_feature_explain2' => '<p>Tenha a flexibilidade de assistir aulas quando e onde puder!</p>',
 	'index_feature_title3' => 'Ensino de ponta.',
 	'index_feature_explain3' => '<p>Nada desatualizado. Tudo é constantemente atualizado e melhorado</p> <p>Acesse a página de novidades pra ver tudo que temos de novo pra você!</p>',
-	'index_feature_title4' => 'Veja na prática.',
-	'index_feature_explain4' => '<p>Experimente nossos cursos grátis.</p>',
+	'index_feature_title4' => 'Made in Brazil.',
+	'index_feature_explain4' => '<p>Feito para brasileiros.</p>',
+	'index_feature_title5' => 'Veja na prática.',
+	'index_feature_explain5' => '<p>Experimente nossos cursos grátis.</p>',
 	'button_learnmore' => 'Saiba mais!',
 	'button_tryit' => 'Experimente!',
 	'button_want' => 'Quero esse!',
@@ -80,6 +83,7 @@ $gi18n = [
 	'ranking' => 'Divisão: ',
 	'ranking_explain' => '<p>Sua divisão representa quão bem você está se saindo em comparação com pessoas do mesmo nível.</p><p>Você pode subir de divisão jogando mais na área de exercícios e fazendo o maior números de acertos possíveis!</p>',
 	'practice_more' => 'Quer praticar mais?',
+	'something_wrong' => 'Algo de errado?',
 	/* Exercises */
 	'correctanswer' => 'Resposta correta: ',
 	'wronganswer' => 'Não era essa!',
@@ -108,5 +112,18 @@ $gi18n = [
 	'schools_footer_link' => get_site_url() . '/work-with-us',
 	'thanks_footer_link' => get_site_url() . '/thanks',
 	'admin_link' => get_admin_url(),
-	'template_link' => get_template_directory_uri()
+	'guyra_admin_link' => get_site_url() . '/?page=admin',
+	'template_link' => get_template_directory_uri(),
+	'logo_img' => get_template_directory_uri() . '/assets/img/birdlogo_ver1.png'
+];
+
+// Overide some WP Everest User Registration vars
+$labels['lost_your_password'] = "Perdi minha senha!";
+
+$labels = [
+	'username' => "Email",
+	'password' => "Senha",
+	'remember_me' => "Lembrar de mim",
+	'login' => "Login",
+	'lost_your_password' => "Perdi minha senha!",
 ];
