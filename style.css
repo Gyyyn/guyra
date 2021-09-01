@@ -51,8 +51,8 @@
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
-  --guyra-box-shadow-outline: 0px 0px 0 1rem rgba(255, 255, 255, .33);
-  --guyra-box-shadow-outline-smaller: 0px 0px 0 .33rem rgba(255, 255, 255, .33);
+  --guyra-box-shadow-outline: 0 0 0 1rem rgba(255, 255, 255, .33);
+  --guyra-box-shadow-outline-smaller: 0 0 0 .33rem rgba(255, 255, 255, .33);
 
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
   --guyra-fonts-title: 'Campton Black',var(--bs-font-sans-serif);
@@ -556,7 +556,7 @@ nav .navbar-nav .btn-wa:hover {
   background: linear-gradient(90deg, rgb(0 246 255) 0%, rgb(0 147 255) 100%);
   color: var(--guyra-white);
   border: 0;
-  box-shadow: 0px 0px 15px 5px rgb(0 190 255 / 30%);
+  box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
 }
 
 .card .btn {
@@ -929,10 +929,6 @@ a.btn-primary:focus,
 .list-group-horizontal>.list-group-item:last-child {
     border-top-right-radius: var(--guyra-border-radius-bigger);
     border-bottom-right-radius: var(--guyra-border-radius-bigger);
-}
-
-.list-group-horizontal>.list-group-item:last-child {
-
 }
 
 .btn-close {
