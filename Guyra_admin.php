@@ -16,6 +16,8 @@ if (!current_user_can('manage_options')) {
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
 
+include get_template_directory() . '/Guyra_database.php';
+
 // Get users
 $users = get_users();
 
@@ -43,8 +45,18 @@ get_header();
 </div>
 
 <div class="admin-section">
+<h3 class="mt-4">Param debug:</h3>
+<pre>
+<?php
+print_r('here may be a var');
+?>
+</pre>
+</div>
 
-  <h4 class="mt-4">Extras:</h4>
+<div class="admin-section">
+
+  <h4>Extras:</h4>
+  <div class="admin-forms border rounded p-3 m-0">
 
   <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-lg btn-primary">Wordpress admin</a>
 
@@ -54,6 +66,33 @@ get_header();
 
   <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_page=all' ?>" class="btn btn-lg btn-primary">Create Site Pages</a>
 
+  <hr class="mt-3" />
+
+  <h5>Change a site option:</h5>
+  <form action="<?php echo get_site_url(); ?>" method="GET">
+      Option: <input type="text" name="change_option">
+      Value: <input type="text" name="value">
+      <input type="hidden" name="user" value="1" />
+      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+      <input type="submit" value="Go" />
+  </form>
+
+  <hr />
+
+  <h5>Set own elo:</h5>
+  <form action="<?php echo get_site_url(); ?>" method="GET">
+      Value: <input type="text" name="value">
+      <input type="hidden" name="update_elo" value="1" />
+      <input type="hidden" name="user" value="1" />
+      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+      <input type="submit" value="Go" />
+  </form>
+
+  <hr />
+
+  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&get_user_meta=1' ?>" class="btn btn-lg btn-primary">Read own meta</a>
+
+  </div>
 </div>
 
 <div class="admin-section">
@@ -66,6 +105,7 @@ get_header();
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         Teacher ID: <input type="text" name="assigntoteacher">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go" />
     </form>
 
@@ -75,6 +115,7 @@ get_header();
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         Group tag: <input type="text" name="assigntogroup">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go" />
     </form>
 
@@ -92,6 +133,7 @@ get_header();
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         dd-mm-yyyy formatted date: <input type="text" name="premiumtill">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go" />
     </form>
 
@@ -99,6 +141,7 @@ get_header();
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         dd-mm-yyyy formatted date: <input type="text" name="litetill">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go" />
     </form>
 
@@ -122,6 +165,7 @@ get_header();
     <form action="<?php echo get_site_url(); ?>" method="GET">
         User ID: <input type="text" name="user">
         Role: <input type="text" name="giverole">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go" />
     </form>
 
@@ -144,10 +188,10 @@ get_header();
       $page_link = get_site_url() . '/' . sha1($x->ID);
     }
 
-    echo '<ul class="list-group list-group-horizontal">' .
+    echo '<ul class="list-group mb-1 list-group-horizontal">' .
 
     '<li class="list-group-item col-1">' .
-      '<span class="text-muted me-1">ID:</span><a href="#form" class="id-selector badge bg-secondary">' . $x->ID . '</a>' .
+      '<span class="text-muted me-1">ID:</span><a href="#form" class="id-selector badge bg-primary text-white">' . $x->ID . '</a>' .
     '</li>' .
 
     '<a class="list-group-item col" href="' . $page_link . '">' .
@@ -155,11 +199,12 @@ get_header();
         $userdata['last_name'][0] .
         $x->user_email .
       '<span class="badge bg-secondary ms-1">' . $userdata['role'][0] . '</span> ' .
+      '<span class="badge bg-secondary ms-1">' . $userdata['subscription'][0]. '</span> ' .
     '</a>' .
 
     '<li class="list-group-item col-2">' .
       '<span class="text-muted text-end">' .
-        'Teacher ID: <span class="badge bg-secondary">' . $userdata['teacherid'][0] . '</span>' .
+        'Teacher ID: <span class="badge bg-primary">' . $userdata['teacherid'][0] . '</span>' .
       '</span> ' .
     '</li>' .
 

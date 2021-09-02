@@ -27,7 +27,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
   echo '<div data-aos="fade-right">
   <h1 class="mb-3 text-blue">Welcome, ' . $thisUser['first_name'][0] . '</h1>
-  <h2 class="mb-3 text-purple">to the admin panel.</h2>
+  <h2 class="mb-3 text-purple">to your student panel.</h2>
 
   <hr />
 

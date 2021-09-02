@@ -213,14 +213,6 @@ hr.thick {
   overflow: hidden;
 }
 
-@media (min-width: 766px)  {
-  .page-squeeze hr.thick {
-    width: calc(40vw + 20rem);
-    position: relative;
-    left: calc(-1rem - 3vw);
-  }
-}
-
 .bg-gradient { background: var(--guyra-blue-purple-gradient); }
 .bg-gradient-reverse { background: var(--guyra-blue-purple-gradient-reverse); }
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
@@ -404,6 +396,12 @@ nav .navbar-nav .btn-sm {
   border-bottom: .25rem solid var(--guyra-blue);
   border-radius: var(--guyra-border-radius);
   font-weight: bold;
+}
+
+nav .navbar-nav .btn-sm:active,
+nav .navbar-nav .btn-sm:focus {
+  background: none;
+  color: var(--guyra-blue);
 }
 
 nav .navbar-nav .btn-sm.btn-primary:hover {

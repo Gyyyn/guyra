@@ -54,6 +54,10 @@ if (current_user_can('manage_options')) {
       guyra_database($_GET['create_db']);
     }
 
+    if ($_GET['change_option']) {
+      guyra_update_user_meta(1, (string) $_GET['change_option'], (string) $_GET['value']);
+    }
+
     if ($_GET['create_page'] == "all") {
 
       $post_data = array(
@@ -154,9 +158,9 @@ if ($_GET['get_user_meta']) {
   guyra_database('get_user_meta', null, get_current_user_id());
 }
 
-if ($_GET['update_elo'] && $_GET['amount']) {
-  guyra_database('update_elo', $_GET['amount'], get_current_user_id());
+if ($_GET['update_elo'] && $_GET['value']) {
+  guyra_database('update_elo', $_GET['value'], get_current_user_id());
 }
 
 // Redirect to main once we are done.
-wp_redirect(get_site_url());
+wp_redirect($redirect);

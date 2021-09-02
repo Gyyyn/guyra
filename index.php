@@ -29,7 +29,17 @@ if($_GET['json']) {
 
   // No special pages requested, continue as normal
   } else {
-    load_template(locate_template('Guyra_landing.php'));
+
+    require get_template_directory() . '/Guyra_database.php';
+
+    $landing_open = guyra_get_user_meta(1, 'landing_open', true)['meta_value'];
+
+    if ($landing_open === 'true') {
+      load_template(locate_template('Guyra_landing.php'));
+    } else {
+      load_template(locate_template('Guyra_landing_loginonly.php'));
+    }
+
   }
 
 }

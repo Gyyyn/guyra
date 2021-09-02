@@ -96,8 +96,8 @@
       <div class="col-md d-flex flex-column justify-content-center align-items-center">
 
         <div class="p-1 p-md-5 order-2">
-          <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['company_name'] ?></h2>
-          <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['meta_desc'] ?></div>
+          <h2 class="feature-heading" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
+          <div class="lead" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['meta_desc'] ?></div>
         </div>
 
         <div class="picture">
@@ -112,8 +112,8 @@
    <div class="row feature squeeze pt-5">
      <div class="col order-md-2 px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title1'] ?></h2>
-         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain1'] ?></div>
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title1'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain1'] ?></div>
        </div>
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
@@ -128,8 +128,8 @@
    <div class="row feature squeeze">
      <div class="col px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title2'] ?></h2>
-         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain2'] ?></div>
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title2'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain2'] ?></div>
        </div>
      </div>
      <div class="col-md-3 d-flex justify-content-center">
@@ -152,8 +152,8 @@
    <div class="row feature squeeze">
      <div class="col order-md-2 px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title3'] ?></h2>
-         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain3'] ?></div>
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title3'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain3'] ?></div>
        </div>
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
@@ -168,8 +168,8 @@
    <div class="row feature squeeze">
      <div class="col px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title4'] ?></h2>
-         <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain4'] ?></div>
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title4'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain4'] ?></div>
        </div>
      </div>
      <div class="col-md-3 d-flex justify-content-center">
@@ -185,8 +185,8 @@
      <div class="row justify-content-center align-items-center px-5">
        <div class="col order-md-2 px-md-5 align-self-center">
          <div class="p-1 p-md-5">
-           <h2 class="feature-heading" data-aos="fade" data-aos-delay="500"><?php echo $gi18n['index_feature_title5'] ?></h2>
-           <div class="lead" data-aos="fade" data-aos-delay="1000"><?php echo $gi18n['index_feature_explain5'] ?></div>
+           <h2 class="feature-heading" data-aos="fade" data-aos-delay="20"><?php echo $gi18n['index_feature_title5'] ?></h2>
+           <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain5'] ?></div>
          </div>
        </div>
        <div class="col-md-3 order-md-1 d-flex justify-content-center">

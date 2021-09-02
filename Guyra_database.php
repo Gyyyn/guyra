@@ -77,7 +77,7 @@ function guyra_database_create_db($sql) {
 
 }
 
-function guyra_get_user_meta($user, $meta_key, $return=false) {
+function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   if ($db->connect_error) {
@@ -90,19 +90,41 @@ function guyra_get_user_meta($user, $meta_key, $return=false) {
       FROM guyra_user_meta
       WHERE user_id='%d'", $user);
       $result = $db->query($sql);
+      $output = false;
 
+      // Check if the user exists
       if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-          $output[] = $row;
-        }
-        if (!$return) {
-          guyra_output_json($output, true);
+
+        if (!$meta_key) {
+
+          while ($row = $result->fetch_assoc()) {
+              $output[] = $row;
+          }
+
         } else {
-          return $output;
+
+          foreach ($result as $row) {
+
+            if ($row['meta_key'] == $meta_key) {
+              $output = $row;
+            }
+
+          }
+
         }
 
+        if ($return === 'exists' && $output != false) {
+
+          $output = true;
+
+        }
+
+      }
+
+      if (!$return) {
+        guyra_output_json($output, true);
       } else {
-        guyra_output_json(false, true);
+        return $output;
       }
 
   }
@@ -120,16 +142,16 @@ function guyra_update_user_meta($user, $meta_key, $meta_value) {
 
   } else {
 
-    if (guyra_get_user_meta($user, $meta_key, true)) {
+    if (guyra_get_user_meta($user, $meta_key, 'exists')) {
 
       $sql = sprintf("UPDATE guyra_user_meta
-      SET meta_value = %d
+      SET meta_value = '%s'
       WHERE user_id = %d AND meta_key = '%s'", $meta_value, $user, $meta_key);
 
     } else {
 
-      $sql = sprintf("REPLACE INTO guyra_user_meta
-      VALUES (%d, '%s', %d)", $user, $meta_key, $meta_value);
+      $sql = sprintf("INSERT INTO guyra_user_meta (user_id, meta_key, meta_value)
+      VALUES (%d, '%s', '%s')", $user, $meta_key, $meta_value);
 
     }
 

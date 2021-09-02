@@ -64,7 +64,7 @@ if ($user_studypage_object == null) {
 ?>
 <main id="intro-content" class="site-main study squeeze position-relative mb-5">
 
-  <a class="btn btn-primary position-absolute top-0 start-0 admin-btn" href="<?php echo $gi18n['guyra_admin_link'] ?>">
+  <a class="btn btn-tall position-absolute top-0 start-0 admin-btn" href="<?php echo $gi18n['guyra_admin_link'] ?>">
     🎁
   </a>
 
@@ -116,8 +116,6 @@ if ($user_studypage_object == null) {
       </div>
 
       <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
-
-      <hr class="my-5 thick" />
 
     </div>
 
