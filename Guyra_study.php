@@ -5,8 +5,6 @@
  * @package guyra
  */
 
-get_header();
-
 // Sanity check, unlogged users shouldn't be here
 if (!is_user_logged_in()) {
   wp_redirect(get_site_url());
@@ -60,6 +58,8 @@ if ($user_studypage_object == null) {
   // redirect back to restart this mess
   wp_redirect(get_site_url());
 }
+
+get_header();
 
 ?>
 <main id="intro-content" class="site-main study squeeze position-relative mb-5">

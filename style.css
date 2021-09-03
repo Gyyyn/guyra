@@ -53,6 +53,8 @@
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
   --guyra-box-shadow-outline: 0 0 0 1rem rgba(255, 255, 255, .33);
   --guyra-box-shadow-outline-smaller: 0 0 0 .33rem rgba(255, 255, 255, .33);
+  --guyra-box-shadow-outline-onwhite: 0 0 0 1rem rgba(166, 241, 255, .33);
+  --guyra-box-shadow-outline-onwhite-smaller: 0 0 0 .33rem rgba(166, 241, 255, .33);
 
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
   --guyra-fonts-title: 'Campton Black',var(--bs-font-sans-serif);
@@ -962,6 +964,45 @@ a.btn-primary:focus,
 }
 
 /*
+* -------- Inputs
+*
+*
+*/
+
+.form-control,
+.page-squeeze .ur-frontend-form input:not(.button),
+.page-squeeze .user-registration-message,
+.page-squeeze .user-registration-error,
+.page-squeeze .user-registration-info {
+  padding: .5rem;
+  font-size: var(--guyra-fonts-textsize-n);
+  color: var(--guyra-black);
+  font-family: var(--guyra-fonts-text);
+  border: unset;
+  background: var(--guyra-grey);
+  border-radius: var(--guyra-border-radius);
+  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  width: 100%;
+}
+
+.form-control:focus {
+    color: var(--guyra-blacker);
+    background: var(--guyra-grey);
+    border: unset;
+    border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+    box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
+}
+
+.form-check-input:checked {
+  background-color: var(--guyra-blue);
+  border-color: var(--guyra-blue);
+}
+
+.form-check-input:focus {
+  box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
+}
+
+/*
 * -------- Exercise
 *
 *
@@ -1489,21 +1530,6 @@ a.element-container:visited {
   font-family: var(--guyra-fonts-title);
   font-size: var(--guyra-fonts-textsize-xx);
   font-weight: 900;
-}
-
-.page-squeeze .ur-frontend-form input:not(.button),
-.page-squeeze .user-registration-message,
-.page-squeeze .user-registration-error,
-.page-squeeze .user-registration-info {
-  padding: .5rem;
-  font-size: var(--guyra-fonts-textsize-n);
-  color: var(--guyra-black);
-  font-family: var(--guyra-fonts-text);
-  border: unset;
-  background: var(--guyra-grey);
-  border-radius: var(--guyra-border-radius);
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
-  width: 100%;
 }
 
 .page-squeeze .ur-frontend-form input:not(.button):focus-visible {

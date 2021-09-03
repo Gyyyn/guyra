@@ -1,6 +1,6 @@
 <?php
 /**
- * Grammar reference page
+ * Payment details page
  *
  * @package guyra
  */
@@ -19,45 +19,46 @@ include get_template_directory() . '/i18n.php';
 <main class="page squeeze"><div class="page-squeeze rounded-box">
 
   <div class="row g-5">
+
     <div class="col-md-5 col-lg-4 order-md-last">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Your cart</span>
-        <span class="badge bg-primary rounded-pill">3</span>
-      </h4>
-      <ul class="list-group mb-3">
+      <h3 class="mb-3">
+        <span class="text-primary"><?php echo $gi18n['plans'] ?></span>
+      </h3>
+      <ul class="list-group more-rounded mb-3">
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
-            <h6 class="my-0">Product name</h6>
-            <small class="text-muted">Brief description</small>
+            <h6 class="my-0"><?php echo $gi18n['pricesfeature_titlelite'] ?></h6>
+            <small class="text-muted"><?php echo $gi18n['pricesfeature_subtitlelite'] ?></small>
           </div>
-          <span class="text-muted">$12</span>
+          <span class="text-muted"><?php echo $gi18n['pricesfeature_pricelite'] ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
-            <h6 class="my-0">Second product</h6>
-            <small class="text-muted">Brief description</small>
+            <h6 class="my-0"><?php echo $gi18n['pricesfeature_titlepro'] ?></h6>
+            <small class="text-muted"><?php echo $gi18n['pricesfeature_subtitlepro'] ?></small>
           </div>
-          <span class="text-muted">$8</span>
+          <span class="text-muted"><?php echo $gi18n['pricesfeature_pricepro'] ?></span>
         </li>
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
-            <h6 class="my-0">Third item</h6>
-            <small class="text-muted">Brief description</small>
+            <h6 class="my-0"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h6>
+            <small class="text-muted"><?php echo $gi18n['pricesfeature_subtitlebusiness'] ?></small>
           </div>
-          <span class="text-muted">$5</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total (USD)</span>
-          <strong>$20</strong>
+          <span class="text-muted"><?php echo $gi18n['pricesfeature_pricebusiness'] ?></span>
         </li>
       </ul>
+      <div class="card d-flex flex-row justify-content-between p-3">
+        <span><?php echo $gi18n['total'] ?></span>
+        <strong>$0</strong>
+      </div>
     </div>
+
     <div class="col-md-7 col-lg-8">
-      <h4 class="mb-3">Billing address</h4>
+      <h4 class="mb-3"><?php echo $gi18n['address'] ?></h4>
       <form class="needs-validation" novalidate="">
         <div class="row g-3">
           <div class="col-sm-6">
-            <label for="firstName" class="form-label">First name</label>
+            <label for="firstName" class="form-label"><?php echo $gi18n['firstname'] ?></label>
             <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
             <div class="invalid-feedback">
               Valid first name is required.
@@ -65,7 +66,7 @@ include get_template_directory() . '/i18n.php';
           </div>
 
           <div class="col-sm-6">
-            <label for="lastName" class="form-label">Last name</label>
+            <label for="lastName" class="form-label"><?php echo $gi18n['lastname'] ?></label>
             <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
             <div class="invalid-feedback">
               Valid last name is required.
@@ -73,96 +74,39 @@ include get_template_directory() . '/i18n.php';
           </div>
 
           <div class="col-12">
-            <label for="username" class="form-label">Username</label>
-            <div class="input-group has-validation">
-              <span class="input-group-text">@</span>
-              <input type="text" class="form-control" id="username" placeholder="Username" required="">
-            <div class="invalid-feedback">
-                Your username is required.
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12">
-            <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-            <div class="invalid-feedback">
-              Please enter a valid email address for shipping updates.
-            </div>
-          </div>
-
-          <div class="col-12">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+            <label for="address" class="form-label"><?php echo $gi18n['address'] ?></label>
+            <input type="text" class="form-control" id="address" placeholder="Avenida Paulista, 1234" required="">
             <div class="invalid-feedback">
               Please enter your shipping address.
             </div>
           </div>
 
-          <div class="col-12">
-            <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-            <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-          </div>
-
-          <div class="col-md-5">
-            <label for="country" class="form-label">Country</label>
-            <select class="form-select" id="country" required="">
-              <option value="">Choose...</option>
-              <option>United States</option>
-            </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <label for="state" class="form-label">State</label>
-            <select class="form-select" id="state" required="">
-              <option value="">Choose...</option>
-              <option>California</option>
-            </select>
-            <div class="invalid-feedback">
-              Please provide a valid state.
-            </div>
+          <div class="col-9">
+            <label for="address2" class="form-label"><?php echo $gi18n['address2'] ?><span class="text-muted"> (<?php echo $gi18n['optional'] ?>)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="Apartamento 10">
           </div>
 
           <div class="col-md-3">
-            <label for="zip" class="form-label">Zip</label>
-            <input type="text" class="form-control" id="zip" placeholder="" required="">
+            <label for="zip" class="form-label"><?php echo $gi18n['zip'] ?></label>
+            <input type="text" class="form-control" id="zip" placeholder="12345-678" required="">
             <div class="invalid-feedback">
               Zip code required.
             </div>
           </div>
         </div>
 
-        <hr class="my-4">
+        <hr class="my-5" />
 
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="same-address">
-          <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-        </div>
-
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="save-info">
-          <label class="form-check-label" for="save-info">Save this information for next time</label>
-        </div>
-
-        <hr class="my-4">
-
-        <h4 class="mb-3">Payment</h4>
+        <h4 class="mb-3"><?php echo $gi18n['payment'] ?></h4>
 
         <div class="my-3">
           <div class="form-check">
             <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-            <label class="form-check-label" for="credit">Credit card</label>
+            <label class="form-check-label" for="credit"><?php echo $gi18n['pix'] ?></label>
           </div>
           <div class="form-check">
             <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-            <label class="form-check-label" for="debit">Debit card</label>
-          </div>
-          <div class="form-check">
-            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-            <label class="form-check-label" for="paypal">PayPal</label>
+            <label class="form-check-label" for="debit"><?php echo $gi18n['thirdparty_processor'] ?></label>
           </div>
         </div>
 
@@ -209,3 +153,6 @@ include get_template_directory() . '/i18n.php';
   </div>
 
 </main>
+
+<?php
+get_footer();

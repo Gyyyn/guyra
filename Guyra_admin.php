@@ -228,3 +228,6 @@ print_r('here may be a var');
 </div>
 
 </main></div>
+
+<?php
+get_footer();
