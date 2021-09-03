@@ -67,7 +67,7 @@ function guyra_database_create_db($sql) {
 
     } else {
 
-      guyra_output_json('query error' . $sql, true);
+      guyra_output_json('query error', true);
 
     }
 
@@ -133,7 +133,7 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
 }
 
-function guyra_update_user_meta($user, $meta_key, $meta_value) {
+function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   if ($db->connect_error) {
@@ -155,9 +155,14 @@ function guyra_update_user_meta($user, $meta_key, $meta_value) {
 
     }
 
+
     if ($db->query($sql) === TRUE) {
 
-      guyra_output_json('query successful');
+      if ($return) {
+
+        guyra_output_json('query successful');
+        
+      }
 
     } else {
 
@@ -184,6 +189,10 @@ function guyra_database($action, $value='', $user=0) {
 
     case 'update_elo':
       guyra_update_user_meta($user, 'elo', $value);
+    break;
+
+    case 'update_level':
+      guyra_update_user_meta($user, 'level', $value);
     break;
 
     case 'get_user_meta':

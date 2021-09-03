@@ -490,65 +490,75 @@ function LevelChooser(props) {
 */
 
 // Returns a bootstrap modal and the corresponding button trigger
-function BootstrapModal(props) {
-  return e(
-    'div',
-    null,
-    e(
-      'a',
-      {
-        type: "button",
-        className: props.buttonclasses,
-        "data-bs-toggle": "modal",
-        "data-bs-target": '#'.concat(props.target)
-      },
-      props.button
-    ),
-    e(
+class BootstrapModal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    // Hack to get the modal to work right
+    document.querySelector('body').append(document.getElementById(this.props.target));
+  }
+
+  render() {
+    return e(
       'div',
-      {
-        class:"modal fade",
-        id: props.target,
-        tabindex: "-1",
-        "aria-hidden": "true",
-        "data-bs-backdrop": "false"
-      },
+      null,
+      e(
+        'a',
+        {
+          type: "button",
+          className: this.props.buttonclasses,
+          "data-bs-toggle": "modal",
+          "data-bs-target": '#'.concat(this.props.target)
+        },
+        this.props.button
+      ),
       e(
         'div',
         {
-          class:"modal-dialog modal-dialog-centered",
+          class:"modal fade",
+          id: this.props.target,
+          tabindex: "-1",
+          "aria-hidden": "true"
         },
         e(
           'div',
           {
-            class:"modal-content",
+            class:"modal-dialog modal-dialog-centered",
           },
           e(
             'div',
             {
-              class:"modal-header",
+              class:"modal-content",
             },
             e(
-              'a',
+              'div',
               {
-                type: "button",
-                className: "btn-close",
-                "data-bs-dismiss": "modal",
-                "aria-label": "close"
-              }
+                class:"modal-header",
+              },
+              e(
+                'a',
+                {
+                  type: "button",
+                  className: "btn-close",
+                  "data-bs-dismiss": "modal",
+                  "aria-label": "close"
+                }
+              )
+            ),
+            e(
+              'div',
+              {
+                class:"modal-body",
+              },
+              this.props.text
             )
-          ),
-          e(
-            'div',
-            {
-              class:"modal-body",
-            },
-            props.text
           )
         )
       )
     )
-  )
+  }
 }
 
 /*
@@ -767,7 +777,6 @@ class App extends React.Component {
         })
       });
 
-
   }
 
   setPage = (page) => {
@@ -812,6 +821,8 @@ class App extends React.Component {
         } else {
           this.exerciseEndSound.play();
         }
+
+        fetch('http://guyra.test/?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1));
 
       } else {
 
@@ -940,6 +951,16 @@ class App extends React.Component {
     fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
+
+    fetch(rootUrl.concat('?json=usermeta'))
+      .then(res => res.json())
+      .then(json => {
+        this.usermeta = json
+        this.setState({
+          usermeta: this.usermeta
+        })
+      });
+
   }
 
   reset = () => {

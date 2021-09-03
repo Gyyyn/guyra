@@ -109,6 +109,16 @@ if (current_user_can('manage_options')) {
         wp_insert_post($post_data);
       }
 
+      if (!is_object(get_page_by_title('Questions'))) {
+        $post_data['post_title'] = 'Questions';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Purchase'))) {
+        $post_data['post_title'] = 'Purchase';
+        wp_insert_post($post_data);
+      }
+
       // This one is last so there's not danger of putting the
       // 'post_title' everywhere else
       if (!is_object(get_page_by_title('Account'))) {
@@ -160,6 +170,10 @@ if ($_GET['get_user_meta']) {
 
 if ($_GET['update_elo'] && $_GET['value']) {
   guyra_database('update_elo', $_GET['value'], get_current_user_id());
+}
+
+if ($_GET['update_level'] && $_GET['value']) {
+  guyra_database('update_level', $_GET['value'], get_current_user_id());
 }
 
 // Redirect to main once we are done.

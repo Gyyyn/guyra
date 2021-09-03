@@ -80,10 +80,15 @@ $gi18n = [
 	/* User page */
 	'level' => 'Nível: ',
 	'level_explain' => 'Seu nível representa quanto você já praticou no Guyrá.',
+	'level_question' => 'Como funcionam no níveis?',
+	'level_question_link' => get_site_url() . '/faq#level',
 	'ranking' => 'Divisão: ',
 	'ranking_explain' => '<p>Sua divisão representa quão bem você está se saindo em comparação com pessoas do mesmo nível.</p><p>Você pode subir de divisão jogando mais na área de exercícios e fazendo o maior números de acertos possíveis!</p>',
+	'ranking_question' => 'Como funcionam as divisões?',
+	'ranking_question_link' => get_site_url() . '/faq#ranking',
 	'practice_more' => 'Quer praticar mais?',
 	'something_wrong' => 'Algo de errado?',
+	'change_payment_method' => 'Alterar o método de pagamento.',
 	/* Exercises */
 	'correctanswer' => 'Resposta correta: ',
 	'wronganswer' => 'Não era essa!',
@@ -109,6 +114,7 @@ $gi18n = [
 	'privacy_link' => get_site_url() . '/privacy',
 	'terms_link' => get_site_url() . '/terms',
 	'schools_link' => get_site_url() . '/schools',
+	'purchase_link' => get_site_url() . '/purchase',
 	'schools_footer_link' => get_site_url() . '/work-with-us',
 	'thanks_footer_link' => get_site_url() . '/thanks',
 	'admin_link' => get_admin_url(),

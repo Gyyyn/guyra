@@ -1,6 +1,7 @@
 <?php
 
 include get_template_directory() . '/i18n.php';
+include get_template_directory() . '/Guyra_misc.php';
 
 function GuyraGetIcon($path='') {
   return get_template_directory_uri() . '/assets/icons/' . $path;
@@ -1037,6 +1038,10 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
   } elseif ($_GET['json'] == 'i18n') {
 
     $responseJSON = $gi18n;
+
+  } elseif ($_GET['json'] == 'usermeta') {
+
+    $responseJSON = GetUserRanking(get_current_user_id());
 
   } else {
 
