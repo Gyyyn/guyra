@@ -723,6 +723,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.version = '0.0.1';
+
     this.ExerciseObject = [];
     this.exerciseLength = 0;
     this.currentQuestion = 0;
@@ -822,7 +824,34 @@ class App extends React.Component {
           this.exerciseEndSound.play();
         }
 
-        fetch('http://guyra.test/?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1));
+        // Finish up by posting userdata
+
+        fetch(rootUrl.concat('/?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1)));
+
+        var mod = this.score / 75;
+        mod = mod + 0.5;
+        var moddedScore = this.usermeta[0] * mod;
+
+        fetch(rootUrl.concat('/?user=1&update_elo=1&value='.concat(Number(moddedScore))));
+
+        var dataToPost = {
+          version: this.version,
+          answers: this.state.answers,
+          usermeta: this.state.usermeta,
+          score: this.score
+        }
+
+        fetch(
+          rootUrl.concat('/?user=1&log_exercise_data=1'),
+          {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToPost)
+          }
+        );
 
       } else {
 
@@ -851,9 +880,8 @@ class App extends React.Component {
   };
 
   scoreFunction(f, weight) {
-    // Function type, weight of operation
-    // Temp-ly only does 1 operations
-    this.score = this.score - weight;
+    let recoup = this.score * 0.25;
+    this.score = Math.round( (this.score / (2 * weight)) + recoup );
   }
 
   CheckAnswer = (answer, answerID) => {

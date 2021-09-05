@@ -56,9 +56,19 @@ include get_template_directory() . '/i18n.php';
 
 ?>
 
+<div class="row">
+
+	<div class="col-5 d-none d-md-flex">
+		<img class="left-side-image" alt="Register" src="<?php echo get_template_directory_uri(); ?>/assets/img/Welcome.png" />
+	</div>
+
+ <div class="col p-5">
+
 <?php apply_filters( 'user_registration_login_form_before_notice', ur_print_notices() ); ?>
 
 <?php do_action( 'user_registration_before_customer_login_form' ); ?>
+
+<h2 class="mb-3"><?php echo $gi18n['login'] ?></h2>
 
 <div class="ur-frontend-form login <?php echo $template_class; ?>" id="ur-frontend-form">
 
@@ -72,7 +82,7 @@ include get_template_directory() . '/i18n.php';
 							printf( '<label for="username">%s <span class="required">*</span></label>', esc_html( $labels['username'] ) );
 						}
 						?>
-						<input placeholder="<?php echo esc_attr( $placeholders['username'] ); ?>" type="text" class="user-registration-Input user-registration-Input--text input-text" name="username" id="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( $_POST['username'] ) : ''; ?>" />
+						<input placeholder="<?php echo esc_attr( $placeholders['username'] ); ?>" type="text" class="form-control" name="username" id="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( $_POST['username'] ) : ''; ?>" />
 					</p>
 					<p class="user-registration-form-row user-registration-form-row--wide form-row form-row-wide<?php echo ( 'yes' === get_option( 'user_registration_login_option_hide_show_password', 'no' ) ) ? ' hide_show_password' : ''; ?>">
 						<?php
@@ -81,7 +91,7 @@ include get_template_directory() . '/i18n.php';
 						}
 						?>
 						<span class="password-input-group">
-						<input placeholder="<?php echo esc_attr( $placeholders['password'] ); ?>" class="user-registration-Input user-registration-Input--text input-text" type="password" name="password" id="password" />
+						<input placeholder="<?php echo esc_attr( $placeholders['password'] ); ?>" class="form-control" type="password" name="password" id="password" />
 						<?php
 						if ( 'yes' === get_option( 'user_registration_login_option_hide_show_password', 'no' ) ) {
 							?>
@@ -103,10 +113,10 @@ include get_template_directory() . '/i18n.php';
 					<p class="form-row login-button">
 						<?php wp_nonce_field( 'user-registration-login', 'user-registration-login-nonce' ); ?>
 						<?php if($enable_ajax) { ?>
-						<input type="submit" class="user-registration-Button button ur-submit-button" id="user_registration_ajax_login_submit" name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
+						<input type="submit" class="btn-tall blue" id="user_registration_ajax_login_submit" name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
 						<span></span>
 						<?php } else { ?>
-						<input type="submit" class="user-registration-Button button " name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
+						<input type="submit" class="btn-tall blue" name="login" value="<?php echo esc_html( $labels['login'] ); ?>" />
 						<?php } ?>
 						<input type="hidden" name="redirect" value="<?php echo isset( $redirect ) ? $redirect : the_permalink(); ?>" />
 						<?php
@@ -127,10 +137,8 @@ include get_template_directory() . '/i18n.php';
 
 					if ( 'yes' === $lost_password_enabled ) {
 						?>
-								<h2 class="border-bottom mb-3"><?php echo esc_html( $gi18n['something_wrong'] ); ?></h2>
-								<p class="user-registration-LostPassword lost_password">
-									<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php echo esc_html( $labels['lost_your_password'] ); ?></a>
-								</p>
+								<h3 class="border-bottom mb-3"><?php echo esc_html( $gi18n['something_wrong'] ); ?></h3>
+								<a class="btn-tall" href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php echo esc_html( $labels['lost_your_password'] ); ?></a>
 							<?php
 					}
 					?>
@@ -166,6 +174,9 @@ include get_template_directory() . '/i18n.php';
 		</div>
 	</form>
 
+</div>
+
+</div>
 </div>
 
 <?php do_action( 'user_registration_after_login_form' ); ?>

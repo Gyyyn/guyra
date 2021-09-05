@@ -13,11 +13,17 @@
      <div class="cover-container container pt-3">
 
        <div class="row row-cols-auto align-items-start cover-card">
+         <div class="col-md">
 
-         <div class="col-md text-small">
-           <div class="text-center">
-             <img class="page-icon medium mb-5" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+           <div class="row mb-5">
+             <div class="col d-flex align-items-center justify-content-around">
+               <img alt="Guyra" class="page-icon large" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title.png" />
+             </div>
+             <div class="col d-flex align-items-center justify-content-around">
+               <img class="page-icon medium" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+             </div>
            </div>
+
            <h3><?php echo $gi18n['landing_title1'] ?></h3>
            <p><?php echo $gi18n['landing_explain1'] ?></p>
            <h3><?php echo $gi18n['landing_title2'] ?></h3>
@@ -27,7 +33,7 @@
          </div>
 
          <div class="col-md d-flex align-items-center flex-column" data-aos="fade">
-           <h2 class="marked mb-3">Let's go!</h2>
+           <h2 class="mb-3">Let's go!</h2>
 
            <div id="prices_carousel" class="carousel carousel-dark slide w-100" data-bs-ride="carousel">
             <div class="carousel-inner text-center pt-3">
@@ -195,7 +201,7 @@
          </div>
        </div>
      </div>
-     
+
      <div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
        <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">

@@ -37,14 +37,18 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 		<div class="col-md">
 
-			<div>
+			<div class="mb-5">
 				<h2 class="text-blue"><?php echo "Welcome, ", $first_name, "!";?></h2>
 				<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
 				<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
 				</p>
+				<?php if($user_subscription == '') { ?>
+					<p><?php echo $gi18n['no_subscription_found'] ?></p>
+					<a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a>
+				<?php } //no subscription ?>
 			</div>
 
-			<div>
+			<div class="mb-5">
 				<h3 class="text-blue">Pagamentos</h3>
 				<div class="row bg-grey more-rounded p-3 mx-0 mb-3">
 
@@ -53,8 +57,8 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 					</div>
 
 					<div class="col">
-						<p>Use este codigo para efetuar o pagamento.</p>
-						<p>Se preferir digitar o codigo PIX direto ta aqui: 19982576400</p>
+						<p><?php echo $gi18n['payment_message'] ?></p>
+						<p class="badge text-normal bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
 					</div>
 
 				</div>
@@ -63,7 +67,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 		</div>
 
-		<div class="col-md card py-5 mx-0 g-0 flex-column align-items-center">
+		<div class="col-md card py-5 mx-0 mb-auto flex-column align-items-center">
 			<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
 					<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
 			<?php } ?>
@@ -97,11 +101,6 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 	</div>
 
-	<?php if($user_subscription == '') {?><div class="profile-subscriptions pt-3">
-			<a class="w-100 p-3 btn btn-primary gradient-button fs-2" href="#collapse-prices" ><?php echo $gi18n['subscribe'];?></a>
-	</div>
-
-	<?php } //no subscription ?>
 </div>
 
 <?php

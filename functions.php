@@ -241,3 +241,22 @@ add_action( 'init', 'disable_emojis' );
 
 /* Disable WordPress Admin Bar for all users */
 add_filter( 'show_admin_bar', '__return_false' );
+
+// prevent the default WP Login
+function prevent_wp_login() {
+    // WP tracks the current page - global the variable to access it
+    global $pagenow;
+    // Check if a $_GET['action'] is set, and if so, load it into $action variable
+    $action = (isset($_GET['action'])) ? $_GET['action'] : '';
+    // Check if we're on the login page, and ensure the action is not 'logout'
+    if( $pagenow == 'wp-login.php' && ( ! $action || ( $action && ! in_array($action, array('logout', 'lostpassword', 'rp', 'resetpass'))))) {
+        // Load the home page url
+        $page = get_bloginfo('url') . '/404';
+        // Redirect to the home page
+        wp_redirect($page);
+        // Stop execution to prevent the page loading for any reason
+        exit();
+    }
+}
+
+add_action('init', 'prevent_wp_login');

@@ -84,6 +84,7 @@ Tags: guyra
   --guyra-line-height-blog: 3rem;
   --guyra-border-radius: calc(.25rem - 1px);
   --guyra-border-radius-bigger: calc(var(--guyra-border-radius) * 5);
+  --guyra-border-size: calc(0.2rem + .05vw);
   --guyra-transition: all 0.15s cubic-bezier(.19,1,.22,1);
 }
 
@@ -163,6 +164,14 @@ body,
   padding: 0;
 }
 
+body {
+	font-family: var(--guyra-fonts-text);
+	font-size: var(--guyra-fonts-textsize-n);
+  color: var(--guyra-black);
+  color: var(--guyra-black);
+  background-color: var(--guyra-blue-lighter);
+}
+
 h1 { font-size: var(--guyra-fonts-textsize-xxx); }
 h2 { font-size: var(--guyra-fonts-textsize-xx); }
 h3 { font-size: var(--guyra-fonts-textsize-x); }
@@ -191,37 +200,12 @@ small,
   font-size: var(--guyra-fonts-textsize-s);
 }
 
-.text-shadow {
-  /*text-shadow: -1px 1px var(--guyra-blue-darker), -1px 3px var(--guyra-blue-darker), -2px 4px var(--guyra-blue-darker);*/
-  text-shadow: 0 0 3px rgba(0,0,0,0.17);
-  color: var(--guyra-blue);
-}
-
 .text-muted {
     color: var(--guyra-grey-dark) !important;
 }
 
 .text-blue { color: var(--guyra-blue); }
 .text-purple { color: var(--guyra-purple); }
-
-body,
-.page-squeeze .user-registration,
-.element-container,
-.gradient-button a {
-	font-family: var(--guyra-fonts-text);
-	font-size: var(--guyra-fonts-textsize-n);
-}
-
-body,
-.page-squeeze .user-registration,
-.element-container {
-	background: var(--guyra-white);
-	color: var(--guyra-black);
-}
-
-body {
-	background-color: var(--guyra-blue-lighter);
-}
 
 hr {
 	background: var(--guyra-blue-purple-gradient);
@@ -359,6 +343,7 @@ main.practice {
   .navbar-collapse {
     background: var(--guyra-white);
     padding: 1rem;
+    box-shadow: 0px 50px 50px 0px rgb(0 0 0 / 50%);
   }
 
 }
@@ -407,6 +392,7 @@ main.practice {
   border: .25rem solid var(--guyra-grey);
   margin-top: 10px;
   left: -85px;
+  box-shadow: 0px 25px 25px 0px rgb(0 0 0 / 50%);
 }
 
 .dropdown-item {
@@ -447,8 +433,13 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 @media (max-width: 766px) {
+
+  .navbar-nav li {
+    margin-bottom: .25rem;
+  }
+
   nav .navbar-nav .btn-sm {
-    padding: 1rem;
+    padding: .5rem;
     border: .25rem solid var(--guyra-blue);
     font-size: var(--guyra-fonts-textsize-x);
   }
@@ -496,7 +487,7 @@ nav .navbar-nav .btn-wa:hover {
 @media (min-width: 766px) {
   .cover .cover-card {
     padding: 2.5rem;
-    margin: 5vw;
+    margin: 2.5vw;
     box-shadow: var(--guyra-box-shadow-outline);
   }
 }
@@ -511,10 +502,6 @@ nav .navbar-nav .btn-wa:hover {
 	.navbar .nav-rightside {
 		margin: 0;
 		display: block;
-	}
-
-	.navbar-nav li {
-		margin: 0 0 5px;
 	}
 
 	.navbar-nav li a {
@@ -745,10 +732,14 @@ a:hover {
 
 .rounded-box {
   background: var(--guyra-white);
-  padding: 3vw;
+  padding: calc(3vw + .25rem);
   border-radius: var(--guyra-border-radius-bigger);
   margin-top: 3rem;
   box-shadow: var(--guyra-box-shadow-outline);
+}
+
+.rounded-box-padded {
+  padding: calc(3vw + .25rem);
 }
 
 .study-news {
@@ -766,10 +757,7 @@ a:hover {
 *
 */
 
-.btn,
-button, input[type="button"], input[type="reset"], input[type="submit"],
-.page-squeeze .ur-frontend-form input.button
-{
+.btn {
   color: var(--guyra-black);
   text-decoration: none;
   font-size: var(--guyra-fonts-textsize-n);
@@ -782,19 +770,17 @@ button, input[type="button"], input[type="reset"], input[type="submit"],
   background: transparent;
 }
 
-.btn:hover,
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover,
-.page-squeeze .ur-frontend-form input.button:hover
-{
+.btn:hover {
   color: var(--guyra-grey-darkest);
   background-color: var(--guyra-grey);
   border: 1px solid transparent;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
 }
 
+.btn-primary,
 a.btn-primary,
-a.btn-primary:active,
-a.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:focus,
 .dropdown-item.active,
 .dropdown-item:focus {
 	background-color: var(--guyra-blue);
@@ -873,50 +859,50 @@ a.btn-primary:focus,
 
 .btn-tall {
   padding: .5rem 1rem;
-  border-radius: calc(var(--guyra-border-radius) + 0.5rem);
+  border-radius: var(--guyra-border-radius-bigger);
   cursor: pointer;
 }
 
 .btn-tall:active {
-  border-bottom: 0;
+  border-bottom: var(--guyra-border-size) solid transparent !important;
+  position: relative;
+  top: var(--guyra-border-size);
 }
 
 .btn-tall,
-.page-squeeze .list-group.study-menu .list-group-item,
-.lost_password a,
-.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button,
-.ur-frontend-form .ur-button-container .ur-submit-button {
+.page-squeeze .list-group.study-menu .list-group-item {
   color: var(--guyra-blue);
   font-size: var(--guyra-fonts-textsize-n);
   font-weight: bold;
   border: 0;
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
   background: var(--guyra-grey);
+  text-decoration: none;
+}
+
+.page-squeeze .list-group.study-menu .list-group-item {
   display: flex;
   align-items: center;
-  text-decoration: none;
 }
 
 .btn-tall:hover,
 .page-squeeze .list-group.study-menu .list-group-item:hover,
-.lost_password a:hover,
 .ur-frontend-form .ur-button-container .ur-submit-button:hover {
+  padding: .5rem 1rem;
   background: var(--guyra-grey-dark);
   border-bottom-color: var(--guyra-grey-darker);
 }
 
 .btn-tall.blue,
 .page-squeeze .list-group.study-menu .list-group-item.active,
-.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"],
-.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button {
+.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"] {
   border-bottom-color: var(--guyra-blue-darker);
   background-color: var(--guyra-blue);
   color: var(--guyra-white);
 }
 
 .btn-tall.blue:hover,
-.page-squeeze .list-group.study-menu .list-group-item.active:hover,
-.page-squeeze #user-registration .ur-frontend-form input[value="Login"].button:hover {
+.page-squeeze .list-group.study-menu .list-group-item.active:hover {
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);
 }
@@ -982,8 +968,17 @@ a.btn-primary:focus,
 *
 */
 
-.form-control,
-.page-squeeze .ur-frontend-form input:not(.button),
+.form-control {
+  padding: unset;
+  border: unset;
+  color: unset;
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+}
+
+input.form-control,
+.form-control input,
 .page-squeeze .user-registration-message,
 .page-squeeze .user-registration-error,
 .page-squeeze .user-registration-info {
@@ -994,15 +989,16 @@ a.btn-primary:focus,
   border: unset;
   background: var(--guyra-grey);
   border-radius: var(--guyra-border-radius);
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
   width: 100%;
 }
 
-.form-control:focus {
+input.form-control:focus,
+.form-control input:focus {
     color: var(--guyra-blacker);
     background: var(--guyra-grey);
     border: unset;
-    border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+    border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
     box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
 }
 
@@ -1090,7 +1086,7 @@ a.btn-primary:focus,
   align-items: center;
   justify-content: space-between;
   border-radius: var(--guyra-border-radius);
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
 
 .exercise-hints.info {
@@ -1169,7 +1165,7 @@ a.btn-primary:focus,
     margin: 1rem;
     flex-grow: 1;
     font-size: var(--guyra-fonts-textsize-s);
-    border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+    border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
 
 .answers-review-question {
@@ -1460,12 +1456,12 @@ a.element-container:visited {
 
 .schools .list-group-item {
   font-size: var(--guyra-fonts-textsize-s);
-  border: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border: var(--guyra-border-size) solid var(--guyra-grey-dark);
   background: var(--guyra-grey);
 }
 
 .schools .list-group-horizontal>.list-group-item+.list-group-item {
-  border-top: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border-top: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
 
 .schools .user-list > * {
@@ -1479,7 +1475,7 @@ a.element-container:visited {
   padding: 1rem;
   border-radius: var(--guyra-border-radius);
   background: var(--guyra-grey);
-  border-bottom: calc(0.2rem + .05vw) solid var(--guyra-grey-dark);
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
 
 .schools .dialog.info,
@@ -1501,16 +1497,28 @@ a.element-container:visited {
 *
 */
 
+.left-side-image {
+  border-top-left-radius: var(--guyra-border-radius-bigger);
+  border-bottom-left-radius: var(--guyra-border-radius-bigger);
+  max-width: 100%;
+}
+
 .page-squeeze #user-registration p {
   color: var(--guyra-black);
 }
 
+.ur-form-grid {
+  flex-grow: 1;
+}
+
 .ur-form-row {
   margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .page-squeeze .ur-frontend-form {
-  margin: 0 calc(1rem + 5vw);
+  /* margin: 0 calc(1rem + 5vw); */
   font-family: var(--guyra-fonts-text);
 }
 
@@ -1589,20 +1597,10 @@ a.element-container:visited {
   flex-direction: column;
 }
 
-.user-registration-MyAccount-navigation {
-  order: 0;
-}
-
-.user-registration-message {
-  order: 1;
-}
-
-.user-registration-MyAccount-content {
-  order: 2;
-}
-
 .page-squeeze .user-registration-MyAccount-navigation-link {
     margin-right: .5rem;
+    align-self: center;
+    overflow: unset;
 }
 
 .user-registration-MyAccount-navigation-link > a {
@@ -1625,15 +1623,29 @@ a.element-container:visited {
   border-bottom: .25rem solid var(--guyra-blue);
 }
 
-.lost_password a {
-  justify-content: center;
-  display: inline-flex;
-  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  border-radius: var(--guyra-border-radius);
-}
-
 .page-squeeze .ur-frontend-form .ur-button-container {
   padding: 0;
+}
+
+.user-registration-error {
+  border-bottom-color: var(--guyra-red-lighter);
+  background-color: var(--guyra-red-lightest);
+  color: var(--guyra-red);
+}
+
+
+.field-checkbox ul {
+  padding: 0;
+  margin: 0;
+}
+
+.ur-checkbox-list {
+    list-style: none;
+}
+
+.ur-checkbox-list .input-checkbox {
+  width: auto;
+  height: auto;
 }
 
 /*

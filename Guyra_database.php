@@ -161,8 +161,36 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
       if ($return) {
 
         guyra_output_json('query successful');
-        
+
       }
+
+    } else {
+
+      guyra_output_json('query error', true);
+
+    }
+
+  }
+
+  $db->close();
+
+}
+
+function guyra_log_to_db($user, $object) {
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    guyra_output_json('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
+    VALUES (%d, '%s')", $user, $object);
+
+    if ($db->query($sql) === TRUE) {
+
+      guyra_output_json('query successful');
 
     } else {
 

@@ -176,5 +176,9 @@ if ($_GET['update_level'] && $_GET['value']) {
   guyra_database('update_level', $_GET['value'], get_current_user_id());
 }
 
+if ($_GET['log_exercise_data']) {
+  guyra_log_to_db(get_current_user_id(), file_get_contents('php://input'));
+}
+
 // Redirect to main once we are done.
 wp_redirect($redirect);

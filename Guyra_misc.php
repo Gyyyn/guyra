@@ -28,40 +28,50 @@ function GetUserRanking($user=0) {
       guyra_update_user_meta($user, 'level', $level);
     }
 
-    if ($elo <= 17) {
+    if ($elo < 17) {
 
       $ranking = 'bronze';
       $ranking_name = 'Bronze';
-      $x = $elo;
 
-      if ($x >= 5) {
+      if ($elo < 5) {
         $ranking .= '-1';
         $ranking_name .= ' 1';
-      } elseif ($x >= 11) {
-        $ranking .= '-2';
-        $ranking_name .= ' 2';
       } else {
-        $ranking .= '-3';
-        $ranking_name .= ' 3';
+
+        if ($elo <= 10) {
+          $ranking .= '-2';
+          $ranking_name .= ' 2';
+        }
+
+        if ($elo > 10) {
+          $ranking .= '-3';
+          $ranking_name .= ' 3';
+        }
+
       }
 
     }
 
-    if ($elo <= 75) {
+    if ($elo >= 17) {
 
       $ranking = 'silver';
       $ranking_name = 'Silver';
-      $x = $elo - 17;
 
-      if ($x <= 19) {
+      if ($elo < 35) {
         $ranking .= '-1';
         $ranking_name .= ' 1';
-      } elseif ($x <= 38) {
-        $ranking .= '-2';
-        $ranking_name .= ' 2';
       } else {
-        $ranking .= '-3';
-        $ranking_name .= ' 3';
+
+        if ($elo <= 55) {
+          $ranking .= '-2';
+          $ranking_name .= ' 2';
+        }
+
+        if ($elo > 55) {
+          $ranking .= '-3';
+          $ranking_name .= ' 3';
+        }
+
       }
 
     }
@@ -70,17 +80,23 @@ function GetUserRanking($user=0) {
 
       $ranking = 'diamond';
       $ranking_name = 'Diamond';
-      $x = $elo - 75;
 
-      if ($x <= 5) {
+      if ($elo < 85) {
         $ranking .= '-1';
         $ranking_name .= ' 1';
-      } elseif ($x <= 11) {
-        $ranking .= '-2';
-        $ranking_name .= ' 2';
       } else {
-        $ranking .= '-3';
-        $ranking_name .= ' 3';
+
+        if ($elo <= 85) {
+          $ranking .= '-2';
+          $ranking_name .= ' 2';
+
+        }
+
+        if ($elo > 85) {
+          $ranking .= '-3';
+          $ranking_name .= ' 3';
+        }
+
       }
 
     }

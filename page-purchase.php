@@ -147,7 +147,7 @@ include get_template_directory() . '/i18n.php';
 
         <hr class="my-4">
 
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+        <button class="w-100 btn-tall" type="submit">Continue to checkout</button>
       </form>
     </div>
   </div>

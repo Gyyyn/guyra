@@ -64,9 +64,11 @@ get_header();
 ?>
 <main id="intro-content" class="site-main study squeeze position-relative mb-5">
 
+  <?php if (current_user_can('manage_options')): ?>
   <a class="btn btn-tall position-absolute top-0 start-0 admin-btn" href="<?php echo $gi18n['guyra_admin_link'] ?>">
     🎁
   </a>
+  <?php endif; ?>
 
   <div class="page-squeeze">
 
@@ -98,7 +100,7 @@ get_header();
       echo '<div class="alert study-news rounded-box position-relative alert-dismissible fade show" role="alert">';
       ?>
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h2 class="text-shadow"><?php echo $gi18n['whatsnew']; ?></h2>
+        <h2 class="text-primary"><?php echo $gi18n['whatsnew']; ?></h2>
         <span class="page-icon small"><img alt="sparkle" src="<?php echo get_template_directory_uri(); ?>/assets/icons/star.png"></span>
       </div>
       <?php
@@ -111,7 +113,7 @@ get_header();
     <div class="study-page rounded-box position-relative show" id="study-container">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_title']; ?></h1>
+        <h1 class="text-primary"><?php echo $gi18n['studypage_homework_title']; ?></h1>
         <span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
       </div>
 
@@ -122,7 +124,7 @@ get_header();
     <div class="study-answers rounded-box">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="text-shadow"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
+        <h1 class="text-primary"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
         <span class="page-icon"><img alt="homework" src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
       </div>
 
@@ -151,7 +153,12 @@ get_header();
       }
       ?>
 
-      <?php comment_form( array('title_reply' => '', 'label_submit' => 'Deixar resposta'), $user_studypage_object->ID); ?>
+      <?php comment_form( array(
+        'title_reply' => '',
+        'label_submit' => 'Deixar resposta',
+        'class_submit' => 'btn-tall blue',
+        'class_form' => 'form-control'
+      ), $user_studypage_object->ID); ?>
 
     </div>
 

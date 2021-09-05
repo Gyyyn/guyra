@@ -82,27 +82,27 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <ul class="navbar-nav mb-2 mb-md-0 ms-0">
 
           <?php if (!is_user_logged_in()) { ?>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
           </li>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
           </li>
           <span class="me-3 p-0 vertical-divider"></span>
           <?php } ?>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
           </li>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
           </li>
-          <li class="nav-item me-3 position-relative">
+          <li class="nav-item me-md-3 position-relative">
             <a class=" btn btn-sm btn-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
               <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
             </a>
           </li>
           <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
           </li>
         <?php endif; ?>
@@ -116,17 +116,17 @@ if($user_subscription != '' && $user_subscription_till < $now) {
             </span>
           </a></div>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
-          <span class="me-3 p-0 vertical-divider"></span>
+          <span class="me-3 p-0 vertical-divider d-none d-md-block"></span>
           <?php if(!is_user_logged_in()) { ?>
           <li class="nav-item my-auto me-3"><?php echo $gi18n['button_alreadyregistered'] ?></li>
-          <li class="nav-item me-3">
+          <li class="nav-item me-md-3">
             <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
-          <li class="nav-item profile-item d-flex align-items-center">
+          <li class="nav-item profile-item d-flex align-items-center justify-content-around">
             <div class="dropdown m-0 d-inline">
               <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="text-primary me-2"><?php echo $first_name; ?></span>
