@@ -357,12 +357,13 @@ class CurrentQuestion extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType, avatarURL, score}) => e(
+    return e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType, avatarURL, score, exerciseTitle}) => e(
         'div',
         {
           className: 'exercise',
           'data-aos': "fade-up"
         },
+        e('h1', {className: 'mb-5'}, exerciseTitle),
         e(QuestionDialog, {values: values, avatarURL: avatarURL}),
         e(hintArea),
         e(
@@ -603,10 +604,10 @@ function returnToLevelMapButton(props) {
 }
 
 function checkAnswerButton(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, CheckAnswerWithTextArea}) =>e(
+  return e(ExerciseContext.Consumer, null, ({i18n, CheckAnswerWithTextArea, checkAnswerButtonClass}) =>e(
     'a',
     {
-      className: 'btn-tall green',
+      className: checkAnswerButtonClass,
       onClick: () => { CheckAnswerWithTextArea() }
     },
     i18n.check
@@ -738,6 +739,10 @@ class App extends React.Component {
     this.correctHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/hit.ogg'));
     this.wrongHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/miss.ogg'));
 
+    this.buttonClassGreen = 'btn-tall green';
+    this.buttonClassBlack = 'btn-tall black text-center';
+    this.buttonClassDisabled = 'btn-tall disabled';
+
     this.state = {
       values: this.ExerciseObject,
       currentQuestion: 0,
@@ -761,7 +766,9 @@ class App extends React.Component {
       avatarURL: getRandomAvatar(),
       i18n: this.i18n,
       setPage: this.setPage,
-      reset: this.reset
+      reset: this.reset,
+      checkAnswerButtonClass: this.buttonClassGreen,
+      exerciseTitle: null
     };
 
   }
@@ -875,7 +882,8 @@ class App extends React.Component {
       alreadyAnswered: false,
       currentQuestion: this.currentQuestion,
       answeredCorrect: false,
-      hintArea: hintAreaInfo
+      hintArea: hintAreaInfo,
+      checkAnswerButtonClass: this.buttonClassGreen
     })
   };
 
@@ -900,7 +908,6 @@ class App extends React.Component {
 
         this.setState({
           answeredCorrect: true,
-          alreadyAnswered: true,
           hintArea: hintAreaCorrectAnswer
         });
 
@@ -917,7 +924,6 @@ class App extends React.Component {
 
         this.setState({
           answeredCorrect: false,
-          alreadyAnswered: true,
           hintArea: hintAreaWrongAnswer
         });
 
@@ -929,6 +935,8 @@ class App extends React.Component {
 
       this.setState({
         score: this.score,
+        alreadyAnswered: true,
+        checkAnswerButtonClass: this.buttonClassDisabled
       });
 
       this.state.answers.push([this.state.values[0], this.state.values[4], answer, answered]);
@@ -964,7 +972,8 @@ class App extends React.Component {
       values: this.loadActivityByType(object, this.state.activityType),
       currentQuestion: this.currentQuestion,
       page: e(CurrentQuestion),
-      hintArea: hintAreaInfo
+      hintArea: hintAreaInfo,
+      exerciseTitle: 'Complete a frase usando a dica.'
     })
 
     this.exerciseStartSound.play();
