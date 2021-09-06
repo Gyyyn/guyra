@@ -51,6 +51,15 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DCFLSY9LC7');
+</script>
+
 <?php wp_head(); ?>
 
 <link href="<?php echo get_template_directory_uri(); ?>/style.css" rel="stylesheet">

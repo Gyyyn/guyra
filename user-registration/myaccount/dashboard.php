@@ -43,8 +43,8 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
 				</p>
 				<?php if($user_subscription == '') { ?>
-					<p><?php echo $gi18n['no_subscription_found'] ?></p>
-					<a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a>
+					<p><?php /* echo $gi18n['no_subscription_found']  */?></p>
+					<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
 				<?php } //no subscription ?>
 			</div>
 
@@ -62,7 +62,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 					</div>
 
 				</div>
-				<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall mt-3"><?php echo $gi18n['change_payment_method']; ?></a>
+				<?php /* <a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall mt-3"><?php echo $gi18n['change_payment_method']; ?></a> */ ?>
 			</div>
 
 		</div>
