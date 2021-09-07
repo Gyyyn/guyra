@@ -13,8 +13,7 @@ Text Domain: guyra
 Tags: guyra
 
 * -------- GUYRA.CSS
-* --- https://paletton.com/#uid=53m0W0k++++qKZWAF+V+VAFZWqK
-* --- https://paletton.com/#uid=53m0W0kwi++bu++hX++++rd++kX
+* --- https://paletton.com/#uid=53p0W0kG7WkbqVIoCV1V1vOSOiN
 *
 */
 
@@ -316,12 +315,19 @@ label[for="comment"],
 *
 */
 
-main.blog,
-main.study,
-main.page,
-main.practice {
-  margin-top: var(--guyra-navbar-size);
-  min-height: calc(100vh - var(--guyra-navbar-size) + 1px);
+@media (min-width: 766px) {
+
+  main.study,
+  main.page,
+  main.practice {
+    margin-top: calc(var(--guyra-navbar-size) + 3rem);
+    min-height: calc(100vh - var(--guyra-navbar-size) + 1px);
+  }
+
+  main.blog {
+    margin-top: var(--guyra-navbar-size);
+  }
+
 }
 
 .negate-navbar {
@@ -432,6 +438,10 @@ nav .navbar-nav .btn-wa:hover {
 	background-color: #25D366;
 }
 
+.navbar .btn-tall.page-icon img {
+    width: 2rem;
+}
+
 @media (max-width: 766px) {
 
   .navbar-nav li {
@@ -533,7 +543,7 @@ nav .navbar-nav .btn-wa:hover {
 
 .page-squeeze,
 .page-squeeze.rounded-box {
-  margin-top: 7rem;
+  margin-top: 3rem;
   margin-bottom: 3rem;
 }
 
@@ -905,6 +915,17 @@ a.btn-primary,
 .page-squeeze .list-group.study-menu .list-group-item.active:hover {
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);
+}
+
+.btn-tall.purple {
+  border-bottom-color: var(--guyra-purple-darker);
+  background-color: var(--guyra-purple);
+  color: var(--guyra-white);
+}
+
+.btn-tall.purple:hover {
+  background: var(--guyra-purple-darker);
+  border-bottom-color: var(--guyra-purple-darkest);
 }
 
 .btn-tall.green {

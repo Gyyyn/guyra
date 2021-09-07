@@ -9,12 +9,34 @@
  * @package guyra
  */
 
+global $wp;
+
 // Get a profile picture and user data
 $gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
 $profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
 $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 $first_name = get_user_meta( get_current_user_id(), 'first_name', true );
 $userdata = get_user_meta(get_current_user_id());
+
+$where_am_i = $wp->request;
+$highlight_class = 'purple';
+
+if ($where_am_i == '') {
+  $homebtn_class = $highlight_class;
+}
+
+if ($where_am_i == 'category/blog') {
+  $blogbtn_class = $highlight_class;
+}
+
+if ($where_am_i == 'account') {
+  $profilebtn_class = $highlight_class;
+}
+
+if ($where_am_i == 'schools') {
+  $schoolsbtn_class = $highlight_class;
+}
+
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
@@ -68,27 +90,22 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
 <body <?php body_class(); ?>>
 <header>
-  <nav id="guyra-navbar" class="navbar navbar-expand-md navbar-light fixed-top">
+  <nav id="guyra-navbar" class="navbar navbar-expand-md d-none d-md-flex navbar-light fixed-top">
 
     <div class="container-fluid">
 
-      <div class="d-flex d-md-none w-100 justify-content-between">
-
-        <div class="navbar-brand"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+      <div class="navbar-brand d-flex navbar-expand-md d-md-inline">
+        <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
-            <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
+            <img class="mb-1" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
           </span>
-        </a></div>
-
-        <a href="#guyra-navbar" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <i class="bi bi-slash-lg mx-3 text-dark"></i>
         </a>
-
       </div>
 
       <div class="justify-content-between collapse navbar-collapse" id="navbarCollapse">
 
-        <ul class="navbar-nav mb-2 mb-md-0 ms-0">
+        <ul class="navbar-nav">
 
           <?php if (!is_user_logged_in()) { ?>
           <li class="nav-item me-md-3">
@@ -119,12 +136,6 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
         <ul class="navbar-nav justify-content-end nav-rightside">
 
-          <div class="navbar-brand full d-none d-md-block position-relative me-md-3" href="#"><a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
-            <span class="navbar-center-title">
-              <img alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
-            </span>
-          </a></div>
-
           <li class="nav-item me-md-3">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
@@ -151,6 +162,32 @@ if($user_subscription != '' && $user_subscription_till < $now) {
         <?php } ?>
         </ul>
       </div>
+
+    </div>
+
+  </nav>
+
+  <nav class="navbar navbar-light fixed-bottom d-md-none">
+
+    <div class="d-flex d-md-none w-100 justify-content-around">
+
+      <a class="btn-tall page-icon <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
+        <img alt="home" src="<?php echo $gi18n['template_link'] . '/assets/icons/book.png'; ?>"></span>
+      </a>
+
+      <a class="btn-tall page-icon <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">
+        <img alt="blog" src="<?php echo $gi18n['template_link'] . '/assets/icons/advertising.png'; ?>"></span>
+      </a>
+
+      <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
+      <a class="btn-tall page-icon <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
+        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/search.png'; ?>"></span>
+      </a>
+      <?php endif; ?>
+
+      <a class="btn-tall page-icon <?php echo $profilebtn_class; ?>" href="<?php echo get_site_url(); echo "/account"; ?>">
+        <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>"></span>
+      </a>
 
     </div>
 

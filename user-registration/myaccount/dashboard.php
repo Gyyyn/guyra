@@ -49,7 +49,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 			</div>
 
 			<div class="mb-5">
-				<h3 class="text-blue">Pagamentos</h3>
+				<h3 class="text-blue"><?php echo $gi18n['payment_method'] ?></h3>
 				<div class="row bg-grey more-rounded p-3 mx-0 mb-3">
 
 					<div class="col-4">

@@ -4,10 +4,16 @@
  *
  * @package guyra
  */
- get_header();
- /* Set up translations independent of Wordpress */
- include get_template_directory() . '/i18n.php';
- ?>
+
+// We don't want registered users here
+if(is_user_logged_in()) {
+ wp_redirect(get_site_url());
+}
+
+get_header();
+/* Set up translations independent of Wordpress */
+include get_template_directory() . '/i18n.php';
+?>
 
   <div class="cover">
    <div class="cover-container container pt-5 p-md-5">

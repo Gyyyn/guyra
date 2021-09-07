@@ -29,24 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $frontend       = UR_Frontend::instance();
-$form_template  = ur_get_form_setting_by_key( $form_id, 'user_registration_form_template', 'Default' );
 $custom_class   = ur_get_form_setting_by_key( $form_id, 'user_registration_form_custom_class', '' );
 $redirect_url   = ur_get_form_setting_by_key( $form_id, 'user_registration_form_setting_redirect_options', '' );
-$template_class = '';
-
-if ( 'Bordered' === $form_template ) {
-	$template_class = 'ur-frontend-form--bordered';
-
-} elseif ( 'Flat' === $form_template ) {
-	$template_class = 'ur-frontend-form--flat';
-
-} elseif ( 'Rounded' === $form_template ) {
-	$template_class = 'ur-frontend-form--rounded';
-
-} elseif ( 'Rounded Edge' === $form_template ) {
-	$template_class = 'ur-frontend-form--rounded ur-frontend-form--rounded-edge';
-}
-
 $custom_class = apply_filters( 'user_registration_form_custom_class', $custom_class, $form_id );
 
 /**
@@ -55,7 +39,7 @@ $custom_class = apply_filters( 'user_registration_form_custom_class', $custom_cl
 do_action( 'user_registration_before_registration_form', $form_id );
 
 ?>
-	<div class='form-control user-registration ur-frontend-form <?php echo $template_class . ' ' . $custom_class; ?>' id='user-registration-form-<?php echo absint( $form_id ); ?>'>
+	<div class='form-control user-registration ur-frontend-form <?php echo $custom_class; ?>' id='user-registration-form-<?php echo absint( $form_id ); ?>'>
 		<form method='post' class='register' data-form-id="<?php echo absint( $form_id ); ?>"
 			  data-enable-strength-password="<?php echo $enable_strong_password; ?>" data-minimum-password-strength="<?php echo $minimum_password_strength; ?>" <?php echo apply_filters( 'user_registration_form_params', '' ); ?> data-captcha-enabled="<?php echo esc_attr( $recaptcha_enabled ) ?>">
 
@@ -166,7 +150,6 @@ do_action( 'user_registration_before_registration_form', $form_id );
 			<?php do_action( 'user_registration_form_registration_end', $form_id ); ?>
 		</form>
 
-		<div style="clear:both"></div>
 	</div>
 <?php
 
