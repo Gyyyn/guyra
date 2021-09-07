@@ -43,8 +43,21 @@ function getPossibleAnswers(phraseList) {
 
 function synthSpeak(phrase) {
   var synth = window.speechSynthesis;
-  var uttern = new SpeechSynthesisUtterance(phrase);
-  synth.speak(uttern);
+  var voicelist = synth.getVoices();
+  var voices = [];
+
+  voicelist.forEach((item, i) => {
+    if (item.lang == 'en-US' || item.lang == 'en-GB') {
+      voices.push(item);
+    }
+  });
+
+  if (voices.length != 0) {
+    var n = randomNumber(0, voices.length - 1);
+    var uttern = new SpeechSynthesisUtterance(phrase);
+    uttern.voice = voices[n];
+    synth.speak(uttern);
+  }
 }
 
 function getRandomAvatar() {
