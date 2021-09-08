@@ -11,12 +11,27 @@
 
 global $wp;
 
-// Get a profile picture and user data
-$gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
-$profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
-$profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
-$first_name = get_user_meta( get_current_user_id(), 'first_name', true );
-$userdata = get_user_meta(get_current_user_id());
+$logged_in = is_user_logged_in();
+
+if ($logged_in) {
+
+  // Get a profile picture and user data
+  $gravatar_image      = get_avatar_url(get_current_user_id(), $args = null);
+  $profile_picture_url = get_user_meta(get_current_user_id(), 'user_registration_profile_pic_url', true);
+  $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+  $first_name = get_user_meta(get_current_user_id(), 'first_name', true);
+  $userdata = get_user_meta(get_current_user_id());
+
+  // run a check for sub status
+  $user_subscription = get_user_meta(get_current_user_id(), 'subscription')[0];
+  $user_subscription_till = new DateTime(get_user_meta(get_current_user_id(), 'subscribed-until')[0]);
+  $now = new DateTime();
+  if($user_subscription != '' && $user_subscription_till < $now) {
+    delete_user_meta(get_current_user_id(), 'subscription');
+    delete_user_meta(get_current_user_id(), 'subscribed-until');
+  }
+
+}
 
 $where_am_i = $wp->request;
 $highlight_class = 'purple';
@@ -37,18 +52,15 @@ if ($where_am_i == 'schools') {
   $schoolsbtn_class = $highlight_class;
 }
 
+if ($logged_in) {
+  $home_icon = '/assets/icons/book.png';
+} else {
+  $home_icon = '/assets/icons/exercises/house.png';
+}
+
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
-
-// run a check for sub status
-$user_subscription = get_user_meta(get_current_user_id(), 'subscription')[0];
-$user_subscription_till = new DateTime(get_user_meta(get_current_user_id(), 'subscribed-until')[0]);
-$now = new DateTime();
-if($user_subscription != '' && $user_subscription_till < $now) {
-  delete_user_meta(get_current_user_id(), 'subscription');
-  delete_user_meta(get_current_user_id(), 'subscribed-until');
-}
 
 ?>
 <!-- Hello :) -->
@@ -99,7 +111,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
           <span class="navbar-center-title">
             <img class="mb-1" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
           </span>
-          <i class="bi bi-slash-lg mx-3 text-dark"></i>
+          <i class="bi bi-slash-lg mx-3 text-muted"></i>
         </a>
       </div>
 
@@ -107,43 +119,56 @@ if($user_subscription != '' && $user_subscription_till < $now) {
 
         <ul class="navbar-nav">
 
-          <?php if (!is_user_logged_in()) { ?>
-          <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
-          </li>
-          <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
-          </li>
-          <span class="me-3 p-0 vertical-divider"></span>
-          <?php } ?>
           <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
           </li>
+
+          <?php if (!$logged_in) { ?>
+
+          <li class="nav-item me-md-3">
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
+          </li>
+
+          <li class="nav-item me-md-3">
+            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
+          </li>
+
+          <?php } ?>
           <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
           </li>
+
+          <?php if($logged_in): ?>
+
           <li class="nav-item me-md-3 position-relative">
             <a class=" btn btn-sm btn-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
               <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
             </a>
           </li>
+
+          <?php endif; ?>
+
           <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
           <li class="nav-item me-md-3">
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
           </li>
+
         <?php endif; ?>
+
         </ul>
 
         <ul class="navbar-nav justify-content-end nav-rightside">
 
-          <li class="nav-item me-md-3">
+          <li class="nav-item">
             <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
-          <span class="me-3 p-0 vertical-divider d-none d-md-block"></span>
-          <?php if(!is_user_logged_in()) { ?>
-          <li class="nav-item my-auto me-3"><?php echo $gi18n['button_alreadyregistered'] ?></li>
-          <li class="nav-item me-md-3">
-            <a href="<?php echo get_site_url(); echo "/account"; ?>" class=" btn btn-sm btn-primary"><?php echo $gi18n['button_login'] ?></a>
+
+          <i class="bi bi-slash-lg mx-3 text-muted"></i>
+
+          <?php if(!$logged_in) { ?>
+          <li class="nav-item bg-grey rounded px-3">
+            <?php echo $gi18n['button_alreadyregistered'] ?>
+            <a href="<?php echo get_site_url(); echo "/account"; ?>" class="btn btn-sm btn-primary border-0"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
           <li class="nav-item profile-item d-flex align-items-center justify-content-around">
@@ -172,7 +197,7 @@ if($user_subscription != '' && $user_subscription_till < $now) {
     <div class="d-flex d-md-none w-100 justify-content-around">
 
       <a class="btn-tall page-icon <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
-        <img alt="home" src="<?php echo $gi18n['template_link'] . '/assets/icons/book.png'; ?>"></span>
+        <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>"></span>
       </a>
 
       <a class="btn-tall page-icon <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">

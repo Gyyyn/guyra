@@ -31,29 +31,43 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 ?>
 
-<div class="text-small position-relative">
+<div class="profile position-relative">
+
+	<div class="icon-title mb-3 d-flex justify-content-between align-items-center">
+
+		<div>
+			<h2 class="text-blue"><?php echo "Welcome, ", $first_name, "!";?></h2>
+			<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
+			<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
+			</p>
+			<?php if($user_subscription == '') { ?>
+				<p><?php /* echo $gi18n['no_subscription_found']  */?></p>
+				<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
+			<?php } //no subscription ?>
+		</div>
+
+		<span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png"></span>
+
+	</div>
 
 	<div class="row my-3">
 
-		<div class="col-md">
+		<div class="col-md card py-5 mx-0 mb-5 flex-column align-items-center">
+			<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
+					<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
+			<?php } ?>
+			<h3 class="text-white"><?php echo $first_name . ' ' . $last_name; ?></h3>
+			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro'];?>✨🌟</span><?php } ?>
+		</div>
 
-			<div class="mb-5">
-				<h2 class="text-blue"><?php echo "Welcome, ", $first_name, "!";?></h2>
-				<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
-				<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
-				</p>
-				<?php if($user_subscription == '') { ?>
-					<p><?php /* echo $gi18n['no_subscription_found']  */?></p>
-					<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
-				<?php } //no subscription ?>
-			</div>
+		<div class="col-md">
 
 			<div class="mb-5">
 				<h3 class="text-blue"><?php echo $gi18n['payment_method'] ?></h3>
 				<div class="row bg-grey more-rounded p-3 mx-0 mb-3">
 
 					<div class="col-4">
-						<img class="page-icon" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.png">
+						<img class="page-icon" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.jpg">
 					</div>
 
 					<div class="col">
@@ -65,14 +79,6 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<?php /* <a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall mt-3"><?php echo $gi18n['change_payment_method']; ?></a> */ ?>
 			</div>
 
-		</div>
-
-		<div class="col-md card py-5 mx-0 mb-auto flex-column align-items-center">
-			<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
-					<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
-			<?php } ?>
-			<h3 class="text-white"><?php echo $first_name . ' ' . $last_name; ?></h3>
-			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro'];?>✨🌟</span><?php } ?>
 		</div>
 
 	</div>

@@ -40,6 +40,7 @@ Tags: guyra
   --guyra-red-lighter: rgba(255, 131, 112, 1);
   --guyra-red-lightest: rgba(255, 176, 164, 1);
   --guyra-red-darker: rgba(217, 30, 0, 1);
+  --guyra-red-darkest: rgb(140 31 13);
 
   --guyra-blue-purple-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
   --guyra-blue-purple-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
@@ -167,8 +168,7 @@ body {
 	font-family: var(--guyra-fonts-text);
 	font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
-  color: var(--guyra-black);
-  background-color: var(--guyra-blue-lighter);
+  background-color: var(--guyra-blue-lightest);
 }
 
 h1 { font-size: var(--guyra-fonts-textsize-xxx); }
@@ -254,10 +254,15 @@ img {
   image-rendering: -webkit-optimize-contrast;
 }
 
+.page-icon {
+  overflow-x: initial;
+}
+
 .page-icon > img,
 img.page-icon {
 	width: calc(2.5vh + 4.5vw + 1rem);
   height: auto;
+  overflow: visible !important;
 }
 
 img.page-icon.large,
@@ -282,10 +287,6 @@ label[for="comment"],
 .page-squeeze .wp-block-separator,
 .comment-metadata {
 	display: none;
-}
-
-.vertical-divider {
-    border-left: var(--guyra-blue) .25px dashed;
 }
 
 *.disabled {
@@ -349,7 +350,7 @@ label[for="comment"],
   .navbar-collapse {
     background: var(--guyra-white);
     padding: 1rem;
-    box-shadow: 0px 50px 50px 0px rgb(0 0 0 / 50%);
+    box-shadow: 0 50px 50px 0 rgb(0 0 0 / 50%);
   }
 
 }
@@ -398,7 +399,7 @@ label[for="comment"],
   border: .25rem solid var(--guyra-grey);
   margin-top: 10px;
   left: -85px;
-  box-shadow: 0px 25px 25px 0px rgb(0 0 0 / 50%);
+  box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
 }
 
 .dropdown-item {
@@ -478,8 +479,6 @@ nav .navbar-nav .btn-wa:hover {
 */
 
 .cover {
-  min-height: calc(100vh - var(--guyra-navbar-size));
-  margin-top: var(--guyra-navbar-size);
   color: var(--guyra-blacker);
   background-color: var(--guyra-blue);
 	background-repeat: repeat;
@@ -495,6 +494,12 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 @media (min-width: 766px) {
+
+  .cover {
+    min-height: calc(100vh - var(--guyra-navbar-size));
+    margin-top: var(--guyra-navbar-size);
+  }
+
   .cover .cover-card {
     padding: 2.5rem;
     margin: 2.5vw;
@@ -937,6 +942,17 @@ a.btn-primary,
 .btn-tall.green:hover {
   background: var(--guyra-green-darker);
   border-bottom-color: var(--guyra-green-darkest);
+}
+
+.btn-tall.red {
+  border-bottom-color: var(--guyra-red-darker);
+  background-color: var(--guyra-red);
+  color: var(--guyra-white);
+}
+
+.btn-tall.red:hover {
+  background: var(--guyra-red-darker);
+  border-bottom-color: var(--guyra-red-darkest);
 }
 
 .btn-tall.black {
@@ -1561,7 +1577,11 @@ a.element-container:visited {
 
 .page-squeeze .ur-frontend-form label {
   margin: .5rem 0;
-  font-size: var(--guyra-fonts-textsize-ss);
+  font-size: var(--guyra-fonts-textsize-s);
+}
+
+.required {
+  color: var(--guyra-red);
 }
 
 .login-button {

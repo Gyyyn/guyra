@@ -16,7 +16,7 @@
  ?>
 
  	<main id="intro-content" class="site-main page squeeze">
-         <div class="page-squeeze rounded-box p-0">
+    <div class="page-squeeze rounded-box p-0 position-relative">
 
  		<?php if ( have_posts() ) : ?>
 
