@@ -31,6 +31,8 @@ if ($logged_in) {
     delete_user_meta(get_current_user_id(), 'subscribed-until');
   }
 
+  $body_class[] = 'logged_in';
+
 }
 
 $where_am_i = $wp->request;
@@ -38,18 +40,22 @@ $highlight_class = 'purple';
 
 if ($where_am_i == '') {
   $homebtn_class = $highlight_class;
+  $body_class[] = 'home';
 }
 
 if ($where_am_i == 'category/blog') {
   $blogbtn_class = $highlight_class;
+  $body_class[] = 'blog';
 }
 
 if ($where_am_i == 'account') {
   $profilebtn_class = $highlight_class;
+  $body_class[] = 'profile';
 }
 
 if ($where_am_i == 'schools') {
   $schoolsbtn_class = $highlight_class;
+  $body_class[] = 'schools';
 }
 
 if ($logged_in) {
@@ -100,7 +106,7 @@ include get_template_directory() . '/i18n.php';
 
 </head>
 
-<body <?php body_class(); ?>>
+<body class="guyra <?php echo implode(' ', $body_class); ?>">
 <header>
   <nav id="guyra-navbar" class="navbar navbar-expand-lg d-none d-lg-flex navbar-light fixed-top">
 
