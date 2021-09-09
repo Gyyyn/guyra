@@ -29,7 +29,7 @@ include get_template_directory() . '/i18n.php';
       <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
     </p>
 
-    <img class="float-end" alt="Guyra bird" src="<?php echo get_template_directory_uri(); ?>/assets/img/birdlogo_ver1-smaller.png" />
+    <img class="float-end page-icon small" alt="Guyra bird" src="<?php echo $gi18n['logo_img'] ?>" />
 
   </div>
 </footer>

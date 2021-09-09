@@ -102,11 +102,11 @@ include get_template_directory() . '/i18n.php';
 
 <body <?php body_class(); ?>>
 <header>
-  <nav id="guyra-navbar" class="navbar navbar-expand-md d-none d-md-flex navbar-light fixed-top">
+  <nav id="guyra-navbar" class="navbar navbar-expand-lg d-none d-lg-flex navbar-light fixed-top">
 
     <div class="container-fluid">
 
-      <div class="navbar-brand d-flex navbar-expand-md d-md-inline">
+      <div class="navbar-brand d-flex">
         <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
             <img class="mb-1" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
@@ -178,9 +178,16 @@ include get_template_directory() . '/i18n.php';
                 <img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?></a></li>
-                <li><a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil</a></li>
-                <li><a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">Sair</a></li>
+                <li>
+                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?><i class="bi bi-person-circle"></i></a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil<i class="bi bi-file-earmark-medical"></i></a>
+
+                </li>
+                <li>
+                  <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">Sair<i class="bi bi-box-arrow-right"></i></a>
+                </li>
               </ul>
             </div>
           </li>
@@ -192,9 +199,9 @@ include get_template_directory() . '/i18n.php';
 
   </nav>
 
-  <nav class="navbar navbar-light fixed-bottom d-md-none">
+  <nav class="navbar navbar-light fixed-bottom d-block d-lg-none">
 
-    <div class="d-flex d-md-none w-100 justify-content-around">
+    <div class="d-flex w-100 justify-content-around">
 
       <a class="btn-tall page-icon <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
         <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>"></span>

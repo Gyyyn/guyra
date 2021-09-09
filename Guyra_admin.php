@@ -197,7 +197,7 @@ print_r('here may be a var');
     '<a class="list-group-item col" href="' . $page_link . '">' .
         $userdata['first_name'][0] . ' ' .
         $userdata['last_name'][0] .
-        $x->user_email .
+        $x->user_email . ' ' .
       '<span class="badge bg-secondary ms-1">' . $userdata['role'][0] . '</span> ' .
       '<span class="badge bg-secondary ms-1">' . $userdata['subscription'][0]. '</span> ' .
     '</a>' .

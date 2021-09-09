@@ -148,7 +148,7 @@ Tags: guyra
 
 /* One day I will hunt down what's overflowing so this won't be needed anymore.
 not today tho */
-@media (max-width: 766px) {
+@media (max-width: 992px) {
   * {
     overflow-x: clip;
   }
@@ -316,7 +316,7 @@ label[for="comment"],
 *
 */
 
-@media (min-width: 766px) {
+@media (min-width: 992px) {
 
   main.study,
   main.page,
@@ -345,7 +345,7 @@ label[for="comment"],
   background: var(--guyra-white);
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
 
   .navbar-collapse {
     background: var(--guyra-white);
@@ -355,7 +355,7 @@ label[for="comment"],
 
 }
 
-@media (min-width: 766px) {
+@media (min-width: 992px) {
   .navbar > div {
     width: calc(40vw + 20rem);
     margin: 0 auto;
@@ -393,7 +393,7 @@ label[for="comment"],
   font-size: var(--guyra-fonts-textsize-s);
   padding: 0;
   border-radius: var(--guyra-border-radius);
-  min-width: 7vw;
+  min-width: 8vw;
   color: var(--guyra-black);
   background-color: var(--guyra-white);
   border: .25rem solid var(--guyra-grey);
@@ -407,6 +407,8 @@ label[for="comment"],
   color: var(--guyra-blue);
   font-size: var(--guyra-fonts-textsize-s);
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 }
 
 nav .navbar-nav .btn-sm {
@@ -443,7 +445,7 @@ nav .navbar-nav .btn-wa:hover {
     width: 2rem;
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
 
   .navbar-nav li {
     margin-bottom: .25rem;
@@ -480,34 +482,37 @@ nav .navbar-nav .btn-wa:hover {
 
 .cover {
   color: var(--guyra-blacker);
+  min-height: calc(100vh - var(--guyra-navbar-size));
   background-color: var(--guyra-blue);
 	background-repeat: repeat;
 	background-size: auto;
   background-image: url("./assets/img/bg.png");
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cover .cover-card {
   background: #ecfdff;
   border-radius: var(--guyra-border-radius-bigger);
+  box-shadow: var(--guyra-box-shadow-outline);
   padding: 1rem;
   margin: 0;
 }
 
-@media (min-width: 766px) {
+@media (min-width: 992px) {
 
   .cover {
-    min-height: calc(100vh - var(--guyra-navbar-size));
     margin-top: var(--guyra-navbar-size);
   }
 
   .cover .cover-card {
     padding: 2.5rem;
     margin: 2.5vw;
-    box-shadow: var(--guyra-box-shadow-outline);
   }
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
 	.page-squeeze .page-content,
 	.page-squeeze .entry-content,
 	.page-squeeze .entry-summary {
@@ -552,14 +557,14 @@ nav .navbar-nav .btn-wa:hover {
   margin-bottom: 3rem;
 }
 
-@media (min-width: 766px) {
+@media (min-width: 992px) {
 	.squeeze { max-width: calc(40vw + 20rem); margin: 0 auto; }
 	.squeeze-big { max-width: 85vw; margin: calc(3rem + 2vw) auto; }
   .squeeze-small { max-width: calc(20vw + 20rem); margin: calc(3rem + 2vw) auto; }
   .page-squeeze .padded-squeeze { padding: calc(3rem + 2vw) calc(17vw + 2rem); }
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
 	.squeeze { max-width: unset; margin: 1rem auto; }
 	.squeeze-big { max-width: unset; margin: 2rem auto; }
   .squeeze-small { max-width: unset; margin: 1rem; }
@@ -973,7 +978,7 @@ a.btn-primary,
   min-width: 5rem;
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
 
   .study-menu .menu-icon img {
     width: calc(1.3rem + 2vw);
@@ -1059,7 +1064,7 @@ input.form-control:focus,
   padding: 1rem .25rem;
 }
 
-@media (min-width: 766px) {
+@media (min-width: 992px) {
   .exercise-squeeze {
     max-width: 50vw;
     padding: 5rem 0;
@@ -1371,6 +1376,12 @@ a.element-container:visited {
 
 .blog .post .entry-title {
     font-size: var(--guyra-fonts-textsize-super);
+    overflow-x: initial;
+}
+
+.post-thumbnail {
+  display: flex;
+  justify-content: center;
 }
 
 .post-thumbnail > img {
@@ -1585,12 +1596,13 @@ a.element-container:visited {
 }
 
 .login-button {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
-.remember-me {
-    align-self: center;
+.page-squeeze .ur-frontend-form .remember-me {
+  align-self: center;
+  font-size: var(--guyra-fonts-textsize-n);
 }
 
 .page-squeeze .user-registration-MyAccount-content .edit-password legend,
