@@ -374,6 +374,7 @@ label[for="comment"],
 
 .navbar .navbar-brand img {
 	max-width: 3.5rem;
+  width: 100%;
 }
 
 .navbar-toggler {

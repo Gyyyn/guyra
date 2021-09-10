@@ -115,7 +115,7 @@ include get_template_directory() . '/i18n.php';
       <div class="navbar-brand d-flex">
         <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
-            <img class="mb-1" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title-small.png" />
+            <img class="mb-1" alt="Guyra" src="<?php echo $gi18n['title_img']; ?>" />
           </span>
           <i class="bi bi-slash-lg mx-3 text-muted"></i>
         </a>

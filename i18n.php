@@ -156,7 +156,9 @@ $gi18n = [
 	'admin_link' => get_admin_url(),
 	'guyra_admin_link' => get_site_url() . '/?page=admin',
 	'template_link' => get_template_directory_uri(),
-	'logo_img' => get_template_directory_uri() . '/assets/img/birdlogo_ver1.5.svg'
+	'logo_img' => get_template_directory_uri() . '/assets/img/birdlogo_ver1.5.svg',
+	'title_img' => get_template_directory_uri() . '/assets/img/guyra-title.svg',
+	'title_logo_img' => get_template_directory_uri() . '/assets/img/guyra-title-logo.svg'
 ];
 
 $labels = [

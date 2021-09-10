@@ -17,7 +17,7 @@
 
            <div class="row mb-5">
              <div class="col d-flex align-items-center justify-content-around">
-               <img alt="Guyra" class="page-icon large" src="<?php echo get_template_directory_uri(); ?>/assets/img/guyra-title.png" />
+               <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
              </div>
              <div class="col d-flex align-items-center justify-content-around">
                <img class="page-icon medium" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
