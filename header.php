@@ -59,7 +59,7 @@ if ($where_am_i == 'schools') {
 }
 
 if ($logged_in) {
-  $home_icon = '/assets/icons/book.png';
+  $home_icon = '/assets/icons/learning.png';
 } else {
   $home_icon = '/assets/icons/exercises/house.png';
 }
@@ -210,21 +210,25 @@ include get_template_directory() . '/i18n.php';
     <div class="d-flex w-100 justify-content-around">
 
       <a class="btn-tall page-icon <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
-        <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>"></span>
+        <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>">
+        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['homepage'] ?></span>
       </a>
 
       <a class="btn-tall page-icon <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">
-        <img alt="blog" src="<?php echo $gi18n['template_link'] . '/assets/icons/advertising.png'; ?>"></span>
+        <img alt="blog" src="<?php echo $gi18n['template_link'] . '/assets/icons/advertising.png'; ?>">
+        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['blog'] ?></span>
       </a>
 
       <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
       <a class="btn-tall page-icon <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
-        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/search.png'; ?>"></span>
+        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/search.png'; ?>">
+        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['schools'] ?></span>
       </a>
       <?php endif; ?>
 
       <a class="btn-tall page-icon <?php echo $profilebtn_class; ?>" href="<?php echo get_site_url(); echo "/account"; ?>">
-        <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>"></span>
+        <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>">
+        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['button_myaccount'] ?></span>
       </a>
 
     </div>

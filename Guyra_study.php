@@ -74,7 +74,7 @@ get_header();
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
       <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">
-        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/learning.png'; ?>"></span>
+        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/book.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['study']; ?></span>
       </a>
 
