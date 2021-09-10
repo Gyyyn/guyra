@@ -973,6 +973,7 @@ a.btn-primary,
 }
 
 #exercise-container .exercise-answers .btn-tall {
+  display: flex;
   flex-grow: 1;
   justify-content: center;
   margin: .25rem;
