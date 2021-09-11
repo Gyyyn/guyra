@@ -191,6 +191,9 @@ function joinEquivalents(input) {
 }
 
 function isAnswerCorrect(correct, userInput) {
+
+  userInput = userInput.trimEnd();
+
   // This function checks if two inputs can be considered the same based
   // on a database, currently the fucntion above
   correct = correct.split(' ');
@@ -284,11 +287,11 @@ class AnswerButton extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({currentQuestion, CheckAnswer}) => e(
+    return e(ExerciseContext.Consumer, null, ({CheckAnswer}) => e(
       'a',
       {
         className: 'btn-tall black',
-        onClick: () => { CheckAnswer(this.props.value, currentQuestion) }
+        onClick: () => { CheckAnswer(this.props.value) }
       },
       this.props.value
     ));
@@ -628,7 +631,7 @@ function checkAnswerButton(props) {
 }
 
 function controlAreaButtons(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType}) => e(
+  return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType, candyButton, candyButtonClass}) => e(
     'div',
     { className: "d-flex" },
     e(
@@ -636,7 +639,7 @@ function controlAreaButtons(props) {
       {
         target: "explain-modal",
         text: i18n.explainexercises,
-        buttonclasses: "btn-tall",
+        buttonclasses: "btn-tall me-1",
         button: "❔"
       }
     ),
@@ -644,9 +647,9 @@ function controlAreaButtons(props) {
       'a',
       {
         onClick: () => { switchAnswerType() },
-        className: "btn-tall dark ms-1"
+        className: candyButtonClass
       },
-      '🍭'
+      candyButton
     )
   ));
 }
@@ -745,6 +748,7 @@ class App extends React.Component {
     this.score = 100;
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
+    this.disallowCandyOn = [];
 
     this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
     this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/end.ogg'));
@@ -781,7 +785,10 @@ class App extends React.Component {
       setPage: this.setPage,
       reset: this.reset,
       checkAnswerButtonClass: this.buttonClassGreen,
-      exerciseTitle: null
+      exerciseTitle: null,
+      candyButton: '🍭',
+      candyButtonClass: 'btn-tall dark',
+      disallowCandy: false
     };
 
   }
@@ -809,28 +816,35 @@ class App extends React.Component {
 
   switchAnswerType = () => {
 
-    if (this.state.answerType == AnswersWordBank) {
-      this.setState({
-        answerType: AnswerTextArea
-      });
-    } else {
-      this.setState({
-        answerType: AnswersWordBank
-      });
+    if (!this.state.disallowCandy) {
+
+      if (this.state.answerType == AnswersWordBank) {
+        this.setState({
+          answerType: AnswerTextArea
+        });
+      } else {
+        this.setState({
+          answerType: AnswersWordBank
+        });
+      }
+
     }
 
   }
 
   setNewActivity = () => {
 
-    this.questionsAlreadyAnswered.push(this.currentQuestion);
+    console.log(this.needToRetry, this.disallowCandyOn, this.questionsAlreadyAnswered, this.state);
 
     this.setState({
       answerType: AnswerTextArea,
-      avatarURL: getRandomAvatar()
+      avatarURL: getRandomAvatar(),
+      candyButton: '🍭',
+      candyButtonClass: 'btn-tall dark',
+      disallowCandy: false
     });
 
-    if(this.questionsAlreadyAnswered.length == this.exerciseLength) {
+    if(this.questionsAlreadyAnswered.length >= this.exerciseLength) {
 
       if (this.needToRetry.length == 0) {
 
@@ -875,8 +889,6 @@ class App extends React.Component {
 
       } else {
 
-        this.questionsAlreadyAnswered.pop();
-
         this.currentQuestion = this.needToRetry.shift();
 
       }
@@ -898,6 +910,17 @@ class App extends React.Component {
       hintArea: hintAreaInfo,
       checkAnswerButtonClass: this.buttonClassGreen
     })
+
+    this.disallowCandyOn.forEach((item) => {
+      if (item == this.currentQuestion) {
+        this.setState({
+          candyButton: '☠️',
+          candyButtonClass: 'btn-tall dark disabled',
+          disallowCandy: true
+        });
+      }
+    });
+
   };
 
   scoreFunction(f, weight) {
@@ -905,11 +928,12 @@ class App extends React.Component {
     this.score = Math.round( (this.score / (2 * weight)) + recoup );
   }
 
-  CheckAnswer = (answer, answerID) => {
+  CheckAnswer = (answer) => {
 
     let answered = "wrong";
     let correct = this.state.values[2].toLowerCase();
     answer = answer.toLowerCase();
+    this.questionsAlreadyAnswered.push(this.currentQuestion);
 
     // Check if answer was already given
     if(this.state.alreadyAnswered == false) {
@@ -924,6 +948,12 @@ class App extends React.Component {
           hintArea: hintAreaCorrectAnswer
         });
 
+        // Make users retry answers with candy without the help
+        if ((this.state.answerType == AnswersWordBank) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
+          this.needToRetry.push(this.currentQuestion);
+          this.disallowCandyOn.push(this.currentQuestion)
+        }
+
         this.correctHitSound.play();
         synthSpeak(this.state.values[4]);
 
@@ -931,8 +961,8 @@ class App extends React.Component {
 
         // If answer was wrong push exercise num to retry list,
         // reset state and apply score function
-        if (this.needToRetry.indexOf(answerID) === -1) {
-          this.needToRetry.push(answerID);
+        if (this.needToRetry.indexOf(this.currentQuestion) === -1) {
+          this.needToRetry.push(this.currentQuestion);
         }
 
         this.setState({
@@ -940,7 +970,6 @@ class App extends React.Component {
           hintArea: hintAreaWrongAnswer
         });
 
-        // temp
         this.scoreFunction('wrong', 1)
 
         this.wrongHitSound.play();
@@ -1018,6 +1047,9 @@ class App extends React.Component {
     this.exerciseLength = 0;
     this.currentQuestion = 0;
     this.questionsAlreadyAnswered = [];
+    this.score = 100;
+    this.needToRetry = [];
+    this.disallowCandyOn = [];
 
     this.setState({
       values: this.ExerciseObject,
@@ -1026,7 +1058,10 @@ class App extends React.Component {
       answeredCorrect: false,
       answers: [],
       score: 100,
-      activityType: ''
+      activityType: '',
+      candyButton: '🍭',
+      candyButtonClass: 'btn-tall dark',
+      disallowCandy: false
     })
   }
 
