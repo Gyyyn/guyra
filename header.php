@@ -185,14 +185,23 @@ include get_template_directory() . '/i18n.php';
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_myaccount'] ?><i class="bi bi-person-circle"></i></a>
+                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>">
+                    <?php echo $gi18n['button_myaccount'] ?>
+                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
+                  </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">Perfil<i class="bi bi-file-earmark-medical"></i></a>
+                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">
+                    Perfil
+                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
+                  </a>
 
                 </li>
                 <li>
-                  <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">Sair<i class="bi bi-box-arrow-right"></i></a>
+                  <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">
+                    Sair
+                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
+                  </a>
                 </li>
               </ul>
             </div>

@@ -17,7 +17,7 @@ include get_template_directory() . '/i18n.php';
 
     <div class="list-group study-menu list-group-horizontal container-fluid mb-5 overflow-hidden">
       <a class="list-group-item" href="<?php echo $gi18n['home_link'] ?>">
-        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/book.png'; ?>"></span>
+        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/light.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['study']; ?></span>
       </a>
 

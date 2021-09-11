@@ -74,7 +74,7 @@ get_header();
 
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
       <a class="list-group-item" data-bs-toggle="collapse" href="#study-container" role="button" aria-expanded="true" aria-controls="study-container">
-        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/book.png'; ?>"></span>
+        <span class="menu-icon"><img alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/light.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['study']; ?></span>
       </a>
 
@@ -114,7 +114,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-primary"><?php echo $gi18n['studypage_homework_title']; ?></h1>
-        <span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/book.png"></span>
+        <span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/light.png"></span>
       </div>
 
       <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>

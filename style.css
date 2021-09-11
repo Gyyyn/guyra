@@ -412,6 +412,11 @@ label[for="comment"],
   justify-content: space-between;
 }
 
+.dropdown-icon {
+  max-width: 24px;
+  height: auto;
+}
+
 nav .navbar-nav .btn-sm {
   border: 0;
   background: none;
