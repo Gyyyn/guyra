@@ -137,7 +137,16 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
           <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
         </div>
 
-        <?php $comments = get_comments( $args );
+        <?php
+        $args = array(
+          'post_id' => $user_studypage_object->ID,
+          'date_query' => array(
+            'after' => '4 weeks ago',
+            'before' => 'tomorrow',
+            'inclusive' => true,
+          )
+        );
+        $comments = get_comments( $args );
 
         if($comments != '') {
           echo '<ol class="comment-list ms-0 p-0">';
