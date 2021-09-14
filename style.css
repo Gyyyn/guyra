@@ -218,6 +218,8 @@ large,
 
 .text-blue { color: var(--guyra-blue); }
 .text-purple { color: var(--guyra-purple); }
+.text-green { color: var(--guyra-green); }
+.text-red { color: var(--guyra-red); }
 
 hr {
 	background: var(--guyra-blue-purple-gradient);
@@ -565,7 +567,7 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 .feature-heading {
-    color: var(--guyra-blue-darker);
+    color: var(--guyra-blue);
 }
 
 .feature .picture > img {

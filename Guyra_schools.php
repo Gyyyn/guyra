@@ -51,10 +51,28 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
         <div class="d-flex justify-content-between">
 
-          <span>ID do Aluno: <input id="user-id" type="text" name="user"></span>
+          <span>ID do Aluno: <input class="user-id" type="text" name="user"></span>
           <span>Nome do grupo: <input type="text" name="assigntogroup"></span>
           <span><input type="submit" value="Go" /></span>
           <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <div id="form" class="admin-forms dialog mb-5">
+
+      <h4>Clear group:</h4>
+      <form action="<?php echo get_site_url(); ?>" method="GET">
+
+        <div class="d-flex justify-content-between">
+
+          <span>ID do Aluno: <input class="user-id" type="text" name="user"></span>
+          <span><input type="submit" value="Go" /></span>
+          <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
+          <input type="hidden" value="1" name="cleargroup">
 
         </div>
 
@@ -72,6 +90,9 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
   foreach ($users as $x) {
 
     $userdata = get_user_meta($x->ID);
+    $user_studypage = get_user_meta($x->ID, 'custompage_id')[0];
+    $user_studypage_object = get_page_by_title($user_studypage, 'OBJECT', 'post');
+    $user_sha1d = sha1($x->ID);
 
     if($userdata['studygroup'][0] != "") {
       $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
@@ -83,7 +104,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
       echo '<ul id="user-' . $x->ID .'" class="user-list list-group list-group-horizontal mb-1">' .
 
       '<li class="list-group-item col-1">' .
-        '<span class="text-muted me-1">ID:</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $x->ID . '</a>' .
+        '<span class="text-muted me-1 d-none d-md-block">ID:</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $x->ID . '</a>' .
       '</li>' .
 
       '<a class="list-group-item col" href="' . $page_link . '">' .
@@ -97,17 +118,41 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
         '<span class="badge bg-secondary ms-1">' . $userdata['role'][0] . '</span> ' .
       '</a>' .
 
-      '<li class="list-group-item col">' .
+      '<li class="list-group-item col d-none d-md-block">' .
         '<span class="text-muted text-end">' .
           'Group: <span class="badge bg-secondary">' . $userdata['studygroup'][0] . '</span>' .
         '</span> ' .
       '</li>' .
 
       '<li class="list-group-item col">' .
-        '<a class="btn btn-sm btn-primary" href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
+        '<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#collapse-' . $user_sha1d . '" role="button" aria-expanded="false" aria-controls="collapse-' . $user_sha1d . '">Student\'s Page</a>' .
       '</li>' .
 
       '</ul>';
+
+      ?>
+      <div class="collapse page-squeeze" id="collapse-<?php echo $user_sha1d; ?>"><div class="study-answers">
+
+        <div class="dialog">
+          <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
+        </div>
+
+        <?php $comments = get_comments( $args );
+
+        if($comments != '') {
+          echo '<ol class="comment-list ms-0 p-0">';
+    			wp_list_comments(
+    				array(
+    					'style'      => 'ol',
+    					'short_ping' => true,
+    				),
+            $comments
+    			);
+      		echo '</ol>';
+        }
+        ?>
+      </div></div>
+      <?php
     }
   }
 
@@ -119,10 +164,12 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
   ?>
   <script>
   let btn = document.querySelectorAll('.id-selector')
-  let targetform = document.querySelector('#user-id')
+  let targetform = document.querySelectorAll('.user-id')
   btn.forEach((item, i) => {
     item.addEventListener('click', function (e) {
-      targetform.value = this.innerHTML
+      targetform.forEach((item) => {
+        item.value = this.innerHTML
+      });
     })
   });
 
