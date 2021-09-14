@@ -199,6 +199,19 @@ small,
   font-size: var(--guyra-fonts-textsize-s);
 }
 
+large,
+.text-large {
+  font-size: var(--guyra-fonts-textsize-x);
+}
+
+.text-larger {
+  font-size: var(--guyra-fonts-textsize-xx) !important;
+}
+
+.text-largest {
+  font-size: var(--guyra-fonts-textsize-xxx) !important;
+}
+
 .text-muted {
     color: var(--guyra-grey-dark) !important;
 }
@@ -1116,7 +1129,7 @@ input.form-control:focus,
 
 .exercise-answers,
 .exercise-answers textarea {
-  height: 150px;
+  min-height: 150px;
 }
 
 .exercise-answers-wordbank {
@@ -1125,6 +1138,16 @@ input.form-control:focus,
   flex-grow: 1;
   height: max-content;
   flex-wrap: wrap;
+}
+
+.exercise-answers .word {
+    padding: .25rem .5rem;
+    text-decoration: none;
+    border-radius: var(--guyra-border-radius);
+    border-bottom: .25rem solid var(--guyra-grey-dark);
+    margin: 0 .25rem;
+    background: var(--guyra-grey);
+    color: var(--guyra-black);
 }
 
 .control-area {

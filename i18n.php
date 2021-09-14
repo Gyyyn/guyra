@@ -136,6 +136,7 @@ $gi18n = [
 	'continue' => 'Continuar',
 	'review' => 'Revisar',
 	'hint' => 'Dica: ',
+	'hint_audio_exercise' => 'Digite o que foi dito no audio.',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',

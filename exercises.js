@@ -27,20 +27,6 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Requires a list of phrases in the standard exercise format: phrase, point of interest
-// Returns an array of answers
-function getPossibleAnswers(phraseList) {
-  let r = [];
-
-  for(let i = 0; i <= phraseList.length - 1; i++) {
-    r[i] = phraseList[i][1];
-  }
-
-  r = shuffleArray(r);
-  return r;
-
-}
-
 function synthSpeak(phrase) {
   var synth = window.speechSynthesis;
   var voicelist = synth.getVoices();
@@ -259,17 +245,48 @@ function isAnswerCorrect(correct, userInput) {
 *
 */
 
-function activityCompleteThePhrase(phraseList, question) {
-  let hint = phraseList[question][2];
-  let poi = phraseList[question][1];
-  let phrase = phraseList[question][0];
-  let regex = new RegExp(poi,'g');
-  // return array with question and options
+function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
+  var hint = theExercise[2];
+  var poi = theExercise[1];
+  var phrase = theExercise[0];
+  var regex = new RegExp(poi,'g');
+
+  var rand = 0;
+  var usednums = [];
+  var options = [];
+
+  for (var i = 1; i < numOfOptions; i++) {
+
+    while (usednums.indexOf(rand) !== -1) {
+      rand = randomNumber(0, allTheWords.length - 1);
+    }
+
+    usednums.push(rand);
+    options.push(allTheWords[rand]);
+
+  }
+
+  options.push(poi);
+  options = shuffleArray(options);
+
   return [
       phrase.replace(regex,'____'),
-      getPossibleAnswers(phraseList),
+      options,
       poi,
       hint,
+      phrase
+    ];
+}
+
+function activityWhatYouHear(theExercise) {
+  let phrase = theExercise[0];
+  phraseSplit = theExercise[0].split(' ');
+
+  return [
+      phraseSplit[0].concat('...'),
+      shuffleArray(phraseSplit),
+      phrase,
+      'Digite o que foi dito no audio.',
       phrase
     ];
 }
@@ -281,6 +298,17 @@ function activityCompleteThePhrase(phraseList, question) {
 *
 */
 
+function AnswerButtonProper(props) {
+  return e(
+    'a',
+    {
+      className: 'btn-tall black',
+      onClick: props.onClick
+    },
+    props.value
+  )
+}
+
 class AnswerButton extends React.Component {
   constructor(props) {
     super(props);
@@ -288,12 +316,11 @@ class AnswerButton extends React.Component {
 
   render() {
     return e(ExerciseContext.Consumer, null, ({CheckAnswer}) => e(
-      'a',
+      AnswerButtonProper,
       {
-        className: 'btn-tall black',
-        onClick: () => { CheckAnswer(this.props.value) }
-      },
-      this.props.value
+        onClick: () => { CheckAnswer(this.props.value) },
+        value: this.props.value
+      }
     ));
   }
 }
@@ -315,7 +342,93 @@ class AnswersWordBank extends React.Component {
   }
 }
 
-class AnswerTextArea extends React.Component {
+class AnswersPhraseBuilder extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      builtPhrase: []
+    }
+
+  }
+
+  AddWord = (word) => {
+
+    this.state.builtPhrase.push(word)
+
+    this.setState({
+      builtPhrase: this.state.builtPhrase
+    })
+  }
+
+  Clear = () => {
+    this.setState({
+      builtPhrase: []
+    })
+  }
+
+  render() {
+    return (
+
+      e('div', {className: 'w-100'},
+
+        e(
+          'div',
+          {className: 'd-flex mb-1'},
+
+          e('div',
+            {
+              className: 'w-100 d-flex align-items-center',
+              id: 'phrase-builder',
+              'data-phrase': this.state.builtPhrase.join(' ')
+            },
+            this.state.builtPhrase.map((item) => {
+              return (
+                e(
+                  'a',
+                  {
+                    className: 'word',
+                    key: item,
+                  },
+                  item
+                )
+              )
+            })
+          ),
+
+          e(
+            'a',
+            {
+              className: 'btn-tall align-self-end flex-shrink-1',
+              onClick: () => { this.Clear() }
+            },
+            e('i', { className: "bi bi-trash-fill" })
+          )
+
+        ),
+
+        e('div', {className: 'exercise-answers-wordbank'},
+
+          e(ExerciseContext.Consumer, null, ({values}) => values[1].map(x => {
+            return e(
+              AnswerButtonProper,
+              {
+                key: x,
+                value: x,
+                onClick: () => { this.AddWord(x) }
+              }
+            )
+          }))
+
+        )
+
+      )
+
+    );
+  }
+}
+
+class AnswersTextArea extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -367,20 +480,64 @@ function QuestionDialog(props) {
   )
 }
 
+function QuestionAudioButton(props) {
+
+  return e(
+    'a',
+    {
+      className: 'text-larger btn-tall blue me-3',
+      onClick: () => {
+        synthSpeak(props.phrase)
+      }
+    },
+    e('i', { className: "bi bi-volume-up-fill" })
+  );
+
+}
+
+function QuestionAudio(props) {
+
+  return (
+    e('div',
+      {
+        className: "exercise-question d-flex flex-row justify-content-center align-items-end"
+      },
+
+      e(
+        'img',
+        {
+          className: "page-icon medium",
+          src: props.avatarURL
+        }
+      ),
+      e('div', {className: "dialog-arrow"}),
+      e(
+        'div',
+        {
+          className: "exercise-dialog"
+        },
+        e(QuestionAudioButton, {phrase: props.values[4]}),
+        e('span', null, props.values[0])
+      )
+    )
+  )
+
+}
+
 class CurrentQuestion extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({values, answeredCorrect, hintArea, controlArea, answerType, avatarURL, score, exerciseTitle}) => e(
+    return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, exerciseTitle, questionType}) => e(
         'div',
         {
           className: 'exercise',
           'data-aos': "fade-up"
         },
         e('h1', {className: 'mb-5'}, exerciseTitle),
-        e(QuestionDialog, {values: values, avatarURL: avatarURL}),
+        e(questionType, {values: values, avatarURL: avatarURL}),
         e(hintArea),
         e(
           'div',
@@ -620,11 +777,11 @@ function returnToLevelMapButton(props) {
 }
 
 function checkAnswerButton(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, CheckAnswerWithTextArea, checkAnswerButtonClass}) =>e(
+  return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass}) =>e(
     'a',
     {
       className: checkAnswerButtonClass,
-      onClick: () => { CheckAnswerWithTextArea() }
+      onClick: () => { checkAnswerWithButton() }
     },
     i18n.check
   ));
@@ -749,6 +906,7 @@ class App extends React.Component {
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
     this.disallowCandyOn = [];
+    this.allTheWords = [];
 
     this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
     this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/end.ogg'));
@@ -769,7 +927,7 @@ class App extends React.Component {
       setNewActivity: this.setNewActivity,
       switchAnswerType: this.switchAnswerType,
       CheckAnswer: this.CheckAnswer,
-      CheckAnswerWithTextArea: this.CheckAnswerWithTextArea,
+      checkAnswerWithButton: this.checkAnswerWithButton,
       hintArea: hintAreaInfo,
       controlArea: controlArea,
       page: e(LevelChooser),
@@ -779,7 +937,7 @@ class App extends React.Component {
       answers: [],
       difficulty: 0,
       activityType: '',
-      answerType: AnswerTextArea,
+      answerType: AnswersTextArea,
       avatarURL: getRandomAvatar(),
       i18n: this.i18n,
       setPage: this.setPage,
@@ -788,7 +946,9 @@ class App extends React.Component {
       exerciseTitle: null,
       candyButton: '🍭',
       candyButtonClass: 'btn-tall dark',
-      disallowCandy: false
+      disallowCandy: false,
+      questionType: QuestionDialog,
+      allTheWords: []
     };
 
   }
@@ -818,14 +978,24 @@ class App extends React.Component {
 
     if (!this.state.disallowCandy) {
 
-      if (this.state.answerType == AnswersWordBank) {
+      if (this.state.answerType != AnswersTextArea) {
         this.setState({
-          answerType: AnswerTextArea
+          answerType: AnswersTextArea
         });
       } else {
-        this.setState({
-          answerType: AnswersWordBank
-        });
+
+        if (this.state.activityType == 'CompleteThePhrase') {
+          this.setState({
+            answerType: AnswersWordBank
+          });
+        }
+
+        if (this.state.activityType == 'WhatYouHear') {
+          this.setState({
+            answerType: AnswersPhraseBuilder
+          });
+        }
+
       }
 
     }
@@ -834,10 +1004,8 @@ class App extends React.Component {
 
   setNewActivity = () => {
 
-    console.log(this.needToRetry, this.disallowCandyOn, this.questionsAlreadyAnswered, this.state);
-
     this.setState({
-      answerType: AnswerTextArea,
+      answerType: AnswersTextArea,
       avatarURL: getRandomAvatar(),
       candyButton: '🍭',
       candyButtonClass: 'btn-tall dark',
@@ -901,9 +1069,8 @@ class App extends React.Component {
 
     }
 
-    this.setState({values: this.loadActivityByType(this.ExerciseObject, this.state.activityType)})
-
     this.setState({
+      values: this.loadActivityByType(this.ExerciseObject),
       alreadyAnswered: false,
       currentQuestion: this.currentQuestion,
       answeredCorrect: false,
@@ -984,7 +1151,7 @@ class App extends React.Component {
       this.state.answers.push([this.state.values[0], this.state.values[4], answer, answered]);
 
       // Resets answer field
-      if (this.state.answerType == AnswerTextArea) {
+      if (this.state.answerType == AnswersTextArea) {
         document.getElementById("exercise-answer-textarea").value = "";
       }
 
@@ -992,39 +1159,84 @@ class App extends React.Component {
 
   }
 
-  CheckAnswerWithTextArea = () => {
-    this.CheckAnswer(document.getElementById("exercise-answer-textarea").value)
+  checkAnswerWithButton = () => {
+
+    if (this.state.answerType == AnswersTextArea) {
+      this.CheckAnswer(document.getElementById("exercise-answer-textarea").value)
+    }
+
+    if (this.state.answerType == AnswersPhraseBuilder) {
+      this.CheckAnswer(document.getElementById("phrase-builder").dataset.phrase)
+    }
   }
 
-  loadActivityByType(object, type) {
+  loadActivityByType(object) {
+
+    var type = object[this.currentQuestion][0]
+    var theExercise = object[this.currentQuestion];
+    theExercise.shift();
+
+    this.setState({
+      activityType: type
+    });
 
     if (type == 'CompleteThePhrase') {
 
-      return activityCompleteThePhrase(object, this.currentQuestion);
+      this.setState({
+        questionType: QuestionDialog
+      });
+
+      return activityCompleteThePhrase(theExercise, this.state.allTheWords, 5);
+
+    }
+
+    if (type == 'WhatYouHear') {
+
+      this.setState({
+        questionType: QuestionAudio,
+        answerType: AnswersPhraseBuilder
+      });
+
+      return activityWhatYouHear(theExercise);
 
     }
   }
 
   setExerciseObject = (object) => {
-    this.ExerciseObject = object;
-    this.exerciseLength = this.ExerciseObject.length;
-    this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
+
+    object.forEach((item, i) => {
+
+      var words = item[1].split(' ');
+
+      this.allTheWords = this.allTheWords.concat(words);
+
+    });
 
     this.setState({
-      values: this.loadActivityByType(object, this.state.activityType),
-      currentQuestion: this.currentQuestion,
+      allTheWords: this.allTheWords
+    })
+
+    this.ExerciseObject = object;
+    this.exerciseLength = this.ExerciseObject.length;
+
+    this.setState({
       page: e(CurrentQuestion),
-      hintArea: hintAreaInfo,
       exerciseTitle: 'Complete a frase usando a dica.'
     })
 
+    // Trigger the synth once so he doesn't bug out and
+    // doesn't play the first time he is called.
+    synthSpeak(' ');
+
+    this.setNewActivity();
+
     this.exerciseStartSound.play();
+
   }
 
   loadExerciseJSON = (level, id) => {
     this.setState({
       page: e(LoadingPage),
-      activityType: this.state.levelMap[level][id].type
     })
 
     fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))

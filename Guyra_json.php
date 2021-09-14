@@ -9,9 +9,10 @@ function GuyraGetIcon($path='') {
 
 $masterJSON = [
 
-  "level1" => [
+  "unit1" => [
 
-    "unit1" => [
+    "CompleteThePhrase" => [
+
       ["I am John.", "am", "(sou)"],
       ["He is John.", "is", "(é)"],
       ["We are friends.", "are", "(somos)"],
@@ -56,9 +57,22 @@ $masterJSON = [
       ["We aren't Canadian.", "aren't", "(não somos)"],
       ["I'm not Chinese.", "not", "(não)"],
       ["He isn't Chilean.", "isn't", "(não é)"]
+
     ],
 
-    "unit2" => [
+    "WhatYouHear" => [
+      ["I am Brazillian. He isn't Chilean."],
+      ["We are students. Carla is from Argentina."],
+      ["I'm from Miami, he is from Los Angeles."],
+      ["Nice to meet you. I am Josh."],
+      ["I'm from Rio, my friend is from Los Angeles."]
+    ]
+
+  ],
+
+  "unit2" => [
+
+    "CompleteThePhrase" => [
       ["What's in your bag?", "in your", "(na sua)"],
       ["What's in her bag?", "in her", "(na dela)"],
       ["What's in his bag?", "in his", "(na dele)"],
@@ -81,7 +95,7 @@ $masterJSON = [
       ["We have a car.", "have a", "(temos um)"],
       ["Our house is big!", "Our", "(nosso)"],
       ["Their house is nice!", "Their", "(Delas)"],
-      ["His house small!", "His", "(Dele)"],
+      ["His house is small!", "His", "(Dele)"],
       ["Her house is big!", "Her", "(Dela)"],
       ["Do you have a TV at home?", "you have", "(você tem)"],
       ["Does she have a fridge at home?", "she have", "(ela tem)"],
@@ -113,11 +127,19 @@ $masterJSON = [
       ["Can you help them?", "them", "(elas)"]
     ],
 
+    "WhatYouHear" => [
+      ["Can you help me? I need to use the phone."],
+      ["Our house is big but his house is small."],
+      ["Are those your glasses or are they mine?"],
+      ["Does he have a phone with him? What's his phone number?"],
+      ["Where do you go to school, you have a nice uniform."]
+    ]
+
   ],
 
-  "level2" => [
+  "unit3" => [
 
-    "unit3" => [
+    "CompleteThePhrase" => [
       ["It's four thirty three.", "four thirty three", "(4:33)"],
       ["It's four thirty seven.", "four thirty seven", "(4:37)"],
       ["It's four fifty three.", "four fifty three", "(4:53)"],
@@ -157,7 +179,19 @@ $masterJSON = [
       ["It's six in the morning.", "six in the morning", "seis da manhã"]
     ],
 
-    "unit4" => [
+    "WhatYouHear" => [
+      ["It's four thirty three, time for a break."],
+      ["It's six in the morning, you need to wake up."],
+      ["It's five past noon, let's have lunch."],
+      ["It's a quarter past two, we should go back to work."],
+      ["It's three past five, time to go home."]
+    ]
+
+  ],
+
+  "unit4" => [
+
+    "CompleteThePhrase" => [
       ["I am working today.", "am work", "(estou trabalhando)"],
       ["I am studying today.", "am studying", "(estou estudando)"],
       ["I am watching movies today.", "am watching", "(estou assistindo)"],
@@ -200,7 +234,19 @@ $masterJSON = [
       ["It's early so he is having breakfast.", "early", "(tarde)"]
     ],
 
-    "unit5" => [
+    "WhatYouHear" => [
+      ["It's late so he is sleeping."],
+      ["They are living in the U.S. nowadays."],
+      ["I am playing games today, do you want to play with me?"],
+      ["He works at a restaurant but he doesn't like it."],
+      ["She's having breakfast early today!"]
+    ]
+
+  ],
+
+  "unit5" => [
+
+    "CompleteThePhrase" => [
       ["I always eat breakfast.", "always eat", "(sempre como)"],
       ["I sometimes eat lunch at home.", "sometimes eat", "(as vezes como)"],
       ["I never eat dinner out.", "never eat", "(nunca como)"],
@@ -241,13 +287,21 @@ $masterJSON = [
       ["My friend never uses public transportation.", "uses", "(usa)"],
       ["My friend sometimes plays volleyball.", "plays", "(joga)"],
       ["My friend usually makes dinner at home.", "makes", "(faz)"]
+    ],
+
+    "WhatYouHear" => [
+      ["My friend usually makes dinner at home, and it's delicious"],
+      ["I usually eat at work because I don't have time"],
+      ["She sometimes goes to the gym."],
+      ["I always sleep early on weekdays."],
+      ["I always work from 9 to 5, my job is pretty nice."]
     ]
 
   ],
 
-  "level3" => [
+  "unit6" => [
 
-    "unit6" => [
+    "CompleteThePhrase" => [
       ["Do you live in an apartment?", "live in", "(mora em)"],
       ["Do they live in a house?", "they live", "(eles moram)"],
       ["Does she live near here?", "near", "(perto)"],
@@ -290,7 +344,19 @@ $masterJSON = [
       ["There is a barber shop near here.", "barber shop", "(barbearia)"]
     ],
 
-    "unit7" => [
+    "WhatYouHear" => [
+      ["There is a florist's near here, we can buy some flowers!."],
+      ["There are two beds and a computer in my room."],
+      ["Is there a bathroom here? I want to take a shower."],
+      ["Where is the kitchen? We need to make dinner."],
+      ["There are five houses in this neighborhood."]
+    ]
+
+  ],
+
+  "unit7" => [
+
+    "CompleteThePhrase" => [
       ["I'm a mechanic. I work with cars.", "mechanic", "(mecânico)"],
       ["I work in an office. I'm an accountant.", "an office", "(um escritorio)"],
       ["I work in a restaurant as a server.", "restaurant as a", "(restaurante como um)"],
@@ -301,9 +367,13 @@ $masterJSON = [
       ["How does he like working as a journalist?", "does he like", "(ele gosta)"],
       ["Photographer is a difficult job.", "a difficult", "(um dificil)"],
       ["Working as a firefighter is stressful", "is stressful", "(é estressante)"]
-    ],
+    ]
 
-    "unit8" => [
+  ],
+
+  "unit8" => [
+
+    "CompleteThePhrase" => [
       ["I study animals. It's very interesting.", "I study", "(eu estudo)"],
       ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "(motorista de taxi)"],
       ["My friend is a waiter. It's very busy", "very busy", "(muito agitado)"],
@@ -314,9 +384,13 @@ $masterJSON = [
       ["I need to wake up early for my job.", "need to", "(preciso)"],
       ["I travel to a lot of different countries.", "lot of different", "(muitos diferentes)"],
       ["When do you start work?", "you start", "(você começa)"]
-    ],
+    ]
 
-    "unit9" => [
+  ],
+
+  "unit9" => [
+
+    "CompleteThePhrase" => [
       ["I wake up early every day.", "every", "(todos)"],
       ["I'm working in a new company.", "a new", "(um novo)"],
       ["She's a morning person. She likes the early hours.", "morning person", "(pessoa matinal)"],
@@ -331,9 +405,9 @@ $masterJSON = [
 
   ],
 
-  "level4" => [
+  "unit10" => [
 
-    "unit10" => [
+    "CompleteThePhrase" => [
       ["I'm going to go the store in a few minutes.", "go to the", "(ir a)"],
       ["He's going to have a party tonight.", "going to", "(vai)"],
       ["What are you going to do for ", "you going", "(você vai)"],
@@ -345,9 +419,13 @@ $masterJSON = [
       ["Are you going to exercise today?", "exercise today", "(se exercitar hoje)"],
       ["We are going to work late today unfortunately.", "late today", "(tarde hoje)"],
       ["My friends and I aren't going, sorry?", "aren't", "(não)"]
-    ],
+    ]
 
-    "unit11" => [
+  ],
+
+  "unit11" => [
+
+    "CompleteThePhrase" => [
       ["I will be home today.", "be", "(estar)"],
       ["He won't like that present.", "like that", "(gostar desse)"],
       ["We will go on vacation in Italy.", "will go", "(vamos ir)"],
@@ -358,9 +436,13 @@ $masterJSON = [
       ["I'll be there in a few minutes.", "in a few", "(em alguns)"],
       ["Will this much be enough?", "this much", "(essa quantidade)"],
       ["We will see.", "will see'", "(vamos ver)"]
-    ],
+    ]
 
-    "unit12" => [
+  ],
+
+  "unit12" => [
+
+    "CompleteThePhrase" => [
       ["Today's the fifth. (5th)", "fifth", "(quinto)"],
       ["Tomorrow will be the seventeenth 17th", "seventeenth", "(décimo sétimo)"],
       ["I am going there tomorrow.", "am going'", "(estou indo)"],
@@ -375,9 +457,9 @@ $masterJSON = [
 
   ],
 
-  "level5" => [
+  "unit13" => [
 
-    "unit13" => [
+    "CompleteThePhrase" => [
       ["Would you like to go to a restaurant?", "Would you", "(você)"],
       ["Do you want to take a trip to Hawaii?", "you want", "(você quer)"],
       ["Would you like to go see a Coldplay concert?", "Would you like", "(você gostaria)"],
@@ -388,9 +470,13 @@ $masterJSON = [
       ["Are you free this afternoon?", "free this", "(livre essa)"],
       ["There's a cool movie playing in the cinema!", "playing in", "(passando no)"],
       ["Well, I am free today...", "am free", "(estou livre)"]
-    ],
+    ]
 
-    "unit14" => [
+  ],
+
+  "unit14" => [
+
+    "CompleteThePhrase" => [
       ["Did you work yesterday?", "you work", "(você trabalhou)"],
       ["I made some cake, would you like some?", "made some", "(fiz um pouco)"],
       ["She didn't go anywhere this week.", "didn't go", "(não foi)"],
@@ -405,9 +491,9 @@ $masterJSON = [
 
   ],
 
-  "level6" => [
+  "unit15" => [
 
-    "unit15" => [
+    "CompleteThePhrase" => [
       ["I was a quiet child.", "was a", "(era uma)"],
       ["Were you born in 1998?", "you born", "(você nasceu)"],
       ["I lived in my hometown for 10 years.", "lived in my", "(vivi na minha)"],
@@ -418,9 +504,13 @@ $masterJSON = [
       ["Was she your first girlfriend?", "she your", "(ela ____ sua)"],
       ["My favorite teacher was the science teacher.", "was the", "(era o)"],
       ["He wasn't very nice to me before.", "to me", "(para mim)"]
-    ],
+    ]
 
-    "unit16" => [
+  ],
+
+  "unit16" => [
+
+    "CompleteThePhrase" => [
       ["What are you looking for?", "looking for", "(procurando)"],
       ["Do you want to try them on?", "try them", "(experimenta-las)"],
       ["What size are you?", "size are", "(tamanho ___ é)"],
@@ -435,9 +525,9 @@ $masterJSON = [
 
   ],
 
-  "level7" => [
+  "unit17" => [
 
-    "unit17" => [
+    "CompleteThePhrase" => [
       ["c u later today yeah?", "later", "(mais tarde)"],
       ["yo this song slaps so hard!", "slaps", "(é boa)"],
       ["u going with?", "going", "(indo)"],
@@ -450,9 +540,9 @@ $masterJSON = [
 
   ],
 
-  "level8" => [
+  "unit18" => [
 
-    "unit18" => [
+    "CompleteThePhrase" => [
       ["There are some stores in this street.", "some stores", "(algumas lojas)"],
       ["Are there any groceries stores around here?", "around", "(por aqui)"],
       ["There aren't any good restaurants here.", "There aren't", "(Não tem)"],
@@ -463,9 +553,13 @@ $masterJSON = [
       ["There are no bakeries in this entire street.", "this entire", "(nessa ___ inteira)"],
       ["There are many companies in the industrial district.", "district", "(distrito)"],
       ["There isn't any crime in this neighborhood.", "any crime", "(nenhum crime)"]
-    ],
+    ]
 
-    "unit19" => [
+  ],
+
+  "unit19" => [
+
+    "CompleteThePhrase" => [
       ["Keep going forward and turn left.", "turn left", "(vire a direita)"],
       ["Take the street behind the shop.", "the street", "(a rua)"],
       ["Take the roundbout and then the third exit...", "roundabout", "(rotatoria)"],
@@ -476,9 +570,13 @@ $masterJSON = [
       ["It's down the street from here.", "down the street", "(descendo a rua)"],
       ["Walk three blocks and you're there.", "blocks and", "(quadras e)"],
       ["You can find it in the mall on First Avenue.", "in the mall", "(no shopping)"]
-    ],
+    ]
 
-    "unit20" => [
+  ],
+
+  "unit20" => [
+
+    "CompleteThePhrase" => [
       ["Brazil is a lot bigger than Italy.", "a lot bigger", "(muito maior)"],
       ["Which country is the most populous, the U.S., China or Japan?", "most populous", "(o mais populoso)"],
       ["This place is very relaxing and not stressful at all!", "very relaxing", "(muito relaxante)"],
@@ -493,9 +591,9 @@ $masterJSON = [
 
   ],
 
-  "level9" => [
+  "unit21" => [
 
-    "unit21" => [
+    "CompleteThePhrase" => [
       ["What does he look like?", "he look", "(ele parece)"],
       ["She has long blonde hair and blue eyes.", "long blonde", "(longos loiros)"],
       ["She is pretty tall for his age.", "tall for", "(alta para a)"],
@@ -506,9 +604,13 @@ $masterJSON = [
       ["How long is his hair?", "How", "(Quão)"],
       ["Does she wear glasses?", "she wear", "(ele usa)"],
       ["He's in his early twenties.", "twenties", "(seus vinte anos)"],
-    ],
+    ]
 
-    "unit22" => [
+  ],
+
+  "unit22" => [
+
+    "CompleteThePhrase" => [
       ["She's the one with long hair.", "with long", "(com longo)"],
       ["He's the one looking out the window.", "the one looking", "(o que está olhando)"],
       ["Which one would you prefer?", "would you", "(você iria)"],
@@ -518,9 +620,13 @@ $masterJSON = [
       ["I'd prefer the lighter one.", "the lighter", "(o mais leve)"],
       ["I want the one with less spice.", "one with less", "(o que está com menos)"],
       ["Which one do you mean?", "one do", "(qual)"]
-    ],
+    ]
 
-    "unit23" => [
+  ],
+
+  "unit23" => [
+
+    "CompleteThePhrase" => [
       ["Have you ever been there?", "you ever", "(você já)"],
       ["I haven't been there since last year.", "been there", "(esteve lá)"],
       ["I have made dinner for you!", "made dinner", "(fiz jantar)"],
@@ -535,9 +641,9 @@ $masterJSON = [
 
   ],
 
-  "level10" => [
+  "unit24" => [
 
-    "unit24" => [
+    "CompleteThePhrase" => [
       ["You shouldn't use this medicine, it won't work.", "shouldn't use", "(não deveria)"],
       ["What do you suggest for a cold?", "you suggest", "(você sugere)"],
       ["It's important to get some rest.", "to get", "(descansar)"],
@@ -548,9 +654,13 @@ $masterJSON = [
       ["You should see a doctor.", "should see", "(deveria ver)"],
       ["Should I be worried?", "I be", "(eu ___ estar)"],
       ["It's a good idea to see a dentist.", "good idea", "(boa ideia)"]
-    ],
+    ]
 
-    "unit25" => [
+  ],
+
+  "unit25" => [
+
+    "CompleteThePhrase" => [
       ["I'd like a beef bowl please.", "like a", "(gostaria de um)"],
       ["I was thinking of going out for dinner actually.", "thinking of", "(pensando sobre)"],
       ["I can't stand that music.", "stand that", "(suportar aquela)"],
@@ -561,9 +671,13 @@ $masterJSON = [
       ["We are ready to order.", "ready to", "(preparados para)"],
       ["We're just browsing, thanks.", "thanks", "(obrigado)"],
       ["I'd like that one.", "that", "(aquele)"]
-    ],
+    ]
 
-    "unit26" => [
+  ],
+
+  "unit26" => [
+
+    "CompleteThePhrase" => [
       ["I'm not in college anymore.", "not in", "(não ___ no)"],
       ["I wear my hair long now.", "wear my", "(uso meu)"],
       ["I've just started a job in this new company...", "just started", "(acabei de começar)"],
@@ -578,9 +692,9 @@ $masterJSON = [
 
   ],
 
-  "level11" => [
+  "unit27" => [
 
-    "unit27" => [
+    "CompleteThePhrase" => [
       ["It's as big as our old one.", "you ever", "(você já)"],
       ["This car is not big enough.", "is not big", "(não é grande)"],
       ["I thought the other one was better.", "the other one", "(o outro)"],
@@ -591,9 +705,13 @@ $masterJSON = [
       ["There are too many lights.", "too many", "(de mais)"],
       ["We need more windows.", "need more", "(precisamos de mais)"],
       ["There should be less noise.", "should be", "(deveria ter)"]
-    ],
+    ]
 
-    "unit28" => [
+  ],
+
+  "unit28" => [
+
+    "CompleteThePhrase" => [
       ["Have you ever been there?", "you ever", "(você já)"],
       ["How was the weather?", "weather", "(clima)"],
       ["How often do the trains leave?", "often do the", "(frequentemente os)"],
@@ -608,9 +726,9 @@ $masterJSON = [
 
   ],
 
-  "level12" => [
+  "unit29" => [
 
-    "unit29" => [
+    "CompleteThePhrase" => [
       ["Would you turn it off please?", "turn it", "(desligar)"],
       ["Put the trash away.", "trash", "(lixo)"],
       ["Would you mind parking your car someplace else?", "parking", "(estacionar)"],
@@ -621,9 +739,13 @@ $masterJSON = [
       ["Would you mind helping me with my homework.", "Would you mind", "(Você se importaria)"],
       ["Could you tell me the answer to this question?", "the answer to", "(a resposta para)"],
       ["There are clothes all over the floor, put them away!", "put them", "(guarde-os)"]
-    ],
+    ]
 
-    "unit30" => [
+  ],
+
+  "unit30" => [
+
+    "CompleteThePhrase" => [
       ["I use this for work.", "use this", "(uso isso)"],
       ["My camera is useful for trips.", "is useful", "(é util)"],
       ["I use WhatsApp to send messages.", "to send", "(para enviar)"],
@@ -638,9 +760,9 @@ $masterJSON = [
 
   ],
 
-  "level13" => [
+  "unit31" => [
 
-    "unit31" => [
+    "CompleteThePhrase" => [
       ["I looked in the mirror to check my hair before going out.", "look in the mirror", "(olhei no espelho)"],
       ["I don't think I should go to bed yet.", "think I should", "(acho que eu deveria)"],
       ["I decided not to go to Australia.", "decided", "(decidi)"],
@@ -651,9 +773,13 @@ $masterJSON = [
       ["It's expensive eating in restaurants every day.", "expensive eating", "(caro comer)"],
       ["What a pity, I'm really sorry that happened!", "really sorry", "(sinto muito)"],
       ["I'm worried about my cousin. She has not talked to me for months.", "not talked to me", "(não fala comigo)"]
-    ],
+    ]
 
-    "unit32" => [
+  ],
+
+  "unit32" => [
+
+    "CompleteThePhrase" => [
       ["Facebook was created by Mark Zuckerberg in 2004.", "was created", "(foi criado)"],
       ["Beethoven's fifth symphony was written in the renaissance era.", "was written", "(foi escrita)"],
       ["I'm very interested in music and performative arts.", "interested in music and", "(interessado em musica e)"],
@@ -664,9 +790,13 @@ $masterJSON = [
       ["The Taj Mahal is visited by 3 million people every year.", "million people", "(milhões de pessoas)"],
       ["Pluto was discovered by Clyde Tombaugh in 1930.", "discovered", "(descoberto)"],
       ["Game of Thrones was the most illegaly downloaded series in 2012.", "the most", "(a mais)"]
-    ],
+    ]
 
-    "unit33" => [
+  ],
+
+  "unit33" => [
+
+    "CompleteThePhrase" => [
       ["If I pass the test I'm going to have a party!", "pass the test", "(passar o teste)"],
       ["I'll give you the book if you promise to be careful.", "if you promise", "(se você prometer)"],
       ["I'll be in trouble if I don't wake up early to go to work.", "don't wake up early", "(não acordar cedo)"],
@@ -681,9 +811,9 @@ $masterJSON = [
 
   ],
 
-  "level14" => [
+  "unit34" => [
 
-    "unit34" => [
+    "CompleteThePhrase" => [
       ["I can really recommend this movie for its story.", "for its story", "(por sua história)"],
       ["I liked the characters even though the story was kind of dumb.", "even though", "(apesar da)"],
       ["I can't recommend that book, it's difficult to read.", "difficult to read", "(difícil de ler)"],
@@ -694,10 +824,13 @@ $masterJSON = [
       ["It's a beautiful story but it's very sad near the end.", "very sad near the", "(muito triste perto do)"],
       ["All the hype surrounding it doesn't mean it will turn out to be good.", "hype surrounding it", "(empolgação em torno disso)"],
       ["I feel like it should use less gimmicks in the story.", "should use less", "(deveria usar menos)"]
-    ],
+    ]
 
-    "unit35" => [
+  ],
 
+  "unit35" => [
+
+    "CompleteThePhrase" => [
       ["This could mean that you need to pay more attention to how you speak.", "could mean that you need", "(pode significar que você precisa)"],
       ["It could be caused by cultural differences.", "could be caused", "(pode ser causado)"],
       ["I don't understand why, but I'm trying to figure it out.", "trying to", "(tentando)"],
@@ -708,10 +841,13 @@ $masterJSON = [
       ["You know how they say, birds of a feather flock together.", "how they say", "(como eles dizem)"],
       ["The root cause needs to be identified before we can continue.", "needs to be", "(precisa ser)"],
       ["I'm still trying to figure it out.", "still trying", "(ainda tentando)"]
+    ]
 
-    ],
+  ],
 
-    "unit36" => [
+  "unit36" => [
+
+    "CompleteThePhrase" => [
       ["You should have been honest and told her about it.", "should have been", "(deveria ter sido)"],
       ["I wouldn't put so much effort if I was in your situation.", "in your situation", "(na sua situação)"],
       ["What would you have done instead?", "you have done", "(você teria feito)"],
@@ -726,9 +862,9 @@ $masterJSON = [
 
   ],
 
-  "level15" => [
+  "unit37" => [
 
-    "unit37" => [
+    "CompleteThePhrase" => [
       ["I want to be friends with people who are supportive and kind.", "with people who are", "(com pessoas que são)"],
       ["Outer space is the universe beyond the earth’s atmosphere. ", "universe beyond", "(universo além)"],
       ["We can say a robot is sentient if it is aware of itself.", "sentient if it", "(sentiente se ele)"],
@@ -739,9 +875,13 @@ $masterJSON = [
       ["He's that guy who is always talking on the phone to someone.", "who is always", "(que está sempre)"],
       ["The midwest is the area of the U.S. with the most farms.", "with the most", "(com mais)"],
       ["When I was in Canada I met a man who worked for a news station!", "who worked for a", "(que trabalhou para uma)"]
-    ],
+    ]
 
-    "unit38" => [
+  ],
+
+  "unit38" => [
+
+    "CompleteThePhrase" => [
       ["Working in an office all day sounds very boring.", "in an office all day", "(num escritório o dia todo)"],
       ["Developing games sounds fun!", "Developing", "(desenvolver)"],
       ["I'd enjoy working as a psychologist.", "working as", "(trabalhar como)"],
@@ -752,9 +892,13 @@ $masterJSON = [
       ["Working all day in a hospital must be extremely stressful.", "stressful", "(estressante)"],
       ["He would enjoy that kind of work.", "that kind of", "(aquele tipo de)"],
       ["Playing games all day should be a job!", "games all day should", "(games o dia todo deveria)"]
-    ],
+    ]
 
-    "unit39" => [
+  ],
+
+  "unit39" => [
+
+    "CompleteThePhrase" => [
       ["Had you ever swimmed in the ocean before?", "Had you ever", "(você já tinha)"],
       ["I said that I could ride horses.", "that I could", "(que eu podia)"],
       ["She told me that she had just finished the book.", "had just", "(tinha acabado de)"],
@@ -769,9 +913,9 @@ $masterJSON = [
 
   ],
 
-  "level16" => [
+  "unit40" => [
 
-    "unit40" => [
+    "CompleteThePhrase" => [
       ["That doesn't sound as challenging as I thought.", "challenging", "(desafiador)"],
       ["That idea would be more well recieved.", "be more well", "(seria mais bem)"],
       ["We don't earn nearly as much as we should.", "nearly as much", "(nem perto de quanto)"],
@@ -794,16 +938,14 @@ $levelMap = ["levelmap" => [
     "unit1" => [
       "id" => "unit1",
       "name" => "Olá!",
-      "description" => "temp",
-      "type" => "CompleteThePhrase",
-      "image" => GuyraGetIcon('exercises/chat.png')
+      "description" => "Apresentações e expressões de tempo.",
+      "image" => GuyraGetIcon('exercises/chat.png'),
     ],
 
     "unit2" => [
       "id" => "unit2",
       "name" => "Coisas",
-      "description" => "temp",
-      "type" => "CompleteThePhrase",
+      "description" => "Objetos e pronomes possesivos.",
       "image" => GuyraGetIcon('exercises/reading-glasses.png')
     ]
 
@@ -814,8 +956,7 @@ $levelMap = ["levelmap" => [
     "unit3" => [
       "id" => "unit3",
       "name" => "Horas",
-      "description" => "temp",
-      "type" => "CompleteThePhrase",
+      "description" => "Horários e números.",
       "image" => GuyraGetIcon('exercises/time.png')
     ],
 
@@ -1201,24 +1342,48 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 
 } else {
 
-  $used_numbers = Array();
+  // If it wasn't the levelmap that was requested, pass on a unit
 
   $level = $_GET['level'];
   $unit = $_GET['unit'];
   $length = $_GET['length'];
 
-  $rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
+  function GetRandomExercise($type, $unit, $json) {
+    return random_int(0, sizeof($json[$unit][$type]) - 1);
+  }
 
-  for ($x=0; $x < $length; $x++) {
+  function GetTheExercises($type, $unit, $length, $json) {
 
-    while(in_array($rnd, $used_numbers)) {
-      $rnd = random_int(0, sizeof($masterJSON[$level][$unit]) - 1);
+    $rnd = GetRandomExercise($type, $unit, $json);
+    $used_numbers = Array();
+    $res = Array();
+
+    for ($x=0; $x < $length; $x++) {
+
+      while(in_array($rnd, $used_numbers)) {
+        $rnd = GetRandomExercise($type, $unit, $json);
+      }
+
+      $used_numbers[] = $rnd;
+      $ex = $json[$unit][$type][$rnd];
+      array_unshift($ex, $type);
+
+      $res[] = $ex;
+
     }
 
-    array_push($used_numbers, $rnd);
+    return $res;
 
-    array_push($responseJSON, $masterJSON[$level][$unit][$rnd]);
   }
+
+  if (is_array($masterJSON[$unit]['CompleteThePhrase'])) {
+    $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, $length, $masterJSON));
+  }
+
+  if (is_array($masterJSON[$unit]['WhatYouHear'])) {
+    $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, $length, $masterJSON));
+  }
+
 }
 
 if ($_GET['i18n'] == "full") {
