@@ -108,3 +108,94 @@ function GetUserRanking($user=0) {
   return false;
 
 }
+
+function CreateStudyPage($id) {
+
+  $post_data = array(
+    'post_title'    => sha1($id),
+    'post_content'  => 'Welcome to Guyrá!',
+    'post_status'   => 'publish',
+    'post_type'     => 'post',
+    'post_author'   => 1,
+    'page_template' => null,
+    'comment_status' => 'open'
+  );
+  $post = wp_insert_post($post_data);
+
+  if (!is_wp_error($post)) {
+    return get_post($post, 'OBJECT');
+  }
+
+}
+
+function GetUserStudyPage_object($user) {
+
+  $user_studygroup = get_user_meta($user, 'studygroup')[0];
+
+  // If user has a group assigned he should see the group's page instead
+  if ($user_studygroup != '') {
+    $user_hasgroup = true;
+    $user_studypage_object = get_page_by_title(sha1($user_studygroup), 'OBJECT', 'post');
+  } else {
+    $user_studypage_object = get_page_by_title(sha1($user), 'OBJECT', 'post');
+  }
+
+  // Create a page for this user if one does not exist
+  if ($user_studypage_object == null) {
+
+    if ($user_hasgroup) {
+      $user_studypage_object = CreateStudyPage($user_studygroup);
+    } else {
+      $user_studypage_object = CreateStudyPage($user);
+    }
+
+  }
+
+  return $user_studypage_object;
+
+}
+
+function GetUserStudyPage($user) {
+
+  $object = GetUserStudyPage_object($user);
+
+  echo apply_filters('the_content', $object->post_content);
+}
+
+function GetUserStudyPage_comments($user, $reply_box=true) {
+
+  $object = GetUserStudyPage_object($user);
+
+  $args = array(
+    'post_id' => $object->ID,
+    'date_query' => array(
+      'after' => '4 weeks ago',
+      'before' => 'tomorrow',
+      'inclusive' => true,
+    )
+  );
+
+  $comments = get_comments( $args );
+
+  if($comments != '') {
+    echo '<ol class="comment-list ms-0 p-0">';
+    wp_list_comments(
+      array(
+        'style'      => 'ol',
+        'short_ping' => true,
+      ),
+      $comments
+    );
+    echo '</ol>';
+  }
+
+  if ($reply_box) {
+    comment_form( array(
+      'title_reply' => '',
+      'label_submit' => 'Deixar resposta',
+      'class_submit' => 'btn-tall blue',
+      'class_form' => 'form-control'
+    ), $object->ID);
+  }
+
+}

@@ -9,6 +9,8 @@
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
 
+include get_template_directory() . '/Guyra_misc.php';
+
 // fetch user data
 $thisUser = get_user_meta(get_current_user_id());
 $users = get_users();
@@ -89,22 +91,21 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
   <?php
   foreach ($users as $x) {
 
-    $userdata = get_user_meta($x->ID);
-    $user_studypage = get_user_meta($x->ID, 'custompage_id')[0];
-    $user_studypage_object = get_page_by_title($user_studypage, 'OBJECT', 'post');
-    $user_sha1d = sha1($x->ID);
+    $user = $x->ID;
+    $userdata = get_user_meta($user);
+    $user_sha1d = sha1($user);
 
     if($userdata['studygroup'][0] != "") {
       $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
     } else {
-      $page_link = get_site_url() . '/' . sha1($x->ID);
+      $page_link = get_site_url() . '/' . $user_sha1d;
     }
 
     if ($userdata['teacherid'][0] == get_current_user_id()) {
-      echo '<ul id="user-' . $x->ID .'" class="user-list list-group list-group-horizontal mb-1">' .
+      echo '<ul id="user-' . $user .'" class="user-list list-group list-group-horizontal mb-1">' .
 
       '<li class="list-group-item col-1">' .
-        '<span class="text-muted me-1 d-none d-md-block">ID:</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $x->ID . '</a>' .
+        '<span class="text-muted me-1 d-none d-md-block">ID:</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $user . '</a>' .
       '</li>' .
 
       '<a class="list-group-item col" href="' . $page_link . '">' .
@@ -134,32 +135,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
       <div class="collapse page-squeeze" id="collapse-<?php echo $user_sha1d; ?>"><div class="study-answers">
 
         <div class="dialog">
-          <?php echo apply_filters('the_content', $user_studypage_object->post_content); ?>
+          <?php GetUserStudyPage($user); ?>
         </div>
 
-        <?php
-        $args = array(
-          'post_id' => $user_studypage_object->ID,
-          'date_query' => array(
-            'after' => '4 weeks ago',
-            'before' => 'tomorrow',
-            'inclusive' => true,
-          )
-        );
-        $comments = get_comments( $args );
+        <?php GetUserStudyPage_comments($user, false); ?>
 
-        if($comments != '') {
-          echo '<ol class="comment-list ms-0 p-0">';
-    			wp_list_comments(
-    				array(
-    					'style'      => 'ol',
-    					'short_ping' => true,
-    				),
-            $comments
-    			);
-      		echo '</ol>';
-        }
-        ?>
       </div></div>
       <?php
     }
