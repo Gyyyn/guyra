@@ -107,7 +107,7 @@ $gi18n = [
 	/* User page */
 	'level' => 'Nível: ',
 	'level_explain' => 'Seu nível representa quanto você já praticou no Guyrá.',
-	'level_question' => 'Como funcionam no níveis?',
+	'level_question' => 'Como funcionam os níveis?',
 	'level_question_link' => get_site_url() . '/faq#level',
 	'ranking' => 'Divisão: ',
 	'ranking_explain' => '<p>Sua divisão representa quão bem você está se saindo em comparação com pessoas do mesmo nível.</p><p>Você pode subir de divisão jogando mais na área de exercícios e fazendo o maior números de acertos possíveis!</p>',
