@@ -5,6 +5,11 @@
  * @package guyra
  */
 
+// Sanity check, unlogged users shouldn't be here
+if (!is_user_logged_in()) {
+  wp_redirect(get_site_url());
+}
+
 get_header();
 
 /* Set up translations independent of Wordpress */

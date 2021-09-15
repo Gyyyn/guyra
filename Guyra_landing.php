@@ -20,7 +20,9 @@
                <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
              </div>
              <div class="col d-flex align-items-center justify-content-around">
-               <img class="page-icon medium" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+               <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo get_template_directory_uri(); ?>/assets/img/icons.webm">
+                 <img class="page-icon large" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+               </video>
              </div>
            </div>
 

@@ -235,6 +235,12 @@ hr.thick {
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
 .bg-gradient-white-reverse { background: var(--guyra-white-transparent-gradient-reverse); }
 
+.home > footer,
+.practice > footer,
+.reference > footer {
+  display: none;
+}
+
 footer {
   background: var(--guyra-white);
 }
@@ -521,9 +527,9 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 .cover .cover-card {
-  background: #ecfdff;
+  background: #fff;
   border-radius: var(--guyra-border-radius-bigger);
-  box-shadow: var(--guyra-box-shadow-bigger), var(--guyra-box-shadow-outline-onwhite);
+  box-shadow: var(--guyra-box-shadow-bigger);
   padding: 1rem;
   margin: 0;
 }

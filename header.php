@@ -43,6 +43,16 @@ if ($where_am_i == '') {
   $body_class[] = 'home';
 }
 
+if ($where_am_i == 'practice') {
+  $homebtn_class = $highlight_class;
+  $body_class[] = 'practice';
+}
+
+if ($where_am_i == 'reference') {
+  $homebtn_class = $highlight_class;
+  $body_class[] = 'reference';
+}
+
 if ($where_am_i == 'category/blog') {
   $blogbtn_class = $highlight_class;
   $body_class[] = 'blog';
