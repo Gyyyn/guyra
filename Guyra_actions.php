@@ -160,7 +160,7 @@ if ($thisUser['role'][0] == "teacher") {
     }
 
     if ($_GET['meetinglink']) {
-      guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink'], false);
+      guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink']);
     }
 
     if ($_GET['cleargroup']) {
