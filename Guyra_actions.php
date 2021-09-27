@@ -159,6 +159,10 @@ if ($thisUser['role'][0] == "teacher") {
       update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
     }
 
+    if ($_GET['meetinglink']) {
+      guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink'], false);
+    }
+
     if ($_GET['cleargroup']) {
       delete_user_meta($user, 'studygroup' );
     }

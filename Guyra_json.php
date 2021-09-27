@@ -358,15 +358,53 @@ $masterJSON = [
 
     "CompleteThePhrase" => [
       ["I'm a mechanic. I work with cars.", "mechanic", "(mecânico)"],
+      ["I'm a doctor. I work in a hospital.", "doctor", "(médico)"],
+      ["I'm a clerk. I work in a store.", "clerk", "(atendente)"],
+      ["I'm a salesperson. I sell things.", "salesperson", "(vendedor)"],
       ["I work in an office. I'm an accountant.", "an office", "(um escritorio)"],
+      ["I work in transportation. I'm a taxi driver.", "transportation", "(transporte)"],
+      ["I work at home. I'm a software engineer.", "at home", "(em casa)"],
+      ["I work in a big company. I'm a manager.", "a manager", "(um gerente)"],
       ["I work in a restaurant as a server.", "restaurant as a", "(restaurante como um)"],
-      ["My friend is a manager in a hotel.", "friend is a", "(amigo é um)"],
-      ["My mother works at home.", "works", "(trabalha)"],
+      ["I work in a hotel as a clerk.", "hotel as a", "(hotel como um)"],
+      ["I work in a company as a designer.", "company as a", "(empresa como um)"],
+      ["I work in the music industry as a singer.", "as a singer", "(como um cantor)"],
+      ["My friend is a manager in a hotel.", "My friend is", "(Meu amigo é)"],
+      ["My friend is a salesperson in a car shop.", "is a salesperson", "(é um vendedor)"],
+      ["My friend is a doctor in a hospital.", "in a hospital", "(em um hospital)"],
+      ["My friend is a accountant in a office.", "friend is a", "(amigo é um)"],
+      ["My mother works in an office.", "works", "(trabalha)"],
+      ["My father works at home.", "works at", "(trabalha em)"],
+      ["My sister works in a company.", "sister works", "(irmã trabalha)"],
+      ["My brother works in retail.", "works in", "(trabalha em)"],
       ["Where do you work?", "Where", "(onde)"],
+      ["Where do they work?", "Where do", "(onde)"],
+      ["Where does she work?", "Where does", "(onde)"],
+      ["Where does he work?", "does he", "(ele)"],
       ["How do you like your job?", "like your", "(gosta do seu)"],
+      ["How do they like their job?", "like their", "(gosta do ____ deles)"],
+      ["How does he like his job?", "like his", "(gosta do ____ dele)"],
+      ["How does she like her job?", "like her", "(gosta do ____ dela)"],
       ["How does he like working as a journalist?", "does he like", "(ele gosta)"],
-      ["Photographer is a difficult job.", "a difficult", "(um dificil)"],
-      ["Working as a firefighter is stressful", "is stressful", "(é estressante)"]
+      ["How does she like working as a clerk?", "does she like", "(ela gosta)"],
+      ["How do you like working as a programmer?", "do you like", "(você gosta)"],
+      ["How do they like working as a photographer?", "do they like", "(eles gostam)"],
+      ["Being a photographer is a difficult job.", "a difficult", "(um dificil)"],
+      ["Being a doctor is hard.", "is hard", "(é dificil)"],
+      ["Being a designer is not easy.", "is not easy", "(não é fácil)"],
+      ["Being a clerk is a little boring.", "a little boring", "(um pouco chato)"],
+      ["Working as a firefighter is stressful", "is stressful", "(é estressante)"],
+      ["Working as a doctor is stressful", "is stressful", "(é estressante)"],
+      ["Working in an office is boring", "is boring", "(é chato)"],
+      ["Working as a freelancer is stressful", "is stressful", "(é estressante)"]
+    ],
+
+    "WhatYouHear" => [
+      ["Working in an office is boring but the pay is good."],
+      ["My sister works in a company and my father works at home."],
+      ["I'm a salesperson. I sell things in a store."],
+      ["Where do you work nowadays?"],
+      ["How do you like working as a programmer? Is it stressful?"]
     ]
 
   ],
@@ -375,6 +413,9 @@ $masterJSON = [
 
     "CompleteThePhrase" => [
       ["I study animals. It's very interesting.", "I study", "(eu estudo)"],
+      ["He studies chemistry. It's very interesting.", "He studies", "(ele estuda)"],
+      ["She studies engineering. It's very interesting.", "She studies", "(ela estuda)"],
+      ["We study biology. It's very interesting.", "We study", "(nós estudamos)"],
       ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "(motorista de taxi)"],
       ["My friend is a waiter. It's very busy", "very busy", "(muito agitado)"],
       ["My girlfriend is a chef. She's very talented with food.", "talented with food", "(talentosa com comida)"],

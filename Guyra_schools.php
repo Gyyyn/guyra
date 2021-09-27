@@ -82,6 +82,24 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
     </div>
 
+    <div id="form" class="admin-forms dialog mb-5">
+
+      <h4>Assing meeting link:</h4>
+      <form action="<?php echo get_site_url(); ?>" method="GET">
+
+        <div class="d-flex justify-content-between">
+
+          <span>ID do Aluno: <input class="user-id" type="text" name="user"></span>
+          <span>Link: <input type="text" name="meetinglink"></span>
+          <span><input type="submit" value="Go" /></span>
+          <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
+
+        </div>
+
+      </form>
+
+    </div>
+
   </div>
 
   <div data-aos="fade-right" data-aos-delay="200">

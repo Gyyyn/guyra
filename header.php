@@ -102,6 +102,7 @@ include get_template_directory() . '/i18n.php';
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
+<script data-ad-client="ca-pub-7198773595231701" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -154,7 +155,7 @@ include get_template_directory() . '/i18n.php';
             <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
           </li>
 
-          <?php if($logged_in): ?>
+          <?php if(false): ?>
 
           <li class="nav-item me-md-3 position-relative">
             <a class=" btn btn-sm btn-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>

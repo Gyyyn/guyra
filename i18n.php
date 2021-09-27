@@ -19,6 +19,7 @@ $gi18n = [
 	'save' => 'Salvar',
 	'remember_me' => "Lembrar de mim",
 	'meet' => 'Meet',
+	'meeting' => 'Reunião',
 	'youchose' => 'Você escolheu: ',
 	'payment' => 'Pagamento',
 	'payment_method' => 'Método de pagamento',

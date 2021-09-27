@@ -20,6 +20,7 @@ include get_template_directory() . '/Guyra_misc.php';
 // which should appear
 $current_user = get_current_user_id();
 $newspage = get_page_by_title('News');
+$meeting_link = guyra_get_user_meta($current_user, 'meetinglink', true)['meta_value'];
 
 get_header();
 
@@ -54,6 +55,11 @@ get_header();
         <span class="position-absolute top-50 start-50 translate-middle badge bg-primary rounded-pill">Soon!</span>
         <span class="menu-icon"><img alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
+      </a>
+
+      <a href="<?php echo $meeting_link ?>" class="list-group-item">
+        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['meeting']; ?></span>
       </a>
     </div>
 
