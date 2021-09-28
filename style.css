@@ -42,6 +42,7 @@ Tags: guyra
   --guyra-red-darker: rgba(217, 30, 0, 1);
   --guyra-red-darkest: rgb(140 31 13);
 
+  --guyra-blue-blue-darker-gradient: linear-gradient(0deg, rgb(0 246 255) 0%, rgb(0 147 255) 100%);
   --guyra-blue-purple-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
   --guyra-blue-purple-gradient-reverse: linear-gradient(210deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
   --guyra-blue-transparent-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
@@ -620,7 +621,7 @@ nav .navbar-nav .btn-wa:hover {
 
 .card {
   border-radius: var(--guyra-border-radius-bigger);
-  background: linear-gradient(90deg, rgb(0 246 255) 0%, rgb(0 147 255) 100%);
+  background: var(--guyra-blue-blue-darker-gradient);
   color: var(--guyra-white);
   border: 0;
   box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
@@ -1584,10 +1585,12 @@ a.element-container:visited {
   color: var(--guyra-blue-darkest);
 }
 
-.schools .admin-forms input {
+.schools .admin-forms input[type="text"] {
   border: unset;
   background: var(--guyra-grey-dark);
   border-radius: var(--guyra-border-radius);
+  height: 3rem;
+  min-width: 30vw;
 }
 
 /*

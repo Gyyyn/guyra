@@ -85,7 +85,7 @@ include get_template_directory() . '/i18n.php';
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#00d4ff"/>
+<meta name="theme-color" content="#06b6f1"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
