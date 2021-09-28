@@ -133,15 +133,21 @@ if (getCookie('dismissed') == "true") {
 
 responseArea = localStorage.getItem('responseArea');
 commentArea = document.querySelector("#comment");
+submitButton = document.querySelector("#submit");
 
 if (responseArea !== null) {
   commentArea.value = responseArea;
 }
 
 commentArea.onkeyup = eventTrigger;
+submitButton.onclick = submitTrigger;
 
 function eventTrigger(e) {
   localStorage.setItem('responseArea', commentArea.value);
+}
+
+function submitTrigger(e) {
+  localStorage.setItem('responseArea', '');
 }
 </script>
 <?php
