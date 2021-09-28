@@ -50,10 +50,6 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
     if ($userdata['teacherid'][0] == get_current_user_id()) {
       echo '<ul id="user-' . $user .'" class="user-list list-group list-group-horizontal mb-1">' .
 
-      '<li class="list-group-item col-1">' .
-        '<span class="text-muted me-1 d-none d-md-block">' . $gi18n['id'] . ':</span><a href="#form" class="id-selector btn btn-sm btn-primary">' . $user . '</a>' .
-      '</li>' .
-
       '<a class="list-group-item col-6" href="' . $page_link . '">' .
           '<span class="me-1 text-primary text-bold"><strong>' .
             $userdata['first_name'][0] . ' ' .
@@ -131,7 +127,9 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
           <?php GetUserStudyPage($user); ?>
         </div>
 
-        <?php GetUserStudyPage_comments($user, false); ?>
+        <div class="page-squeeze m-0"><div class="study-answers">
+          <?php GetUserStudyPage_comments($user, false); ?>
+        </div></div>
 
       </div></div>
       <?php
@@ -142,21 +140,6 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
   echo '<div class="dialog info my-5">' . $gi18n['schools_header_warning'] . '</div>';
   echo '<p class="text-center text-muted text-small mb-0">' . $gi18n['guyra_thanks_you'] . '</p>';
-
-  ?>
-  <script>
-  let btn = document.querySelectorAll('.id-selector')
-  let targetform = document.querySelectorAll('.user-id')
-  btn.forEach((item, i) => {
-    item.addEventListener('click', function (e) {
-      targetform.forEach((item) => {
-        item.value = this.innerHTML
-      });
-    })
-  });
-
-  </script>
-  <?php
 
 else : // wp_redirect ain't working here ?>
 <script>setTimeout(function(){ window.location.href = "<?php echo $gi18n['schools_footer_link']; ?>"; }, 0);</script>

@@ -169,7 +169,7 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   $args = array(
     'post_id' => $object->ID,
     'date_query' => array(
-      'after' => '4 weeks ago',
+      'after' => '1 weeks ago',
       'before' => 'tomorrow',
       'inclusive' => true,
     )
