@@ -190,12 +190,18 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   }
 
   if ($reply_box) {
-    comment_form( array(
-      'title_reply' => '',
-      'label_submit' => 'Deixar resposta',
-      'class_submit' => 'btn-tall blue',
-      'class_form' => 'form-control'
-    ), $object->ID);
+    ?>
+
+    <form action="<?php echo get_site_url() . '/?comment=1' ?>" method="post" id="commentform" class="form-control">
+      <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea>
+      <input type="file" name="attachment" accept="image/jpeg,image/jpg,image/gif,image/png">
+      <span class="form-submit">
+        <input name="submit" type="submit" id="submit" class="btn-tall blue" value="Deixar resposta">
+        <input type="hidden" name="comment_post_ID" value="144" id="comment_post_ID">
+      </span>
+    </form>
+
+    <?php
   }
 
 }
