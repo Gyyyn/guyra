@@ -101,6 +101,11 @@ include get_template_directory() . '/i18n.php';
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 
+<?php if ($args['zoom']): ?>
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/react-select.css" />
+<?php endif; ?>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
 <script data-ad-client="ca-pub-7198773595231701" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
