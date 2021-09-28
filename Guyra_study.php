@@ -130,6 +130,19 @@ function getCookie(cname) {
 if (getCookie('dismissed') == "true") {
   document.querySelector('.alert').className = 'd-none';
 }
+
+responseArea = localStorage.getItem('responseArea');
+commentArea = document.querySelector("#comment");
+
+if (responseArea !== null) {
+  commentArea.value = responseArea;
+}
+
+commentArea.onkeyup = eventTrigger;
+
+function eventTrigger(e) {
+  localStorage.setItem('responseArea', commentArea.value);
+}
 </script>
 <?php
 get_footer();
