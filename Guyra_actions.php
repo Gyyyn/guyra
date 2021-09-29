@@ -129,6 +129,11 @@ if (current_user_can('manage_options')) {
         wp_insert_post($post_data);
       }
 
+      if (!is_object(get_page_by_title('Courses'))) {
+        $post_data['post_title'] = 'Courses';
+        wp_insert_post($post_data);
+      }
+
       // This one is last so there's not danger of putting the
       // 'post_title' everywhere else
       if (!is_object(get_page_by_title('Account'))) {
