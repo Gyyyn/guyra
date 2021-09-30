@@ -182,17 +182,40 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
 
   $comments = get_comments( $args );
 
-  if($comments != '') {
-    echo '<ol class="comment-list ms-0 p-0">';
-    wp_list_comments(
-      array(
-        'style'      => 'ol',
-        'short_ping' => true,
-      ),
-      $comments
-    );
-    echo '</ol>';
-  }
+  foreach ($comments as $comment) {
+
+    $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
+
+    ?>
+
+    <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
+
+      <div class="comment-meta text-small">
+        <span id="user-<?php echo $comment->user_id; ?>" class="author-name"><?php echo $comment->comment_author; ?>:</span>
+        <span class="comment-time"><?php echo $comment->comment_date; ?></span>
+      </div>
+
+      <div class="comment-content">
+		    <?php
+
+        echo $comment->comment_content;
+
+        if ($comment_image != '') { ?>
+
+          <div class="comment-image">
+            <a href="<?php echo $comment_image; ?>" target="_blank">
+              <img alt="comment-<?php echo $comment->comment_ID; ?>-image"
+              src="<?php echo $comment_image; ?>"
+              class="page-icon" loading="lazy">
+            </a>
+          </div>
+
+          <?php } ?>
+    	</div>
+
+    </div>
+
+  <?php }
 
   if ($reply_box) {
     ?>

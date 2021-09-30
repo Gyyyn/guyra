@@ -270,7 +270,7 @@ function get_custom_die_handler() {
 function custom_die_handler( $message, $title="", $args = array() ) {
     echo '<html><body>';
     echo '<h1>Error:</h1>';
-    echo $message; /* No escaping, to match the default behaviour */
+    echo var_dump($message); /* No escaping, to match the default behaviour */
     echo '</body></html>';
     die();
 }
