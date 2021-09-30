@@ -134,6 +134,11 @@ if (current_user_can('manage_options')) {
         wp_insert_post($post_data);
       }
 
+      if (!is_object(get_page_by_title('Comment'))) {
+        $post_data['post_title'] = 'Comment';
+        wp_insert_post($post_data);
+      }
+
       // This one is last so there's not danger of putting the
       // 'post_title' everywhere else
       if (!is_object(get_page_by_title('Account'))) {

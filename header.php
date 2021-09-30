@@ -202,20 +202,20 @@ include get_template_directory() . '/i18n.php';
                 <li>
                   <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>">
                     <?php echo $gi18n['button_myaccount'] ?>
-                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
+                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">
                     Perfil
-                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
+                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
                   </a>
 
                 </li>
                 <li>
                   <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">
                     Sair
-                    <img class="dropdown-icon" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
+                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
                   </a>
                 </li>
               </ul>

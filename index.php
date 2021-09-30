@@ -4,7 +4,6 @@
  *
  * @package guyra
  */
-
 // Handle JSON API requests
 if($_GET['json']) {
   include get_template_directory() . '/Guyra_json.php';
@@ -15,10 +14,6 @@ if($_GET['json']) {
   include get_template_directory() . '/Guyra_actions.php';
 
 // No JSON is requested, no admin actions, proceed as normal
-} elseif ($_GET['comment'] == 1) {
-
-  include get_template_directory() . '/Guyra_comment.php';
-
 } else {
 
   // Allow logged users to go straight to a home page

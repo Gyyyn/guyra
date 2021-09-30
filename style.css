@@ -302,6 +302,12 @@ img.page-icon.small,
   width: calc(2.5vh + 4.5vw - 1.5vw);
 }
 
+img.page-icon.tiny,
+page-icon.tiny > img {
+  max-width: 32px;
+  height: auto;
+}
+
 /* what do i do with this */
 aside.widget-area,
 .logged-in-as,
@@ -425,7 +431,7 @@ label[for="comment"],
   background-color: var(--guyra-white);
   border: .25rem solid var(--guyra-grey);
   margin-top: 10px;
-  left: -85px;
+  left: -16px !important;
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
 }
 
@@ -436,11 +442,7 @@ label[for="comment"],
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-}
-
-.dropdown-icon {
-  max-width: 24px;
-  height: auto;
+  align-items: center;
 }
 
 nav .navbar-nav .btn-sm {
@@ -918,7 +920,7 @@ a.btn-primary,
 
 .btn-tall {
   padding: .5rem 1rem;
-  border-radius: var(--guyra-border-radius-bigger);
+  border-radius: var(--guyra-border-radius-bigger) !important;
   cursor: pointer;
 }
 
@@ -1422,9 +1424,11 @@ input.form-control:focus,
     outline: none;
 }
 
-.page-squeeze .comment-form .form-submit {
+.study-answers .form-submit {
   margin: 0;
   text-align: right;
+  display: flex;
+  align-items: center;
 }
 
 .page-squeeze .comment-body div.reply { display: none; }

@@ -169,6 +169,7 @@ function GetUserStudyPage($user) {
 function GetUserStudyPage_comments($user, $reply_box=true) {
 
   $object = GetUserStudyPage_object($user);
+  $current_user = wp_get_current_user();
 
   $args = array(
     'post_id' => $object->ID,
@@ -196,12 +197,21 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   if ($reply_box) {
     ?>
 
-    <form action="<?php echo get_site_url() . '/?comment=1' ?>" method="post" id="commentform" class="form-control">
-      <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea>
-      <input type="file" name="attachment" accept="image/jpeg,image/jpg,image/gif,image/png">
+    <form action="<?php echo get_site_url() . '/comment' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
+      <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
       <span class="form-submit">
+
+        <label class="me-3">
+          <input class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
+          <a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+        </label>
+
         <input name="submit" type="submit" id="submit" class="btn-tall blue" value="Deixar resposta">
-        <input type="hidden" name="comment_post_ID" value="144" id="comment_post_ID">
+
+        <input type="hidden" name="comment_post_ID" value="<?php echo $object->ID; ?>" id="comment_post_ID">
+        <input type="hidden" name="user_id" value="<?php echo $current_user->ID; ?>" id="comment_user_ID">
+        <input type="hidden" name="comment_author_email" value="<?php echo $current_user->user_email; ?>" id="comment_author_email">
+        <input type="hidden" name="comment_author" value="<?php echo $current_user->display_name; ?>" id="comment_author">
       </span>
     </form>
 

@@ -260,3 +260,19 @@ function prevent_wp_login() {
 }
 
 add_action('init', 'prevent_wp_login');
+
+// Remove the normal WP die handler
+
+function get_custom_die_handler() {
+    return 'custom_die_handler';
+}
+
+function custom_die_handler( $message, $title="", $args = array() ) {
+    echo '<html><body>';
+    echo '<h1>Error:</h1>';
+    echo $message; /* No escaping, to match the default behaviour */
+    echo '</body></html>';
+    die();
+}
+
+add_filter('wp_die_handler', 'get_custom_die_handler' );
