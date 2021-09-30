@@ -12,23 +12,24 @@
 global $wp;
 
 $logged_in = is_user_logged_in();
+$current_user_id = get_current_user_id();
 
 if ($logged_in) {
 
   // Get a profile picture and user data
-  $gravatar_image      = get_avatar_url(get_current_user_id(), $args = null);
-  $profile_picture_url = get_user_meta(get_current_user_id(), 'user_registration_profile_pic_url', true);
+  $gravatar_image      = get_avatar_url($current_user_id, $args = null);
+  $profile_picture_url = get_user_meta($current_user_id, 'user_registration_profile_pic_url', true);
   $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
-  $first_name = get_user_meta(get_current_user_id(), 'first_name', true);
-  $userdata = get_user_meta(get_current_user_id());
+  $first_name = get_user_meta($current_user_id, 'first_name', true);
+  $userdata = get_user_meta($current_user_id);
 
   // run a check for sub status
-  $user_subscription = get_user_meta(get_current_user_id(), 'subscription')[0];
-  $user_subscription_till = new DateTime(get_user_meta(get_current_user_id(), 'subscribed-until')[0]);
+  $user_subscription = get_user_meta($current_user_id, 'subscription')[0];
+  $user_subscription_till = new DateTime(get_user_meta($current_user_id, 'subscribed-until')[0]);
   $now = new DateTime();
   if($user_subscription != '' && $user_subscription_till < $now) {
-    delete_user_meta(get_current_user_id(), 'subscription');
-    delete_user_meta(get_current_user_id(), 'subscribed-until');
+    delete_user_meta($current_user_id, 'subscription');
+    delete_user_meta($current_user_id, 'subscribed-until');
   }
 
   $body_class[] = 'logged_in';
@@ -201,21 +202,21 @@ include get_template_directory() . '/i18n.php';
               <ul class="dropdown-menu">
                 <li>
                   <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
                     <?php echo $gi18n['button_myaccount'] ?>
-                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">
-                    Perfil
-                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
+                    <?php echo $gi18n['profile'] ?>
                   </a>
 
                 </li>
                 <li>
                   <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">
-                    Sair
-                    <img class="page-icon tiny ms-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
+                    <?php echo $gi18n['logout'] ?>
                   </a>
                 </li>
               </ul>

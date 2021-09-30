@@ -171,6 +171,10 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   $object = GetUserStudyPage_object($user);
   $current_user = wp_get_current_user();
 
+  $gravatar_image      = get_avatar_url($current_user->ID, $args = null);
+  $profile_picture_url = get_user_meta($current_user->ID, 'user_registration_profile_pic_url', true);
+  $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+
   $args = array(
     'post_id' => $object->ID,
     'date_query' => array(
@@ -190,9 +194,12 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
 
     <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
 
-      <div class="comment-meta text-small">
-        <span id="user-<?php echo $comment->user_id; ?>" class="author-name"><?php echo $comment->comment_author; ?>:</span>
-        <span class="comment-time"><?php echo $comment->comment_date; ?></span>
+      <div class="comment-meta">
+        <span id="user-<?php echo $comment->user_id; ?>" class="author-name">
+          <img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
+          <span class="ms-1"><?php echo $comment->comment_author; ?></span>
+        </span>
+        <span class="comment-time text-small text-muted"><?php echo $comment->comment_date; ?></span>
       </div>
 
       <div class="comment-content">
@@ -201,13 +208,14 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
         echo $comment->comment_content;
 
         if ($comment_image != '') { ?>
-
-          <div class="comment-image">
+          <hr />
+          <div class="comment-image position-relative">
             <a href="<?php echo $comment_image; ?>" target="_blank">
               <img alt="comment-<?php echo $comment->comment_ID; ?>-image"
               src="<?php echo $comment_image; ?>"
               class="page-icon" loading="lazy">
             </a>
+            <a class="btn-tall blue download position-absolute bottom-0 start-0" href="<?php echo $comment_image; ?>" download><i class="bi bi-download"></i></a>
           </div>
 
           <?php } ?>

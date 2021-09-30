@@ -200,6 +200,14 @@ small,
   font-size: var(--guyra-fonts-textsize-s);
 }
 
+.text-smaller {
+  font-size: var(--guyra-fonts-textsize-ss);
+}
+
+.text-smallest {
+  font-size: var(--guyra-fonts-textsize-sss);
+}
+
 large,
 .text-large {
   font-size: var(--guyra-fonts-textsize-x);
@@ -441,7 +449,6 @@ label[for="comment"],
   font-size: var(--guyra-fonts-textsize-s);
   font-weight: bold;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -1383,19 +1390,20 @@ input.form-control:focus,
 *
 */
 
-.page-squeeze .study-answers .comment-list {
-	list-style: none;
-}
-
-.page-squeeze .comment-meta {
+.study-answers .comment-meta {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 1rem;
 }
 
-.page-squeeze #comment,
-.page-squeeze .comment-content,
+.study-answers .comment-meta .author-name {
+  font-weight: bold;
+  color: var(--guyra-blue)
+}
+
+.study-answers #comment,
+.study-answers .comment-content,
 #exercise-answer-textarea {
     border-radius: var(--guyra-border-radius);
     border: .2rem solid #ddd;
@@ -1406,18 +1414,18 @@ input.form-control:focus,
     margin-bottom: 1.5em;
 }
 
-.page-squeeze .comment-content > p { margin: 0; }
+.study-answers .comment-content > p { margin: 0; }
 
-.page-squeeze #comment {
+.study-answers #comment {
   height: 15rem;
 }
 
-.page-squeeze #comment,
+.study-answers #comment,
 #exercise-answer-textarea {
   width: 100%;
 }
 
-.page-squeeze #comment:focus-visible,
+.study-answers #comment:focus-visible,
 #exercise-answer-textarea:focus-visible {
     border: .2rem solid #bdbdbd;
     background: #f5f5f5;
@@ -1430,8 +1438,6 @@ input.form-control:focus,
   display: flex;
   align-items: center;
 }
-
-.page-squeeze .comment-body div.reply { display: none; }
 
 .page-squeeze article .entry-title,
 .archive .page-squeeze article .entry-title:hover,
