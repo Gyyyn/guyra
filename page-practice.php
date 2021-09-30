@@ -36,10 +36,14 @@ include get_template_directory() . '/i18n.php';
         <span class="menu-title"><?php echo $gi18n['reference']; ?></span>
       </a>
 
-      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item disabled position-relative">
-        <span class="position-absolute top-50 start-50 translate-middle badge bg-primary rounded-pill">Soon!</span>
+      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
         <span class="menu-icon"><img alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
+      </a>
+
+      <a href="<?php echo $meeting_link ?>" class="list-group-item">
+        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['meeting']; ?></span>
       </a>
     </div>
 
