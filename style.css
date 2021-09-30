@@ -299,7 +299,7 @@ img.page-icon.medium,
 
 img.page-icon.small,
 .page-icon.small > img {
-  width: calc(2.5vh + 4.5vw - 2.5rem);
+  width: calc(2.5vh + 4.5vw - 1.5vw);
 }
 
 /* what do i do with this */
@@ -325,6 +325,10 @@ label[for="comment"],
 
 .more-rounded {
     border-radius: var(--guyra-border-radius-bigger) !important;
+}
+
+.round-border {
+  border-radius: 50vw !important;
 }
 
 .border-outline {
@@ -1274,22 +1278,80 @@ input.form-control:focus,
 *
 */
 
-a.element-container,
-a.element-container:visited {
-  color: var(--guyra-black);
-  text-decoration: none;
+.courses-level-chooser {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.element-container:hover {
+.courses-list {
+  padding: 3rem;
+}
+
+.courses-squeeze .card {
   cursor: pointer;
 }
 
-.element-container .element-picture img {
-	width: 150px;
-	height:  150px;
-	margin: 0;
-	padding: 0;
-	max-width: unset;
+.courses-squeeze .card:hover {
+  box-shadow: 0 0 30px 5px rgb(0 190 255 / 50%);
+  transition: var(--guyra-transition)
+}
+
+@media (max-width: 767px) {
+
+  .courses-list .card {
+    max-width: 320px;
+  }
+
+  .course-thumbnail {
+    border-top-left-radius: var(--guyra-border-radius-bigger);
+    border-top-right-radius: var(--guyra-border-radius-bigger);
+  }
+
+}
+
+@media (min-width: 768px) {
+  .course-thumbnail {
+    border-top-left-radius: var(--guyra-border-radius-bigger);
+    border-bottom-left-radius: var(--guyra-border-radius-bigger);
+  }
+}
+
+.course-title {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.course-description {
+  max-height: 6.5rem;
+  overflow: hidden;
+  margin: 0;
+}
+
+.course-description p {
+  margin: 0;
+}
+
+.video-responsive {
+    display: flex;
+    justify-content: center;
+}
+
+.video-responsive iframe {
+  width: 100%;
+  border-top-left-radius: var(--guyra-border-radius-bigger);
+  border-top-right-radius: var(--guyra-border-radius-bigger);
+}
+
+.course-video-description-container {
+  padding: 1rem 3rem;
+}
+
+.course-video-description {
+  font-size: var(--guyra-fonts-textsize-s);
+  position: relative;
 }
 
 /*
