@@ -26,4 +26,4 @@ include get_template_directory() . '/i18n.php';
 
 </main>
 <?php
-get_footer();
+get_footer(null, ['aos' => true]);

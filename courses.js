@@ -1,3 +1,6 @@
+let e = React.createElement;
+
+const rootUrl = window.location.origin.concat('/');
 const CoursesContext = React.createContext();
 
 let lineBreakify = (desc) => desc.split('\n').map((item, i) => {

@@ -94,4 +94,4 @@ include get_template_directory() . '/i18n.php';
 </main>
 <script> var coursesJson = <?php echo json_encode($coursesArray); ?></script>
 <?php
-get_footer();
+get_footer(null, ['courses_js' => true, 'aos' => true, 'react' => true]);
