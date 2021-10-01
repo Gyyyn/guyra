@@ -1,4 +1,9 @@
 <?php
+
+$site_url = get_site_url();
+$admin_url = get_admin_url();
+$template_url = get_template_directory_uri();
+
 $gi18n = [
 	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
 	'company_name' => 'Guyrá.',
@@ -52,6 +57,7 @@ $gi18n = [
 	'upload' => 'Enviar',
 	'id' => 'ID',
 	'group' => 'Grupo',
+	'groups' => 'Grupos',
 	'controls' => 'Controles',
 	'add' => 'Adicionar',
 	'thirdparty_processor' => 'Mercado Pago',
@@ -156,25 +162,25 @@ $gi18n = [
 	'guyra_thanks_you' => 'Obrigado por escolher a Guyrá ❤️',
 	'clear_group' => 'Tirar grupo',
 	/* Links */
-	'home_link' => get_site_url(),
-	'blog_link' => get_site_url() . '/category/blog',
-	'meet_link' => get_site_url() . '/meet',
-	'practice_link' => get_site_url() . '/practice',
-	'courses_link' => get_site_url() . '/courses',
-	'profile_link' => get_site_url() . '/account/edit-profile',
-	'logout_link' => get_site_url() . '/account/user-logout',
-	'privacy_link' => get_site_url() . '/privacy',
-	'terms_link' => get_site_url() . '/terms',
-	'schools_link' => get_site_url() . '/schools',
-	'purchase_link' => get_site_url() . '/purchase',
-	'schools_footer_link' => get_site_url() . '/work-with-us',
-	'thanks_footer_link' => get_site_url() . '/thanks',
-	'admin_link' => get_admin_url(),
-	'guyra_admin_link' => get_site_url() . '/?page=admin',
-	'template_link' => get_template_directory_uri(),
-	'logo_img' => get_template_directory_uri() . '/assets/img/birdlogo_ver1.5.svg',
-	'title_img' => get_template_directory_uri() . '/assets/img/guyra-title.svg',
-	'title_logo_img' => get_template_directory_uri() . '/assets/img/guyra-title-logo.svg'
+	'home_link' => $site_url,
+	'blog_link' => $site_url . '/category/blog',
+	'meet_link' => $site_url . '/meet',
+	'practice_link' => $site_url . '/practice',
+	'courses_link' => $site_url . '/courses',
+	'profile_link' => $site_url . '/account/edit-profile',
+	'logout_link' => $site_url . '/account/user-logout',
+	'privacy_link' => $site_url . '/privacy',
+	'terms_link' => $site_url . '/terms',
+	'schools_link' => $site_url . '/schools',
+	'purchase_link' => $site_url . '/purchase',
+	'schools_footer_link' => $site_url . '/work-with-us',
+	'thanks_footer_link' => $site_url . '/thanks',
+	'admin_link' => $admin_url,
+	'guyra_admin_link' => $site_url . '/?page=admin',
+	'template_link' => $template_url,
+	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
+	'title_img' => $template_url . '/assets/img/guyra-title.svg',
+	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg'
 ];
 
 $labels = [

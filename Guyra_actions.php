@@ -9,7 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  exit; // Exit if accessed directly
 }
 
-$thisUser = get_user_meta(get_current_user_id());
+$thisUserId = get_current_user_id();
+$thisUser = get_user_meta($thisUserId);
 $user = $_GET['user'];
 $redirect = $_GET['redirect'];
 
@@ -163,7 +164,7 @@ if ($thisUser['role'][0] == "teacher") {
 
     $userdata = get_user_meta($x->ID);
 
-    if ($userdata['teacherid'][0] == get_current_user_id()) {
+    if ($userdata['teacherid'][0] == $thisUserId) {
       $allowedUsers[] = $x->ID;
     }
   }
@@ -184,24 +185,39 @@ if ($thisUser['role'][0] == "teacher") {
 
   }
 
+  $user_is_users = json_decode($user);
+
+  // If we got a list of users there is only a few possible things we can do
+  if (is_array($user_is_users)) {
+
+    if ($_GET['meetinglink']) {
+
+      foreach ($user_is_users as $user) {
+        guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink']);
+      }
+
+    }
+
+  }
+
 }
 
 // Non admin actions
 
 if ($_GET['get_user_meta']) {
-  guyra_database('get_user_meta', null, get_current_user_id());
+  guyra_database('get_user_meta', null, $thisUserId);
 }
 
 if ($_GET['update_elo'] && $_GET['value']) {
-  guyra_database('update_elo', $_GET['value'], get_current_user_id());
+  guyra_database('update_elo', $_GET['value'], $thisUserId);
 }
 
 if ($_GET['update_level'] && $_GET['value']) {
-  guyra_database('update_level', $_GET['value'], get_current_user_id());
+  guyra_database('update_level', $_GET['value'], $thisUserId);
 }
 
 if ($_GET['log_exercise_data']) {
-  guyra_log_to_db(get_current_user_id(), file_get_contents('php://input'));
+  guyra_log_to_db($thisUserId, file_get_contents('php://input'));
 }
 
 // Redirect to main once we are done.

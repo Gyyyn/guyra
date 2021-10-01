@@ -15,11 +15,12 @@ if (!current_user_can('manage_options')) {
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
-
 include get_template_directory() . '/Guyra_database.php';
 
 // Get users
 $users = get_users();
+$thisUserId = get_current_user_id();
+$site_url = get_site_url();
 
 get_header();
 
@@ -60,18 +61,18 @@ print_r('here may be a var');
 
   <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-lg btn-primary">Wordpress admin</a>
 
-  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_log_db' ?>" class="btn btn-lg btn-primary">Create Log DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_log_db' ?>" class="btn btn-lg btn-primary">Create Log DB</a>
 
-  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_meta_db' ?>" class="btn btn-lg btn-primary">Create Meta DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_meta_db' ?>" class="btn btn-lg btn-primary">Create Meta DB</a>
 
-  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_error_db' ?>" class="btn btn-lg btn-primary">Create Error DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_error_db' ?>" class="btn btn-lg btn-primary">Create Error DB</a>
 
-  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_page=all' ?>" class="btn btn-lg btn-primary">Create Site Pages</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_page=all' ?>" class="btn btn-lg btn-primary">Create Site Pages</a>
 
   <hr class="mt-3" />
 
   <h5>Change a site option:</h5>
-  <form action="<?php echo get_site_url(); ?>" method="GET">
+  <form action="<?php echo $site_url; ?>" method="GET">
       Option: <input type="text" name="change_option">
       Value: <input type="text" name="value">
       <input type="hidden" name="user" value="1" />
@@ -82,7 +83,7 @@ print_r('here may be a var');
   <hr />
 
   <h5>Set own elo:</h5>
-  <form action="<?php echo get_site_url(); ?>" method="GET">
+  <form action="<?php echo $site_url; ?>" method="GET">
       Value: <input type="text" name="value">
       <input type="hidden" name="update_elo" value="1" />
       <input type="hidden" name="user" value="1" />
@@ -92,7 +93,7 @@ print_r('here may be a var');
 
   <hr />
 
-  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&get_user_meta=1' ?>" class="btn btn-lg btn-primary">Read own meta</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&get_user_meta=1' ?>" class="btn btn-lg btn-primary">Read own meta</a>
 
   </div>
 </div>
@@ -104,7 +105,7 @@ print_r('here may be a var');
   <div class="admin-forms border rounded p-3 m-0">
 
     <h5>Assign to teacher:</h5>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
+    <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user">
         Teacher ID: <input type="text" name="assigntoteacher">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
@@ -114,7 +115,7 @@ print_r('here may be a var');
     <hr />
 
     <h5>Assign to group:</h5>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
+    <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user">
         Group tag: <input type="text" name="assigntogroup">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
@@ -132,7 +133,7 @@ print_r('here may be a var');
   <div class="admin-forms border rounded p-3 m-0">
 
     <h5>Give premium:</h5>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
+    <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user">
         dd-mm-yyyy formatted date: <input type="text" name="premiumtill">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
@@ -140,7 +141,7 @@ print_r('here may be a var');
     </form>
 
     <h5>Give lite:</h5>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
+    <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user">
         dd-mm-yyyy formatted date: <input type="text" name="litetill">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
@@ -164,7 +165,7 @@ print_r('here may be a var');
         <li>teacher - has access to the student admin panel and can be assigned students by site admins.</li>
       </ul>
     </div>
-    <form action="<?php echo get_site_url(); ?>" method="GET">
+    <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user">
         Role: <input type="text" name="giverole">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
@@ -185,9 +186,9 @@ print_r('here may be a var');
     $userdata = get_user_meta($x->ID);
 
     if($userdata['studygroup'][0] != "") {
-      $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
+      $page_link = $site_url . '/' . sha1($userdata['studygroup'][0]);
     } else {
-      $page_link = get_site_url() . '/' . sha1($x->ID);
+      $page_link = $site_url . '/' . sha1($x->ID);
     }
 
     echo '<ul class="list-group mb-1 list-group-horizontal">' .
@@ -217,7 +218,7 @@ print_r('here may be a var');
     '</li>' .
 
     '<li class="list-group-item col-2">' .
-      '<a href="' . get_site_url() . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
+      '<a href="' . $site_url . '/?short_load=1&cleargroup=1&user=' . $x->ID . '">Clear Group</a>' .
     '</li>' .
 
     '</ul>';

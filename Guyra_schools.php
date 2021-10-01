@@ -12,8 +12,11 @@ include get_template_directory() . '/i18n.php';
 include get_template_directory() . '/Guyra_misc.php';
 
 // fetch user data
-$thisUser = get_user_meta(get_current_user_id());
+
+$thisUserId = get_current_user_id();
+$thisUser = get_user_meta($thisUserId);
 $users = get_users();
+$site_url = get_site_url();
 
 // Sorts the list into date registered
 function cmp($a, $b) {
@@ -35,19 +38,45 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
   <div data-aos="fade-right" data-aos-delay="200" data-aos-once="true">
 
   <?php
+
+  $groups = [];
+  $groupsData = [];
+
+  echo '<h4>' . $gi18n['your_students'] . '</h4>';
+
   foreach ($users as $x) {
 
     $user = $x->ID;
     $userdata = get_user_meta($user);
-    $user_sha1d = sha1($user);
+    $userTeacher = $userdata['teacherid'][0];
 
-    if($userdata['studygroup'][0] != "") {
-      $page_link = get_site_url() . '/' . sha1($userdata['studygroup'][0]);
-    } else {
-      $page_link = get_site_url() . '/' . $user_sha1d;
-    }
+    if ($userTeacher == $thisUserId) {
 
-    if ($userdata['teacherid'][0] == get_current_user_id()) {
+      $user_sha1d = sha1($user);
+      $userGroup = $userdata['studygroup'][0];
+
+      if($userGroup != "") {
+        $page_link = $site_url . '/' . sha1($userGroup . $userTeacher);
+
+        if (!in_array($userGroup, $groups)) {
+
+          $data = [
+            'name' => $userGroup,
+            'link' => $page_link
+          ];
+
+          $groups[] = $userGroup;
+          $groupsData[$userGroup] = $data;
+
+          unset($data);
+        }
+
+        $groupsData[$userGroup]['users'][] = $user;
+
+      } else {
+        $page_link = $site_url . '/' . $user_sha1d;
+      }
+
       echo '<ul id="user-' . $user .'" class="user-list list-group list-group-horizontal mb-1">' .
 
       '<a class="list-group-item col-6" href="' . $page_link . '">' .
@@ -82,7 +111,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
           <h4><?php echo $gi18n['group'] ?></h4>
           <div class="d-flex justify-content-between">
-            <form action="<?php echo get_site_url(); ?>" method="GET">
+            <form action="<?php echo $site_url; ?>" method="GET">
 
                 <span><input placeholder="<?php echo $gi18n['group_tag'] ?>" type="text" name="assigntogroup"></span>
                 <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
@@ -91,7 +120,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
             </form>
 
-            <form action="<?php echo get_site_url(); ?>" method="GET">
+            <form action="<?php echo $site_url; ?>" method="GET">
 
                 <span><input class="btn-tall red" type="submit" value="<?php echo $gi18n['clear_group'] ?>" /></span>
                 <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
@@ -107,7 +136,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
           <h4><?php echo $gi18n['meeting_link'] ?></h4>
           <div class="d-flex justify-content-between">
-            <form action="<?php echo get_site_url(); ?>" method="GET">
+            <form action="<?php echo $site_url; ?>" method="GET">
 
                 <span><input placeholder="https://us04web.zoom.us..." type="text" name="meetinglink"></span>
                 <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
@@ -133,7 +162,55 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')) :
 
       </div></div>
       <?php
-    }
+    } // end if user is assigned to this teacher
+
+  } // end foreach loop
+
+  echo '<h4 class="mt-3">' . $gi18n['groups'] . '</h4>';
+
+  foreach ($groups as $current_group) {
+
+    $group = $groupsData[$current_group];
+
+    echo '<ul id="group-' . $group['name'] .'" class="user-list list-group list-group-horizontal mb-1">' .
+
+    '<a class="list-group-item col-6" href="' . $group['link'] . '">' .
+      $gi18n['group'] . ':' .
+      '<span class="ms-1 text-primary text-bold"><strong>' .
+        $group['name'] .
+      '</strong></span>' .
+    '</a>' .
+
+    '<li class="list-group-item col d-flex justify-content-around">' .
+      '<a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#controls-' . $group['name'] . '" role="button" aria-expanded="false" aria-controls="collapse-' . $group['name'] . '">Controles</a>' .
+    '</li>' .
+
+    '</ul>';
+
+    ?>
+
+    <div class="collapse" id="controls-<?php echo $group['name']; ?>">
+
+      <div id="form" class="admin-forms dialog">
+
+        <h4><?php echo $gi18n['meeting_link'] ?></h4>
+        <div class="d-flex justify-content-between">
+          <form action="<?php echo $site_url; ?>" method="GET">
+
+              <span><input placeholder="https://us04web.zoom.us..." type="text" name="meetinglink"></span>
+              <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
+              <input type="hidden" value="<?php echo json_encode($group['users']) ?>" name="user">
+              <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <?php
+
   }
 
   echo '</div>';

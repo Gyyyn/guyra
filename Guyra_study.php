@@ -12,7 +12,6 @@ if (!is_user_logged_in()) {
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
-
 include get_template_directory() . '/Guyra_misc.php';
 
 // Here we see a system where users see a page with the assigned homework
@@ -68,7 +67,7 @@ get_header();
       ?>
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['whatsnew']; ?></h2>
-        <span class="page-icon small"><img alt="sparkle" src="<?php echo get_template_directory_uri(); ?>/assets/icons/star.png"></span>
+        <span class="page-icon small"><img alt="sparkle" src="<?php echo $gi18n['template_link']; ?>/assets/icons/star.png"></span>
       </div>
       <?php
       echo apply_filters('the_content', $newspage->post_content);
@@ -81,7 +80,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-primary"><?php echo $gi18n['studypage_homework_title']; ?></h1>
-        <span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/light.png"></span>
+        <span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/light.png"></span>
       </div>
 
       <?php GetUserStudyPage($current_user); ?>
@@ -92,7 +91,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-primary"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
-        <span class="page-icon"><img alt="homework" src="<?php echo get_template_directory_uri(); ?>/assets/icons/pencil.png"></span>
+        <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/pencil.png"></span>
       </div>
 
       <?php GetUserStudyPage_comments($current_user); ?>

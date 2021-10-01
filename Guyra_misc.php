@@ -135,11 +135,13 @@ function CreateStudyPage($id) {
 function GetUserStudyPage_object($user) {
 
   $user_studygroup = get_user_meta($user, 'studygroup')[0];
+  $user_teacherid = get_user_meta($user, 'teacherid')[0];
+  $user_group_studypage = $user_studygroup . $user_teacherid;
 
   // If user has a group assigned he should see the group's page instead
   if ($user_studygroup != '') {
     $user_hasgroup = true;
-    $user_studypage_object = get_page_by_title(sha1($user_studygroup), 'OBJECT', 'post');
+    $user_studypage_object = get_page_by_title(sha1($user_group_studypage), 'OBJECT', 'post');
   } else {
     $user_studypage_object = get_page_by_title(sha1($user), 'OBJECT', 'post');
   }
@@ -148,7 +150,7 @@ function GetUserStudyPage_object($user) {
   if ($user_studypage_object == null) {
 
     if ($user_hasgroup) {
-      $user_studypage_object = CreateStudyPage($user_studygroup);
+      $user_studypage_object = CreateStudyPage($user_group_studypage);
     } else {
       $user_studypage_object = CreateStudyPage($user);
     }
