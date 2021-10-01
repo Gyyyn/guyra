@@ -189,6 +189,10 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   foreach ($comments as $comment) {
 
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
+    $first_name = get_user_meta( $comment->user_id, 'first_name', true );
+    if (empty($first_name)) {
+    	$first_name = $comment->comment_author;
+    }
 
     ?>
 
@@ -196,8 +200,8 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
 
       <div class="comment-meta">
         <span id="user-<?php echo $comment->user_id; ?>" class="author-name">
-          <img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
-          <span class="ms-1"><?php echo $comment->comment_author; ?></span>
+          <img class="page-icon tiny avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
+          <span class="ms-1"><?php echo $first_name; ?></span>
         </span>
         <span class="comment-time text-small text-muted"><?php echo $comment->comment_date; ?></span>
       </div>

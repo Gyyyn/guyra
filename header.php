@@ -14,6 +14,10 @@ global $wp;
 $logged_in = is_user_logged_in();
 $current_user_id = get_current_user_id();
 
+/* Set up translations independent of Wordpress */
+include get_template_directory() . '/i18n.php';
+include get_template_directory() . '/Guyra_template_components.php';
+
 if ($logged_in) {
 
   // Get a profile picture and user data
@@ -74,10 +78,6 @@ if ($logged_in) {
 } else {
   $home_icon = '/assets/icons/exercises/house.png';
 }
-
-
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
 
 ?>
 <!-- Hello :) -->
@@ -260,3 +260,5 @@ include get_template_directory() . '/i18n.php';
 
   </nav>
 </header>
+
+<?php Guyra_notepad(); ?>

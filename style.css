@@ -341,7 +341,8 @@ label[for="comment"],
     border-radius: var(--guyra-border-radius-bigger) !important;
 }
 
-.round-border {
+.round-border,
+a.round-border {
   border-radius: 50vw !important;
 }
 
@@ -512,6 +513,40 @@ nav .navbar-nav .btn-wa:hover {
 .nav-pills .nav-link.active {
   background-color: var(--guyra-blue);
   color: var(--guyra-white);
+}
+
+.notepad-toggle {
+  z-index: 1080;
+  margin: 2rem;
+  margin-bottom: 6rem;
+}
+
+#notepad-toggle {
+  display: inline-flex;
+  min-height: 64px;
+  min-width: 64px;
+  align-items: center;
+}
+
+#notepad {
+  z-index: 1080;
+  min-width: calc(15rem + 5vw);
+  min-height: 20rem;
+  background: var(--guyra-green-lightest);
+  padding: 1rem;
+  border-radius: var(--guyra-border-radius-bigger);
+  margin-right: 2rem;
+  box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
+  display: flex;
+  bottom: 25%;
+}
+
+#notepad-text {
+  resize: none;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
 /*
@@ -1415,6 +1450,18 @@ input.form-control:focus,
 }
 
 .study-answers .comment-content > p { margin: 0; }
+
+.comment-content .download {
+  margin: var(--guyra-fonts-textsize-sss);
+  display: none;
+}
+
+.comment-content .comment-image .download { display: none; }
+
+.comment-content .comment-image:hover .download {
+  display: unset;
+  transition: var(--guyra-transition);
+}
 
 .study-answers #comment {
   height: 15rem;
