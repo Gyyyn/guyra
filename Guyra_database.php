@@ -55,6 +55,17 @@ function guyra_database_create_db($sql) {
 
       break;
 
+      case 'error_db':
+
+        $sql = sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
+        log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        object LONGTEXT,
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+        CHARACTER SET %s
+        ", DB_CHARSET);
+
+      break;
+
     }
 
     if (!$sql) {
@@ -204,6 +215,40 @@ function guyra_log_to_db($user, $object) {
 
 }
 
+function guyra_log_error_todb($object) {
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    guyra_output_json('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = sprintf("INSERT INTO guyra_error_history (object)
+    VALUES ('%s')", $object);
+
+    $db->query($sql);
+
+  }
+
+  $db->close();
+
+}
+
+function guyra_log_error($dump, $type='general') {
+
+  global $wp;
+
+  $object = [
+    'log_ver' => '0.0.1',
+    'type' => $type,
+    'location' => $wp->request,
+    'dump' => print_r($dump, true)
+  ];
+
+  guyra_log_error_todb(json_encode($object));
+}
+
 function guyra_database($action, $value='', $user=0) {
 
   switch ($action):
@@ -213,6 +258,10 @@ function guyra_database($action, $value='', $user=0) {
 
     case 'create_meta_db':
       guyra_database_create_db('meta_db');
+    break;
+
+    case 'create_error_db':
+      guyra_database_create_db('error_db');
     break;
 
     case 'update_elo':

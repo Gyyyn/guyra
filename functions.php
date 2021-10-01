@@ -263,16 +263,28 @@ add_action('init', 'prevent_wp_login');
 
 // Remove the normal WP die handler
 
-function get_custom_die_handler() {
+function custom_die_handler( $message, $title="", $args = array() ) {
+
+	if (!function_exists('guyra_log_error')) {
+	    require_once(get_template_directory() . '/Guyra_database.php');
+	}
+
+  echo '<html><body>';
+  echo '<h1>Erro:</h1>';
+  echo print_r($message);
+	echo $args['response'];
+	echo '<br />';
+	echo date('Y-m-d H:i:s');
+	echo "<hr />";
+	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro.";
+  echo '</body></html>';
+	guyra_log_error(json_encode([$title, $message, $args['response']]));
+  die();
+}
+
+// Intermediate function is necessary to customize wp_die
+function swap_die_handlers() {
     return 'custom_die_handler';
 }
 
-function custom_die_handler( $message, $title="", $args = array() ) {
-    echo '<html><body>';
-    echo '<h1>Error:</h1>';
-    echo var_dump($message); /* No escaping, to match the default behaviour */
-    echo '</body></html>';
-    die();
-}
-
-add_filter('wp_die_handler', 'get_custom_die_handler' );
+add_filter('wp_die_handler', 'swap_die_handlers' );

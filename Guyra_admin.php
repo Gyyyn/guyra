@@ -64,6 +64,8 @@ print_r('here may be a var');
 
   <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_meta_db' ?>" class="btn btn-lg btn-primary">Create Meta DB</a>
 
+  <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_db=create_error_db' ?>" class="btn btn-lg btn-primary">Create Error DB</a>
+
   <a href="<?php echo get_site_url() . '?user=' . get_current_user_id() . '&create_page=all' ?>" class="btn btn-lg btn-primary">Create Site Pages</a>
 
   <hr class="mt-3" />
