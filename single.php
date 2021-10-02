@@ -9,7 +9,7 @@
 
 // If the user has admin permissions he edits the page, otherwise
 // gtfo of here
-if (!current_user_can('manage_options')) {
+if (!current_user_can('edit_posts')) {
 
   wp_redirect(get_site_url());
 

@@ -13,6 +13,7 @@ global $wp;
 
 $logged_in = is_user_logged_in();
 $current_user_id = get_current_user_id();
+$body_class[0] = 'logged_out';
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
@@ -36,7 +37,7 @@ if ($logged_in) {
     delete_user_meta($current_user_id, 'subscribed-until');
   }
 
-  $body_class[] = 'logged_in';
+  $body_class[0] = 'logged_in';
 
 }
 
@@ -71,6 +72,10 @@ if ($where_am_i == 'account') {
 if ($where_am_i == 'schools') {
   $schoolsbtn_class = $highlight_class;
   $body_class[] = 'schools';
+}
+
+if ($where_am_i == 'register') {
+  $body_class[] = 'register';
 }
 
 if ($logged_in) {

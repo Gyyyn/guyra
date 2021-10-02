@@ -117,7 +117,7 @@ function CreateStudyPage($id) {
 
   $post_data = array(
     'post_title'    => sha1($id),
-    'post_content'  => 'Welcome to Guyrá!',
+    'post_content'  => '<!-- wp:paragraph --><p> Welcome to Guyrá!</p><!-- /wp:paragraph -->',
     'post_status'   => 'publish',
     'post_type'     => 'post',
     'post_author'   => 1,

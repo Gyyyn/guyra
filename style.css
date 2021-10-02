@@ -246,7 +246,9 @@ hr.thick {
 
 .home > footer,
 .practice > footer,
-.reference > footer {
+.reference > footer,
+.profile > footer,
+.register > footer {
   display: none;
 }
 
@@ -527,6 +529,8 @@ nav .navbar-nav .btn-wa:hover {
   min-width: 64px;
   align-items: center;
 }
+
+.logged_out #notepad-toggle { display: none; }
 
 #notepad {
   z-index: 1080;
@@ -825,6 +829,14 @@ a:hover {
 
 .text-secondary { color: var(--guyra-purple-darker) !important; }
 
+.text-grey { color: var(--guyra-grey) !important; }
+
+.text-grey-dark { color: var(--guyra-grey-dark) !important; }
+
+.text-grey-darker { color: var(--guyra-grey-darker) !important; }
+
+.text-grey-darkest { color: var(--guyra-grey-darkest) !important; }
+
 .border-primary { border-color: var(--guyra-blue);}
 
 .border-secondary { border-color: var(--guyra-purple-darker); }
@@ -861,22 +873,13 @@ a:hover {
 */
 
 .btn {
-  color: var(--guyra-black);
-  text-decoration: none;
-  font-size: var(--guyra-fonts-textsize-n);
-  font-weight: bold;
-  font-family: var(--guyra-fonts-text);
   transition: none;
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
   border-radius: var(--guyra-border-radius);
-  border: 1px solid transparent;
-  background: transparent;
 }
 
 .btn:hover {
-  color: var(--guyra-grey-darkest);
-  background-color: var(--guyra-grey);
-  border: 1px solid transparent;
+  transition: var(--guyra-transition);
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
 }
 
@@ -1710,6 +1713,11 @@ input.form-control:focus,
   border-radius: var(--guyra-border-radius);
   height: 3rem;
   min-width: 30vw;
+}
+
+.schools .editor-inline {
+  width: 100%;
+  height: 75vh;
 }
 
 /*

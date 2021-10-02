@@ -60,6 +60,7 @@ $gi18n = [
 	'groups' => 'Grupos',
 	'controls' => 'Controles',
 	'add' => 'Adicionar',
+	'edit' => 'Editar',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -154,10 +155,6 @@ $gi18n = [
 	/* Schools */
 	'your_students' => 'Seus alunos',
 	'meeting_link' => 'Link de reunião',
-	'schools_header_warning' => '
-		<p>Esse painel mostra as principais funções que você precisa para administrar seus alunos e grupos de alunos.</p>
-		<p>Para acessar a página de <i>homework</i> de algum aluno clique na segunda coluna da lista. Se o aluno estiver atualmente em algum grupo você será levado a página daquele grupo.</p>
-	',
 	'group_tag' => 'Tag do grupo...',
 	'guyra_thanks_you' => 'Obrigado por escolher a Guyrá ❤️',
 	'clear_group' => 'Tirar grupo',

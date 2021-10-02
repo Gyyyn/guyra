@@ -49,6 +49,13 @@ if (current_user_can('manage_options')) {
 
     if ($_GET['giverole']) {
       update_user_meta($user, 'role', $_GET['giverole'] );
+
+      if ($_GET['giverole'] == 'teacher') {
+        $theUser = get_userdata($user);
+        $theUser->add_role('author');
+        $theUser->add_cap('edit_others_posts');
+        unset($theUser);
+      }
     }
 
     if ($_GET['create_db']) {
