@@ -79,11 +79,29 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<?php /* <a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall mt-3"><?php echo $gi18n['change_payment_method']; ?></a> */ ?>
 			</div>
 
+			<div class="mb-5 text-small">
+
+				<h3 class="text-blue"><?php echo $gi18n['teacher_code'] ?></h3>
+				<p><?php echo $gi18n['teacher_code_explain'] ?></p>
+				<form class="form-control" action="<?php echo $site_url; ?>" method="GET">
+
+						<div class="d-flex flex-row">
+							<input type="text" class="flex-grow-1 me-3" name="teacher_code">
+							<input type="submit" class="btn-tall green w-25" value="<?php echo $gi18n['apply']; ?>">
+						</div>
+
+						<input type="hidden" value="<?php echo $gi18n['account_link']; ?>" name="redirect">
+						<input type="hidden" value="<?php echo $user_id; ?>" name="user">
+
+				</form>
+
+			</div>
+
 		</div>
 
 	</div>
 
-	<div class="row my-3">
+	<div class="row my-3 text-small">
 
 	<?php if ($user_rank): ?>
 

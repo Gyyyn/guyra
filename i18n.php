@@ -61,6 +61,7 @@ $gi18n = [
 	'controls' => 'Controles',
 	'add' => 'Adicionar',
 	'edit' => 'Editar',
+	'apply' => 'Aplicar',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -113,7 +114,7 @@ $gi18n = [
 	'studypage_homework_replytitle' => 'Responder',
 	'buy_warning' => '
     <div class="mb-4 alert alert-info" role="alert">
-      Ao clicar no botão a baixo você sera levado a uma pagina do Mercado Pago para concluir a compra.
+      Ao clicar no botão a baixo você sera levado a uma página do Mercado Pago para concluir a compra.
     </div>
     ',
 	/* User page */
@@ -137,6 +138,8 @@ $gi18n = [
 	'image_max_size' => 'Tamanho máximo: ',
 	'upload_profile_pic' => 'Enviar sua foto',
 	'change_profile_pic_gravatar' => 'Mudar sua foto no Gravatar',
+	'teacher_code' => 'Código de Professor',
+	'teacher_code_explain' => 'Seu professor te deu algum código? Digite ele aqui.',
 	/* Exercises */
 	'correctanswer' => 'Resposta correta: ',
 	'wronganswer' => 'Não era essa!',
@@ -153,7 +156,9 @@ $gi18n = [
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
 	/* Schools */
-	'your_students' => 'Seus alunos',
+	'your_students' => 'Seus Alunos',
+	'your_code' => 'Seu Código',
+	'your_code_explain' => 'Mande este código para seus aluno para eles possam aparecer aqui na sua página.',
 	'meeting_link' => 'Link de reunião',
 	'group_tag' => 'Tag do grupo...',
 	'guyra_thanks_you' => 'Obrigado por escolher a Guyrá ❤️',
@@ -164,6 +169,7 @@ $gi18n = [
 	'meet_link' => $site_url . '/meet',
 	'practice_link' => $site_url . '/practice',
 	'courses_link' => $site_url . '/courses',
+	'account_link' => $site_url . '/account',
 	'profile_link' => $site_url . '/account/edit-profile',
 	'logout_link' => $site_url . '/account/user-logout',
 	'privacy_link' => $site_url . '/privacy',

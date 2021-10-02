@@ -13,6 +13,22 @@ function GuyraGetIcon($path='') {
   return get_template_directory_uri() . '/assets/icons/' . $path;
 }
 
+function Guyra_hash($string, $decode=false) {
+
+  $secret = 'aryug';
+
+  if ($decode) {
+
+    return str_replace($secret, "", hex2bin($string));
+
+  } else {
+
+    $stringAndSecret = $string . $secret;
+    return bin2hex($stringAndSecret);
+
+  }
+}
+
 include get_template_directory() . '/Guyra_database.php';
 
 function GetUserRanking($user=0) {

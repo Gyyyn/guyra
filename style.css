@@ -1111,7 +1111,7 @@ input.form-control,
 .page-squeeze .user-registration-message,
 .page-squeeze .user-registration-error,
 .page-squeeze .user-registration-info {
-  padding: .5rem;
+  padding: .5rem 1rem;
   font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
   font-family: var(--guyra-fonts-text);

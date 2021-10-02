@@ -18,7 +18,7 @@ if (!$_GET['redirect']) {
   $redirect = get_site_url();
 }
 
-include get_template_directory() . '/Guyra_database.php';
+include get_template_directory() . '/Guyra_misc.php';
 
 // Case where user is site admin
 if (current_user_can('manage_options')) {
@@ -225,6 +225,10 @@ if ($_GET['update_level'] && $_GET['value']) {
 
 if ($_GET['log_exercise_data']) {
   guyra_log_to_db($thisUserId, file_get_contents('php://input'));
+}
+
+if ($_GET['teacher_code']) {
+  update_user_meta( $user, 'teacherid', Guyra_hash($_GET['teacher_code'], true) );
 }
 
 // Redirect to main once we are done.

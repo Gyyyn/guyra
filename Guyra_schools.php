@@ -268,11 +268,16 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <?php GetUserStudyPage_comments($group['users'][0], false); ?>
       </div></div>
 
-    </div></div>
+    </div>
 
   </div>
 
   <?php } // end group foreach loop ?>
+
+  <div class="dialog info mt-3">
+    <h3><?php echo $gi18n['your_code']; ?>: <span class="badge bg-secondary"><?php echo Guyra_hash($thisUserId); ?></span></h3>
+    <p><?php echo $gi18n['your_code_explain']; ?></p>
+  </div>
 
   <p class="text-center text-grey-darker text-small py-5 m-0"><?php echo $gi18n['guyra_thanks_you']; ?></p>
 
