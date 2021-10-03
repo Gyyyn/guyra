@@ -1,0 +1,13 @@
+{
+    "name": "goon/guyra",
+    "authors": [
+        {
+            "name": "Gyyyn",
+            "email": "gr3engoon@gmail.com"
+        }
+    ],
+    "require": {
+        "google/cloud-text-to-speech": "^1.3",
+        "mercadopago/dx-php": "^2.4"
+    }
+}

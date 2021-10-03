@@ -15,16 +15,17 @@ $logged_in = is_user_logged_in();
 $current_user_id = get_current_user_id();
 $body_class[0] = 'logged_out';
 
+$template_dir = get_template_directory();
+$template_url = get_template_directory_uri();
+
 /* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
-include get_template_directory() . '/Guyra_template_components.php';
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_template_components.php';
 
 if ($logged_in) {
 
   // Get a profile picture and user data
-  $gravatar_image      = get_avatar_url($current_user_id, $args = null);
-  $profile_picture_url = get_user_meta($current_user_id, 'user_registration_profile_pic_url', true);
-  $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+  $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
   $first_name = get_user_meta($current_user_id, 'first_name', true);
   $userdata = get_user_meta($current_user_id);
 
@@ -98,14 +99,14 @@ if ($logged_in) {
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/campton_black.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/komikask-webfont.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/komikask-webfont.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/komikask-webfont.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
+<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 <?php if ($args['zoom']): ?>
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/react-select.css" />
@@ -123,7 +124,7 @@ if ($logged_in) {
 
 <?php wp_head(); ?>
 
-<link href="<?php echo get_template_directory_uri(); ?>/style.css" rel="stylesheet">
+<link href="<?php echo $template_url; ?>/style.css" rel="stylesheet">
 
 </head>
 
@@ -147,28 +148,28 @@ if ($logged_in) {
         <ul class="navbar-nav">
 
           <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
           </li>
 
           <?php if (!$logged_in) { ?>
 
           <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
           </li>
 
           <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
           </li>
 
           <?php } ?>
           <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
           </li>
 
           <?php if(false): ?>
 
           <li class="nav-item me-md-3 position-relative">
-            <a class=" btn btn-sm btn-primary disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
+            <a class="btn-tall btn-sm blue disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
               <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
             </a>
           </li>
@@ -177,7 +178,7 @@ if ($logged_in) {
 
           <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
           <li class="nav-item me-md-3">
-            <a class=" btn btn-sm btn-primary" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
           </li>
 
         <?php endif; ?>
@@ -187,22 +188,22 @@ if ($logged_in) {
         <ul class="navbar-nav justify-content-end nav-rightside">
 
           <li class="nav-item">
-            <a href="https://wa.me/5519982576400" class="btn btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
+            <a href="https://wa.me/5519982576400" class="btn-tall btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
 
           <i class="bi bi-slash-lg mx-3 text-muted"></i>
 
           <?php if(!$logged_in) { ?>
-          <li class="nav-item bg-grey rounded px-3">
-            <?php echo $gi18n['button_alreadyregistered'] ?>
-            <a href="<?php echo get_site_url(); echo "/account"; ?>" class="btn btn-sm btn-primary border-0"><?php echo $gi18n['button_login'] ?></a>
+          <li class="nav-item">
+            <span class="bg-grey rounded px-3 me-3"><?php echo $gi18n['button_alreadyregistered'] ?></span>
+            <a class="btn-tall btn-sm blue" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
-          <li class="nav-item profile-item d-flex align-items-center justify-content-around">
+          <li class="nav-item profile-item">
             <div class="dropdown m-0 d-inline">
-              <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="text-primary me-2"><?php echo $first_name; ?></span>
-                <img class="navbar-profile avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
+              <a class="text-decoration-none d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="btn-tall btn-sm text-small text-primary me-2"><?php echo $first_name; ?></span>
+                <?php echo $profile_picture; ?>
               </a>
               <ul class="dropdown-menu">
                 <li>
@@ -239,24 +240,24 @@ if ($logged_in) {
 
     <div class="d-flex w-100 justify-content-around">
 
-      <a class="btn-tall page-icon <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
+      <a class="btn-tall page-icon small <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
         <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['homepage'] ?></span>
       </a>
 
-      <a class="btn-tall page-icon <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">
+      <a class="btn-tall page-icon small <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">
         <img alt="blog" src="<?php echo $gi18n['template_link'] . '/assets/icons/advertising.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['blog'] ?></span>
       </a>
 
       <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
-      <a class="btn-tall page-icon <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
+      <a class="btn-tall page-icon small <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
         <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/search.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['schools'] ?></span>
       </a>
       <?php endif; ?>
 
-      <a class="btn-tall page-icon <?php echo $profilebtn_class; ?>" href="<?php echo get_site_url(); echo "/account"; ?>">
+      <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo get_site_url(); echo "/account"; ?>">
         <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['button_myaccount'] ?></span>
       </a>

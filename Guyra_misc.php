@@ -189,9 +189,7 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
   $object = GetUserStudyPage_object($user);
   $current_user = wp_get_current_user();
 
-  $gravatar_image      = get_avatar_url($current_user->ID, $args = null);
-  $profile_picture_url = get_user_meta($current_user->ID, 'user_registration_profile_pic_url', true);
-  $profileimage        = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
+  $profile_picture = Guyra_get_profile_picture($current_user->ID, ['page-icon', 'tiny']);
 
   $args = array(
     'post_id' => $object->ID,
@@ -218,7 +216,7 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
 
       <div class="comment-meta">
         <span id="user-<?php echo $comment->user_id; ?>" class="author-name">
-          <img class="page-icon tiny avatar" alt="profile-picture" src="<?php echo $profileimage; ?>">
+          <?php echo $profile_picture; ?>
           <span class="ms-1"><?php echo $first_name; ?></span>
         </span>
         <span class="comment-time text-small text-muted"><?php echo $comment->comment_date; ?></span>
@@ -254,12 +252,12 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
       <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
       <span class="form-submit">
 
-        <label class="me-3">
+        <label class="me-3 w-25">
           <input class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
           <a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
         </label>
 
-        <input name="submit" type="submit" id="submit" class="btn-tall blue" value="Deixar resposta">
+        <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">
 
         <input type="hidden" name="comment_post_ID" value="<?php echo $object->ID; ?>" id="comment_post_ID">
         <input type="hidden" name="user_id" value="<?php echo $current_user->ID; ?>" id="comment_user_ID">

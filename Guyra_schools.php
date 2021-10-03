@@ -5,10 +5,11 @@
  * @package guyra
  */
 
+$template_dir = get_template_directory();
 
 /* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
-include get_template_directory() . '/Guyra_misc.php';
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_misc.php';
 
 // fetch user data
 
@@ -49,6 +50,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     $userdata = get_user_meta($user);
     $userTeacher = $userdata['teacherid'][0];
     $userInGroup = false;
+    $userProfile = Guyra_get_profile_picture($user, ['page-icon', 'tiny']);
 
     if ($userTeacher == $thisUserId) {
 
@@ -83,14 +85,22 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       <ul id="user-<?php echo $user; ?>" class="user-list list-group list-group-horizontal mb-1">
 
         <li class="list-group-item col-6">
+
+          <span class="me-3">
+            <?php echo $userProfile; ?>
+          </span>
+
           <span class="me-1 text-primary text-bold"><strong>
           <?php echo $userdata['first_name'][0]; ?>
           <?php echo $userdata['last_name'][0]; ?>
           </strong></span>
+
           <i class="text-grey-darker text-end d-none d-md-block">
             <?php echo $x->user_email; ?>
           </i>
+
           <span class="badge bg-secondary ms-1"><?php echo $userdata['role'][0] ?></span>
+
         </li>
 
         <li class="list-group-item col-2 d-none d-md-block">

@@ -12,8 +12,8 @@ if (!is_user_logged_in()) {
 
 get_header();
 
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
+/* Set up translations independent of Wordpress (note: not currently needed) */
+/* include get_template_directory() . '/i18n.php'; */
 ?>
 
 <main id="intro-content" class="site-main page schools bg-white">
