@@ -1,6 +1,6 @@
 <?php
 /**
- * Classroom page. Currently handles in-site zoom meeting.
+ * Custom comment upload page.
  *
  * @package guyra
  */

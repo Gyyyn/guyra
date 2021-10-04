@@ -31,21 +31,39 @@ function Guyra_hash($string, $decode=false) {
 
 include get_template_directory() . '/Guyra_database.php';
 
-function GetUserRanking($user=0) {
+function Guyra_get_user_level($user=1) {
+
+  $level = guyra_get_user_meta($user, 'level', true)['meta_value'];
+
+  if (!$level) {
+    $level = '1';
+    guyra_update_user_meta($user, 'level', $level);
+  }
+
+  return $level;
+
+}
+
+function Guyra_increase_user_level($user=1, $amount=1) {
+
+  $level = Guyra_get_user_level($user);
+
+  $amount = $level + $amount;
+
+  guyra_update_user_meta($user, 'level', $amount);
+
+}
+
+function GetUserRanking($user=1) {
 
   if (!$user == 0) {
 
     $elo = guyra_get_user_meta($user, 'elo', true)['meta_value'];
-    $level = guyra_get_user_meta($user, 'level', true)['meta_value'];
+    $level = Guyra_get_user_level($user);
 
     if (!$elo) {
       $elo = '1';
       guyra_update_user_meta($user, 'elo', $elo);
-    }
-
-    if (!$level) {
-      $level = '1';
-      guyra_update_user_meta($user, 'level', $level);
     }
 
     if ($elo < 17) {
@@ -210,6 +228,8 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
     	$first_name = $comment->comment_author;
     }
 
+    $comment_date_formatted = date_format(date_create($comment->comment_date), 'd/m/Y H:i:s');
+
     ?>
 
     <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
@@ -219,7 +239,7 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
           <?php echo $profile_picture; ?>
           <span class="ms-1"><?php echo $first_name; ?></span>
         </span>
-        <span class="comment-time text-small text-muted"><?php echo $comment->comment_date; ?></span>
+        <span class="comment-time text-small text-muted"><?php echo $comment_date_formatted; ?></span>
       </div>
 
       <div class="comment-content">

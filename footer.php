@@ -41,11 +41,8 @@ include get_template_directory() . '/i18n.php';
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-<?php if ($args['exercise_js']): ?>
-<script src="<?php echo get_template_directory_uri(); ?>/exercises.js"></script>
-<?php endif;
-if ($args['courses_js']): ?>
-<script src="<?php echo get_template_directory_uri(); ?>/courses.js"></script>
+<?php if ($args['js']): ?>
+<script async src="<?php echo $gi18n['js_link'] . $args['js']; ?>"></script>
 <?php endif;
 if ($args['aos']): ?>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>

@@ -127,11 +127,6 @@ if (current_user_can('manage_options')) {
         wp_insert_post($post_data);
       }
 
-      if (!is_object(get_page_by_title('Home'))) {
-        $post_data['post_title'] = 'Home';
-        wp_insert_post($post_data);
-      }
-
       if (!is_object(get_page_by_title('Classroom'))) {
         $post_data['post_title'] = 'Classroom';
         wp_insert_post($post_data);
@@ -144,6 +139,11 @@ if (current_user_can('manage_options')) {
 
       if (!is_object(get_page_by_title('Comment'))) {
         $post_data['post_title'] = 'Comment';
+        wp_insert_post($post_data);
+      }
+
+      if (!is_object(get_page_by_title('Action'))) {
+        $post_data['post_title'] = 'Action';
         wp_insert_post($post_data);
       }
 

@@ -26,4 +26,4 @@ get_header();
 
 </main>
 <?php
-get_footer(null, ['aos' => true]);
+get_footer(null, ['aos' => true, 'js' => 'schools.js']);

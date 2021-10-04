@@ -62,6 +62,7 @@ $gi18n = [
 	'add' => 'Adicionar',
 	'edit' => 'Editar',
 	'apply' => 'Aplicar',
+	'dictionary' => 'Dicionário',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -155,6 +156,7 @@ $gi18n = [
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
+	'write_word_here' => 'Escreva a palavra aqui...',
 	/* Schools */
 	'your_students' => 'Seus Alunos',
 	'your_code' => 'Seu Código',
@@ -181,6 +183,8 @@ $gi18n = [
 	'admin_link' => $admin_url,
 	'guyra_admin_link' => $site_url . '/?page=admin',
 	'template_link' => $template_url,
+	'js_link' => $template_url . '/assets/js/',
+	'css_link' => $template_url . '/assets/css/',
 	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
 	'title_img' => $template_url . '/assets/img/guyra-title.svg',
 	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg'

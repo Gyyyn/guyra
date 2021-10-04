@@ -1,0 +1,120 @@
+.grammar-reference {
+  font-size: var(--guyra-fonts-textsize-s);
+}
+
+.grammar-reference > li {
+  border: 0;
+  background: none;
+}
+
+.grammar-reference li ul li:hover .highlight {
+  color: var(--guyra-blue);
+}
+
+.grammar-reference li:hover .highlight {
+  color: var(--guyra-blue-darker);
+}
+
+.grammar-reference li ul li:hover .text-muted {
+  color: var(--guyra-blue) !important;
+}
+
+.grammar-reference .list-group-item+.list-group-item {
+    border-top-width: 0;
+}
+
+.grammar-reference .list-group-item .list-group-item {
+    background: var(--guyra-grey);
+}
+
+.grammar-reference .list-group-item {
+    border-width: .25rem;
+}
+
+span.text-muted {
+    font-weight: bold;
+    color: var(--guyra-grey-darker) !important;
+}
+
+#grammar-regular input,
+#grammar-irregular input {
+    background: var(--guyra-blue-darkest);
+    border: 1px var(--guyra-blue) solid;
+    color: var(--guyra-white);
+    padding: 0 0.25rem;
+    border-radius: var(--guyra-border-radius);
+}
+
+.wikitable tr > td:last-child, .wikitable tr > th:last-child { display:none; }
+.wikitable i { font-style: normal; }
+.wikitable a { text-decoration: none; }
+.wikitable {
+overflow: hidden;
+font-size: var(--guyra-fonts-textsize-s);
+}
+.wikitable dl {
+margin: .25rem;
+}
+.wikitable dl,
+.wikitable dl a {
+color: var(--guyra-grey-dark);
+}
+.wikitable dl:hover { color: var(--guyra-black); }
+.wikitable dl:hover a { color: var(--guyra-blue); }
+.wikitable dd {
+font-size: var(--guyra-fonts-textsize-ss);
+margin:0;
+}
+
+.the-definition .section {
+    margin-bottom: 3rem;
+}
+
+.the-definition .floatright {
+  float: right;
+  border-radius: var(--guyra-border-radius-bigger);
+  padding: 1rem !important;
+  border: 0 !important;
+  background: var(--guyra-grey) !important;
+}
+
+.the-definition img,
+.the-definition .thumb {
+    display: none;
+}
+
+.the-definition ul {
+  list-style: none;
+}
+
+.the-definition h2,
+.the-definition h3,
+.the-definition h4 {
+  color: var(--guyra-grey-darker);
+}
+
+.headword {
+  font-size: var(--guyra-fonts-textsize-n);
+  font-weight: 900;
+}
+
+.the-definition ol > li {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--guyra-grey);
+}
+
+.the-definition ol > li::marker {
+    color: var(--guyra-grey-dark);
+}
+
+.the-definition .NavFrame {
+  margin-bottom: 2rem;
+}
+
+.the-definition h1,
+.the-definition h2,
+.the-definition h3,
+.the-definition h4,
+.the-definition h5 {
+  margin-bottom: 1rem;
+}

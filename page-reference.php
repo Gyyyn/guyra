@@ -5,7 +5,7 @@
  * @package guyra
  */
 
-get_header();
+get_header(null, ['css' => 'reference.css']);
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
@@ -21,6 +21,11 @@ include get_template_directory() . '/i18n.php';
         <span class="menu-icon"><img class="me-0" src="<?php echo $gi18n['template_link'] . '/assets/img/back.png'; ?>"></span>
       </a>
 
+      <a class="list-group-item" data-bs-toggle="collapse" href="#dictionary-container" role="button" aria-expanded="true" aria-controls="dictionary-container">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/dictionary.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['dictionary']; ?></span>
+      </a>
+
       <a class="list-group-item" data-bs-toggle="collapse" href="#irregulars-container" role="button" aria-expanded="false" aria-controls="irregulars-container">
         <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/bookmark.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_irregulars']; ?></span>
@@ -30,18 +35,23 @@ include get_template_directory() . '/i18n.php';
         <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
       </a>
+
+    </div>
+
+    <div class="collapse show rounded-box" id="dictionary-container">
+      <?php include 'templates/dictionary.php'; ?>
     </div>
 
     <div class="collapse hide rounded-box" id="irregulars-container">
-      <?php include 'html/irregular-verbs.html'; ?>
+      <?php include 'templates/irregular-verbs.html'; ?>
     </div>
 
     <div class="collapse hide rounded-box" id="grammar-container">
-      <?php include 'html/grammar-reference.html'; ?>
+      <?php include 'templates/grammar-reference.html'; ?>
     </div>
 
   </div></div>
 
 </main>
 <?php
-get_footer();
+get_footer(null, ['js' => 'reference.js']);

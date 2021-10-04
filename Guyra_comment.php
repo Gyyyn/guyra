@@ -55,6 +55,8 @@ if (!$comment) {
 
 }
 
+Guyra_increase_user_level($current_user, 2);
+
 // Upload the attached image if it is found
 if ($file_found) {
 	$movefile = wp_handle_upload( $uploadedfile, $upload_overrides );

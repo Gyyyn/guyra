@@ -24,15 +24,9 @@ function createYoutubeApiPlaylistLink($key) {
 
 $coursesJson = '{
   "course1": {
-    "link": "PLWrcGwXhLQXy4MNJrK0iGMzvdRgs4zaUg",
-    "title": "Interchange: Gramática",
-    "desc": "temp 1",
-    "id": "interchange"
-  },
-  "course2": {
-    "link": "PLWrcGwXhLQXw1ohPUq78xlZZdM2Vfcr_X",
+    "link": "PLKL9JMrDmA-C1MCa8ifxty9uZAQfvL_VS",
     "title": "Gramática Rápida",
-    "desc": "temp 2",
+    "desc": "Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.",
     "id": "quicktips"
   }
 }';
@@ -94,4 +88,4 @@ include get_template_directory() . '/i18n.php';
 </main>
 <script> var coursesJson = <?php echo json_encode($coursesArray); ?></script>
 <?php
-get_footer(null, ['courses_js' => true, 'aos' => true, 'react' => true]);
+get_footer(null, ['js' => 'courses.js', 'aos' => true, 'react' => true]);

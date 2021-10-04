@@ -95,7 +95,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
           <?php echo $userdata['last_name'][0]; ?>
           </strong></span>
 
-          <i class="text-grey-darker text-end d-none d-md-block">
+          <i class="text-grey-darker text-end d-none d-md-inline">
             <?php echo $x->user_email; ?>
           </i>
 
@@ -103,7 +103,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         </li>
 
-        <li class="list-group-item col-2 d-none d-md-block">
+        <li class="list-group-item col-2 d-none d-md-flex align-items-center">
           <span class="text-grey-darker text-end">
             <?php echo $gi18n['group']; ?>: <span class="badge bg-secondary"><?php echo $userdata['studygroup'][0]; ?></span>
           </span>
@@ -111,11 +111,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         <li class="list-group-item col d-flex justify-content-around">
           <?php if (!$userInGroup): ?>
-          <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
+          <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <?php echo $gi18n['homework']; ?>
           </a>
           <?php endif; ?>
-          <a class="btn btn-sm btn-primary ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
+          <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <?php echo $gi18n['controls']; ?>
           </a>
         </li>
@@ -221,10 +221,10 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       </li>
 
       <li class="list-group-item col d-flex justify-content-around">
-        <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
+        <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <?php echo $gi18n['homework']; ?>
         </a>
-        <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
+        <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <?php echo $gi18n['controls']; ?>
         </a>
       </li>
@@ -290,53 +290,6 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
   </div>
 
   <p class="text-center text-grey-darker text-small py-5 m-0"><?php echo $gi18n['guyra_thanks_you']; ?></p>
-
-  <script>
-
-  editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
-
-  editHomeworkButtons.forEach((button) => {
-    targetId = button.dataset.target;
-    var target = document.getElementById('inner-'.concat(targetId));
-    var previousState = false;
-    var buttonPreviousInner = button.innerHTML;
-    var pageLink = button.dataset.link;
-
-    button.onclick = editTrigger;
-
-    function editTrigger(e) {
-
-      var frameId = 'frame-'.concat(targetId);
-
-      if (!previousState) {
-
-        button.innerHTML = '<i class="bi bi-check-lg"></i>'
-        previousState = target.innerHTML;
-        target.innerHTML = '<iframe id="'.concat(frameId).concat('" class="editor-inline" src="').concat(pageLink).concat('"/>');
-
-      } else {
-
-        var frame = document.getElementById(frameId).contentDocument;
-        frame.querySelector('.editor-post-publish-button').click();
-        button.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-        setTimeout(function(){
-          target.innerHTML = previousState;
-          previousState = false;
-
-          document.location.reload();
-        }, 2000);
-
-      }
-
-      button.classList.toggle('blue');
-      button.classList.toggle('green');
-
-    }
-  });
-
-
-  </script>
 
   <?php
 

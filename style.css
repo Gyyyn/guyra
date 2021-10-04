@@ -988,6 +988,7 @@ a.btn-primary,
 }
 
 .btn-tall.blue,
+.btn-tall.active,
 .page-squeeze .list-group.study-menu .list-group-item.active,
 .page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"] {
   border-bottom-color: var(--guyra-blue-darker);
@@ -996,6 +997,7 @@ a.btn-primary,
 }
 
 .btn-tall.blue:hover,
+.btn-tall.active:hover,
 .page-squeeze .list-group.study-menu .list-group-item.active:hover {
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);

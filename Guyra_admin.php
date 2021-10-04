@@ -227,18 +227,5 @@ get_header();
 
 </main></div>
 
-<script>
-let btn = document.querySelectorAll('.id-selector')
-let targetform = document.querySelectorAll('.user-id')
-btn.forEach((item, i) => {
-  item.addEventListener('click', function (e) {
-    targetform.forEach((item) => {
-      item.value = this.innerHTML
-    });
-  })
-});
-
-</script>
-
 <?php
-get_footer();
+get_footer(null, ['js' => 'userIdFormSelector.js']);

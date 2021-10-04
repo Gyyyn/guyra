@@ -53,4 +53,4 @@ include get_template_directory() . '/i18n.php';
 
 </main>
 <?php
-get_footer(null, ['exercise_js' => true, 'aos' => true, 'react' => true]);
+get_footer(null, ['js' => 'exercises.js', 'aos' => true, 'react' => true]);
