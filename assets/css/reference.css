@@ -73,12 +73,14 @@ span.text-muted {
   margin-bottom: 3rem;
 }
 
-.the-definition .floatright {
+.the-definition .floatright,
+.the-definition .noprint {
   float: right;
   border-radius: var(--guyra-border-radius-bigger);
   padding: 1rem !important;
   border: 0 !important;
   background: var(--guyra-grey) !important;
+  margin-bottom: 1rem;
 }
 
 .the-definition .thumb {
@@ -105,8 +107,8 @@ span.text-muted {
   margin-bottom: 2rem;
 }
 
-.the-definition ol > li {
-  border-bottom: 1px solid var(--guyra-grey);
+.the-definition td li {
+  margin: 0;
 }
 
 .the-definition ol > li::marker {
@@ -123,6 +125,8 @@ span.text-muted {
 .the-definition h4,
 .the-definition h5 {
   margin-bottom: 1rem;
+  font-size: var(--guyra-fonts-textsize-xx);
+  border-bottom: 1px solid var(--guyra-grey);
 }
 
 .the-definition .IPA {
@@ -130,6 +134,14 @@ span.text-muted {
   color: var(--guyra-white);
   padding: .25rem;
   border-radius: var(--guyra-border-radius);
+}
+
+.the-definition abbr {
+  padding: .25rem;
+  border-radius: var(--guyra-border-radius);
+  text-decoration: none;
+  color: var(--guyra-grey-dark);
+  text-transform: uppercase;
 }
 
 .the-definition .section.Etymology,
@@ -142,7 +154,9 @@ span.text-muted {
 .the-definition .section.References,
 .the-definition span.interProject,
 .the-definition sup.reference,
-.the-definition .floatright[role="presentation"] {
+.the-definition .floatright[role="presentation"],
+.the-definition .section > hr,
+.the-definition .was-wotd {
   display: none;
 }
 
@@ -163,6 +177,10 @@ span.text-muted {
 .the-definition .translations-cell ul {
   padding: 1rem;
   margin: 0;
+}
+
+.the-definition li > ul {
+    margin-top: 3rem;
 }
 
 .the-images img {
@@ -201,4 +219,9 @@ span.text-muted {
 
 .fade-animation.animate {
     animation: fadein 1s, slideup 0.35s;
+}
+
+.the-definition .metadata {
+    border: 0 !important;
+    border-radius: var(--guyra-border-radius-bigger);
 }

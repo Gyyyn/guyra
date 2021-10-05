@@ -137,10 +137,10 @@ function ReplaceAllLinks() {
         } else {
 
           item.onclick = (i) => {
+            window.scrollTo(0, 0);
             i.preventDefault();
             dictionaryInput.value = item.title;
             dictionarySubmitTrigger();
-            window.scrollTo(0, 0);
           }
 
         }
@@ -192,14 +192,17 @@ function dictionarySubmitTrigger(e) {
 
           if (json.error != undefined) {
 
-            theHTML = theHTML + '<h2>Erro</h2>';
-            theHTML = theHTML + json.error.info;
+            console.log(json.error.info);
+
+            theHTML = theHTML + '<h2>Erro:</h2>';
+            theHTML = theHTML + '<p>Palavra não encontrada.</p>';
             TheWordElement.classList.add('d-none');
 
           } else {
 
           var wikidataBaseUrl = 'https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&languages=en&format=json&origin=*&titles=';
           var wikidataImageQueryUrl = 'https://www.wikidata.org/w/api.php?action=query&prop=images&format=json&origin=*&titles=';
+          var wikimediaCommonsQueryUrl = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=images&imlimit=3&redirects=1&titles=';
           var wikidataImageRedirectUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/';
           var concept = wikidataBaseUrl + TheWord;
           var images = [];
@@ -224,35 +227,77 @@ function dictionarySubmitTrigger(e) {
                 firstConcept = json.entities[Object.keys(json.entities)[0]];
 
                 if (firstConcept.missing != '') {
-                  concept = wikidataImageQueryUrl + firstConcept.title;
 
+                  concept = wikidataImageQueryUrl + firstConcept.title;
 
                   fetch(concept)
                   .then(function(response) { return response.json() })
                   .then(function(json) {
 
-                    Object.values(json.query.pages).forEach((item) => {
+                    try {
 
-                      Object.values(item.images).forEach((image) => {
-                        images.push(image.title);
+                      Object.values(json.query.pages).forEach((item) => {
+
+                        Object.values(item.images).forEach((image) => {
+                          images.push(image.title);
+                        });
+
+
                       });
 
+                      images.forEach((image) => {
 
-                    });
+                        ext = image.slice(-3);
 
-                    images.forEach((image, i) => {
-                      images[i] = wikidataImageRedirectUrl + image;
-                    });
+                        if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
+                          imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                        }
 
-                    images.forEach((image) => {
+                      });
 
-                      ext = image.slice(-3);
+                    } catch (e) {
 
-                      if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
-                        imagesHTML = imagesHTML + '<img src="' + image + '" />'
-                      }
+                      console.log('No image found on wikidata');
 
-                    });
+                    }
+
+                    if (imagesHTML == '') {
+
+                      concept = wikimediaCommonsQueryUrl + TheWord;
+
+                      fetch(concept)
+                      .then(function(response) { return response.json() })
+                      .then(function(json) {
+
+                        try {
+
+                          Object.values(json.query.pages).forEach((item) => {
+
+                            Object.values(item.images).forEach((image) => {
+                              images.push(image.title);
+                            });
+
+                            images.forEach((image) => {
+
+                              ext = image.slice(-3);
+
+                              if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
+                                imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                              }
+
+                            });
+
+                            TheImagesHTML.innerHTML = imagesHTML;
+
+                          });
+
+                        } catch (e) {
+                          console.log('No image found on wikimedia commons');
+                        }
+
+                      });
+
+                    }
 
                     TheImagesHTML.innerHTML = imagesHTML;
                     TheImagesHTML.classList.add('animate');

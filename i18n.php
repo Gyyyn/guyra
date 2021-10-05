@@ -37,6 +37,7 @@ $gi18n = [
 	'homework' => 'Lição de casa',
 	'study' => 'Estudar',
 	'reference' => 'Referência',
+	'ultilities' => 'Ultilidades',
 	'courses' => 'Cursos',
 	'privacy' => 'Privacidade',
 	'terms' => 'Termos de uso',

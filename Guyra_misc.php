@@ -209,16 +209,17 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
 
   $profile_picture = Guyra_get_profile_picture($current_user->ID, ['page-icon', 'tiny']);
 
-  $args = array(
+  $args = [
     'post_id' => $object->ID,
-    'date_query' => array(
+    'user_id' => $user,
+    'date_query' => [
       'after' => '1 weeks ago',
       'before' => 'tomorrow',
-      'inclusive' => true,
-    )
-  );
+      'inclusive' => true
+    ]
+  ];
 
-  $comments = get_comments( $args );
+  $comments = get_comments($args);
 
   foreach ($comments as $comment) {
 

@@ -84,7 +84,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
       <ul id="user-<?php echo $user; ?>" class="user-list list-group list-group-horizontal mb-1">
 
-        <li class="list-group-item col-6">
+        <li class="list-group-item col">
 
           <span class="me-3">
             <?php echo $userProfile; ?>
@@ -103,13 +103,17 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         </li>
 
+        <?php if($userGroup != ""): ?>
+
         <li class="list-group-item col-2 d-none d-md-flex align-items-center">
           <span class="text-grey-darker text-end">
             <?php echo $gi18n['group']; ?>: <span class="badge bg-secondary"><?php echo $userdata['studygroup'][0]; ?></span>
           </span>
         </li>
 
-        <li class="list-group-item col d-flex justify-content-around">
+        <?php endif; ?>
+
+        <li class="list-group-item col-4 d-flex justify-content-around">
           <?php if (!$userInGroup): ?>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <?php echo $gi18n['homework']; ?>
@@ -208,7 +212,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
     <ul id="group-<?php echo $group['name'] ?>" class="user-list list-group list-group-horizontal mb-1">
 
-      <li class="list-group-item col-6">
+      <li class="list-group-item col">
         <span class="badge bg-secondary">
           <?php echo $gi18n['group']; ?>
           <span class="ms-1 text-primary">
@@ -220,7 +224,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         </i>
       </li>
 
-      <li class="list-group-item col d-flex justify-content-around">
+      <li class="list-group-item col-4 d-flex justify-content-around">
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <?php echo $gi18n['homework']; ?>
         </a>

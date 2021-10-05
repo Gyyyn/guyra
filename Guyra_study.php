@@ -46,8 +46,8 @@ get_header();
       </a>
 
       <a href="<?php echo get_site_url() ?>/reference" class="list-group-item">
-        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/notebook.png'; ?>"></span>
-        <span class="menu-title"><?php echo $gi18n['reference']; ?></span>
+        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/lab.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['ultilities']; ?></span>
       </a>
 
       <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
@@ -91,7 +91,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-primary"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
-        <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/pencil.png"></span>
+        <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/essay.png"></span>
       </div>
 
       <?php GetUserStudyPage_comments($current_user); ?>
