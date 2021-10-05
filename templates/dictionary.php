@@ -30,11 +30,11 @@ include $template_dir . '/i18n.php';
 
 <div class="the-definition">
 
-  <h1 class="text-center mb-3"><span id="dictionary-the-word" class="bg-primary more-rounded text-white px-3 d-none"></span></h1>
+  <h1 class="text-center mb-3"><span id="dictionary-the-word" class="bg-primary more-rounded text-white px-3 d-none fade-animation"></span></h1>
 
-  <div id="the-images" class="the-images d-flex flex-row my-5"></div>
+  <div id="the-images" class="the-images d-flex flex-row my-5 fade-animation"></div>
 
-  <div class="text-small" id="the-definition-content"></div>
+  <div class="text-small fade-animation" id="the-definition-content"></div>
 
 </div>
 

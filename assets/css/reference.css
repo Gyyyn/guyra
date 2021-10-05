@@ -174,3 +174,31 @@ span.text-muted {
   justify-content: space-around;
   overflow-x: hidden;
 }
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideup {
+  from {
+    transform: translateY(10rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fade-animation {
+    transition: var(--guyra-transition);
+}
+
+.fade-animation.animate {
+    animation: fadein 1s, slideup 0.35s;
+}

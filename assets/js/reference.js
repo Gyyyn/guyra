@@ -167,8 +167,14 @@ function dictionarySubmitTrigger(e) {
 
   var TheWord = dictionaryInput.value.toLowerCase();
   var TheWordElement = document.getElementById('dictionary-the-word');
+  var TheContent = document.querySelector('#the-definition-content');
+  var TheImagesHTML = document.getElementById('the-images');
+
   TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
   TheWordElement.classList.remove('d-none');
+  TheWordElement.classList.remove('animate');
+  TheImagesHTML.classList.remove('animate');
+  TheContent.classList.remove('animate');
 
   var DictionaryBaseUrl = 'https://en.wiktionary.org/w/api.php?action=parse&origin=*&format=json&page=';
   var LookUp = DictionaryBaseUrl.concat(TheWord);
@@ -198,7 +204,6 @@ function dictionarySubmitTrigger(e) {
           var concept = wikidataBaseUrl + TheWord;
           var images = [];
           var imagesHTML = '';
-          var TheImagesHTML = document.getElementById('the-images');
 
           TheImagesHTML.innerHTML = '';
 
@@ -250,6 +255,7 @@ function dictionarySubmitTrigger(e) {
                     });
 
                     TheImagesHTML.innerHTML = imagesHTML;
+                    TheImagesHTML.classList.add('animate');
 
                   })
 
@@ -326,8 +332,12 @@ function dictionarySubmitTrigger(e) {
         } // End error catcher else
 
         TheWordElement.innerHTML = TheWord;
+        TheWordElement.classList.add('animate');
+        TheContent.innerHTML = theHTML;
+        TheContent.classList.add('animate');
+
         dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
-        document.querySelector('#the-definition-content').innerHTML = theHTML;
+
         ReplaceAllLinks();
 
       });
