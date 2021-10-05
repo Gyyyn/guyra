@@ -48,6 +48,7 @@ if ($args['aos']): ?>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
 <script>AOS.init();</script>
 <?php endif; ?>
+<script async src="<?php echo $gi18n['js_link']; ?>misc.js"></script>
 
 </body>
 </html>

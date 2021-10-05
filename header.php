@@ -199,7 +199,7 @@ if ($logged_in) {
           <?php if(!$logged_in) { ?>
           <li class="nav-item">
             <span class="bg-grey rounded px-3 me-3"><?php echo $gi18n['button_alreadyregistered'] ?></span>
-            <a class="btn-tall btn-sm blue" href="<?php echo get_site_url(); echo "/account"; ?>"><?php echo $gi18n['button_login'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
           <li class="nav-item profile-item">
@@ -210,20 +210,19 @@ if ($logged_in) {
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account"; ?>">
+                  <a class="dropdown-item" href="<?php echo $gi18n['account_link']; ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">
                     <?php echo $gi18n['button_myaccount'] ?>
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="<?php echo get_site_url(); echo "/account/edit-profile"; ?>">
+                  <a class="dropdown-item" href="<?php echo $gi18n['profile_link']; ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/clipboard_32.png'; ?>">
                     <?php echo $gi18n['profile'] ?>
                   </a>
-
                 </li>
                 <li>
-                  <a class="dropdown-item text-danger" href="<?php echo get_site_url(); echo "/account/user-logout"; ?>">
+                  <a id="logout-button" class="dropdown-item text-danger" href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
                     <?php echo $gi18n['logout'] ?>
                   </a>
@@ -260,7 +259,7 @@ if ($logged_in) {
       </a>
       <?php endif; ?>
 
-      <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo get_site_url(); echo "/account"; ?>">
+      <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo $gi18n['account_link']; ?>"; ?>">
         <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['button_myaccount'] ?></span>
       </a>

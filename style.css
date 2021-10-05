@@ -470,6 +470,10 @@ a.round-border {
   align-items: center;
 }
 
+.dropdown-item:hover {
+  background: unset;
+}
+
 nav .navbar-nav .btn-wa {
 	color: #25D366;
 }
@@ -1821,32 +1825,6 @@ input.form-control:focus,
   flex-direction: column;
 }
 
-.page-squeeze .user-registration-MyAccount-navigation-link {
-    margin-right: .5rem;
-    align-self: center;
-    overflow: unset;
-}
-
-.user-registration-MyAccount-navigation-link > a {
-  color: var(--guyra-grey-darker);
-  border-bottom: .25rem solid var(--guyra-grey-darker);
-  border-radius: var(--guyra-border-radius);
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.user-registration-MyAccount-navigation-link > a:hover,
-.user-registration-MyAccount-navigation-link > a:active,
-.user-registration-MyAccount-navigation-link.is-active > a:hover {
-  color: var(--guyra-blue-lighter);
-  border-bottom: .25rem solid var(--guyra-blue-lighter);
-}
-
-.user-registration-MyAccount-navigation-link.is-active > a {
-  color: var(--guyra-blue);
-  border-bottom: .25rem solid var(--guyra-blue);
-}
-
 .page-squeeze .ur-frontend-form .ur-button-container {
   padding: 0;
 }
@@ -1870,6 +1848,10 @@ input.form-control:focus,
 .ur-checkbox-list .input-checkbox {
   width: auto;
   height: auto;
+}
+
+.user-registration-error li {
+  list-style: none;
 }
 
 /*

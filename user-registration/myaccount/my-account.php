@@ -22,7 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="rounded-box-padded">
 	<?php
-		do_action( 'user_registration_account_navigation' );
 		ur_print_notices();
 		do_action( 'user_registration_account_content' );
 	?>

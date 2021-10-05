@@ -44,6 +44,15 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<p><?php /* echo $gi18n['no_subscription_found']  */?></p>
 				<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
 			<?php } //no subscription ?>
+
+			<div class="buttons my-5">
+
+				<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue"><?php echo $gi18n['button_studypage']; ?></a>
+				<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall"><?php echo $gi18n['button_coursespage']; ?></a>
+				<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall"><?php echo $gi18n['practice']; ?></a>
+
+			</div>
+
 		</div>
 
 		<span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png"></span>
