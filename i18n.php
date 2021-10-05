@@ -157,6 +157,10 @@ $gi18n = [
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
 	'write_word_here' => 'Escreva a palavra aqui...',
+	'cc_warning' => '
+	<p>Definições disponíveis sobre os termos <a class="text-muted" href="https://creativecommons.org/licenses/by-sa/3.0/deed.pt_BR">Creative Commons Attribution-ShareAlike License</a>
+	e são adaptados da <a class="text-muted" href="https://wiktionary.org/">Wiktionary</a></p>
+	<p>Imagens usam dados da <a class="text-muted" href="https://www.wikidata.org/">Wikidata</a>.</p>',
 	/* Schools */
 	'your_students' => 'Seus Alunos',
 	'your_code' => 'Seu Código',
