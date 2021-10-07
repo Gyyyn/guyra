@@ -223,7 +223,7 @@ if ($logged_in) {
                   </a>
                 </li>
                 <li>
-                  <a id="logout-button" class="dropdown-item text-danger" href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>">
+                  <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item text-danger" href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
                     <?php echo $gi18n['logout'] ?>
                   </a>

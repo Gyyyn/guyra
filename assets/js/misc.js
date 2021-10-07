@@ -4,13 +4,17 @@
 
 var logoutButton = document.getElementById('logout-button');
 
-function logoutTrigger() {
+function logoutTrigger(e) {
 
-  var logoutConfirm = window.confirm('Tem certeza que deseja sair?');
+  e.preventDefault();
+
+  var logoutConfirm = window.confirm(logoutButton.dataset.confirm);
 
   if (logoutConfirm) {
     window.location.replace(logoutButton.href);
   }
 }
 
-logoutButton.addEventListener("click", logoutTrigger)
+if (logoutButton) {
+  logoutButton.addEventListener("click", logoutTrigger);
+}

@@ -15,6 +15,7 @@ include get_template_directory() . '/Guyra_misc.php';
 $user_id = get_current_user_id();
 $user_info = get_userdata($user_id);
 $user_rank = GetUserRanking($user_id);
+$user_payment_method = guyra_get_user_meta($user_id, 'payment_method', true);
 
 $user_subscription = get_user_meta($user_id, 'subscription', true);
 $user_subscription_activesince = get_user_meta($user_id, 'subscription-active-since', true);
@@ -45,33 +46,59 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
 			<?php } //no subscription ?>
 
-			<div class="buttons my-5">
-
-				<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue"><?php echo $gi18n['button_studypage']; ?></a>
-				<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall"><?php echo $gi18n['button_coursespage']; ?></a>
-				<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall"><?php echo $gi18n['practice']; ?></a>
-
-			</div>
-
 		</div>
 
 		<span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png"></span>
 
 	</div>
 
+	<div class="row buttons justify-content-between my-5">
+
+		<div class="col-md d-flex justify-content-between">
+
+			<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue"><?php echo $gi18n['button_studypage']; ?></a>
+			<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall"><?php echo $gi18n['button_coursespage']; ?></a>
+			<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall"><?php echo $gi18n['practice']; ?></a>
+
+		</div>
+
+		<div class="col-md-2 d-flex justify-content-end">
+
+			<a href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>" class="btn-tall red"><?php echo $gi18n['logout'] ?></a>
+
+		</div>
+
+	</div>
+
 	<div class="row my-3">
 
 		<div class="col-md card py-5 mx-0 mb-5 flex-column align-items-center">
-			<?php if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) { ?>
-					<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
-			<?php } ?>
-			<h3 class="text-white"><?php echo $first_name . ' ' . $last_name; ?></h3>
+
+			<span class="position-relative">
+
+				<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
+
+				<span class="position-absolute translate-middle-y bottom-0 end-0">
+					<a href="<?php echo $gi18n['profile_link']?>" class="btn-tall purple">
+						<i class="bi bi-pencil-square"></i>
+					</a>
+				</span>
+
+			</span>
+
+			<span class="position-relative">
+				<h3 class="text-white"><?php echo $first_name . ' ' . $last_name; ?></h3>
+			</span>
+
 			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro'];?>✨🌟</span><?php } ?>
 		</div>
 
-		<div class="col-md">
+		<div class="col-md d-flex flex-column align-items-center">
+
+			<?php if($user_payment_method): ?>
 
 			<div class="mb-5">
+
 				<h3 class="text-blue"><?php echo $gi18n['payment_method'] ?></h3>
 				<div class="row bg-grey more-rounded p-3 mx-0 mb-3">
 
@@ -79,14 +106,20 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 						<img class="page-icon" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.jpg">
 					</div>
 
-					<div class="col">
-						<p><?php echo $gi18n['payment_message'] ?></p>
-						<p class="badge text-normal bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
+					<div class="col-8 text-small">
+						<p><?php echo $gi18n['payment_message'] . ":" . $user_payment_method; ?></p>
+						<p class="badge bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
 					</div>
 
 				</div>
-				<?php /* <a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall mt-3"><?php echo $gi18n['change_payment_method']; ?></a> */ ?>
+
+				<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall blue mt-3">
+					<?php echo $gi18n['change_payment_method']; ?>
+				</a>
+
 			</div>
+
+		<?php endif; ?>
 
 			<div class="mb-5 text-small">
 
