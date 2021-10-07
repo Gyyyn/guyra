@@ -64,6 +64,7 @@ $gi18n = [
 	'add' => 'Adicionar',
 	'edit' => 'Editar',
 	'apply' => 'Aplicar',
+	'remove' => 'Remover',
 	'dictionary' => 'Dicionário',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
@@ -143,6 +144,8 @@ $gi18n = [
 	'change_profile_pic_gravatar' => 'Mudar sua foto no Gravatar',
 	'teacher_code' => 'Código de Professor',
 	'teacher_code_explain' => 'Seu professor te deu algum código? Digite ele aqui.',
+	/* Blog */
+	'you_can' => 'Você pode',
 	/* Exercises */
 	'correctanswer' => 'Resposta correta: ',
 	'wronganswer' => 'Não era essa!',

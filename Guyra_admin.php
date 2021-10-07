@@ -13,9 +13,11 @@ if (!current_user_can('manage_options')) {
   exit;
 }
 
+$template_dir = get_template_directory();
+
 /* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
-include get_template_directory() . '/Guyra_database.php';
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_database.php';
 
 // Get users
 $users = get_users();
@@ -35,7 +37,7 @@ get_header();
 
 </div>
 
-<div class="admin-section">
+<div class="admin-section d-none">
 
   <h4 class="mt-5">Param debug:</h4>
   <div class="admin-forms border rounded p-3 m-0">
@@ -48,47 +50,17 @@ get_header();
 
 <div class="admin-section">
 
-  <h4 class="mt-4">Extras:</h4>
+  <h4 class="mt-5">Blog:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-  <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-success">Wordpress admin</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_log_db' ?>" class="btn btn-sm btn-success">Create Log DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_meta_db' ?>" class="btn btn-sm btn-success">Create Meta DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_error_db' ?>" class="btn btn-sm btn-success">Create Error DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_page=all' ?>" class="btn btn-sm btn-success">Create Site Pages</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&get_user_meta=1' ?>" class="btn btn-sm btn-success">Read own meta</a>
+    <a class="btn btn-success" data-bs-toggle="collapse" href="#new-post-collapse">New Blog Post</a>
 
-  <hr class="mt-3" />
-
-  <h5>Change a site option:</h5>
-
-  <div class="mb-4 alert alert-info" role="alert">
-    <p>Currently working options are:</p>
-    <ul>
-      <li>landing_open - site has landing page or just login.</li>
-    </ul>
-  </div>
-
-  <form action="<?php echo $site_url; ?>" method="GET">
-      Option: <input type="text" name="change_option">
-      Value: <input type="text" name="value">
-      <input type="hidden" name="user" value="1" class="user-id">
-      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-      <input type="submit" value="Go">
-  </form>
-
-  <hr />
-
-  <h5>Set own elo:</h5>
-  <form action="<?php echo $site_url; ?>" method="GET">
-      Value: <input type="text" name="value">
-      <input type="hidden" name="update_elo" value="1">
-      <input type="hidden" name="user" value="1" class="user-id">
-      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-      <input type="submit" value="Go">
-  </form>
+    <div class="mt-3 collapse" id="new-post-collapse">
+      <iframe id="new-post" class="editor-inline" src="<?php echo $gi18n['admin_link'] . 'post-new.php'; ?>" /></iframe>
+    </div>
 
   </div>
+
 </div>
 
 <div class="admin-section">
@@ -222,6 +194,52 @@ get_header();
 
   <?php } ?>
   </ul>
+
+</div>
+
+<div class="admin-section">
+
+  <h4 class="mt-4">Extras:</h4>
+  <div class="admin-forms border rounded p-3 m-0">
+
+  <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-success">Wordpress admin</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_log_db' ?>" class="btn btn-sm btn-success">Create Log DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_meta_db' ?>" class="btn btn-sm btn-success">Create Meta DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_error_db' ?>" class="btn btn-sm btn-success">Create Error DB</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_page=all' ?>" class="btn btn-sm btn-success">Create Site Pages</a>
+  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&get_user_meta=1' ?>" class="btn btn-sm btn-success">Read own meta</a>
+
+  <hr class="mt-3" />
+
+  <h5>Change a site option:</h5>
+
+  <div class="mb-4 alert alert-info" role="alert">
+    <p>Currently working options are:</p>
+    <ul>
+      <li>landing_open - site has landing page or just login.</li>
+    </ul>
+  </div>
+
+  <form action="<?php echo $site_url; ?>" method="GET">
+      Option: <input type="text" name="change_option">
+      Value: <input type="text" name="value">
+      <input type="hidden" name="user" value="1" class="user-id">
+      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+      <input type="submit" value="Go">
+  </form>
+
+  <hr />
+
+  <h5>Set own elo:</h5>
+  <form action="<?php echo $site_url; ?>" method="GET">
+      Value: <input type="text" name="value">
+      <input type="hidden" name="update_elo" value="1">
+      <input type="hidden" name="user" value="1" class="user-id">
+      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+      <input type="submit" value="Go">
+  </form>
+
+  </div>
 
 </div>
 

@@ -165,7 +165,7 @@ function dictionarySubmitTrigger(e) {
   dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
   dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-  var TheWord = dictionaryInput.value.toLowerCase();
+  var TheWord = dictionaryInput.value;
   var TheWordElement = document.getElementById('dictionary-the-word');
   var TheContent = document.querySelector('#the-definition-content');
   var TheImagesHTML = document.getElementById('the-images');

@@ -110,6 +110,7 @@ if ($logged_in) {
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
+<link rel="apple-touch-icon" href="<?php echo $template_url; ?>/assets/img/apple-icon.png">
 <?php if ($args['zoom']): ?>
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/react-select.css" />
@@ -126,6 +127,7 @@ if ($logged_in) {
 </script>
 
 <?php wp_head(); ?>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <link href="<?php echo $template_url; ?>/style.css" rel="stylesheet">
 
@@ -198,8 +200,7 @@ if ($logged_in) {
 
           <?php if(!$logged_in) { ?>
           <li class="nav-item">
-            <span class="bg-grey rounded px-3 me-3"><?php echo $gi18n['button_alreadyregistered'] ?></span>
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
+            <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
           </li>
         <?php } else { ?>
           <li class="nav-item profile-item">
@@ -259,7 +260,7 @@ if ($logged_in) {
       </a>
       <?php endif; ?>
 
-      <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo $gi18n['account_link']; ?>"; ?>">
+      <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo $gi18n['account_link']; ?>">
         <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['button_myaccount'] ?></span>
       </a>

@@ -39,3 +39,20 @@ editHomeworkButtons.forEach((button) => {
 
   }
 });
+
+var theCode = document.getElementById("your-code");
+var copyCodeButton = document.getElementById("copy-code");
+
+function copyCode() {
+  theCode.focus();
+  theCode.select();
+  document.execCommand("copy");
+}
+
+theCode.onclick = () => { copyCode() };
+copyCodeButton.onclick = () => {
+  copyCode();
+  var before = copyCodeButton.innerHTML;
+  copyCodeButton.innerHTML = '<i class="bi bi-check-lg"></i>'
+  setTimeout(() => { copyCodeButton.innerHTML = before; }, 1000)
+};

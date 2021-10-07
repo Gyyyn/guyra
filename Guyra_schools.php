@@ -17,6 +17,7 @@ $thisUserId = get_current_user_id();
 $thisUser = get_user_meta($thisUserId);
 $users = get_users();
 $site_url = get_site_url();
+$userTeacherCode = Guyra_hash($thisUserId);
 
 // Sorts the list into date registered
 function cmp($a, $b) {
@@ -51,6 +52,9 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     $userTeacher = $userdata['teacherid'][0];
     $userInGroup = false;
     $userProfile = Guyra_get_profile_picture($user, ['page-icon', 'tiny']);
+    $userMeetingLink = guyra_get_user_meta($user, 'meetinglink', true)['meta_value'];
+    $userStudentPageObject = GetUserStudyPage($user, true);
+    $userStudentPageObjectEditLink = get_edit_post_link($userStudentPageObject->ID);
 
     if ($userTeacher == $thisUserId) {
 
@@ -95,19 +99,19 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
           <?php echo $userdata['last_name'][0]; ?>
           </strong></span>
 
-          <i class="text-grey-darker text-end d-none d-md-inline">
+          <i class="text-grey-darkest text-end d-none d-md-inline">
             <?php echo $x->user_email; ?>
           </i>
 
-          <span class="badge bg-secondary ms-1"><?php echo $userdata['role'][0] ?></span>
+          <span class="badge bg-primary ms-1"><?php echo $userdata['role'][0] ?></span>
 
         </li>
 
         <?php if($userGroup != ""): ?>
 
         <li class="list-group-item col-2 d-none d-md-flex align-items-center">
-          <span class="text-grey-darker text-end">
-            <?php echo $gi18n['group']; ?>: <span class="badge bg-secondary"><?php echo $userdata['studygroup'][0]; ?></span>
+          <span class="text-grey-darkest text-end">
+            <?php echo $gi18n['group']; ?>: <span class="badge bg-primary"><?php echo $userdata['studygroup'][0]; ?></span>
           </span>
         </li>
 
@@ -116,11 +120,13 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <li class="list-group-item col-4 d-flex justify-content-around">
           <?php if (!$userInGroup): ?>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
-            <?php echo $gi18n['homework']; ?>
+            <i class="bi bi-journal-richtext"></i>
+            <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
           </a>
           <?php endif; ?>
           <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
-            <?php echo $gi18n['controls']; ?>
+            <i class="bi bi-toggles"></i>
+            <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
           </a>
         </li>
 
@@ -128,14 +134,18 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
       <div class="collapse" id="controls-<?php echo $user_sha1d; ?>">
 
-        <div id="form" class="admin-forms dialog mb-3">
+        <div id="form-<?php echo $user_sha1d; ?>" class="admin-forms dialog mb-3">
 
           <h4><?php echo $gi18n['group'] ?></h4>
           <div class="d-flex justify-content-between">
-            <form action="<?php echo $site_url; ?>" method="GET">
 
-                <span><input placeholder="<?php echo $gi18n['group_tag'] ?>" type="text" name="assigntogroup"></span>
-                <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
+            <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
+
+                <input class="flex-grow-1 me-3" placeholder="<?php echo $gi18n['group_tag'] ?>" type="text" name="assigntogroup">
+                <label>
+                  <a class="btn-tall green me-3" title="<?php echo $gi18n['add'] ?>" type="button" name="button"><i class="bi bi-plus-lg"></i></a>
+                  <input class="d-none" type="submit" />
+                </label>
                 <input type="hidden" value="<?php echo $user ?>" name="user">
                 <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
 
@@ -143,28 +153,35 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
             <form action="<?php echo $site_url; ?>" method="GET">
 
-                <span><input class="btn-tall red" type="submit" value="<?php echo $gi18n['clear_group'] ?>" /></span>
+                <label>
+                  <a class="btn-tall red" title="<?php echo $gi18n['clear_group'] ?>" type="button" name="button"><i class="bi bi-x-lg"></i></a>
+                  <input class="d-none" type="submit" />
+                </label>
                 <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
                 <input type="hidden" value="<?php echo $user ?>" name="user">
                 <input type="hidden" value="1" name="cleargroup">
 
             </form>
+
           </div>
 
-        </div>
+          <h4 class="mt-3"><?php echo $gi18n['meeting_link'] ?></h4>
+          <div class="d-flex flex-column justify-content-between">
 
-        <div id="form" class="admin-forms dialog">
+            <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
 
-          <h4><?php echo $gi18n['meeting_link'] ?></h4>
-          <div class="d-flex justify-content-between">
-            <form action="<?php echo $site_url; ?>" method="GET">
-
-                <span><input placeholder="https://us04web.zoom.us..." type="text" name="meetinglink"></span>
-                <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
+                <input class="flex-grow-1 me-3" placeholder="https://us04web.zoom.us..." type="text" name="meetinglink">
+                <label>
+                  <a class="btn-tall green" title="<?php echo $gi18n['add'] ?>" type="button" name="button"><i class="bi bi-check-lg"></i></a>
+                  <input class="d-none" type="submit" />
+                </label>
                 <input type="hidden" value="<?php echo $user ?>" name="user">
                 <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
 
             </form>
+
+            <p class="text-small mt-3">Link atual: <a href="<?php echo $userMeetingLink; ?>"><?php echo $userMeetingLink; ?></a></p>
+
           </div>
 
         </div>
@@ -176,7 +193,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <div class="dialog">
 
           <div class="d-flex">
-            <a class="btn-tall blue edit-homework-button" data-target="<?php echo $user_sha1d; ?>" data-link="<?php echo $page_link; ?>">
+            <a class="btn-tall blue edit-homework-button" data-target="<?php echo $user_sha1d; ?>" data-link="<?php echo $userStudentPageObjectEditLink; ?>">
               <?php echo $gi18n['edit'] ?>
             </a>
           </div>
@@ -184,7 +201,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
           <hr />
 
           <div id="inner-<?php echo $user_sha1d; ?>">
-            <?php GetUserStudyPage($user); ?>
+            <?php echo apply_filters('the_content', $userStudentPageObject->post_content); ?>
           </div>
 
         </div>
@@ -213,23 +230,25 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     <ul id="group-<?php echo $group['name'] ?>" class="user-list list-group list-group-horizontal mb-1">
 
       <li class="list-group-item col">
-        <span class="badge bg-secondary">
-          <?php echo $gi18n['group']; ?>
-          <span class="ms-1 text-primary">
+        <span class="badge bg-primary">
+          <?php echo $gi18n['group'] . ':'; ?>
+          <span class="ms-1 text-white">
             <strong><?php echo $group['name']; ?></strong>
           </span>
         </span>
-        <i class="ms-1 text-grey-darker">
+        <i class="ms-1 text-grey-darkest">
           <?php echo implode(', ', $group['usersNames']); ?>
         </i>
       </li>
 
       <li class="list-group-item col-4 d-flex justify-content-around">
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
-          <?php echo $gi18n['homework']; ?>
+          <i class="bi bi-journal-richtext"></i>
+          <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
         </a>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
-          <?php echo $gi18n['controls']; ?>
+          <i class="bi bi-toggles"></i>
+          <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
         </a>
       </li>
 
@@ -238,14 +257,17 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
     <div class="collapse" id="controls-<?php echo $group['name']; ?>">
 
-      <div id="form" class="admin-forms dialog">
+      <div id="form-<?php echo $group['name']; ?>" class="admin-forms dialog">
 
         <h4><?php echo $gi18n['meeting_link'] ?></h4>
         <div class="d-flex justify-content-between">
-          <form action="<?php echo $site_url; ?>" method="GET">
+          <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
 
-              <span><input placeholder="https://us04web.zoom.us..." type="text" name="meetinglink"></span>
-              <span><input class="btn-tall green" type="submit" value="<?php echo $gi18n['add'] ?>" /></span>
+              <input class="flex-grow-1 me-3" placeholder="https://us04web.zoom.us..." type="text" name="meetinglink">
+              <label>
+                <a class="btn-tall green" title="<?php echo $gi18n['add'] ?>" type="button" name="button"><i class="bi bi-check-lg"></i></a>
+                <input class="d-none" type="submit" />
+              </label>
               <input type="hidden" value="<?php echo json_encode($group['users']) ?>" name="user">
               <input type="hidden" value="<?php echo $gi18n['schools_link'] ?>" name="redirect">
 
@@ -288,8 +310,14 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
   <?php } // end group foreach loop ?>
 
-  <div class="dialog info mt-3">
-    <h3><?php echo $gi18n['your_code']; ?>: <span class="badge bg-secondary"><?php echo Guyra_hash($thisUserId); ?></span></h3>
+  <div class="dialog mt-3">
+    <h3><?php echo $gi18n['your_code']; ?>:</h3>
+
+    <span class="d-flex my-3">
+      <input id="your-code" type="text" value="<?php echo $userTeacherCode; ?>" class="text-black border-0 bg-transparent no-focus" />
+      <button id="copy-code" class="btn-tall btn-sm green" type="button" name="button"><i class="bi bi-clipboard"></i></button>
+    </span>
+
     <p><?php echo $gi18n['your_code_explain']; ?></p>
   </div>
 

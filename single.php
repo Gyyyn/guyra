@@ -7,14 +7,12 @@
  * @package guyra
  */
 
-// If the user has admin permissions he edits the page, otherwise
-// gtfo of here
-if (!current_user_can('edit_posts')) {
+$post_category = get_the_category()[0]->slug;
+
+if ($post_category != 'blog') {
 
   wp_redirect(get_site_url());
 
 } else {
-
-  wp_redirect(get_admin_url() . 'post.php?post=' . get_the_ID() . '&action=edit');
-
+  load_template(locate_template('category-blog.php'));
 }

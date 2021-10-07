@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
+include get_template_directory() . '/Guyra_misc.php';
 
 do_action( 'user_registration_before_edit_profile_form' ); ?>
 
@@ -29,13 +30,14 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 	<form class="form-control edit-profile" action="" method="post" enctype="multipart/form-data">
 		<div class="row">
 			<div class="ur-form-grid">
-				<div class="user-registration-profile-fields">
+				<div class="user-registration-profile-fields row">
 					<?php
 					if( 'no' === get_option( 'user_registration_disable_profile_picture', 'no' ) ) {
 					?>
+						<div class="profile-picture-fields d-flex flex-column col-md-3">
 						<h3><?php echo $gi18n['profile_details_picture']; ?></h3>
-						<div class="d-flex flex-column align-items-center mb-5">
-							<div class="page-icon">
+						<div class="text-center mx-auto mb-5">
+							<div class="page-icon position-relative">
 								<?php
 								$gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
 								$profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
@@ -55,48 +57,56 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 									}
 								}
 									?>
-									<img class="profile-preview avatar page-icon medium" alt="profile-picture" src="<?php echo $image; ?>" style='max-width:96px; max-height:96px;' >
-								</div>
+									<img class="profile-preview avatar page-icon medium" alt="profile-picture" src="<?php echo $image; ?>">
 
-								<div class="button-group py-3">
-									<?php
-
-									if ( has_action( 'uraf_profile_picture_buttons' ) ) {
-										?>
-										<div class="uraf-profile-picture-upload">
-											<p class="form-row " id="profile_pic_url_field" data-priority="">
-												<span class="uraf-profile-picture-upload-node" style="height: 0;width: 0;margin: 0;padding: 0;float: left;border: 0;overflow: hidden;">
-												<input type="file" id="ur-profile-pic" name="profile-pic" class="profile-pic-upload" accept="<?php echo $edit_profile_valid_file_type ?>" style="<?php echo ( $gravatar_image !== $image ) ? 'display:none;' : ''; ?>" />
-												<?php echo '<input type="text" class="uraf-profile-picture-input input-text ur-frontend-field" name="profile_pic_url" id="profile_pic_url" value="' . esc_url( $profile_picture_url ) . '" />'; ?>
-												</span>
-												<?php do_action( 'uraf_profile_picture_buttons' ); ?>
-											</p>
-											<div style="clear:both; margin-bottom: 20px"></div>
-										</div>
-
-									<?php
-									} else {
-										?>
-										<input type="hidden" name="profile-pic-url" id="profile_pic_url" value="<?php echo esc_attr( $profile_picture_url ); ?>" />
-										<input type="hidden" name="profile-default-image" value="<?php echo $gravatar_image; ?>" />
-										<button class="btn-tall profile-pic-remove" style="<?php echo ( $gravatar_image === $image ) ? 'display:none;' : ''; ?>"><?php echo __( 'Remove', 'user-registration' ); ?></php></button>
+									<div class="button-group py-3">
 										<?php
-										if ( 'yes' === get_option( 'user_registration_ajax_form_submission_on_edit_profile', 'no' ) ) {
+
+										if ( has_action( 'uraf_profile_picture_buttons' ) ) {
 											?>
-											<button type="button" class="btn-tall hide-if-no-js" style="<?php echo ( $gravatar_image !== $image ) ? 'display:none;' : ''; ?>" ><?php echo $gi18n['upload']; ?></button>
-											<input type="file" id="ur-profile-pic" name="profile-pic" class="profile-pic-upload" accept="image/jpeg,image/jpg,image/gif,image/png" style="display:none" />
-											<?php
+											<div class="uraf-profile-picture-upload">
+												<p class="form-row " id="profile_pic_url_field" data-priority="">
+													<span class="uraf-profile-picture-upload-node" style="height: 0;width: 0;margin: 0;padding: 0;float: left;border: 0;overflow: hidden;">
+													<input type="file" id="ur-profile-pic" name="profile-pic" class="profile-pic-upload" accept="<?php echo $edit_profile_valid_file_type ?>" style="<?php echo ( $gravatar_image !== $image ) ? 'display:none;' : ''; ?>" />
+													<?php echo '<input type="text" class="uraf-profile-picture-input input-text ur-frontend-field" name="profile_pic_url" id="profile_pic_url" value="' . esc_url( $profile_picture_url ) . '" />'; ?>
+													</span>
+													<?php do_action( 'uraf_profile_picture_buttons' ); ?>
+												</p>
+											</div>
+
+										<?php
 										} else {
 											?>
-											<input type="file" id="ur-profile-pic" name="profile-pic" class="profile-pic-upload" accept="image/jpeg,image/jpg,image/gif,image/png" style="<?php echo ( $gravatar_image !== $image ) ? 'display:none;' : ''; ?>" />
+											<input type="hidden" name="profile-pic-url" id="profile_pic_url" value="<?php echo esc_attr( $profile_picture_url ); ?>" />
+											<input type="hidden" name="profile-default-image" value="<?php echo $gravatar_image; ?>" />
+											<label class="w-25 position-absolute bottom-0 end-0 translate-middle">
+											<?php
+											if ( 'yes' === get_option( 'user_registration_ajax_form_submission_on_edit_profile', 'no' ) ) {
+												?>
+												<button type="button" class="btn-tall hide-if-no-js <?php echo ( $gravatar_image === $image ) ? 'd-none' : ''; ?>"><?php echo $gi18n['upload']; ?></button>
+												<input type="file" id="ur-profile-pic" name="profile-pic" class="d-none profile-pic-upload" accept="image/jpeg,image/jpg,image/gif,image/png" />
+												<?php
+											} else {
+												?>
+												<input type="file" id="ur-profile-pic" name="profile-pic" class="d-none profile-pic-upload" accept="image/jpeg,image/jpg,image/gif,image/png" />
+												<?php
+											}
+											?>
+												<a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+											</label>
+
 											<?php
 										}
-									}
-									?>
+										?>
+									</div>
+
 								</div>
+								<button class="btn-tall profile-pic-remove <?php echo ( $gravatar_image === $image ) ? 'd-none' : ''; ?>"><?php echo $gi18n['remove']; ?></button>
 							</div>
 					<?php } ?>
+					</div>
 
+					<div class="col-md">
 					<?php do_action( 'user_registration_edit_profile_form_start' ); ?>
 					<h3><?php echo $gi18n['profile_details']; ?></h3>
 					<div class="mb-3">
@@ -305,9 +315,6 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 
 												user_registration_form_field( $key, $field, $value );
 
-												/**
-												 * Embed the current country value to allow to remove it if it's not allowed.
-												 */
 												if ( 'country' === $single_item->field_key && ! empty( $value ) ) {
 													echo sprintf( '<span hidden class="ur-data-holder" data-option-value="%s" data-option-html="%s"></span>', $value, UR_Form_Field_Country::get_instance()->get_country()[ $value ] );
 												}
@@ -324,11 +331,11 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 						<?php } ?>
 
 					</div>
+
 					<?php
 					do_action( 'user_registration_edit_profile_form' );
 					$submit_btn_class = apply_filters( 'user_registration_form_update_btn_class', array() );
-					?>
-					<?php
+
 					if ( 'yes' === get_option( 'user_registration_ajax_form_submission_on_edit_profile', 'no' ) ) {
 						?>
 						<button type="submit" class="btn-tall blue <?php echo esc_attr( implode( ' ', $submit_btn_class ) ); ?>" name="save_account_details" ><?php echo $gi18n['save']; ?></button>
@@ -341,6 +348,8 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 						<?php
 					}
 					?>
+					
+					</div>
 				</div>
 			</div>
 

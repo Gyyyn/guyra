@@ -151,6 +151,13 @@ function getEquivalentAnswersFor(answer) {
     case "would have":
       return ["would've", "would have"];
     break;
+
+    // Misc
+
+    case "all around":
+    case "throughout":
+      return ["all around", "throughout"];
+    break;
   }
 }
 
@@ -598,6 +605,7 @@ function LevelChooserButton(props) {
       'a',
       {
         className: 'btn',
+        title: props.values.name + ' - ' + props.values.id,
         onClick: () => {
           loadExerciseJSON(props.level, props.values.id);
           window.scrollTo(0, 0);

@@ -148,7 +148,7 @@ span.text-muted {
 .the-definition .section.Derived.terms,
 .the-definition .section.Translations,
 .the-definition .section.Anagrams {
-  font-size: var(--guyra-fonts-textsize-ss);
+  font-size: var(--guyra-fonts-textsize-s);
 }
 
 .the-definition .section.References,
@@ -185,6 +185,7 @@ span.text-muted {
 
 .the-images img {
   max-height: 15rem;
+  border-radius: var(--guyra-border-radius-bigger)
 }
 
 .the-images {

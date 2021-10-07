@@ -13,6 +13,7 @@ $thisUserId = get_current_user_id();
 $thisUser = get_user_meta($thisUserId);
 $user = $_GET['user'];
 $redirect = $_GET['redirect'];
+$isAdmin = current_user_can('manage_options');
 
 if (!$_GET['redirect']) {
   $redirect = get_site_url();
@@ -21,20 +22,12 @@ if (!$_GET['redirect']) {
 include get_template_directory() . '/Guyra_misc.php';
 
 // Case where user is site admin
-if (current_user_can('manage_options')) {
+if ($isAdmin) {
 
   if($user) {
 
     if ($_GET['assigntoteacher']) {
       update_user_meta($user, 'teacherid', $_GET['assigntoteacher'] );
-    }
-
-    if ($_GET['assigntogroup']) {
-      update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
-    }
-
-    if ($_GET['cleargroup']) {
-      delete_user_meta($user, 'studygroup' );
     }
 
     if ($_GET['litetill']) {
@@ -163,7 +156,7 @@ if (current_user_can('manage_options')) {
 
 // Case where user is a teacher
 
-if ($thisUser['role'][0] == "teacher") {
+if ($isAdmin || $thisUser['role'][0] == "teacher") {
 
   $users = get_users();
 
@@ -176,26 +169,28 @@ if ($thisUser['role'][0] == "teacher") {
     }
   }
 
-  if(in_array($user, $allowedUsers)) {
+  if(in_array($user, $allowedUsers) || $isAdmin):
 
-    if ($_GET['assigntogroup']) {
-      update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
-    }
-
-    if ($_GET['meetinglink']) {
-      guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink']);
-    }
-
-    if ($_GET['cleargroup']) {
-      delete_user_meta($user, 'studygroup' );
-    }
-
+  if ($_GET['assigntogroup']) {
+    update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
   }
+
+  if ($_GET['meetinglink']) {
+    guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink']);
+  }
+
+  if ($_GET['cleargroup']) {
+    delete_user_meta($user, 'studygroup' );
+  }
+
+  endif;
 
   $user_is_users = json_decode($user);
 
   // If we got a list of users there is only a few possible things we can do
   if (is_array($user_is_users)) {
+
+    if(in_array($user, $allowedUsers) || $isAdmin):
 
     if ($_GET['meetinglink']) {
 
@@ -204,6 +199,8 @@ if ($thisUser['role'][0] == "teacher") {
       }
 
     }
+
+    endif;
 
   }
 

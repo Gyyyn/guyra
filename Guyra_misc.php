@@ -195,11 +195,16 @@ function GetUserStudyPage_object($user) {
 
 }
 
-function GetUserStudyPage($user) {
+function GetUserStudyPage($user, $returnObject=false) {
 
   $object = GetUserStudyPage_object($user);
 
-  echo apply_filters('the_content', $object->post_content);
+  if ($returnObject) {
+    return $object;
+  } else {
+    echo apply_filters('the_content', $object->post_content);
+  }
+
 }
 
 function GetUserStudyPage_comments($user, $reply_box=true) {

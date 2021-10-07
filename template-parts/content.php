@@ -7,19 +7,18 @@
  * @package guyra
  */
 
+$canEdit = current_user_can('edit_posts');
+$postTitle = the_title(null, null, false);
+$postId = get_the_ID();
+
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php echo $postId; ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title">', '</h2>' );
-		endif; ?>
+		<h1 class="entry-title"><?php echo $postTitle; ?></h1>
 	</header>
 
 	<?php if ( is_singular() ) :?>
@@ -34,16 +33,31 @@ include get_template_directory() . '/i18n.php';
 			<?php
 				the_post_thumbnail(
 					'post-thumbnail',
-					array(
-						'alt' => the_title_attribute(
-							array(
-								'echo' => false,
-							)
-						),
-					)
+					['alt' => the_title_attribute(['echo' => false])]
 				);
 			?>
 		</a>
+
+	<?php endif; ?>
+
+	<?php if ($canEdit): ?>
+
+	<div class="d-flex align-items-center justify-content-center bg-grey py-3">
+
+		<span class="badge bg-primary me-3">
+			<?php echo $postTitle ?>
+			<i class="bi bi-arrow-right"></i>
+			<?php echo $gi18n['you_can'] . ':'; ?>
+		</span>
+
+		<span>
+			<a class="btn-tall btn-sm blue" href="<?php echo get_edit_post_link(); ?>">
+				<i class="bi bi-pencil-square"></i>
+				<?php echo $gi18n['edit']; ?>
+			</a>
+		</span>
+
+	</div>
 
 	<?php endif; ?>
 
@@ -54,21 +68,17 @@ include get_template_directory() . '/i18n.php';
 				wp_kses(
 					/* translators: %s: Name of current post. Only visible to screen readers */
 					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'guyra' ),
-					array(
-						'span' => array(
-							'class' => array(),
-						),
-					)
+					['span' => ['class' => []]]
 				),
-				wp_kses_post( get_the_title() )
+				wp_kses_post( $postTitle )
 			)
 		);
 
 		wp_link_pages(
-			array(
+			[
 				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'guyra' ),
-				'after'  => '</div>',
-			)
+				'after'  => '</div>'
+			]
 		);
 		?>
 	</div>

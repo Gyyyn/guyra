@@ -17,11 +17,11 @@ include $template_dir . '/i18n.php';
 
 <div class="the-header text-center">
 
-  <h1 class="text-primary"><?php echo $gi18n['dictionary'] . ' ' . $gi18n['company_name']; ?></h1>
+  <h1 class="text-primary mb-3"><?php echo $gi18n['dictionary'] . ' ' . $gi18n['company_name']; ?></h1>
 
   <div class="d-flex flex-row align-items-center justify-content-center mt-1 mb-5">
 
-    <input id="dictionary-word" class="form-control w-50 me-5" type="text" placeholder="<?php echo $gi18n['write_word_here']; ?>">
+    <input id="dictionary-word" class="form-control w-75 me-3" type="text" placeholder="<?php echo $gi18n['write_word_here']; ?>">
     <a class="btn-tall blue" id="dictionary-submit"><i class="bi bi-search"></i></a>
 
   </div>

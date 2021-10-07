@@ -19,8 +19,8 @@ Tags: guyra
 
 :root {
   --guyra-blue: rgba(6, 182, 241, 1);
-  --guyra-blue-darker: rgba(1, 119, 158, 1);
-  --guyra-blue-darkest: rgba(1, 71, 94, 1);
+  --guyra-blue-darker: rgb(2 144 191);
+  --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
   --guyra-blue-lightest: rgba(157, 219, 239, 1);
   --guyra-blue-pale-dark: #1c3e4e;
@@ -57,8 +57,8 @@ Tags: guyra
 
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
-  --guyra-grey-dark: #dddddd;
-  --guyra-grey-darker: #8e8e8e;
+  --guyra-grey-dark: #ebebeb;
+  --guyra-grey-darker: #d1d1d1;
   --guyra-grey-darkest: #797979;
   --guyra-black: #5a5a5a;
   --guyra-blacker: #3a3a3a;
@@ -87,6 +87,11 @@ Tags: guyra
   --guyra-border-radius-bigger: calc(var(--guyra-border-radius) * 5);
   --guyra-border-size: calc(0.2rem + .05vw);
   --guyra-transition: all 0.15s cubic-bezier(.19,1,.22,1);
+
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
 }
 
 /*
@@ -334,6 +339,7 @@ label[for="comment"],
 .bg-white { background: var(--guyra-white); }
 .bg-grey {background: var(--guyra-grey); }
 .bg-grey-darker {background: var(--guyra-grey-darker); }
+.bg-grey-darkest {background: var(--guyra-grey-darkest); }
 
 .rounded {
     border-radius: var(--guyra-border-radius) !important;
@@ -350,6 +356,13 @@ a.round-border {
 
 .border-outline {
   box-shadow: var(--guyra-box-shadow-outline);
+}
+
+.no-focus:focus,
+.no-focus:focus-visible {
+  border: unset;
+  outline: unset;
+  background: unset;
 }
 
 /*
@@ -398,6 +411,7 @@ a.round-border {
 
 .navbar.fixed-bottom {
   height: unset;
+  padding-bottom: calc(var(--sab) + .5rem);
 }
 
 @media (max-width: 992px) {
@@ -637,7 +651,7 @@ nav .navbar-nav .btn-wa:hover {
 @media (max-width: 992px) {
 	.squeeze { max-width: unset; margin: 0 auto; }
 	.squeeze-big { max-width: unset; margin: 0 auto; }
-  .squeeze-small { max-width: unset; margin: 0; }
+  .squeeze-small { max-width: unset; margin: 0 1rem; }
 }
 
 .prices-container {
@@ -811,6 +825,8 @@ a:hover {
 .text-primary { color: var(--guyra-blue) !important; }
 
 .text-secondary { color: var(--guyra-purple-darker) !important; }
+
+.text-black { color: var(--guyra-black) !important; }
 
 .text-grey { color: var(--guyra-grey) !important; }
 
@@ -1002,7 +1018,8 @@ a.btn-primary,
 
 .btn-tall.blue:hover,
 .btn-tall.active:hover,
-.page-squeeze .list-group.study-menu .list-group-item.active:hover {
+.page-squeeze .list-group.study-menu .list-group-item.active:hover,
+.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"]:hover {
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);
 }
@@ -1041,14 +1058,14 @@ a.btn-primary,
 }
 
 .btn-tall.black {
-	background-color: var(--guyra-grey-darker);
-  border-bottom-color: var(--guyra-grey-darkest);
+  background-color: var(--guyra-grey-darkest);
+  border-bottom-color: var(--guyra-black);
   color: var(--guyra-white);
 }
 
 .btn-tall.black:hover {
-	background-color: var(--guyra-grey-darkest);
-  border-bottom-color: var(--guyra-black);
+	background-color: var(--guyra-black);
+  border-bottom-color: var(--guyra-blacker);
 }
 
 #exercise-container .exercise-answers .btn-tall {
@@ -1275,7 +1292,7 @@ input.form-control:focus,
   border-radius: 50vw;
   color: var(--guyra-blue);
   border: .1rem var(--guyra-grey-dark) solid;
-  border-bottom: .5rem var(--guyra-grey-dark) solid;
+  border-bottom: calc(.35rem + .2vw) var(--guyra-grey-dark) solid;
   background: var(--guyra-grey);
   padding: calc(.25rem + 1.2vw);
   margin: 0 calc(.15rem + 0.5vw);
@@ -1709,7 +1726,7 @@ input.form-control:focus,
   min-width: 30vw;
 }
 
-.schools .editor-inline {
+.editor-inline {
   width: 100%;
   height: 75vh;
 }
