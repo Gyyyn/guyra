@@ -1,0 +1,988 @@
+{
+
+  "unit1": {
+
+    "CompleteThePhrase": [
+
+      ["I am John.", "am", "(sou)"],
+      ["He is John.", "is", "(é)"],
+      ["We are friends.", "are", "(somos)"],
+      ["She is clara.", "is", "(é)"],
+      ["Hello! How are you?", "are", "(está)"],
+      ["Hello! How are you doing?", "are", "(está)"],
+      ["Hello! Are you good?", "Are", "(está)"],
+      ["Hi! Good afternoon.", "Good", "(boa)"],
+      ["Are you from here?", "from", "(da)"],
+      ["Is she from here?", "she from", "(ela ___ da)"],
+      ["Are you from here?", "here", "(daqui)"],
+      ["Are they from here?", "they", "(eles)"],
+      ["We are from England.", "are from", "(somos da)"],
+      ["They are from Brazil.", "are", "(são)"],
+      ["I am from Germany.", "am from", "(sou da)"],
+      ["He is from Canada.", "is from", "(é da)"],
+      ["She is really pretty!", "is", "(é)"],
+      ["He is really tall!", "is", "(é)"],
+      ["She is at home.", "is", "(é)"],
+      ["She is in her room", "is", "(é)"],
+      ["I am English.", "I", "(eu)"],
+      ["I am Brazillian.", "am", "(sou)"],
+      ["I am Japanese.", "I", "(eu)"],
+      ["I am Norwegian.", "am", "(sou)"],
+      ["My friend is from Brazil.", "is from", "(é do)"],
+      ["He is from Italy.", "is from", "(é do)"],
+      ["My sister is from China.", "is from", "(é do)"],
+      ["Carla is from Argentina.", "is from", "(é do)"],
+      ["Nice to meet you.", "meet", "(conhecer)"],
+      ["Good evening.", "Good", "(Boa)"],
+      ["Good morning.", "Good", "(Bom)"],
+      ["Good afternoon.", "Good", "(Boa)"],
+      ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(eu sou)"],
+      ["He is from New York, my friend is from Los Angeles.", "is from", "(é de)"],
+      ["I'm from Miami, he is from Los Angeles.", "he is", "(ele é)"],
+      ["I'm from Los Angeles, my friend is from Rio.", "I'm", "(eu sou)"],
+      ["My friend and I are students.", "and I", "(e eu)"],
+      ["My friend and I are at home.", "and I", "(e eu)"],
+      ["We are students.", "are", "(somos)"],
+      ["They are at home.", "at", "(em)"],
+      ["We are American.", "We", "(nós)"],
+      ["We aren't Canadian.", "aren't", "(não somos)"],
+      ["I'm not Chinese.", "not", "(não)"],
+      ["He isn't Chilean.", "isn't", "(não é)"]
+
+    ],
+
+    "WhatYouHear": [
+      ["I am Brazillian. He isn't Chilean."],
+      ["We are students. Carla is from Argentina."],
+      ["I'm from Miami, he is from Los Angeles."],
+      ["Nice to meet you. I am Josh."],
+      ["I'm from Rio, my friend is from Los Angeles."]
+    ]
+
+  },
+
+  "unit2": {
+
+    "CompleteThePhrase": [
+      ["What's in your bag?", "in your", "(na sua)"],
+      ["What's in her bag?", "in her", "(na dela)"],
+      ["What's in his bag?", "in his", "(na dele)"],
+      ["What's in this bag?", "in this", "(nessa)"],
+      ["This is my phone. It has my case.", "is my", "(é meu)"],
+      ["This is not her phone. It has my case.", "her", "(dela)"],
+      ["This is not my phone. It doesn't have my case.", "is not", "(não é)"],
+      ["This is not his phone. It has her case.", "not his", "(não é dele)"],
+      ["Are these your keys?", "these your", "(essas ____ suas)"],
+      ["Is this your bag?", "this your", "(essa ____ sua)"],
+      ["Are those your glasses?", "those your", "(essas ____ seus)"],
+      ["Is that your key?", "that your", "(aquela ____ sua)"],
+      ["These are his books.", "are his", "(são dele)"],
+      ["Those are her books.", "are her", "(são dela)"],
+      ["This is his book.", "is his", "(é dele)"],
+      ["That is her book.", "is her", "(é dela)"],
+      ["I have a car.", "have a", "(tenho um)"],
+      ["He has a bike.", "has a", "(tem uma)"],
+      ["She has a nice house.", "has a", "(tem uma)"],
+      ["We have a car.", "have a", "(temos um)"],
+      ["Our house is big!", "Our", "(nosso)"],
+      ["Their house is nice!", "Their", "(Delas)"],
+      ["His house is small!", "His", "(Dele)"],
+      ["Her house is big!", "Her", "(Dela)"],
+      ["Do you have a TV at home?", "you have", "(você tem)"],
+      ["Does she have a fridge at home?", "she have", "(ela tem)"],
+      ["Does he have a phone with him?", "he have", "(ele tem)"],
+      ["Do they have a nice TV?", "they have", "(eles tem)"],
+      ["I have three watches and a clock.", "have three", "(tenho três)"],
+      ["I have a phone and a watch.", "have a", "(tenho um)"],
+      ["She has a nice bag.", "has a", "(tem uma)"],
+      ["He has green eyes.", "has", "(tem)"],
+      ["Where is your house?", "your house", "(sua casa)"],
+      ["Where do you work?", "you work", "(você trabalha)"],
+      ["Where do you live?", "you live", "(você mora)"],
+      ["Where do you go to school?", "you go to school", "(você vai pra escola)"],
+      ["What is her address?", "is her", "(é ____ dela)"],
+      ["What is his phone number?", "is his", "(é ____ dele)"],
+      ["What is your surname?", "is your", "(é seu)"],
+      ["What are their names?", "are their", "(são ____ delas)"],
+      ["It is far from here, not close.", "is far", "(é longe)"],
+      ["It is close from here, not far.", "is close", "(é perto)"],
+      ["It is a nice house.", "is a nice", "(é uma ____ legal)"],
+      ["It is nice to see you.", "is nice", "(é legal)"],
+      ["What's your phone number", "your phone", "(seu celular)"],
+      ["What's her phone number", "her phone", "(celular dela)"],
+      ["What's his phone number", "his phone", "(celular dele)"],
+      ["What are their phone number", "are their", "(celular deles)"],
+      ["Can you help me?", "me", "(eu)"],
+      ["Can you help her?", "her", "(ela)"],
+      ["Can you help him?", "him", "(ele)"],
+      ["Can you help them?", "them", "(elas)"]
+    ],
+
+    "WhatYouHear": [
+      ["Can you help me? I need to use the phone."],
+      ["Our house is big but his house is small."],
+      ["Are those your glasses or are they mine?"],
+      ["Does he have a phone with him? What's his phone number?"],
+      ["Where do you go to school, you have a nice uniform."]
+    ]
+
+  },
+
+  "unit3": {
+
+    "CompleteThePhrase": [
+      ["It's four thirty three.", "four thirty three", "(4:33)"],
+      ["It's four thirty seven.", "four thirty seven", "(4:37)"],
+      ["It's four fifty three.", "four fifty three", "(4:53)"],
+      ["It's four fifty eight.", "four fifty eight", "(4:57)"],
+      ["It's five past five.", "five past five", "cinco após as cinco"],
+      ["It's three past five.", "three past five", "três após as cinco"],
+      ["It's eight past five.", "eight past five", "oito após as cinco"],
+      ["It's ten past five.", "ten past five", "dez após as cinco"],
+      ["It's twenty to four.", "twenty to four", "vinte para as quatro"],
+      ["It's fifteen to four.", "fifteen to four", "quinze para as quatro"],
+      ["It's ten to four.", "ten to four", "dez para as quatro"],
+      ["It's five to four.", "five to four", "cinco para as quatro"],
+      ["It's three fourty seven AM.", "three fourty seven AM", "(3:47AM)"],
+      ["It's three thirty seven AM.", "three thirty seven AM", "(3:37AM)"],
+      ["It's nine twenty seven PM.", "nine twenty seven PM", "(9:27PM)"],
+      ["It's eight twenty seven PM.", "eight twenty seven PM", "(8:27PM)"],
+      ["It's noon.", "noon", "meio dia"],
+      ["It's five past noon.", "noon", "meio dia"],
+      ["It's half past noon.", "noon", "meio dia"],
+      ["It's a quarter to noon.", "a quarter", "um quarto"],
+      ["It's midnight.", "midnight", "meia noite"],
+      ["It's five past midnight.", "midnight", "meia noite"],
+      ["It's half past midnight.", "midnight", "meia noite"],
+      ["It's a quarter to midnight.", "a quarter to", "um quarto"],
+      ["It's a quarter past noon.", "a quarter past noon", "um quarto após o meio dia"],
+      ["It's a quarter past four.", "a quarter past four", "um quarto após as quatro"],
+      ["It's a quarter past three.", "a quarter past three", "um quarto após as três"],
+      ["It's a quarter past two.", "a quarter past two", "um quarto após as duas"],
+      ["It's a quarter past one.", "a quarter past one", "um quarto após a uma"],
+      ["It's nine in the evening.", "nine in the evening", "nove da noite"],
+      ["It's eight in the evening.", "eight in the evening", "oito da noite"],
+      ["It's eleven in the evening.", "eleven in the evening", "onze da noite"],
+      ["It's seven in the evening.", "seven in the evening", "sete da noite"],
+      ["It's three in the morning.", "three in the morning", "três da manhã"],
+      ["It's two in the morning.", "two in the morning", "duas da manhã"],
+      ["It's four in the morning.", "four in the morning", "quatro da manhã"],
+      ["It's six in the morning.", "six in the morning", "seis da manhã"]
+    ],
+
+    "WhatYouHear": [
+      ["It's four thirty three, time for a break."],
+      ["It's six in the morning, you need to wake up."],
+      ["It's five past noon, let's have lunch."],
+      ["It's a quarter past two, we should go back to work."],
+      ["It's three past five, time to go home."]
+    ]
+
+  },
+
+  "unit4": {
+
+    "CompleteThePhrase": [
+      ["I am working today.", "am work", "(estou trabalhando)"],
+      ["I am studying today.", "am studying", "(estou estudando)"],
+      ["I am watching movies today.", "am watching", "(estou assistindo)"],
+      ["I am playing games today.", "am playing", "(estou jogando)"],
+      ["Are you studying now?", "study", "(estudando)"],
+      ["Are you working now?", "working", "(trabalhando)"],
+      ["Are you watching movies watching movies?", "study", "(assistindo filmes)"],
+      ["Are you playing games now?", "games", "(jogos)"],
+      ["She works at night.", "works", "(trabalha)"],
+      ["She studies at night.", "studies", "(estuda)"],
+      ["He works at a restaurant.", "restaurant", "(restaurante)"],
+      ["He studies in the morning.", "studies", "(estuda)"],
+      ["I am living downtown nowadays.", "I am", "(eu estou)"],
+      ["She is living in Brazil nowadays.", "She is", "(Ela está)"],
+      ["They are living in the U.S. nowadays.", "They are", "(Eles estão)"],
+      ["I am living far away nowadays.", "far", "(longe)"],
+      ["Where are you going?", "Where", "(onde)"],
+      ["Where is he going?", "Where is", "(onde ____ está)"],
+      ["Where is she going?", "Where", "(onde)"],
+      ["Where are they going?", "Where are", "(onde ____ estão)"],
+      ["What are you going to do later?", "going", "(vai)"],
+      ["What is he going to do later?", "going", "(vai)"],
+      ["What is she going to do later?", "going", "(vai)"],
+      ["What are they going to do later?", "going", "(vão)"],
+      ["What are you doing?", "are you", "(você está)"],
+      ["What is she doing?", "is she", "(ela está)"],
+      ["What is he doing?", "is he", "(ele está)"],
+      ["What are they doing?", "are they", "(elas estão)"],
+      ["What's she doing?", "she doing", "(ela ____ fazendo)"],
+      ["What's he doing?", "he doing", "(ele ____ fazendo)"],
+      ["What's they doing?", "they doing", "(eles ____ fazendo)"],
+      ["What are you doing?", "you doing", "(você ____ fazendo)"],
+      ["She's having breakfast.", "having breakfast", "(tomando café da manhã)"],
+      ["She's having dinner.", "having dinner", "(jantando)"],
+      ["She's having lunch.", "having lunch", "(almoçando)"],
+      ["She's having a snack.", "having a snack", "(tomando um lanche)"],
+      ["It's late so he is sleeping.", "is sleeping", "(está dormindo)"],
+      ["It's early so he is studying.", "is studying", "(está estudando)"],
+      ["It's late so she is having dinner.", "late", "(cedo)"],
+      ["It's early so he is having breakfast.", "early", "(tarde)"]
+    ],
+
+    "WhatYouHear": [
+      ["It's late so he is sleeping."],
+      ["They are living in the U.S. nowadays."],
+      ["I am playing games today, do you want to play with me?"],
+      ["He works at a restaurant but he doesn't like it."],
+      ["She's having breakfast early today!"]
+    ]
+
+  },
+
+  "unit5": {
+
+    "CompleteThePhrase": [
+      ["I always eat breakfast.", "always eat", "(sempre como)"],
+      ["I sometimes eat lunch at home.", "sometimes eat", "(as vezes como)"],
+      ["I never eat dinner out.", "never eat", "(nunca como)"],
+      ["I usually eat at work.", "usually eat", "(geralmente como)"],
+      ["I sometimes work late.", "late", "(tarde)"],
+      ["I usually go to work early.", "early", "(cedo)"],
+      ["I always work from 9 to 5.", "always", "(sempre)"],
+      ["I rarely work overtime.", "work", "(trabalho)"],
+      ["He works a lot.", "works", "(trabalha)"],
+      ["He takes the bus a lot.", "the bus", "(o ônibus)"],
+      ["She drives a lot.", "drives", "(dirige)"],
+      ["She sleeps a lot.", "sleeps", "(dorme)"],
+      ["We always eat in that restaurant.", "eat in", "(come na)"],
+      ["They always make dinner at home.", "make dinner", "(fazem o jantar)"],
+      ["I never eat in that restaurant.", "eat in", "(como na)"],
+      ["She never eats in that restaurant.", "never eats", "(nunca come)"],
+      ["He usually drives to work.", "drives", "(dirige)"],
+      ["She usually plays soccer in the weekend.", "soccer", "(futebol)"],
+      ["He sometimes goes to the gym.", "goes", "(vai)"],
+      ["She usually travels at the end of the year.", "travels", "(viaja)"],
+      ["She rarely plays tennis.", "plays", "(joga)"],
+      ["She never plays volleyball.", "plays", "(joga)"],
+      ["I rarely play tennis.", "play", "(jogo)"],
+      ["I never play volleyall.", "play", "(jogo)"],
+      ["I always sleep late on weekends.", "I always", "(eu sempre)"],
+      ["He always works on weekends.", "He always", "(ele sempre)"],
+      ["I never work at night.", "I never", "(eu nunca)"],
+      ["I always sleep early on weekdays.", "I always", "(eu sempre)"],
+      ["Do you ever eat out?", "Do you", "(você)"],
+      ["Do you ever play games?", "Do you", "(você)"],
+      ["Does he ever play soccer?", "Does he", "(ele)"],
+      ["Does she ever drive to work?", "Does she", "(ela)"],
+      ["I never take the bus.", "bus", "(ônibus)"],
+      ["He never uses public transportation.", "uses", "(usa)"],
+      ["She never takes the bus.", "the bus", "(o ônibus)"],
+      ["I never use public transportation.", "use", "(uso)"],
+      ["My friend always studies a lot for exams.", "studies", "(estuda)"],
+      ["My friend never uses public transportation.", "uses", "(usa)"],
+      ["My friend sometimes plays volleyball.", "plays", "(joga)"],
+      ["My friend usually makes dinner at home.", "makes", "(faz)"]
+    ],
+
+    "WhatYouHear": [
+      ["My friend usually makes dinner at home, and it's delicious"],
+      ["I usually eat at work because I don't have time"],
+      ["She sometimes goes to the gym."],
+      ["I always sleep early on weekdays."],
+      ["I always work from 9 to 5, my job is pretty nice."]
+    ]
+
+  },
+
+  "unit6": {
+
+    "CompleteThePhrase": [
+      ["Do you live in an apartment?", "live in", "(mora em)"],
+      ["Do they live in a house?", "they live", "(eles moram)"],
+      ["Does she live near here?", "near", "(perto)"],
+      ["Does he live in this city?", "this city", "(nesse cidade)"],
+      ["Where do you live?", "do you", "(você)"],
+      ["Where does he work?", "does he", "(ele)"],
+      ["Where does your friend live?", "live", "(mora)"],
+      ["Where do your friends work?", "your friends", "(seus amigos)"],
+      ["There isn't a TV in my house.", "isn't", "(não tem)"],
+      ["There isn't a fridge in my house.", "in my house", "(na minha casa)"],
+      ["There isn't a mirror in my house.", "There isn't", "(não tem)"],
+      ["There isn't a sofa in this house.", "sofa", "(sofa)"],
+      ["There are two fridges in my kitchen.", "in my kitchen", "(na minha cozinha)"],
+      ["There are two beds in my room.", "two beds", "(duas camas)"],
+      ["There are three chairs in my living room.", "three chairs", "(três cadeiras)"],
+      ["There are two mirrors in my kitchen.", "two mirrors", "(dois espelhos)"],
+      ["There aren't any pictures in my apartment.", "pictures", "(fotos)"],
+      ["There aren't any chairs in my house.", "There aren't", "(não tem)"],
+      ["There aren't any TVs in his apartment.", "There aren't", "(não tem)"],
+      ["There aren't any mirrors in her house.", "mirrors", "(espelhos)"],
+      ["Is there a bathroom here? I want to take a shower.", "a bathroom", "(um banheiro)"],
+      ["Is there a TV here? I want to watch a movie.", "a movie", "(um filme)"],
+      ["Is there a mirror here? I want to look at myself.", "look", "(olhar)"],
+      ["Is there a stove here? I need to cook lunch.", "cook", "(cozinhar)"],
+      ["Where is the toilet? I need to wash my hands.", "the toilet", "(o banheiro)"],
+      ["Where is the bedroom? I need to lie down.", "the bedroom", "(o quarto)"],
+      ["Where is the kitchen? We need to make dinner.", "make dinner", "(fazer janta)"],
+      ["Where is the exit? I'll be leaving now.", "exit", "(saida)"],
+      ["There are thirteen rooms in this house.", "in this house", "(nessa casa)"],
+      ["There are fifteen floors in this building.", "in this building", "(nesse prédio)"],
+      ["There are two floors in this house.", "floors", "(andares)"],
+      ["There are five houses in this neighborhood.", "neighborhood", "(bairro)"],
+      ["Where is your room?", "is your", "(é seu)"],
+      ["Where is their house?", "is their", "(é ____ deles)"],
+      ["Where is this building?", "is this", "(é essa)"],
+      ["Where is the toilet?", "is the", "(é o)"],
+      ["There is a café near here, it's only one block.", "near here", "(perto daqui)"],
+      ["There is a train station near here, we could take the train.", "train station", "(estação de trem)"],
+      ["There is a florist's near here, we can buy some flowers!.", "flowers", "(flores)"],
+      ["There is a barber shop near here.", "barber shop", "(barbearia)"]
+    ],
+
+    "WhatYouHear": [
+      ["There is a florist's near here, we can buy some flowers!."],
+      ["There are two beds and a computer in my room."],
+      ["Is there a bathroom here? I want to take a shower."],
+      ["Where is the kitchen? We need to make dinner."],
+      ["There are five houses in this neighborhood."]
+    ]
+
+  },
+
+  "unit7": {
+
+    "CompleteThePhrase": [
+      ["I'm a mechanic. I work with cars.", "mechanic", "(mecânico)"],
+      ["I'm a doctor. I work in a hospital.", "doctor", "(médico)"],
+      ["I'm a clerk. I work in a store.", "clerk", "(atendente)"],
+      ["I'm a salesperson. I sell things.", "salesperson", "(vendedor)"],
+      ["I work in an office. I'm an accountant.", "an office", "(um escritorio)"],
+      ["I work in transportation. I'm a taxi driver.", "transportation", "(transporte)"],
+      ["I work at home. I'm a software engineer.", "at home", "(em casa)"],
+      ["I work in a big company. I'm a manager.", "a manager", "(um gerente)"],
+      ["I work in a restaurant as a server.", "restaurant as a", "(restaurante como um)"],
+      ["I work in a hotel as a clerk.", "hotel as a", "(hotel como um)"],
+      ["I work in a company as a designer.", "company as a", "(empresa como um)"],
+      ["I work in the music industry as a singer.", "as a singer", "(como um cantor)"],
+      ["My friend is a manager in a hotel.", "My friend is", "(Meu amigo é)"],
+      ["My friend is a salesperson in a car shop.", "is a salesperson", "(é um vendedor)"],
+      ["My friend is a doctor in a hospital.", "in a hospital", "(em um hospital)"],
+      ["My friend is a accountant in a office.", "friend is a", "(amigo é um)"],
+      ["My mother works in an office.", "works", "(trabalha)"],
+      ["My father works at home.", "works at", "(trabalha em)"],
+      ["My sister works in a company.", "sister works", "(irmã trabalha)"],
+      ["My brother works in retail.", "works in", "(trabalha em)"],
+      ["Where do you work?", "Where", "(onde)"],
+      ["Where do they work?", "Where do", "(onde)"],
+      ["Where does she work?", "Where does", "(onde)"],
+      ["Where does he work?", "does he", "(ele)"],
+      ["How do you like your job?", "like your", "(gosta do seu)"],
+      ["How do they like their job?", "like their", "(gosta do ____ deles)"],
+      ["How does he like his job?", "like his", "(gosta do ____ dele)"],
+      ["How does she like her job?", "like her", "(gosta do ____ dela)"],
+      ["How does he like working as a journalist?", "does he like", "(ele gosta)"],
+      ["How does she like working as a clerk?", "does she like", "(ela gosta)"],
+      ["How do you like working as a programmer?", "do you like", "(você gosta)"],
+      ["How do they like working as a photographer?", "do they like", "(eles gostam)"],
+      ["Being a photographer is a difficult job.", "a difficult", "(um dificil)"],
+      ["Being a doctor is hard.", "is hard", "(é dificil)"],
+      ["Being a designer is not easy.", "is not easy", "(não é fácil)"],
+      ["Being a clerk is a little boring.", "a little boring", "(um pouco chato)"],
+      ["Working as a firefighter is stressful", "is stressful", "(é estressante)"],
+      ["Working as a doctor is stressful", "is stressful", "(é estressante)"],
+      ["Working in an office is boring", "is boring", "(é chato)"],
+      ["Working as a freelancer is stressful", "is stressful", "(é estressante)"]
+    ],
+
+    "WhatYouHear": [
+      ["Working in an office is boring but the pay is good."],
+      ["My sister works in a company and my father works at home."],
+      ["I'm a salesperson. I sell things in a store."],
+      ["Where do you work nowadays?"],
+      ["How do you like working as a programmer? Is it stressful?"]
+    ]
+
+  },
+
+  "unit8": {
+
+    "CompleteThePhrase": [
+      ["I study animals. It's very interesting.", "I study", "(eu estudo)"],
+      ["He studies chemistry. It's very interesting.", "He studies", "(ele estuda)"],
+      ["She studies engineering. It's very interesting.", "She studies", "(ela estuda)"],
+      ["We study biology. It's very interesting.", "We study", "(nós estudamos)"],
+      ["I work as a taxi driver. I sit all day in my car.", "taxi driver", "(motorista de taxi)"],
+      ["I work as a waiter. I work in the afternoons and evenings.", "waiter", "(garçom)"],
+      ["I work as a dancer. I need to be very fit.", "dancer", "(dançarino)"],
+      ["I work as a programmer. It's very complicated.", "programmer", "(programador)"],
+      ["My friend is a waiter. It's very busy.", "very busy", "(muito agitado)"],
+      ["My friend is a taxi driver. He sits sit all day in my car.", "sit all day", "(sento o dia todo)"],
+      ["My friend is a dancer. He needs to be very fit.", "needs to be", "(precisa ser)"],
+      ["My friend is a programmer. It's very complicated.", "very complicated", "(muito complicado)"],
+      ["My girlfriend is a chef. She's very talented with food.", "talented with food", "(talentosa com comida)"],
+      ["My boyfriend is a salesman. He earns a lot of money.", "earns", "(ganha)"],
+      ["My mom is an accountant. She handles people's money.", "handles", "(lida)"],
+      ["My cousin is a basketball player. He is not very good at it.", "good at it", "(bom nisso)"],
+      ["My brother is a dancer. He's needs to be fit!", "be fit", "(estar em forma)"],
+      ["We are travel agents. We talk to people all day.", "talk to people", "(falamos com pessoas)"],
+      ["We are security guards. We have boring jobs.", "boring", "(chato)"],
+      ["We are musicians. We travel all around the country.", "all around the country", "(por todo o país)"],
+      ["We are travel agents. We talk to people all day.", "talk to people", "(falamos com pessoas)"],
+      ["I'm a consultant. I visit many companies.", "visit many", "(visitamos vários)"],
+      ["I'm a mathematician. I work with numbers.", "work with numbers", "(trabalho com números)"],
+      ["I'm an influencer. Social media is my work.", "is my work", "(é meu trabalho)"],
+      ["I'm unemployed, but I'm going to get a job soon!", "unemployed", "(desempregado)"],
+      ["I need to wake up early for my job.", "need to wake up", "(preciso acordar)"],
+      ["I need to stay late at my job.", "need to stay late", "(preciso ficar tarde)"],
+      ["I need to wake up at 3:00 for my job.", "for my job", "(para meu trabalho)"],
+      ["I need to sleep early for my job.", "need to sleep early", "(preciso dormir cedo)"],
+      ["I travel to a lot of different countries.", "lot of different", "(muitos diferentes)"],
+      ["I have a boring job.", "have a boring", "(tenho um ____ chato)"],
+      ["I earn a lot of money.", "lot of money", "(muito dinheiro)"],
+      ["I work with media companies.", "work with", "(trabalho com)"],
+      ["When do you start work?", "you start", "(você começa)"],
+      ["When do you go to work?", "you go", "(você vai)"],
+      ["Where do you go to work?", "you go", "(você vai)"],
+      ["When did you start work?", "you start", "(você começou)"]
+    ]
+
+  },
+
+  "unit9": {
+
+    "CompleteThePhrase": [
+      ["I wake up early every day.", "every", "(todos)"],
+      ["I'm working in a new company.", "a new", "(um novo)"],
+      ["She's a morning person. She likes the early hours.", "morning person", "(pessoa matinal)"],
+      ["He works better at night. He's a night owl.", "night owl", "(coruja noturna)"],
+      ["How do you feel in the morning?", "feel in", "(sente na)"],
+      ["What's your routine like?", "your routine", "(sua rotina)"],
+      ["I need to go to the store.", "need to", "(precisa)"],
+      ["I'll make dinner now.", "now", "(agora)"],
+      ["Oh, I don't study. I already finished university.", "don't study", "(não estudo)"],
+      ["Can you speak English?", "speak", "(falar)"]
+    ]
+
+  },
+
+  "unit10": {
+
+    "CompleteThePhrase": [
+      ["I'm going to go the store in a few minutes.", "go to the", "(ir a)"],
+      ["He's going to have a party tonight.", "going to", "(vai)"],
+      ["What are you going to do for ", "you going", "(você vai)"],
+      ["I'm not going to take the class today.", "to take", "(fazer)"],
+      ["Where are you going to eat?", "are you", "(você)"],
+      ["What are you going to do tomorrow?", "do tomorrow", "(fazer amanhã)"],
+      ["They are not going to take the car.", "not going", "(não vai)"],
+      ["This is the first time I'm going to eat there.", "first time", "(primeira vez)"],
+      ["Are you going to exercise today?", "exercise today", "(se exercitar hoje)"],
+      ["We are going to work late today unfortunately.", "late today", "(tarde hoje)"],
+      ["My friends and I aren't going, sorry?", "aren't", "(não)"]
+    ]
+
+  },
+
+  "unit11": {
+
+    "CompleteThePhrase": [
+      ["I will be home today.", "be", "(estar)"],
+      ["He won't like that present.", "like that", "(gostar desse)"],
+      ["We will go on vacation in Italy.", "will go", "(vamos ir)"],
+      ["I'll probably go out for dinner.", "go out for", "(sair para)"],
+      ["Won't you come with us? ", "come with", "(vir junto)"],
+      ["I'll be waiting for you", "waiting", "(esperando)"],
+      ["Will you come with us?", "you come", "(você vem)"],
+      ["I'll be there in a few minutes.", "in a few", "(em alguns)"],
+      ["Will this much be enough?", "this much", "(essa quantidade)"],
+      ["We will see.", "will see'", "(vamos ver)"]
+    ]
+
+  },
+
+  "unit12": {
+
+    "CompleteThePhrase": [
+      ["Today's the fifth. (5th)", "fifth", "(quinto)"],
+      ["Tomorrow will be the seventeenth 17th", "seventeenth", "(décimo sétimo)"],
+      ["I am going there tomorrow.", "am going'", "(estou indo)"],
+      ["Are you free on Monday afternoon?", "on Monday", "(na segunda)"],
+      ["This week is crazy but how about on the fourth? (4th)", "fourth", "(quarto)"],
+      ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth", "(vigésimo quinto)"],
+      ["What are you going to do for Valentine's?", "going to do", "(vai fazer)"],
+      ["My birthday is on the thirtieth. (30th)", "thirtieth", "(décimo terceiro)"],
+      ["Easter is next week on the third! (3rd)", "third", "(terceiro)"],
+      ["I'm going to visit my parents on New Year's.", "on New", "(no Novo)"]
+    ]
+
+  },
+
+  "unit13": {
+
+    "CompleteThePhrase": [
+      ["Would you like to go to a restaurant?", "Would you", "(você)"],
+      ["Do you want to take a trip to Hawaii?", "you want", "(você quer)"],
+      ["Would you like to go see a Coldplay concert?", "Would you like", "(você gostaria)"],
+      ["Would you like a piece of the cake?", "you like a", "(você gostaria de um)"],
+      ["Do you want to see a movie", "Do you", "(você)"],
+      ["Do you want to watch old movies together?", "to watch", "(assistir)"],
+      ["Do you think she'd like to go on a date with me?", "to go on a", "(ir em um)"],
+      ["Are you free this afternoon?", "free this", "(livre essa)"],
+      ["There's a cool movie playing in the cinema!", "playing in", "(passando no)"],
+      ["Well, I am free today...", "am free", "(estou livre)"]
+    ]
+
+  },
+
+  "unit14": {
+
+    "CompleteThePhrase": [
+      ["Did you work yesterday?", "you work", "(você trabalhou)"],
+      ["I made some cake, would you like some?", "made some", "(fiz um pouco)"],
+      ["She didn't go anywhere this week.", "didn't go", "(não foi)"],
+      ["Did you and your friends have fun yesterday?", "Did you", "(você)"],
+      ["Have you finished for the day already?", "you finished", "(você terminou)"],
+      ["He didn't come today.", "come"],
+      ["Did she like the trip?", "like the"],
+      ["We went swimming and then walked on the beach.", "went"],
+      ["I saw fireworks!", "saw"],
+      ["I remember visiting there last year! ", "remember"]
+    ]
+
+  },
+
+  "unit15": {
+
+    "CompleteThePhrase": [
+      ["I was a quiet child.", "was a", "(era uma)"],
+      ["Were you born in 1998?", "you born", "(você nasceu)"],
+      ["I lived in my hometown for 10 years.", "lived in my", "(vivi na minha)"],
+      ["I went to the same high school as you!", "as you", "(que você)"],
+      ["Was that your childhood home?", "Was that", "(Esse era)"],
+      ["I was not well behaved!", "was not", "(não era)"],
+      ["He was my best friend.", "was my", "(era meu)"],
+      ["Was she your first girlfriend?", "she your", "(ela ____ sua)"],
+      ["My favorite teacher was the science teacher.", "was the", "(era o)"],
+      ["He wasn't very nice to me before.", "to me", "(para mim)"]
+    ]
+
+  },
+
+  "unit16": {
+
+    "CompleteThePhrase": [
+      ["What are you looking for?", "looking for", "(procurando)"],
+      ["Do you want to try them on?", "try them", "(experimenta-las)"],
+      ["What size are you?", "size are", "(tamanho ___ é)"],
+      ["How much are these?", "How much", "(Quanto)"],
+      ["You look good in red.", "look good", "(fica bem)"],
+      ["Silk is much nicer than cotton.", "nicer than", "(melhor que)"],
+      ["I need some new jeans.", "some new", "(umas novas)"],
+      ["That's pretty expensive.", "pretty", "(bem)"],
+      ["The brown boots are much more comfortable than the other ones.", "comfortable than", "(comfortavel que)"],
+      ["It looks very stylish!.", "stylish", "(estiloso)"]
+    ]
+
+  },
+
+  "unit17": {
+
+    "CompleteThePhrase": [
+      ["c u later today yeah?", "later", "(mais tarde)"],
+      ["yo this song slaps so hard!", "slaps", "(é boa)"],
+      ["u going with?", "going", "(indo)"],
+      ["sup man how u doing ", "sup", "(como vai)"],
+      ["wassup, this is jake", "this is", "(aqui é)"],
+      ["miss me with that stuff, i hate it", "miss me", "(me erra)"],
+      ["we going or what?", "or what", "(ou o que)"],
+      ["lol man can u send me that pic?", "can u", "(você pode)"]
+    ]
+
+  },
+
+  "unit18": {
+
+    "CompleteThePhrase": [
+      ["There are some stores in this street.", "some stores", "(algumas lojas)"],
+      ["Are there any groceries stores around here?", "around", "(por aqui)"],
+      ["There aren't any good restaurants here.", "There aren't", "(Não tem)"],
+      ["There is a bank on Third Avenue.", "bank on", "(banco na)"],
+      ["Is there a post office in this area?", "post office", "(correio)"],
+      ["There is one opposite the train station.", "opposite", "(oposto)"],
+      ["It's on the corner of First and Main.", "on the corner", "(na esquina)"],
+      ["There are no bakeries in this entire street.", "this entire", "(nessa ___ inteira)"],
+      ["There are many companies in the industrial district.", "district", "(distrito)"],
+      ["There isn't any crime in this neighborhood.", "any crime", "(nenhum crime)"]
+    ]
+
+  },
+
+  "unit19": {
+
+    "CompleteThePhrase": [
+      ["Keep going forward and turn left.", "turn left", "(vire a direita)"],
+      ["Take the street behind the shop.", "the street", "(a rua)"],
+      ["Take the roundbout and then the third exit...", "roundabout", "(rotatoria)"],
+      ["It's two blocks from here, on the corner of Pine St. and Second Ave.", "two blocks", "(duas quadras)"],
+      ["Walk until the bus stop and take a left.", "Walk until", "(Ande até)"],
+      ["It's not far from here.", "not far", "(não ___ longe)"],
+      ["It's between the coffee shop and the Mexican restaurant.", "between", "(entre)"],
+      ["It's down the street from here.", "down the street", "(descendo a rua)"],
+      ["Walk three blocks and you're there.", "blocks and", "(quadras e)"],
+      ["You can find it in the mall on First Avenue.", "in the mall", "(no shopping)"]
+    ]
+
+  },
+
+  "unit20": {
+
+    "CompleteThePhrase": [
+      ["Brazil is a lot bigger than Italy.", "a lot bigger", "(muito maior)"],
+      ["Which country is the most populous, the U.S., China or Japan?", "most populous", "(o mais populoso)"],
+      ["This place is very relaxing and not stressful at all!", "very relaxing", "(muito relaxante)"],
+      ["How expensive is it to live in Hong Kong?", "expensive is", "(caro é)"],
+      ["My hometown is nice but it's too boring!", "nice but", "(bom mas)"],
+      ["I think New York is the most expensive city.", "the most", "(a mais)"],
+      ["Cold places are way drier than hot places.", "drier than", "(mais seco que)"],
+      ["Hot countries are usually wetter than cold ones.", "countries are", "(países são)"],
+      ["That city is not expensive, it's cheap!", "cheap", "(barato)"],
+      ["How far away is Australia?", "away is", "(longe é)"]
+    ]
+
+  },
+
+  "unit21": {
+
+    "CompleteThePhrase": [
+      ["What does he look like?", "he look", "(ele parece)"],
+      ["She has long blonde hair and blue eyes.", "long blonde", "(longos loiros)"],
+      ["She is pretty tall for his age.", "tall for", "(alta para a)"],
+      ["He is not very handsome.", "not very", "(não muito)"],
+      ["She is very tall.", "very tall", "(muito alta)"],
+      ["He is fairly short with a mustache and a beard.", "short with a", "(baixo com um)"],
+      ["How tall is she?", "tall is", "(alta ___ é)"],
+      ["How long is his hair?", "How", "(Quão)"],
+      ["Does she wear glasses?", "she wear", "(ele usa)"],
+      ["He's in his early twenties.", "twenties", "(seus vinte anos)"]
+    ]
+
+  },
+
+  "unit22": {
+
+    "CompleteThePhrase": [
+      ["She's the one with long hair.", "with long", "(com longo)"],
+      ["He's the one looking out the window.", "the one looking", "(o que está olhando)"],
+      ["Which one would you prefer?", "would you", "(você iria)"],
+      ["I'd like the strawberry flavored one please.", "one", "(um)"],
+      ["They're the ones in the green car.", "in the green", "(no ___ verde)"],
+      ["She's the one in red.", "one in", "(que está de)"],
+      ["I'd prefer the lighter one.", "the lighter", "(o mais leve)"],
+      ["I want the one with less spice.", "one with less", "(o que está com menos)"],
+      ["Which one do you mean?", "one do", "(qual)"]
+    ]
+
+  },
+
+  "unit23": {
+
+    "CompleteThePhrase": [
+      ["Have you ever been there?", "you ever", "(você já)"],
+      ["I haven't been there since last year.", "been there", "(esteve lá)"],
+      ["I have made dinner for you!", "made dinner", "(fiz jantar)"],
+      ["Has she found her car?", "found her", "(achamos ela)"],
+      ["He has not come back yet.", "He has", "(Ele não)"],
+      ["She's gone to a party now.", "gone to", "(foi para)"],
+      ["Have you already finished work?", "you already", "(você já)"],
+      ["Have you ever seen a whale?", "Have you", "(Você)"],
+      ["I have been to Europe twice now.", "have been", "(estive)"],
+      ["I have been going to the gym recently.", "going to", "(indo para)"]
+    ]
+
+  },
+
+  "unit24": {
+
+    "CompleteThePhrase": [
+      ["You shouldn't use this medicine, it won't work.", "shouldn't use", "(não deveria)"],
+      ["What do you suggest for a cold?", "you suggest", "(você sugere)"],
+      ["It's important to get some rest.", "to get", "(descansar)"],
+      ["I'd recommend a nice relaxing bath.", "recommend", "(recomenda)"],
+      ["Could I have some painkillers, please?", "have some", "(ter um pouco)"],
+      ["May I see your prescription?", "see your", "(ver sua)"],
+      ["Can you get the Aspirin for me?", "get the", "(pegar a)"],
+      ["You should see a doctor.", "should see", "(deveria ver)"],
+      ["Should I be worried?", "I be", "(eu ___ estar)"],
+      ["It's a good idea to see a dentist.", "good idea", "(boa ideia)"]
+    ]
+
+  },
+
+  "unit25": {
+
+    "CompleteThePhrase": [
+      ["I'd like a beef bowl please.", "like a", "(gostaria de um)"],
+      ["I was thinking of going out for dinner actually.", "thinking of", "(pensando sobre)"],
+      ["I can't stand that music.", "stand that", "(suportar aquela)"],
+      ["I want to see that concert for sure!", "to see", "(ver)"],
+      ["I'd like to hear your opinion.", "like to", "(gostaria de)"],
+      ["She wants a glass of water.", "a glass of", "(um copo de)"],
+      ["He would like to see the menu if you don't mind.", "would like", "(gostaria)"],
+      ["We are ready to order.", "ready to", "(preparados para)"],
+      ["We're just browsing, thanks.", "thanks", "(obrigado)"],
+      ["I'd like that one.", "that", "(aquele)"]
+    ]
+
+  },
+
+  "unit26": {
+
+    "CompleteThePhrase": [
+      ["I'm not in college anymore.", "not in", "(não ___ no)"],
+      ["I wear my hair long now.", "wear my", "(uso meu)"],
+      ["I've just started a job in this new company...", "just started", "(acabei de começar)"],
+      ["It's way more crowded nowadays.", "way more", "(muito mais)"],
+      ["I'm slimmer than I was.", "slimmer", "(mais magro)"],
+      ["I got engaged last year!", "engaged", "(noivo(a))"],
+      ["I didn't move out yet.", "move out", "(me mudei)"],
+      ["My life is busier now.", "is busier", "(está mais ocupada)"],
+      ["We've moved to a new city.", "to a new", "(para uma nova)"],
+      ["We are still working at the same place.", "still working", "(ainda trabalhando)"]
+    ]
+
+  },
+
+  "unit27": {
+
+    "CompleteThePhrase": [
+      ["It's as big as our old one.", "you ever", "(você já)"],
+      ["This car is not big enough.", "is not big", "(não é grande)"],
+      ["I thought the other one was better.", "the other one", "(o outro)"],
+      ["It's not as pretty as I thought.", "pretty as I", "(bonito quanto eu)"],
+      ["I hoped it was nicer. ", "it was", "(era')"],
+      ["It's just as I thought!", "just as", "(tanto quão)"],
+      ["This is as much fun as I imagined.", "is as much", "(é tanto quanto)"],
+      ["There are too many lights.", "too many", "(de mais)"],
+      ["We need more windows.", "need more", "(precisamos de mais)"],
+      ["There should be less noise.", "should be", "(deveria ter)"]
+    ]
+
+  },
+
+  "unit28": {
+
+    "CompleteThePhrase": [
+      ["Have you ever been there?", "you ever", "(você já)"],
+      ["How was the weather?", "weather", "(clima)"],
+      ["How often do the trains leave?", "often do the", "(frequentemente os)"],
+      ["When will you come back?", "will you", "(você vai)"],
+      ["Can you tell me where I can buy a magazine?", "you tell me", "(você ___ me dizer)"],
+      ["We arrived in the rainy season.", "rainy season", "(temporada de chuva)"],
+      ["They don't speak much English.", "speak much", "(falam muito)"],
+      ["I was so tired I went straight to bed.", "straight to", "(direto para)"],
+      ["Can you turn off the radio, please?", "you turn off", "(você ___ desligar)"],
+      ["I hope to go next year.", "hope to go", "(espero ir)"]
+    ]
+
+  },
+
+  "unit29": {
+
+    "CompleteThePhrase": [
+      ["Would you turn it off please?", "turn it", "(desligar)"],
+      ["Put the trash away.", "trash", "(lixo)"],
+      ["Would you mind parking your car someplace else?", "parking", "(estacionar)"],
+      ["Could you help me look for my keys?", "look for my", "(procurar minha)"],
+      ["Would you mind closing the door behind you?", "you mind", "(você se importaria de)"],
+      ["I'm sorry I didn't notice it there.", "didn't notice", "(não percebi)"],
+      ["Can you help me with the dishes today?", "with the dishes", "(com a louça)"],
+      ["Would you mind helping me with my homework.", "Would you mind", "(Você se importaria)"],
+      ["Could you tell me the answer to this question?", "the answer to", "(a resposta para)"],
+      ["There are clothes all over the floor, put them away!", "put them", "(guarde-os)"]
+    ]
+
+  },
+
+  "unit30": {
+
+    "CompleteThePhrase": [
+      ["I use this for work.", "use this", "(uso isso)"],
+      ["My camera is useful for trips.", "is useful", "(é util)"],
+      ["I use WhatsApp to send messages.", "to send", "(para enviar)"],
+      ["I use this tablet for reading books.", "use this", "(uso isso)"],
+      ["People often use their phones for taking pictures.", "often uso", "(frequentemente usam)"],
+      ["I can use Netflix to watch series.", "to watch", "(para assistir)"],
+      ["Can you help me with my phone?", "me with my", "(me com o meu)"],
+      ["I know you like TikTok but could you stop looking at it every 20 minutes?", "but could you stop", "(mas você poderia)"],
+      ["I can't believe my phone froze again today.", "froze again", "(travou de novo)"],
+      ["In this situation I recommend you reset all your passwords.", "recommend you", "(recomendo que você)"]
+    ]
+
+  },
+
+  "unit31": {
+
+    "CompleteThePhrase": [
+      ["I looked in the mirror to check my hair before going out.", "look in the mirror", "(olhei no espelho)"],
+      ["I don't think I should go to bed yet.", "think I should", "(acho que eu deveria)"],
+      ["I decided not to go to Australia.", "decided", "(decidi)"],
+      ["I was surprised to get the job at the time.", "was surprised to", "(fiquei surpresa por)"],
+      ["Can you show me how to fix this problem.", "show me how", "(me mostrar como)"],
+      ["You should get up earlier to avoid feeling sleepy!", "get up earlier", "(levantar mais cedo)"],
+      ["She was dissapointed not to get the job.", "dissapointed", "(decepcionada)"],
+      ["It's expensive eating in restaurants every day.", "expensive eating", "(caro comer)"],
+      ["What a pity, I'm really sorry that happened!", "really sorry", "(sinto muito)"],
+      ["I'm worried about my cousin. She has not talked to me for months.", "not talked to me", "(não fala comigo)"]
+    ]
+
+  },
+
+  "unit32": {
+
+    "CompleteThePhrase": [
+      ["Facebook was created by Mark Zuckerberg in 2004.", "was created", "(foi criado)"],
+      ["Beethoven's fifth symphony was written in the renaissance era.", "was written", "(foi escrita)"],
+      ["I'm very interested in music and performative arts.", "interested in music and", "(interessado em musica e)"],
+      ["This picture was stolen from the museum last week.", "was stolen", "(foi roubada)"],
+      ["I have always hated horror movies.", "always hated", "(sempre odiei)"],
+      ["My car was made in Germany.", "made in", "(feito na)"],
+      ["Sushi is eaten all over the world.", "eaten", "(comido)"],
+      ["The Taj Mahal is visited by 3 million people every year.", "million people", "(milhões de pessoas)"],
+      ["Pluto was discovered by Clyde Tombaugh in 1930.", "discovered", "(descoberto)"],
+      ["Game of Thrones was the most illegaly downloaded series in 2012.", "the most", "(a mais)"]
+    ]
+
+  },
+
+  "unit33": {
+
+    "CompleteThePhrase": [
+      ["If I pass the test I'm going to have a party!", "pass the test", "(passar o teste)"],
+      ["I'll give you the book if you promise to be careful.", "if you promise", "(se você prometer)"],
+      ["I'll be in trouble if I don't wake up early to go to work.", "don't wake up early", "(não acordar cedo)"],
+      ["I've managed to secure a position in that company!", "managed to secure", "(consegui garantir)"],
+      ["I'll get a promotion if I do my job really well.", "get a promotion", "(conseguir uma promoção)"],
+      ["That could work if we work hard on it.", "if we work", "(se trabalharmos)"],
+      ["I worked all my life in this project.", "all my life", "(toda minha vida)"],
+      ["I've won prizes for my dancing.", "won prizes", "(genhei prêmios)"],
+      ["I would work more on my hobbies if I had the time.", "would work", "(trabalharia)"],
+      ["You shouldn't take that to heart, it wasn't on purpose.", "take that to heart", "(levar isso a sério)"]
+    ]
+
+  },
+
+  "unit34": {
+
+    "CompleteThePhrase": [
+      ["I can really recommend this movie for its story.", "for its story", "(por sua história)"],
+      ["I liked the characters even though the story was kind of dumb.", "even though", "(apesar da)"],
+      ["I can't recommend that book, it's difficult to read.", "difficult to read", "(difícil de ler)"],
+      ["They are wonderful characters, I fell in love with them.", "fell in love", "(me apaixonei)"],
+      ["It's brilliantly written for a first-time author.", "first-time", "(primeira vez)"],
+      ["It's so good I couldn't put the book down.", "the book down", "(deixar o livro)"],
+      ["It's well-written and realistic. It's hard to follow however.", "hard to follow", "(difícil de seguir)"],
+      ["It's a beautiful story but it's very sad near the end.", "very sad near the", "(muito triste perto do)"],
+      ["All the hype surrounding it doesn't mean it will turn out to be good.", "hype surrounding it", "(empolgação em torno disso)"],
+      ["I feel like it should use less gimmicks in the story.", "should use less", "(deveria usar menos)"]
+    ]
+
+  },
+
+  "unit35": {
+
+    "CompleteThePhrase": [
+      ["This could mean that you need to pay more attention to how you speak.", "could mean that you need", "(pode significar que você precisa)"],
+      ["It could be caused by cultural differences.", "could be caused", "(pode ser causado)"],
+      ["I don't understand why, but I'm trying to figure it out.", "trying to", "(tentando)"],
+      ["I definitely don't see it that way.", "see it that way", "(vejo desse jeito)"],
+      ["It probably means she doesn't want anything.", "probably means", "(provavelmente significa)"],
+      ["I'm afraid you're not allowed to take pictures.", "not allowed", "(não premitido)"],
+      ["That must be why I was having difficulty!", "be why", "(ser por que)"],
+      ["You know how they say, birds of a feather flock together.", "how they say", "(como eles dizem)"],
+      ["The root cause needs to be identified before we can continue.", "needs to be", "(precisa ser)"],
+      ["I'm still trying to figure it out.", "still trying", "(ainda tentando)"]
+    ]
+
+  },
+
+  "unit36": {
+
+    "CompleteThePhrase": [
+      ["You should have been honest and told her about it.", "should have been", "(deveria ter sido)"],
+      ["I wouldn't put so much effort if I was in your situation.", "in your situation", "(na sua situação)"],
+      ["What would you have done instead?", "you have done", "(você teria feito)"],
+      ["I honestly didn't know what to do in that situation!", "didn't know what to do", "(não sabia o que fazer)"],
+      ["I would've spoken to him about it.", "spoken to him", "(falado com ele)"],
+      ["It can't be that bad, can it?", "that bad", "(tão ruim)"],
+      ["You should've left her a note about it.", "left her", "(deixado pra ela)"],
+      ["If you had to pick between these two what would you do?", "to pick between", "(escolher entre)"],
+      ["I never should've mentioned it.", "mentioned", "(mencionado)"],
+      ["Nevermind, it's not going to help me now.", "not going to", "(não vai)"]
+    ]
+
+  },
+
+  "unit37": {
+
+    "CompleteThePhrase": [
+      ["I want to be friends with people who are supportive and kind.", "with people who are", "(com pessoas que são)"],
+      ["Outer space is the universe beyond the earth’s atmosphere. ", "universe beyond", "(universo além)"],
+      ["We can say a robot is sentient if it is aware of itself.", "sentient if it", "(sentiente se ele)"],
+      ["Yesterday I watched a TV show that argued aliens made the pyramids!", "that argued", "(que argumentava)"],
+      ["Tim Berners-Lee was an MIT scientist who invented the world wide web protocol.", "who invented the", "(que inventou a)"],
+      ["Near where I work there is a gym that only charges about 50$.", "a gym that only", "(uma academia que só)"],
+      ["This is that phone that I told you about, the one that folds in half.", "told you about", "(te falei sobre)"],
+      ["He's that guy who is always talking on the phone to someone.", "who is always", "(que está sempre)"],
+      ["The midwest is the area of the U.S. with the most farms.", "with the most", "(com mais)"],
+      ["When I was in Canada I met a man who worked for a news station!", "who worked for a", "(que trabalhou para uma)"]
+    ]
+
+  },
+
+  "unit38": {
+
+    "CompleteThePhrase": [
+      ["Working in an office all day sounds very boring.", "in an office all day", "(num escritório o dia todo)"],
+      ["Developing games sounds fun!", "Developing", "(desenvolver)"],
+      ["I'd enjoy working as a psychologist.", "working as", "(trabalhar como)"],
+      ["Helping kids must be really rewarding.", "be really", "(ser realmente)"],
+      ["Having a high paying job you don't like must be really frustrating.", "high paying job", "(trabalho bem pago)"],
+      ["I don't think you'd like being a fashion designer.", "like being a", "(gostaria de ser uma)"],
+      ["Working as a veterinarian must be exhausting.", "exhausting", "(exaustivo)"],
+      ["Working all day in a hospital must be extremely stressful.", "stressful", "(estressante)"],
+      ["He would enjoy that kind of work.", "that kind of", "(aquele tipo de)"],
+      ["Playing games all day should be a job!", "games all day should", "(games o dia todo deveria)"]
+    ]
+
+  },
+
+  "unit39": {
+
+    "CompleteThePhrase": [
+      ["Had you ever swimmed in the ocean before?", "Had you ever", "(você já tinha)"],
+      ["I said that I could ride horses.", "that I could", "(que eu podia)"],
+      ["She told me that she had just finished the book.", "had just", "(tinha acabado de)"],
+      ["I'm very close to my sister, she tells me everything.", "very close to", "(muito próximo da)"],
+      ["By the time I arrived at the train station it had already left.", "I arrived", "(eu cheguei)"],
+      ["When we got to the cinema the movie had just started.", "started", "(começado)"],
+      ["We had to take an Uber because my car had broken down.", "to take an", "(pegar um)"],
+      ["We tried to buy another one but the were all out.", "another one but", "(um outro mas)"],
+      ["I had come home to my house completely empty!", "completely empty", "(completamente vazios)"],
+      ["He'd said that we'd arrive by tomorrow.", "said that", "(dito que)"]
+    ]
+
+  },
+
+  "unit40": {
+
+    "CompleteThePhrase": [
+      ["That doesn't sound as challenging as I thought.", "challenging", "(desafiador)"],
+      ["That idea would be more well recieved.", "be more well", "(seria mais bem)"],
+      ["We don't earn nearly as much as we should.", "nearly as much", "(nem perto de quanto)"],
+      ["It gets easier with time, believe me.", "believe me", "(acredite em mim)"],
+      ["Being a doctor is as difficult as being an engineer.", "as being an", "(quanto ser um)"],
+      ["I don't think being a chef is as difficult as people say.", "as difficult as", "(tão difícil quanto)"],
+      ["It's better than the alternative.", "better than", "(melhor que)"],
+      ["We need to work harder on the project.", "work harder", "(trablhar mais duro)"],
+      ["I don't think you understand how difficult this is.", "how difficult", "(quão difícil)"]
+    ]
+
+  }
+
+}

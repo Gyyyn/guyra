@@ -8,6 +8,7 @@
 let e = React.createElement;
 
 const rootUrl = window.location.origin.concat('/');
+var phraseBuilderPhrase = [];
 
 function shuffleArray(a) {
  var j, x, i;
@@ -253,9 +254,9 @@ function isAnswerCorrect(correct, userInput) {
 */
 
 function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
-  var hint = theExercise[2];
-  var poi = theExercise[1];
-  var phrase = theExercise[0];
+  var hint = theExercise[3];
+  var poi = theExercise[2];
+  var phrase = theExercise[1];
   var regex = new RegExp(poi,'g');
 
   var rand = 0;
@@ -286,8 +287,8 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
 }
 
 function activityWhatYouHear(theExercise) {
-  let phrase = theExercise[0];
-  phraseSplit = theExercise[0].split(' ');
+  let phrase = theExercise[1];
+  phraseSplit = theExercise[1].split(' ');
 
   return [
       phraseSplit[0].concat('...'),
@@ -353,25 +354,6 @@ class AnswersPhraseBuilder extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      builtPhrase: []
-    }
-
-  }
-
-  AddWord = (word) => {
-
-    this.state.builtPhrase.push(word)
-
-    this.setState({
-      builtPhrase: this.state.builtPhrase
-    })
-  }
-
-  Clear = () => {
-    this.setState({
-      builtPhrase: []
-    })
   }
 
   render() {
@@ -383,13 +365,13 @@ class AnswersPhraseBuilder extends React.Component {
           'div',
           {className: 'd-flex mb-1'},
 
-          e('div',
+          e(ExerciseContext.Consumer, null, ({phraseBuilderPhrase}) => e('div',
             {
               className: 'w-100 d-flex align-items-center',
               id: 'phrase-builder',
-              'data-phrase': this.state.builtPhrase.join(' ')
+              'data-phrase': phraseBuilderPhrase.join(' ')
             },
-            this.state.builtPhrase.map((item) => {
+            phraseBuilderPhrase.map((item) => {
               return (
                 e(
                   'a',
@@ -401,28 +383,28 @@ class AnswersPhraseBuilder extends React.Component {
                 )
               )
             })
-          ),
+          )),
 
-          e(
+          e(ExerciseContext.Consumer, null, ({ClearWord}) => e(
             'a',
             {
               className: 'btn-tall align-self-end flex-shrink-1',
-              onClick: () => { this.Clear() }
+              onClick: () => { ClearWord() }
             },
             e('i', { className: "bi bi-trash-fill" })
-          )
+          ))
 
         ),
 
         e('div', {className: 'exercise-answers-wordbank'},
 
-          e(ExerciseContext.Consumer, null, ({values}) => values[1].map(x => {
+          e(ExerciseContext.Consumer, null, ({values, AddWord}) => values[1].map(x => {
             return e(
               AnswerButtonProper,
               {
                 key: x,
                 value: x,
-                onClick: () => { this.AddWord(x) }
+                onClick: () => { AddWord(x) }
               }
             )
           }))
@@ -604,21 +586,23 @@ function LevelChooserButton(props) {
     e(ExerciseContext.Consumer, null, ({loadExerciseJSON}) => e(
       'a',
       {
-        className: 'btn',
+        className: 'btn fade-animation animate',
         title: props.values.name + ' - ' + props.values.id,
         onClick: () => {
           loadExerciseJSON(props.level, props.values.id);
           window.scrollTo(0, 0);
         }
       },
-      e(
+      e(ExerciseContext.Consumer, null, ({i18n}) => e(
         'span',
         {className: 'exercise-icon'},
         e(
           'img',
-          {src: props.values.image}
+          {
+            src: i18n.template_link + '/assets/icons/' + props.values.image
+          }
         )
-      ),
+      )),
       props.values.name
     ))
   )
@@ -771,7 +755,7 @@ function returnToLevelMapButton(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
     'a',
     {
-      className: 'btn-tall',
+      className: 'btn-tall btn-sm',
       onClick: () => {
 
       setPage(e(LevelChooser));
@@ -789,6 +773,7 @@ function checkAnswerButton(props) {
     'a',
     {
       className: checkAnswerButtonClass,
+      id: 'check-answer',
       onClick: () => { checkAnswerWithButton() }
     },
     i18n.check
@@ -847,7 +832,7 @@ function hintAreaCorrectAnswer(props) {
     e(
       'a',
       {
-        className: 'btn btn-sm btn-success',
+        className: 'btn-tall btn-sm green',
         onClick: () => { setNewActivity() }
       },
       i18n.continue
@@ -865,7 +850,7 @@ function hintAreaWrongAnswer() {
     e(
       'a',
       {
-        className: 'btn btn-sm btn-danger',
+        className: 'btn-tall btn-sm green',
         onClick: () => { setNewActivity() }
       },
       i18n.continue
@@ -956,12 +941,15 @@ class App extends React.Component {
       candyButtonClass: 'btn-tall dark',
       disallowCandy: false,
       questionType: QuestionDialog,
-      allTheWords: []
+      allTheWords: [],
+      phraseBuilderPhrase: phraseBuilderPhrase,
+      AddWord: this.AddWord,
+      ClearWord: this.ClearWord,
     };
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
     fetch(rootUrl.concat('?json=levelmap&i18n=full'))
       .then(res => res.json())
@@ -1103,12 +1091,30 @@ class App extends React.Component {
     this.score = Math.round( (this.score / (2 * weight)) + recoup );
   }
 
+  AddWord = (word) => {
+    phraseBuilderPhrase.push(word)
+    this.setState({
+      phraseBuilderPhrase: phraseBuilderPhrase
+    });
+  }
+
+  ClearWord = () => {
+    phraseBuilderPhrase = [];
+    this.setState({
+      phraseBuilderPhrase: phraseBuilderPhrase
+    });
+  }
+
   CheckAnswer = (answer) => {
 
     let answered = "wrong";
     let correct = this.state.values[2].toLowerCase();
     answer = answer.toLowerCase();
     this.questionsAlreadyAnswered.push(this.currentQuestion);
+    phraseBuilderPhrase = [];
+    this.setState({
+      phraseBuilderPhrase: phraseBuilderPhrase
+    });
 
     // Check if answer was already given
     if(this.state.alreadyAnswered == false) {
@@ -1182,7 +1188,6 @@ class App extends React.Component {
 
     var type = object[this.currentQuestion][0]
     var theExercise = object[this.currentQuestion];
-    theExercise.shift();
 
     this.setState({
       activityType: type

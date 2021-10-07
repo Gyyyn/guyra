@@ -365,6 +365,11 @@ a.round-border {
   background: unset;
 }
 
+.overflow-x-visible,
+.overflow-x-visible * {
+  overflow-x: visible!important;
+}
+
 /*
 * -------- Navbar
 *
@@ -882,32 +887,11 @@ a:hover {
   padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
 }
 
-.btn-primary,
-a.btn-primary,
-.btn-primary:active,
-.btn-primary:focus,
 .dropdown-item.active,
 .dropdown-item:focus {
 	background-color: var(--guyra-blue);
 	border-color: var(--guyra-blue);
 	color: var(--guyra-white);
-}
-
-.btn-primary:hover {
-  background-color: var(--guyra-blue-lighter);
-	border-color: var(--guyra-blue-lighter);
-  color: var(--guyra-white);
-}
-
-.btn-secondary {
-  background-color: var(--guyra-purple);
-	border-color: var(--guyra-purple);
-	color: var(--guyra-white);
-}
-
-.btn-secondary:hover {
-  background-color: var(--guyra-purple-lighter);
-  border-color: var(--guyra-purple-lighter);
 }
 
 .btn:active,
@@ -917,38 +901,11 @@ a.btn-primary,
 	box-shadow: unset;
 }
 
-.btn-sm,
 .page-squeeze .user-registration-error > a,
 .page-squeeze .user-registration-info > a,
 .page-squeeze .user-registration-message > a {
   font-weight: normal;
   font-size: var(--guyra-fonts-textsize-s);
-}
-
-.btn-primary:focus,
-.btn-check:focus+.btn-outline-primary,
-.btn-outline-primary:focus {
-	box-shadow: unset;
-}
-
-.btn-outline-primary  {
-	color: var(--guyra-blue);
-	border-color: var(--guyra-blue);
-	border: 1px solid;
-	background-color: transparent;
-}
-
-.btn-outline-primary:hover,
-.btn-outline-primary:active  {
-    color: var(--guyra-white);
-    background-color: var(--guyra-blue);
-    border-color: var(--guyra-blue);
-}
-
-.btn-outline-primary.disabled,
-.btn-outline-primary:disabled {
-  color: var(--guyra-grey-darker);
-  border-color: var(--guyra-grey-darker);
 }
 
 .page-squeeze .list-group.study-menu {
@@ -1157,6 +1114,11 @@ input.form-control:focus,
 *
 */
 
+#exercise-container {
+  background-color: var(--guyra-white);
+  min-height: 100vh;
+}
+
 .exercise-squeeze {
   margin: auto;
   padding: 1rem .25rem;
@@ -1263,22 +1225,6 @@ input.form-control:focus,
   background: var(--guyra-red-lightest);
   border-bottom-color: var(--guyra-red-lighter);
   color: var(--guyra-red-darker);
-}
-
-.exercise-hints .btn {
-  font-weight: bold;
-}
-
-.exercise-hints .btn-success {
-  background-color: var(--guyra-green);
-  border-color: var(--guyra-green);
-  color: var(--guyra-green-darkest);
-}
-
-.exercise-hints .btn-danger {
-  background-color: var(--guyra-red);
-  border-color: var(--guyra-red);
-  color: var(--guyra-red-lightest);
 }
 
 .exercise-level-chooser .section {
@@ -1869,6 +1815,40 @@ input.form-control:focus,
 
 .user-registration-error li {
   list-style: none;
+}
+
+/*
+* -------- Animations
+*
+*
+*/
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideup {
+  from {
+    transform: translateY(5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fade-animation {
+    transition: var(--guyra-transition);
+}
+
+.fade-animation.animate {
+    animation: fadein 0.25s, slideup 0.5s;
 }
 
 /*

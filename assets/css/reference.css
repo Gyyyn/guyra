@@ -183,6 +183,27 @@ span.text-muted {
     margin-top: 3rem;
 }
 
+.ib-content a,
+.Pronunciation sup a {
+    color: var(--guyra-blue-lightest);
+}
+
+.ib-brac,
+.ib-content,
+.Pronunciation sup {
+    color: var(--guyra-grey-darker);
+}
+
+.derivedterms ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.derivedterms ul li {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
 .the-images img {
   max-height: 15rem;
   border-radius: var(--guyra-border-radius-bigger)
@@ -192,34 +213,6 @@ span.text-muted {
   align-items: center;
   justify-content: space-around;
   overflow-x: hidden;
-}
-
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideup {
-  from {
-    transform: translateY(10rem);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-.fade-animation {
-    transition: var(--guyra-transition);
-}
-
-.fade-animation.animate {
-    animation: fadein 1s, slideup 0.35s;
 }
 
 .the-definition .metadata {

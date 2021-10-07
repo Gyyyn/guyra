@@ -1,0 +1,313 @@
+{"levelmap": {
+
+    "level1": {
+      "unit1": {
+        "id": "unit1",
+        "name": "Olá!",
+        "description": "Apresentações e expressões de tempo.",
+        "image": "exercises/chat.png"
+      },
+      "unit2": {
+        "id": "unit2",
+        "name": "Coisas",
+        "description": "Objetos e pronomes possesivos.",
+        "image": "exercises/reading-glasses.png"
+      }
+    },
+    "level2": {
+      "unit3": {
+        "id": "unit3",
+        "name": "Horas",
+        "description": "Horários e números.",
+        "image": "exercises/time.png"
+      },
+      "unit4": {
+        "id": "unit4",
+        "name": "Atividades",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/running.png"
+      },
+      "unit5": {
+        "id": "unit5",
+        "name": "Frequencia",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/schedule.png"
+      }
+    },
+    "level3": {
+      "unit6": {
+        "id": "unit6",
+        "name": "Lar",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/house.png"
+      },
+      "unit7": {
+        "id": "unit7",
+        "name": "Trabalho",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/hard-work.png"
+      },
+      "unit8": {
+        "id": "unit8",
+        "name": "Trabalho 2",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/portfolio.png"
+      },
+      "unit9": {
+        "id": "unit9",
+        "name": "Rotinas",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/routine.png"
+      }
+    },
+    "level4": {
+      "unit10": {
+        "id": "unit10",
+        "name": "Futuro",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/clock-speeding.png"
+      },
+      "unit11": {
+        "id": "unit11",
+        "name": "Futuro 2",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/hourglass.png"
+      },
+      "unit12": {
+        "id": "unit12",
+        "name": "Planos",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/plan.png"
+      }
+    },
+    "level5": {
+      "unit13": {
+        "id": "unit13",
+        "name": "Convites",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/card.png"
+      },
+      "unit14": {
+        "id": "unit13",
+        "name": "Historias",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/script.png"
+      }
+    },
+    "level6": {
+      "unit15": {
+        "id": "unit15",
+        "name": "Infância",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/childhood.png"
+      },
+      "unit16": {
+        "id": "unit16",
+        "name": "Compras",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/shopping-basket.png"
+      }
+    },
+    "level7": {
+      "unit17": {
+        "id": "unit17",
+        "name": "txting & msgs",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/smartphone.png"
+      }
+    },
+    "level8": {
+      "unit18": {
+        "id": "unit18",
+        "name": "Lugares",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/shop.png"
+      },
+      "unit19": {
+        "id": "unit19",
+        "name": "Direções",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/map.png"
+      },
+      "unit20": {
+        "id": "unit20",
+        "name": "Geografia",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/planet.png"
+      }
+    },
+    "level9": {
+      "unit21": {
+        "id": "unit21",
+        "name": "Aparência",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/influencer.png"
+      },
+      "unit22": {
+        "id": "unit22",
+        "name": "Especificidade",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/flag.png"
+      },
+      "unit23": {
+        "id": "unit23",
+        "name": "Experiências",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/bio-energy.png"
+      }
+    },
+    "level10": {
+      "unit24": {
+        "id": "unit24",
+        "name": "Sugestões",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/idea.png"
+      },
+      "unit25": {
+        "id": "unit25",
+        "name": "Desejos",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/love.png"
+      },
+      "unit26": {
+        "id": "unit26",
+        "name": "Mudanças",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/surprise.png"
+      }
+    },
+    "level11": {
+      "unit27": {
+        "id": "unit27",
+        "name": "Comparação",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/scale.png"
+      },
+      "unit28": {
+        "id": "unit28",
+        "name": "Viagem",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/plane-ticket.png"
+      }
+    },
+    "level12": {
+      "unit29": {
+        "id": "unit29",
+        "name": "Favores",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/agreement.png"
+      },
+      "unit30": {
+        "id": "unit30",
+        "name": "Propósito",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/blueprint.png"
+      }
+    },
+    "level13": {
+      "unit31": {
+        "id": "unit31",
+        "name": "Problemas",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/puzzle-pieces.png"
+      },
+      "unit32": {
+        "id": "unit32",
+        "name": "Cultura",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/parthenon.png"
+      },
+      "unit33": {
+        "id": "unit33",
+        "name": "Conquistas",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/achievement.png"
+      }
+    },
+    "level14": {
+      "unit34": {
+        "id": "unit34",
+        "name": "Filmes",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/popcorn.png"
+      },
+      "unit35": {
+        "id": "unit35",
+        "name": "Possibilidade",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/directions.png"
+      },
+      "unit36": {
+        "id": "unit36",
+        "name": "Situações",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/chess.png"
+      }
+    },
+    "level15": {
+      "unit37": {
+        "id": "unit37",
+        "name": "Definições",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/search.png"
+      },
+      "unit38": {
+        "id": "unit38",
+        "name": "Trabalho 3",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/rocket.png"
+      },
+      "unit39": {
+        "id": "unit39",
+        "name": "Historias 2",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/dialog.png"
+      }
+    },
+    "level16": {
+      "unit40": {
+        "id": "unit40",
+        "name": "Comparação 2",
+        "description": "temp",
+        "type": "CompleteThePhrase",
+        "image": "exercises/product.png"
+      }
+    }
+  }
+}

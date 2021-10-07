@@ -49,7 +49,7 @@ include get_template_directory() . '/i18n.php';
 
   </div>
 
-  <div id="exercise-container" class="bg-white"></div>
+  <div id="exercise-container"></div>
 
 </main>
 <?php

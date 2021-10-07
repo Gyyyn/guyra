@@ -54,23 +54,18 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 	<div class="row buttons justify-content-between my-5">
 
-		<div class="col-md d-flex justify-content-between">
+		<div class="col-sm d-flex flex-column flex-sm-row align-items-center justify-content-center">
 
-			<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue"><?php echo $gi18n['button_studypage']; ?></a>
-			<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall"><?php echo $gi18n['button_coursespage']; ?></a>
-			<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall"><?php echo $gi18n['practice']; ?></a>
-
-		</div>
-
-		<div class="col-md-2 d-flex justify-content-end">
-
-			<a href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>" class="btn-tall red"><?php echo $gi18n['logout'] ?></a>
+			<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue me-2 mb-2"><?php echo $gi18n['button_studypage']; ?></a>
+			<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall me-2 mb-2"><?php echo $gi18n['button_coursespage']; ?></a>
+			<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall me-2 mb-2"><?php echo $gi18n['practice']; ?></a>
+			<a href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>" class="btn-tall red me-2 mb-2 d-inline d-sm-none"><?php echo $gi18n['logout'] ?></a>
 
 		</div>
 
 	</div>
 
-	<div class="row my-3">
+	<div class="row my-3 overflow-x-visible">
 
 		<div class="col-md card py-5 mx-0 mb-5 flex-column align-items-center">
 
@@ -79,7 +74,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<img class="avatar page-icon medium border-outline mb-5" alt="Foto de perfil" src="<?php echo $image; ?>">
 
 				<span class="position-absolute translate-middle-y bottom-0 end-0">
-					<a href="<?php echo $gi18n['profile_link']?>" class="btn-tall purple">
+					<a href="<?php echo $gi18n['profile_link']?>" class="btn-tall btn-sm purple">
 						<i class="bi bi-pencil-square"></i>
 					</a>
 				</span>
