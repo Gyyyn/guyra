@@ -25,7 +25,7 @@ function guyra_output_json($message, $exit=false) {
 
 function guyra_log_to_file($object='something happened') {
   $object = date('d-m-Y H:i:s') . ': ' . $object . '\r\n';
-  file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
+  //file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 
 function guyra_database_create_db($sql) {
@@ -99,6 +99,14 @@ function guyra_database_create_db($sql) {
 
 }
 
+/**
+ * Get a meta field from a user.
+ *
+ * @param int $user The user ID,
+ * @param string $meta_key The key for the meta.
+ * @param boolean $return If the value should be output or returned, false for return a json output.
+ *
+ */
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 

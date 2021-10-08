@@ -1,0 +1,41 @@
+.diary-entries .diary-entry {
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--guyra-grey);
+}
+
+.diary-new-entry {
+  margin-top: .5rem;
+}
+
+.diary-new-entry input {
+    border: unset;
+    padding: .5rem 1rem;
+    font-size: var(--guyra-fonts-textsize-s);
+    color: var(--guyra-black);
+    font-family: var(--guyra-fonts-text);
+    border: unset;
+    background: var(--guyra-grey);
+    border-radius: var(--guyra-border-radius);
+    border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
+    margin-right: .25rem;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pop-animation {
+    transition: var(--guyra-transition);
+}
+
+.pop-animation.animate {
+    animation: pop 0.35s;
+}

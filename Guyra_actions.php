@@ -182,6 +182,10 @@ if ($isAdmin || $thisUser['role'][0] == "teacher") {
     delete_user_meta($user, 'studygroup' );
   }
 
+  if ($_GET['action'] == 'get_diary') {
+    guyra_get_user_meta($user, 'diary');
+  }
+
   endif;
 
   $user_is_users = json_decode($user);

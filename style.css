@@ -86,7 +86,7 @@ Tags: guyra
   --guyra-border-radius: calc(.25rem - 1px);
   --guyra-border-radius-bigger: calc(var(--guyra-border-radius) * 5);
   --guyra-border-size: calc(0.2rem + .05vw);
-  --guyra-transition: all 0.15s cubic-bezier(.19,1,.22,1);
+  --guyra-transition: all 0.15s cubic-bezier(1, 0, 0, 1);
 
   --sat: env(safe-area-inset-top);
   --sar: env(safe-area-inset-right);

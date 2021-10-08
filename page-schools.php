@@ -10,7 +10,7 @@ if (!is_user_logged_in()) {
  wp_redirect(get_site_url());
 }
 
-get_header();
+get_header(null, ['css' => 'schools.css']);
 
 /* Set up translations independent of Wordpress (note: not currently needed) */
 /* include get_template_directory() . '/i18n.php'; */
@@ -26,4 +26,4 @@ get_header();
 
 </main>
 <?php
-get_footer(null, ['aos' => true, 'js' => 'schools.js']);
+get_footer(null, ['aos' => true, 'react' => true, 'js' => 'schools.js']);

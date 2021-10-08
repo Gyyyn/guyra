@@ -31,12 +31,16 @@ usort($users, "cmp");
 
 if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
-  <div class="my-5" data-aos="fade-right" data-aos-once="true">
+  <div class="my-5" data-aos="fade" data-aos-once="true">
     <h1 class="mb-3 text-blue">Welcome, <?php echo $thisUser['first_name'][0]; ?></h1>
     <h2 class="mb-3 text-purple">to your student panel.</h2>
   </div>
 
-  <div data-aos="fade-right" data-aos-delay="200" data-aos-once="true">
+  <div class="py-3">
+    <div id="the-diary"></div>
+  </div>
+
+  <div data-aos="fade" data-aos-delay="200" data-aos-once="true">
 
   <?php
 
@@ -117,7 +121,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         <?php endif; ?>
 
-        <li class="list-group-item col-4 d-flex justify-content-around">
+        <li class="list-group-item col-5 d-flex justify-content-around">
+          <a class="btn-tall btn-sm blue me-1 diary-opener" data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
+            <i class="bi bi-card-list"></i>
+            <span class="d-none d-md-inline">Diario</span>
+          </a>
           <?php if (!$userInGroup): ?>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-journal-richtext"></i>
