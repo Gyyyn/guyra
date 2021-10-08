@@ -7,6 +7,13 @@
  * @package guyra
  */
 
+$template_dir = get_template_directory();
+$template_url = get_template_directory_uri();
+$current_user_id = get_current_user_id();
+
+// Setup database functions globally
+include $template_dir . '/Guyra_database.php';
+
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
 	define( '_S_VERSION', '1.0.0' );
@@ -27,7 +34,7 @@ if ( ! function_exists( 'guyra_setup' ) ) :
 		 * If you're building a theme based on guyra, use a find and replace
 		 * to change 'guyra' to the name of your theme in all the template files.
 		 */
-		load_theme_textdomain( 'guyra', get_template_directory() . '/languages' );
+		load_theme_textdomain( 'guyra', $template_dir . '/languages' );
 
 
 		// Kill all feeds
@@ -187,7 +194,7 @@ add_action( 'wp_enqueue_scripts', 'guyra_scripts' );
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
+	require $template_dir . '/inc/jetpack.php';
 }
 
 /**
@@ -264,10 +271,6 @@ add_action('init', 'prevent_wp_login');
 // Remove the normal WP die handler
 
 function custom_die_handler( $message, $title="", $args = array() ) {
-
-	if (!function_exists('guyra_log_error')) {
-	    require_once(get_template_directory() . '/Guyra_database.php');
-	}
 
   echo '<html><body>';
   echo '<h1>Erro:</h1>';

@@ -9,8 +9,13 @@
  * @package guyra
  */
 
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
+include $template_dir . '/i18n.php';
+
+$local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_value'];
 
 ?>
 
@@ -50,5 +55,25 @@ if ($args['aos']): ?>
 <?php endif; ?>
 <script async src="<?php echo $gi18n['js_link']; ?>misc.js"></script>
 
+<?php if ($local_storage != ''): ?>
+<script>
+localStorageFromDB = JSON.parse("<?php echo addslashes($local_storage); ?>");
+
+if (localStorage.getItem('responseArea').length < localStorageFromDB['responseArea'].length) {
+  localStorage.setItem('responseArea', localStorageFromDB['responseArea']);
+}
+
+if (localStorage.getItem('notepad').length < localStorageFromDB['notepad'].length) {
+  localStorage.setItem('notepad', localStorageFromDB['notepad']);
+}
+</script>
+<?php endif; ?>
+
 </body>
 </html>
+
+<?php
+
+// Peroformance tracker for dev env
+// global $timeToExecuteFromStartOfWP;
+// echo 'Total execution time in seconds: ' . (microtime(true) - $timeToExecuteFromStartOfWP);

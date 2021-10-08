@@ -5,7 +5,8 @@
  * @package guyra
  */
 
-$template_dir = get_template_directory();
+global $template_dir;
+global $template_url;
 
 if(empty($_GET)) {
 
@@ -14,8 +15,6 @@ if(empty($_GET)) {
     load_template(locate_template('Guyra_study.php'));
 
   } else {
-
-    require $template_dir . '/Guyra_database.php';
 
     $landing_open = guyra_get_user_meta(1, 'landing_open', true)['meta_value'];
 

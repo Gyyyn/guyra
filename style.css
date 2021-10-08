@@ -18,14 +18,14 @@ Tags: guyra
 */
 
 :root {
-  --guyra-blue: rgba(6, 182, 241, 1);
+  --guyra-blue: #00BFFF;
   --guyra-blue-darker: rgb(2 144 191);
   --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
   --guyra-blue-lightest: rgba(157, 219, 239, 1);
   --guyra-blue-pale-dark: #1c3e4e;
 
-  --guyra-purple: rgb(103 61 214);
+  --guyra-purple: #6A45FF;
   --guyra-purple-lighter: rgb(184 160 245);
   --guyra-purple-darker: rgb(80 33 202);
   --guyra-purple-darkest: rgb(50 29 103);

@@ -182,6 +182,7 @@ $gi18n = [
 	'courses_link' => $site_url . '/courses',
 	'account_link' => $site_url . '/account',
 	'profile_link' => $site_url . '/account/edit-profile',
+	'password_edit_link' => $site_url . '/account/edit-password',
 	'logout_link' => $site_url . '/account/user-logout',
 	'privacy_link' => $site_url . '/privacy',
 	'terms_link' => $site_url . '/terms',

@@ -1024,13 +1024,13 @@ class App extends React.Component {
 
         // Finish up by posting userdata
 
-        fetch(rootUrl.concat('/?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1)));
+        fetch(rootUrl.concat('?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1)));
 
         var mod = this.score / 75;
         mod = mod + 0.5;
         var moddedScore = this.usermeta[0] * mod;
 
-        fetch(rootUrl.concat('/?user=1&update_elo=1&value='.concat(Number(moddedScore))));
+        fetch(rootUrl.concat('?user=1&update_elo=1&value='.concat(Number(moddedScore))));
 
         var dataToPost = {
           version: this.version,
@@ -1040,7 +1040,7 @@ class App extends React.Component {
         }
 
         fetch(
-          rootUrl.concat('/?user=1&log_exercise_data=1'),
+          rootUrl.concat('?user=1&log_exercise_data=1'),
           {
             method: "POST",
             headers: {

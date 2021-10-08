@@ -7,9 +7,9 @@
  * @package guyra
  */
 
-// $thisUser = get_current_user_id();
-$template_dir = get_template_directory();
-// $template_url = get_template_directory_uri();
+global $template_dir;
+global $template_url;
+global $current_user_id;
 
 include $template_dir . '/i18n.php';
 

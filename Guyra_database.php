@@ -9,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
 function guyra_output_json($message, $exit=false) {
 
   header("Content-Type: application/json");
@@ -17,6 +21,11 @@ function guyra_output_json($message, $exit=false) {
     exit;
   }
 
+}
+
+function guyra_log_to_file($object='something happened') {
+  $object = date('d-m-Y H:i:s') . ': ' . $object . '\r\n';
+  file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 
 function guyra_database_create_db($sql) {
@@ -86,6 +95,8 @@ function guyra_database_create_db($sql) {
 
   $db->close();
 
+  guyra_log_to_file($sql);
+
 }
 
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
@@ -141,6 +152,7 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   }
 
   $db->close();
+  guyra_log_to_file($sql);
 
 }
 
@@ -166,7 +178,6 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 
     }
 
-
     if ($db->query($sql) === TRUE) {
 
       if ($return) {
@@ -184,6 +195,7 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
   }
 
   $db->close();
+  guyra_log_to_file($sql);
 
 }
 
@@ -212,6 +224,7 @@ function guyra_log_to_db($user, $object) {
   }
 
   $db->close();
+  guyra_log_to_file($sql);
 
 }
 
@@ -232,6 +245,7 @@ function guyra_log_error_todb($object) {
   }
 
   $db->close();
+  guyra_log_to_file($sql);
 
 }
 
@@ -247,6 +261,7 @@ function guyra_log_error($dump, $type='general') {
   ];
 
   guyra_log_error_todb(json_encode($object));
+
 }
 
 function guyra_database($action, $value='', $user=0) {

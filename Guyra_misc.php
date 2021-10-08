@@ -29,8 +29,6 @@ function Guyra_hash($string, $decode=false) {
   }
 }
 
-include get_template_directory() . '/Guyra_database.php';
-
 function Guyra_get_user_level($user=1) {
 
   $level = guyra_get_user_meta($user, 'level', true)['meta_value'];

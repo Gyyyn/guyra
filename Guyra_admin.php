@@ -13,15 +13,15 @@ if (!current_user_can('manage_options')) {
   exit;
 }
 
-$template_dir = get_template_directory();
+global $template_dir;
+global $template_url;
+global $current_user_id;
 
 /* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
-include $template_dir . '/Guyra_database.php';
 
 // Get users
 $users = get_users();
-$thisUserId = get_current_user_id();
 $site_url = get_site_url();
 
 get_header();
@@ -53,7 +53,7 @@ get_header();
   <h4 class="mt-5">Blog:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-    <a class="btn btn-success" data-bs-toggle="collapse" href="#new-post-collapse">New Blog Post</a>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#new-post-collapse">New Blog Post</a>
 
     <div class="mt-3 collapse" id="new-post-collapse">
       <iframe id="new-post" class="editor-inline" src="<?php echo $gi18n['admin_link'] . 'post-new.php'; ?>" /></iframe>
@@ -100,8 +100,9 @@ get_header();
     <h5>Give premium:</h5>
     <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user" class="user-id">
-        dd-mm-yyyy formatted date: <input type="text" name="premiumtill">
+        dd-mm-yyyy formatted date: <input type="text" name="till">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+        <input type="hidden" value="premium" name="subscription">
         <input type="submit" value="Go">
     </form>
 
@@ -110,8 +111,9 @@ get_header();
     <h5>Give lite:</h5>
     <form action="<?php echo $site_url; ?>" method="GET">
         User ID: <input type="text" name="user" class="user-id">
-        dd-mm-yyyy formatted date: <input type="text" name="litetill">
+        dd-mm-yyyy formatted date: <input type="text" name="till">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+        <input type="hidden" value="lite" name="subscription">
         <input type="submit" value="Go">
     </form>
 
@@ -202,12 +204,12 @@ get_header();
   <h4 class="mt-4">Extras:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-  <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-success">Wordpress admin</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_log_db' ?>" class="btn btn-sm btn-success">Create Log DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_meta_db' ?>" class="btn btn-sm btn-success">Create Meta DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_db=create_error_db' ?>" class="btn btn-sm btn-success">Create Error DB</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&create_page=all' ?>" class="btn btn-sm btn-success">Create Site Pages</a>
-  <a href="<?php echo $site_url . '?user=' . $thisUserId . '&get_user_meta=1' ?>" class="btn btn-sm btn-success">Read own meta</a>
+  <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-primary">Wordpress admin</a>
+  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=create_log_db' ?>" class="btn btn-sm btn-primary">Create Log DB</a>
+  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=create_meta_db' ?>" class="btn btn-sm btn-primary">Create Meta DB</a>
+  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=create_error_db' ?>" class="btn btn-sm btn-primary">Create Error DB</a>
+  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_page=all' ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
+  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&get_user_meta=1' ?>" class="btn btn-sm btn-primary">Read own meta</a>
 
   <hr class="mt-3" />
 

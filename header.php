@@ -10,37 +10,35 @@
  */
 
 global $wp;
+global $template_dir;
+global $template_url;
+global $current_user_id;
 
 $logged_in = is_user_logged_in();
-$current_user_id = get_current_user_id();
 $body_class[0] = 'logged_out';
-
-$template_dir = get_template_directory();
-$template_url = get_template_directory_uri();
 
 /* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_template_components.php';
 
-if ($logged_in) {
+if ($logged_in):
 
-  // Get a profile picture and user data
-  $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
-  $first_name = get_user_meta($current_user_id, 'first_name', true);
-  $userdata = get_user_meta($current_user_id);
+// Get a profile picture and user data
+$profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
+$first_name = get_user_meta($current_user_id, 'first_name', true);
+$userdata = get_user_meta($current_user_id);
 
-  // run a check for sub status
-  $user_subscription = get_user_meta($current_user_id, 'subscription')[0];
-  $user_subscription_till = new DateTime(get_user_meta($current_user_id, 'subscribed-until')[0]);
-  $now = new DateTime();
-  if($user_subscription != '' && $user_subscription_till < $now) {
-    delete_user_meta($current_user_id, 'subscription');
-    delete_user_meta($current_user_id, 'subscribed-until');
-  }
-
-  $body_class[0] = 'logged_in';
-
+// run a check for sub status
+$user_subscription = guyra_get_user_meta($current_user_id, 'subscription', true)['meta_value'];
+$user_subscription_till = new DateTime(guyra_get_user_meta($current_user_id, 'subscribed_until', true)['meta_value']);
+$now = new DateTime();
+if($user_subscription != '' && $user_subscription_till < $now) {
+  guyra_update_user_meta($current_user_id, 'subscription', '');
 }
+
+$body_class[0] = 'logged_in';
+
+endif; // logged in
 
 $where_am_i = $wp->request;
 $highlight_class = 'purple';
@@ -115,6 +113,16 @@ if ($logged_in) {
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/react-select.css" />
 <?php endif; ?>
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+<link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7198773595231701" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
@@ -255,7 +263,7 @@ if ($logged_in) {
 
       <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
       <a class="btn-tall page-icon small <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
-        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/exercises/search.png'; ?>">
+        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/textbook.png'; ?>">
         <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['schools'] ?></span>
       </a>
       <?php endif; ?>

@@ -20,6 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
 /* Set up translations independent of Wordpress */
 include get_template_directory() . '/i18n.php';
 include get_template_directory() . '/Guyra_misc.php';
@@ -39,8 +43,8 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 						<div class="text-center mx-auto mb-5">
 							<div class="page-icon position-relative">
 								<?php
-								$gravatar_image      = get_avatar_url( get_current_user_id(), $args = null );
-								$profile_picture_url = get_user_meta( get_current_user_id(), 'user_registration_profile_pic_url', true );
+								$gravatar_image      = get_avatar_url( $current_user_id, $args = null );
+								$profile_picture_url = get_user_meta( $current_user_id, 'user_registration_profile_pic_url', true );
 								$image               = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
 								foreach($form_data_array as $data){
@@ -141,8 +145,7 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 												$single_item = class_exists( 'URCL_Field_Settings' ) && method_exists( URCL_Field_Settings::class, 'migrate_to_logic_map_schema' ) ? URCL_Field_Settings::migrate_to_logic_map_schema( $single_item ) : $single_item;
 											}
 
-											$user_id				    = get_current_user_id();
-											$form_id 					= ur_get_form_id_by_userid( $user_id );
+											$form_id 					= ur_get_form_id_by_userid( $current_user_id );
 											$field                      = $profile[ $key ];
 											$field['input_class']       = array( 'ur-edit-profile-field ' );
 											$advance_data               = array(
@@ -348,7 +351,7 @@ do_action( 'user_registration_before_edit_profile_form' ); ?>
 						<?php
 					}
 					?>
-					
+
 					</div>
 				</div>
 			</div>

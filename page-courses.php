@@ -1,11 +1,14 @@
 <?php
 /**
- * Classroom page. Currently handles in-site zoom meeting.
+ * Courses page. Interprets some data on the courses.json file and passes it to the React frontend.
  *
  * @package guyra
  */
 
-include get_template_directory() . '/Guyra_misc.php';
+global $template_dir;
+global $template_url;
+
+include $template_dir . '/Guyra_misc.php';
 
 function createYoutubeApiPlaylistLink($key) {
 
@@ -22,16 +25,7 @@ function createYoutubeApiPlaylistLink($key) {
   return $r;
 }
 
-$coursesJson = '{
-  "course1": {
-    "link": "PLKL9JMrDmA-C1MCa8ifxty9uZAQfvL_VS",
-    "title": "Gramática Rápida",
-    "desc": "Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.",
-    "id": "quicktips"
-  }
-}';
-
-$coursesArray = json_decode($coursesJson, true);
+$coursesArray = json_decode(file_get_contents($template_dir . '/assets/json/courses.json'), true);
 
 foreach ($coursesArray as &$current) {
   $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));

@@ -7,27 +7,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
 /* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_misc.php';
 
-include get_template_directory() . '/Guyra_misc.php';
+$user_info = get_userdata($current_user_id);
+$user_rank = GetUserRanking($current_user_id);
+$user_payment_method = guyra_get_user_meta($current_user_id, 'payment_method', true)['meta_value'];
+$user_subscription = guyra_get_user_meta($current_user_id, 'subscription', true)['meta_value'];
+$user_subscription_activesince = guyra_get_user_meta($current_user_id, 'subscribed_since', true)['meta_value'];
 
-$user_id = get_current_user_id();
-$user_info = get_userdata($user_id);
-$user_rank = GetUserRanking($user_id);
-$user_payment_method = guyra_get_user_meta($user_id, 'payment_method', true);
-
-$user_subscription = get_user_meta($user_id, 'subscription', true);
-$user_subscription_activesince = get_user_meta($user_id, 'subscription-active-since', true);
-
-$first_name = get_user_meta( $user_id, 'first_name', true );
-$last_name = get_user_meta( $user_id, 'last_name', true );
+$first_name = get_user_meta( $current_user_id, 'first_name', true );
+$last_name = get_user_meta( $current_user_id, 'last_name', true );
 if (empty($first_name)) {
 	$first_name = $user_info->name;
 }
 
-$gravatar_image = get_avatar_url( $user_id, $args = null );
-$profile_picture_url = get_user_meta( $user_id, 'user_registration_profile_pic_url', true );
+$gravatar_image = get_avatar_url( $current_user_id, $args = null );
+$profile_picture_url = get_user_meta( $current_user_id, 'user_registration_profile_pic_url', true );
 $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
 ?>
@@ -36,19 +37,26 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 	<div class="icon-title mb-3 d-flex justify-content-between align-items-center">
 
-		<div>
+		<div class="welcome">
+
 			<h2 class="text-blue"><?php echo "Welcome, ", $first_name, "!";?></h2>
+
 			<p><?php echo $gi18n['accountpage_registeredsince'] . ' ' . date_format(date_create($user_info->user_registered),"d/m/Y"); ?>
-			<?php if($user_subscription == 'premium') {?><span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span><?php } ?>
+
+			<?php if($user_subscription == 'premium'): ?>
+			<span><?php echo $gi18n['accountpage_subscriptionsince'] . ' ' . date_format(date_create($user_subscription_activesince),"d/m/Y"); ?>!</span>
+			<?php endif; ?>
+
 			</p>
-			<?php if($user_subscription == '') { ?>
-				<p><?php /* echo $gi18n['no_subscription_found']  */?></p>
-				<?php /* <a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']?>"><?php echo $gi18n['subscribe'];?></a> */?>
-			<?php } //no subscription ?>
+
+			<?php if($user_subscription == ''): ?>
+				<p><?php echo $gi18n['no_subscription_found']; ?></p>
+				<a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']; ?>"><?php echo $gi18n['subscribe']; ?></a>
+			<?php endif; ?>
 
 		</div>
 
-		<span class="page-icon"><img alt="learning" src="<?php echo get_template_directory_uri(); ?>/assets/icons/profile.png"></span>
+		<span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/profile.png"></span>
 
 	</div>
 
@@ -85,7 +93,9 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 				<h3 class="text-white"><?php echo $first_name . ' ' . $last_name; ?></h3>
 			</span>
 
-			<?php if($user_subscription == 'premium') {?><span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro'];?>✨🌟</span><?php } ?>
+			<?php if($user_subscription == 'premium'): ?>
+			<span class="premium-badge bg-secondary text-white text-small text-uppercase rounded mt-1">🎉✨<?php echo $gi18n['pricesfeature_titlepro']; ?>✨🌟</span>
+			<?php endif; ?>
 		</div>
 
 		<div class="col-md d-flex flex-column align-items-center">
@@ -101,22 +111,21 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 						<img class="page-icon" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.jpg">
 					</div>
 
-					<div class="col-8 text-small">
+					<div class="col-8 text-small d-flex flex-column align-items-start">
 						<p><?php echo $gi18n['payment_message'] . ":" . $user_payment_method; ?></p>
 						<p class="badge bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
+						<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall btn-sm blue mt-1">
+							<?php echo $gi18n['change_payment_method']; ?>
+						</a>
 					</div>
 
 				</div>
-
-				<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall blue mt-3">
-					<?php echo $gi18n['change_payment_method']; ?>
-				</a>
 
 			</div>
 
 		<?php endif; ?>
 
-			<div class="mb-5 text-small">
+			<div class="mb-5 text-small w-100">
 
 				<h3 class="text-blue"><?php echo $gi18n['teacher_code'] ?></h3>
 				<p><?php echo $gi18n['teacher_code_explain'] ?></p>
@@ -128,7 +137,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 						</div>
 
 						<input type="hidden" value="<?php echo $gi18n['account_link']; ?>" name="redirect">
-						<input type="hidden" value="<?php echo $user_id; ?>" name="user">
+						<input type="hidden" value="<?php echo $current_user_id; ?>" name="user">
 
 				</form>
 

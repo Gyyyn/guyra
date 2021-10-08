@@ -1,6 +1,8 @@
 <?php
 
-$template_dir = get_template_directory();
+global $template_dir;
+global $template_url;
+global $current_user_id;
 
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
@@ -22,7 +24,7 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 
   } elseif ($_GET['json'] == 'usermeta') {
 
-    $responseJSON = GetUserRanking(get_current_user_id());
+    $responseJSON = GetUserRanking($current_user_id);
 
   } else {
 

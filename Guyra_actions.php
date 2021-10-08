@@ -9,8 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  exit; // Exit if accessed directly
 }
 
-$thisUserId = get_current_user_id();
-$thisUser = get_user_meta($thisUserId);
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
+$thisUser = get_user_meta($current_user_id);
 $user = $_GET['user'];
 $redirect = $_GET['redirect'];
 $isAdmin = current_user_can('manage_options');
@@ -19,7 +22,7 @@ if (!$_GET['redirect']) {
   $redirect = get_site_url();
 }
 
-include get_template_directory() . '/Guyra_misc.php';
+include $template_dir . '/Guyra_misc.php';
 
 // Case where user is site admin
 if ($isAdmin) {
@@ -30,14 +33,10 @@ if ($isAdmin) {
       update_user_meta($user, 'teacherid', $_GET['assigntoteacher'] );
     }
 
-    if ($_GET['litetill']) {
-      update_user_meta($user, 'subscription', 'lite' );
-      update_user_meta($user, 'subscribed-until', $_GET['litetill'] );
-    }
-
-    if ($_GET['premiumtill']) {
-      update_user_meta($user, 'subscription', 'premium' );
-      update_user_meta($user, 'subscribed-until', $_GET['premiumtill'] );
+    if ($_GET['subscription']) {
+      guyra_update_user_meta($user, 'subscription', $_GET['subscription']);
+      guyra_update_user_meta($user, 'subscribed_until', $_GET['till']);
+      guyra_update_user_meta($user, 'subscribed_since', date('d-m-Y H:i:s'));
     }
 
     if ($_GET['giverole']) {
@@ -56,7 +55,7 @@ if ($isAdmin) {
     }
 
     if ($_GET['change_option']) {
-      guyra_update_user_meta(1, (string) $_GET['change_option'], (string) $_GET['value']);
+      guyra_update_user_meta(1, $_GET['change_option'], $_GET['value']);
     }
 
     if ($_GET['create_page'] == "all") {
@@ -164,7 +163,7 @@ if ($isAdmin || $thisUser['role'][0] == "teacher") {
 
     $userdata = get_user_meta($x->ID);
 
-    if ($userdata['teacherid'][0] == $thisUserId) {
+    if ($userdata['teacherid'][0] == $current_user_id) {
       $allowedUsers[] = $x->ID;
     }
   }
@@ -209,23 +208,27 @@ if ($isAdmin || $thisUser['role'][0] == "teacher") {
 // Non admin actions
 
 if ($_GET['get_user_meta']) {
-  guyra_database('get_user_meta', null, $thisUserId);
+  guyra_database('get_user_meta', null, $current_user_id);
 }
 
 if ($_GET['update_elo'] && $_GET['value']) {
-  guyra_database('update_elo', $_GET['value'], $thisUserId);
+  guyra_database('update_elo', $_GET['value'], $current_user_id);
 }
 
 if ($_GET['update_level'] && $_GET['value']) {
-  guyra_database('update_level', $_GET['value'], $thisUserId);
+  guyra_database('update_level', $_GET['value'], $current_user_id);
 }
 
 if ($_GET['log_exercise_data']) {
-  guyra_log_to_db($thisUserId, file_get_contents('php://input'));
+  guyra_log_to_db($current_user_id, addslashes(file_get_contents('php://input')));
+}
+
+if ($_GET['action'] == 'update_user_textareas') {
+  guyra_update_user_meta($current_user_id, 'textareas', addslashes(file_get_contents('php://input')));
 }
 
 if ($_GET['teacher_code']) {
-  update_user_meta( $user, 'teacherid', Guyra_hash($_GET['teacher_code'], true) );
+  update_user_meta($current_user_id, 'teacherid', Guyra_hash($_GET['teacher_code'], true));
 }
 
 // Redirect to main once we are done.

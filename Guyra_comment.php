@@ -13,7 +13,8 @@ include get_template_directory() . '/Guyra_misc.php';
 
 nocache_headers();
 
-$current_user = get_current_user_id();
+global $current_user_id;
+
 $location = get_site_url();
 
 $uploadedfile = $_FILES['file'];
@@ -55,7 +56,7 @@ if (!$comment) {
 
 }
 
-Guyra_increase_user_level($current_user, 2);
+Guyra_increase_user_level($current_user_id, 2);
 
 // Upload the attached image if it is found
 if ($file_found) {

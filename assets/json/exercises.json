@@ -440,6 +440,14 @@
       ["When do you go to work?", "you go", "(você vai)"],
       ["Where do you go to work?", "you go", "(você vai)"],
       ["When did you start work?", "you start", "(você começou)"]
+    ],
+
+    "WhatYouHear": [
+      ["I'm a mathematician. I work with numbers. I like it a lot."],
+      ["I have a boring job. I'm a salesperson."],
+      ["We are musicians. We travel all around the country."],
+      ["I travel to a lot of different countries. I'm a travel agent."],
+      ["My cousin is a basketball player. He is not very good at it."]
     ]
 
   },
@@ -448,15 +456,53 @@
 
     "CompleteThePhrase": [
       ["I wake up early every day.", "every", "(todos)"],
+      ["I wake up early every weekday.", "weekday", "(dia de semana)"],
+      ["I wake up late on weekends.", "weekends", "(finais de semana)"],
+      ["I wake up early to clean the house.", "to clean", "(para limpar)"],
       ["I'm working in a new company.", "a new", "(um novo)"],
+      ["I'm living downtown.", "living", "(morando)"],
+      ["I'm driving to work now.", "driving", "(dirigindo)"],
+      ["I'm saving up for a house.", "for a house", "(para uma casa)"],
       ["She's a morning person. She likes the early hours.", "morning person", "(pessoa matinal)"],
+      ["I always eat breakfast early.", "always", "(sempre)"],
+      ["I never get home early.", "home early", "(em casa cedo)"],
+      ["Sometimes I like to exercise in the morning.", "Sometimes I like", "(as vezes eu gosto)"],
       ["He works better at night. He's a night owl.", "night owl", "(coruja noturna)"],
+      ["Do we need anything?", "anything", "(alguma coisa)"],
+      ["We don't have anything at home.", "anything", "(nada)"],
+      ["Should we get anything?", "get anything", "(pegar alguma coisa)"],
       ["How do you feel in the morning?", "feel in", "(sente na)"],
+      ["Do we have any food?", "any food", "(alguma comida)"],
+      ["We don't have any food.", "have any", "(temos nenhuma)"],
+      ["I don't want any cake, thanks.", "any cake", "(nenhum bolo)"],
       ["What's your routine like?", "your routine", "(sua rotina)"],
+      ["What do you want for dinner?", "do you want", "(você quer)"],
+      ["Where do you usually eat lunch?", "usually", "(usualmente)"],
+      ["When is your break time?", "break time", "(intervalo)"],
       ["I need to go to the store.", "need to", "(precisa)"],
+      ["I need to buy some food.", "buy some", "(comprar alguma)"],
+      ["I want to go to a pizza place.", "pizza place", "(pizzaria)"],
+      ["I want to buy some groceries.", "groceries", "(mercearias)"],
       ["I'll make dinner now.", "now", "(agora)"],
+      ["I'll go to the store now.", "the store", "(a loja)"],
+      ["We'll go to the burger place afterwards.", "burger place", "(lanchonete)"],
+      ["He'll go with us to the Italian place.", "Italian place", "(restaurante italiano)"],
       ["Oh, I don't study. I already finished university.", "don't study", "(não estudo)"],
-      ["Can you speak English?", "speak", "(falar)"]
+      ["I already bought the pasta.", "bought", "(comprou)"],
+      ["We already have pizza.", "already have", "(já temos)"],
+      ["He already brought the drinks.", "brought", "(trouxe)"],
+      ["Can you speak English?", "speak", "(falar)"],
+      ["Can you buy the groceries?", "you buy", "(você ____ comprar)"],
+      ["Can I take a bite?", "a bite", "(um bocado)"],
+      ["Can I get a piece?", "a piece", "(um pedaço)"]
+    ],
+
+    "WhatYouHear": [
+      ["Oh, I don't study. I already finished university last year."],
+      ["I'll make dinner now. Do you want some?"],
+      ["Should we get anything from the store?"],
+      ["What do you want to eat for dinner?"],
+      ["Sometimes I like to exercise in the morning."]
     ]
 
   },

@@ -10,16 +10,19 @@ if (!is_user_logged_in()) {
   wp_redirect(get_site_url());
 }
 
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
 /* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
-include get_template_directory() . '/Guyra_misc.php';
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_misc.php';
 
 // Here we see a system where users see a page with the assigned homework
 // which can be accessed by sha1ning their group tag or user id, depending on
 // which should appear
-$current_user = get_current_user_id();
 $newspage = get_page_by_title('News');
-$meeting_link = guyra_get_user_meta($current_user, 'meetinglink', true)['meta_value'];
+$meeting_link = guyra_get_user_meta($current_user_id, 'meetinglink', true)['meta_value'];
 
 get_header();
 
@@ -27,9 +30,7 @@ get_header();
 <main id="intro-content" class="site-main study squeeze position-relative mb-5">
 
   <?php if (current_user_can('manage_options')): ?>
-  <a class="btn btn-tall position-absolute top-0 start-0 admin-btn" href="<?php echo $gi18n['guyra_admin_link'] ?>">
-    🎁
-  </a>
+    <span class="position-absolute top-0 start-0 admin-btn"><a class="btn-sm btn-tall purple" href="<?php echo $gi18n['guyra_admin_link'] ?>"><i class="bi bi-gift-fill"></i></a></span>
   <?php endif; ?>
 
   <div class="page-squeeze">
@@ -83,7 +84,7 @@ get_header();
         <span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/light.png"></span>
       </div>
 
-      <?php GetUserStudyPage($current_user); ?>
+      <?php GetUserStudyPage($current_user_id); ?>
 
     </div>
 
@@ -94,7 +95,7 @@ get_header();
         <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/essay.png"></span>
       </div>
 
-      <?php GetUserStudyPage_comments($current_user); ?>
+      <?php GetUserStudyPage_comments($current_user_id); ?>
 
     </div>
 

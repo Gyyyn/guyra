@@ -5,19 +5,19 @@
  * @package guyra
  */
 
-$template_dir = get_template_directory();
+global $template_dir;
+global $template_url;
+global $current_user_id;
 
 /* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 // fetch user data
-
-$thisUserId = get_current_user_id();
-$thisUser = get_user_meta($thisUserId);
+$thisUser = get_user_meta($current_user_id);
 $users = get_users();
 $site_url = get_site_url();
-$userTeacherCode = Guyra_hash($thisUserId);
+$userTeacherCode = Guyra_hash($current_user_id);
 
 // Sorts the list into date registered
 function cmp($a, $b) {
@@ -56,7 +56,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     $userStudentPageObject = GetUserStudyPage($user, true);
     $userStudentPageObjectEditLink = get_edit_post_link($userStudentPageObject->ID);
 
-    if ($userTeacher == $thisUserId) {
+    if ($userTeacher == $current_user_id) {
 
       $user_sha1d = sha1($user);
       $userGroup = $userdata['studygroup'][0];
