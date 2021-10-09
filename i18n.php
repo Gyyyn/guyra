@@ -61,6 +61,7 @@ $gi18n = [
 	'group' => 'Grupo',
 	'groups' => 'Grupos',
 	'controls' => 'Controles',
+	'diary' => 'Diário',
 	'add' => 'Adicionar',
 	'edit' => 'Editar',
 	'apply' => 'Aplicar',

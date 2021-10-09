@@ -122,11 +122,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <?php endif; ?>
 
         <li class="list-group-item col-5 d-flex justify-content-around">
-          <a class="btn-tall btn-sm blue me-1 diary-opener" data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
-            <i class="bi bi-card-list"></i>
-            <span class="d-none d-md-inline">Diario</span>
-          </a>
           <?php if (!$userInGroup): ?>
+          <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
+            <i class="bi bi-card-list"></i>
+            <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
+          </a>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-journal-richtext"></i>
             <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
@@ -249,7 +249,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         </i>
       </li>
 
-      <li class="list-group-item col-4 d-flex justify-content-around">
+      <li class="list-group-item col-5 d-flex justify-content-around">
+        <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="group" data-userid="<?php echo $current_user_id; ?>" data-grouptag="<?php echo $group['name']; ?>">
+          <i class="bi bi-card-list"></i>
+          <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
+        </a>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <i class="bi bi-journal-richtext"></i>
           <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>

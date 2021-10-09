@@ -38,6 +38,20 @@
   outline: unset;
 }
 
+.status {
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.date input {
+    border: unset;
+    color: var(--guyra-black);
+}
+
+#newentry-status {
+  cursor: pointer;
+}
+
 @keyframes pop {
   from {
     transform: scale(0);
