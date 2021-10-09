@@ -1851,6 +1851,10 @@ input.form-control:focus,
     animation: fadein 0.25s, slideup 0.5s;
 }
 
+.justfade-animation.animate {
+    animation: fadein 0.35s;
+}
+
 /*
 * -------- Misc
 *

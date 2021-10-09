@@ -31,6 +31,9 @@ $gravatar_image = get_avatar_url( $current_user_id, $args = null );
 $profile_picture_url = get_user_meta( $current_user_id, 'user_registration_profile_pic_url', true );
 $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
+$user_subscription = false;
+$user_payment_method = false;
+
 ?>
 
 <div class="profile position-relative">
@@ -49,7 +52,7 @@ $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_
 
 			</p>
 
-			<?php if($user_subscription == ''): ?>
+			<?php if($user_subscription === ''): ?>
 				<p><?php echo $gi18n['no_subscription_found']; ?></p>
 				<a class="btn-tall blue mb-3" href="<?php echo $gi18n['purchase_link']; ?>"><?php echo $gi18n['subscribe']; ?></a>
 			<?php endif; ?>

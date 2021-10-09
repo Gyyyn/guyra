@@ -186,6 +186,10 @@ if ($isAdmin || $thisUser['role'][0] == "teacher") {
     guyra_get_user_meta($user, 'diary');
   }
 
+  if ($_GET['action'] == 'update_diary') {
+    guyra_update_user_meta($user, 'diary', addslashes(file_get_contents('php://input')));
+  }
+
   endif;
 
   $user_is_users = json_decode($user);
