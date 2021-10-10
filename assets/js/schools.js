@@ -65,22 +65,23 @@ function GetCurrentDate() {
 
   var month = currentdate.getMonth() + 1;
   var day = currentdate.getDate();
+  var hours = currentdate.getHours();
+  var minutes = currentdate.getMinutes();
+  var seconds = currentdate.getSeconds();
 
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  if (day < 10) {
-    day = '0' + day;
-  }
+  if (month < 10) {month = '0' + month}
+  if (day < 10) {day = '0' + day}
+  if (hours < 10) {hours = '0' + hours}
+  if (minutes < 10) {minutes = '0' + minutes}
+  if (seconds < 10) {seconds = '0' + seconds}
 
   return ""
   + currentdate.getFullYear() + "-"
   + month + "-"
   + day + " "
-  + currentdate.getHours() + ":"
-  + currentdate.getMinutes() + ":"
-  + currentdate.getSeconds();
+  + hours + ":"
+  + minutes + ":"
+  + seconds;
 
 }
 
@@ -138,7 +139,7 @@ function WeekdayList(props) {
       e('option', {value: 'Monday'}),
       e('option', {value: 'Tueday'}),
       e('option', {value: 'Wednesday'}),
-      e('option', {value: 'Thuday'}),
+      e('option', {value: 'Thursday'}),
       e('option', {value: 'Friday'}),
       e('option', {value: 'Saturday'}),
       e('option', {value: 'Sunday'})
@@ -151,7 +152,7 @@ function DiarySuperInfo(props) {
   return e(
     'div',
     { className: 'diary-super-info justfade-animation animate mb-3' },
-    e(DiaryContext.Consumer, null, ({name, diary}) => e(
+    e(DiaryContext.Consumer, null, ({name, diary, i18n}) => e(
       'div',
       {
         className: 'w-100 row align-items-center justify-content-between',
@@ -159,10 +160,10 @@ function DiarySuperInfo(props) {
       e(
         'span',
         { className: 'col-2 position-relative d-flex overflow-hidden' },
-        'Day:',
+        i18n.day + ': ',
         e(WeekdayList, {currentDay: diary.dayAssigned})
       ),
-      e('span', { className: 'col' }, 'User: ', e('span', { className: 'badge bg-primary rounded' }, name))
+      e('span', { className: 'col' }, i18n.diary_for, e('span', { className: 'badge bg-primary rounded' }, name))
     ))
   );
 }
@@ -178,7 +179,7 @@ function DiaryInfo(props) {
 }
 
 function DiaryEditButton(props) {
-  return e(DiaryContext.Consumer, null, ({EditEntry}) => e(
+  return e(DiaryContext.Consumer, null, ({EditEntry, i18n}) => e(
     'button',
     {
       className: "btn-tall btn-sm blue",
@@ -192,87 +193,155 @@ function DiaryEditButton(props) {
 
       }
     },
-    e('i', { className: "bi bi-pencil-square"})
+    e('i', { className: "bi bi-pencil-square", alt: i18n.edit })
   ));
 }
 
 function DiaryDeleteButton(props) {
-  return e(DiaryContext.Consumer, null, ({deleteEntry}) => e(
+  return e(DiaryContext.Consumer, null, ({deleteEntry, i18n}) => e(
     'button',
     {
       className: "btn-tall btn-sm red",
       onClick: () => {
 
-        if (window.confirm('Are you sure you want to delete?')) {
+        if (window.confirm(i18n.delete_confirm)) {
           deleteEntry(props.id);
         }
 
       }
     },
-    e('i', { className: "bi bi-trash"})
+    e('i', { className: "bi bi-trash", alt: i18n.delete })
   ));
 }
 
-function DiaryEntry(props) {
+class DiaryEntry extends React.Component {
+  constructor(props) {
+    super(props);
 
-  var statusClass = '';
+    this.statusClass = '';
 
-  if (props.entry.status == 'finished') {
-    statusClass = 'bg-primary';
-  } else {
-    statusClass = 'bg-danger';
-  }
+    if (this.props.entry.status == 'finished') {
+      this.statusClass = 'bg-primary';
+    } else {
+      this.statusClass = 'bg-danger';
+    }
 
-  return e(
-    'div',
-    {
-      className: 'diary-entry row w-100 pop-animation animate',
-      key: 'diary-entry-' + props.id
-    },
-    e(
+    this.datePicker = e(DiaryContext.Consumer, null, ({EditEntry}) => e(
       'div',
-      {
-        className: 'date text-muted text-end col-3',
-        title: props.entry.date
-      },
+      {},
       e(
         'input',
         {
-          type: 'date',
-          id: 'date-' + props.id,
+          type: 'datetime-local',
           name: 'entry-date',
-          value: props.entry.date.split(' ')[0]
+          id: 'datepicker-' + this.props.id,
+          className: 'text-smaller ps-4'
         }
+      ),
+      e(
+        'span',
+        {
+          className: 'close-button position-absolute bottom-0 start-0'
+        },
+        e(
+          'button',
+          {
+            className: "btn-tall btn-sm green",
+            onClick: (event) => {
+
+              var theDate = document.getElementById('datepicker-' + this.props.id).value;
+
+              if (theDate != '') {
+                theDate = theDate.split('T').join(' ');
+                theDate = theDate + ':00';
+                EditEntry(this.props.id, 'date', theDate);
+              }
+
+              this.setState({
+                dateSection: this.dateDisplay
+              })
+
+            }
+          },
+          e('i', { className: "bi bi-check-lg" })
+        )
       )
-    ),
-    e(DiaryContext.Consumer, null, ({EditEntry}) => e(
+    ));
+
+    this.dateDisplay = e(DiaryContext.Consumer, null, ({diary}) => e(
       'span',
       {
-        className: 'status badge ' + statusClass + ' col-1 d-flex text-smaller align-items-center justify-content-center',
-        onClick: () => {
-          if (props.entry.status == 'finished') {
-            EditEntry(props.id, 'status', 'absent');
-            statusClass = 'bg-danger';
-          } else {
-            EditEntry(props.id, 'status', 'finished');
-            statusClass = 'bg-primary';
-          }
-        }
+        id: 'date-' + this.props.id
       },
-      props.entry.status
-    )),
-    e(
+      e(
+        'span',
+        { className: 'close-button position-absolute bottom-0 start-0'},
+        e(
+          'button',
+          {
+            className: "btn-tall btn-sm blue",
+            onClick: () => {
+              this.setState({
+                dateSection: this.datePicker
+              })
+            }
+          },
+          e('i', { className: "bi bi-pencil" })
+        )
+      ),
+      diary.entries[this.props.id].date
+    ));
+
+    this.state = {
+      dateSection: this.dateDisplay
+    };
+
+  }
+
+  render() {
+    return e(
       'div',
-      { className: 'comment col position-relative' },
-      props.entry.comment,
+      {
+        className: 'diary-entry row w-100 pop-animation animate',
+        key: 'diary-entry-' + this.props.id
+      },
       e(
         'div',
-        { className: 'position-absolute bottom-0 end-0' },
-        e('span', {className: 'me-2'}, e(DiaryEditButton, {id: props.id, current: props.entry.comment})),
-        e('span', {className: 'me-2'}, e(DiaryDeleteButton, {id: props.id})),
-      )
-    ),
-  );
+        {
+          className: 'date text-muted text-end col-3 position-relative',
+          title: this.props.entry.date
+        },
+        this.state.dateSection
+      ),
+      e(DiaryContext.Consumer, null, ({EditEntry}) => e(
+        'span',
+        {
+          className: 'status badge ' + this.statusClass + ' col-1 d-flex text-smaller align-items-center justify-content-center',
+          onClick: () => {
+            if (this.props.entry.status == 'finished') {
+              EditEntry(this.props.id, 'status', 'absent');
+              this.statusClass = 'bg-danger';
+            } else {
+              EditEntry(this.props.id, 'status', 'finished');
+              this.statusClass = 'bg-primary';
+            }
+          }
+        },
+        this.props.entry.status
+      )),
+      e(
+        'div',
+        { className: 'comment col position-relative' },
+        this.props.entry.comment,
+        e(
+          'div',
+          { className: 'position-absolute bottom-0 end-0' },
+          e('span', {className: 'me-2'}, e(DiaryEditButton, {id: this.props.id, current: this.props.entry.comment})),
+          e('span', {className: 'me-2'}, e(DiaryDeleteButton, {id: this.props.id})),
+        )
+      ),
+    );
+  }
 
 }
 
@@ -288,36 +357,28 @@ function DiaryEntries(props) {
 }
 
 function DiarySubmit(props) {
-  return e(
+  return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'diary-new-entry row align-items-center justfade-animation animate' },
+    { className: 'diary-new-entry row w-100 align-items-center justfade-animation animate' },
     e(
       'span',
-      { className: "col-2" },
-      e(
-        'input',
-        {
-          placeholder: "Status...",
-          list: 'statuses',
-          id: "newentry-status"
-        }
-      ),
-      e(
-        'datalist',
-        {
-          id: 'statuses'
-        },
-        e('option', {value: 'finished'}),
-        e('option', {value: 'absent'})
-      )
+      { className: 'col-3 text-muted text-end'},
+      GetCurrentDate().split(' ')[0]
     ),
     e(
       'span',
-      { className: "col ms-5" },
+      {
+        className: 'status badge bg-success col-1 d-flex text-smaller align-items-center justify-content-center',
+      },
+      'new'
+    ),
+    e(
+      'span',
+      { className: "col" },
       e(
         'input',
         {
-          placeholder: "Comment",
+          placeholder: i18n.comment + '...',
           className: "w-100",
           id: "newentry-comment"
         }
@@ -325,8 +386,8 @@ function DiarySubmit(props) {
     ),
     e(
       'span',
-      { className: "col-1" },
-      e(DiaryContext.Consumer, null, ({AddEntry}) => e(
+      { className: "col-1 d-flex justify-content-center" },
+      e(DiaryContext.Consumer, null, ({AddEntry, i18n}) => e(
         'button',
         {
           className: "btn-tall btn-sm blue add-entry-button",
@@ -340,7 +401,7 @@ function DiarySubmit(props) {
             }
 
             if (entryComment.value == '') {
-              alert('Please enter a comment');
+              alert(i18n.comment_missing);
             } else {
 
               AddEntry({
@@ -355,29 +416,32 @@ function DiarySubmit(props) {
             }
           }
         },
-        e('i', { className: "bi bi-plus-lg"})
+        e('i', { className: "bi bi-plus-lg", alt: i18n.add })
       ))
     )
-  );
+  ));
 }
 
 function DiaryControls(props) {
   return e(
     'div',
     {
-      className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-3'
+      className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-5'
     },
-    e(DiaryContext.Consumer, null, ({saveDiary}) => e(
+    e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
       {
         className: 'btn-tall green',
         id: 'save-button',
-        onClick: () => {
+        onClick: (e) => {
           saveDiary();
+          var before = e.target.innerHTML;
+          e.target.innerHTML = '<i class="bi bi-check-lg"></i>'
+          setTimeout(() => { e.target.innerHTML = before; }, 1000)
         }
       },
       e('i', { className: "bi bi-save me-1"}),
-      'Save'
+      i18n.save
     ))
   );
 }
@@ -413,16 +477,16 @@ function NeedNewDiary(props) {
 
   }
 
-  return e(
+  return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
     {
       className: "d-flex flex-column align-items-center justify-content-center border-1 more-rounded pop-animation animate"
     },
-    e('p', null, 'This user has no diary, create one?'),
+    e('p', null, i18n.no_diary),
     e(
       'div',
       {},
-      e(DiaryContext.Consumer, null, ({setPage, setDiary}) => e(
+      e(DiaryContext.Consumer, null, ({setPage, setDiary, i18n}) => e(
         'button',
         {
           className: "btn-tall green me-2",
@@ -431,17 +495,17 @@ function NeedNewDiary(props) {
             setPage(e(DiaryProper));
           }
         },
-        'Yes'
+        i18n.yes
       )),
       e(
         'button',
         {
           className: "btn-tall red"
         },
-        'No'
+        i18n.no
       )
     )
-  );
+  ));
 
 }
 
@@ -466,7 +530,11 @@ class Diary extends React.Component {
       AddEntry: this.AddEntry,
       EditEntry: this.EditEntry,
       saveDiary: this.saveDiary,
-      deleteEntry: this.deleteEntry
+      deleteEntry: this.deleteEntry,
+      i18n: {
+        'close': 'Close',
+        'diary': 'Diary'
+      }
     };
 
   }
@@ -516,7 +584,11 @@ class Diary extends React.Component {
   saveDiary = () => {
     var x = this.state.diary;
 
-    x.dayAssigned = document.getElementById('day-picker').value;
+    var dayAssigned = document.getElementById('day-picker').value;
+
+    if (dayAssigned != '') {
+      x.dayAssigned = dayAssigned;
+    }
 
     this.setState({
       diary: x
@@ -542,38 +614,49 @@ class Diary extends React.Component {
     );
   }
 
-  componentDidMount(){
-    fetch(rootUrl + 'action/?action=get_diary&user=' + this.props.diaryId)
+  componentDidMount() {
+
+    fetch(rootUrl.concat('action/?json=1&i18n=full'))
     .then(res => res.json())
-    .then(data => {
+    .then(json => {
+      this.setState({
+        i18n: json.i18n
+      });
 
-      if (data[0] != false) {
-        var theJson = JSON.parse(data[0].meta_value);
+      fetch(rootUrl + 'action/?action=get_diary&user=' + this.props.diaryId)
+      .then(res => res.json())
+      .then(data => {
 
-        if (this.props.diarytype == 'group') {
-          this.theOtherDiaries = theJson;
+        if (data[0] != false) {
+          var theJson = JSON.parse(data[0].meta_value);
 
-          if (theJson.diaries == undefined) {
-            theJson.diaries = {};
+          if (this.props.diarytype == 'group') {
+            this.theOtherDiaries = theJson;
+
+            if (theJson.diaries == undefined) {
+              theJson.diaries = {};
+            }
+
+            theJson = theJson.diaries[this.props.grouptag];
           }
 
-          theJson = theJson.diaries[this.props.grouptag];
+          if (theJson) {
+            this.setState({
+              diary: theJson
+            });
+          }
         }
 
-        if (theJson) {
-          this.setState({
-            diary: theJson
-          });
+        if (Object.keys(this.state.diary).length === 0) {
+          this.setPage(e(NeedNewDiary));
+        } else {
+          this.setPage(e(DiaryProper));
         }
-      }
 
-      if (Object.keys(this.state.diary).length === 0) {
-        this.setPage(e(NeedNewDiary));
-      } else {
-        this.setPage(e(DiaryProper));
-      }
+      })
 
-    })
+    });
+
   }
 
   render() {
@@ -589,26 +672,44 @@ class Diary extends React.Component {
             className: "btn-tall btn-sm red",
             onClick: () => {
               ReactDOM.render(e('div', null, null), theDiary);
+              currentEditing = false;
+              diaryOpeners.forEach((item) => {
+                item.classList.remove('disabled');
+              });
             }
           },
-          e('i', { className: "bi bi-x-lg"})
+          e('i', { className: "bi bi-x-lg", alt: this.state.i18n.close })
         )
       ),
-      e(DiaryContext.Provider, {value: this.state}, this.state.page)
+      e(
+        DiaryContext.Provider,
+        {value: this.state},
+        e('h4', {}, this.state.i18n.diary),
+        this.state.page
+      )
     );
   };
 }
 
 var diaryOpeners = document.querySelectorAll('.diary-opener');
+var currentEditing = false;
 var theDiary =  document.getElementById('the-diary');
 
-diaryOpeners.forEach((item, i) => {
+diaryOpeners.forEach((item) => {
   item.addEventListener('click', () => {
-    ReactDOM.render(e(Diary, {
-      diaryId: item.dataset.userid,
-      username: item.dataset.username,
-      grouptag: item.dataset.grouptag,
-      diarytype: item.dataset.diarytype
-    }), theDiary);
+
+    if (!currentEditing) {
+      currentEditing = true;
+      ReactDOM.render(e(Diary, {
+        diaryId: item.dataset.userid,
+        username: item.dataset.username,
+        grouptag: item.dataset.grouptag,
+        diarytype: item.dataset.diarytype
+      }), theDiary);
+      diaryOpeners.forEach((item) => {
+        item.classList.add('disabled');
+      });
+    }
+
   })
 });

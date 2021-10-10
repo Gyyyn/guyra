@@ -50,11 +50,12 @@
 
 #newentry-status {
   cursor: pointer;
+  max-width: 11rem;
 }
 
 @keyframes pop {
   from {
-    transform: scale(0);
+    transform: scale(0.75);
     opacity: 0;
   }
 

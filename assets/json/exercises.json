@@ -510,7 +510,10 @@
   "unit10": {
 
     "CompleteThePhrase": [
-      ["I'm going to go the store in a few minutes.", "go to the", "(ir a)"],
+      ["I'm going to go the store in a few minutes.", "going to go", "(vou ir)"],
+      ["I'm going to go the shop in a few minutes.", "going", "(vou)"],
+      ["I'm going to buy some clothes today.", "go to the", "(vou comprar)"],
+      ["I'm going to eat dinner soon.", "going to eat", "(vou comer)"],
       ["He's going to have a party tonight.", "going to", "(vai)"],
       ["What are you going to do for ", "you going", "(você vai)"],
       ["I'm not going to take the class today.", "to take", "(fazer)"],

@@ -31,12 +31,12 @@ include get_template_directory() . '/i18n.php';
         <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
       </a>
 
-      <a href="<?php echo get_site_url() ?>/reference" class="list-group-item">
-        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/notebook.png'; ?>"></span>
-        <span class="menu-title"><?php echo $gi18n['reference']; ?></span>
+      <a href="<?php echo $gi18n['home_link']; ?>/reference" class="list-group-item">
+        <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/lab.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['ultilities']; ?></span>
       </a>
 
-      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
+      <a href="<?php echo $gi18n['courses_link']; ?>" class="list-group-item">
         <span class="menu-icon"><img alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
       </a>

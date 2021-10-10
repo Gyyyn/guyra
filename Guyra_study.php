@@ -18,9 +18,6 @@ global $current_user_id;
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
-// Here we see a system where users see a page with the assigned homework
-// which can be accessed by sha1ning their group tag or user id, depending on
-// which should appear
 $newspage = get_page_by_title('News');
 $meeting_link = guyra_get_user_meta($current_user_id, 'meetinglink', true)['meta_value'];
 
@@ -46,17 +43,17 @@ get_header();
         <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
       </a>
 
-      <a href="<?php echo get_site_url() ?>/reference" class="list-group-item">
+      <a href="<?php echo $gi18n['home_link']; ?>/reference" class="list-group-item">
         <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/lab.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['ultilities']; ?></span>
       </a>
 
-      <a href="<?php echo get_site_url() ?>/courses" class="list-group-item">
+      <a href="<?php echo $gi18n['courses_link']; ?>" class="list-group-item">
         <span class="menu-icon"><img alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
       </a>
 
-      <a href="<?php echo $meeting_link ?>" class="list-group-item">
+      <a href="<?php echo $meeting_link; ?>" class="list-group-item">
         <span class="menu-icon"><img alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['meeting']; ?></span>
       </a>
