@@ -66,14 +66,13 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       $userGroup = $userdata['studygroup'][0];
 
       if($userGroup != "") {
-        $page_link = $site_url . '/' . sha1($userGroup . $userTeacher);
         $userInGroup = true;
 
         if (!in_array($userGroup, $groups)) {
 
           $data = [
             'name' => $userGroup,
-            'link' => $page_link
+            'link' => $userStudentPageObjectEditLink
           ];
 
           $groups[] = $userGroup;
@@ -85,8 +84,6 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         $groupsData[$userGroup]['users'][] = $user;
         $groupsData[$userGroup]['usersNames'][] = $userdata['first_name'][0];
 
-      } else {
-        $page_link = $site_url . '/' . $user_sha1d;
       }
       ?>
 
@@ -215,7 +212,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         </div>
 
         <div class="page-squeeze m-0"><div class="study-answers">
-          <?php GetUserStudyPage_comments($user, false); ?>
+          <?php GetUserStudyPage_comments($user, false, true); ?>
         </div></div>
 
       </div></div>
@@ -313,7 +310,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       </div>
 
       <div class="page-squeeze m-0"><div class="study-answers">
-        <?php GetUserStudyPage_comments($group['users'][0], false); ?>
+        <?php GetUserStudyPage_comments($group['users'][0], false, true); ?>
       </div></div>
 
     </div>

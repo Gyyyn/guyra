@@ -205,16 +205,13 @@ function GetUserStudyPage($user, $returnObject=false) {
 
 }
 
-function GetUserStudyPage_comments($user, $reply_box=true) {
+function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) {
 
   $object = GetUserStudyPage_object($user);
   $current_user = wp_get_current_user();
 
-  $profile_picture = Guyra_get_profile_picture($current_user->ID, ['page-icon', 'tiny']);
-
   $args = [
     'post_id' => $object->ID,
-    'user_id' => $user,
     'date_query' => [
       'after' => '1 weeks ago',
       'before' => 'tomorrow',
@@ -222,10 +219,15 @@ function GetUserStudyPage_comments($user, $reply_box=true) {
     ]
   ];
 
+  if ($all_comments == false) {
+    $args['user_id'] = $user;
+  }
+
   $comments = get_comments($args);
 
   foreach ($comments as $comment) {
 
+    $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
     $first_name = get_user_meta( $comment->user_id, 'first_name', true );
     if (empty($first_name)) {

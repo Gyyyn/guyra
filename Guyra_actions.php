@@ -30,7 +30,8 @@ if ($isAdmin) {
   if($user) {
 
     if ($_GET['assigntoteacher']) {
-      update_user_meta($user, 'teacherid', $_GET['assigntoteacher'] );
+      update_user_meta($user, 'teacherid', $_GET['assigntoteacher']);
+      update_user_meta($user, 'studygroup', '');
     }
 
     if ($_GET['subscription']) {
@@ -236,7 +237,15 @@ if ($_GET['action'] == 'update_user_textareas') {
 }
 
 if ($_GET['teacher_code']) {
-  update_user_meta($current_user_id, 'teacherid', Guyra_hash($_GET['teacher_code'], true));
+
+  $the_code = Guyra_hash($_GET['teacher_code'], true);
+
+  if (is_numeric($the_code)) {
+    update_user_meta($current_user_id, 'teacherid', $the_code);
+    update_user_meta($current_user_id, 'studygroup', '');
+  }
+
+  unset($the_code);
 }
 
 // Redirect to main once we are done.

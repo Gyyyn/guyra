@@ -1824,14 +1824,12 @@ input.form-control:focus,
 */
 
 @keyframes fadein {
-  from {
-    opacity: 0;
-  }
+  from {opacity: 0;}
+  to {opacity: 1;}}
 
-  to {
-    opacity: 1;
-  }
-}
+@keyframes fadeout {
+  from {opacity: 1;}
+  to {opacity: 0;}}
 
 @keyframes slideup {
   from {
@@ -1843,7 +1841,9 @@ input.form-control:focus,
   }
 }
 
-.fade-animation {
+.fade-animation,
+.justfade-animation,
+.justfadeout-animation {
     transition: var(--guyra-transition);
 }
 
@@ -1853,6 +1853,11 @@ input.form-control:focus,
 
 .justfade-animation.animate {
     animation: fadein 0.35s;
+}
+
+.justfadeout-animation {
+    animation: fadeout 0.35s;
+    opacity: 0;
 }
 
 /*

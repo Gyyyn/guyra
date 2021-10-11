@@ -392,13 +392,8 @@ function DiarySubmit(props) {
         {
           className: "btn-tall btn-sm blue add-entry-button",
           onClick: () => {
-            var entryStatus = document.getElementById('newentry-status');
             var entryComment = document.getElementById('newentry-comment');
             var time = GetCurrentDate();
-
-            if (entryStatus.value != 'finished' || entryStatus.value != 'absent') {
-              entryStatus.value = 'finished';
-            }
 
             if (entryComment.value == '') {
               alert(i18n.comment_missing);
@@ -406,7 +401,7 @@ function DiarySubmit(props) {
 
               AddEntry({
                 "date": time,
-                "status": entryStatus.value,
+                "status": 'finished',
                 "comment": entryComment.value
               });
 
@@ -500,7 +495,10 @@ function NeedNewDiary(props) {
       e(
         'button',
         {
-          className: "btn-tall red"
+          className: "btn-tall red",
+          onClick: () => {
+            document.getElementById('close-diary-button').click();
+          }
         },
         i18n.no
       )
@@ -670,12 +668,21 @@ class Diary extends React.Component {
           'button',
           {
             className: "btn-tall btn-sm red",
+            id: 'close-diary-button',
             onClick: () => {
-              ReactDOM.render(e('div', null, null), theDiary);
-              currentEditing = false;
-              diaryOpeners.forEach((item) => {
-                item.classList.remove('disabled');
-              });
+
+              document.querySelector('.diary-inner').classList.add('justfadeout-animation');
+
+              setTimeout(() => {
+
+                ReactDOM.render(e('div', null, null), theDiary);
+                currentEditing = false;
+                diaryOpeners.forEach((item) => {
+                  item.classList.remove('disabled');
+                });
+
+              }, 500);
+
             }
           },
           e('i', { className: "bi bi-x-lg", alt: this.state.i18n.close })
@@ -700,6 +707,7 @@ diaryOpeners.forEach((item) => {
 
     if (!currentEditing) {
       currentEditing = true;
+      window.scrollTo(0, 0);
       ReactDOM.render(e(Diary, {
         diaryId: item.dataset.userid,
         username: item.dataset.username,
