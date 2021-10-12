@@ -416,7 +416,6 @@ function DiarySubmit(props) {
                 "comment": entryComment.value
               });
 
-              entryStatus.value = '';
               entryComment.value = '';
 
             }
@@ -752,6 +751,8 @@ class PaymentArea extends React.Component {
 
                 if (value != '') {
                   addPaymentEntry({value: value, status: status, due: due});
+                  value = '';
+                  due = '';
                 } else {
                   alert(i18n.value_missing);
                 }
@@ -853,7 +854,7 @@ class Diary extends React.Component {
 
     if (dayAssigned != null) {
       if (dayAssigned.value != '') {
-        x.dayAssigned = dayAssigned;
+        x.dayAssigned = dayAssigned.value;
       }
     }
 
