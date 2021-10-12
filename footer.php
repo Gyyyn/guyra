@@ -55,7 +55,8 @@ if ($args['aos']): ?>
 <?php endif; ?>
 <script async src="<?php echo $gi18n['js_link']; ?>misc.js"></script>
 
-<?php if ($local_storage != ''): ?>
+<?php //if ($local_storage != ''):
+  if (false): ?>
 <script>
 localStorageFromDB = JSON.parse("<?php echo addslashes($local_storage); ?>");
 

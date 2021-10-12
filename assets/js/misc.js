@@ -51,5 +51,5 @@ var inactivityTime = function() {
 }
 
 window.onload = function() {
-  inactivityTime();
+  //inactivityTime();
 }
