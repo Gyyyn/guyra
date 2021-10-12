@@ -370,6 +370,10 @@ a.round-border {
   overflow-x: visible!important;
 }
 
+ol li::marker {
+  color: var(--guyra-grey);
+}
+
 /*
 * -------- Navbar
 *
@@ -847,7 +851,11 @@ a:hover {
 
 .bg-primary { background-color: var(--guyra-blue) !important; }
 
-.bg-secondary { background-color: var(--guyra-purple-darker) !important; }
+.bg-secondary { background-color: var(--guyra-purple) !important; }
+
+.bg-success, .bg-green { background-color: var(--guyra-green) !important; }
+
+.bg-danger, .bg-red { background-color: var(--guyra-red) !important; }
 
 .rounded-box {
   background: var(--guyra-white);
@@ -1841,10 +1849,48 @@ input.form-control:focus,
   }
 }
 
+@keyframes pop {
+  from {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes overpop {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  75% {
+    transform: scale(1.05);
+    opacity: .9;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .fade-animation,
 .justfade-animation,
-.justfadeout-animation {
+.justfadeout-animation,
+.pop-animation {
     transition: var(--guyra-transition);
+}
+
+.pop-animation.animate {
+  animation: pop 0.35s;
+}
+
+.overpop-animation.animate {
+  animation: overpop 0.35s;
 }
 
 .fade-animation.animate {

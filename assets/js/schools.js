@@ -169,17 +169,17 @@ function DiarySuperInfo(props) {
 }
 
 function DiaryInfo(props) {
-  return e(
+  return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row justfade-animation animate' },
-    e('span', { className: 'col-3' }, 'Date'),
-    e('span', { className: 'col-1' }, 'Status'),
-    e('span', { className: 'col' }, 'Comment')
-  );
+    e('span', { className: 'col-3' }, i18n.date),
+    e('span', { className: 'col-1' }, i18n.status),
+    e('span', { className: 'col' }, i18n.comment)
+  ));
 }
 
 function DiaryEditButton(props) {
-  return e(DiaryContext.Consumer, null, ({EditEntry, i18n}) => e(
+  return e(DiaryContext.Consumer, null, ({EditEntry, changePaymentEntry, i18n}) => e(
     'button',
     {
       className: "btn-tall btn-sm blue",
@@ -188,7 +188,13 @@ function DiaryEditButton(props) {
         var newComment = window.prompt('', props.current);
 
         if (newComment != null) {
-          EditEntry(props.id, 'comment', newComment);
+
+          if (props.entryType == 'payment') {
+            changePaymentEntry(props.id, 'value', newComment);
+          } else {
+            EditEntry(props.id, 'comment', newComment);
+          }
+
         }
 
       }
@@ -198,14 +204,19 @@ function DiaryEditButton(props) {
 }
 
 function DiaryDeleteButton(props) {
-  return e(DiaryContext.Consumer, null, ({deleteEntry, i18n}) => e(
+  return e(DiaryContext.Consumer, null, ({deleteEntry, deletePaymentEntry, i18n}) => e(
     'button',
     {
       className: "btn-tall btn-sm red",
       onClick: () => {
 
         if (window.confirm(i18n.delete_confirm)) {
-          deleteEntry(props.id);
+
+          if (props.entryType == 'payment') {
+            deletePaymentEntry(props.id);
+          } else {
+            deleteEntry(props.id);
+          }
         }
 
       }
@@ -418,11 +429,27 @@ function DiarySubmit(props) {
 }
 
 function DiaryControls(props) {
+
+  if (!props.isGroup) {
+    var paymentsButton = e(DiaryContext.Consumer, null, ({openPayments, i18n}) => e(
+      'button',
+      {
+        className: 'btn-tall blue me-3',
+        onClick: () => { openPayments(); }
+      },
+      e('i', { className: "bi bi-wallet2 me-1"}),
+      i18n.payment
+    ))
+  } else {
+    var paymentsButton = e('i', {className: 'd-none'});
+  }
+
   return e(
     'div',
     {
       className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-5'
     },
+    paymentsButton,
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
       {
@@ -444,6 +471,23 @@ function DiaryControls(props) {
 class DiaryProper extends React.Component {
   constructor(props) {
     super(props);
+
+    if (this.props.diaryOptions.onlyPayments == true) {
+      this.diaryWrapper = e(DiaryContext.Consumer, null, ({i18n}) => e(
+        'div',
+        {},
+        i18n.user_ingroup
+      ));
+    } else {
+      this.diaryWrapper = e(
+        'div',
+        {},
+        e(DiarySuperInfo),
+        e(DiaryInfo),
+        e(DiaryEntries),
+        e(DiarySubmit),
+      );
+    }
   }
 
   render() {
@@ -452,11 +496,10 @@ class DiaryProper extends React.Component {
       {
         className: 'diary justfade-animation animate'
       },
-      e(DiarySuperInfo),
-      e(DiaryInfo),
-      e(DiaryEntries),
-      e(DiarySubmit),
-      e(DiaryControls)
+      this.diaryWrapper,
+      e(DiaryContext.Consumer, null, ({paymentArea}) => paymentArea),
+      e(DiaryContext.Consumer, null, ({isGroup}) => e(DiaryControls, { isGroup: isGroup }))
+
     );
   }
 
@@ -468,7 +511,8 @@ function NeedNewDiary(props) {
 
   var diaryToSet = {
     "dayAssigned": "",
-    "entries": []
+    "entries": [],
+    "payments": []
 
   }
 
@@ -481,13 +525,13 @@ function NeedNewDiary(props) {
     e(
       'div',
       {},
-      e(DiaryContext.Consumer, null, ({setPage, setDiary, i18n}) => e(
+      e(DiaryContext.Consumer, null, ({setPage, setDiary, i18n, diaryOptions}) => e(
         'button',
         {
           className: "btn-tall green me-2",
           onClick: () => {
             setDiary(diaryToSet);
-            setPage(e(DiaryProper));
+            setPage(e(DiaryProper, { diaryOptions: diaryOptions }));
           }
         },
         i18n.yes
@@ -507,6 +551,222 @@ function NeedNewDiary(props) {
 
 }
 
+function PaymentAreaInfo(props) {
+  return e(DiaryContext.Consumer, null, ({i18n}) => e(
+    'div',
+    { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row justfade-animation animate' },
+    e('span', { className: 'col-2' }, i18n.value),
+    e('span', { className: 'col-2' }, i18n.status),
+    e('span', { className: 'col' }, i18n.due_date)
+  ));
+}
+
+class PaymentAreaEntry extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.datePicker = e(DiaryContext.Consumer, null, ({changePaymentEntry}) => e(
+      'div',
+      { className: 'col diary-new-entry position-relative' },
+      e(
+        'input',
+        {
+          type: 'date',
+          id: 'paymentArea-datePicker'
+        }
+      ),
+      e(
+        'span',
+        {
+          className: 'position-absolute bottom-0 end-0'
+        },
+        e(
+          'button',
+          {
+            className: "btn-tall btn-sm green",
+            onClick: () => {
+              var theDate = document.getElementById('paymentArea-datePicker');
+
+              if (theDate.value != '') {
+                changePaymentEntry(this.props.index, 'due', theDate.value);
+              }
+
+              this.setState({
+                dateSection: this.dateDisplay
+              });
+            }
+          },
+          e('i', { className: "bi bi-check-lg" })
+        )
+      )
+    )
+    );
+
+    this.dateDisplay = e(DiaryContext.Consumer, null, ({diary}) => e(
+      'span',
+      { className: 'col position-relative' },
+      e(
+        'span',
+        { className: 'badge bg-primary' },
+        diary.payments[this.props.index].due
+      ),
+      e(
+        'div',
+        { className: 'position-absolute bottom-0 end-0' },
+        e(
+          'span',
+          { className: 'me-2'},
+          e(
+            'button',
+            {
+              className: "btn-tall btn-sm blue",
+              onClick: () => {
+                this.setState({
+                  dateSection: this.datePicker
+                });
+              }
+            },
+            e('i', { className: "bi bi-pencil" })
+          )
+        ),
+        e('span', {className: ''}, e(DiaryDeleteButton, {id: this.props.index, entryType: 'payment'})),
+      )
+    ));
+
+    this.state = {
+      dateSection: this.dateDisplay
+    }
+
+  }
+
+  getStatusClass = (value) => {
+    if (value == 'pending') {
+      return 'bg-warning';
+    } else {
+      return 'bg-success';
+    }
+  }
+
+  render() {
+    return e(DiaryContext.Consumer, null, ({diary}) => e(
+      'div',
+      {
+        className: 'diary-entry pop-animation animate w-100 row mt-3'
+      },
+      e(
+        'span',
+        {
+          className: 'col-2 position-relative'
+        },
+        e('span', { className: 'me-3' }, 'R$'),
+        diary.payments[this.props.index].value,
+        e(
+          'div',
+          { className: 'position-absolute bottom-0 end-0' },
+          e('span', {className: 'me-2'}, e(DiaryEditButton, {id: this.props.index, current: '', entryType: 'payment'}))
+        )
+      ),
+      e(DiaryContext.Consumer, null, ({changePaymentEntry}) => e('span', {
+        className: 'status badge col-2 d-flex text-smaller align-items-center justify-content-center ' + this.getStatusClass(diary.payments[this.props.index].status),
+        onClick: () => {
+          if (diary.payments[this.props.index].status == 'pending') {
+            changePaymentEntry(this.props.index, 'status', 'ok');
+          } else {
+            changePaymentEntry(this.props.index, 'status', 'pending');
+          }
+        }
+      }, diary.payments[this.props.index].status)),
+      this.state.dateSection
+    ));
+  }
+}
+
+class PaymentArea extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.today = GetCurrentDate().split(' ')[0];
+
+  }
+
+  render() {
+    return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
+      'div',
+      { className: 'justfade-animation animate mt-5' },
+      e('h4', { className: 'border-bottom pb-3 mb-3' }, i18n.payment),
+      e(PaymentAreaInfo),
+      e(
+        'div',
+        { className: 'diary-entries' },
+        diary.payments.map((entry, index) => {
+          return e(PaymentAreaEntry, { entry: entry, index: index });
+        })
+      ),
+      e(
+        'div',
+        {
+          className: 'w-100 row diary-new-entry mt-3'
+        },
+        e(
+          'span',
+          { className: 'col-2 d-flex flex-row' },
+          e('span', { className: 'me-3' }, 'R$'),
+          e('input', { id: 'the-payment-value', className: 'w-100', type: 'number' })
+        ),
+        e(
+          'span',
+          {
+            className: 'status badge bg-green col-2 d-flex text-smaller align-items-center justify-content-center',
+          },
+          'new'
+        ),
+        e(
+          'span',
+          { className: 'col'},
+          e(
+            'input',
+            {
+              id: 'the-payment-due',
+              className: 'w-100',
+              type: 'date',
+              min: this.today
+            }
+          )
+        ),
+        e(
+          'span',
+          { className: "col-1 d-flex justify-content-center" },
+          e(DiaryContext.Consumer, null, ({i18n, addPaymentEntry}) => e(
+            'button',
+            {
+              className: "btn-tall btn-sm blue add-entry-button",
+              onClick: () => {
+
+                var value = document.getElementById('the-payment-value').value;
+                var status = 'pending';
+                var due = document.getElementById('the-payment-due').value;
+
+                if (due == '') {
+                  due = this.today;
+                }
+
+                if (value != '') {
+                  addPaymentEntry({value: value, status: status, due: due});
+                } else {
+                  alert(i18n.value_missing);
+                }
+
+              }
+            },
+            e('i', { className: "bi bi-plus-lg", alt: i18n.add })
+          ))
+        )
+      )
+    ));
+  }
+
+}
+
 class Diary extends React.Component {
   constructor(props) {
     super(props);
@@ -522,13 +782,20 @@ class Diary extends React.Component {
     this.state = {
       page: e(LoadingPage),
       diary: {},
+      diaryOptions: (this.props.diaryoptions != undefined) ? JSON.parse(this.props.diaryoptions) : {},
       name: this.diaryName,
+      isGroup: (this.props.diarytype == 'group') ? true : false,
       setPage: this.setPage,
       setDiary: this.setDiary,
       AddEntry: this.AddEntry,
       EditEntry: this.EditEntry,
       saveDiary: this.saveDiary,
       deleteEntry: this.deleteEntry,
+      openPayments: this.openPayments,
+      paymentArea: e('div', null, null),
+      addPaymentEntry: this.addPaymentEntry,
+      changePaymentEntry: this.changePaymentEntry,
+      deletePaymentEntry: this.deletePaymentEntry,
       i18n: {
         'close': 'Close',
         'diary': 'Diary'
@@ -582,10 +849,12 @@ class Diary extends React.Component {
   saveDiary = () => {
     var x = this.state.diary;
 
-    var dayAssigned = document.getElementById('day-picker').value;
+    var dayAssigned = document.getElementById('day-picker');
 
-    if (dayAssigned != '') {
-      x.dayAssigned = dayAssigned;
+    if (dayAssigned != null) {
+      if (dayAssigned.value != '') {
+        x.dayAssigned = dayAssigned;
+      }
     }
 
     this.setState({
@@ -612,6 +881,42 @@ class Diary extends React.Component {
     );
   }
 
+  openPayments = () => {
+    this.setState({
+      paymentArea: e(PaymentArea)
+    })
+  }
+
+  addPaymentEntry = (entry) => {
+    var x = this.state.diary;
+
+    x.payments.push(entry);
+
+    this.setState({
+      diary: x
+    });
+  }
+
+  changePaymentEntry = (index, key, value) => {
+    var x = this.state.diary;
+
+    x.payments[index][key] = value;
+
+    this.setState({
+      diary: x
+    });
+  }
+
+  deletePaymentEntry = (index) => {
+    var x = this.state.diary;
+
+    x.payments.splice(index, 1)
+
+    this.setState({
+      diary: x
+    });
+  }
+
   componentDidMount() {
 
     fetch(rootUrl.concat('action/?json=1&i18n=full'))
@@ -636,6 +941,10 @@ class Diary extends React.Component {
             }
 
             theJson = theJson.diaries[this.props.grouptag];
+          } else {
+            if (theJson.payments == undefined) {
+              theJson.payments = [];
+            }
           }
 
           if (theJson) {
@@ -648,7 +957,9 @@ class Diary extends React.Component {
         if (Object.keys(this.state.diary).length === 0) {
           this.setPage(e(NeedNewDiary));
         } else {
-          this.setPage(e(DiaryProper));
+          this.setPage(
+            e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
+          );
         }
 
       })
@@ -691,7 +1002,7 @@ class Diary extends React.Component {
       e(
         DiaryContext.Provider,
         {value: this.state},
-        e('h4', {}, this.state.i18n.diary),
+        e('h4', { className: 'border-bottom pb-3 mb-3' }, this.state.i18n.diary),
         this.state.page
       )
     );
@@ -712,7 +1023,8 @@ diaryOpeners.forEach((item) => {
         diaryId: item.dataset.userid,
         username: item.dataset.username,
         grouptag: item.dataset.grouptag,
-        diarytype: item.dataset.diarytype
+        diarytype: item.dataset.diarytype,
+        diaryoptions: item.dataset.diaryoptions
       }), theDiary);
       diaryOpeners.forEach((item) => {
         item.classList.add('disabled');

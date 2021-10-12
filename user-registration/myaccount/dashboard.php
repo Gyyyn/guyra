@@ -20,6 +20,15 @@ $user_rank = GetUserRanking($current_user_id);
 $user_payment_method = guyra_get_user_meta($current_user_id, 'payment_method', true)['meta_value'];
 $user_subscription = guyra_get_user_meta($current_user_id, 'subscription', true)['meta_value'];
 $user_subscription_activesince = guyra_get_user_meta($current_user_id, 'subscribed_since', true)['meta_value'];
+$user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
+$user_diary = json_decode($user_diary);
+$open_payments = [];
+
+foreach ($user_diary->payments as $paymentItem) {
+	if ($paymentItem->status == 'pending') {
+		$open_payments[] = $paymentItem;
+	}
+}
 
 $first_name = get_user_meta( $current_user_id, 'first_name', true );
 $last_name = get_user_meta( $current_user_id, 'last_name', true );
@@ -32,7 +41,6 @@ $profile_picture_url = get_user_meta( $current_user_id, 'user_registration_profi
 $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
 $user_subscription = false;
-$user_payment_method = false;
 
 ?>
 
@@ -62,6 +70,37 @@ $user_payment_method = false;
 		<span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/profile.png"></span>
 
 	</div>
+
+	<?php if(!empty($open_payments)): ?>
+	<div class="row payments justify-content-between my-5 overpop-animation animate">
+
+		<div class="dialog-box info"><?php echo $gi18n['payments_available']; ?></div>
+
+		<ol class="overflow-x-visible">
+		<?php foreach ($open_payments as $paymentItem) {
+
+			$dueDate = date_create($paymentItem->due);
+			$dueDateText = date_format($dueDate, 'd/m/Y');
+			$now = new DateTime();
+			if($dueDate < $now) {
+			  $badgeClass = 'bg-danger';
+			} else {
+				$badgeClass = 'bg-success';
+			}
+			?>
+			<li class="pb-3 border-bottom"><div class="w-100 align-items-center row mt-3">
+				<span class="col-2 badge bg-primary ms-3"><span class="me-1">R$</span><?php echo $paymentItem->value; ?></span>
+				<span class="col text-center">
+					<span class="me-1 text-muted">Vencimento: </span>
+					<span class="badge <?php echo $badgeClass; ?>"><?php echo $dueDateText; ?></span>
+				</span>
+				<span class="col-md-1 text-center mt-3 mt-sm-0"><button type="button" class="btn-tall btn-sm purple" data-bs-toggle="modal" data-bs-target="#paymentModal"><?php echo $gi18n['pay']; ?></button></span>
+			</div></li>
+		<?php } ?>
+	</ol>
+
+	</div>
+	<?php endif; ?>
 
 	<div class="row buttons justify-content-between my-5">
 
@@ -115,7 +154,7 @@ $user_payment_method = false;
 					</div>
 
 					<div class="col-8 text-small d-flex flex-column align-items-start">
-						<p><?php echo $gi18n['payment_message'] . ":" . $user_payment_method; ?></p>
+						<p><?php echo $gi18n['payment_message'] . ": "; ?><span class="text-uppercase"><?php echo $user_payment_method; ?></span></p>
 						<p class="badge bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
 						<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall btn-sm blue mt-1">
 							<?php echo $gi18n['change_payment_method']; ?>
@@ -176,12 +215,31 @@ $user_payment_method = false;
 
 </div>
 
-<?php
-	/**
-	 * My Account dashboard.
-	 *
-	 * @since 2.6.0
-	 */
-	do_action( 'user_registration_account_dashboard' );
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog pop-animation animate modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel"><?php echo $gi18n['payment'] . ': '; ?><span class="text-uppercase"><?php echo $user_payment_method; ?></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+				<div class="row">
 
-/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */
+					<div class="col-4">
+						<img class="page-icon large" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.jpg">
+					</div>
+
+					<div class="col-7 d-flex flex-column align-items-start text-normal">
+						<p><?php echo $gi18n['payment_message'] . ": "; ?><span class="text-uppercase"><?php echo $user_payment_method; ?></span></p>
+						<p class="badge bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
+						<p class="text-small"><?php echo $gi18n['payment_message_cont']; ?></p>
+					</div>
+
+				</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php
+do_action( 'user_registration_account_dashboard' );

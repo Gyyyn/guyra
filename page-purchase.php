@@ -5,20 +5,27 @@
  * @package guyra
  */
 
-// Sanity check, unlogged users shouldn't be here
+global $template_dir;
+global $template_url;
+global $current_user_id;
+
 if (!is_user_logged_in()) {
  wp_redirect(get_site_url());
 }
 
-get_header();
+include $template_dir . '/i18n.php';
 
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
+get_header();
 ?>
 
 <main class="page squeeze"><div class="page-squeeze rounded-box">
 
-  <div class="row g-5">
+  <div class="dialog-box info text-center pop-animation animate">
+    <p><?php echo $gi18n['payments_notready']; ?></p>
+    <p><button class="btn-tall purple" onclick="history.back()"><?php echo $gi18n['back']; ?></button></p>
+  </div>
+
+  <div class="row g-5 disabled opacity-50">
 
     <div class="col-md-5 col-lg-4 order-md-last">
       <h3 class="mb-3">
@@ -38,13 +45,6 @@ include get_template_directory() . '/i18n.php';
             <small class="text-muted"><?php echo $gi18n['pricesfeature_subtitlepro'] ?></small>
           </div>
           <span class="text-muted"><?php echo $gi18n['pricesfeature_pricepro'] ?></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h6>
-            <small class="text-muted"><?php echo $gi18n['pricesfeature_subtitlebusiness'] ?></small>
-          </div>
-          <span class="text-muted"><?php echo $gi18n['pricesfeature_pricebusiness'] ?></span>
         </li>
       </ul>
       <div class="card d-flex flex-row justify-content-between p-3">

@@ -119,11 +119,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <?php endif; ?>
 
         <li class="list-group-item col-5 d-flex justify-content-around">
-          <?php if (!$userInGroup): ?>
-          <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
+          <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
             <i class="bi bi-card-list"></i>
             <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
           </a>
+          <?php if (!$userInGroup): ?>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-journal-richtext"></i>
             <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
@@ -323,7 +323,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     <h3><?php echo $gi18n['your_code']; ?>:</h3>
 
     <span class="d-flex my-3">
-      <input id="your-code" type="text" value="<?php echo $userTeacherCode; ?>" class="text-black border-0 bg-transparent no-focus" />
+      <input id="your-code" type="number" readonly value="<?php echo $userTeacherCode; ?>" class="text-black border-0 bg-transparent no-focus" />
       <button id="copy-code" class="btn-tall btn-sm green" type="button" name="button"><i class="bi bi-clipboard"></i></button>
     </span>
 

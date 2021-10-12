@@ -52,23 +52,3 @@
   cursor: pointer;
   max-width: 11rem;
 }
-
-@keyframes pop {
-  from {
-    transform: scale(0.75);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.pop-animation {
-  transition: var(--guyra-transition);
-}
-
-.pop-animation.animate {
-  animation: pop 0.35s;
-}

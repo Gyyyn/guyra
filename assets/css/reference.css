@@ -180,28 +180,28 @@ span.text-muted {
 }
 
 .the-definition li > ul {
-    margin-top: 3rem;
+  margin-top: 3rem;
 }
 
 .ib-content a,
 .Pronunciation sup a {
-    color: var(--guyra-blue-lightest);
+  color: var(--guyra-blue-lightest);
 }
 
 .ib-brac,
 .ib-content,
 .Pronunciation sup {
-    color: var(--guyra-grey-darker);
+  color: var(--guyra-grey-darker);
 }
 
 .derivedterms ul {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .derivedterms ul li {
-    margin-right: 1rem;
-    margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }
 
 .the-images img {
@@ -211,11 +211,10 @@ span.text-muted {
 
 .the-images {
   align-items: center;
-  justify-content: space-around;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .the-definition .metadata {
-    border: 0 !important;
-    border-radius: var(--guyra-border-radius-bigger);
+  border: 0 !important;
+  border-radius: var(--guyra-border-radius-bigger);
 }
