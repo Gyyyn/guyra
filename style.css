@@ -1641,9 +1641,14 @@ input.form-control:focus,
 *
 */
 
+.schools .user-list {
+  margin-bottom: 1rem;
+}
+
 .schools .list-group-item {
   font-size: var(--guyra-fonts-textsize-s);
   border: var(--guyra-border-size) solid var(--guyra-grey-dark);
+  border-bottom-width: calc(var(--guyra-border-size) * 2);
   background: var(--guyra-grey);
 }
 
@@ -1660,7 +1665,7 @@ input.form-control:focus,
 .dialog-box {
   margin-bottom: 1rem;
   padding: 1rem;
-  border-radius: var(--guyra-border-radius);
+  border-radius: var(--guyra-border-radius-bigger);
   background: var(--guyra-grey);
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }

@@ -87,7 +87,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       }
       ?>
 
-      <ul id="user-<?php echo $user; ?>" class="user-list list-group list-group-horizontal mb-1">
+      <ul id="user-<?php echo $user; ?>" class="user-list list-group list-group-horizontal">
 
         <li class="list-group-item col">
 
@@ -232,7 +232,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
     ?>
 
-    <ul id="group-<?php echo $group['name'] ?>" class="user-list list-group list-group-horizontal mb-1">
+    <ul id="group-<?php echo $group['name'] ?>" class="user-list list-group list-group-horizontal">
 
       <li class="list-group-item col">
         <span class="badge bg-primary">

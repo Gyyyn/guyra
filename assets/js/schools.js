@@ -356,6 +356,142 @@ class DiaryEntry extends React.Component {
 
 }
 
+class DiaryPaginatedEntries extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.entries = [];
+    this.entriesPerPage = (this.props.entriesPerPage != undefined) ? this.props.entriesPerPage : 10;
+    this.currentMinIndex = -1;
+    this.currentMaxIndex = -this.entriesPerPage;
+    this.currentPage = 1;
+    this.MaxPages = Math.floor(this.props.entries.length / this.entriesPerPage) + 1;
+
+    for (var i = this.currentMinIndex; i >= this.currentMaxIndex; i--) {
+      this.entries.unshift(i);
+    }
+
+    this.state = {
+      entries: this.entries
+    }
+
+    this.paginationButtons = e(
+      'div',
+      { className: 'd-flex justify-content-center align-items-center my-3' },
+      [e(
+        'button',
+        {
+          className: "btn-tall btn-sm blue me-3",
+          onClick: () => {
+            this.pageLeft();
+          }
+        },
+        e('i', { className: "bi-caret-left" }),
+        'Previous Page'
+      ),
+      e(
+        'button',
+        {
+          className: "btn-tall btn-sm blue",
+          onClick: () => {
+            this.pageRight();
+          }
+        },
+        'Next Page',
+        e('i', { className: "bi-caret-right" })
+      )]
+    );
+  }
+
+  pageLeft = () => {
+    if (this.currentPage !== this.MaxPages) {
+
+      var previousMaxIndex = this.currentMaxIndex;
+      this.currentMinIndex = previousMaxIndex - 1;
+      this.currentMaxIndex = previousMaxIndex - this.entriesPerPage;
+      this.currentPage = this.currentPage + 1;
+    }
+
+    this.entries = [];
+
+    for (var i = this.currentMinIndex; i >= this.currentMaxIndex; i--) {
+      this.entries.unshift(i);
+    }
+
+    this.setState({
+      entries: this.entries
+    });
+  }
+
+  pageRight = () => {
+    if (this.currentPage !== 1) {
+
+      var previousMinIndex = this.currentMinIndex;
+      this.currentMinIndex = previousMinIndex + this.entriesPerPage;
+      this.currentMaxIndex = previousMinIndex + 1;
+      this.currentPage = this.currentPage - 1;
+    }
+
+    this.entries = [];
+
+    for (var i = this.currentMinIndex; i >= this.currentMaxIndex; i--) {
+      this.entries.unshift(i);
+    }
+
+    this.setState({
+      entries: this.entries
+    });
+  }
+
+  render() {
+    return e(DiaryContext.Consumer, null, ({diary}) => {
+
+      return this.state.entries.map((i) => {
+
+        var returnElement = [];
+
+        if (this.props.mode == 'payment') {
+
+          var theEntry = diary.payments.at(i);
+
+          if (theEntry != undefined) {
+            returnElement.push(e(
+              PaymentAreaEntry, { entry: theEntry, index: diary.payments.indexOf(theEntry) }
+            ));
+          }
+
+          if (i === this.currentMinIndex) {
+            returnElement.push(this.paginationButtons);
+          }
+
+        } else {
+
+          var theEntry = diary.entries.at(i);
+
+          if (theEntry != undefined) {
+            returnElement.push(e(
+              DiaryEntry, { entry: theEntry, id: diary.entries.indexOf(theEntry) }
+            ));
+          }
+
+          if (this.currentPage == 1 && i === this.currentMinIndex) {
+            returnElement.push(e(DiarySubmit));
+          }
+
+          if (i === this.currentMinIndex) {
+            returnElement.push(this.paginationButtons);
+          }
+
+        }
+
+        return returnElement;
+
+      });
+    });
+  }
+
+}
+
 function DiaryEntries(props) {
 
   return e(DiaryContext.Consumer, null, ({diary}) => e(
@@ -363,7 +499,7 @@ function DiaryEntries(props) {
     {
       className: 'diary-entries'
     },
-    Object.values(diary.entries).map((entry, i) => e(DiaryEntry, { entry: entry, id: i }))
+    e(DiaryPaginatedEntries, {entries: Object.values(diary.entries)})
   ));
 }
 
@@ -484,7 +620,6 @@ class DiaryProper extends React.Component {
         e(DiarySuperInfo),
         e(DiaryInfo),
         e(DiaryEntries),
-        e(DiarySubmit),
       );
     }
   }
@@ -697,9 +832,7 @@ class PaymentArea extends React.Component {
       e(
         'div',
         { className: 'diary-entries' },
-        diary.payments.map((entry, index) => {
-          return e(PaymentAreaEntry, { entry: entry, index: index });
-        })
+        e(DiaryPaginatedEntries, {entries: diary.payments, mode: 'payment', entriesPerPage: 5})
       ),
       e(
         'div',
