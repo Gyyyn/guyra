@@ -20,6 +20,8 @@ include $template_dir . '/Guyra_misc.php';
 
 $newspage = get_page_by_title('News');
 $meeting_link = guyra_get_user_meta($current_user_id, 'meetinglink', true)['meta_value'];
+$first_name = get_user_meta($current_user_id, 'first_name', true);
+$teacherid = get_user_meta($current_user_id, 'teacherid', true);
 
 get_header();
 
@@ -59,20 +61,32 @@ get_header();
       </a>
     </div>
 
-    <?php if (is_object($newspage)) {
+    <div class="greeting-page rounded-box position-relative">
 
-      echo '<div class="alert study-news rounded-box position-relative alert-dismissible fade show" role="alert">';
-      ?>
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
+        <h2 class="text-primary"><?php echo $gi18n['hello'], ($first_name != '' ? ', ' . $first_name . '!' : null); ?></h2>
+        <span class="page-icon small"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/waving-hand.png"></span>
+      </div>
+
+      <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
+      <p><?php echo $gi18n['whats_for_today']; ?></p>
+
+    </div>
+
+    <?php if (is_object($newspage)): ?>
+    <div class="alert study-news study-page rounded-box position-relative alert-dismissible fade show" role="alert">
+      <div class="icon-title mb-2 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['whatsnew']; ?></h2>
         <span class="page-icon small"><img alt="sparkle" src="<?php echo $gi18n['template_link']; ?>/assets/icons/star.png"></span>
       </div>
-      <?php
-      echo apply_filters('the_content', $newspage->post_content);
-      echo '<a type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick="setCookie(\'dismissed\', true, 1);"></a>';
-      echo '</div>';
+      <div class="text-small">
+        <?php echo apply_filters('the_content', $newspage->post_content); ?>
+      </div>
+      <a type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick="setCookie('dismissed', true, 1);"></a>
+    </div>
+    <?php endif; ?>
 
-    } ?>
+    <?php if ($teacherid): ?>
 
     <div class="study-page rounded-box position-relative show" id="study-container">
 
@@ -95,6 +109,8 @@ get_header();
       <?php GetUserStudyPage_comments($current_user_id); ?>
 
     </div>
+
+    <?php endif; ?>
 
   </div>
 

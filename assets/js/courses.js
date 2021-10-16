@@ -182,12 +182,12 @@ function CourseChooserLevel(props) {
 
     e(
       'div',
-      { className: 'row' },
+      { className: 'd-md-flex' },
 
       e(
         'div',
         {
-          className: 'col-md-4',
+          className: 'card-thumbnail',
         },
         e(
           'img',
@@ -202,7 +202,7 @@ function CourseChooserLevel(props) {
       ),
       e(
         'div',
-        { className: 'col-md-8 card-body' },
+        { className: 'card-body overflow-hidden' },
         e(
           'h4',
           { className: 'course-title' },

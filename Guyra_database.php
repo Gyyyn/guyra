@@ -236,6 +236,39 @@ function guyra_log_to_db($user, $object) {
 
 }
 
+function guyra_get_logdb_items($amount=10, $return=false) {
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    guyra_output_json('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = sprintf("SELECT * FROM (
+       SELECT * FROM guyra_user_history LIMIT %u
+    )Var1", $amount);
+
+      $result = $db->query($sql);
+      $output = false;
+
+      while ($row = $result->fetch_assoc()) {
+          $output[] = $row;
+      }
+
+      if (!$return) {
+        guyra_output_json($output, true);
+      } else {
+        return $output;
+      }
+
+  }
+
+  $db->close();
+  guyra_log_to_file($sql);
+
+}
+
 function guyra_log_error_todb($object) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 

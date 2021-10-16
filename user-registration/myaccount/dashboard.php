@@ -24,11 +24,15 @@ $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value']
 $user_diary = json_decode($user_diary);
 $open_payments = [];
 
+if (!empty($user_diary)):
+
 foreach ($user_diary->payments as $paymentItem) {
 	if ($paymentItem->status == 'pending') {
 		$open_payments[] = $paymentItem;
 	}
 }
+
+endif;
 
 $first_name = get_user_meta( $current_user_id, 'first_name', true );
 $last_name = get_user_meta( $current_user_id, 'last_name', true );
@@ -41,6 +45,7 @@ $profile_picture_url = get_user_meta( $current_user_id, 'user_registration_profi
 $image = ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : $gravatar_image;
 
 $user_subscription = false;
+$user_payment_method = 'pix';
 
 ?>
 
@@ -144,18 +149,13 @@ $user_subscription = false;
 
 			<?php if($user_payment_method): ?>
 
-			<div class="mb-5">
+			<div class="mb-5 w-100">
 
 				<h3 class="text-blue"><?php echo $gi18n['payment_method'] ?></h3>
 				<div class="row bg-grey more-rounded p-3 mx-0 mb-3">
 
-					<div class="col-4">
-						<img class="page-icon" alt="QR Code" src="<?php echo $gi18n['template_link'] ?>/assets/img/qrcode.jpg">
-					</div>
-
-					<div class="col-8 text-small d-flex flex-column align-items-start">
+					<div class="text-small d-flex flex-column align-items-start">
 						<p><?php echo $gi18n['payment_message'] . ": "; ?><span class="text-uppercase"><?php echo $user_payment_method; ?></span></p>
-						<p class="badge bg-primary text-white"><?php echo $gi18n['company_cnpj'] ?></p>
 						<a href="<?php echo $gi18n['purchase_link']?>" class="btn-tall btn-sm blue mt-1">
 							<?php echo $gi18n['change_payment_method']; ?>
 						</a>

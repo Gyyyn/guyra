@@ -859,7 +859,7 @@ a:hover {
 
 .rounded-box {
   background: var(--guyra-white);
-  padding: calc(3vw + .25rem);
+  padding: calc(2vw + .25rem);
   border-radius: var(--guyra-border-radius-bigger);
   margin-top: 3rem;
   box-shadow: var(--guyra-box-shadow-outline);
@@ -917,7 +917,8 @@ a:hover {
 }
 
 .page-squeeze .list-group.study-menu {
-  margin-bottom: calc(2vh + .25rem);
+  margin-bottom: 3rem;
+  margin-top: 3rem;
   justify-content: center;
 }
 

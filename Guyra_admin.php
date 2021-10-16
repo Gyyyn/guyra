@@ -48,44 +48,74 @@ get_header();
 
 </div>
 
+<?php if($_GET['exercise_log']):
+
+$theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
+
+?>
+
 <div class="admin-section">
 
-  <h4 class="mt-5">Blog:</h4>
+  <?php
+
+  foreach ($theLog as $logItem) {
+
+    $theObject = json_decode($logItem['object']);
+
+    ?>
+
+    <div class="entry my-3">
+      User: <?php echo $logItem['user_id']; ?> | Date: <?php echo $logItem['date']; ?> | <span class="text-muted">Log ID: <?php echo $logItem['log_id']; ?></span>
+
+      <div class="d-flex flex-wrap">
+          <?php foreach ($theObject->answers as $object): ?>
+
+            <div class="border rounded p-3 m-1">
+              <div class="">Q: <?php echo $object[0]; ?></div>
+              <div class="">Correct: <?php echo $object[1]; ?></div>
+              <div class="">User Answer (<span class="<?php echo ($object[3] == 'correct') ? 'text-green' : 'text-red'; ?>"><?php echo $object[3]; ?></span>): <?php echo $object[2]; ?></div>
+            </div>
+
+          <?php endforeach; ?>
+      </div>
+    </div>
+
+  <?php }
+
+  ?>
+
+</div>
+
+<?php endif; ?>
+
+<div class="admin-section">
+
+  <h4 class="mt-5">Site:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
     <a class="btn btn-primary" data-bs-toggle="collapse" href="#new-post-collapse">New Blog Post</a>
+    <a class="btn btn-primary" href="<?php echo $gi18n['guyra_admin_link']; ?>&exercise_log=10">See LogDB</a>
 
     <div class="mt-3 collapse" id="new-post-collapse">
       <iframe id="new-post" class="editor-inline" src="<?php echo $gi18n['admin_link'] . 'post-new.php'; ?>" /></iframe>
     </div>
 
-  </div>
-
-</div>
-
-<div class="admin-section">
-
-  <h4 class="mt-4">Schools:</h4>
-
-  <div class="admin-forms border rounded p-3 m-0">
-
-    <h5>Assign to teacher:</h5>
-    <form action="<?php echo $site_url; ?>" method="GET">
-        User ID: <input type="text" name="user" class="user-id">
-        Teacher ID: <input type="text" name="assigntoteacher">
-        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-        <input type="submit" value="Go">
-    </form>
-
     <hr />
 
-    <h5>Assign to group:</h5>
-    <form action="<?php echo $site_url; ?>" method="GET">
-        User ID: <input type="text" name="user" class="user-id">
-        Group tag: <input type="text" name="assigntogroup">
-        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-        <input type="submit" value="Go" />
-    </form>
+    <select name="page-dropdown"
+     onchange='document.location.href=this.options[this.selectedIndex].value;'>
+     <option value="">
+    <?php echo esc_attr( __( 'Select page' ) ); ?></option>
+     <?php
+      $pages = get_pages();
+      foreach ( $pages as $page ) {
+        $option = '<option value="' . get_edit_post_link($page->ID) . '">Edit: ';
+        $option .= $page->post_title;
+        $option .= '</option>';
+        echo $option;
+      }
+     ?>
+    </select>
 
   </div>
 
@@ -93,106 +123,152 @@ get_header();
 
 <div class="admin-section">
 
-  <h4 class="mt-4">Premium:</h4>
-
-  <div class="admin-forms border rounded p-3 m-0">
-
-    <h5>Give premium:</h5>
-    <form action="<?php echo $site_url; ?>" method="GET">
-        User ID: <input type="text" name="user" class="user-id">
-        dd-mm-yyyy formatted date: <input type="text" name="till">
-        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-        <input type="hidden" value="premium" name="subscription">
-        <input type="submit" value="Go">
-    </form>
-
-    <hr />
-
-    <h5>Give lite:</h5>
-    <form action="<?php echo $site_url; ?>" method="GET">
-        User ID: <input type="text" name="user" class="user-id">
-        dd-mm-yyyy formatted date: <input type="text" name="till">
-        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-        <input type="hidden" value="lite" name="subscription">
-        <input type="submit" value="Go">
-    </form>
-
-  </div>
-
-</div>
-
-<div class="admin-section">
-
-  <h4 class="mt-4">Roles:</h4>
-
-  <div class="admin-forms border rounded p-3 m-0">
-
-    <h5>Give user role:</h5>
-
-    <div class="mb-4 alert alert-info" role="alert">
-      <p>Currently working roles are:</p>
-      <ul>
-        <li>teacher - has access to the student admin panel and can be assigned students by site admins.</li>
-      </ul>
-    </div>
-
-    <form action="<?php echo $site_url; ?>" method="GET">
-        User ID: <input type="text" name="user" class="user-id">
-        Role: <input type="text" name="giverole">
-        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-        <input type="submit" value="Go">
-    </form>
-
-  </div>
-
-</div>
-
-<div class="admin-section">
-
+  <h4 class="mt-4">Registered Users:</h4>
+  <ul class="list-group m-0">
   <?php
-  echo '<h4 class="mt-4">Registered Users:</h4>';
-  echo '<ul class="list-group m-0">';
+
+  $teacher_info = [];
+
   foreach ($users as $x) {
-    // Lord have mercy on those who will maintain this shit
+
     $userdata = get_user_meta($x->ID);
+    $teacherid = $userdata['teacherid'][0];
+    $grouptag = $userdata['studygroup'][0];
+    $user_subscription = guyra_get_user_meta($x->ID, 'subscription', true)['meta_value'];
 
-    if($userdata['studygroup'][0] != "") {
-      $page_link = $site_url . '/' . sha1($userdata['studygroup'][0]);
-    } else {
-      $page_link = $site_url . '/' . sha1($x->ID);
-    } ?>
+    if (!array_key_exists($teacherid, $teacher_info)) {
+      $teacher_info[$teacherid] = get_user_meta($teacherid);
+    }
 
-    <ul class="list-group mb-1 list-group-horizontal">
+    ?>
 
-    <li class="list-group-item col-1">
-      <span class="text-muted me-1">ID:</span><a href="#form" class="id-selector badge bg-primary text-white"><?php echo $x->ID; ?></a>
+    <ul class="list-group list-group-horizontal mb-3">
+
+    <li class="list-group-item col d-flex align-items-center">
+      <span class="fw-bold"><?php echo $userdata['first_name'][0]; ?>&nbsp;<?php echo $userdata['last_name'][0]; ?></span>
+      <span class="badge bg-dark ms-1"><?php echo $userdata['role'][0]; ?></span>
+      <span class="badge bg-dark ms-1"><?php echo $user_subscription; ?></span>
+      <span class="fst-italic text-grey-darker ms-1"><?php echo $x->user_email; ?></span>
     </li>
 
-    <a class="list-group-item col" href="<?php echo $page_link; ?>">
-        <?php echo $userdata['first_name'][0]; ?>
-        <?php echo $userdata['last_name'][0]; ?>
-        <?php echo $x->user_email; ?>
-      <span class="badge bg-secondary ms-1"><?php echo $userdata['role'][0]; ?></span>
-      <span class="badge bg-secondary ms-1"><?php echo $userdata['subscription'][0]; ?></span>
-    </a>
+    <?php if($teacherid): ?>
 
-    <li class="list-group-item col-2">
-      <span class="text-muted text-end">
-        Teacher ID: <span class="badge bg-primary"><?php echo $userdata['teacherid'][0]; ?></span>
+    <li class="list-group-item col-4 d-flex align-items-center">
+
+      <?php if($grouptag): ?>
+
+      <span class="text-grey-darker me-3">
+        <?php echo $gi18n['group']; ?>: <span class="badge bg-dark"><?php echo $grouptag; ?></span>
       </span>
-    </li>
 
-    <li class="list-group-item col-2">
-      <span class="text-muted text-end">
-        Group: <span class="badge bg-secondary"><?php echo $userdata['studygroup'][0]; ?></span>
+      <?php endif; ?>
+
+      <span class="text-grey-darker">
+        Teacher: <span class="badge bg-dark"><?php echo $teacher_info[$teacherid]['first_name'][0]; ?></span>
       </span>
+
     </li>
 
-    <li class="list-group-item col-2">
-      <a href="<?php echo $site_url; ?>/?cleargroup=1&user='<?php echo $x->ID; ?>">Clear Group</a>
+    <?php endif; ?>
+
+    <li class="list-group-item col-2 d-flex align-items-center">
+      <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#controls-<?php echo $x->ID; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $x->ID; ?>">
+        <i class="bi bi-toggles"></i>
+        <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
+      </a>
     </li>
 
     </ul>
+
+    <div class="collapse" id="controls-<?php echo $x->ID; ?>">
+
+      <div class="row my-3">
+
+        <div class="admin-section col-md">
+
+          <h4 class="mt-4"><?php echo $gi18n['schools']; ?>:</h4>
+
+          <div class="admin-forms border rounded p-3 m-0">
+
+            <h5>Assign to teacher:</h5>
+            <form action="<?php echo $site_url; ?>" method="GET">
+                Teacher ID: <input type="number" name="assigntoteacher">
+                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
+                <input type="submit" value="Go">
+            </form>
+
+            <hr />
+
+            <a class="btn btn-primary" href="<?php echo $site_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $gi18n['guyra_admin_link']; ?>">Clear Teacher</a>
+
+            <hr />
+
+            <h5>Assign to group:</h5>
+            <form action="<?php echo $site_url; ?>" method="GET">
+                Group tag: <input type="text" name="assigntogroup">
+                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
+                <input type="submit" value="Go" />
+            </form>
+
+            <hr />
+
+            <a class="btn btn-primary" href="<?php echo $x->ID; ?>/?cleargroup=1&user='<?php echo $x->ID; ?>">Clear Group</a>
+
+          </div>
+
+        </div>
+
+        <div class="admin-section col-md">
+
+          <h4 class="mt-4">Site:</h4>
+          <div class="admin-forms border rounded p-3 m-0">
+
+            <h5>Give premium:</h5>
+            <form action="<?php echo $site_url; ?>" method="GET">
+                <?php echo $gi18n['date']; ?>: <input type="date" name="till">
+                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+                <input type="hidden" value="premium" name="subscription">
+                <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
+                <input type="submit" value="Go">
+            </form>
+
+            <hr />
+
+            <h5>Give lite:</h5>
+            <form action="<?php echo $site_url; ?>" method="GET">
+                <?php echo $gi18n['date']; ?>: <input type="date" name="till">
+                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+                <input type="hidden" value="lite" name="subscription">
+                <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
+                <input type="submit" value="Go">
+            </form>
+
+            <hr />
+
+            <h5>Give user role:</h5>
+            <div class="mb-4 alert alert-info" role="alert">
+              <p>Currently working roles are:</p>
+              <ul>
+                <li>teacher - has access to the student admin panel and can be assigned students by site admins.</li>
+              </ul>
+            </div>
+
+            <form action="<?php echo $site_url; ?>" method="GET">
+                Role: <input type="text" name="giverole">
+                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
+                <input type="submit" value="Go">
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   <?php } ?>
   </ul>
@@ -209,7 +285,6 @@ get_header();
   <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=create_meta_db' ?>" class="btn btn-sm btn-primary">Create Meta DB</a>
   <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=create_error_db' ?>" class="btn btn-sm btn-primary">Create Error DB</a>
   <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_page=all' ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
-  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&get_user_meta=1' ?>" class="btn btn-sm btn-primary">Read own meta</a>
 
   <hr class="mt-3" />
 
@@ -230,17 +305,6 @@ get_header();
       <input type="submit" value="Go">
   </form>
 
-  <hr />
-
-  <h5>Set own elo:</h5>
-  <form action="<?php echo $site_url; ?>" method="GET">
-      Value: <input type="text" name="value">
-      <input type="hidden" name="update_elo" value="1">
-      <input type="hidden" name="user" value="1" class="user-id">
-      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-      <input type="submit" value="Go">
-  </form>
-
   </div>
 
 </div>
@@ -248,4 +312,4 @@ get_header();
 </main></div>
 
 <?php
-get_footer(null, ['js' => 'userIdFormSelector.js']);
+get_footer();

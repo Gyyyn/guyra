@@ -82,6 +82,7 @@ $gi18n = [
 	'value' => 'Valor',
 	'due_date' => 'Vencimento',
 	'date' => 'Data',
+	'hello' => 'Olá',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -137,6 +138,20 @@ $gi18n = [
       Ao clicar no botão a baixo você sera levado a uma página do Mercado Pago para concluir a compra.
     </div>
     ',
+	'greetings' => [
+		'Já praticou hoje? O importante não é a quantidade mas fazer todos os dias. 💪',
+		'Tem dias que você tá sem vontade 😴😴 e isso não problema! Mas vamos fazer um esforço?',
+		'Que tal <a class="btn-sm btn-tall blue" href="' . $site_url . '/courses' .'">ver um video</a>?',
+		'Coloca uma música pra ouvir! 🎶🎵',
+		'Não esquece da lição! 😉',
+		'Se você tá inspirade hoje, que tal ler uma notícia? 📰🤓',
+		'O melhor dia pra começar foi ontem! 😤 Mas sem pressão da pra fazer amanhã também. 😊',
+		'Já viu <a class="btn-sm btn-tall blue" href="' . $site_url . '/courses' .'">nossa página de ultilidades</a>? Tem muita coisa legal lá!',
+		'Que tal uma <a class="btn-sm btn-tall blue" href="' . $site_url . '/practice' .'">atividade rápidinha</a> pra começar?',
+		'O que você faz hoje é por amor ao futuro você. 😍',
+		'Tá difícil se animar? Começa devagar, faz só um pouquinho.'
+	],
+	'whats_for_today' => 'O que vamos fazer hoje?',
 	/* User page */
 	'level' => 'Nível: ',
 	'level_explain' => 'Seu nível representa quanto você já praticou no Guyrá.',

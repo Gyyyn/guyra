@@ -175,6 +175,11 @@ if ($isAdmin || $thisUser['role'][0] == "teacher") {
     update_user_meta($user, 'studygroup', $_GET['assigntogroup'] );
   }
 
+  if ($_GET['clearteacher']) {
+    update_user_meta($user, 'teacherid', 0);
+    update_user_meta($user, 'studygroup', '');
+  }
+
   if ($_GET['meetinglink']) {
     guyra_update_user_meta($user, 'meetinglink', $_GET['meetinglink']);
   }
