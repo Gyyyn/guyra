@@ -36,6 +36,11 @@ include get_template_directory() . '/i18n.php';
         <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
       </a>
 
+      <a class="list-group-item" data-bs-toggle="collapse" href="#phrasals-container" role="button" aria-expanded="false" aria-controls="phrasals-container">
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
+      </a>
+
     </div>
 
     <div class="collapse show rounded-box" id="dictionary-container">
@@ -48,6 +53,10 @@ include get_template_directory() . '/i18n.php';
 
     <div class="collapse hide rounded-box" id="grammar-container">
       <?php include 'templates/grammar-reference.html'; ?>
+    </div>
+
+    <div class="collapse hide rounded-box" id="phrasals-container">
+      <?php include 'templates/phrasal-verbs.html'; ?>
     </div>
 
   </div></div>
