@@ -5,13 +5,15 @@
         "id": "unit1",
         "name": "Olá!",
         "description": "Apresentações e expressões de tempo.",
-        "image": "exercises/chat.png"
+        "image": "exercises/chat.png",
+        "difficulty": 0.05
       },
       "unit2": {
         "id": "unit2",
         "name": "Coisas",
         "description": "Objetos e pronomes possesivos.",
-        "image": "exercises/reading-glasses.png"
+        "image": "exercises/reading-glasses.png",
+        "difficulty": 0.07
       }
     },
     "level2": {
@@ -19,21 +21,24 @@
         "id": "unit3",
         "name": "Horas",
         "description": "Horários e números.",
-        "image": "exercises/time.png"
+        "image": "exercises/time.png",
+        "difficulty": 0.09
       },
       "unit4": {
         "id": "unit4",
         "name": "Atividades",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/running.png"
+        "image": "exercises/running.png",
+        "difficulty": 0.09
       },
       "unit5": {
         "id": "unit5",
         "name": "Frequencia",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/schedule.png"
+        "image": "exercises/schedule.png",
+        "difficulty": 0.1
       }
     },
     "level3": {
@@ -42,28 +47,32 @@
         "name": "Lar",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/house.png"
+        "image": "exercises/house.png",
+        "difficulty": 0.1
       },
       "unit7": {
         "id": "unit7",
         "name": "Trabalho",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/hard-work.png"
+        "image": "exercises/hard-work.png",
+        "difficulty": 0.1
       },
       "unit8": {
         "id": "unit8",
         "name": "Trabalho 2",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/portfolio.png"
+        "image": "exercises/portfolio.png",
+        "difficulty": 0.13
       },
       "unit9": {
         "id": "unit9",
         "name": "Rotinas",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/routine.png"
+        "image": "exercises/routine.png",
+        "difficulty": 0.13
       }
     },
     "level4": {
@@ -72,21 +81,24 @@
         "name": "Futuro",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/clock-speeding.png"
+        "image": "exercises/clock-speeding.png",
+        "difficulty": 0.13
       },
       "unit11": {
         "id": "unit11",
         "name": "Futuro 2",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/hourglass.png"
+        "image": "exercises/hourglass.png",
+        "difficulty": 0.13
       },
       "unit12": {
         "id": "unit12",
         "name": "Planos",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/plan.png"
+        "image": "exercises/plan.png",
+        "difficulty": 0.15
       }
     },
     "level5": {
@@ -95,14 +107,16 @@
         "name": "Convites",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/card.png"
+        "image": "exercises/card.png",
+        "difficulty": 0.15
       },
       "unit14": {
         "id": "unit13",
         "name": "Historias",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/script.png"
+        "image": "exercises/script.png",
+        "difficulty": 0.18
       }
     },
     "level6": {
@@ -111,14 +125,16 @@
         "name": "Infância",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/childhood.png"
+        "image": "exercises/childhood.png",
+        "difficulty": 0.19
       },
       "unit16": {
         "id": "unit16",
         "name": "Compras",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/shopping-basket.png"
+        "image": "exercises/shopping-basket.png",
+        "difficulty": 0.18
       }
     },
     "level7": {
@@ -127,7 +143,8 @@
         "name": "txting & msgs",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/smartphone.png"
+        "image": "exercises/smartphone.png",
+        "difficulty": 0.13
       }
     },
     "level8": {
@@ -136,21 +153,24 @@
         "name": "Lugares",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/shop.png"
+        "image": "exercises/shop.png",
+        "difficulty": 0.15
       },
       "unit19": {
         "id": "unit19",
         "name": "Direções",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/map.png"
+        "image": "exercises/map.png",
+        "difficulty": 0.19
       },
       "unit20": {
         "id": "unit20",
         "name": "Geografia",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/planet.png"
+        "image": "exercises/planet.png",
+        "difficulty": 0.2
       }
     },
     "level9": {
@@ -306,7 +326,8 @@
         "name": "Comparação 2",
         "description": "temp",
         "type": "CompleteThePhrase",
-        "image": "exercises/product.png"
+        "image": "exercises/product.png",
+        "difficulty": 0.5
       }
     }
   }

@@ -251,7 +251,7 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) 
       <div class="comment-content">
 		    <?php
 
-        echo $comment->comment_content;
+        echo nl2br($comment->comment_content);
 
         if ($comment_image != '') { ?>
           <hr />

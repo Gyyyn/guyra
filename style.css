@@ -249,11 +249,12 @@ hr.thick {
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
 .bg-gradient-white-reverse { background: var(--guyra-white-transparent-gradient-reverse); }
 
-.home > footer,
+.home.logged_in > footer,
 .practice > footer,
 .reference > footer,
 .profile > footer,
-.register > footer {
+.register > footer,
+.courses > footer {
   display: none;
 }
 
@@ -567,25 +568,31 @@ nav .navbar-nav .btn-wa:hover {
 */
 
 .cover {
-  color: var(--guyra-blacker);
   min-height: calc(100vh - var(--guyra-navbar-size));
   background-color: var(--guyra-blue);
 	background-repeat: repeat;
 	background-size: cover, auto;
-  background-image: url(./assets/img/hero_1920.png), url("./assets/img/bg.png");
+  background-image: url(./assets/img/hero.svg), url("./assets/img/bg.png");
   background-position: 0, 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@media (min-width: 1921px) {
-  .cover {
-    background-image: url(./assets/img/hero.png), url("./assets/img/bg.png");
-  }
+.hero1 {
+	background-size: cover;
+  background-image: url(./assets/img/hero.svg);
+  background-position: 0, 0;
 }
 
-.cover .cover-card {
+.split-bg {
+	background-repeat: repeat;
+	background-size: cover, cover, auto;
+  background-image: url(./assets/img/hero2.svg), url(./assets/img/hero_bottom.svg), url("./assets/img/bg.png");
+  background-position: top, bottom;
+}
+
+.cover-card {
   background: #fff;
   border-radius: var(--guyra-border-radius-bigger);
   box-shadow: var(--guyra-box-shadow-bigger);
@@ -669,7 +676,7 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 #prices_carousel .carousel-inner {
-  min-height: 500px;
+  min-height: 300px;
 }
 
 .carousel-control-next:focus, .carousel-control-next:hover,
@@ -803,6 +810,17 @@ nav .navbar-nav .btn-wa:hover {
 }
 
 .prices .features li span:first-child { margin-right: 5px; }
+
+.course-showcase iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/*
+*
+* Misc
+*
+*/
 
 .alert {
   border: 0;
@@ -1297,6 +1315,10 @@ input.form-control:focus,
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.courses-level-chooser .card {
+    max-width: 46%;
 }
 
 .courses-list {

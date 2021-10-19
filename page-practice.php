@@ -5,7 +5,6 @@
  * @package guyra
  */
 
-// Sanity check, unlogged users shouldn't be here
 if (!is_user_logged_in()) {
   wp_redirect(get_site_url());
 }
@@ -53,4 +52,4 @@ include get_template_directory() . '/i18n.php';
 
 </main>
 <?php
-get_footer(null, ['js' => 'exercises.js', 'aos' => true, 'react' => true]);
+get_footer(null, ['js' => 'exercises.js', 'react' => true]);

@@ -1,8 +1,14 @@
 {
-  "course1": {
+  "quick_grammar": {
     "link": "PLKL9JMrDmA-C1MCa8ifxty9uZAQfvL_VS",
     "title": "Gramática Rápida",
     "desc": "Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.",
     "id": "quicktips"
+  },
+  "phonetics1": {
+    "link": "PLKL9JMrDmA-AmJgGqx4J_4xOf1csTMR5H",
+    "title": "Fonética 1",
+    "desc": "Introdução a fonética do inglês e dicas de pronúncia.",
+    "id": "speaking"
   }
 }

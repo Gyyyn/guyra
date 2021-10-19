@@ -522,8 +522,7 @@ class CurrentQuestion extends React.Component {
     return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, exerciseTitle, questionType}) => e(
         'div',
         {
-          className: 'exercise',
-          'data-aos': "fade-up"
+          className: 'exercise fade-animation animate'
         },
         e('h1', {className: 'mb-5'}, exerciseTitle),
         e(questionType, {values: values, avatarURL: avatarURL}),
@@ -559,7 +558,7 @@ class ReviewAnswers extends React.Component {
   render() {
     return e(
       'div',
-      {'data-aos': "fade-up"},
+      {className: "fade-animation animate"},
       e('div', {className: "answers-review"}, this.props.answers.map((x) => {
         return e(
           'div',
@@ -746,7 +745,7 @@ function LoadingIcon(props) {
 function LoadingPage(props) {
   return e(
     'span',
-    {className: 'loading', 'data-aos': 'fade'},
+    {className: 'loading justfade-animation animate'},
     e(LoadingIcon)
   );
 }
@@ -872,7 +871,7 @@ function exerciseDone() {
       e(
         'a',
         {
-          className: 'btn-tall me-1',
+          className: 'btn-tall btn-sm me-1',
           onClick: () => {
             setPage(e(ReviewAnswers, {answers: answers}))
           }
@@ -1026,9 +1025,19 @@ class App extends React.Component {
 
         fetch(rootUrl.concat('?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1)));
 
+        var userElo = this.usermeta[0] / 100;
+
         var mod = this.score / 75;
         mod = mod + 0.5;
-        var moddedScore = this.usermeta[0] * mod;
+
+        if (userElo >= this.currentExerciseWeight) {
+          var diffMod = userElo + (userElo / this.currentExerciseWeight) / ((mod * this.currentExerciseWeight) - (userElo)) / 100;
+        } else {
+          var diffMod = (userElo + this.currentExerciseWeight) + mod;
+        }
+
+        var moddedScore = (userElo * (mod * diffMod)) * 100;
+        console.log(moddedScore);
 
         fetch(rootUrl.concat('?user=1&update_elo=1&value='.concat(Number(moddedScore))));
 
@@ -1250,7 +1259,9 @@ class App extends React.Component {
   loadExerciseJSON = (level, id) => {
     this.setState({
       page: e(LoadingPage),
-    })
+    });
+
+    this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
 
     fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())

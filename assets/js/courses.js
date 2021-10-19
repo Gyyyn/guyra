@@ -118,16 +118,13 @@ function CourseVideo(props) {
   return e(
     'div',
     {
-      'data-aos': 'fade',
-      'data-aos-once': 'true'
+      className: 'fade-animation animate'
     },
     e(YoutubeEmbed, {videoId: props.video.resourceId.videoId}),
     e(
       'div',
       {
-        className: 'course-video-description-container mb-3',
-        'data-aos': 'fade-up',
-        'data-aos-once': 'true'
+        className: 'course-video-description-container fade-animation animate mb-3',
       },
       e(
         'div',
@@ -159,8 +156,6 @@ function CourseVideo(props) {
 }
 
 function CourseChooserLevel(props) {
-
-  var aosDelay = props.number * 10;
 
   return e(CoursesContext.Consumer, null, ({setPage}) => e(
     'div',
@@ -221,9 +216,8 @@ function CourseVideoList(props) {
   return e(
     'div',
     {
-      className: "courses-list",
+      className: "courses-list fade-animation animate",
       key: props.course.etag,
-      'data-aos': 'fade'
     },
     e(
       'div',
@@ -333,7 +327,7 @@ function LoadingIcon(props) {
 function LoadingPage(props) {
   return e(
     'span',
-    {className: 'loading', 'data-aos': 'fade'},
+    {className: 'loading fade-animation animate'},
     e(LoadingIcon)
   );
 }

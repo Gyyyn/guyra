@@ -28,67 +28,47 @@ function guyra_log_to_file($object='something happened') {
   //file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 
-function guyra_database_create_db($sql) {
+function guyra_database_create_db() {
 
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   if ($db->connect_error) {
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+    guyra_output_json('connection error: ' . $db->connect_error, true);
 
   } else {
 
-    switch ($sql) {
+    $tables = [
+      sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
+      log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      user_id BIGINT UNSIGNED,
+      object LONGTEXT,
+      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
 
-      case 'log_db':
+      sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
+      meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      user_id BIGINT UNSIGNED,
+      meta_key VARCHAR(255),
+      meta_value LONGTEXT) CHARACTER SET %s", DB_CHARSET),
 
-        $sql = sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
-        log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        user_id BIGINT UNSIGNED,
-        object LONGTEXT,
-        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
-        CHARACTER SET %s
-        ", DB_CHARSET);
+      sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
+      log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      object LONGTEXT,
+      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET)
+    ];
 
-      break;
+    foreach ($tables as $table => $sql) {
+      if (!$sql) {
+        guyra_output_json('empty query, check input vars', true);
+      }
 
-      case 'meta_db':
+      if ($db->query($sql) === TRUE) {
 
-        $sql = sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
-        meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        user_id BIGINT UNSIGNED,
-        meta_key VARCHAR(255),
-        meta_value LONGTEXT)
-        CHARACTER SET %s
-        ",DB_CHARSET);
+        guyra_output_json('query successful');
 
-      break;
-
-      case 'error_db':
-
-        $sql = sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
-        log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        object LONGTEXT,
-        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
-        CHARACTER SET %s
-        ", DB_CHARSET);
-
-      break;
-
-    }
-
-    if (!$sql) {
-      guyra_output_json('empty query, check input vars', true);
-    }
-
-    if ($db->query($sql) === TRUE) {
-
-      guyra_output_json('query successful');
-
-    } else {
-
-      guyra_output_json('query error', true);
-
+      } else {
+        guyra_output_json('query error: ' . $db->error, true);
+      }
     }
 
   }
@@ -308,17 +288,6 @@ function guyra_log_error($dump, $type='general') {
 function guyra_database($action, $value='', $user=0) {
 
   switch ($action):
-    case 'create_log_db':
-      guyra_database_create_db('log_db');
-    break;
-
-    case 'create_meta_db':
-      guyra_database_create_db('meta_db');
-    break;
-
-    case 'create_error_db':
-      guyra_database_create_db('error_db');
-    break;
 
     case 'update_elo':
       guyra_update_user_meta($user, 'elo', $value);

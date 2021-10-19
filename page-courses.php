@@ -5,6 +5,10 @@
  * @package guyra
  */
 
+if (!is_user_logged_in()) {
+ wp_redirect(get_site_url());
+}
+
 global $template_dir;
 global $template_url;
 
@@ -82,4 +86,4 @@ include get_template_directory() . '/i18n.php';
 </main>
 <script> var coursesJson = <?php echo json_encode($coursesArray); ?></script>
 <?php
-get_footer(null, ['js' => 'courses.js', 'aos' => true, 'react' => true]);
+get_footer(null, ['js' => 'courses.js', 'react' => true]);

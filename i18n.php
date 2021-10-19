@@ -1,12 +1,12 @@
 <?php
 
-$site_url = get_site_url();
-$admin_url = get_admin_url();
-$template_url = get_template_directory_uri();
+global $template_url;
+global $admin_url;
+global $site_url;
 
 $gi18n = [
 	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
-	'company_name' => 'Guyrá.',
+	'company_name' => 'Guyrá',
 	'company_cnpj' => '41.915.538/0001-03',
 	'company_address' => 'Piracicaba - SP',
 	//'company_address' => 'Rua Luiz Razera, 676, Piracicaba/SP - CEP 13417-530',
@@ -110,6 +110,7 @@ $gi18n = [
 	'button_myaccount' => 'Minha conta',
 	'button_return' => 'Voltar',
 	'button_alreadyregistered' => 'Já é aluno?',
+	'button_notyetregistered' => 'Ainda não é aluno?',
 	'button_login' => 'Entrar',
 	'button_studypage' => 'Abrir sua página',
 	'button_coursespage' => 'Ver todos os cursos',
@@ -117,15 +118,23 @@ $gi18n = [
 	'button_send_email' => 'Enviar email',
 	'email_sent' => 'Enviado!',
 	'email_sent_explain' => 'Um email com um link para criar uma nova senha foi enviado, mas talvez demore um pouco pra chegar até você. Espere pelo menos 10 minutos para tentar de novo.',
-	'pricesfeature_titlelite' => 'Pass',
+	'pricesfeature_titlelite' => 'Guyrá Pass',
 	'pricesfeature_subtitlelite' => 'Todas as ferramentas.',
-	'pricesfeature_titlepro' => 'Premium',
+	'pricesfeature_titlepro' => 'Guyrá Premium',
 	'pricesfeature_subtitlepro' => 'Aprendizado total.',
-	'pricesfeature_titlebusiness' => 'Business',
+	'pricesfeature_titlebusiness' => 'Guyrá for Schools',
 	'pricesfeature_subtitlebusiness' => 'Colocar todo mundo pra aprender.',
 	'pricesfeature_pricelite' => '<s class="text-small">49R$</s> <span class="text-primary">19R$</span>',
 	'pricesfeature_pricepro' => '149R$',
-	'pricesfeature_pricebusiness' => '<small>A partir de</small> 99R$',
+	'pricesfeature_pricebusiness' => '<small>A partir de</small> 120R$',
+	'pricesfeature_courses_access' => 'Acesso as vídeo aulas.',
+	'pricesfeature_whatsapp_questions' => 'Tire suas duvidas por WhatsApp.',
+	'pricesfeature_oneclass' => 'Uma hora de aula por semana, quando você quiser.',
+	'pricesfeature_exercises' => 'Exercícios online.',
+	'pricesfeature_pictionary' => '"Pictionary" no site.',
+	'pricesfeature_allfrompremium' => 'Todos os beneficios do plano premium para os alunos.',
+	'pricesfeature_school_management' => 'Ferramentas de gestão escolar incluídas.',
+	'pricesfeature_payment_processor' => 'Processador de pagamentos online.',
 	'modal_checkpromoconsent' => 'Aceito receber informações promocionais ocasionalmente.',
 	'modal_textarealabel' => 'Sua mensagem:',
 	'accountpage_registeredsince' => 'Você está com a gente desde: 👀',

@@ -4,9 +4,14 @@
  *
  * @package guyra
  */
+
+global $template_dir;
+global $template_url;
+global $site_url;
+
  get_header();
  /* Set up translations independent of Wordpress */
- include get_template_directory() . '/i18n.php';
+ include $template_dir . '/i18n.php';
  ?>
 
    <div class="cover">
@@ -20,8 +25,8 @@
                <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
              </div>
              <div class="col d-flex align-items-center justify-content-around">
-               <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo get_template_directory_uri(); ?>/assets/img/icons.webm">
-                 <img class="page-icon large" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+               <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm">
+                 <img class="page-icon large" alt="Guyra" src="<?php echo $template_url; ?>/assets/icons/language.png">
                </video>
              </div>
            </div>
@@ -35,8 +40,13 @@
          </div>
 
          <div class="col-md d-flex align-items-center flex-column" data-aos="fade">
-           <h2 class="mb-3">Let's go!</h2>
 
+           <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered']; ?></h1>
+           <p class="text-center py-3">
+             <a href="<?php echo $site_url; echo "/account"; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
+           </p>
+
+           <h2 class="mb-3"><?php echo $gi18n['button_notyetregistered']; ?></h2>
            <div id="prices_carousel" class="carousel carousel-dark slide w-100" data-bs-ride="carousel">
             <div class="carousel-inner text-center pt-3">
 
@@ -47,14 +57,10 @@
                       <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
                     </div>
                     <div class="card-body">
-                      <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
-                      <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-                        <li><span>Acesso as video aulas</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                        <li><span>Tire suas duvidas por WhatsApp ou na aula</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                        <li><span>Uma aula por semana</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                        <li><span>Exercicios de conversasao</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                      </ul>
-                      <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+                      <h1 class="card-title text-secondary pricing-card-title">
+                        <?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small>
+                      </h1>
+                      <a href="#jump-prices" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
                     </div>
                   </div>
                 </div>
@@ -68,13 +74,7 @@
                     </div>
                     <div class="card-body">
                       <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricelite'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
-                      <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-                        <li><span>Acesso as video aulas</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                        <li><span>Tire suas duvidas por WhatsApp</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-                        <li><span>Uma aula por semana</span> <span><i class="bi bi-x-square-fill text-red"></i></span></li>
-                        <li><span>Exercicios de conversasao</span> <span><i class="bi bi-x-square-fill text-red"></i></span></li>
-                      </ul>
-                      <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-lite" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+                      <a href="#jump-prices" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
        <div class="picture" data-aos="fade-left">
-         <img alt="phone" src="<?php echo get_template_directory_uri(); ?>/assets/icons/phone.png">
+         <img alt="phone" src="<?php echo $template_url; ?>/assets/icons/phone.png">
        </div>
      </div>
    </div>
@@ -142,14 +142,14 @@
      </div>
      <div class="col-md-3 d-flex justify-content-center">
        <div class="picture" data-aos="fade-right">
-         <img alt="clock" src="<?php echo get_template_directory_uri(); ?>/assets/icons/digital-clock.png">
+         <img alt="clock" src="<?php echo $template_url; ?>/assets/icons/digital-clock.png">
        </div>
      </div>
    </div>
 
    <hr class="thick squeeze my-5">
 
-   <div id="jump-prices" class="py-5"><div class="squeeze-big">
+   <div id="jump-prices" class="split-bg bg-dark py-5"><div class="squeeze-big">
 
      <div class="row prices-container with-animation row-cols-1 row-cols-md-3 mb-3 text-center" data-aos="fade-up">
        <div class="col-md prices lite">
@@ -160,12 +160,13 @@
            <div class="card-body">
              <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricelite'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span>Acesso as video aulas</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Tire suas duvidas por WhatsApp</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Uma aula por semana</span> <span><i class="bi bi-x-square-fill text-red"></i></span></li>
-               <li><span>Exercicios de conversasao</span> <span><i class="bi bi-x-square-fill text-red"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span><i class="bi bi-x-lg text-red"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-lite" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>
@@ -177,12 +178,13 @@
            <div class="card-body">
              <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span>Acesso as video aulas</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Tire suas duvidas por WhatsApp ou na aula</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Uma aula por semana</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Exercicios de conversasao</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <button type="button" data-bs-toggle="modal" data-bs-target="#buy-modal-premium" class="w-100 btn btn-lg"><?php echo $gi18n['button_want'] ?></button>
+             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>
@@ -192,19 +194,19 @@
              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h3>
            </div>
            <div class="card-body">
-             <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['student'] ?></small></h1>
+             <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span>Todos os beneficios do plano premium</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>Preparatorio IELTS/Cambridge/TOEFL</span> <span><i class="bi bi-check-square-fill text-green"></i></span></li>
-               <li><span>A partir de 10 alunos</span> <span><i class="bi bi-exclamation-square-fill"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_allfrompremium']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_school_management']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li><span><?php echo $gi18n['pricesfeature_payment_processor']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <button type="button" class="w-100 btn btn-lg" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
+             <button type="button" class="w-100 btn btn-tall" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
            </div>
          </div>
        </div>
      </div>
 
-     <div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+     <div class="modal fade pop-animation animate" id="contact-modal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
        <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
            <div class="modal-header">
@@ -241,34 +243,6 @@
          </div>
        </div>
      </div>
-     <div class="modal fade" id="buy-modal-lite" tabindex="-1" aria-labelledby="buy-modal-lite-label" aria-hidden="true">
-       <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title" id="buy-modal-lite-label"><?php echo $gi18n['youchose'] . $gi18n['pricesfeature_titlelite'] ?></h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-             <?php echo $gi18n['buy_warning']; ?>
-             <a mp-mode="dftl" href="https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c9380847a7b2916017a8846ebad0fb2" name="MP-payButton" class='btn btn-primary w-100'><?php echo $gi18n['payment'] ?></a>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="modal fade" id="buy-modal-premium" tabindex="-1" aria-labelledby="buy-modal-premium-label" aria-hidden="true">
-       <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title" id="buy-modal-premium-label"><?php echo $gi18n['youchose'] . $gi18n['pricesfeature_titlepro'] ?></h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-             <?php echo $gi18n['buy_warning']; ?>
-             <a mp-mode="dftl" href="https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c9380847a7b2916017a8846ebad0fb2" name="MP-payButton" class='btn btn-primary w-100'><?php echo $gi18n['payment'] ?></a>
-           </div>
-         </div>
-       </div>
-     </div>
 
    </div></div>
 
@@ -283,7 +257,7 @@
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
        <div class="picture" data-aos="fade-left">
-         <img alt="diploma" src="<?php echo get_template_directory_uri(); ?>/assets/icons/certificate.png">
+         <img alt="diploma" src="<?php echo $template_url; ?>/assets/icons/certificate.png">
        </div>
      </div>
    </div>
@@ -299,7 +273,7 @@
      </div>
      <div class="col-md-3 d-flex justify-content-center">
        <div class="picture" data-aos="fade-right">
-         <img alt="Brazil" src="<?php echo get_template_directory_uri(); ?>/assets/icons/brazil-flag.png">
+         <img alt="Brazil" src="<?php echo $template_url; ?>/assets/icons/brazil-flag.png">
        </div>
      </div>
    </div>
@@ -307,41 +281,46 @@
    <hr class="thick squeeze my-5">
 
    <div class="row feature squeeze">
-     <div class="row justify-content-center align-items-center px-5">
-       <div class="col order-md-2 px-md-5 align-self-center">
-         <div class="p-1 p-md-5">
-           <h2 class="feature-heading" data-aos="fade" data-aos-delay="20"><?php echo $gi18n['index_feature_title5'] ?></h2>
-           <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain5'] ?></div>
-         </div>
-       </div>
-       <div class="col-md-3 order-md-1 d-flex justify-content-center">
-         <div class="picture" data-aos="fade-left">
-           <img alt="laptop" src="<?php echo get_template_directory_uri(); ?>/assets/icons/laptop.png">
-         </div>
+     <div class="col order-md-2 px-md-5 align-self-center">
+       <div class="p-1 p-md-5">
+         <h2 class="feature-heading" data-aos="fade" data-aos-delay="20"><?php echo $gi18n['index_feature_title5'] ?></h2>
+         <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain5'] ?></div>
        </div>
      </div>
-
-     <div class="row course-showcase text-dark p-1 p-md-5 mx-auto" data-aos="fade-up">
-       <h2 class="feature-heading mb-4">Interchange</h2>
-       <div class="col">
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
-         <p>Cras laoreet justo in justo gravida consectetur. Suspendisse vitae rhoncus orci. Cras efficitur, arcu id convallis scelerisque, purus tellus consectetur ipsum, sed vestibulum metus leo eu magna. </p>
-       </div>
-       <div class="col-md-5">
+     <div class="col-md-3 order-md-1 d-flex justify-content-center">
+       <div class="picture" data-aos="fade-left">
+         <img alt="laptop" src="<?php echo $template_url; ?>/assets/icons/laptop.png">
        </div>
      </div>
-
-     <div class="row course-showcase text-dark p-1 p-md-5 mx-auto" data-aos="fade-up">
-       <h2 class="feature-heading mb-4">Interchange</h2>
-       <div class="col">
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula facilisis ornare. Vestibulum a massa nulla. Proin sit amet magna tempus, commodo ipsum id, dictum lacus. </p>
-         <p>Cras laoreet justo in justo gravida consectetur. Suspendisse vitae rhoncus orci. Cras efficitur, arcu id convallis scelerisque, purus tellus consectetur ipsum, sed vestibulum metus leo eu magna. </p>
-       </div>
-       <div class="col-md-5">
-       </div>
-     </div>
-
    </div>
+
+   <div class="bg-dark split-bg py-5"><div class="row feature squeeze">
+
+     <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
+       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/quicktips.png">
+       <h2 class="feature-heading my-5">Gramática Rápida</h2>
+       <div class="col">
+         <p>Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.</p>
+         <p>No primeiro vídeo da séries vamos ver uma explicação rápida do "Simple Present".</p>
+       </div>
+       <div class="col-md-6">
+         <iframe src="https://www.youtube.com/embed/iW2MXtiGgu4" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       </div>
+     </div>
+
+     <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
+       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/speaking.png">
+       <h2 class="feature-heading my-5">Fonética 1</h2>
+       <div class="col">
+         <p>Introdução a fonética do inglês e dicas de pronúncia.</p>
+         <p>No segundo vídeo da série vamos ver como ler as vogais do IPA (alfabeto fonético internacional).</p>
+       </div>
+       <div class="col-md-6">
+         <iframe src="https://www.youtube.com/embed/qTpsh4YWN7I" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       </div>
+     </div>
+
+   </div></div>
 
  </main>
 

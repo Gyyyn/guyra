@@ -7,9 +7,14 @@
  * @package guyra
  */
 
+define('WP_POST_REVISIONS', 3);
+
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $current_user_id = get_current_user_id();
+$is_logged_in = is_user_logged_in();
+$site_url = get_site_url();
+$admin_url = get_admin_url();
 
 // Setup database functions globally
 include $template_dir . '/Guyra_database.php';

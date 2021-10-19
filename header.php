@@ -77,6 +77,10 @@ if ($where_am_i == 'register') {
   $body_class[] = 'register';
 }
 
+if ($where_am_i == 'courses') {
+  $body_class[] = 'courses';
+}
+
 if ($logged_in) {
   $home_icon = '/assets/icons/learning.png';
 } else {

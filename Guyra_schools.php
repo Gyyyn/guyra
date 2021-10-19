@@ -20,14 +20,14 @@ $site_url = get_site_url();
 $userTeacherCode = Guyra_hash($current_user_id);
 
 // Sorts the list into date registered
-function cmp($a, $b) {
-  if ($a->ID == $b->ID) {
-      return 0;
-  }
-  return ($a->ID < $b->ID) ? -1 : 1;
-}
+// function cmp($a, $b) {
+//   if ($a->ID == $b->ID) {
+//       return 0;
+//   }
+//   return ($a->ID < $b->ID) ? -1 : 1;
+// }
 
-usort($users, "cmp");
+// usort($users, "cmp");
 
 if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 

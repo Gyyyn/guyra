@@ -52,7 +52,7 @@ if ($isAdmin) {
     }
 
     if ($_GET['create_db']) {
-      guyra_database($_GET['create_db']);
+      guyra_database_create_db();
     }
 
     if ($_GET['change_option']) {
@@ -60,6 +60,24 @@ if ($isAdmin) {
     }
 
     if ($_GET['create_page'] == "all") {
+
+      $posts = [
+        'Register',
+        'Practice',
+        'Work With Us',
+        'Privacy Policy',
+        'Reference',
+        'Schools',
+        'Terms',
+        'Thanks',
+        'Questions',
+        'Purchase',
+        'Classroom',
+        'Courses',
+        'Comment',
+        'Action',
+        ['Account', '[user_registration_my_account]']
+      ];
 
       $post_data = array(
     		'post_title'    => '',
@@ -70,82 +88,19 @@ if ($isAdmin) {
     		'page_template' => null
     	);
 
-      if (!is_object(get_page_by_title('Register'))) {
-        $post_data['post_title'] = 'Register';
-        wp_insert_post($post_data);
-      }
+      foreach ($posts as $post) {
 
-      if (!is_object(get_page_by_title('Practice'))) {
-        $post_data['post_title'] = 'Practice';
-        wp_insert_post($post_data);
-      }
+        if (is_array($post)) {
+          $post_title = $post[0];
+          $post_data['post_content'] = $post[1];
+        } else {
+          $post_title = $post;
+        }
 
-      if (!is_object(get_page_by_title('Work With Us'))) {
-        $post_data['post_title'] = 'Work With Us';
-        wp_insert_post($post_data);
-      }
+        $post_data['post_title'] = $post_title;
 
-      if (!is_object(get_page_by_title('Privacy Policy'))) {
-        $post_data['post_title'] = 'Privacy Policy';
-        wp_insert_post($post_data);
-      }
+        (!is_object(get_page_by_title($post_title))) ? wp_insert_post($post_data) : null;
 
-      if (!is_object(get_page_by_title('Reference'))) {
-        $post_data['post_title'] = 'Reference';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Schools'))) {
-        $post_data['post_title'] = 'Schools';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Terms'))) {
-        $post_data['post_title'] = 'Terms';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Thanks'))) {
-        $post_data['post_title'] = 'Thanks';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Questions'))) {
-        $post_data['post_title'] = 'Questions';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Purchase'))) {
-        $post_data['post_title'] = 'Purchase';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Classroom'))) {
-        $post_data['post_title'] = 'Classroom';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Courses'))) {
-        $post_data['post_title'] = 'Courses';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Comment'))) {
-        $post_data['post_title'] = 'Comment';
-        wp_insert_post($post_data);
-      }
-
-      if (!is_object(get_page_by_title('Action'))) {
-        $post_data['post_title'] = 'Action';
-        wp_insert_post($post_data);
-      }
-
-      // This one is last so there's not danger of putting the
-      // 'post_title' everywhere else
-      if (!is_object(get_page_by_title('Account'))) {
-        $post_data['post_title'] = 'Account';
-        $post_data['post_content'] = '[user_registration_my_account]';
-        wp_insert_post($post_data);
       }
 
     }
