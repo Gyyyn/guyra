@@ -1032,6 +1032,50 @@
       ["I don't think you understand how difficult this is.", "how difficult", "(quão difícil)"]
     ]
 
-  }
+  },
+
+  "unit41": [
+    ["Would it be alright if I used your car?", "Would it be", "(seria)"],
+    ["Would it be alright with you if I tag along?", "Would it be", "(seria)"],
+    ["Would it be a problem for you?", "Would it be", "(seria)"],
+    ["Would it be inconvenient?", "Would it be", "(seria)"],
+    ["Can I see your notes?", "Can I see", "(posso ver)"],
+    ["Could I see your notes?", "Could I see", "(eu poderia ver)"],
+    ["Can I use your phone?", "Can I use", "(posso usar)"],
+    ["Could I use your phone?", "Could I use", "(eu poderia usar)"],
+    ["Is it OK with you?", "with you", "(com você)"],
+    ["Is it OK if I don't go?", "if I don't go", "(se eu não for)"],
+    ["Is it OK to get close to it?", "get close", "(se aproximar)"],
+    ["Is it OK let him go?", "let him go", "(deixar ele ir)"],
+    ["Would you mind helping me?", "you mind", "(você se importaria)"],
+    ["Would you mind helping her", "helping her", "(de ajudar ela)"],
+    ["Would you mind letting her do it", "letting her", "(de deixar ela)"],
+    ["Would you mind finishing it for me", "finishing it", "(terminar pra mim)"],
+    ["I was wondering if you could help me move.", "I was wondering if", "(eu estava imaginando se)"],
+    ["I was wondering if I could stay in your house this weekend?", "wondering if I could", "(pensando se eu poderia)"],
+    ["I was wondering if you could watch my pets for my while I'm on vacation.", "you could watch my pets", "(você poderia olhar meus pets)"],
+    ["I was wondering if you could lend me some money for today.", "you could lend", "(você poderia emprestar)"],
+    ["You should return the favor.", "return the favor", "(retornar o favor)"],
+    ["I owe you an apology for that.", "owe you", "(te devo)"],
+    ["Who doesn't love recieving compliments?", "doesn't love", "(não ama)"],
+    ["I'll have to decline that offer", "decline that", "(recusar aquela)"],
+    ["Could you do me a favor and get the bag over there?", "a favor and get", "(me fazer um favor e pegar)"],
+    ["Would you mind helping me look for my keys", "look for my keys", "(procurar minhas chaves)"],
+    ["Would it be too much to ask for?", "too much to ask", "(pedir muito)"],
+    ["Wouldn't you help me with this assignmnet?", "with this", "(com isso)"],
+    ["When was the last time you helped someone in need?", "someone in need", "(alguem em necessidade)"],
+    ["Do you ever donate to charities?", "donate to charities", "(doa a caridades)"],
+    ["I would never help someone like that.", "would never help", "(nunca ajudaria)"],
+    ["I don't think that's a reasonable request.", "reasonable request", "(pedido razoável)"],
+    ["I will definitely pay you back for this.", "pay you back", "(te pagar de volta)"],
+    ["I'm in your debt.", "in your debt", "(em sua dívida)"],
+    ["I really appreciate it.", "appreciate it", "(aprecio isso)"],
+    ["You've done more than enough.", "more than enough", "(mas que o suficiente)"],
+    ["I couldn't have done it without you", "done it without it", "(feito sem você)"],
+    ["You got me out of a rough spot there.", "rough spot", "(lugar difícil)"],
+    ["I really value you as a friend.", "value you", "(valorizo você)"],
+    ["It wouldn't have been possible without you.", "have been possible", "(teria sido possível)"],
+    ["I'm glad to have you as a friend.", "glad to have you", "(content por te ter)"]
+  ]
 
 }

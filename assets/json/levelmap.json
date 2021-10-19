@@ -307,6 +307,12 @@
         "description": "temp",
         "type": "CompleteThePhrase",
         "image": "exercises/product.png"
+      },
+      "unit41": {
+        "id": "unit41",
+        "name": "Pedidos",
+        "description": "Verbos modais e vocabulário de pedidos.",
+        "image": "exercises/request.png"
       }
     }
   }
