@@ -389,13 +389,22 @@ function dictionarySubmitTrigger(e) {
 
 }
 
-document.querySelectorAll('.wikitable a.extiw').forEach((item, i) => {
+document.querySelectorAll('a.extiw').forEach((item, i) => {
   item.onclick = (e) => {
     e.preventDefault();
 
+    var theWord = item.hash;
+    theWord = theWord.split('');
+    theWord.splice(0, 1);
+    theWord = theWord.join('');
+
+    var regex = new RegExp('(%20)','g');
+
+    theWord = theWord.replace(regex, ' ');
+
     window.scrollTo(0, 0);
 
-    dictionaryInput.value = item.title;
+    dictionaryInput.value = theWord;
     dictionarySubmitTrigger();
   }
 });

@@ -37,8 +37,8 @@ include get_template_directory() . '/i18n.php';
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#phrasals-container" role="button" aria-expanded="false" aria-controls="phrasals-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
-        <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
+        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/document.png'; ?>"></span>
+        <span class="menu-title"><?php echo $gi18n['reference_phrasals']; ?></span>
       </a>
 
     </div>

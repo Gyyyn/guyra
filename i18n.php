@@ -207,6 +207,7 @@ $gi18n = [
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Transformação Gramatical',
+	'reference_phrasals' => 'Phrasal Verbs',
 	'write_word_here' => 'Escreva a palavra aqui...',
 	'cc_warning' => '
 	<p>Definições disponíveis sobre os termos <a class="text-muted" href="https://creativecommons.org/licenses/by-sa/3.0/deed.pt_BR">Creative Commons Attribution-ShareAlike License</a>
