@@ -388,3 +388,14 @@ function dictionarySubmitTrigger(e) {
       });
 
 }
+
+document.querySelectorAll('.wikitable a.extiw').forEach((item, i) => {
+  item.onclick = (e) => {
+    e.preventDefault();
+
+    window.scrollTo(0, 0);
+
+    dictionaryInput.value = item.title;
+    dictionarySubmitTrigger();
+  }
+});

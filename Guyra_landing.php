@@ -9,9 +9,9 @@ global $template_dir;
 global $template_url;
 global $site_url;
 
- get_header();
- /* Set up translations independent of Wordpress */
- include $template_dir . '/i18n.php';
+include $template_dir . '/i18n.php';
+
+get_header();
  ?>
 
    <div class="cover">
@@ -160,7 +160,7 @@ global $site_url;
            <div class="card-body">
              <h1 class="card-title pricing-card-title"><?php echo $gi18n['pricesfeature_pricelite'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span><i class="bi bi-x-lg text-red"></i></span></li>
+               <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span class="text-normal d-flex align-items-center"><i class="bi bi-x-lg text-red"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
@@ -178,67 +178,13 @@ global $site_url;
            <div class="card-body">
              <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+               <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span class="text-normal d-flex align-items-center"><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
              <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn btn-tall"><?php echo $gi18n['button_want']; ?></a>
-           </div>
-         </div>
-       </div>
-       <div class="col-md prices business">
-         <div class="card mb-4">
-           <div class="card-header">
-             <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h3>
-           </div>
-           <div class="card-body">
-             <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
-             <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-               <li><span><?php echo $gi18n['pricesfeature_allfrompremium']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-               <li><span><?php echo $gi18n['pricesfeature_school_management']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-               <li><span><?php echo $gi18n['pricesfeature_payment_processor']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-             </ul>
-             <button type="button" class="w-100 btn btn-tall" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
-           </div>
-         </div>
-       </div>
-     </div>
-
-     <div class="modal fade pop-animation animate" id="contact-modal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-       <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title" id="contactModalLabel"><?php echo $gi18n['button_contact'] ?></h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-             <form>
-               <div class="row g-3 mb-3 d-flex flex-row justify-content-between align-items-stretch align-items-center">
-                 <label for="exampleFormControlInput1" class="form-label"><?php echo $gi18n['email'] ?></label>
-                 <div class="col-auto flex-grow-1">
-                   <div class="mb-3">
-                     <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                   </div>
-                 </div>
-                 <div class="col-auto flex-shrink-1" style="flex: 15em;">
-                   <div class="form-check">
-                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                     <label class="form-check-label" for="flexCheckDefault">
-                       <?php echo $gi18n['modal_checkpromoconsent'] ?>
-                     </label>
-                   </div>
-                 </div>
-               </div>
-               <div class="mb-3">
-                 <label for="exampleFormControlTextarea1" class="form-label"><?php echo $gi18n['modal_textarealabel'] ?></label>
-                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-               </div>
-             </form>
-           </div>
-           <div class="modal-footer">
-             <button type="submit" class="btn btn-primary"><?php echo $gi18n['button_submit'] ?></button>
            </div>
          </div>
        </div>

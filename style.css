@@ -23,7 +23,7 @@ Tags: guyra
   --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
   --guyra-blue-lightest: rgba(157, 219, 239, 1);
-  --guyra-blue-pale-dark: #1c3e4e;
+  --guyra-blue-pale-1dark: #1c3e4e;
 
   --guyra-purple: #6A45FF;
   --guyra-purple-lighter: rgb(184 160 245);
@@ -709,6 +709,10 @@ nav .navbar-nav .btn-wa:hover {
   background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
 }
 
+.primary.business .card {
+  background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
+}
+
 .card-title {
   background: var(--guyra-white);
   border-radius: var(--guyra-border-radius-bigger);
@@ -751,11 +755,15 @@ nav .navbar-nav .btn-wa:hover {
 
   .prices {
     margin: 0;
-  	width: calc(5rem + 15vw);
+  	width: calc(9rem + 15vw);
   }
 
   .prices.primary {
-  	width: calc(5rem + 16vw);
+  	width: calc(9rem + 16vw);
+  }
+
+  .prices.primary.business {
+  	width: calc(11rem + 16vw);
   }
 
   .with-animation .prices .card:hover,
@@ -831,7 +839,6 @@ nav .navbar-nav .btn-wa:hover {
   box-shadow: var(--guyra-box-shadow-outline);
   border: 0;
   border-radius: var(--guyra-border-radius-bigger);
-	padding: 3px;
   font-size: var(--guyra-fonts-textsize-s);
 }
 
@@ -1653,7 +1660,7 @@ input.form-control:focus,
 
 .wp-block-image img,
 .wp-block-media-text img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
     image-rendering: auto;
 }

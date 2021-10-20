@@ -114,7 +114,7 @@ $user_payment_method = 'pix';
 			<a href="<?php echo $gi18n['home_link']?>" class="btn-tall blue me-2 mb-2"><?php echo $gi18n['button_studypage']; ?></a>
 			<a href="<?php echo $gi18n['courses_link']?>" class="btn-tall me-2 mb-2"><?php echo $gi18n['button_coursespage']; ?></a>
 			<a href="<?php echo $gi18n['practice_link']?>" class="btn-tall me-2 mb-2"><?php echo $gi18n['practice']; ?></a>
-			<a href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>" class="btn-tall red me-2 mb-2 d-inline d-sm-none"><?php echo $gi18n['logout'] ?></a>
+			<a href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>" class="btn-tall red me-2 mb-2 d-inline d-xl-none"><?php echo $gi18n['logout'] ?></a>
 
 		</div>
 

@@ -1031,12 +1031,14 @@ class App extends React.Component {
         mod = mod + 0.5;
 
         if (userElo >= this.currentExerciseWeight) {
-          var diffMod = userElo + (userElo / this.currentExerciseWeight) / ((mod * this.currentExerciseWeight) - (userElo)) / 100;
+          var diffMod = this.currentExerciseWeight -  mod - 0.5;
         } else {
           var diffMod = (userElo + this.currentExerciseWeight) + mod;
         }
 
-        var moddedScore = (userElo * (mod * diffMod)) * 100;
+        var moddedScore = (userElo + (mod + diffMod));
+        var moddedScore = Number(this.usermeta[0]) + (this.currentExerciseWeight * moddedScore);
+
         console.log(moddedScore);
 
         fetch(rootUrl.concat('?user=1&update_elo=1&value='.concat(Number(moddedScore))));
