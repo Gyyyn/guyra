@@ -909,17 +909,6 @@ a:hover {
 *
 */
 
-.btn {
-  transition: none;
-  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-  border-radius: var(--guyra-border-radius);
-}
-
-.btn:hover {
-  transition: var(--guyra-transition);
-  padding: calc(.15rem + .1vw) calc(.25rem + .2vw);
-}
-
 .dropdown-item.active,
 .dropdown-item:focus {
 	background-color: var(--guyra-blue);
