@@ -1643,15 +1643,21 @@ input.form-control:focus,
 }
 
 .wp-block-embed iframe {
-    width: 100%;
-    height: calc(10rem + 40vh);
+  width: 100%;
+  height: calc(10rem + 40vh);
 }
 
 .wp-block-image img,
 .wp-block-media-text img {
-    max-width: 100%;
-    height: auto;
-    image-rendering: auto;
+  max-width: 100%;
+  height: auto;
+  image-rendering: auto;
+}
+
+.wp-block-columns {
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 
 /*

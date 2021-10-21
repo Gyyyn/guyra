@@ -342,7 +342,7 @@ class AnswersWordBank extends React.Component {
   render() {
     return (
       e('div', {className: 'exercise-answers-wordbank'},
-        e(ExerciseContext.Consumer, null, ({values}) => values[1].map(x => {
+          e(ExerciseContext.Consumer, null, ({values}) => values[1].map(x => {
           return e(AnswerButton, {key: x, value: x, correctAnswer: values[2]}) } )
         )
       )
@@ -911,7 +911,7 @@ class App extends React.Component {
     this.buttonClassDisabled = 'btn-tall disabled';
 
     this.state = {
-      values: this.ExerciseObject,
+      values: [[],[],[]],
       currentQuestion: 0,
       setExerciseObject: this.setExerciseObject,
       alreadyAnswered: false,
@@ -1000,7 +1000,6 @@ class App extends React.Component {
   setNewActivity = () => {
 
     this.setState({
-      answerType: AnswersTextArea,
       avatarURL: getRandomAvatar(),
       candyButton: '🍭',
       candyButtonClass: 'btn-tall dark',
@@ -1038,8 +1037,6 @@ class App extends React.Component {
 
         var moddedScore = (userElo + (mod + diffMod));
         var moddedScore = Number(this.usermeta[0]) + (this.currentExerciseWeight * moddedScore);
-
-        console.log(moddedScore);
 
         fetch(rootUrl.concat('?user=1&update_elo=1&value='.concat(Number(moddedScore))));
 
@@ -1083,14 +1080,15 @@ class App extends React.Component {
       answeredCorrect: false,
       hintArea: hintAreaInfo,
       checkAnswerButtonClass: this.buttonClassGreen
-    })
+    });
 
     this.disallowCandyOn.forEach((item) => {
       if (item == this.currentQuestion) {
         this.setState({
           candyButton: '☠️',
           candyButtonClass: 'btn-tall dark disabled',
-          disallowCandy: true
+          disallowCandy: true,
+          answerType: AnswersTextArea
         });
       }
     });
@@ -1207,7 +1205,8 @@ class App extends React.Component {
     if (type == 'CompleteThePhrase') {
 
       this.setState({
-        questionType: QuestionDialog
+        questionType: QuestionDialog,
+        answerType: AnswersWordBank
       });
 
       return activityCompleteThePhrase(theExercise, this.state.allTheWords, 5);
@@ -1290,7 +1289,7 @@ class App extends React.Component {
     this.disallowCandyOn = [];
 
     this.setState({
-      values: this.ExerciseObject,
+      values: [[],[],[]],
       hintArea: hintAreaInfo,
       alreadyAnswered: false,
       answeredCorrect: false,

@@ -197,13 +197,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         <div class="dialog">
 
-          <div class="d-flex">
+          <div class="d-flex float-end">
             <a class="btn-tall blue edit-homework-button" data-target="<?php echo $user_sha1d; ?>" data-link="<?php echo $userStudentPageObjectEditLink; ?>">
               <?php echo $gi18n['edit'] ?>
             </a>
           </div>
-
-          <hr />
 
           <div id="inner-<?php echo $user_sha1d; ?>">
             <?php echo apply_filters('the_content', $userStudentPageObject->post_content); ?>
@@ -291,13 +289,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
       <div class="dialog">
 
-        <div class="d-flex">
+        <div class="d-flex float-end">
           <a class="btn-tall blue edit-homework-button" data-target="<?php echo $group['name']; ?>" data-link="<?php echo $group['link']; ?>">
             <?php echo $gi18n['edit'] ?>
           </a>
         </div>
-
-        <hr />
 
         <div id="inner-<?php echo $group['name']; ?>">
           <?php
