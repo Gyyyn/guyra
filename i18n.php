@@ -83,6 +83,7 @@ $gi18n = [
 	'due_date' => 'Vencimento',
 	'date' => 'Data',
 	'hello' => 'Olá',
+	'help' => 'Ajuda',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -198,7 +199,14 @@ $gi18n = [
 	'wronganswer' => 'Não era essa!',
 	'goodjob' => 'Boa!',
 	'yourscore' => 'Sua nota: ',
-	'explainexercises' => 'Use as dicas para completar os exercicios. Você pode usar o "pirulito" pra deixar o exercício mais fácil.',
+	'explain_exercises' => '
+		<h3>Instruções</h3>
+		<p>Use as dicas para completar os exercicios.</p>
+		<p>Você pode usar o botão da direita pra mudar o jeito de responder. Se esse botão mudar para uma caveira você só pode responder de um jeito. Isso significa que o exercício ficou mais difícil.<p>
+		<h3>Avisos</h3>
+		<p>Os navegadores "Opera" e "Opera GX" não suportam o tipo de áudio que usamos para os exercícios. Para poder usar está funcionalidade do site recomendamos os navegadores: Google Chrome, Firefox ou Microsoft Edge.</p>
+		<p>Agradecemos a compreensão 😉</p>
+	',
 	'check' => 'Verificar',
 	'returntomap' => 'Voltar ao Mapa',
 	'continue' => 'Continuar',

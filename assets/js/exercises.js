@@ -703,13 +703,19 @@ class BootstrapModal extends React.Component {
                 class:"modal-header",
               },
               e(
+                'h1',
+                {},
+                this.props.title
+              ),
+              e(
                 'a',
                 {
                   type: "button",
-                  className: "btn-close",
+                  className: "btn-tall btn-sm red",
                   "data-bs-dismiss": "modal",
                   "aria-label": "close"
-                }
+                },
+                e('i', { className: "bi bi-x-lg" })
               )
             ),
             e(
@@ -787,9 +793,10 @@ function controlAreaButtons(props) {
       BootstrapModal,
       {
         target: "explain-modal",
-        text: i18n.explainexercises,
+        text: window.HTMLReactParser(i18n.explain_exercises),
         buttonclasses: "btn-tall me-1",
-        button: "❔"
+        button: "❔",
+        title: i18n.help
       }
     ),
     e(
