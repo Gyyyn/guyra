@@ -936,7 +936,7 @@ class App extends React.Component {
       reset: this.reset,
       checkAnswerButtonClass: this.buttonClassGreen,
       exerciseTitle: null,
-      candyButton: '🍭',
+      candyButton: '💬',
       candyButtonClass: 'btn-tall dark',
       disallowCandy: false,
       questionType: QuestionDialog,
@@ -1001,7 +1001,7 @@ class App extends React.Component {
 
     this.setState({
       avatarURL: getRandomAvatar(),
-      candyButton: '🍭',
+      candyButton: '💬',
       candyButtonClass: 'btn-tall dark',
       disallowCandy: false
     });
@@ -1090,6 +1090,10 @@ class App extends React.Component {
           disallowCandy: true,
           answerType: AnswersTextArea
         });
+
+        var indexOfThisItem = this.disallowCandyOn.indexOf(item);
+
+        this.disallowCandyOn.splice(indexOfThisItem, 1);
       }
     });
 
@@ -1296,7 +1300,7 @@ class App extends React.Component {
       answers: [],
       score: 100,
       activityType: '',
-      candyButton: '🍭',
+      candyButton: '💬',
       candyButtonClass: 'btn-tall dark',
       disallowCandy: false
     })

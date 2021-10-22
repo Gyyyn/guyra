@@ -163,7 +163,8 @@ $gi18n = [
 		'Já viu <a class="btn-sm btn-tall blue" href="' . $site_url . '/courses' .'">nossa página de ultilidades</a>? Tem muita coisa legal lá!',
 		'Que tal uma <a class="btn-sm btn-tall blue" href="' . $site_url . '/practice' .'">atividade rápidinha</a> pra começar?',
 		'O que você faz hoje é por amor ao futuro você. 😍',
-		'Tá difícil se animar? Começa devagar, faz só um pouquinho.'
+		'Tá difícil se animar? Começa devagar, faz só um pouquinho.',
+		'Sabia que temos um app? Veja como instalar <a class="btn-sm btn-tall blue" href="' . $site_url . '/faq/#install-instructions' .'">aqui</a>'
 	],
 	'whats_for_today' => 'O que vamos fazer hoje?',
 	/* User page */

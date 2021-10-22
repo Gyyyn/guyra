@@ -1281,6 +1281,7 @@ input.form-control:focus,
 .answers-review {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .answers-review-card {
@@ -1288,7 +1289,7 @@ input.form-control:focus,
     border-radius: var(--guyra-border-radius);
     background: var(--guyra-grey);
     margin: 1rem;
-    flex-grow: 1;
+    flex-grow: 0;
     font-size: var(--guyra-fonts-textsize-s);
     border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
