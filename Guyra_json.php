@@ -3,6 +3,10 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $site_url;
+global $is_logged_in;
+
+if (!defined('ABSPATH')) { exit; }
 
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';

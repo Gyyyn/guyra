@@ -5,13 +5,13 @@
  * @package guyra
  */
 
-if (!is_user_logged_in()) {
- wp_redirect(get_site_url());
-}
-
 global $template_dir;
-global $template_url;
+global $site_url;
+global $is_logged_in;
 
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
+include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 function createYoutubeApiPlaylistLink($key) {
@@ -39,9 +39,6 @@ foreach ($coursesArray as &$current) {
 unset($current);
 
 get_header();
-
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
 ?>
 
 <main id="intro-content" class="site-main page squeeze">

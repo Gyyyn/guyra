@@ -8,30 +8,19 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $site_url;
 
-/* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 // fetch user data
 $thisUser = get_user_meta($current_user_id);
 $users = get_users();
-$site_url = get_site_url();
 $userTeacherCode = Guyra_hash($current_user_id);
-
-// Sorts the list into date registered
-// function cmp($a, $b) {
-//   if ($a->ID == $b->ID) {
-//       return 0;
-//   }
-//   return ($a->ID < $b->ID) ? -1 : 1;
-// }
-
-// usort($users, "cmp");
 
 if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
-  <div class="my-5" data-aos="fade" data-aos-once="true">
+  <div class="mt-5">
     <h1 class="mb-3 text-blue">Welcome, <?php echo $thisUser['first_name'][0]; ?></h1>
     <h2 class="mb-3 text-purple">to your student panel.</h2>
   </div>
@@ -40,14 +29,18 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     <div id="the-diary"></div>
   </div>
 
-  <div data-aos="fade" data-aos-delay="200" data-aos-once="true">
+  <div class="schools-wrapper fade-animation animate">
 
   <?php
 
   $groups = [];
   $groupsData = [];
 
-  echo '<h4>' . $gi18n['your_students'] . '</h4>';
+  ?>
+
+  <h4><?php echo $gi18n['your_students']; ?></h4>
+  <div class="user-list-wrapper">
+  <?php
 
   foreach ($users as $x) {
 
@@ -95,14 +88,10 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
             <?php echo $userProfile; ?>
           </span>
 
-          <span class="me-1 text-primary text-bold"><strong>
+          <span class="me-1 text-primary text-bold" title="<?php echo $x->user_email; ?>"><strong>
           <?php echo $userdata['first_name'][0]; ?>
           <?php echo $userdata['last_name'][0]; ?>
           </strong></span>
-
-          <i class="text-grey-darkest text-end d-none d-md-inline">
-            <?php echo $x->user_email; ?>
-          </i>
 
           <span class="badge bg-primary ms-1"><?php echo $userdata['role'][0] ?></span>
 
@@ -219,6 +208,11 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
     } // end if user is assigned to this teacher
 
   } // end foreach loop
+
+  ?>
+
+  </div>
+  <?php
 
   if (!empty($groups)) {
     echo '<h4 class="mt-3">' . $gi18n['groups'] . '</h4>';

@@ -5,10 +5,15 @@
  * @package guyra
  */
 
-get_header(null, ['css' => 'reference.css']);
+global $template_dir;
+global $site_url;
+global $is_logged_in;
 
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
+include $template_dir . '/i18n.php';
+
+get_header(null, ['css' => 'reference.css']);
 ?>
 
 <main id="intro-content" class="site-main study squeeze">

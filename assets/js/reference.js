@@ -194,8 +194,15 @@ function dictionarySubmitTrigger(e) {
 
             console.log(json.error.info);
 
+            var upperCaseRegex = new RegExp('[A-Z]+');
+
             theHTML = theHTML + '<h2>Erro:</h2>';
             theHTML = theHTML + '<p>Palavra não encontrada.</p>';
+
+            if (upperCaseRegex.test(TheWord.split('')[0])) {
+              theHTML = theHTML + '<p>Este dicionário diferencia entre letras maiúsculas e minúsculas. Que tal tentar <a class="btn-tall blue" id="retry-word">' + TheWord.toLowerCase() + '</a>?</p>';
+            }
+
             TheWordElement.classList.add('d-none');
 
           } else {
@@ -384,6 +391,17 @@ function dictionarySubmitTrigger(e) {
         dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
 
         ReplaceAllLinks();
+
+        var retryWord = document.getElementById('retry-word');
+
+        if (retryWord != undefined) {
+          retryWord.href = '';
+          retryWord.onclick = (e) => {
+            e.preventDefault();
+            document.getElementById('dictionary-word').value = TheWord.toLowerCase();
+            document.getElementById('dictionary-submit').click();
+          }
+        }
 
       });
 

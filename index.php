@@ -7,10 +7,12 @@
 
 global $template_dir;
 global $template_url;
+global $site_url;
+global $is_logged_in;
 
-if(empty($_GET)) {
+if(empty($_GET)):
 
-  if(is_user_logged_in()) {
+  if($is_logged_in) {
 
     load_template(locate_template('Guyra_study.php'));
 
@@ -30,7 +32,7 @@ if(empty($_GET)) {
 
   }
 
-} else {
+else:
 
   if($_GET['json']) {
 
@@ -50,4 +52,4 @@ if(empty($_GET)) {
 
   }
 
-}
+endif;

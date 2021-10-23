@@ -21,7 +21,7 @@ include $template_dir . '/i18n.php';
 
   <div class="d-flex flex-row align-items-center justify-content-center mt-1 mb-5">
 
-    <input id="dictionary-word" class="form-control w-75 me-3" type="text" placeholder="<?php echo $gi18n['write_word_here']; ?>">
+    <input autocapitalize="off" id="dictionary-word" class="form-control w-75 me-3" type="text" placeholder="<?php echo $gi18n['write_word_here']; ?>">
     <a class="btn-tall blue" id="dictionary-submit"><i class="bi bi-search"></i></a>
 
   </div>

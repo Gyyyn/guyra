@@ -109,42 +109,44 @@ get_header();
 
         <div class="row gy-3">
           <div class="col-md-6">
-            <label for="cc-name" class="form-label">Name on card</label>
+            <label for="cc-name" class="form-label"><?php echo $gi18n['name_on_card']; ?></label>
             <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-            <small class="text-muted">Full name as displayed on card</small>
+            <small class="text-muted"><?php echo $gi18n['name_on_card_explain']; ?></small>
             <div class="invalid-feedback">
-              Name on card is required
+              <?php echo $gi18n['name'] . $gi18n['is_required']; ?>
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="cc-number" class="form-label">Credit card number</label>
+            <label for="cc-number" class="form-label"><?php echo $gi18n['card_number']; ?></label>
             <input type="text" class="form-control" id="cc-number" placeholder="" required="">
             <div class="invalid-feedback">
-              Credit card number is required
+              <?php echo $gi18n['card_number'] . $gi18n['is_required']; ?>
             </div>
           </div>
 
           <div class="col-md-3">
-            <label for="cc-expiration" class="form-label">Expiration</label>
+            <label for="cc-expiration" class="form-label"><?php echo $gi18n['expiration']; ?></label>
             <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
             <div class="invalid-feedback">
-              Expiration date required
+              <?php echo $gi18n['expiration'] . $gi18n['is_required']; ?>
             </div>
           </div>
 
           <div class="col-md-3">
-            <label for="cc-cvv" class="form-label">CVV</label>
+            <label for="cc-cvv" class="form-label"><?php echo $gi18n['cvv']; ?></label>
             <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
             <div class="invalid-feedback">
-              Security code required
+              <?php echo $gi18n['cvv'] . $gi18n['is_required']; ?>
             </div>
           </div>
         </div>
 
+        <small class="my-5"><?php echo $gi18n['payment_processor_warning']; ?></small>
+
         <hr class="my-4">
 
-        <button class="w-100 btn-tall" type="submit">Continue to checkout</button>
+        <button class="w-100 btn-tall green" type="submit"><?php echo $gi18n['checkout']; ?></button>
       </form>
     </div>
   </div>

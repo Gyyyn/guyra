@@ -25,6 +25,7 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
         <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
+        <li class="breadcrumb-item"><a href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a></li>
         <?php if (false): ?><li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li> <?php endif; ?>
         <li class="breadcrumb-item"><a href="<?php echo $gi18n['thanks_footer_link'] ?>"><?php echo $gi18n['thanks'] ?></a></li>
       </ol>
@@ -48,13 +49,13 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 <?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 <?php if ($args['js']): ?>
-<script async src="<?php echo $gi18n['js_link'] . $args['js']; ?>"></script>
+<script async src="<?php echo $gi18n['js_link'] . $args['js'] . '?v=' . _S_VERSION; ?>"></script>
 <?php endif;
 if ($args['aos']): ?>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
 <script>AOS.init();</script>
 <?php endif; ?>
-<script async src="<?php echo $gi18n['js_link']; ?>misc.js"></script>
+<script async src="<?php echo $gi18n['js_link']; ?>misc.js?v=<?php echo _S_VERSION; ?>"></script>
 
 <?php //if ($local_storage != ''):
   if (false): ?>

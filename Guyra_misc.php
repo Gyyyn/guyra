@@ -5,12 +5,17 @@
  * @package guyra
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-  exit; // Exit if accessed directly
-}
+global $template_dir;
+global $template_url;
+global $site_url;
+global $is_logged_in;
+global $current_user_id;
+
+if (!defined('ABSPATH')) { exit; }
 
 function GuyraGetIcon($path='') {
-  return get_template_directory_uri() . '/assets/icons/' . $path;
+  global $template_url;
+  return $template_url . '/assets/icons/' . $path;
 }
 
 function Guyra_hash($string, $decode=false) {

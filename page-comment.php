@@ -5,9 +5,11 @@
  * @package guyra
  */
 
-// Sanity check, unlogged users shouldn't be here
-if (!is_user_logged_in()) {
- wp_redirect(get_site_url());
-}
+global $template_dir;
+global $site_url;
+global $is_logged_in;
 
-include get_template_directory() . '/Guyra_comment.php';
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
+include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_comment.php';

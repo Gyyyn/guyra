@@ -13,15 +13,15 @@ global $wp;
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $is_logged_in;
 
-$logged_in = is_user_logged_in();
 $body_class[0] = 'logged_out';
 
 /* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_template_components.php';
 
-if ($logged_in):
+if ($is_logged_in):
 
 // Get a profile picture and user data
 $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
@@ -81,7 +81,7 @@ if ($where_am_i == 'courses') {
   $body_class[] = 'courses';
 }
 
-if ($logged_in) {
+if ($is_logged_in) {
   $home_icon = '/assets/icons/learning.png';
 } else {
   $home_icon = '/assets/icons/exercises/house.png';
@@ -141,7 +141,7 @@ if ($logged_in) {
 <?php wp_head(); ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<link href="<?php echo $template_url; ?>/style.css" rel="stylesheet">
+<link href="<?php echo $template_url; ?>/style.css?ver=<?php echo _S_VERSION; ?>" rel="stylesheet">
 
 </head>
 
@@ -151,12 +151,11 @@ if ($logged_in) {
 
     <div class="container-fluid">
 
-      <div class="navbar-brand d-flex">
+      <div class="navbar-brand d-flex me-3">
         <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
             <img class="mb-1" alt="Guyra" src="<?php echo $gi18n['title_img']; ?>" />
           </span>
-          <i class="bi bi-slash-lg mx-3 text-muted"></i>
         </a>
       </div>
 
@@ -164,31 +163,18 @@ if ($logged_in) {
 
         <ul class="navbar-nav">
 
-          <li class="nav-item me-md-3">
+          <li class="nav-item me-3">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
           </li>
 
-          <?php if (!$logged_in) { ?>
+          <?php if (!$is_logged_in): ?>
 
-          <li class="nav-item me-md-3">
+          <li class="nav-item me-3">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
           </li>
 
-          <li class="nav-item me-md-3">
+          <li class="nav-item me-3">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
-          </li>
-
-          <?php } ?>
-          <li class="nav-item me-md-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a>
-          </li>
-
-          <?php if(false): ?>
-
-          <li class="nav-item me-md-3 position-relative">
-            <a class="btn-tall btn-sm blue disabled" href="<?php echo $gi18n['meet_link'] ?>"><?php echo $gi18n['meet'] ?>
-              <span class="position-absolute top-0 start-100 translate-middle badge bg-primary rounded-pill">Soon!</span>
-            </a>
           </li>
 
           <?php endif; ?>
@@ -204,13 +190,11 @@ if ($logged_in) {
 
         <ul class="navbar-nav justify-content-end nav-rightside">
 
-          <li class="nav-item">
+          <li class="nav-item me-3">
             <a href="https://wa.me/5519982576400" class="btn-tall btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
           </li>
 
-          <i class="bi bi-slash-lg mx-3 text-muted"></i>
-
-          <?php if(!$logged_in) { ?>
+          <?php if(!$is_logged_in) { ?>
           <li class="nav-item">
             <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
           </li>
@@ -221,7 +205,7 @@ if ($logged_in) {
                 <span class="btn-tall btn-sm text-small text-primary me-2"><?php echo $first_name; ?></span>
                 <?php echo $profile_picture; ?>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu pop-animation animate fast">
                 <li>
                   <a class="dropdown-item" href="<?php echo $gi18n['account_link']; ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile_32.png'; ?>">

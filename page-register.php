@@ -5,14 +5,15 @@
  * @package guyra
  */
 
-// We don't want registered users here
-if(is_user_logged_in()) {
- wp_redirect(get_site_url());
-}
+global $template_dir;
+global $site_url;
+global $is_logged_in;
+
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
+include $template_dir . '/i18n.php';
 
 get_header();
-/* Set up translations independent of Wordpress */
-include get_template_directory() . '/i18n.php';
 ?>
 
   <div class="cover">

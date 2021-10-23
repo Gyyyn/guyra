@@ -5,17 +5,22 @@
  * @package WordPress
  */
 
-if ( ! function_exists( 'wp_handle_upload' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/file.php' );
-}
-
-include get_template_directory() . '/Guyra_misc.php';
-
 nocache_headers();
 
+if ( ! function_exists( 'wp_handle_upload' ) ) {
+  require_once( ABSPATH . 'wp-admin/includes/file.php' );
+}
+
+global $template_dir;
+global $site_url;
+global $is_logged_in;
 global $current_user_id;
 
-$location = get_site_url();
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
+include $template_dir . '/Guyra_misc.php';
+
+$location = $site_url;
 
 $uploadedfile = $_FILES['file'];
 $file_found = false;

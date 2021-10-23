@@ -1909,13 +1909,6 @@ input.form-control:focus,
   }
 }
 
-.fade-animation,
-.justfade-animation,
-.justfadeout-animation,
-.pop-animation {
-    transition: var(--guyra-transition);
-}
-
 .pop-animation.animate {
   animation: pop 0.35s;
 }
@@ -1925,16 +1918,24 @@ input.form-control:focus,
 }
 
 .fade-animation.animate {
-    animation: fadein 0.25s, slideup 0.5s;
+  animation: fadein 0.25s, slideup 0.5s;
 }
 
 .justfade-animation.animate {
-    animation: fadein 0.35s;
+  animation: fadein 0.35s;
 }
 
 .justfadeout-animation {
-    animation: fadeout 0.35s;
-    opacity: 0;
+  animation: fadeout 0.35s;
+  opacity: 0;
+}
+
+.animate {
+  transition: var(--guyra-transition);
+}
+
+.animate.fast {
+  animation-duration: .1s;
 }
 
 /*

@@ -5,25 +5,24 @@
  * @package guyra
  */
 
-// Sanity check, unlogged users shouldn't be here
-if (!is_user_logged_in()) {
- wp_redirect(get_site_url());
-}
+global $template_dir;
+global $site_url;
+global $is_logged_in;
+
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
 get_header(null, ['css' => 'schools.css']);
 
-/* Set up translations independent of Wordpress (note: not currently needed) */
-/* include get_template_directory() . '/i18n.php'; */
 ?>
 
 <main id="intro-content" class="site-main page schools bg-white">
 
-  <div class="squeeze pt-3">
+  <div class="squeeze-big pt-3">
 
-    <?php include 'Guyra_schools.php'; ?>
+    <?php include $template_dir . '/Guyra_schools.php'; ?>
 
   </div>
 
 </main>
 <?php
-get_footer(null, ['aos' => true, 'react' => true, 'js' => 'schools.js']);
+get_footer(null, ['react' => true, 'js' => 'schools.js']);

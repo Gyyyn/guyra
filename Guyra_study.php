@@ -5,16 +5,14 @@
  * @package guyra
  */
 
-// Sanity check, unlogged users shouldn't be here
-if (!is_user_logged_in()) {
-  wp_redirect(get_site_url());
-}
-
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $site_url;
+global $is_logged_in;
 
-/* Set up translations independent of Wordpress */
+if (!$is_logged_in) { wp_redirect($site_url); exit; }
+
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 

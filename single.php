@@ -7,12 +7,10 @@
  * @package guyra
  */
 
+global $site_url;
+
 $post_category = get_the_category()[0]->slug;
 
-if ($post_category != 'blog') {
-
-  wp_redirect(get_site_url());
-
-} else {
-  load_template(locate_template('category-blog.php'));
-}
+if ($post_category != 'blog'): wp_redirect($site_url);
+else: load_template(locate_template('category-blog.php'));
+endif;
