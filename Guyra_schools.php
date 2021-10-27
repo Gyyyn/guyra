@@ -107,7 +107,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
         <?php endif; ?>
 
-        <li class="list-group-item col-5 d-flex justify-content-around">
+        <li class="list-group-item col-5 p-1 d-flex justify-content-around">
           <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
             <i class="bi bi-card-list"></i>
             <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
@@ -118,6 +118,10 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
             <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
           </a>
           <?php endif; ?>
+          <a class="btn-tall btn-sm blue ms-1" href="<?php echo $gi18n['schools_link'] . '?comment_history=1&user=' . $user ?>">
+            <i class="bi bi-list-ul"></i>
+            <span class="d-none d-md-inline"><?php echo $gi18n['replies']; ?></span>
+          </a>
           <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-toggles"></i>
             <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
@@ -199,7 +203,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         </div>
 
         <div class="page-squeeze m-0"><div class="study-answers">
-          <?php GetUserStudyPage_comments($user, false, true); ?>
+          <?php GetUserStudyPage_comments($user, false, true, '1 weeks ago', $gi18n['schools_link']); ?>
         </div></div>
 
       </div></div>
@@ -238,7 +242,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         </i>
       </li>
 
-      <li class="list-group-item col-5 d-flex justify-content-around">
+      <li class="list-group-item col-5 p-1 d-flex justify-content-around">
         <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="group" data-userid="<?php echo $current_user_id; ?>" data-grouptag="<?php echo $group['name']; ?>">
           <i class="bi bi-card-list"></i>
           <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
@@ -300,7 +304,7 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       </div>
 
       <div class="page-squeeze m-0"><div class="study-answers">
-        <?php GetUserStudyPage_comments($group['users'][0], false, true); ?>
+        <?php GetUserStudyPage_comments($group['users'][0], false, true, '1 weeks ago', $gi18n['schools_link']); ?>
       </div></div>
 
     </div>

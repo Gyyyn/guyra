@@ -190,10 +190,6 @@ if ($is_logged_in) {
 
         <ul class="navbar-nav justify-content-end nav-rightside">
 
-          <li class="nav-item me-3">
-            <a href="https://wa.me/5519982576400" class="btn-tall btn-sm btn-wa"><i class="bi bi-whatsapp"></i></a>
-          </li>
-
           <?php if(!$is_logged_in) { ?>
           <li class="nav-item">
             <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
@@ -237,7 +233,7 @@ if ($is_logged_in) {
 
   <nav class="navbar navbar-light fixed-bottom d-block d-lg-none">
 
-    <div class="d-flex w-100 justify-content-around">
+    <div class="d-flex w-100 justify-content-evenly">
 
       <a class="btn-tall page-icon small <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
         <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>">

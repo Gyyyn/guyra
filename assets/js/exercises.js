@@ -310,7 +310,7 @@ function AnswerButtonProper(props) {
   return e(
     'a',
     {
-      className: 'btn-tall black',
+      className: 'btn-tall trans',
       onClick: props.onClick
     },
     props.value
@@ -363,11 +363,11 @@ class AnswersPhraseBuilder extends React.Component {
 
         e(
           'div',
-          {className: 'd-flex mb-1'},
+          {className: 'd-flex flex-column flex-xl-row my-3'},
 
           e(ExerciseContext.Consumer, null, ({phraseBuilderPhrase}) => e('div',
             {
-              className: 'w-100 d-flex align-items-center',
+              className: 'w-100 d-flex align-items-center flex-wrap',
               id: 'phrase-builder',
               'data-phrase': phraseBuilderPhrase.join(' ')
             },
@@ -376,7 +376,7 @@ class AnswersPhraseBuilder extends React.Component {
                 e(
                   'a',
                   {
-                    className: 'word',
+                    className: 'btn-tall btn-sm trans disabled flex-grow-0',
                     key: item,
                   },
                   item
@@ -385,13 +385,25 @@ class AnswersPhraseBuilder extends React.Component {
             })
           )),
 
-          e(ExerciseContext.Consumer, null, ({ClearWord}) => e(
-            'a',
-            {
-              className: 'btn-tall align-self-end flex-shrink-1',
-              onClick: () => { ClearWord() }
-            },
-            e('i', { className: "bi bi-trash-fill" })
+          e(ExerciseContext.Consumer, null, ({ClearWord, DeleteWord}) => e(
+            'div',
+            { className: 'd-flex' },
+            e(
+              'a',
+              {
+                className: 'btn-tall blue align-self-end flex-shrink-1',
+                onClick: () => { DeleteWord() }
+              },
+              e('i', { className: "bi bi-x-square-fill" })
+            ),
+            e(
+              'a',
+              {
+                className: 'btn-tall red align-self-end flex-shrink-1',
+                onClick: () => { ClearWord() }
+              },
+              e('i', { className: "bi bi-trash-fill" })
+            )
           ))
 
         ),
@@ -444,6 +456,16 @@ class AnswersTextArea extends React.Component {
 }
 
 function QuestionDialog(props) {
+
+  var theQuestion;
+
+  if (typeof props.values[0] === 'string') {
+    theQuestion = props.values[0].replace('____','<span class="blank-space"></span>');
+    theQuestion = window.HTMLReactParser(theQuestion);
+  } else {
+    theQuestion = props.values[0];
+  }
+
   return (
     e('div',
       {
@@ -457,13 +479,17 @@ function QuestionDialog(props) {
           src: props.avatarURL
         }
       ),
-      e('div', {className: "dialog-arrow"}),
       e(
         'div',
-        {
-          className: "exercise-dialog"
-        },
-        props.values[0]
+        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end overpop-animation animate" },
+        e('div', {className: "dialog-arrow"}),
+        e(
+          'div',
+          {
+            className: "exercise-dialog"
+          },
+          theQuestion
+        )
       )
     )
   )
@@ -519,18 +545,18 @@ class CurrentQuestion extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, exerciseTitle, questionType}) => e(
+    return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, questionType}) => e(
         'div',
         {
-          className: 'exercise fade-animation animate'
+          className: 'exercise pop-animation animate'
         },
-        e('h1', {className: 'mb-5'}, exerciseTitle),
+        e('div', { className: 'my-5' }, e(returnToLevelMapButton)),
         e(questionType, {values: values, avatarURL: avatarURL}),
         e(hintArea),
         e(
           'div',
           {
-            className: "d-flex exercise-answers"
+            className: "d-flex exercise-answers my-3"
           },
           e(answerType, {answers: values[1], correctAnswer: values[2]}),
         ),
@@ -544,8 +570,18 @@ function hintAreaHint(props) {
 
   return e(ExerciseContext.Consumer, null, ({values, i18n}) => e(
     'div',
-    null,
-    i18n.hint.concat(values[3])
+    {},
+    i18n.hint,
+    e(
+      'button',
+      {
+        className: 'btn-tall btn-sm blue',
+        onClick: (e) => {
+          e.target.outerHTML = values[3];
+        }
+      },
+       i18n.click_to_reveal
+    )
   ));
 
 }
@@ -585,8 +621,9 @@ function LevelChooserButton(props) {
     e(ExerciseContext.Consumer, null, ({loadExerciseJSON}) => e(
       'a',
       {
-        className: 'btn fade-animation animate',
-        title: props.values.name + ' - ' + props.values.id,
+        className: 'btn overpop-animation animate',
+        style: {backgroundColor: props.values.bg},
+        title: props.values.name + ' - ' + props.values.description,
         onClick: () => {
           loadExerciseJSON(props.level, props.values.id);
           window.scrollTo(0, 0);
@@ -674,6 +711,7 @@ class BootstrapModal extends React.Component {
         {
           type: "button",
           className: this.props.buttonclasses,
+          title: this.props.title,
           "data-bs-toggle": "modal",
           "data-bs-target": '#'.concat(this.props.target)
         },
@@ -690,7 +728,7 @@ class BootstrapModal extends React.Component {
         e(
           'div',
           {
-            class:"modal-dialog modal-dialog-centered",
+            class:"modal-dialog modal-dialog-centered pop-animation animate",
           },
           e(
             'div',
@@ -760,7 +798,7 @@ function returnToLevelMapButton(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
     'a',
     {
-      className: 'btn-tall btn-sm',
+      className: 'btn-tall blue',
       onClick: () => {
 
       setPage(e(LevelChooser));
@@ -769,6 +807,7 @@ function returnToLevelMapButton(props) {
 
       }
     },
+    e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
     i18n.returntomap
   ));
 }
@@ -786,6 +825,7 @@ function checkAnswerButton(props) {
 }
 
 function controlAreaButtons(props) {
+
   return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType, candyButton, candyButtonClass}) => e(
     'div',
     { className: "d-flex" },
@@ -794,8 +834,8 @@ function controlAreaButtons(props) {
       {
         target: "explain-modal",
         text: window.HTMLReactParser(i18n.explain_exercises),
-        buttonclasses: "btn-tall me-1",
-        button: "❔",
+        buttonclasses: "btn-tall blue me-2",
+        button: e('i', { className: 'bi bi-question-lg' }),
         title: i18n.help
       }
     ),
@@ -823,8 +863,7 @@ function hintAreaInfo(props) {
   return e(
     'div',
     {className: 'exercise-hints info'},
-    e('span', {className: 'exercise-hints-hint'}, e(hintAreaHint)),
-    e(returnToLevelMapButton)
+    e('span', {className: 'exercise-hints-hint'}, e(hintAreaHint))
   );
 }
 
@@ -846,6 +885,19 @@ function hintAreaCorrectAnswer(props) {
   ));
 }
 
+function reportAnswerButton() {
+  return e(ExerciseContext.Consumer, null, ({i18n, reportAnswer}) => e(
+    'button',
+    {
+      className: 'btn-tall red my-3',
+      "data-bs-dismiss": "modal",
+      "data-bs-target": "#report-modal",
+      onClick: () => { reportAnswer(); console.log('hello'); }
+    },
+    i18n.report
+  ));
+}
+
 function hintAreaWrongAnswer() {
   return e(ExerciseContext.Consumer, null, ({i18n, setNewActivity}) => e(
     'div',
@@ -854,12 +906,31 @@ function hintAreaWrongAnswer() {
     },
     e('span', {className: 'exercise-hints-hint'}, i18n.wronganswer),
     e(
-      'a',
-      {
-        className: 'btn-tall btn-sm green',
-        onClick: () => { setNewActivity() }
-      },
-      i18n.continue
+      'div',
+      { className: 'd-flex flex-row'},
+      e(
+        BootstrapModal,
+        {
+          target: "report-modal",
+          text: e(
+            'div',
+            { className: 'd-flex flex-column' },
+            i18n.execises_report_error_explain,
+            e(reportAnswerButton)
+          ),
+          buttonclasses: "btn-tall btn-sm red me-2",
+          button: e('i', { className: 'bi bi-exclamation-lg' }),
+          title: i18n.report_error
+        }
+      ),
+      e(
+        'a',
+        {
+          className: 'btn-tall btn-sm green',
+          onClick: () => { setNewActivity() }
+        },
+        i18n.continue
+      )
     )
   ));
 }
@@ -878,7 +949,7 @@ function exerciseDone() {
       e(
         'a',
         {
-          className: 'btn-tall btn-sm me-1',
+          className: 'btn-tall green me-1',
           onClick: () => {
             setPage(e(ReviewAnswers, {answers: answers}))
           }
@@ -942,15 +1013,16 @@ class App extends React.Component {
       setPage: this.setPage,
       reset: this.reset,
       checkAnswerButtonClass: this.buttonClassGreen,
-      exerciseTitle: null,
       candyButton: '💬',
-      candyButtonClass: 'btn-tall dark',
+      candyButtonClass: 'btn-tall',
       disallowCandy: false,
       questionType: QuestionDialog,
       allTheWords: [],
       phraseBuilderPhrase: phraseBuilderPhrase,
       AddWord: this.AddWord,
       ClearWord: this.ClearWord,
+      DeleteWord: this.DeleteWord,
+      reportAnswer: this.reportAnswer,
     };
 
   }
@@ -1009,7 +1081,7 @@ class App extends React.Component {
     this.setState({
       avatarURL: getRandomAvatar(),
       candyButton: '💬',
-      candyButtonClass: 'btn-tall dark',
+      candyButtonClass: 'btn-tall purple',
       disallowCandy: false
     });
 
@@ -1093,7 +1165,7 @@ class App extends React.Component {
       if (item == this.currentQuestion) {
         this.setState({
           candyButton: '☠️',
-          candyButtonClass: 'btn-tall dark disabled',
+          candyButtonClass: 'btn-tall black disabled',
           disallowCandy: true,
           answerType: AnswersTextArea
         });
@@ -1113,6 +1185,13 @@ class App extends React.Component {
 
   AddWord = (word) => {
     phraseBuilderPhrase.push(word)
+    this.setState({
+      phraseBuilderPhrase: phraseBuilderPhrase
+    });
+  }
+
+  DeleteWord = () => {
+    phraseBuilderPhrase.pop();
     this.setState({
       phraseBuilderPhrase: phraseBuilderPhrase
     });
@@ -1193,15 +1272,29 @@ class App extends React.Component {
 
   }
 
-  checkAnswerWithButton = () => {
+  getAnswerFromFields() {
+
+    var rtrn;
 
     if (this.state.answerType == AnswersTextArea) {
-      this.CheckAnswer(document.getElementById("exercise-answer-textarea").value)
+      rtrn = this.CheckAnswer(document.getElementById("exercise-answer-textarea").value);
     }
 
     if (this.state.answerType == AnswersPhraseBuilder) {
-      this.CheckAnswer(document.getElementById("phrase-builder").dataset.phrase)
+      rtrn = this.CheckAnswer(document.getElementById("phrase-builder").dataset.phrase);
     }
+
+    return rtrn;
+  }
+
+  checkAnswerWithButton = () => {
+
+    this.CheckAnswer(this.getAnswerFromFields());
+
+  }
+
+  reportAnswer = () => {
+    console.log(this.state.values, this.getAnswerFromFields());
   }
 
   loadActivityByType(object) {
@@ -1254,8 +1347,7 @@ class App extends React.Component {
     this.exerciseLength = this.ExerciseObject.length;
 
     this.setState({
-      page: e(CurrentQuestion),
-      exerciseTitle: 'Complete a frase usando a dica.'
+      page: e(CurrentQuestion)
     })
 
     // Trigger the synth once so he doesn't bug out and
@@ -1308,7 +1400,7 @@ class App extends React.Component {
       score: 100,
       activityType: '',
       candyButton: '💬',
-      candyButtonClass: 'btn-tall dark',
+      candyButtonClass: '',
       disallowCandy: false
     })
   }

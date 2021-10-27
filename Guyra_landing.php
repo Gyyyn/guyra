@@ -18,13 +18,13 @@ get_header();
      <div class="cover-container container pt-3">
 
        <div class="row row-cols-auto align-items-start cover-card">
-         <div class="col-md">
+         <div class="col-md p-5 bg-white more-rounded left">
 
            <div class="row mb-5">
-             <div class="col d-flex align-items-center justify-content-around">
+             <div class="col-md mb-5 mb-md-0 d-flex align-items-center justify-content-around">
                <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
              </div>
-             <div class="col d-flex align-items-center justify-content-around">
+             <div class="col-md d-flex align-items-center justify-content-around">
                <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm">
                  <img class="page-icon large" alt="Guyra" src="<?php echo $template_url; ?>/assets/icons/language.png">
                </video>
@@ -39,7 +39,7 @@ get_header();
            <p><?php echo $gi18n['landing_explain3'] ?></p>
          </div>
 
-         <div class="col-md d-flex align-items-center flex-column" data-aos="fade">
+         <div class="col-md p-5 d-flex align-items-center flex-column" data-aos="fade">
 
            <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered']; ?></h1>
            <p class="text-center py-3">
@@ -104,11 +104,11 @@ get_header();
       <div class="col-md d-flex flex-column justify-content-center align-items-center">
 
         <div class="p-1 p-md-5 order-2">
-          <h2 class="feature-heading" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
+          <h2 class="text-primary" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
           <div class="lead" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['meta_desc'] ?></div>
         </div>
 
-        <div class="picture">
+        <div class="page-icon large">
           <img alt="phone" src="<?php echo $gi18n['logo_img'] ?>">
         </div>
 
@@ -120,12 +120,12 @@ get_header();
    <div class="row feature squeeze pt-5">
      <div class="col order-md-2 px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title1'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title1'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain1'] ?></div>
        </div>
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
-       <div class="picture" data-aos="fade-left">
+       <div class="page-icon large" data-aos="fade-left">
          <img alt="phone" src="<?php echo $template_url; ?>/assets/icons/phone.png">
        </div>
      </div>
@@ -136,12 +136,12 @@ get_header();
    <div class="row feature squeeze">
      <div class="col px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title2'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title2'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain2'] ?></div>
        </div>
      </div>
      <div class="col-md-3 d-flex justify-content-center">
-       <div class="picture" data-aos="fade-right">
+       <div class="page-icon large" data-aos="fade-right">
          <img alt="clock" src="<?php echo $template_url; ?>/assets/icons/digital-clock.png">
        </div>
      </div>
@@ -166,7 +166,7 @@ get_header();
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn btn-tall"><?php echo $gi18n['button_want']; ?></a>
+             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>
@@ -184,7 +184,7 @@ get_header();
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn btn-tall"><?php echo $gi18n['button_want']; ?></a>
+             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>
@@ -197,12 +197,12 @@ get_header();
    <div class="row feature squeeze">
      <div class="col order-md-2 px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title3'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title3'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain3'] ?></div>
        </div>
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
-       <div class="picture" data-aos="fade-left">
+       <div class="page-icon large" data-aos="fade-left">
          <img alt="diploma" src="<?php echo $template_url; ?>/assets/icons/certificate.png">
        </div>
      </div>
@@ -213,12 +213,12 @@ get_header();
    <div class="row feature squeeze">
      <div class="col px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title4'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title4'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain4'] ?></div>
        </div>
      </div>
      <div class="col-md-3 d-flex justify-content-center">
-       <div class="picture" data-aos="fade-right">
+       <div class="page-icon large" data-aos="fade-right">
          <img alt="Brazil" src="<?php echo $template_url; ?>/assets/icons/brazil-flag.png">
        </div>
      </div>
@@ -229,12 +229,12 @@ get_header();
    <div class="row feature squeeze">
      <div class="col order-md-2 px-md-5 align-self-center">
        <div class="p-1 p-md-5">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="20"><?php echo $gi18n['index_feature_title5'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="20"><?php echo $gi18n['index_feature_title5'] ?></h2>
          <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain5'] ?></div>
        </div>
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
-       <div class="picture" data-aos="fade-left">
+       <div class="page-icon large" data-aos="fade-left">
          <img alt="laptop" src="<?php echo $template_url; ?>/assets/icons/laptop.png">
        </div>
      </div>
@@ -244,25 +244,25 @@ get_header();
 
      <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
        <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/quicktips.png">
-       <h2 class="feature-heading my-5">Gramática Rápida</h2>
+       <h2 class="text-primary my-5">Gramática Rápida</h2>
        <div class="col">
          <p>Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.</p>
          <p>No primeiro vídeo da séries vamos ver uma explicação rápida do "Simple Present".</p>
        </div>
        <div class="col-md-6">
-         <iframe src="https://www.youtube.com/embed/iW2MXtiGgu4" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         <iframe src="https://www.youtube.com/embed/iW2MXtiGgu4" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; page-icon large-in-page-icon large" allowfullscreen></iframe>
        </div>
      </div>
 
      <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
        <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/speaking.png">
-       <h2 class="feature-heading my-5">Fonética 1</h2>
+       <h2 class="text-primary my-5">Fonética 1</h2>
        <div class="col">
          <p>Introdução a fonética do inglês e dicas de pronúncia.</p>
          <p>No segundo vídeo da série vamos ver como ler as vogais do IPA (alfabeto fonético internacional).</p>
        </div>
        <div class="col-md-6">
-         <iframe src="https://www.youtube.com/embed/qTpsh4YWN7I" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         <iframe src="https://www.youtube.com/embed/qTpsh4YWN7I" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; page-icon large-in-page-icon large" allowfullscreen></iframe>
        </div>
      </div>
 

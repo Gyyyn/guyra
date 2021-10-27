@@ -261,7 +261,7 @@
       ["She rarely plays tennis.", "plays", "(joga)"],
       ["She never plays volleyball.", "plays", "(joga)"],
       ["I rarely play tennis.", "play", "(jogo)"],
-      ["I never play volleyall.", "play", "(jogo)"],
+      ["I never play volleyball.", "play", "(jogo)"],
       ["I always sleep late on weekends.", "I always", "(eu sempre)"],
       ["He always works on weekends.", "He always", "(ele sempre)"],
       ["I never work at night.", "I never", "(eu nunca)"],
@@ -510,20 +510,54 @@
   "unit10": {
 
     "CompleteThePhrase": [
-      ["I'm going to go the store in a few minutes.", "going to go", "(vou ir)"],
-      ["I'm going to go the shop in a few minutes.", "going", "(vou)"],
+      ["I'm going to go to the store in a few minutes.", "going to go", "(vou ir)"],
+      ["I'm going to go to the shop in a few minutes.", "going", "(vou)"],
       ["I'm going to buy some clothes today.", "go to the", "(vou comprar)"],
       ["I'm going to eat dinner soon.", "going to eat", "(vou comer)"],
       ["He's going to have a party tonight.", "going to", "(vai)"],
-      ["What are you going to do for ", "you going", "(você vai)"],
+      ["What are you going to do for Christmas?", "you going", "(você vai)"],
+      ["How are you going to celebrate Easter?", "celebrate", "(celebrar)"],
+      ["Are you going to do anything on Valentine's day?", "anything", "(alguma coisa)"],
       ["I'm not going to take the class today.", "to take", "(fazer)"],
+      ["I'm not going to participate today.", "to participate", "(participar)"],
+      ["He isn't going to come to the party.", "to come", "(vir)"],
+      ["I'm not going to help you with that.", "help you", "(te ajudar)"],
+      ["Where are you going to eat?", "are you", "(você)"],
+      ["Where are you going to go afterwards?", "afterwards", "(depois)"],
+      ["Where are you going to park?", "to park", "(estacionar)"],
       ["Where are you going to eat?", "are you", "(você)"],
       ["What are you going to do tomorrow?", "do tomorrow", "(fazer amanhã)"],
+      ["What are you going to do next weekend?", "next weekend", "(próximo fim de semana)"],
+      ["What are you going to do this Monday?", "do this Monday", "(fazer nessa segunda-feira)"],
+      ["What are you going to do tomorrow?", "going to do tomorrow", "(vai fazer amanhã)"],
       ["They are not going to take the car.", "not going", "(não vai)"],
+      ["We are not going to take the bus.", "going to take", "(vamos pegar)"],
+      ["She's not going by bike.", "by bike", "(de bicicleta)"],
+      ["He's not going by car.", "by car", "(de carro)"],
       ["This is the first time I'm going to eat there.", "first time", "(primeira vez)"],
+      ["This isn't my first time eating there.", "my first time", "(minha primeira vez)"],
+      ["That is the first I'm hearing of it.", "I'm hearing", "(estou ouvindo)"],
+      ["This isn't going to work.", "going to work", "(vai funcionar)"],
       ["Are you going to exercise today?", "exercise today", "(se exercitar hoje)"],
+      ["Are you going to play games today?", "play games", "(jogar jogos)"],
+      ["Are you going to the movies now?", "to the movies", "(para os filmes)"],
+      ["Are you going to try it?", "try it", "(experimentar)"],
       ["We are going to work late today unfortunately.", "late today", "(tarde hoje)"],
-      ["My friends and I aren't going, sorry?", "aren't", "(não)"]
+      ["We are going to see a movie later.", "movie later", "(filme mais tarde)"],
+      ["We are going to go out now.", "go out now", "(sair agora)"],
+      ["We are going to leave early.", "leave early", "(ir embora mais cedo)"],
+      ["My friends and I aren't going, sorry.", "aren't", "(não)"],
+      ["I'm not going to go, sorry.", "not going", "(não vou)"],
+      ["They aren't coming.", "aren't coming", "(não vem)"],
+      ["I'm not eating in that restaurant.", "not eating", "(não vou comer)"]
+    ],
+
+    "WhatYouHear": [
+      ["I'm not eating in that restaurant. Are you going to try it?"],
+      ["Are you going to exercise today? I'm not going to participate today."],
+      ["We are going to work late today unfortunately."],
+      ["That is the first I'm hearing of it."],
+      ["Are you going to do anything on Valentine's day?"]
     ]
 
   },
@@ -532,6 +566,9 @@
 
     "CompleteThePhrase": [
       ["I will be home today.", "be", "(estar)"],
+      ["I'll be going now.", "be", "(estar)"],
+      ["I won't be home today.", "be", "(estar)"],
+      ["I won't be going to that.", "be", "(estar)"],
       ["He won't like that present.", "like that", "(gostar desse)"],
       ["We will go on vacation in Italy.", "will go", "(vamos ir)"],
       ["I'll probably go out for dinner.", "go out for", "(sair para)"],
@@ -550,7 +587,7 @@
     "CompleteThePhrase": [
       ["Today's the fifth. (5th)", "fifth", "(quinto)"],
       ["Tomorrow will be the seventeenth 17th", "seventeenth", "(décimo sétimo)"],
-      ["I am going there tomorrow.", "am going'", "(estou indo)"],
+      ["I am going there tomorrow.", "am going", "(estou indo)"],
       ["Are you free on Monday afternoon?", "on Monday", "(na segunda)"],
       ["This week is crazy but how about on the fourth? (4th)", "fourth", "(quarto)"],
       ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth", "(vigésimo quinto)"],

@@ -90,5 +90,9 @@ if ( $movefile && ! isset( $movefile['error'] ) ) {
 
 $location = apply_filters( 'comment_post_redirect', $location, $comment );
 
+if ($_POST['redirect']) {
+  $location = $_POST['redirect'];
+}
+
 wp_safe_redirect( $location );
 exit;

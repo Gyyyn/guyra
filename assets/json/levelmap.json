@@ -6,6 +6,7 @@
         "name": "Olá!",
         "description": "Apresentações e expressões de tempo.",
         "image": "exercises/chat.png",
+        "bg": "#e4f7c3",
         "difficulty": 0.05
       },
       "unit2": {
@@ -13,6 +14,7 @@
         "name": "Coisas",
         "description": "Objetos e pronomes possesivos.",
         "image": "exercises/reading-glasses.png",
+        "bg": "#dbeffb",
         "difficulty": 0.07
       }
     },
@@ -22,6 +24,7 @@
         "name": "Horas",
         "description": "Horários e números.",
         "image": "exercises/time.png",
+        "bg": "#dbeffb",
         "difficulty": 0.09
       },
       "unit4": {
@@ -29,6 +32,7 @@
         "name": "Atividades",
         "description": "temp",
         "image": "exercises/running.png",
+        "bg": "#e4f7c3",
         "difficulty": 0.09
       },
       "unit5": {
@@ -36,6 +40,7 @@
         "name": "Frequencia",
         "description": "temp",
         "image": "exercises/schedule.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.1
       }
     },
@@ -45,6 +50,7 @@
         "name": "Lar",
         "description": "temp",
         "image": "exercises/house.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.1
       },
       "unit7": {
@@ -52,20 +58,25 @@
         "name": "Trabalho",
         "description": "temp",
         "image": "exercises/hard-work.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.1
+      }
+    },
+    "level3b": {
+      "unit9": {
+        "id": "unit9",
+        "name": "Rotinas",
+        "description": "temp",
+        "image": "exercises/routine.png",
+        "bg": "#dbeffb",
+        "difficulty": 0.13
       },
       "unit8": {
         "id": "unit8",
         "name": "Trabalho 2",
         "description": "temp",
         "image": "exercises/portfolio.png",
-        "difficulty": 0.13
-      },
-      "unit9": {
-        "id": "unit9",
-        "name": "Rotinas",
-        "description": "temp",
-        "image": "exercises/routine.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.13
       }
     },
@@ -75,6 +86,7 @@
         "name": "Futuro",
         "description": "temp",
         "image": "exercises/clock-speeding.png",
+        "bg": "#fff3b3",
         "difficulty": 0.13
       },
       "unit11": {
@@ -82,6 +94,7 @@
         "name": "Futuro 2",
         "description": "temp",
         "image": "exercises/hourglass.png",
+        "bg": "#fff3b3",
         "difficulty": 0.13
       },
       "unit12": {
@@ -89,6 +102,7 @@
         "name": "Planos",
         "description": "temp",
         "image": "exercises/plan.png",
+        "bg": "#dbeffb",
         "difficulty": 0.15
       }
     },
@@ -98,6 +112,7 @@
         "name": "Convites",
         "description": "temp",
         "image": "exercises/card.png",
+        "bg": "#dbeffb",
         "difficulty": 0.15
       },
       "unit14": {
@@ -105,6 +120,7 @@
         "name": "Historias",
         "description": "temp",
         "image": "exercises/script.png",
+        "bg": "#d1ffe6",
         "difficulty": 0.18
       }
     },
@@ -114,6 +130,7 @@
         "name": "Infância",
         "description": "temp",
         "image": "exercises/childhood.png",
+        "bg": "#d1ffe6",
         "difficulty": 0.19
       },
       "unit16": {
@@ -121,6 +138,7 @@
         "name": "Compras",
         "description": "temp",
         "image": "exercises/shopping-basket.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.18
       }
     },
@@ -130,6 +148,7 @@
         "name": "txting & msgs",
         "description": "temp",
         "image": "exercises/smartphone.png",
+        "bg": "#dbeffb",
         "difficulty": 0.13
       }
     },
@@ -139,6 +158,7 @@
         "name": "Lugares",
         "description": "temp",
         "image": "exercises/shop.png",
+        "bg": "#dbeffb",
         "difficulty": 0.15
       },
       "unit19": {
@@ -146,6 +166,7 @@
         "name": "Direções",
         "description": "temp",
         "image": "exercises/map.png",
+        "bg": "#e4f7c3",
         "difficulty": 0.19
       },
       "unit20": {
@@ -153,6 +174,7 @@
         "name": "Geografia",
         "description": "temp",
         "image": "exercises/planet.png",
+        "bg": "#e4f7c3",
         "difficulty": 0.2
       }
     },
@@ -162,6 +184,7 @@
         "name": "Aparência",
         "description": "temp",
         "image": "exercises/influencer.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.2
       },
       "unit22": {
@@ -169,6 +192,7 @@
         "name": "Especificidade",
         "description": "temp",
         "image": "exercises/flag.png",
+        "bg": "#f6e3ff",
         "difficulty": 0.22
       },
       "unit23": {
@@ -176,6 +200,7 @@
         "name": "Experiências",
         "description": "temp",
         "image": "exercises/bio-energy.png",
+        "bg": "#fff3b3",
         "difficulty": 0.25
       }
     },
@@ -185,6 +210,7 @@
         "name": "Sugestões",
         "description": "temp",
         "image": "exercises/idea.png",
+        "bg": "#fff3b3",
         "difficulty": 0.23
       },
       "unit25": {
@@ -192,6 +218,7 @@
         "name": "Desejos",
         "description": "temp",
         "image": "exercises/love.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.23
       },
       "unit26": {
@@ -199,6 +226,7 @@
         "name": "Mudanças",
         "description": "temp",
         "image": "exercises/surprise.png",
+        "bg": "#f6e3ff",
         "difficulty": 0.25
       }
     },
@@ -208,6 +236,7 @@
         "name": "Comparação",
         "description": "temp",
         "image": "exercises/scale.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.25
       },
       "unit28": {
@@ -215,6 +244,7 @@
         "name": "Viagem",
         "description": "temp",
         "image": "exercises/plane-ticket.png",
+        "bg": "#dbeffb",
         "difficulty": 0.27
       }
     },
@@ -224,6 +254,7 @@
         "name": "Favores",
         "description": "temp",
         "image": "exercises/agreement.png",
+        "bg": "#fff3b3",
         "difficulty": 0.27
       },
       "unit30": {
@@ -231,6 +262,7 @@
         "name": "Propósito",
         "description": "temp",
         "image": "exercises/blueprint.png",
+        "bg": "#dbeffb",
         "difficulty": 0.3
       }
     },
@@ -240,6 +272,7 @@
         "name": "Problemas",
         "description": "temp",
         "image": "exercises/puzzle-pieces.png",
+        "bg": "#d1ffe6",
         "difficulty": 0.3
       },
       "unit32": {
@@ -247,6 +280,7 @@
         "name": "Cultura",
         "description": "temp",
         "image": "exercises/parthenon.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.33
       },
       "unit33": {
@@ -254,6 +288,7 @@
         "name": "Conquistas",
         "description": "temp",
         "image": "exercises/achievement.png",
+        "bg": "#dbeffb",
         "difficulty": 0.33
       }
     },
@@ -263,6 +298,7 @@
         "name": "Filmes",
         "description": "temp",
         "image": "exercises/popcorn.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.35
       },
       "unit35": {
@@ -270,6 +306,7 @@
         "name": "Possibilidade",
         "description": "temp",
         "image": "exercises/directions.png",
+        "bg": "#d1ffe6",
         "difficulty": 0.37
       },
       "unit36": {
@@ -277,6 +314,7 @@
         "name": "Situações",
         "description": "temp",
         "image": "exercises/chess.png",
+        "bg": "#f5f5dc",
         "difficulty": 0.37
       }
     },
@@ -286,6 +324,7 @@
         "name": "Definições",
         "description": "temp",
         "image": "exercises/search.png",
+        "bg": "#f6e3ff",
         "difficulty": 0.39
       },
       "unit38": {
@@ -293,6 +332,7 @@
         "name": "Trabalho 3",
         "description": "temp",
         "image": "exercises/rocket.png",
+        "bg": "#f6e3ff",
         "difficulty": 0.4
       },
       "unit39": {
@@ -300,6 +340,7 @@
         "name": "Historias 2",
         "description": "temp",
         "image": "exercises/dialog.png",
+        "bg": "#ffe3e5",
         "difficulty": 0.4
       }
     },
@@ -309,6 +350,7 @@
         "name": "Comparação 2",
         "description": "temp",
         "image": "exercises/product.png",
+        "bg": "#dbeffb",
         "difficulty": 0.43
       },
       "unit41": {
@@ -316,7 +358,44 @@
         "name": "Pedidos",
         "description": "Verbos modais e vocabulário de pedidos.",
         "image": "exercises/request.png",
+        "bg": "#fff3b3",
         "difficulty": 0.45
+      }
+    },
+    "level17": {
+      "unit42": {
+        "id": "unit42",
+        "name": "Historias 3",
+        "description": "Past Continuous e Simple Past.",
+        "image": "exercises/scroll.png",
+        "bg": "#f5f5dc",
+        "difficulty": 0.45
+      },
+      "unit43": {
+        "id": "unit43",
+        "name": "Historias 4",
+        "description": "Past Continuous, Past Perfect e Simple Past.",
+        "image": "exercises/fairy-tale.png",
+        "bg": "#dbeffb",
+        "difficulty": 0.47
+      }
+    },
+    "level18": {
+      "unit44": {
+        "id": "unit44",
+        "name": "Expectativas",
+        "description": "Clausulas relativas.",
+        "image": "exercises/thought-bubble.png",
+        "bg": "#dbeffb",
+        "difficulty": 0.48
+      },
+      "unit45": {
+        "id": "unit45",
+        "name": "Problemas 2",
+        "description": "Forma passiva.",
+        "image": "exercises/alert.png",
+        "bg": "#ffe3e5",
+        "difficulty": 0.5
       }
     }
   }

@@ -19,7 +19,7 @@ get_header();
 
      <div class="cover-card row">
        <div class="col-md order-md-2 px-md-5 align-self-center">
-         <h2 class="feature-heading" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
          <p data-aos="fade" data-aos-delay="500"><?php echo $gi18n['workwithus_thesell'] ?></p>
          <p data-aos="fade" data-aos-delay="1500">
            <?php echo $gi18n['workwithus_thesell_explain'] ?>
@@ -27,7 +27,7 @@ get_header();
          </p>
        </div>
        <div class="col-md-3">
-         <div class="picture">
+         <div class="page-icon large">
            <img alt="phone" src="<?php echo $gi18n['logo_img'] ?>">
          </div>
        </div>
@@ -41,12 +41,12 @@ get_header();
     <div class="row feature squeeze">
       <div class="col order-md-2 px-md-5 align-self-center">
         <div class="p-1 p-md-5">
-          <h2 class="feature-heading" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title3'] ?></h2>
+          <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['index_feature_title3'] ?></h2>
           <div class="lead" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['index_feature_explain3'] ?></div>
         </div>
       </div>
       <div class="col-md-3 order-md-1 d-flex justify-content-center">
-        <div class="picture" data-aos="fade-left">
+        <div class="page-icon large" data-aos="fade-left">
           <img alt="diploma" src="<?php echo $template_url; ?>/assets/icons/certificate.png">
         </div>
       </div>
@@ -65,7 +65,7 @@ get_header();
             <div class="card-body">
               <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
               <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_allfrompremium']; ?></span> <span class="text-normal"><i class="bi bi-check-lg text-green"></i></span></li>
+                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_allfrompremium']; ?></span></li>
 
                 <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                 <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions2']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
@@ -73,11 +73,12 @@ get_header();
                 <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
 
                 <hr />
+                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_andforyourschool']; ?></span></li>
 
                 <li><span><?php echo $gi18n['pricesfeature_school_management']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                 <li><span><?php echo $gi18n['pricesfeature_payment_processor']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
               </ul>
-              <button type="button" class="w-100 btn btn-tall" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
+              <button type="button" class="w-100 btn-tall" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
             </div>
           </div>
         </div>

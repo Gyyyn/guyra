@@ -210,7 +210,36 @@ function GetUserStudyPage($user, $returnObject=false) {
 
 }
 
-function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) {
+
+function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comment_author, $comment_parent=0, $redirect=false) {
+  ?>
+  <form action="<?php echo get_site_url() . '/comment' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
+    <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
+    <span class="form-submit">
+
+      <label class="me-3 w-25">
+        <input class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
+        <a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+      </label>
+
+      <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">
+
+      <input type="hidden" name="comment_post_ID" value="<?php echo $comment_post_ID; ?>" id="comment_post_ID">
+      <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="comment_user_ID">
+      <input type="hidden" name="comment_author_email" value="<?php echo $comment_author_email; ?>" id="comment_author_email">
+      <input type="hidden" name="comment_author" value="<?php echo $comment_author; ?>" id="comment_author">
+      <?php if ($comment_parent != 0): ?>
+      <input type="hidden" name="comment_parent" value="<?php echo $comment_parent; ?>" id="comment_parent">
+      <?php endif; ?>
+      <?php if ($redirect): ?>
+      <input type="hidden" name="redirect" value="<?php echo $redirect; ?>">
+      <?php endif; ?>
+    </span>
+  </form>
+  <?php
+}
+
+function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, $max_history='1 weeks ago', $redirect=false) {
 
   $object = GetUserStudyPage_object($user);
   $current_user = wp_get_current_user();
@@ -218,19 +247,21 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) 
   $args = [
     'post_id' => $object->ID,
     'date_query' => [
-      'after' => '1 weeks ago',
+      'after' => $max_history,
       'before' => 'tomorrow',
       'inclusive' => true
     ]
   ];
 
-  if ($all_comments == false) {
-    $args['user_id'] = $user;
-  }
+  // if ($all_comments == false) {
+  //   $args['user_id'] = $user;
+  // }
 
   $comments = get_comments($args);
 
   foreach ($comments as $comment) {
+
+    if ($comment->comment_parent == 0 && $comment->user_id == $user):
 
     $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
@@ -241,6 +272,8 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) 
 
     $comment_date_formatted = date_format(date_create($comment->comment_date), 'd/m/Y H:i:s');
 
+    $children = $comment->get_children();
+
     ?>
 
     <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
@@ -249,11 +282,24 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) 
         <span id="user-<?php echo $comment->user_id; ?>" class="author-name">
           <?php echo $profile_picture; ?>
           <span class="ms-1"><?php echo $first_name; ?></span>
+          <?php if ($all_comments): ?>
+          <span>
+            <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#replyto-<?php echo $comment->comment_ID; ?>" role="button">
+              <i class="bi bi-reply-fill"></i>
+            </a>
+          </span>
+          <?php endif; ?>
         </span>
         <span class="comment-time text-small text-muted"><?php echo $comment_date_formatted; ?></span>
       </div>
 
-      <div class="comment-content">
+      <?php if ($all_comments): ?>
+      <div class="collapse my-3" id="replyto-<?php echo $comment->comment_ID; ?>">
+        <?php RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name, $comment->comment_ID, $redirect); ?>
+      </div>
+      <?php endif; ?>
+
+      <div class="comment-content dialog-box">
 		    <?php
 
         echo nl2br($comment->comment_content);
@@ -270,34 +316,55 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false) 
           </div>
 
           <?php } ?>
+
+        <?php if (!empty($children)): ?>
+          <hr />
+          <?php foreach ($children as $comment):
+            $first_name = get_user_meta( $comment->user_id, 'first_name', true );
+            if (empty($first_name)) {
+            	$first_name = $comment->comment_author;
+            }
+            $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
+            ?>
+            <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
+              <div class="comment-content dialog-box info">
+                <div class="comment-meta mb-1 text-small">
+                  <span id="user-<?php echo $comment->user_id; ?>">
+                    <span class="ms-1"><?php echo $first_name . ': '; ?></span>
+                  </span>
+                </div>
+                <?php
+
+                echo nl2br($comment->comment_content);
+
+                if ($comment_image != '') { ?>
+                  <hr />
+                  <div class="comment-image position-relative">
+                    <a href="<?php echo $comment_image; ?>" target="_blank">
+                      <img alt="comment-<?php echo $comment->comment_ID; ?>-image"
+                      src="<?php echo $comment_image; ?>"
+                      class="page-icon" loading="lazy">
+                    </a>
+                    <a class="btn-tall blue download position-absolute bottom-0 start-0" href="<?php echo $comment_image; ?>" download><i class="bi bi-download"></i></a>
+                  </div>
+
+                  <?php } ?>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
     	</div>
 
     </div>
 
-  <?php }
+  <?php
+
+  endif;
+
+  }
 
   if ($reply_box) {
-    ?>
-
-    <form action="<?php echo get_site_url() . '/comment' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
-      <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
-      <span class="form-submit">
-
-        <label class="me-3 w-25">
-          <input class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
-          <a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
-        </label>
-
-        <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">
-
-        <input type="hidden" name="comment_post_ID" value="<?php echo $object->ID; ?>" id="comment_post_ID">
-        <input type="hidden" name="user_id" value="<?php echo $current_user->ID; ?>" id="comment_user_ID">
-        <input type="hidden" name="comment_author_email" value="<?php echo $current_user->user_email; ?>" id="comment_author_email">
-        <input type="hidden" name="comment_author" value="<?php echo $current_user->display_name; ?>" id="comment_author">
-      </span>
-    </form>
-
-    <?php
+    RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name);
   }
 
 }
