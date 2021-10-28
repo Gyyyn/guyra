@@ -171,7 +171,8 @@ $gi18n = [
 		'Que tal uma <a class="btn-sm btn-tall blue" href="' . $site_url . '/practice' .'">atividade rápidinha</a> pra começar?',
 		'O que você faz hoje é por amor ao futuro você. 😍',
 		'Tá difícil se animar? Começa devagar, faz só um pouquinho.',
-		'Sabia que temos um app? Veja como instalar <a class="btn-sm btn-tall blue" href="' . $site_url . '/faq/#install-instructions' .'">aqui</a>'
+		'Sabia que temos um app? Veja como instalar <a class="btn-sm btn-tall blue" href="' . $site_url . '/faq/#install-instructions' .'">aqui</a>',
+		'Sabe aquele ícone no canto da sua tela? É um bloco de notas! Ele salva o que você escreve nele até quando muda de página então pode usar pra fazer suas anotações! 🗒️🗒️'
 	],
 	'whats_for_today' => 'O que vamos fazer hoje?',
 	/* User page */

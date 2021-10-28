@@ -187,12 +187,16 @@ function joinEquivalents(input) {
 function isAnswerCorrect(correct, userInput) {
 
   userInput = userInput.trimEnd();
+  let passable = true;
+
+  if (userInput == '') {
+    passable = false;
+  }
 
   // This function checks if two inputs can be considered the same based
   // on a database, currently the fucntion above
   correct = correct.split(' ');
   userInput = userInput.split(' ');
-  let passable = true;
 
   // Join together some related pieces of grammatical structure
   // such as "i am", "you are" for checking.

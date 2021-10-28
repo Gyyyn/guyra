@@ -454,7 +454,7 @@ class DiaryPaginatedEntries extends React.Component {
 
         if (this.props.mode == 'payment') {
 
-          var theEntry = diary.payments.at(i);
+          var theEntry = diary.payments[diary.payments.length + i];
 
           if (theEntry != undefined) {
             returnElement.push(e(
@@ -468,7 +468,7 @@ class DiaryPaginatedEntries extends React.Component {
 
         } else {
 
-          var theEntry = diary.entries.at(i);
+          var theEntry = diary.entries[diary.entries.length + i];
 
           if (theEntry != undefined) {
             returnElement.push(e(

@@ -23,26 +23,26 @@ get_header(null, ['css' => 'reference.css']);
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
 
       <a class="list-group-item" href="<?php echo $gi18n['home_link']; ?>" role="button">
-        <span class="menu-icon"><img class="me-0" src="<?php echo $gi18n['template_link'] . '/assets/img/back.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/img/back.png'; ?>"></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#dictionary-container" role="button" aria-expanded="true" aria-controls="dictionary-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/dictionary.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/dictionary.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['dictionary']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#irregulars-container" role="button" aria-expanded="false" aria-controls="irregulars-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/bookmark.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/bookmark.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_irregulars']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#grammar-container" role="button" aria-expanded="false" aria-controls="grammar-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="collapse" href="#phrasals-container" role="button" aria-expanded="false" aria-controls="phrasals-container">
-        <span class="menu-icon"><img src="<?php echo $gi18n['template_link'] . '/assets/icons/document.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/document.png'; ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_phrasals']; ?></span>
       </a>
 

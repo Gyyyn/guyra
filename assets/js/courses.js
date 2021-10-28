@@ -17,8 +17,6 @@ function YoutubeEmbed(props) {
     e(
       'iframe',
       {
-        width: "853",
-        height: "480",
         src: 'https://www.youtube.com/embed/'.concat(props.videoId),
         frameBorder: "0",
         allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
