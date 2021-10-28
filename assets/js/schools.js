@@ -229,14 +229,6 @@ class DiaryEntry extends React.Component {
   constructor(props) {
     super(props);
 
-    this.statusClass = '';
-
-    if (this.props.entry.status == 'finished') {
-      this.statusClass = 'bg-primary';
-    } else {
-      this.statusClass = 'bg-danger';
-    }
-
     this.datePicker = e(DiaryContext.Consumer, null, ({EditEntry}) => e(
       'div',
       {},
@@ -313,7 +305,7 @@ class DiaryEntry extends React.Component {
     return e(
       'div',
       {
-        className: 'diary-entry row w-100 pop-animation animate',
+        className: 'diary-entry row w-100 justfade-animation animate',
         key: 'diary-entry-' + this.props.id
       },
       e(
@@ -324,22 +316,32 @@ class DiaryEntry extends React.Component {
         },
         this.state.dateSection
       ),
-      e(DiaryContext.Consumer, null, ({EditEntry}) => e(
+      e(DiaryContext.Consumer, null, ({EditEntry}) => {
+
+        var statusClass = '';
+
+        if (this.props.entry.status == 'finished') {
+          statusClass = 'bg-primary';
+        } else {
+          statusClass = 'bg-danger';
+        }
+
+        return e(
         'span',
         {
-          className: 'status badge ' + this.statusClass + ' col-1 d-flex text-smaller align-items-center justify-content-center',
+          className: 'status badge ' + statusClass + ' col-1 d-flex text-smaller align-items-center justify-content-center',
           onClick: () => {
             if (this.props.entry.status == 'finished') {
               EditEntry(this.props.id, 'status', 'absent');
-              this.statusClass = 'bg-danger';
+              statusClass = 'bg-danger';
             } else {
               EditEntry(this.props.id, 'status', 'finished');
-              this.statusClass = 'bg-primary';
+              statusClass = 'bg-primary';
             }
           }
         },
         this.props.entry.status
-      )),
+      )}),
       e(
         'div',
         { className: 'comment col position-relative' },
@@ -645,6 +647,7 @@ function NeedNewDiary(props) {
 
   var diaryToSet = {
     "dayAssigned": "",
+    "scheduled": [],
     "entries": [],
     "payments": []
 

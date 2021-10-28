@@ -13,7 +13,6 @@ global $site_url;
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
-// fetch user data
 $thisUser = get_user_meta($current_user_id);
 $users = get_users();
 $userTeacherCode = Guyra_hash($current_user_id);
@@ -110,21 +109,21 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <li class="list-group-item col-5 p-1 d-flex justify-content-around">
           <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $userdata['first_name'][0]; ?>">
             <i class="bi bi-card-list"></i>
-            <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
+            <span class="d-none d-lg-inline"><?php echo $gi18n['diary']; ?></span>
           </a>
           <?php if (!$userInGroup): ?>
           <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-journal-richtext"></i>
-            <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
+            <span class="d-none d-lg-inline"><?php echo $gi18n['homework']; ?></span>
           </a>
           <?php endif; ?>
           <a class="btn-tall btn-sm blue ms-1" href="<?php echo $gi18n['schools_link'] . '?comment_history=1&user=' . $user ?>">
             <i class="bi bi-list-ul"></i>
-            <span class="d-none d-md-inline"><?php echo $gi18n['replies']; ?></span>
+            <span class="d-none d-lg-inline"><?php echo $gi18n['replies']; ?></span>
           </a>
           <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $user_sha1d; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user_sha1d; ?>">
             <i class="bi bi-toggles"></i>
-            <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
+            <span class="d-none d-lg-inline"><?php echo $gi18n['controls']; ?></span>
           </a>
         </li>
 
@@ -245,15 +244,15 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
       <li class="list-group-item col-5 p-1 d-flex justify-content-around">
         <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="group" data-userid="<?php echo $current_user_id; ?>" data-grouptag="<?php echo $group['name']; ?>">
           <i class="bi bi-card-list"></i>
-          <span class="d-none d-md-inline"><?php echo $gi18n['diary']; ?></span>
+          <span class="d-none d-lg-inline"><?php echo $gi18n['diary']; ?></span>
         </a>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <i class="bi bi-journal-richtext"></i>
-          <span class="d-none d-md-inline"><?php echo $gi18n['homework']; ?></span>
+          <span class="d-none d-lg-inline"><?php echo $gi18n['homework']; ?></span>
         </a>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <i class="bi bi-toggles"></i>
-          <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
+          <span class="d-none d-lg-inline"><?php echo $gi18n['controls']; ?></span>
         </a>
       </li>
 

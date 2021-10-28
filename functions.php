@@ -16,8 +16,11 @@ $is_logged_in = is_user_logged_in();
 $site_url = get_site_url();
 $admin_url = get_admin_url();
 
-// Setup database functions globally
+// Setup functions globally
 include $template_dir . '/Guyra_database.php';
+include $template_dir . '/i18n.php';
+
+$current_user_meta = get_user_meta($current_user_id);
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.

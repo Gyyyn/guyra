@@ -16,13 +16,12 @@ if (!current_user_can('manage_options')) {
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $site_url;
 
-/* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 
 // Get users
 $users = get_users();
-$site_url = get_site_url();
 
 get_header();
 

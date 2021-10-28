@@ -52,6 +52,7 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 <script async src="<?php echo $gi18n['js_link'] . $args['js'] . '?v=' . _S_VERSION; ?>"></script>
 <?php endif;
 if ($args['aos']): ?>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
 <script>AOS.init();</script>
 <?php endif; ?>

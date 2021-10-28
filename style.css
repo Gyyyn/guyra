@@ -857,7 +857,7 @@ a:hover {
 }
 
 .btn-tall,
-.page-squeeze .list-group.study-menu .list-group-item {
+.study-menu .list-group-item {
   color: var(--guyra-blue);
   font-size: var(--guyra-fonts-textsize-n);
   font-weight: bold;
@@ -867,14 +867,13 @@ a:hover {
   text-decoration: none;
 }
 
-.page-squeeze .list-group.study-menu .list-group-item {
+.study-menu .list-group-item {
   display: flex;
   align-items: center;
 }
 
 .btn-tall:hover,
-.page-squeeze .list-group.study-menu .list-group-item:hover,
-.ur-frontend-form .ur-button-container .ur-submit-button:hover {
+.study-menu .list-group-item:hover {
   padding: .5rem 1rem;
   background: var(--guyra-grey-dark);
   border-bottom-color: var(--guyra-grey-darker);
@@ -891,8 +890,11 @@ a:hover {
 
 .btn-tall.blue,
 .btn-tall.active,
-.page-squeeze .list-group.study-menu .list-group-item.active,
-.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"] {
+.home a.home-link,
+.practice a.practice-link,
+.reference a.reference-link,
+.courses a.courses-link
+{
   border-bottom-color: var(--guyra-blue-darker);
   background-color: var(--guyra-blue);
   color: var(--guyra-white);
@@ -900,8 +902,11 @@ a:hover {
 
 .btn-tall.blue:hover,
 .btn-tall.active:hover,
-.page-squeeze .list-group.study-menu .list-group-item.active:hover,
-.page-squeeze .list-group.study-menu .list-group-item[aria-expanded="true"]:hover {
+.home a.home-link:hover,
+.practice a.practice-link:hover,
+.reference a.reference-link:hover,
+.courses a.courses-link:hover
+{
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);
 }

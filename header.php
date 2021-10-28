@@ -1,10 +1,6 @@
 <?php
 /**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ * The header
  *
  * @package guyra
  */
@@ -17,7 +13,6 @@ global $is_logged_in;
 
 $body_class[0] = 'logged_out';
 
-/* Set up translations independent of Wordpress */
 include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_template_components.php';
 
@@ -98,7 +93,6 @@ if ($is_logged_in) {
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <?php if ($args['css']): ?>
 <link rel="stylesheet" href="<?php echo $gi18n['css_link'] . $args['css']; ?>">
