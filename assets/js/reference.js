@@ -116,7 +116,7 @@ dictionaryInput.onkeydown = (i) => {
 
 function ReplaceAllLinks() {
 
-  allLinks = document.querySelectorAll('.the-definition a');
+  allLinks = document.querySelectorAll('#the-definition-content a');
 
   allLinks.forEach((item) => {
 
@@ -168,7 +168,18 @@ function dictionarySubmitTrigger(e) {
   var TheWord = dictionaryInput.value;
   var TheWordElement = document.getElementById('dictionary-the-word');
   var TheContent = document.querySelector('#the-definition-content');
+
+  var naughty = new RegExp('(vagina)|(clit)|(sex)|(penis)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
+
+  if (naughty.test(TheWord)) {
+
+    TheContent.innerHTML = 'Este conteúdo foi determinado impróprio para ser mostrado.';
+    TheContent.classList.add('animate');
+
+  } else {
+
   var TheImagesHTML = document.getElementById('the-images');
+  var TheControls = document.getElementById('the-controls');
 
   TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
   TheWordElement.classList.remove('d-none');
@@ -357,7 +368,7 @@ function dictionarySubmitTrigger(e) {
             var sibling = findHTML.nextElementSibling;
             var output = '';
 
-            theHTML = theHTML + '<div class="section ' + item.line + '">'
+            theHTML = theHTML + '<div id="' + item.line + '" class="section ' + item.line + '">'
 
             if (findHTML != findNextHTML) {
 
@@ -387,8 +398,8 @@ function dictionarySubmitTrigger(e) {
         TheWordElement.classList.add('animate');
         TheContent.innerHTML = theHTML;
         TheContent.classList.add('animate');
-
-        dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
+        TheControls.classList.remove('d-none');
+        TheControls.classList.add('d-flex');
 
         ReplaceAllLinks();
 
@@ -404,6 +415,10 @@ function dictionarySubmitTrigger(e) {
         }
 
       });
+
+    }
+
+    dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
 
 }
 

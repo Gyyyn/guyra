@@ -361,6 +361,10 @@ ol li::marker {
   color: var(--guyra-grey);
 }
 
+.censored {
+  filter: blur(50px);
+}
+
 /*
 * -------- Navbar
 *
@@ -888,7 +892,8 @@ a:hover {
 .home a.home-link,
 .practice a.practice-link,
 .reference a.reference-link,
-.courses a.courses-link
+.courses a.courses-link,
+.study-menu .list-group-item.active
 {
   border-bottom-color: var(--guyra-blue-darker);
   background-color: var(--guyra-blue);
@@ -1643,6 +1648,30 @@ input.form-control:focus,
 .editor-inline {
   width: 100%;
   height: 75vh;
+}
+
+@media (max-width: 992px) {
+  .diary-entry {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--guyra-grey);
+    margin: 0;
+    padding: 1rem 0 !important;
+  }
+
+  .diary-entry > * {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .diary-info {
+    display: none;
+  }
+
+  .diary-entry .status {
+    height: 2rem;
+    width: unset;
+  }
 }
 
 /*

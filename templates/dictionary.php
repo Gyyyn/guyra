@@ -30,11 +30,16 @@ include $template_dir . '/i18n.php';
 
 <div class="the-definition">
 
-  <h1 class="text-center border-0 mb-3"><span id="dictionary-the-word" class="bg-primary more-rounded text-white px-3 d-none fade-animation"></span></h1>
+  <h1 class="text-center border-0 mb-3"><span id="dictionary-the-word" class="bg-primary more-rounded text-white px-3 d-none pop-animation"></span></h1>
 
-  <div id="the-images" class="the-images d-flex flex-row my-5 fade-animation"></div>
+  <div id="the-controls" class="d-none my-5 justify-content-center">
+    <a class="btn-tall blue me-3" href="#Pronunciation"><?php echo $gi18n['definition']; ?></a>
+    <a class="btn-tall me-3" href="#Translations"><?php echo $gi18n['translations']; ?></a>
+  </div>
 
-  <div class="text-small fade-animation" id="the-definition-content"></div>
+  <div id="the-images" class="the-images d-flex flex-row my-5 pop-animation"></div>
+
+  <div class="text-small justfade-animation" id="the-definition-content"></div>
 
 </div>
 

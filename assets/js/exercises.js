@@ -28,7 +28,7 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function synthSpeak(phrase) {
+function synthSpeak(phrase, rate=1) {
   var synth = window.speechSynthesis;
   var voicelist = synth.getVoices();
   var voices = [];
@@ -43,6 +43,7 @@ function synthSpeak(phrase) {
     var n = randomNumber(0, voices.length - 1);
     var uttern = new SpeechSynthesisUtterance(phrase);
     uttern.voice = voices[n];
+    uttern.rate = rate;
     synth.speak(uttern);
   }
 }
@@ -311,13 +312,15 @@ function activityWhatYouHear(theExercise) {
 */
 
 function AnswerButtonProper(props) {
+  var regex = new RegExp("[.,!?]",'g');
+  var value = props.value.replace(regex,'')
   return e(
     'a',
     {
       className: 'btn-tall trans',
       onClick: props.onClick
     },
-    props.value
+    value
   )
 }
 
@@ -502,14 +505,28 @@ function QuestionDialog(props) {
 function QuestionAudioButton(props) {
 
   return e(
-    'a',
-    {
-      className: 'text-larger btn-tall blue me-3',
-      onClick: () => {
-        synthSpeak(props.phrase)
-      }
-    },
-    e('i', { className: "bi bi-volume-up-fill" })
+    'div',
+    { className: 'd-inline-flex align-items-baseline' },
+    e(
+      'a',
+      {
+        className: 'text-larger btn-tall blue me-3',
+        onClick: () => {
+          synthSpeak(props.phrase)
+        }
+      },
+      e('i', { className: "bi bi-volume-up-fill" })
+    ),
+    e(
+      'a',
+      {
+        className: 'text-normal btn-tall blue me-3',
+        onClick: () => {
+          synthSpeak(props.phrase, 0.7)
+        }
+      },
+      e('i', { className: "bi bi-hourglass-split" })
+    )
   );
 
 }
@@ -1017,7 +1034,7 @@ class App extends React.Component {
       setPage: this.setPage,
       reset: this.reset,
       checkAnswerButtonClass: this.buttonClassGreen,
-      candyButton: '💬',
+      candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
       candyButtonClass: 'btn-tall',
       disallowCandy: false,
       questionType: QuestionDialog,
@@ -1084,7 +1101,7 @@ class App extends React.Component {
 
     this.setState({
       avatarURL: getRandomAvatar(),
-      candyButton: '💬',
+      candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
       candyButtonClass: 'btn-tall purple',
       disallowCandy: false
     });
@@ -1168,7 +1185,7 @@ class App extends React.Component {
     this.disallowCandyOn.forEach((item) => {
       if (item == this.currentQuestion) {
         this.setState({
-          candyButton: '☠️',
+          candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
           candyButtonClass: 'btn-tall black disabled',
           disallowCandy: true,
           answerType: AnswersTextArea
@@ -1403,7 +1420,7 @@ class App extends React.Component {
       answers: [],
       score: 100,
       activityType: '',
-      candyButton: '💬',
+      candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
       candyButtonClass: '',
       disallowCandy: false
     })

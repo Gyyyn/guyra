@@ -88,6 +88,8 @@ $gi18n = [
 	'replies' => 'Respostas',
 	'report' => 'Reportar',
 	'replied' => 'respondeu',
+	'definition' => 'Definição',
+	'translations' => 'Tradução',
 	'report_error' => 'Reportar erro',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
@@ -224,7 +226,7 @@ $gi18n = [
 	'execises_report_error_explain' => 'Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar a nossa base de dados.',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
-	'reference_grammar' => 'Transformação Gramatical',
+	'reference_grammar' => 'Tempo Gramatical',
 	'reference_phrasals' => 'Phrasal Verbs',
 	'write_word_here' => 'Escreva a palavra aqui...',
 	'cc_warning' => '

@@ -218,3 +218,14 @@ span.text-muted {
   border: 0 !important;
   border-radius: var(--guyra-border-radius-bigger);
 }
+
+.citation-whole {
+  color: var(--guyra-grey-darkest);
+}
+
+#the-definition-content .section> ol > li {font-size: var(--guyra-fonts-textsize-n);}
+
+#the-definition-content .section> ol > li ul {
+  font-size: var(--guyra-fonts-textsize-s);
+  padding: 0;
+}
