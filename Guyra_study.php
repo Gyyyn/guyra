@@ -19,7 +19,6 @@ include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 $newspage = get_page_by_title('News');
-$meeting_link = guyra_get_user_meta($current_user_id, 'meetinglink', true)['meta_value'];
 $first_name = $current_user_meta['first_name'][0];
 $teacherid = $current_user_meta['teacherid'][0];
 

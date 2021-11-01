@@ -81,6 +81,9 @@ function guyra_render_topbar() {
 
   global $gi18n;
   global $current_user_meta;
+  global $current_user_id;
+
+  $meeting_link = guyra_get_user_meta($current_user_id, 'meetinglink', true)['meta_value'];
 
   ?>
 
