@@ -358,7 +358,7 @@ a.round-border {
 }
 
 ol li::marker {
-  color: var(--guyra-grey);
+  color: var(--guyra-grey-darker);
 }
 
 .censored {
@@ -1061,13 +1061,12 @@ input.form-control:focus,
 
 .exercise-squeeze {
   margin: auto;
-  padding: 1rem .25rem;
+  padding: 5rem 2.5rem;
 }
 
 @media (min-width: 992px) {
   .exercise-squeeze {
-    max-width: 50vw;
-    padding: 5rem 0;
+    max-width: 60rem;
   }
 }
 
@@ -1188,12 +1187,13 @@ input.form-control:focus,
   flex-grow: 0;
   border-radius: 50vw;
   color: var(--guyra-black);
-  border: .15rem var(--guyra-grey-darker) solid;
-  border-bottom: .35rem var(--guyra-grey-darker) solid;
+  border: .15rem transparent solid;
+  border-bottom: .35rem transparent solid;
   background: transparent;
   padding: calc(.25rem + 1.2vw);
   margin: 0 calc(.15rem + 0.5vw);
   font-size: var(--guyra-fonts-textsize-n);
+  transition: var(--guyra-transition);
   font-weight: bold;
 }
 
@@ -1205,11 +1205,33 @@ input.form-control:focus,
 
 .exercise-level-chooser .section .btn:hover {
   box-shadow: var(--guyra-box-shadow);
+  transform: scale(1.1);
+  text-shadow: 1px 1px 0px var(--guyra-white), 2px 2px 0px var(--guyra-white), 3px 3px 0px var(--guyra-white);
+}
+
+.exercise-level-chooser .section .btn:hover .exercise-icon img {
+  transform: scale(1.5) translateX(-.5rem);
+  transition: var(--guyra-transition);
+  position: relative;
+}
+
+.exercise-level-chooser .section .btn:first-of-type:hover .exercise-icon img {
+  transform: rotate(-5deg) scale(1.5) translateX(-.5rem);
+}
+
+.exercise-level-chooser .section .btn:last-of-type:hover .exercise-icon img {
+  transform: rotate(5deg) scale(1.5) translateX(-.5rem);
+}
+
+.exercise-level-chooser .section .btn:active .exercise-icon img {
+  transform: scale(1) !important;
+  transition: unset;
 }
 
 .exercise-icon > img {
   max-width: calc(1.5rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
+  transition: var(--guyra-transition);
 }
 
 .answers-review {
@@ -1232,6 +1254,10 @@ input.form-control:focus,
     border-bottom: .25rem solid var(--guyra-black);
     margin-bottom: 1rem;
     font-size: var(--guyra-fonts-textsize-n);
+}
+
+#phrase-builder {
+    min-height: 5rem;
 }
 
 /*
@@ -1579,6 +1605,7 @@ input.form-control:focus,
 
 .wp-block-embed iframe {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
 }
 

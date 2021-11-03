@@ -9,8 +9,8 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $site_url;
+global $gi18n;
 
-include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 $thisUser = get_user_meta($current_user_id);
@@ -177,7 +177,16 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
 
             </form>
 
-            <p class="text-small mt-3">Link atual: <a href="<?php echo $userMeetingLink; ?>"><?php echo $userMeetingLink; ?></a></p>
+            <p class="text-small mt-3"><?php echo $gi18n['current_link'] . ': '; ?> <a href="<?php echo $userMeetingLink; ?>"><?php echo $userMeetingLink; ?></a></p>
+
+          </div>
+
+          <h4 class="mt-3"><?php echo $gi18n['archive_student']; ?></h4>
+          <div class="d-flex flex-column justify-content-between">
+
+            <?php echo $gi18n['archive_student_explain']; ?>
+
+            <a class="btn-tall blue align-self-baseline" href="<?php echo $site_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $gi18n['schools_link']; ?>"><?php echo $gi18n['archive_student']; ?></a>
 
           </div>
 
@@ -249,6 +258,10 @@ if ($thisUser['role'][0] == "teacher" || current_user_can('manage_options')):?>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#page-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <i class="bi bi-journal-richtext"></i>
           <span class="d-none d-lg-inline"><?php echo $gi18n['homework']; ?></span>
+        </a>
+        <a class="btn-tall btn-sm blue ms-1" href="<?php echo $gi18n['schools_link'] . '?comment_history=1&user=' . $group['users'][0] ?>">
+          <i class="bi bi-list-ul"></i>
+          <span class="d-none d-lg-inline"><?php echo $gi18n['replies']; ?></span>
         </a>
         <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
           <i class="bi bi-toggles"></i>

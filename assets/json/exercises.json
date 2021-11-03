@@ -37,7 +37,7 @@
       ["Good morning.", "Good", "(Bom)"],
       ["Good afternoon.", "Good", "(Boa)"],
       ["I'm from Rio, my friend is from Los Angeles.", "I'm", "(eu sou)"],
-      ["He is from New York, my friend is from Los Angeles.", "is from", "(é de)"],
+      ["He is from New York, like me.", "is from", "(é de)"],
       ["I'm from Miami, he is from Los Angeles.", "he is", "(ele é)"],
       ["I'm from Los Angeles, my friend is from Rio.", "I'm", "(eu sou)"],
       ["My friend and I are students.", "and I", "(e eu)"],
@@ -592,7 +592,31 @@
       ["Will you come with us?", "you come", "(você vem)"],
       ["I'll be there in a few minutes.", "in a few", "(em alguns)"],
       ["Will this much be enough?", "this much", "(essa quantidade)"],
-      ["We will see.", "will see'", "(vamos ver)"]
+      ["We will see.", "will see'", "(vamos ver)"],
+      ["Shall we leave?", "leave", "(sairmos)"],
+      ["Shall I get everything ready for the trip?", "everything ready", "(tudo pronto)"],
+      ["Shall we go?", "Shall", "(Devermos)"],
+      ["Shall I help you?", "Shall I", "(devo eu)"],
+      ["Will you take this picture for me?", "take this picture", "(tirar essa foto)"],
+      ["What shall we do this evening?", "shall we do", "(devemos fazer)"],
+      ["Will you help me search for it?", "search", "(procurar)"],
+      ["I'll have tea, please.", "tea", "(chá)"],
+      ["Let's go to a nice restaurant.", "Let's", "(Vamos)"],
+      ["Let's use our car.", "use our", "(usar nosso)"],
+      ["I'll have the cinnamon bread.", "I'll have", "(eu vou querer)"],
+      ["I'll get the apple pie.", "get", "(pegar)"],
+      ["We'll have just a juice, thanks.", "just", "(somente)"],
+      ["Shall I pay for dinner?", "I pay", "(eu pagar)"],
+      ["Shouldn't I pay this time?", "pay", "(pagar)"],
+      ["Will you give me a lift tomorrow?", "a lift", "(uma carona)"]
+    ],
+
+    "WhatYouHear": [
+      ["I'll be there in a few minutes."],
+      ["I guess I'll be working late today."],
+      ["I won't be at work. I'm off today."],
+      ["We will go on vacation in Italy."],
+      ["Shall we go to the beach?"]
     ]
 
   },
@@ -600,16 +624,45 @@
   "unit12": {
 
     "CompleteThePhrase": [
-      ["Today's the fifth. (5th)", "fifth", "(quinto)"],
-      ["Tomorrow will be the seventeenth 17th", "seventeenth", "(décimo sétimo)"],
+      ["Today's the fifth.", "fifth", "(quinto)"],
+      ["Today's the sixth.", "sixth", "(sexto)"],
+      ["Today's the eigth.", "eigth", "(oitavo)"],
+      ["Today's the tenth.", "tenth", "(décimo)"],
+      ["Tomorrow will be the seventeenth.", "seventeenth", "(décimo sétimo)"],
+      ["Tomorrow will be the fifteenth.", "fifteenth", "(décimo quinto)"],
+      ["Tomorrow will be the eleventh.", "eleventh", "(décimo primeiro)"],
+      ["Tomorrow will be the twelfth.", "twelfth", "(décimo segundo)"],
       ["I am going there tomorrow.", "am going", "(estou indo)"],
+      ["I am going there the day after next.", "the day after next", "(depois de amanhã)"],
+      ["I am going there the week after next.", "after next", "(depois da próxima)"],
+      ["I am going there soon.", "soon", "(em breve)"],
       ["Are you free on Monday afternoon?", "on Monday", "(na segunda)"],
-      ["This week is crazy but how about on the fourth? (4th)", "fourth", "(quarto)"],
-      ["Christmas is always on the twenty fifth of December (25th)", "twenty fifth", "(vigésimo quinto)"],
+      ["Are you free on Monday evening?", "evening", "(noite)"],
+      ["Are you free on Tuesday afternoon?", "on Tuesday", "(na terça)"],
+      ["Are you free on Wednesday afternoon?", "on Wednesday", "(na quarta)"],
+      ["This week is crazy but how about on the fourth?", "fourth", "(quarto)"],
+      ["This week is crazy but how about on Thursday?", "Thursday", "(quinta)"],
+      ["This week is crazy but how about next month?", "next month", "(próximo mês)"],
+      ["This week is crazy but how about on the third?", "third", "(terceiro)"],
+      ["Christmas is always on the twenty fifth of December.", "twenty fifth", "(vigésimo quinto)"],
+      ["Christmas is always on the twenty fifth of December.", "Christmas", "(natal)"],
+      ["Christmas is always on the twenty fifth of December.", "always", "(sempre)"],
+      ["Christmas is always on the twenty fifth of December.", "on the", "(no)"],
       ["What are you going to do for Valentine's?", "going to do", "(vai fazer)"],
-      ["My birthday is on the thirtieth. (30th)", "thirtieth", "(décimo terceiro)"],
-      ["Easter is next week on the third! (3rd)", "third", "(terceiro)"],
+      ["What are you going to do this weekend?", "this weekend", "(esse fim de semana)"],
+      ["What are you going to do on the holiday?", "holiday", "(feriado)"],
+      ["What are you going to do on your vacation?", "vacation", "(férias)"],
+      ["My birthday is on the thirtieth.", "thirtieth", "(décimo terceiro)"],
+      ["Easter is next week on the third!", "third", "(terceiro)"],
       ["I'm going to visit my parents on New Year's.", "on New", "(no Novo)"]
+    ],
+
+    "WhatYouHear": [
+      ["I'm going to visit my parents on New Year's."],
+      ["Are you free this afternoon?"],
+      ["I can't, I'm busy on the fifth."],
+      ["This week is crazy but how about next week?"],
+      ["Tomorrow I'll be free."]
     ]
 
   },

@@ -8,8 +8,7 @@
 global $template_dir;
 global $template_url;
 global $site_url;
-
-include $template_dir . '/i18n.php';
+global $gi18n;
 
 get_header();
  ?>
@@ -17,13 +16,13 @@ get_header();
  <div class="cover bg-dark">
    <div class="cover-container container pt-3">
 
-     <div class="cover-card row">
+     <div class="cover-card row p-5 bg-white">
        <div class="col-md order-md-2 px-md-5 align-self-center">
          <h2 class="text-primary" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
          <p data-aos="fade" data-aos-delay="500"><?php echo $gi18n['workwithus_thesell'] ?></p>
          <p data-aos="fade" data-aos-delay="1500">
            <?php echo $gi18n['workwithus_thesell_explain'] ?>
-           <p data-aos="fade" data-aos-delay="1500" class="w-100"><a class="btn-tall purple w-100" href="#jump-prices"><?php echo $gi18n['button_how']; ?></a></p>
+           <p data-aos="fade" data-aos-delay="1500" class="d-flex"><a class="btn-tall purple align-self-center" href="#jump-prices"><?php echo $gi18n['button_how']; ?></a></p>
          </p>
        </div>
        <div class="col-md-3">

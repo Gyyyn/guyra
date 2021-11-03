@@ -241,8 +241,12 @@ function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comm
 
 function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, $max_history='1 weeks ago', $redirect=false) {
 
+  global $gi18n;
+  global $current_user_id;
+
   $object = GetUserStudyPage_object($user);
   $current_user = wp_get_current_user();
+  $alreadyAnswered = [];
 
   $args = [
     'post_id' => $object->ID,
@@ -261,11 +265,17 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
   foreach ($comments as $comment) {
 
-    if ($comment->comment_parent == 0 && $comment->user_id == $user):
+    $first_name = get_user_meta( $comment->user_id, 'first_name', true );
+
+    // Build a list of people who already answered
+    if ( (!in_array($first_name, $alreadyAnswered)) && $current_user_id != $comment->user_id) {
+      $alreadyAnswered[] = $first_name;
+    }
+
+    if ( ($comment->comment_parent == 0 && $comment->user_id == $user) || $all_comments):
 
     $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
-    $first_name = get_user_meta( $comment->user_id, 'first_name', true );
     if (empty($first_name)) {
     	$first_name = $comment->comment_author;
     }
@@ -363,8 +373,20 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
   }
 
-  if ($reply_box) {
-    RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name);
+  if ($reply_box) { ?>
+
+    <p class="already-answered fst-italic">
+    <?php
+      $howManyAnswered = count($alreadyAnswered);
+      if ($howManyAnswered == 1):
+        echo $alreadyAnswered[0] . ' ' . $gi18n['already_answered_singular'] . '!';
+      elseif ($howManyAnswered > 1):
+        echo implode($alreadyAnswered, ', ') . ' ' . $gi18n['already_answered'] . '!';
+      endif;
+    ?>
+    </p>
+
+    <?php RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name);
   }
 
 }

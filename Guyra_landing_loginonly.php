@@ -4,19 +4,21 @@
  *
  * @package guyra
  */
- get_header();
- /* Set up translations independent of Wordpress */
- include get_template_directory() . '/i18n.php';
- ?>
- <style>
- .navbar { display: none; }
- .cover { margin-top: 0; height: 100vh;}
- img.page-icon.large { width: calc(5vw + 5rem); }
- </style>
+
+global $gi18n;
+
+get_header();
+
+?>
+<style>
+.navbar { display: none; }
+.cover { margin-top: 0; height: 100vh;}
+img.page-icon.large { width: calc(5vw + 5rem); }
+</style>
 
    <div class="cover">
      <div class="cover-container container pt-3">
-       <div class="row row-cols-auto align-items-center justify-content-around cover-card">
+       <div class="row row-cols-auto align-items-center justify-content-around cover-card p-5 bg-white">
 
          <div class="col-md text-center">
            <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo get_template_directory_uri(); ?>/assets/img/icons.webm">

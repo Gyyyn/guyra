@@ -12,6 +12,7 @@ $gi18n = [
 	//'company_address' => 'Rua Luiz Razera, 676, Piracicaba/SP - CEP 13417-530',
 	'yes' => 'Sim',
 	'no' => 'Não',
+	'and' => 'e',
 	'info' => 'Informações',
 	'homepage' => 'Início',
 	'prices' => 'Preços',
@@ -21,6 +22,7 @@ $gi18n = [
 	'email' => 'Email',
 	'password' => 'Senha',
 	'current_password' => 'Senha atual',
+	'current_link' => 'Link atual',
 	'new_password' => 'Sua nova senha',
 	'new_password_again' => 'Sua nova senha de novo',
 	'save' => 'Salvar',
@@ -91,6 +93,8 @@ $gi18n = [
 	'definition' => 'Definição',
 	'translations' => 'Tradução',
 	'report_error' => 'Reportar erro',
+	'already_answered' => 'já responderam',
+	'already_answered_singular' => 'já respondeu',
 	'thirdparty_processor' => 'Mercado Pago',
 	'no_subscription_found' => 'Parece que você não um plano ativo. 😭 Quer escolher um?',
 	'are_you_lost' => 'Não tem nada por aqui...',
@@ -169,7 +173,7 @@ $gi18n = [
 		'Não esquece da lição! 😉',
 		'Se você tá inspirade hoje, que tal ler uma notícia? 📰🤓',
 		'O melhor dia pra começar foi ontem! 😤 Mas sem pressão da pra fazer amanhã também. 😊',
-		'Já viu <a class="btn-sm btn-tall blue" href="' . $site_url . '/courses' .'">nossa página de ultilidades</a>? Tem muita coisa legal lá!',
+		'Já viu <a class="btn-sm btn-tall blue" href="' . $site_url . '/reference' .'">nossa página de ultilidades</a>? Tem muita coisa legal lá!',
 		'Que tal uma <a class="btn-sm btn-tall blue" href="' . $site_url . '/practice' .'">atividade rápidinha</a> pra começar?',
 		'O que você faz hoje é por amor ao futuro você. 😍',
 		'Tá difícil se animar? Começa devagar, faz só um pouquinho.',
@@ -224,6 +228,9 @@ $gi18n = [
 	'hint_audio_exercise' => 'Digite o que foi dito no audio.',
 	'click_to_reveal' => 'Clique para revelar...',
 	'execises_report_error_explain' => 'Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar a nossa base de dados.',
+	'give_up' => 'Desistir',
+	'audio_hint' => 'Recontrua a frase que ouvir. Você pode checar sua resposta com o botão <i class="bi bi-ear"></i>.',
+	'correct_percentage' => 'Você acertou',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Tempo Gramatical',
@@ -248,6 +255,11 @@ $gi18n = [
 	'delete_confirm' => 'Tem certeza que quer deletar?',
 	'diary_for' => 'Diário para: ',
 	'full_comments' => 'Todas as respostas',
+	'archive_student' => 'Arquivar aluno',
+	'archive_student_explain' => '
+		<p>Se este aluno nao está mais ativo ele pode ser arquivado. Ele vai sair da sua lista de aluno mas ainda vai ter acesso ao site.</p>
+		<p>Uma vez arquivado você não vai ter mais acesso a esse aluno a não ser que ele use seu código de novo.</p>
+	',
 	/* Purchase */
 	'name_on_card' => 'Nome no cartão',
 	'name_on_card_explain' => 'Nome completo como aparece no cartão.',

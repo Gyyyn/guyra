@@ -10,10 +10,10 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $is_logged_in;
+global $gi18n;
 
 $body_class[0] = 'logged_out';
 
-include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_template_components.php';
 
 if ($is_logged_in):
@@ -93,7 +93,7 @@ if ($is_logged_in) {
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 <?php if ($args['css']): ?>
 <link rel="stylesheet" href="<?php echo $gi18n['css_link'] . $args['css']; ?>">
 <?php endif; ?>

@@ -291,7 +291,7 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     ];
 }
 
-function activityWhatYouHear(theExercise) {
+function activityWhatYouHear(theExercise, hint) {
   let phrase = theExercise[1];
   phraseSplit = theExercise[1].split(' ');
 
@@ -299,7 +299,7 @@ function activityWhatYouHear(theExercise) {
       phraseSplit[0].concat('...'),
       shuffleArray(phraseSplit),
       phrase,
-      'Digite o que foi dito no audio.',
+      hint,
       phrase
     ];
 }
@@ -360,7 +360,6 @@ class AnswersWordBank extends React.Component {
 class AnswersPhraseBuilder extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -395,6 +394,14 @@ class AnswersPhraseBuilder extends React.Component {
           e(ExerciseContext.Consumer, null, ({ClearWord, DeleteWord}) => e(
             'div',
             { className: 'd-flex' },
+            e(
+              'a',
+              {
+                className: 'btn-tall blue align-self-end flex-shrink-1',
+                onClick: () => { synthSpeak(phraseBuilderPhrase) }
+              },
+              e('i', { className: "bi bi-ear" })
+            ),
             e(
               'a',
               {
@@ -573,7 +580,7 @@ class CurrentQuestion extends React.Component {
         },
         e('div', { className: 'my-5' }, e(returnToLevelMapButton)),
         e(questionType, {values: values, avatarURL: avatarURL}),
-        e(hintArea),
+        hintArea,
         e(
           'div',
           {
@@ -834,20 +841,29 @@ function returnToLevelMapButton(props) {
 }
 
 function checkAnswerButton(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass}) =>e(
-    'a',
-    {
-      className: checkAnswerButtonClass,
-      id: 'check-answer',
-      onClick: () => { checkAnswerWithButton() }
-    },
-    i18n.check
-  ));
+  return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass, answerType}) => {
+    if (answerType != AnswersWordBank) {
+      return e(
+        'a',
+        {
+          className: checkAnswerButtonClass,
+          id: 'check-answer',
+          onClick: () => { checkAnswerWithButton() }
+        },
+        i18n.check
+      );
+    } else {
+      return e(
+        'span',
+        {}
+      );
+    }
+  });
 }
 
 function controlAreaButtons(props) {
 
-  return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType, candyButton, candyButtonClass}) => e(
+  return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType, candyButton, candyButtonClass, disallowCandy, checkAnswerWithButton}) => e(
     'div',
     { className: "d-flex" },
     e(
@@ -863,7 +879,17 @@ function controlAreaButtons(props) {
     e(
       'a',
       {
-        onClick: () => { switchAnswerType() },
+        onClick: () => {
+
+          if (!disallowCandy) {
+            switchAnswerType()
+          } else {
+            if (window.confirm(i18n.give_up + '?')) {
+              checkAnswerWithButton()
+            }
+          }
+
+        },
         className: candyButtonClass
       },
       candyButton
@@ -919,13 +945,37 @@ function reportAnswerButton() {
   ));
 }
 
-function hintAreaWrongAnswer() {
+function hintAreaWrongAnswer(props) {
+
+  var returnHint = (i18n) => {
+
+    var r = '';
+
+    if (props.correctPercentage != undefined) {
+      r = i18n.wronganswer + ' ' + i18n.correct_percentage + ': ' + props.correctPercentage + '%';
+    } else {
+      r = i18n.wronganswer;
+    }
+
+    return r;
+
+  }
+
   return e(ExerciseContext.Consumer, null, ({i18n, setNewActivity}) => e(
     'div',
     {
       className: 'exercise-hints wrong'
     },
-    e('span', {className: 'exercise-hints-hint'}, i18n.wronganswer),
+    e(
+      'span',
+      {
+        className: 'exercise-hints-hint'
+      },
+      returnHint({
+        wronganswer: i18n.wronganswer,
+        correct_percentage: i18n.correct_percentage
+      })
+    ),
     e(
       'div',
       { className: 'd-flex flex-row'},
@@ -1019,7 +1069,7 @@ class App extends React.Component {
       switchAnswerType: this.switchAnswerType,
       CheckAnswer: this.CheckAnswer,
       checkAnswerWithButton: this.checkAnswerWithButton,
-      hintArea: hintAreaInfo,
+      hintArea: e(hintAreaInfo),
       controlArea: controlArea,
       page: e(LevelChooser),
       levelMap: {},
@@ -1075,19 +1125,22 @@ class App extends React.Component {
 
       if (this.state.answerType != AnswersTextArea) {
         this.setState({
-          answerType: AnswersTextArea
+          answerType: AnswersTextArea,
+          checkAnswerButtonClass: this.buttonClassGreen
         });
       } else {
 
         if (this.state.activityType == 'CompleteThePhrase') {
           this.setState({
-            answerType: AnswersWordBank
+            answerType: AnswersWordBank,
+            checkAnswerButtonClass: this.buttonClassDisabled
           });
         }
 
         if (this.state.activityType == 'WhatYouHear') {
           this.setState({
-            answerType: AnswersPhraseBuilder
+            answerType: AnswersPhraseBuilder,
+            checkAnswerButtonClass: this.buttonClassDisabled
           });
         }
 
@@ -1178,8 +1231,7 @@ class App extends React.Component {
       alreadyAnswered: false,
       currentQuestion: this.currentQuestion,
       answeredCorrect: false,
-      hintArea: hintAreaInfo,
-      checkAnswerButtonClass: this.buttonClassGreen
+      hintArea: e(hintAreaInfo)
     });
 
     this.disallowCandyOn.forEach((item) => {
@@ -1188,7 +1240,7 @@ class App extends React.Component {
           candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
           candyButtonClass: 'btn-tall black disabled',
           disallowCandy: true,
-          answerType: AnswersTextArea
+          answerType: AnswersTextArea,
         });
 
         var indexOfThisItem = this.disallowCandyOn.indexOf(item);
@@ -1246,7 +1298,7 @@ class App extends React.Component {
 
         this.setState({
           answeredCorrect: true,
-          hintArea: hintAreaCorrectAnswer
+          hintArea: e(hintAreaCorrectAnswer)
         });
 
         // Make users retry answers with candy without the help
@@ -1266,9 +1318,28 @@ class App extends React.Component {
           this.needToRetry.push(this.currentQuestion);
         }
 
+        if (this.state.questionType == QuestionAudio) {
+
+          var correctWords = [];
+          var correctAnswersArray = correct.split(' ');
+
+          answer.split(' ').forEach((item, i) => {
+            if (item == correctAnswersArray[i]) {
+              correctWords.push(item);
+            }
+          });
+
+          if (correctWords[0] != '') {
+            var correctPercentage = Math.trunc(correctWords.length / correctAnswersArray.length * 100);
+          } else {
+            var correctPercentage = 0;
+          }
+
+        }
+
         this.setState({
           answeredCorrect: false,
-          hintArea: hintAreaWrongAnswer
+          hintArea: e(hintAreaWrongAnswer, {correctPercentage: correctPercentage, correctWords: correctWords})
         });
 
         this.scoreFunction('wrong', 1)
@@ -1298,11 +1369,11 @@ class App extends React.Component {
     var rtrn;
 
     if (this.state.answerType == AnswersTextArea) {
-      rtrn = this.CheckAnswer(document.getElementById("exercise-answer-textarea").value);
+      rtrn = document.getElementById("exercise-answer-textarea").value;
     }
 
     if (this.state.answerType == AnswersPhraseBuilder) {
-      rtrn = this.CheckAnswer(document.getElementById("phrase-builder").dataset.phrase);
+      rtrn = document.getElementById("phrase-builder").dataset.phrase;
     }
 
     return rtrn;
@@ -1310,7 +1381,9 @@ class App extends React.Component {
 
   checkAnswerWithButton = () => {
 
-    this.CheckAnswer(this.getAnswerFromFields());
+    var answers = this.getAnswerFromFields();
+
+    this.CheckAnswer(answers);
 
   }
 
@@ -1324,7 +1397,8 @@ class App extends React.Component {
     var theExercise = object[this.currentQuestion];
 
     this.setState({
-      activityType: type
+      activityType: type,
+      checkAnswerButtonClass: this.buttonClassGreen
     });
 
     if (type == 'CompleteThePhrase') {
@@ -1345,9 +1419,10 @@ class App extends React.Component {
         answerType: AnswersPhraseBuilder
       });
 
-      return activityWhatYouHear(theExercise);
+      return activityWhatYouHear(theExercise, this.state.i18n.audio_hint);
 
     }
+
   }
 
   setExerciseObject = (object) => {
@@ -1414,7 +1489,7 @@ class App extends React.Component {
 
     this.setState({
       values: [[],[],[]],
-      hintArea: hintAreaInfo,
+      hintArea: e(hintAreaInfo),
       alreadyAnswered: false,
       answeredCorrect: false,
       answers: [],
