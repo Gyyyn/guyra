@@ -269,10 +269,12 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
     // Build a list of people who already answered
     if ( (!in_array($first_name, $alreadyAnswered)) && $current_user_id != $comment->user_id) {
-      $alreadyAnswered[] = $first_name;
+      if ($comment->comment_parent == 0) {
+        $alreadyAnswered[] = $first_name;
+      }
     }
 
-    if ( ($comment->comment_parent == 0 && $comment->user_id == $user) || $all_comments):
+    if ( ($comment->comment_parent == 0 && $comment->user_id == $user) || ($all_comments && $comment->comment_parent == 0)):
 
     $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
