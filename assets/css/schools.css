@@ -18,7 +18,6 @@
   font-size: var(--guyra-fonts-textsize-s);
   color: var(--guyra-black);
   font-family: var(--guyra-fonts-text);
-  border: unset;
   background: var(--guyra-grey);
   border-radius: var(--guyra-border-radius);
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);

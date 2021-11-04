@@ -475,6 +475,16 @@ ol li::marker {
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
 }
 
+.dropdown-menu li:first-child .dropdown-item {
+  border-top-left-radius: calc(var(--guyra-border-radius-bigger) - .25rem);
+  border-top-right-radius: calc(var(--guyra-border-radius-bigger) - .25rem);
+}
+
+.dropdown-menu li:last-child .dropdown-item {
+  border-bottom-left-radius: calc(var(--guyra-border-radius-bigger) - .25rem);
+  border-bottom-right-radius: calc(var(--guyra-border-radius-bigger) - .25rem);
+}
+
 .dropdown-item {
   padding: var(--guyra-fonts-textsize-sss);
   color: var(--guyra-blue);
@@ -485,7 +495,7 @@ ol li::marker {
 }
 
 .dropdown-item:hover {
-  background: unset;
+  color: var(--guyra-blue);
 }
 
 .navbar-nav li {
@@ -1206,7 +1216,7 @@ input.form-control:focus,
 .exercise-level-chooser .section .btn:hover {
   box-shadow: var(--guyra-box-shadow);
   transform: scale(1.1);
-  text-shadow: 1px 1px 0px var(--guyra-white), 2px 2px 0px var(--guyra-white), 3px 3px 0px var(--guyra-white);
+  text-shadow: 1px 1px 0 var(--guyra-white), 2px 2px 0 var(--guyra-white), 3px 3px 0 var(--guyra-white);
 }
 
 .exercise-level-chooser .section .btn:hover .exercise-icon img {
@@ -1395,6 +1405,7 @@ input.form-control:focus,
     font-family: var(--guyra-fonts-text);
     font-size: var(--guyra-fonts-textsize-n);
     margin-bottom: 1.5em;
+    width: 100%;
 }
 
 .study-answers .comment-content > p { margin: 0; }
@@ -1413,11 +1424,6 @@ input.form-control:focus,
 
 .study-answers #comment {
   height: 15rem;
-}
-
-.study-answers #comment,
-#exercise-answer-textarea {
-  width: 100%;
 }
 
 .study-answers #comment:focus-visible,
