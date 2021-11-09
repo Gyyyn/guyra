@@ -844,7 +844,15 @@
       ["I need some new jeans.", "some new", "(umas novas)"],
       ["That's pretty expensive.", "pretty", "(bem)"],
       ["The brown boots are much more comfortable than the other ones.", "comfortable than", "(comfortavel que)"],
-      ["It looks very stylish!.", "stylish", "(estiloso)"]
+      ["It looks very stylish!", "stylish", "(estiloso)"]
+    ],
+
+    "WhatYouHear": [
+      ["Laptops are much better than tablets."],
+      ["I need new pants. My old ones are ripped."],
+      ["That looks pretty expensive. I love the way it looks."],
+      ["The brown socks are much more comfortable than my old ones."],
+      ["It looks very easy to use!"]
     ]
 
   },
