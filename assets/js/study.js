@@ -27,6 +27,7 @@ if (getCookie('dismissed') == "true") {
 responseArea = localStorage.getItem('responseArea');
 commentArea = document.querySelector("#comment");
 submitButton = document.querySelector("#submit");
+theInput = document.getElementById('file_upload_input');
 
 if (responseArea !== null) {
   commentArea.value = responseArea;
@@ -34,6 +35,7 @@ if (responseArea !== null) {
 
 commentArea.onkeyup = eventTrigger;
 submitButton.onclick = submitTrigger;
+theInput.addEventListener('input', fileUploadTrigger);
 
 function eventTrigger(e) {
   localStorage.setItem('responseArea', commentArea.value);
@@ -41,4 +43,10 @@ function eventTrigger(e) {
 
 function submitTrigger(e) {
   localStorage.setItem('responseArea', '');
+}
+
+function fileUploadTrigger(e) {
+  if (theInput.files.length != 0) {
+    document.getElementById('file_list').innerHTML = theInput.files[0].name;
+  }
 }
