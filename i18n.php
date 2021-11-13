@@ -3,6 +3,7 @@
 global $template_url;
 global $admin_url;
 global $site_url;
+global $is_logged_in;
 
 $gi18n = [
 	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
@@ -92,7 +93,13 @@ $gi18n = [
 	'replied' => 'respondeu',
 	'definition' => 'Definição',
 	'translations' => 'Tradução',
+	'options' => 'Opções',
+	'configs' => 'Configurações',
+	'notifications' => 'Notificações',
+	'notifications_enable' => 'Habilitar Notificações',
+	'notifications_not_supported' => 'Este navegador não permite notificações.',
 	'report_error' => 'Reportar erro',
+	'something_went_wrong' => 'Algo deu errado, tente de novo.',
 	'already_answered' => 'já responderam',
 	'already_answered_singular' => 'já respondeu',
 	'thirdparty_processor' => 'Mercado Pago',
@@ -199,12 +206,22 @@ $gi18n = [
 	'reset_password' => 'Criar nova senha',
 	'change_password' => 'Trocar senha',
 	'forgot_password' => 'Perdi minha senha!',
+	'forgot_password_email_title' => 'Perdeu acesso a sua conta no Guyrá?',
+	'forgot_password_email_explain' => 'Se você perdeu sua senha do Guyrá e está tentando acessar sua conta, clique no link abaixo.
+
+Se você não reconhece esse pedido entre em contato com a gente pra gente ver o que tá acontecendo.',
 	'forgot_password_message' => 'Não se preocupe! Se você esqueceu sua senha é só digitar seu email aqui e vamos te mandar um link pra criar uma nova.',
+	'forgot_password_email_sent' => 'Email enviado! Lembre de checar sua caixa de spam.',
+	'password_too_small' => 'Essa senha é muito pequena! Use pelo menos oito caracteres.',
 	'image_max_size' => 'Tamanho máximo: ',
 	'upload_profile_pic' => 'Enviar sua foto',
 	'change_profile_pic_gravatar' => 'Mudar sua foto no Gravatar',
 	'teacher_code' => 'Código do Professor',
 	'teacher_code_explain' => 'Seu professor te deu algum código? Digite ele aqui.',
+	'missing_fields' => 'Complete todos os campos!',
+	'nonmatch_fields' => 'Os campos precisam estar iguais!',
+	'invalid_mail_fields' => 'Este email não parece ser válido.',
+	'confirm_mail_fields' => 'Uma mensagem foi enviada para seu novo email. Clique no link na mensagem para confirmar seu novo email.',
 	/* Blog */
 	'you_can' => 'Você pode',
 	/* Exercises */
@@ -276,9 +293,10 @@ $gi18n = [
 	'practice_link' => $site_url . '/practice',
 	'courses_link' => $site_url . '/courses',
 	'account_link' => $site_url . '/account',
-	'profile_link' => $site_url . '/account/edit-profile',
-	'password_edit_link' => $site_url . '/account/edit-password',
-	'logout_link' => $site_url . '/account/user-logout',
+	'profile_link' => $site_url . '/account/#options',
+	'lost_password_link' => $site_url . '/account/#lostpassword',
+	'password_edit_link' => $site_url . '/account/#changepassword',
+	'logout_link' => $site_url . '?user=1&logout=1',
 	'privacy_link' => $site_url . '/privacy',
 	'terms_link' => $site_url . '/terms',
 	'schools_link' => $site_url . '/schools',

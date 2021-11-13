@@ -265,7 +265,9 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
   foreach ($comments as $comment) {
 
-    $first_name = get_user_meta( $comment->user_id, 'first_name', true );
+    $user_data = guyra_get_user_data($comment->user_id);
+
+    $first_name = $user_data['first_name'];
 
     // Build a list of people who already answered
     if ( (!in_array($first_name, $alreadyAnswered)) && $current_user_id != $comment->user_id) {

@@ -8,6 +8,7 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $current_user_data;
 global $site_url;
 global $is_logged_in;
 
@@ -19,7 +20,6 @@ include $template_dir . '/i18n.php';
 include $template_dir . '/Guyra_misc.php';
 
 $newspage = get_page_by_title('News');
-$first_name = $current_user_meta['first_name'][0];
 $teacherid = $current_user_meta['teacherid'][0];
 
 get_header();
@@ -34,7 +34,7 @@ get_header();
     <div class="greeting-page rounded-box position-relative">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h2 class="text-primary"><?php echo $gi18n['hello'], ($first_name != '' ? ', ' . $first_name . '!' : null); ?></h2>
+        <h2 class="text-primary"><?php echo $gi18n['hello'] . ' ' . $current_user_data['first_name']; ?></h2>
         <span class="page-icon small"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/waving-hand.png"></span>
       </div>
 

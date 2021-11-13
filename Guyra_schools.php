@@ -11,7 +11,9 @@ global $current_user_id;
 global $site_url;
 global $gi18n;
 
+if ( ! function_exists( 'Guyra_hash' ) ) :
 include $template_dir . '/Guyra_misc.php';
+endif;
 
 $thisUser = get_user_meta($current_user_id);
 $users = get_users();

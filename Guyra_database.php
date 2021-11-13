@@ -308,3 +308,33 @@ function guyra_database($action, $value='', $user=0) {
   endswitch;
 
 }
+
+function guyra_get_user_data($user_id) {
+
+  $current_user_data = guyra_get_user_meta($user_id, 'userdata', true)['meta_value'];
+
+  if ($current_user_data) {
+  	$current_user_data = json_decode($current_user_data, true);
+  } else {
+  	$wp_user_data = get_userdata($user_id);
+
+  	guyra_update_user_meta($user_id, 'userdata', json_encode([
+  		'user_email' => $wp_user_data->user_email,
+  		'profile_picture_url' => Guyra_get_profile_picture($user_id, null, true),
+  		'first_name' => $current_user_meta['first_name'][0],
+  		'last_name' => $current_user_meta['last_name'][0],
+  		'user_registered' => $wp_user_data->user_registered,
+  		'user_payment_method' => guyra_get_user_meta($user_id, 'payment_method', true)['meta_value'],
+  		'user_subscription' => '',
+  		'user_subscription_since' => '',
+  		'user_subscription_expires' => '',
+  		'teacherid' => $current_user_meta['teacherid'][0],
+  		'user_meetinglink' => guyra_get_user_meta($user_id, 'meetinglink', true)['meta_value']
+  	]));
+
+  	unset($wp_user_data);
+  }
+
+  return $current_user_data;
+  
+}

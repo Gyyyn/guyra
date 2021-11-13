@@ -19,12 +19,18 @@ $admin_url = get_admin_url();
 // Setup functions globally
 include $template_dir . '/Guyra_database.php';
 include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_template_components.php';
 
 $current_user_meta = get_user_meta($current_user_id);
+$current_user_data = guyra_get_user_data($current_user_id);
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '0.0.4' );
+	define( '_S_VERSION', '0.0.5' );
+}
+
+function generateRandomString($length = 10) {
+  return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
 
 if ( ! function_exists( 'guyra_setup' ) ) :
@@ -299,3 +305,8 @@ function swap_die_handlers() {
 }
 
 add_filter('wp_die_handler', 'swap_die_handlers' );
+
+add_filter('lostpassword_url', 'guyra_lostpassword_url');
+function guyra_lostpassword_url() {
+	return $account_link . '#lostpassword';
+}

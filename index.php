@@ -14,7 +14,11 @@ if(empty($_GET)):
 
   if($is_logged_in) {
 
-    load_template(locate_template('Guyra_study.php'));
+    if ($current_user_meta['role'][0] == 'teacher') {
+      include $template_dir . '/Guyra_schools.php';
+    } else {
+      include $template_dir . '/Guyra_study.php';
+    }
 
   } else {
 

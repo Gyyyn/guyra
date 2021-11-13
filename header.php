@@ -9,18 +9,16 @@ global $wp;
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $current_user_data;
 global $is_logged_in;
 global $gi18n;
 
 $body_class[0] = 'logged_out';
 
-include $template_dir . '/Guyra_template_components.php';
-
 if ($is_logged_in):
 
 // Get a profile picture and user data
 $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
-$first_name = get_user_meta($current_user_id, 'first_name', true);
 $userdata = get_user_meta($current_user_id);
 
 // run a check for sub status
@@ -192,7 +190,7 @@ if ($is_logged_in) {
           <li class="nav-item profile-item">
             <div class="dropdown m-0 d-inline">
               <a class="text-decoration-none d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="btn-tall btn-sm text-small text-primary me-2"><?php echo $first_name; ?></span>
+                <span class="btn-tall btn-sm text-small text-primary me-2"><?php echo $current_user_data['first_name']; ?></span>
                 <?php echo $profile_picture; ?>
               </a>
               <ul class="dropdown-menu pop-animation animate fast">
@@ -209,7 +207,7 @@ if ($is_logged_in) {
                   </a>
                 </li>
                 <li>
-                  <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item text-danger" href="<?php echo wp_nonce_url($gi18n['logout_link'], 'user-logout'); ?>">
+                  <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item text-danger" href="<?php echo $gi18n['logout_link']; ?>">
                     <img class="page-icon tiny me-1" alt="sair" src="<?php echo $gi18n['template_link'] . '/assets/icons/logout_32.png'; ?>">
                     <?php echo $gi18n['logout'] ?>
                   </a>

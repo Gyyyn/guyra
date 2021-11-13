@@ -365,6 +365,49 @@ ol li::marker {
   filter: blur(50px);
 }
 
+.switch {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  width: 2rem;
+  height: 1rem;
+}
+
+.switch input {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 1.25rem;
+  background-color: var(--guyra-grey-dark);
+  transition: var(--guyra-transition);
+  border-radius: var(--guyra-border-radius);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.25rem;
+  width: 1.25rem;
+  background-color: var(--guyra-white);
+  transition: var(--guyra-transition);
+  box-shadow: 0 0 0 0.25rem var(--guyra-blue);
+  border-radius: var(--guyra-border-radius);
+}
+
+input:checked + .slider {
+  background-color: var(--guyra-blue);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
 /*
 * -------- Navbar
 *
@@ -1022,6 +1065,7 @@ a:hover {
   font-size: unset;
   font-weight: unset;
   line-height: unset;
+  background-color: unset;
 }
 
 input.form-control,
@@ -1042,11 +1086,16 @@ input.form-control,
 
 input.form-control:focus,
 .form-control input:focus {
-    color: var(--guyra-blacker);
-    background: var(--guyra-grey);
-    border: unset;
-    border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
-    box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
+  color: var(--guyra-blacker);
+  background: var(--guyra-grey);
+  border: unset;
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
+  box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
+}
+
+input.form-control:focus-visible,
+.form-control input:focus-visible {
+  outline: unset;
 }
 
 .form-check-input:checked {
@@ -1887,6 +1936,26 @@ input.form-control:focus,
   }
 }
 
+@keyframes slideleft {
+  from {
+    transform: translateX(5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideright {
+  from {
+    transform: translateX(-5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 @keyframes pop {
   from {
     transform: scale(0.75);
@@ -1926,6 +1995,14 @@ input.form-control:focus,
 
 .fade-animation.animate {
   animation: fadein 0.25s, slideup 0.5s;
+}
+
+.slideleft-animation.animate {
+  animation: fadein 0.25s, slideleft 0.5s;
+}
+
+.slideright-animation.animate {
+  animation: fadein 0.25s, slideright 0.5s;
 }
 
 .justfade-animation.animate {

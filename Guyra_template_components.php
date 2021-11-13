@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 
-function Guyra_get_profile_picture($user, $classlist) {
+function Guyra_get_profile_picture($user, $classlist=null, $onlylink=false) {
 
   $gravatar_image = get_avatar_url($user, $args = null);
   $ur_image = get_user_meta($user, 'user_registration_profile_pic_url', true);
@@ -31,10 +31,14 @@ function Guyra_get_profile_picture($user, $classlist) {
 
   }
 
+  if ($onlylink) {
+    return $profile_picture_url;
+  } else {
+    $output = sprintf('<img class="%s" alt="profile-picture" src="%s">', implode(' ', $classes), $profile_picture_url);
 
-  $output = sprintf('<img class="%s" alt="profile-picture" src="%s">', implode(' ', $classes), $profile_picture_url);
+    return $output;
+  }
 
-  return $output;
 }
 
 function Guyra_notepad() { ?>
