@@ -308,8 +308,3 @@ function swap_die_handlers() {
 }
 
 add_filter('wp_die_handler', 'swap_die_handlers' );
-
-add_filter('lostpassword_url', 'guyra_lostpassword_url');
-function guyra_lostpassword_url() {
-	return $account_link . '#lostpassword';
-}
