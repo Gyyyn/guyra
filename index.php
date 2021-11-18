@@ -10,7 +10,8 @@ global $template_url;
 global $site_url;
 global $is_logged_in;
 
-if(empty($_GET)):
+// comment_history here is temp till we rewrite the schools panel
+if(empty($_GET) || $_GET['comment_history']):
 
   if($is_logged_in) {
 

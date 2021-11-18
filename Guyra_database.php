@@ -79,6 +79,15 @@ function guyra_database_create_db() {
 
 }
 
+function guyra_handle_query_error($error='') {
+
+  if (preg_match("/(doesn't exist)/", $error)) {
+    guyra_database_create_db();
+  } else {
+    guyra_output_json('query error', true);
+  }
+}
+
 /**
  * Get a meta field from a user.
  *
@@ -176,7 +185,40 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 
     } else {
 
-      guyra_output_json('query error', true);
+      guyra_handle_query_error($db->error);
+
+    }
+
+  }
+
+  $db->close();
+  guyra_log_to_file($sql);
+
+}
+
+function guyra_remove_user_meta($user, $meta_key, $return=false) {
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    guyra_output_json('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = sprintf("DELETE FROM guyra_user_meta
+    WHERE user_id = %d AND meta_key = '%s'", $user, $meta_key);
+
+    if ($db->query($sql) === TRUE) {
+
+      if ($return) {
+
+        guyra_output_json('query successful');
+
+      }
+
+    } else {
+
+      guyra_handle_query_error($db->error);
 
     }
 
@@ -205,7 +247,7 @@ function guyra_log_to_db($user, $object) {
 
     } else {
 
-      guyra_output_json('query error', true);
+      guyra_handle_query_error($db->error);
 
     }
 
@@ -226,7 +268,7 @@ function guyra_get_logdb_items($amount=10, $return=false) {
   } else {
 
     $sql = sprintf("SELECT * FROM (
-       SELECT * FROM guyra_user_history LIMIT %u
+       SELECT * FROM guyra_user_history ORDER BY log_id DESC LIMIT %u
     )Var1", $amount);
 
       $result = $db->query($sql);
@@ -285,56 +327,112 @@ function guyra_log_error($dump, $type='general') {
 
 }
 
-function guyra_database($action, $value='', $user=0) {
+function guyra_update_user_data($user_id, $data_key, $data='') {
 
-  switch ($action):
+  $user_data = guyra_get_user_data($user_id);
 
-    case 'update_elo':
-      guyra_update_user_meta($user, 'elo', $value);
-    break;
+  if (is_array($data_key)) {
 
-    case 'update_level':
-      guyra_update_user_meta($user, 'level', $value);
-    break;
+    $data_keys = array_keys($data_key);
 
-    case 'get_user_meta':
-      guyra_output_json(guyra_get_user_meta($user, $value));
-    break;
+    foreach ($data_keys as $key) {
+      $user_data[$key] = $data_key[$key];
+    }
 
-    default:
-      guyra_output_json('action not found', true);
-    break;
+  } else {
 
-  endswitch;
+    $user_data[$data_key] = $data;
 
+  }
+
+  guyra_update_user_meta($user_id, 'userdata', addslashes(json_encode($user_data)));
 }
 
-function guyra_get_user_data($user_id) {
+function guyra_get_user_data($user_id=1) {
 
-  $current_user_data = guyra_get_user_meta($user_id, 'userdata', true)['meta_value'];
+  $user_data = guyra_get_user_meta($user_id, 'userdata', true)['meta_value'];
 
-  if ($current_user_data) {
-  	$current_user_data = json_decode($current_user_data, true);
+  if ($user_data) {
+  	$user_data = json_decode($user_data, true);
   } else {
-  	$wp_user_data = get_userdata($user_id);
 
-  	guyra_update_user_meta($user_id, 'userdata', json_encode([
+    // TODO: Deprecate this once all user are moved
+  	$wp_user_data = get_userdata($user_id);
+    $wp_user_meta = get_user_meta($user_id);
+
+    $profile_picture_url = $wp_user_meta['user_registration_profile_pic_url'];
+
+    $meetinglink = guyra_get_user_meta($user_id, 'meetinglink', true);
+    $payment_method = guyra_get_user_meta($user_id, 'payment_method', true);
+
+    $user_data = [
   		'user_email' => $wp_user_data->user_email,
-  		'profile_picture_url' => Guyra_get_profile_picture($user_id, null, true),
-  		'first_name' => $current_user_meta['first_name'][0],
-  		'last_name' => $current_user_meta['last_name'][0],
+      'mail_confirmed' => 'true',
+  		'profile_picture_url' => ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : get_avatar_url($user_id, ['size' => 256]),
+  		'first_name' => $wp_user_meta['first_name'][0],
+  		'last_name' => $wp_user_meta['last_name'][0],
+      'role' => $wp_user_meta['role'][0],
   		'user_registered' => $wp_user_data->user_registered,
-  		'user_payment_method' => guyra_get_user_meta($user_id, 'payment_method', true)['meta_value'],
+  		'user_payment_method' => $payment_method['meta_value'],
   		'user_subscription' => '',
   		'user_subscription_since' => '',
   		'user_subscription_expires' => '',
-  		'teacherid' => $current_user_meta['teacherid'][0],
-  		'user_meetinglink' => guyra_get_user_meta($user_id, 'meetinglink', true)['meta_value']
-  	]));
+  		'teacherid' => $wp_user_meta['teacherid'][0],
+      'studygroup' => $wp_user_meta['studygroup'][0],
+  		'user_meetinglink' => $meetinglink['meta_value']
+  	];
+
+    // Clean up the DB
+
+    delete_user_meta($user_id, 'teacherid');
+    delete_user_meta($user_id, 'studygroup');
+    delete_user_meta($user_id, 'first_name');
+    delete_user_meta($user_id, 'last_name');
+    delete_user_meta($user_id, 'nickname');
+    delete_user_meta($user_id, 'role');
+    delete_user_meta($user_id, 'custompage_id');
+    delete_user_meta($user_id, 'ur_form_id');
+    delete_user_meta($user_id, 'ur_user_status');
+    delete_user_meta($user_id, 'ur_confirm_email');
+    delete_user_meta($user_id, 'ur_confirm_email_token');
+    delete_user_meta($user_id, 'user_registration_privacy_policy_agree');
+    delete_user_meta($user_id, 'user_registration_privacy_policy_1630936971');
+    delete_user_meta($user_id, 'user_registration_profile_pic_url');
+
+    guyra_remove_user_meta($user_id, $meetinglink['meta_key'], false);
+    guyra_remove_user_meta($user_id, $payment_method['meta_key'], false);
+
+  	guyra_update_user_data($user_id, 'userdata', $user_data);
 
   	unset($wp_user_data);
   }
 
-  return $current_user_data;
-  
+  return $user_data;
+
+}
+
+function guyra_get_user_game_data($user_id=1) {
+
+  $user_data = guyra_get_user_meta($user_id, 'gamedata', true)['meta_value'];
+
+  if ($user_data) {
+  	$user_data = json_decode($user_data, true);
+  } else {
+
+    $level = guyra_get_user_meta($user_id, 'level', true);
+    $elo = guyra_get_user_meta($user_id, 'elo', true);
+
+    $user_data = [
+  		'level' => $level['meta_value'],
+      'elo' => $elo['meta_value']
+  	];
+
+    guyra_remove_user_meta($user_id, $level['meta_key'], false);
+    guyra_remove_user_meta($user_id, $elo['meta_key'], false);
+
+  	guyra_update_user_data($user_id, 'gamedata', $user_data);
+  }
+
+  return $user_data;
+
 }

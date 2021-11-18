@@ -1,0 +1,369 @@
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+
+<div class="calendar-wrapper">
+  <div id="calendar"></div>
+  <div id="schedule"></div>
+</div>
+
+<style media="screen">
+
+body {
+  background: #f5f5f5;
+}
+
+.calendar-wrapper {
+  display: flex;
+}
+
+.calendar,
+#schedule {
+  display: inline-flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.month,
+#schedule {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  background: #fff;
+  border-radius: .5rem;
+  box-shadow: 0px 6px 12px 0px #0000000d;
+}
+
+.calendar > div,
+#schedule > div {
+  padding: 2rem;
+}
+
+.month-row {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.month-row:first-of-type {
+    justify-content: end;
+}
+
+.day {
+  margin-right: .5rem;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: .5rem;
+  border-radius: 50%;
+  box-shadow: 0px 1px 3px 0px #00000010;
+  cursor: pointer;
+  transition: all 0.05s cubic-bezier(0, 0, 0, 1);
+  color: #646464;
+  border: .1rem #ebebeb solid;
+  border-bottom: .25rem #ebebeb solid;
+  font-weight: 700;
+}
+
+.day:hover {
+  background: #f7f7f7;
+  box-shadow: 0px 3px 12px 0px #00000033;
+}
+
+.daySchedule {
+  display: flex;
+  padding: .5rem;
+  background: #fff;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+  border: .1rem #ebebeb solid;
+  border-bottom: .25rem #ebebeb solid;
+}
+
+.daySchedule:hover {
+  background: #f5f5f5;
+  border: .1rem #dfdfdf solid;
+  border-bottom: .25rem #dfdfdf solid;
+  cursor: pointer;
+}
+
+.appointment {
+  margin-left: 1rem;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pop-animation.animate {
+  animation: pop 0.35s;
+}
+</style>
+
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+<script>
+let e = React.createElement;
+const now = new Date();
+
+function ConstructMonth(month, year) {
+
+  var out = [];
+  var maxDays = 31;
+  var currentDate = [];
+
+  for (var i = 1; i <= maxDays; i++) {
+    var theDate = new Date(month + ' ' + i + ' ' + year);
+    var theDatesMonth = theDate.toString().split(' ')[1];
+    var theMonthAbv = month.split('').splice(0, 3).join('');
+
+    if (theDatesMonth == theMonthAbv) {
+      out.push(theDate);
+    }
+
+  }
+
+  return out;
+
+}
+
+function RenderMonth(month, year) {
+  var theMonthsDays = ConstructMonth(month, year);
+  var weekStartsOn = 'Mon';
+  var theWeek = [];
+  var theMonth = [];
+  var firstDayOfTheMonth = theMonthsDays[0].toDateString().split(' ')[0];
+  var dayQueue = [];
+
+  var theDays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ];
+
+  if (theDays[0] != weekStartsOn) {
+    theDays = theDays.splice(theDays.indexOf(weekStartsOn)).concat(theDays);
+  }
+
+  var weekOffset = theDays.indexOf(theMonthsDays[0].toDateString().split(' ')[0]);
+
+  var pushWeek = (theWeek) => {
+    theMonth.push(e(
+      'div',
+      { className: 'month-row' },
+      theWeek
+    ));
+  }
+
+  theMonthsDays.forEach((item, i) => {
+    var isEndOfWeek = ((i + 1 + weekOffset) % (7) == 0) ? true : false;
+    var theItemInfo = item.toDateString().split(' ');
+    var theDay = e(
+      'div',
+      {
+        className: 'day',
+        title: item.toDateString(),
+        onClick: () => {
+          var theDOM = document.getElementById('schedule');
+          ReactDOM.render(e('div', null, 'Loading...'), theDOM);
+          setTimeout(() => {
+            ReactDOM.render(e(RenderDay, { day: item.toDateString(), activeHours: [8,22]}), theDOM);
+          }, 150)
+        }
+      },
+      theItemInfo[2]
+    );
+
+    theWeek.push(theDay);
+
+    if (isEndOfWeek || (i<6) && (weekOffset + i) == 6) {
+      pushWeek(theWeek);
+      theWeek = [];
+    }
+
+  });
+
+  pushWeek(theWeek);
+
+  theDays.forEach((item, i) => {
+    theDays[i] = e('span', { className: 'fw-bold' }, item);
+  });
+
+
+  return e(
+    'div',
+    { className: 'month' },
+    e('h1', {}, month + ' ' + year),
+    e('div', { className: 'd-flex justify-content-between my-3' }, theDays),
+    e('div', { className: 'month-wrapper'}, theMonth)
+  );
+
+}
+
+class RenderDay extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      calendar: userCalendar
+    }
+
+    this.state.theDay = this.buildDay();
+
+  }
+
+  AddAppointment = (date, time, value) => {
+    var x = this.state.calendar;
+
+    if (x[date] == undefined) {
+      x[date] = {};
+    }
+
+    x[date][time] = value;
+
+    this.setState({
+      calendar: x,
+      theDay: this.buildDay()
+    });
+
+  }
+
+  buildDay() {
+
+    var theDay = [];
+
+    for (var i = 0; i <= 24; i++) {
+      if (i >= this.props.activeHours[0] && i <= this.props.activeHours[1]) {
+        var theHour = (i < 10) ? '0' + i : i;
+        var appointments = this.state.calendar[this.props.day];
+        var appointmentsAt = [];
+        var theAppointment = '';
+
+        if (appointments != undefined) {
+          Object.keys(appointments).forEach((currentAppointment) => {
+            var currentAppointmentHour = currentAppointment.split(':')[0];
+
+            if (currentAppointmentHour == theHour) {
+              theAppointment = e(
+                'span',
+                { className: 'appointment ' + theHour},
+                appointments[currentAppointment]
+              );
+            }
+
+          });
+        }
+
+        theDay.push(e(
+          'span',
+          {
+            className: 'daySchedule position-relative ' + theHour,
+            'data-day': this.props.day,
+            'data-hour': theHour,
+            onClick: (e) => {
+              this.AddAppointment(e.target.dataset.day, e.target.dataset.hour, prompt())
+            }
+          },
+          e('span', { className: 'fw-bold'}, theHour + ':00'),
+          theAppointment,
+          e(
+            'span',
+            {
+              className: 'translate-middle position-absolute end-0 top-50'
+            },
+            e('i', { className: "bi bi-pencil" })
+          )
+        ));
+
+      }
+
+    }
+
+    return theDay;
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: this.props.day },
+      e('h1', {}, this.props.day),
+      this.state.theDay
+    );
+  }
+
+}
+
+function RenderCalendar(props) {
+  var out = [];
+  var currentMonth = now.getMonth();
+  var currentYear = now.getFullYear();
+  var nextYear = currentYear + 1;
+
+  var theMonths = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  if ( (now.getMonth() + props.range) > 12) {
+    var monthsInTheNextYear = ( (now.getMonth() + props.range) - 12 );
+    var monthsInCurrentYear = monthsInTheNextYear - props.range;
+    monthsInCurrentYear = monthsInCurrentYear - monthsInCurrentYear * 2;
+  }
+
+  for (var i = 0; i < props.range; i++) {
+
+    var theYear = currentYear;
+    var theMonth = currentMonth + i;
+
+    if (i + 1 > (monthsInCurrentYear)) {
+      theYear = nextYear;
+      theMonth = (i - monthsInCurrentYear);
+    }
+
+    out.push(RenderMonth(theMonths[theMonth], theYear));
+
+  }
+
+  return e(
+    'div',
+    { className: 'calendar pop-animation animate' },
+    out
+  );
+}
+
+var userCalendar = {
+  "Mon Oct 18 2021": {
+    "08:00": 'some shit',
+    "14:15": 'some other shite',
+    "22:59": 'fucken sleep'
+  }
+}
+
+window.onload = function() {
+  ReactDOM.render(e(RenderCalendar, {range: 3}), document.getElementById('calendar'));
+}
+</script>

@@ -31,8 +31,7 @@ get_header();
 
 <div class="admin-section">
 
-  <h1 class="mb-3">Welcome,</h1>
-  <h2 class="mb-3">to the admin panel.</h2>
+  <h2>Admin panel</h2>
 
 </div>
 
@@ -101,6 +100,8 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
     <hr />
 
+    <h5>Edit page:</h5>
+
     <select name="page-dropdown"
      onchange='document.location.href=this.options[this.selectedIndex].value;'>
      <option value="">
@@ -116,36 +117,54 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
      ?>
     </select>
 
+    <hr />
+
+    <h5>Change a site option:</h5>
+
+    <div class="mb-4 alert alert-info" role="alert">
+      <p>Currently working options are:</p>
+      <ul>
+        <li>landing_open - site has landing page or just login.</li>
+      </ul>
+    </div>
+
+    <form action="<?php echo $site_url; ?>" method="GET">
+        Option: <input type="text" name="change_option">
+        Value: <input type="text" name="value">
+        <input type="hidden" name="user" value="1" class="user-id">
+        <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
+        <input type="submit" value="Go">
+    </form>
+
   </div>
 
 </div>
 
+
 <div class="admin-section">
 
   <h4 class="mt-4">Registered Users:</h4>
+
+  <?php if($_GET['load_all_users']): ?>
+
   <ul class="list-group m-0">
   <?php
 
-  $teacher_info = [];
-
   foreach ($users as $x) {
 
-    $userdata = get_user_meta($x->ID);
-    $teacherid = $userdata['teacherid'][0];
-    $grouptag = $userdata['studygroup'][0];
-    $user_subscription = guyra_get_user_meta($x->ID, 'subscription', true)['meta_value'];
-
-    if (!array_key_exists($teacherid, $teacher_info)) {
-      $teacher_info[$teacherid] = get_user_meta($teacherid);
-    }
+    $guyra_user_data = guyra_get_user_data($x->ID);
+    $guyra_user_gamedata = guyra_get_user_game_data($x->ID);
+    $teacherid = $guyra_user_data['teacherid'];
+    $grouptag = $guyra_user_data['studygroup'];
+    $user_subscription = $guyra_user_data['subscription'];
 
     ?>
 
     <ul class="list-group list-group-horizontal mb-3">
 
     <li class="list-group-item col d-flex align-items-center">
-      <span class="fw-bold"><?php echo $userdata['first_name'][0]; ?>&nbsp;<?php echo $userdata['last_name'][0]; ?></span>
-      <span class="badge bg-dark ms-1"><?php echo $userdata['role'][0]; ?></span>
+      <span class="fw-bold"><?php echo $guyra_user_data['first_name']; ?>&nbsp;<?php echo $guyra_user_data['last_name']; ?></span>
+      <span class="badge bg-dark ms-1"><?php echo $guyra_user_data['role']; ?></span>
       <span class="badge bg-dark ms-1"><?php echo $user_subscription; ?></span>
       <span class="fst-italic text-grey-darker ms-1"><?php echo $x->user_email; ?></span>
     </li>
@@ -161,10 +180,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
       </span>
 
       <?php endif; ?>
-
-      <span class="text-grey-darker">
-        Teacher: <span class="badge bg-dark"><?php echo $teacher_info[$teacherid]['first_name'][0]; ?></span>
-      </span>
 
     </li>
 
@@ -272,7 +287,15 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <?php } ?>
   </ul>
 
+  <?php else: ?>
+
+  <div class="admin-forms border rounded p-3 m-0">
+    <a href="<?php echo $gi18n['guyra_admin_link'] . '&load_all_users=1' ?>" class="btn btn-primary my-3">Load all users</a>
+  </div>
+
 </div>
+
+<?php endif; ?>
 
 <div class="admin-section">
 
@@ -282,25 +305,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-primary">Wordpress admin</a>
   <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create DBs</a>
   <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_page=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
-
-  <hr class="mt-3" />
-
-  <h5>Change a site option:</h5>
-
-  <div class="mb-4 alert alert-info" role="alert">
-    <p>Currently working options are:</p>
-    <ul>
-      <li>landing_open - site has landing page or just login.</li>
-    </ul>
-  </div>
-
-  <form action="<?php echo $site_url; ?>" method="GET">
-      Option: <input type="text" name="change_option">
-      Value: <input type="text" name="value">
-      <input type="hidden" name="user" value="1" class="user-id">
-      <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
-      <input type="submit" value="Go">
-  </form>
 
   </div>
 

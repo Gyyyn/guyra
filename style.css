@@ -1878,6 +1878,7 @@ input.form-control:focus-visible,
 
 .avatar {
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 }
 
 .page-squeeze .user-registration-MyAccount-navigation ul,

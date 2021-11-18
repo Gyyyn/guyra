@@ -11,9 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function Guyra_get_profile_picture($user, $classlist=null, $onlylink=false) {
 
-  $gravatar_image = get_avatar_url($user, $args = null);
-  $ur_image = get_user_meta($user, 'user_registration_profile_pic_url', true);
-  $profile_picture_url = ( ! empty( $ur_image ) ) ? $ur_image : $gravatar_image;
+  $user_data = guyra_get_user_data($user);
+  $profile_picture_url = $user_data['profile_picture_url'];
 
   $classes = [
     'avatar'
@@ -91,11 +90,13 @@ function guyra_render_topbar() {
 
   ?>
 
-  <?php if (current_user_can('manage_options')): ?>
-    <span class="position-absolute admin-btn"><a class="btn-sm btn-tall purple" href="<?php echo $gi18n['guyra_admin_link'] ?>"><i class="bi bi-gift-fill"></i></a></span>
-  <?php endif; ?>
-
   <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
+
+    <?php if (current_user_can('manage_options')): ?>
+      <a class="list-group-item admin-link" href="<?php echo $gi18n['guyra_admin_link'] ?>">
+        <i class="bi bi-gift-fill"></i>
+      </a>
+    <?php endif; ?>
 
     <a class="list-group-item home-link" href="<?php echo $gi18n['home_link'] ?>">
       <span class="menu-icon"><img class="page-icon tiny" alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/light.png'; ?>"></span>

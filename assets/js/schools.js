@@ -148,26 +148,6 @@ function WeekdayList(props) {
 
 }
 
-function DiarySuperInfo(props) {
-  return e(
-    'div',
-    { className: 'diary-super-info justfade-animation animate mb-3' },
-    e(DiaryContext.Consumer, null, ({name, diary, i18n}) => e(
-      'div',
-      {
-        className: 'w-100 row align-items-center justify-content-between',
-      },
-      e(
-        'span',
-        { className: 'col-2 position-relative d-flex overflow-hidden' },
-        i18n.day + ': ',
-        e(WeekdayList, {currentDay: diary.dayAssigned})
-      ),
-      e('span', { className: 'col' }, i18n.diary_for, e('span', { className: 'badge bg-primary rounded' }, name))
-    ))
-  );
-}
-
 function DiaryInfo(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
@@ -619,7 +599,6 @@ class DiaryProper extends React.Component {
       this.diaryWrapper = e(
         'div',
         {},
-        e(DiarySuperInfo),
         e(DiaryInfo),
         e(DiaryEntries),
       );
@@ -1139,7 +1118,12 @@ class Diary extends React.Component {
       e(
         DiaryContext.Provider,
         {value: this.state},
-        e('h4', { className: 'border-bottom pb-3 mb-3' }, this.state.i18n.diary),
+        e(
+          'h4',
+          { className: 'pb-3 mb-3' },
+          this.state.i18n.diary_for,
+          e('span', { className: 'badge bg-primary rounded' }, this.state.name)
+        ),
         this.state.page
       )
     );

@@ -36,7 +36,7 @@ function validateEmail(email) {
 
 function Account_BackButton(props) {
 
-  return e(AccountContext.Consumer, null, ({setPage}) => {
+  return e(AccountContext.Consumer, null, ({setPage, i18n}) => {
 
     var title = '';
 
@@ -62,7 +62,7 @@ function Account_BackButton(props) {
 }
 
 function AccountOptions_changePassword(props) {
-  return e(
+  return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'profile-change-password slideleft-animation animate' },
     e(Account_BackButton, { page: e(AccountOptions) }),
@@ -145,7 +145,7 @@ function AccountOptions_changePassword(props) {
       i18n.save
     )),
     e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
-  );
+  ));
 }
 
 function AccountOptions_profileDetails(props) {
@@ -170,16 +170,56 @@ function AccountOptions_profileDetails(props) {
           e(
             'img',
             {
+              id: 'profile-picture',
               className: 'profile-preview avatar page-icon medium',
-              alt: '',
+              alt: i18n.profile_details_picture,
               src: usermeta.profile_picture_url
             }
           ),
           e(
             'label',
             { className: 'w-25 position-absolute bottom-0 end-0 translate-middle' },
-            e('input', { type: 'file', name: 'profile-picture', className: 'd-none profile-pic-upload', accept: 'image/jpeg,image/jpg,image/gif,image/png'}),
-            e('a', { className: 'btn-tall blue' }, e('img', { className: 'page-icon tiny', alt: i18n.upload, src: i18n.template_link + '/assets/icons/add-image.png' }))
+            e(
+              'input',
+              {
+                id: 'profile-picture-upload',
+                type: 'file',
+                name: 'profile-picture',
+                className: 'd-none profile-pic-upload',
+                accept: 'image/jpeg,image/jpg,image/gif,image/png',
+                onChange: (e) => {
+
+                  var theFile = e.target.files[0];
+
+                  const form_data = new FormData();
+
+                  form_data.append('file', theFile);
+
+                  fetch(
+                    i18n.home_link + '?user=1&update_user_picture=1',
+                    {
+                      method: "POST",
+                      body: form_data
+                    }
+                  ).then(res => res.json())
+                  .then(res => {
+                    if (res[0] == 'file too big') {
+                      setMessageBox(i18n.filesize_too_big);
+                    } else {
+                      document.getElementById('profile-picture').src = res[0];
+                    }
+                  });
+
+                }
+              }
+            ),
+            e(
+              'a',
+              {
+                className: 'btn-tall blue'
+              },
+              e('img', { className: 'page-icon tiny', alt: i18n.upload, src: i18n.template_link + '/assets/icons/add-image.png' })
+            )
           )
         )
       )
@@ -190,7 +230,7 @@ function AccountOptions_profileDetails(props) {
       e(
         'h3',
         { className: 'text-blue mb-3' },
-        i18n.profile_details
+        i18n.update_profile
       ),
       e(
         'div',
@@ -202,6 +242,38 @@ function AccountOptions_profileDetails(props) {
             'div',
             { className: 'mb-3'},
             e('label', { for: 'profile-email' }, i18n.email),
+            e(AccountContext.Consumer, null, ({usermeta}) => {
+              if (usermeta.mail_confirmed != 'true') {
+                return e(
+                  'div',
+                  { className: 'dialog-box info' },
+                  e('p', null, i18n.confirm_mail),
+                  e(
+                    'button',
+                    {
+                      className: 'btn-tall btn-sm blue',
+                      onClick: () => {
+                        fetch(
+                          i18n.home_link + '?user=1&update_userdata=1',
+                          {
+                            method: "POST",
+                            headers: {
+                              'Accept': 'application/json, text/plain, */*',
+                              'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                              fields: ['user_email'],
+                              user_email: usermeta.user_email
+                            })
+                          }
+                        );
+                      }
+                    },
+                    i18n.confirm_mail_button
+                  )
+                );
+              }
+            }),
             e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: usermeta.user_email })
           ),
           e(
@@ -219,6 +291,16 @@ function AccountOptions_profileDetails(props) {
               e('label', { for: 'profile-last-name' }, i18n.lastname),
               e('input', { id: 'profile-last-name', type: "text", className: "input-last-name", placeholder: usermeta.last_name })
             ),
+          ),
+          e(
+            'div',
+            { className: 'd-flex flex-row mb-3'},
+            e(
+              'div',
+              { className: 'd-flex flex-column w-50 pe-3' },
+              e('label', { for: 'profile-phone' }, i18n.phone),
+              e('input', { id: 'profile-phone', name: 'user_phone', type: "tel", className: "input-phone" }),
+            )
           ),
           e(
             'div',
@@ -313,7 +395,7 @@ function AccountOptions_profileDetails(props) {
 }
 
 function AccountOptions_accountDetails(props) {
-  return e(
+  return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
     'div',
     { className: 'profile-details'},
     e(
@@ -466,7 +548,7 @@ function AccountOptions_accountDetails(props) {
         )
       )
     )
-  );
+  ));
 }
 
 function AccountOptions(props) {
@@ -486,43 +568,123 @@ function AccountOptions(props) {
 
 function WhoAmI_welcome(props) {
 
-  var dateRegisteredSince = new Date(usermeta.user_registered);
+  return e(AccountContext.Consumer, null, ({setPage, usermeta, i18n}) => {
 
-  return e(AccountContext.Consumer, null, ({setPage}) => e(
-    'div',
-    { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
-    e(
+    var dateRegisteredSince = new Date(usermeta.user_registered);
+
+    return e(
       'div',
-      { className: 'welcome' },
+      { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
       e(
-        'h2',
-        { className: 'text-blue' },
-        'Welcome, ' + usermeta.first_name + '!'
+        'div',
+        { className: 'welcome' },
+        e(
+          'h2',
+          { className: 'text-blue' },
+          'Welcome, ' + usermeta.first_name + '!'
+        ),
+        e(
+          'p',
+          {},
+          i18n.accountpage_registeredsince,
+          e(
+            'span',
+            { className: 'ms-1 fw-bold' },
+            dateRegisteredSince.toLocaleDateString() + '!'
+          )
+        )
       ),
       e(
-        'p',
-        {},
-        i18n.accountpage_registeredsince,
+        'span',
+        { className: 'page-icon' },
         e(
-          'span',
-          { className: 'ms-1 fw-bold' },
-          dateRegisteredSince.toLocaleDateString() + '!'
+          'img',
+          {
+            alt: 'learning',
+            src: rootUrl + 'wp-content/themes/guyra/assets/icons/profile.png'
+          }
         )
       )
-    ),
+    );
+  });
+
+}
+
+function WhoAmI_openPayments_paymentItem(props) {
+
+  var itemDue = new Date(props.item.due);
+
+  var paymentMethod = e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
+
+    var paymentMethodString = '';
+    if (usermeta.user_payment_method == null) {
+      paymentMethodString = 'PIX';
+    } else {
+      paymentMethodString = usermeta.user_payment_method;
+    }
+  });
+
+  return e(AccountContext.Consumer, null, ({i18n}) => e(
+    'div',
+    { className: 'payments-pay slideleft-animation animate' },
+    e(Account_BackButton, { page: e(AccountWrapper) }),
     e(
-      'span',
-      { className: 'page-icon' },
+      'div',
+      { className: 'payment-item row' },
       e(
-        'img',
-        {
-          alt: 'learning',
-          src: rootUrl + 'wp-content/themes/guyra/assets/icons/profile.png'
-        }
+        'div',
+        { className: 'qr-code col-4' },
+        e(
+          'img',
+          {
+            className: 'page-icon large',
+            alt: 'QR Code',
+            src: i18n.template_link + '/assets/img/qrcode.jpg'
+          }
+        )
+      ),
+      e(
+        'div',
+        { className: 'col-7 d-flex flex-column align-items-start text-normal' },
+        e(
+          'h3',
+          { className: 'my-3' },
+          i18n.payment
+        ),
+        e(
+          'div',
+          { className: 'card mb-3' },
+          e(
+            'span',
+            {},
+            i18n.value + ': '
+          ),
+          e(
+            'span',
+            { className: 'badge bg-primary'},
+            'R$' + props.item.value
+          )
+        ),
+        e(
+          'div',
+          { className: 'mb-3' },
+          e(
+            'span',
+            {},
+            i18n.due_date + ': '
+          ),
+          e(
+            'span',
+            { className: ''},
+            itemDue.toLocaleDateString()
+          )
+        ),
+        e('p', {}, i18n.payment_message + ': ', paymentMethod),
+        e('p', { className: 'badge bg-primary text-white' }, i18n.company_cnpj),
+        e('p', { className: 'text-small' }, i18n.payment_message_cont)
       )
     )
   ));
-
 }
 
 function WhoAmI_openPayments(props) {
@@ -570,8 +732,9 @@ function WhoAmI_openPayments(props) {
               'button',
               {
                 className: "btn-tall btn-sm purple",
-                "data-bs-toggle":"modal",
-                "data-bs-target": "#paymentModal"
+                onClick: () => {
+                  setPage(e(WhoAmI_openPayments_paymentItem, { item: item }))
+                }
               },
               i18n.pay
             )
@@ -697,7 +860,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue' },
-        i18n.level + usermeta.user_rank[3]
+        i18n.level + usermeta.gamedata[3]
       ),
       e('p', {}, i18n.level_explain),
       e(
@@ -714,7 +877,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue' },
-        i18n.ranking + usermeta.user_rank[2]
+        i18n.ranking + usermeta.gamedata[2]
       ),
       e(
         'div',
@@ -723,8 +886,8 @@ function AccountInfo_ranking(props) {
           'img',
           {
             className: 'page-icon avatar bg-grey p-2',
-            alt: usermeta.user_rank[2],
-            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + usermeta.user_rank[1] + '.png'
+            alt: usermeta.gamedata[2],
+            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + usermeta.gamedata[1] + '.png'
           },
         )
       ),
@@ -805,7 +968,7 @@ function AccountWrapper(props) {
 
 }
 
-function Register() {
+function Register(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'row mb-3 justfade-animation animate' },
@@ -846,6 +1009,16 @@ function Register() {
         ),
         e(
           'div',
+          { className: 'd-flex flex-row mb-3'},
+          e(
+            'div',
+            { className: 'd-flex flex-column w-50 me-3' },
+            e('label', { for: 'profile-phone' }, i18n.phone),
+            e('input', { id: 'profile-phone', name: 'user_phone', type: "number", className: "input-phone" }),
+          )
+        ),
+        e(
+          'div',
           { className: 'mb-3'},
           e('label', { for: 'profile-email' }, i18n.email),
           e('input', { id: 'profile-email', name: 'user_email', type: "email", className: "input-email", placeholder: "you@example.com" })
@@ -869,6 +1042,7 @@ function Register() {
             dataToPost = {
               user_email: document.getElementById('profile-email').value,
               user_password: document.getElementById('profile-password').value,
+              user_phone: document.getElementById('profile-phone').value,
               user_firstname: document.getElementById('profile-firstname').value,
               user_lastname: document.getElementById('profile-lastname').value
             };
@@ -876,6 +1050,7 @@ function Register() {
             if (
               dataToPost.user_email == '' ||
               dataToPost.user_password == '' ||
+              dataToPost.user_phone == '' ||
               dataToPost.user_firstname == '' ||
               dataToPost.user_lastname == ''
             ) {
@@ -1140,11 +1315,11 @@ class Account extends React.Component {
   constructor(props) {
     super(props);
 
+    this.usermeta = {};
+
     this.state = {
       page: e(LoadingPage),
-      setPage: this.setPage,
-      usermeta: usermeta,
-      i18n: i18n
+      setPage: this.setPage
     };
 
   }
@@ -1176,17 +1351,38 @@ class Account extends React.Component {
     return decision;
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
-    if (this.state.usermeta.is_logged_in == true) {
-      this.setState({
-        page: this.getStartingPage(),
+    fetch(rootUrl.concat('?user=1&get_user_data=1'))
+      .then(res => res.json())
+      .then(res => {
+
+        let json = JSON.parse(res);
+        let page;
+
+        this.usermeta = json;
+
+        if (json.is_logged_in == true) {
+          page = this.getStartingPage();
+        } else {
+          page = this.getStartingPage(false);
+        }
+
+        this.setState({
+          usermeta: this.usermeta
+        })
+
+        fetch(rootUrl.concat('?json=1&i18n=full'))
+          .then(res => res.json())
+          .then(json => {
+            this.setState({
+              page: page,
+              i18n: json.i18n
+            });
+
+          });
+
       });
-    } else {
-      this.setState({
-        page: this.getStartingPage(false),
-      });
-    }
 
   }
 
@@ -1199,7 +1395,7 @@ class Account extends React.Component {
   render() {
 
     var wrapperClass = 'account-squeeze page-squeeze rounded-box';
-    if (this.state.usermeta.is_logged_in == false) {
+    if (this.usermeta.is_logged_in == false) {
       wrapperClass = wrapperClass + ' p-0';
     }
 

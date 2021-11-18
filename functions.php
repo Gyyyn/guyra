@@ -17,12 +17,15 @@ $site_url = get_site_url();
 $admin_url = get_admin_url();
 
 // Setup functions globally
-include $template_dir . '/Guyra_database.php';
 include $template_dir . '/i18n.php';
+include $template_dir . '/Guyra_database.php';
 include $template_dir . '/Guyra_template_components.php';
 
-$current_user_meta = get_user_meta($current_user_id);
-$current_user_data = guyra_get_user_data($current_user_id);
+if ($is_logged_in) {
+	$current_user_meta = get_user_meta($current_user_id);
+	$current_user_data = guyra_get_user_data($current_user_id);
+	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
+}
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.

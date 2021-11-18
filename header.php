@@ -21,14 +21,6 @@ if ($is_logged_in):
 $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
 $userdata = get_user_meta($current_user_id);
 
-// run a check for sub status
-$user_subscription = guyra_get_user_meta($current_user_id, 'subscription', true)['meta_value'];
-$user_subscription_till = new DateTime(guyra_get_user_meta($current_user_id, 'subscribed_until', true)['meta_value']);
-$now = new DateTime();
-if($user_subscription != '' && $user_subscription_till < $now) {
-  guyra_update_user_meta($current_user_id, 'subscription', '');
-}
-
 $body_class[0] = 'logged_in';
 
 endif; // logged in
@@ -171,13 +163,6 @@ if ($is_logged_in) {
 
           <?php endif; ?>
 
-          <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
-          <li class="nav-item me-md-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['schools_link'] ?>"><?php echo $gi18n['schools'] ?></a>
-          </li>
-
-        <?php endif; ?>
-
         </ul>
 
         <ul class="navbar-nav justify-content-end nav-rightside">
@@ -229,24 +214,12 @@ if ($is_logged_in) {
 
       <a class="btn-tall page-icon small <?php echo $homebtn_class; ?>" href="<?php echo $gi18n['home_link'] ?>">
         <img alt="home" src="<?php echo $gi18n['template_link'] . $home_icon; ?>">
-        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['homepage'] ?></span>
+        <span class="ms-1"><?php echo $gi18n['homepage'] ?></span>
       </a>
-
-      <a class="btn-tall page-icon small <?php echo $blogbtn_class; ?>" href="<?php echo $gi18n['blog_link'] ?>">
-        <img alt="blog" src="<?php echo $gi18n['template_link'] . '/assets/icons/advertising.png'; ?>">
-        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['blog'] ?></span>
-      </a>
-
-      <?php if ($userdata['role'][0] == "teacher" || current_user_can('manage_options')) : ?>
-      <a class="btn-tall page-icon small <?php echo $schoolsbtn_class; ?>" href="<?php echo $gi18n['schools_link'] ?>">
-        <img alt="schools" src="<?php echo $gi18n['template_link'] . '/assets/icons/textbook.png'; ?>">
-        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['schools'] ?></span>
-      </a>
-      <?php endif; ?>
 
       <a class="btn-tall page-icon small <?php echo $profilebtn_class; ?>" href="<?php echo $gi18n['account_link']; ?>">
         <img alt="account" src="<?php echo $gi18n['template_link'] . '/assets/icons/profile.png'; ?>">
-        <span class="d-none d-md-inline d-lg-none"><?php echo $gi18n['button_myaccount'] ?></span>
+        <span class="ms-1"><?php echo $gi18n['account'] ?></span>
       </a>
 
     </div>

@@ -34,40 +34,44 @@ function Guyra_hash($string, $decode=false) {
   }
 }
 
-function Guyra_get_user_level($user=1) {
+function Guyra_mail($template, $subject, $to, $string_replacements) {
 
-  $level = guyra_get_user_meta($user, 'level', true)['meta_value'];
+  global $template_dir;
 
-  if (!$level) {
-    $level = '1';
-    guyra_update_user_meta($user, 'level', $level);
-  }
+  $template = file_get_contents($template_dir . '/templates/mail/' . $template);
 
-  return $level;
+  $message = vsprintf($template, $string_replacements);
+
+  $headers = 'From: hello@guyra.me\r\n' .
+      'Reply-To: hello@guyra.me\r\n' .
+      'MIME-Version: 1.0\r\n' .
+      'Content-Type: text/html; charset=ISO-8859-1\r\n' .
+      'X-Mailer: PHP/' . phpversion();
+
+  mail($to, $subject, $message, $headers);
 
 }
 
 function Guyra_increase_user_level($user=1, $amount=1) {
 
-  $level = Guyra_get_user_level($user);
+  global $current_user_gamedata;
 
-  $amount = $level + $amount;
+  $amount = $current_user_gamedata['level'] + $amount;
 
-  guyra_update_user_meta($user, 'level', $amount);
+  $current_user_gamedata['level'] = $amount;
+
+  guyra_update_user_meta($user, 'gamedata', addslashes(json_encode($current_user_gamedata)));
 
 }
 
 function GetUserRanking($user=1) {
 
+  global $current_user_gamedata;
+
   if (!$user == 0) {
 
-    $elo = guyra_get_user_meta($user, 'elo', true)['meta_value'];
-    $level = Guyra_get_user_level($user);
-
-    if (!$elo) {
-      $elo = '1';
-      guyra_update_user_meta($user, 'elo', $elo);
-    }
+    $elo = (float)$current_user_gamedata['elo'];
+    $level = (int)$current_user_gamedata['level'];
 
     if ($elo < 17) {
 
@@ -280,9 +284,6 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
     $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
-    if (empty($first_name)) {
-    	$first_name = $comment->comment_author;
-    }
 
     $comment_date_formatted = date_format(date_create($comment->comment_date), 'd/m/Y H:i:s');
 
