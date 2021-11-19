@@ -7,7 +7,9 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 
-include $template_dir . '/Guyra_misc.php';
+include_once $template_dir . '/functions/Hash.php';
+include_once $template_dir . '/functions/Mailer.php';
+include_once $template_dir . '/functions/Game.php';
 
 if ($_GET['update_elo'] && $_GET['value']) {
   $current_user_gamedata['elo'] = $_GET['value'];

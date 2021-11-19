@@ -1,22 +1,14 @@
 <?php
-/**
- * The admin panel
- *
- * @package guyra
- */
-
-if ( ! defined( 'ABSPATH' ) ) {
- exit; // Exit if accessed directly
-}
-
-if (!current_user_can('manage_options')) {
-  exit;
-}
 
 global $template_dir;
 global $template_url;
 global $current_user_id;
 global $site_url;
+global $is_admin;
+
+if (!$is_admin) {
+  exit;
+}
 
 include $template_dir . '/i18n.php';
 

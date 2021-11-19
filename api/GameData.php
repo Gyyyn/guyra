@@ -8,8 +8,7 @@ global $is_logged_in;
 
 if (!defined('ABSPATH')) { exit; }
 
-include_once $template_dir . '/i18n.php';
-include_once $template_dir . '/Guyra_misc.php';
+include_once $template_dir . '/functions/Game.php';
 
 $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
 $levelMap = json_decode(file_get_contents($template_dir . '/assets/json/levelmap.json'), true);

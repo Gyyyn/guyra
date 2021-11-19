@@ -11,8 +11,7 @@ global $is_logged_in;
 
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
-include $template_dir . '/i18n.php';
-include $template_dir . '/Guyra_misc.php';
+include_once $template_dir . '/components/Icons.php';
 
 function createYoutubeApiPlaylistLink($key) {
 

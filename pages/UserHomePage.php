@@ -9,15 +9,13 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $current_user_data;
+global $current_user_meta;
 global $site_url;
 global $is_logged_in;
 
-global $current_user_meta;
-
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
-include $template_dir . '/i18n.php';
-include $template_dir . '/Guyra_misc.php';
+include_once $template_dir . '/components/StudyPage.php';
 
 $newspage = get_page_by_title('News');
 $teacherid = $current_user_meta['teacherid'][0];

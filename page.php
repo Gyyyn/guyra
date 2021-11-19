@@ -1,50 +1,31 @@
 <?php
-/**
- * The template for displaying all pages
- *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package guyra
- */
 
- get_header();
- ?>
+get_header();
+?>
 
- 	<main id="intro-content" class="site-main page squeeze">
-         <div class="page-squeeze rounded-box">
+<main id="intro-content" class="site-main page squeeze">
+  <div class="page-squeeze rounded-box">
+    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+    	<?php /* <header class="entry-header d-flex align-items-baseline justify-content-between">
+    		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+    	</header><!-- .entry-header --> */ ?>
 
- 		<?php if ( have_posts() ) : ?>
+    	<div class="entry-content">
+    		<?php
+    		the_content();
 
- 			<?php
- 			/* Start the Loop */
- 			while ( have_posts() ) :
- 				the_post();
+    		wp_link_pages(
+    			array(
+    				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'guyra' ),
+    				'after'  => '</div>',
+    			)
+    		);
+    		?>
+    	</div>
 
- 				/*
- 				 * Include the Post-Type-specific template for the content.
- 				 * If you want to override this in a child theme, then include a file
- 				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
- 				 */
- 				get_template_part( 'template-parts/content', get_post_type() );
+    </article>
+  </div>
+</main>
 
- 			endwhile;
-
- 			the_posts_navigation();
-
- 		else :
-
- 			get_template_part( 'template-parts/content', 'none' );
-
- 		endif;
- 		?>
- 		</div>
-
- 	</main>
-
- <?php
- get_footer();
+<?php
+get_footer();

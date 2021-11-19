@@ -1,9 +1,4 @@
 <?php
-/**
- * Teacher's admin panel
- *
- * @package guyra
- */
 
 global $template_dir;
 global $template_url;
@@ -12,9 +7,9 @@ global $site_url;
 global $site_api_url;
 global $gi18n;
 
-if (!function_exists('Guyra_hash')):
-include $template_dir . '/Guyra_misc.php';
-endif;
+include_once $template_dir . '/functions/Hash.php';
+include_once $template_dir . '/components/StudyPage.php';
+include_once $template_dir . '/components/ProfilePicture.php';
 
 global $template_dir;
 global $site_url;
@@ -139,7 +134,7 @@ get_header(null, ['css' => 'schools.css']);
 
             </li>
 
-            <li class="list-group-item col-5 p-1 d-flex justify-content-around">
+            <li class="list-group-item col p-1 d-flex justify-content-around">
               <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $user_data['first_name']; ?>">
                 <i class="bi bi-card-list"></i>
                 <span class="d-none d-lg-inline"><?php echo $gi18n['diary']; ?></span>
@@ -262,22 +257,22 @@ get_header(null, ['css' => 'schools.css']);
 
         <ul id="group-<?php echo $group['name'] ?>" class="user-list list-group list-group-horizontal">
 
-          <li class="list-group-item col-2">
-            <span class="badge bg-primary">
+          <li class="list-group-item col">
+
+            <span class="text-blue fw-bold">
+              <?php echo implode(', ', $group['usersNames']); ?>
+            </span>
+
+            <span class="badge bg-primary ms-2">
               <?php echo $gi18n['group'] . ':'; ?>
               <span class="ms-1 text-white">
                 <strong><?php echo $group['name']; ?></strong>
               </span>
             </span>
+
           </li>
 
-          <li class="list-group-item col">
-            <span class="text-blue fw-bold">
-              <?php echo implode(', ', $group['usersNames']); ?>
-            </span>
-          </li>
-
-          <li class="list-group-item col-5 p-1 d-flex justify-content-around">
+          <li class="list-group-item col p-1 d-flex justify-content-around">
             <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="group" data-userid="<?php echo $current_user_id; ?>" data-grouptag="<?php echo $group['name']; ?>">
               <i class="bi bi-card-list"></i>
               <span class="d-none d-lg-inline"><?php echo $gi18n['diary']; ?></span>
@@ -290,7 +285,7 @@ get_header(null, ['css' => 'schools.css']);
               <i class="bi bi-list-ul"></i>
               <span class="d-none d-lg-inline"><?php echo $gi18n['replies']; ?></span>
             </a>
-            <a class="btn-tall btn-sm blue" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
+            <a class="btn-tall btn-sm blue ms-1" data-bs-toggle="collapse" href="#controls-<?php echo $group['name'] ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $group['name'] ?>">
               <i class="bi bi-toggles"></i>
               <span class="d-none d-lg-inline"><?php echo $gi18n['controls']; ?></span>
             </a>

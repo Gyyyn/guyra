@@ -1,9 +1,4 @@
 <?php
-/**
- * The header
- *
- * @package guyra
- */
 
 global $wp;
 global $template_dir;
@@ -13,20 +8,19 @@ global $current_user_data;
 global $is_logged_in;
 global $gi18n;
 
+include_once $template_dir . '/components/ProfilePicture.php';
+include_once $template_dir . '/components/Notepad.php';
+
 $body_class[0] = 'logged_out';
 
-if ($is_logged_in):
-
-// Get a profile picture and user data
-$profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
-$userdata = get_user_meta($current_user_id);
-
-$body_class[0] = 'logged_in';
-
-endif; // logged in
+if ($is_logged_in) {
+  $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
+  $body_class[0] = 'logged_in';
+}
 
 $where_am_i = $wp->request;
 $highlight_class = 'purple';
+$page_Title = $gi18n['company_name'];
 
 if ($where_am_i == '') {
   $homebtn_class = $highlight_class;
@@ -46,11 +40,13 @@ if ($where_am_i == 'reference') {
 if ($where_am_i == 'category/blog') {
   $blogbtn_class = $highlight_class;
   $body_class[] = 'blog';
+  $page_Title =  $gi18n['blog'] . ' ' . $gi18n['company_name'];
 }
 
 if ($where_am_i == 'account') {
   $profilebtn_class = $highlight_class;
   $body_class[] = 'profile';
+  $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['company_name'];
 }
 
 if ($where_am_i == 'schools') {
@@ -81,6 +77,9 @@ if ($is_logged_in) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#06b6f1"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title><?php echo $page_Title; ?></title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
@@ -123,7 +122,6 @@ if ($is_logged_in) {
 </script>
 
 <?php wp_head(); ?>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <link href="<?php echo $template_url; ?>/style.css?ver=<?php echo _S_VERSION; ?>" rel="stylesheet">
 

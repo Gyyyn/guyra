@@ -2,13 +2,25 @@
 
 global $template_dir;
 global $is_logged_in;
+global $is_admin;
 
 if($is_logged_in) {
 
-  if ($current_user_data['role'] == 'teacher') {
-    include $template_dir . '/Guyra_schools.php';
+  if ($is_admin && $_GET['page'] == 'admin') {
+
+    include $template_dir . '/pages/SuperAdminControlPanel.php';
+
   } else {
-    include $template_dir . '/Guyra_study.php';
+
+    if ($current_user_data['role'] == 'teacher') {
+
+      include $template_dir . '/pages/GroupAdminControlPanel.php';
+
+    } else {
+
+      include $template_dir . '/pages/UserHomePage.php';
+
+    }
   }
 
 } else {
@@ -17,11 +29,11 @@ if($is_logged_in) {
 
   if ($landing_open === 'true') {
 
-    load_template(locate_template('Guyra_landing.php'));
+    include $template_dir . '/pages/Landing.php';
 
   } else {
 
-    load_template(locate_template('Guyra_landing_loginonly.php'));
+    include $template_dir . '/pages/LandingLogin.php';
 
   }
 

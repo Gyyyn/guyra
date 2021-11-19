@@ -675,9 +675,8 @@ input:checked + .slider:before {
 
 @media (min-width: 992px) {
 	.squeeze { max-width: calc(40vw + 20rem); margin: 0 auto; }
-	.squeeze-big { max-width: 85vw; margin: calc(3rem + 2vw) auto; }
+	.squeeze-big { max-width: 75vw; margin: calc(3rem + 2vw) auto; }
   .squeeze-small { max-width: calc(20vw + 20rem); margin: calc(3rem + 2vw) auto; }
-  .page-squeeze .padded-squeeze { padding: calc(3rem + 2vw) calc(17vw + 2rem); }
 }
 
 @media (max-width: 992px) {
