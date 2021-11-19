@@ -4,6 +4,7 @@ global $template_url;
 global $admin_url;
 global $site_url;
 global $is_logged_in;
+global $site_api_url;
 
 $gi18n = [
 	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
@@ -297,6 +298,7 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'is_required' => ' obrigratório.',
 	/* Links */
 	'home_link' => $site_url,
+	'api_link' => $site_api_url,
 	'blog_link' => $site_url . '/category/blog',
 	'meet_link' => $site_url . '/meet',
 	'practice_link' => $site_url . '/practice',
@@ -305,7 +307,7 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'profile_link' => $site_url . '/account/#options',
 	'lost_password_link' => $site_url . '/account/#lostpassword',
 	'password_edit_link' => $site_url . '/account/#changepassword',
-	'logout_link' => $site_url . '?user=1&logout=1',
+	'logout_link' => $site_url . '/api?logout=1',
 	'privacy_link' => $site_url . '/privacy',
 	'terms_link' => $site_url . '/terms',
 	'schools_link' => $site_url . '/schools',

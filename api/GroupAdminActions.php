@@ -26,7 +26,7 @@ if(in_array($user, $allowedUsers) || $isAdmin):
 // Manually assign a user to a group.
 // ---
 if ($_GET['assigntogroup']) {
-  guyra_update_user_data($user, 'studygroup', $_GET['assigntogroup'] );
+  guyra_update_user_data($user, 'studygroup', $_GET['assigntogroup']);
 }
 
 // ---

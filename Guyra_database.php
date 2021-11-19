@@ -362,9 +362,6 @@ function guyra_get_user_data($user_id=1) {
 
     $profile_picture_url = $wp_user_meta['user_registration_profile_pic_url'];
 
-    $meetinglink = guyra_get_user_meta($user_id, 'meetinglink', true);
-    $payment_method = guyra_get_user_meta($user_id, 'payment_method', true);
-
     $user_data = [
   		'user_email' => $wp_user_data->user_email,
       'mail_confirmed' => 'true',
@@ -373,13 +370,13 @@ function guyra_get_user_data($user_id=1) {
   		'last_name' => $wp_user_meta['last_name'][0],
       'role' => $wp_user_meta['role'][0],
   		'user_registered' => $wp_user_data->user_registered,
-  		'user_payment_method' => $payment_method['meta_value'],
+  		'user_payment_method' => '',
   		'user_subscription' => '',
   		'user_subscription_since' => '',
   		'user_subscription_expires' => '',
   		'teacherid' => $wp_user_meta['teacherid'][0],
       'studygroup' => $wp_user_meta['studygroup'][0],
-  		'user_meetinglink' => $meetinglink['meta_value']
+  		'user_meetinglink' => guyra_get_user_meta($user_id, 'meetinglink', true)['meta_value']
   	];
 
     // Clean up the DB
@@ -399,12 +396,10 @@ function guyra_get_user_data($user_id=1) {
     delete_user_meta($user_id, 'user_registration_privacy_policy_1630936971');
     delete_user_meta($user_id, 'user_registration_profile_pic_url');
 
-    guyra_remove_user_meta($user_id, $meetinglink['meta_key'], false);
-    guyra_remove_user_meta($user_id, $payment_method['meta_key'], false);
+    guyra_remove_user_meta($user_id, 'meetinglink', false);
 
-  	guyra_update_user_data($user_id, 'userdata', $user_data);
+  	guyra_update_user_meta($user_id, 'userdata', addslashes(json_encode($user_data)));
 
-  	unset($wp_user_data);
   }
 
   return $user_data;

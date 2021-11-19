@@ -1,14 +1,46 @@
 <?php
-/**
- * The template for displaying 404 pages (not found)
- *
- * @link https://codex.wordpress.org/Creating_an_Error_404_Page
- *
- * @package guyra
- */
 
- /* Set up translations independent of Wordpress */
- include get_template_directory() . '/i18n.php';
+global $template_dir;
+global $template_url;
+global $current_user_id;
+global $site_url;
+global $gi18n;
+
+// Check if this page is supposed to exist but wasn't created yet.
+
+$post_data = [
+  'post_title'    => '',
+  'post_content'  => '',
+  'post_status'   => 'publish',
+  'post_type'     => 'page',
+  'post_author'   => 1,
+  'page_template' => null
+];
+
+$criticalPages = [
+  'Api',
+  'Account',
+  'Comment',
+  'Reference',
+  'Practice',
+  'Courses'
+];
+
+$weHaveDoneSomething = false;
+
+foreach ($criticalPages as $page) {
+  if ( !is_object( get_page_by_title($page) ) ) {
+
+    $weHaveDoneSomething = true;
+    $post_data['post_title'] = $page;
+    wp_insert_post($post_data);
+
+  }
+}
+
+if ($weHaveDoneSomething):
+  header('Location: '.$_SERVER['REQUEST_URI']);
+else:
 
 get_header();
 ?>
@@ -28,11 +60,9 @@ get_header();
 
 	</main>
 
-	<script>
-
-		setTimeout(function(){ window.location.href = "<?php echo get_site_url(); ?>"; }, 5000);
-
-	</script>
+	<script>setTimeout(() => window.location.href = "<?php echo $site_url; ?>", 5000)</script>
 
 <?php
 get_footer();
+
+endif;

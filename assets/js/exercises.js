@@ -1100,7 +1100,7 @@ class App extends React.Component {
 
   componentWillMount() {
 
-    fetch(rootUrl.concat('?json=levelmap&i18n=full'))
+    fetch(rootUrl + 'api?json=levelmap&i18n=full')
       .then(res => res.json())
       .then(json => {
         this.i18n = json.i18n
@@ -1175,7 +1175,7 @@ class App extends React.Component {
 
         // Finish up by posting userdata
 
-        fetch(rootUrl.concat('?user=1&update_level=1&value='.concat(Number(this.usermeta[3]) + 1)));
+        fetch(rootUrl + 'api?update_level=1&value=' + (Number(this.usermeta[3]) + 1));
 
         var userElo = this.usermeta[0] / 100;
 
@@ -1191,7 +1191,7 @@ class App extends React.Component {
         var moddedScore = (userElo + (mod + diffMod));
         var moddedScore = Number(this.usermeta[0]) + (this.currentExerciseWeight * moddedScore);
 
-        fetch(rootUrl.concat('?user=1&update_elo=1&value='.concat(Number(moddedScore))));
+        fetch(rootUrl + 'api?update_elo=1&value=' + Number(moddedScore));
 
         var dataToPost = {
           version: this.version,
@@ -1201,7 +1201,7 @@ class App extends React.Component {
         }
 
         fetch(
-          rootUrl.concat('?user=1&log_exercise_data=1'),
+          rootUrl + 'api?log_exercise_data=1',
           {
             method: "POST",
             headers: {
@@ -1463,11 +1463,11 @@ class App extends React.Component {
 
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
 
-    fetch(rootUrl.concat('/?json=exercise&level=').concat(level, '&unit=', id, '&length=5'))
+    fetch(rootUrl + 'api?json=exercise&level='.concat(level, '&unit=', id, '&length=5'))
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
 
-    fetch(rootUrl.concat('?json=usermeta'))
+    fetch(rootUrl + 'api?json=usermeta')
       .then(res => res.json())
       .then(json => {
         this.usermeta = json

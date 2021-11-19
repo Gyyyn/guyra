@@ -985,7 +985,7 @@ class Diary extends React.Component {
     }
 
     fetch(
-      rootUrl + 'action/?action=update_diary&user=' + this.props.diaryId,
+      rootUrl + 'api?action=update_diary&user=' + this.props.diaryId,
       {
         method: "POST",
         headers: {
@@ -1035,14 +1035,14 @@ class Diary extends React.Component {
 
   componentDidMount() {
 
-    fetch(rootUrl.concat('action/?json=1&i18n=full'))
+    fetch(rootUrl + 'api?json=1&i18n=full')
     .then(res => res.json())
     .then(json => {
       this.setState({
         i18n: json.i18n
       });
 
-      fetch(rootUrl + 'action/?action=get_diary&user=' + this.props.diaryId)
+      fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
       .then(res => res.json())
       .then(data => {
 

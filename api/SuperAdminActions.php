@@ -80,7 +80,6 @@ if ($_GET['create_page'] == "all") {
     'Classroom',
     'Courses',
     'Comment',
-    'Action',
     'Account',
   ];
 

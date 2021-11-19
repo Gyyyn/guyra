@@ -9,6 +9,7 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $site_url;
+global $site_api_url;
 global $gi18n;
 
 if (!function_exists('Guyra_hash')):
@@ -171,7 +172,7 @@ get_header(null, ['css' => 'schools.css']);
               <h4><?php echo $gi18n['group'] ?></h4>
               <div class="d-flex justify-content-between">
 
-                <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
+                <form class="d-flex w-100" action="<?php echo $site_api_url; ?>" method="GET">
 
                     <input class="flex-grow-1 me-3" placeholder="<?php echo $gi18n['group_tag'] ?>" type="text" name="assigntogroup">
                     <label>
@@ -188,7 +189,7 @@ get_header(null, ['css' => 'schools.css']);
               <h4 class="mt-3"><?php echo $gi18n['meeting_link'] ?></h4>
               <div class="d-flex flex-column justify-content-between">
 
-                <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
+                <form class="d-flex w-100" action="<?php echo $site_api_url; ?>" method="GET">
 
                     <input class="flex-grow-1 me-3" placeholder="https://us04web.zoom.us..." type="text" name="meetinglink">
                     <label>
@@ -304,7 +305,7 @@ get_header(null, ['css' => 'schools.css']);
 
             <h4><?php echo $gi18n['meeting_link'] ?></h4>
             <div class="d-flex justify-content-between">
-              <form class="d-flex w-100" action="<?php echo $site_url; ?>" method="GET">
+              <form class="d-flex w-100" action="<?php echo $site_api_url; ?>" method="GET">
 
                   <input class="flex-grow-1 me-3" placeholder="https://us04web.zoom.us..." type="text" name="meetinglink">
                   <label>
@@ -323,7 +324,7 @@ get_header(null, ['css' => 'schools.css']);
               <?php foreach ($group['usersNames'] as $user) {
               $user_id = $group['usersData'][$user]->ID;
               ?>
-              <form action="<?php echo $site_url; ?>" method="GET">
+              <form action="<?php echo $site_api_url; ?>" method="GET">
 
                   <label>
                     <a class="btn-tall btn-sm red me-3" title="<?php echo $gi18n['remove_from_group'] ?>" type="button" name="button">

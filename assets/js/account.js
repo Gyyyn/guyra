@@ -111,7 +111,7 @@ function AccountOptions_changePassword(props) {
               };
 
               fetch(
-                i18n.home_link + '?user=1&update_userdata=1',
+                 i18n.api_link + '?update_userdata=1',
                 {
                   method: "POST",
                   headers: {
@@ -196,7 +196,7 @@ function AccountOptions_profileDetails(props) {
                   form_data.append('file', theFile);
 
                   fetch(
-                    i18n.home_link + '?user=1&update_user_picture=1',
+                     i18n.api_link + '?update_user_picture=1',
                     {
                       method: "POST",
                       body: form_data
@@ -254,7 +254,7 @@ function AccountOptions_profileDetails(props) {
                       className: 'btn-tall btn-sm blue',
                       onClick: () => {
                         fetch(
-                          i18n.home_link + '?user=1&update_userdata=1',
+                          i18n.api_link + '?update_userdata=1',
                           {
                             method: "POST",
                             headers: {
@@ -362,7 +362,7 @@ function AccountOptions_profileDetails(props) {
                       }
 
                       fetch(
-                        i18n.home_link + '?user=1&update_userdata=1',
+                        i18n.api_link + '?update_userdata=1',
                         {
                           method: "POST",
                           headers: {
@@ -533,7 +533,7 @@ function AccountOptions_accountDetails(props) {
                 var theCode = document.getElementById('teacher-code-input');
 
                 if (theCode.value != '') {
-                  fetch(i18n.home_link + '?user=1&teacher_code=' + theCode.value);
+                  fetch(i18n.api_link + '?teacher_code=' + theCode.value);
                   setTimeout(() => { theCode.value = '' }, 150);
                 }
 
@@ -703,7 +703,7 @@ function WhoAmI_openPayments(props) {
       }
 
       items.push(
-        e(AccountContext.Consumer, null, ({setPage}) => e(
+        e(AccountContext.Consumer, null, ({setPage, i18n}) => e(
           'li',
           { className: 'pb-3 border-bottom w-100 align-items-center row mt-3' },
           e(
@@ -1058,7 +1058,7 @@ function Register(props) {
             } else {
 
             fetch(
-              i18n.home_link + '?user=1&register=1',
+              i18n.api_link + '?register=1',
               {
                 method: "POST",
                 headers: {
@@ -1152,7 +1152,7 @@ function LoginForm(props) {
             };
 
             fetch(
-              i18n.home_link + '?user=1&login=1',
+               i18n.api_link + '?login=1',
               {
                 method: "POST",
                 headers: {
@@ -1288,7 +1288,7 @@ function LostPassword(props) {
               var theEmail = document.getElementById('profile-email').value;
 
               if (theEmail != '') {
-                fetch(i18n.home_link + '?user=' + theEmail + '&lost_password=1')
+                fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
                 .then(res => res.json())
                 .then(json => {
                   if (json[0] == 'sent') {
@@ -1353,7 +1353,7 @@ class Account extends React.Component {
 
   componentWillMount() {
 
-    fetch(rootUrl.concat('?user=1&get_user_data=1'))
+    fetch(rootUrl + 'api?get_user_data=1')
       .then(res => res.json())
       .then(res => {
 
@@ -1372,7 +1372,7 @@ class Account extends React.Component {
           usermeta: this.usermeta
         })
 
-        fetch(rootUrl.concat('?json=1&i18n=full'))
+        fetch(rootUrl + 'api?json=1&i18n=full')
           .then(res => res.json())
           .then(json => {
             this.setState({

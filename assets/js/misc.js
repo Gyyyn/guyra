@@ -31,8 +31,8 @@ var inactivityTime = function() {
         notepad: localStorage.getItem('notepad')
       }
 
-      fetch(
-        window.location.origin.concat('/action/?action=update_user_textareas'),
+        fetch(
+        window.location.origin.concat('api?action=update_user_textareas'),
         {
           method: "POST",
           headers: {

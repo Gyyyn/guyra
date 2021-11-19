@@ -1,13 +1,4 @@
 <?php
-/**
- * Admin actions
- *
- * @package guyra
- */
-
-if ( ! defined( 'ABSPATH' ) ) {
- exit; // Exit if accessed directly
-}
 
 global $template_dir;
 global $template_url;
@@ -16,9 +7,12 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 
+if ($_GET['json']) {
+  include $template_dir . '/api/GameData.php';
+}
+
 $redirect = $_GET['redirect'];
 $isAdmin = current_user_can('manage_options');
-$isInAdminLoop = false;
 
 if (!$_GET['redirect']) {
   $redirect = $site_url;
@@ -27,7 +21,6 @@ if (!$_GET['redirect']) {
 // Case where user is site admin
 if ($isAdmin) {
 
-  $isInAdminLoop = true;
   include $template_dir . '/api/SuperAdminActions.php';
 
 }
@@ -35,17 +28,11 @@ if ($isAdmin) {
 // Case where user is a teacher
 if ($isAdmin || $current_user_data['role'] == "teacher") {
 
-  $isInAdminLoop = true;
   include $template_dir . '/api/GroupAdminActions.php';
 
 }
 
-// Non admin actions
-if (!$isInAdminLoop) {
-
-  include $template_dir . '/api/UserActions.php';
-
-}
+include $template_dir . '/api/UserActions.php';
 
 // Game API
 if ($_GET['exercises']) {

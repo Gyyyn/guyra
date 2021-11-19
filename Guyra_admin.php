@@ -303,8 +303,8 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <div class="admin-forms border rounded p-3 m-0">
 
   <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-primary">Wordpress admin</a>
-  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create DBs</a>
-  <a href="<?php echo $site_url . '?user=' . $current_user_id . '&create_page=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
+  <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create DBs</a>
+  <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_page=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
 
   </div>
 
