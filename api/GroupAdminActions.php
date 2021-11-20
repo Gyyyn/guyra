@@ -8,6 +8,7 @@ global $current_user_gamedata;
 global $site_url;
 
 $user = $_GET['user'];
+$allowedUsers = [];
 $users = get_users();
 
 foreach ($users as $x) {

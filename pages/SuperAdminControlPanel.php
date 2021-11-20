@@ -4,13 +4,13 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $site_url;
+global $site_api_url;
 global $is_admin;
+global $gi18n;
 
 if (!$is_admin) {
   exit;
 }
-
-include $template_dir . '/i18n.php';
 
 // Get users
 $users = get_users();
@@ -120,7 +120,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
       </ul>
     </div>
 
-    <form action="<?php echo $site_url; ?>" method="GET">
+    <form action="<?php echo $site_api_url; ?>" method="GET">
         Option: <input type="text" name="change_option">
         Value: <input type="text" name="value">
         <input type="hidden" name="user" value="1" class="user-id">
@@ -197,7 +197,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
           <div class="admin-forms border rounded p-3 m-0">
 
             <h5>Assign to teacher:</h5>
-            <form action="<?php echo $site_url; ?>" method="GET">
+            <form action="<?php echo $site_api_url; ?>" method="GET">
                 Teacher ID: <input type="number" name="assigntoteacher">
                 <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
                 <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
@@ -206,12 +206,12 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
             <hr />
 
-            <a class="btn btn-primary" href="<?php echo $site_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $gi18n['guyra_admin_link']; ?>">Clear Teacher</a>
+            <a class="btn btn-primary" href="<?php echo $site_api_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $gi18n['guyra_admin_link']; ?>">Clear Teacher</a>
 
             <hr />
 
             <h5>Assign to group:</h5>
-            <form action="<?php echo $site_url; ?>" method="GET">
+            <form action="<?php echo $site_api_url; ?>" method="GET">
                 Group tag: <input type="text" name="assigntogroup">
                 <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
                 <input type="hidden" value="<?php echo $x->ID; ?>" name="user">
@@ -232,7 +232,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
           <div class="admin-forms border rounded p-3 m-0">
 
             <h5>Give premium:</h5>
-            <form action="<?php echo $site_url; ?>" method="GET">
+            <form action="<?php echo $site_api_url; ?>" method="GET">
                 <?php echo $gi18n['date']; ?>: <input type="date" name="till">
                 <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
                 <input type="hidden" value="premium" name="subscription">
@@ -243,7 +243,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
             <hr />
 
             <h5>Give lite:</h5>
-            <form action="<?php echo $site_url; ?>" method="GET">
+            <form action="<?php echo $site_api_url; ?>" method="GET">
                 <?php echo $gi18n['date']; ?>: <input type="date" name="till">
                 <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
                 <input type="hidden" value="lite" name="subscription">
@@ -261,7 +261,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
               </ul>
             </div>
 
-            <form action="<?php echo $site_url; ?>" method="GET">
+            <form action="<?php echo $site_api_url; ?>" method="GET">
                 Role: <input type="text" name="giverole">
                 <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
                 <input type="hidden" value="<?php echo $x->ID; ?>" name="user">

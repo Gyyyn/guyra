@@ -40,7 +40,9 @@ if ($where_am_i == 'reference') {
 if ($where_am_i == 'category/blog') {
   $blogbtn_class = $highlight_class;
   $body_class[] = 'blog';
-  $page_Title =  $gi18n['blog'] . ' ' . $gi18n['company_name'];
+  if ($is_logged_in) {
+    $page_Title =  $gi18n['blog'] . ' ' . $gi18n['company_name'];
+  }
 }
 
 if ($where_am_i == 'account') {

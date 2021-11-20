@@ -213,7 +213,7 @@
       ["What are they doing?", "are they", "(elas estão)"],
       ["What's she doing?", "she doing", "(ela ____ fazendo)"],
       ["What's he doing?", "he doing", "(ele ____ fazendo)"],
-      ["What's they doing?", "they doing", "(eles ____ fazendo)"],
+      ["What are they doing?", "they doing", "(eles ____ fazendo)"],
       ["What are you doing?", "you doing", "(você ____ fazendo)"],
       ["She's having breakfast.", "having breakfast", "(tomando café da manhã)"],
       ["She's having dinner.", "having dinner", "(jantando)"],
@@ -626,7 +626,7 @@
     "CompleteThePhrase": [
       ["Today's the fifth.", "fifth", "(quinto)"],
       ["Today's the sixth.", "sixth", "(sexto)"],
-      ["Today's the eigth.", "eigth", "(oitavo)"],
+      ["Today's the eight.", "eight", "(oitavo)"],
       ["Today's the tenth.", "tenth", "(décimo)"],
       ["Tomorrow will be the seventeenth.", "seventeenth", "(décimo sétimo)"],
       ["Tomorrow will be the fifteenth.", "fifteenth", "(décimo quinto)"],

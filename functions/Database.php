@@ -1,13 +1,4 @@
 <?php
-/**
- * Database functions
- *
- * @package guyra
- */
-
-if ( ! defined( 'ABSPATH' ) ) {
-  exit; // Exit if accessed directly
-}
 
 global $template_dir;
 global $template_url;
@@ -425,7 +416,7 @@ function guyra_get_user_game_data($user_id=1) {
     guyra_remove_user_meta($user_id, $level['meta_key'], false);
     guyra_remove_user_meta($user_id, $elo['meta_key'], false);
 
-  	guyra_update_user_data($user_id, 'gamedata', $user_data);
+  	guyra_update_user_meta($user_id, 'gamedata', addslashes(json_encode($user_data)));
   }
 
   return $user_data;

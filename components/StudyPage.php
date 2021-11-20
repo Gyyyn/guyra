@@ -64,8 +64,11 @@ function GetUserStudyPage($user, $returnObject=false) {
 }
 
 function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comment_author, $comment_parent=0, $redirect=false) {
+
+  global $site_api_url;
+
   ?>
-  <form action="<?php echo get_site_url() . '/comment' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
+  <form action="<?php echo $site_api_url . '?reply=1' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
     <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
     <span class="form-submit">
 

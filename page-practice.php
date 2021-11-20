@@ -8,10 +8,9 @@
 global $template_dir;
 global $site_url;
 global $is_logged_in;
+global $gi18n;
 
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
-
-include $template_dir . '/i18n.php';
 
 get_header();
 ?>

@@ -12,8 +12,7 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
-
-include $template_dir . '/i18n.php';
+global $gi18n;
 
 $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_value'];
 

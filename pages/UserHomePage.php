@@ -18,7 +18,7 @@ if (!$is_logged_in) { wp_redirect($site_url); exit; }
 include_once $template_dir . '/components/StudyPage.php';
 
 $newspage = get_page_by_title('News');
-$teacherid = $current_user_meta['teacherid'][0];
+$teacherid = $current_user_data['teacherid'];
 
 get_header();
 

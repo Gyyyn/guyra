@@ -11,8 +11,8 @@ $site_url = get_site_url();
 $admin_url = get_admin_url();
 $site_api_url = $site_url . '/api';
 
-include_once $template_dir . '/i18n.php';
-include_once $template_dir . '/Guyra_database.php';
+include_once $template_dir . '/components/i18n.php';
+include_once $template_dir . '/functions/Database.php';
 include_once $template_dir . '/components/Topbar.php';
 
 if ($is_logged_in) {

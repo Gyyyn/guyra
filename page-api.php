@@ -8,14 +8,16 @@ global $current_user_gamedata;
 global $site_url;
 global $is_admin;
 
-if ($_GET['json']) {
-  include $template_dir . '/api/GameData.php';
+$redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
+
+// Reply submission
+if ($_GET['reply']) {
+  include $template_dir . '/api/Reply.php';
 }
 
-$redirect = $_GET['redirect'];
-
-if (!$_GET['redirect']) {
-  $redirect = $site_url;
+// Game data
+if ($_GET['json']) {
+  include $template_dir . '/api/GameData.php';
 }
 
 // Case where user is site admin

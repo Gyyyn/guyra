@@ -9,8 +9,7 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $is_logged_in;
-
-include $template_dir . '/i18n.php';
+global $gi18n;
 
 get_header();
 ?>

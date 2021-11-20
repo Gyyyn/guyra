@@ -5,15 +5,12 @@ global $template_url;
 global $current_user_id;
 global $site_url;
 global $site_api_url;
+global $is_logged_in;
 global $gi18n;
 
 include_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/components/StudyPage.php';
 include_once $template_dir . '/components/ProfilePicture.php';
-
-global $template_dir;
-global $site_url;
-global $is_logged_in;
 
 $users = get_users();
 $userTeacherCode = Guyra_hash($current_user_id);
@@ -205,7 +202,7 @@ get_header(null, ['css' => 'schools.css']);
 
                 <?php echo $gi18n['archive_student_explain']; ?>
 
-                <a class="btn-tall blue align-self-baseline" href="<?php echo $site_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $loaded_at; ?>"><?php echo $gi18n['archive_student']; ?></a>
+                <a class="btn-tall blue align-self-baseline" href="<?php echo $site_api_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $loaded_at; ?>"><?php echo $gi18n['archive_student']; ?></a>
 
               </div>
 

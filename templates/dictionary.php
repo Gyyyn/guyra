@@ -10,8 +10,7 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
-
-include $template_dir . '/i18n.php';
+global $gi18n;
 
 ?>
 

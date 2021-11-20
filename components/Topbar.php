@@ -3,7 +3,7 @@
 function guyra_render_topbar() {
 
   global $gi18n;
-  global $current_user_meta;
+  global $current_user_data;
   global $current_user_id;
   global $is_admin;
 
@@ -39,7 +39,7 @@ function guyra_render_topbar() {
       <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
     </a>
 
-    <?php if ($current_user_meta['teacherid'][0]): ?>
+    <?php if ($current_user_data['teacherid']): ?>
 
     <a class="list-group-item meeting-link" href="<?php echo $meeting_link; ?>">
       <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
