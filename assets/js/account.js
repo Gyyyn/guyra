@@ -148,6 +148,45 @@ function AccountOptions_changePassword(props) {
   ));
 }
 
+function PhoneNumberInput(props) {
+  return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
+      'input',
+      {
+        id: 'profile-phone',
+        name: 'user_phone',
+        type: "tel",
+        className: "input-phone",
+        placeholder: usermeta.user_phone,
+        onKeyPress: (e) => {
+
+          o = e.target;
+
+          function phone(v) {
+            var r = v.replace(/\D/g, "");
+            r = r.replace(/^0/, "");
+            if (r.length > 10) {
+              r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else if (r.length > 5) {
+              r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            } else if (r.length > 2) {
+              r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+            } else {
+              r = r.replace(/^(\d*)/, "($1");
+            }
+            return r;
+          }
+
+          setTimeout(() => {
+            var v = phone(o.value);
+            if (v != o.value) {
+              o.value = v;
+            }
+          }, 1);
+        }
+      }
+    ));
+}
+
 function AccountOptions_profileDetails(props) {
 
   return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
@@ -240,41 +279,51 @@ function AccountOptions_profileDetails(props) {
           { className: 'form-control mb-5' },
           e(
             'div',
-            { className: 'mb-3'},
-            e('label', { for: 'profile-email' }, i18n.email),
-            e(AccountContext.Consumer, null, ({usermeta}) => {
-              if (usermeta.mail_confirmed != 'true') {
-                return e(
-                  'div',
-                  { className: 'dialog-box info' },
-                  e('p', null, i18n.confirm_mail),
-                  e(
-                    'button',
-                    {
-                      className: 'btn-tall btn-sm blue',
-                      onClick: () => {
-                        fetch(
-                          i18n.api_link + '?update_userdata=1',
-                          {
-                            method: "POST",
-                            headers: {
-                              'Accept': 'application/json, text/plain, */*',
-                              'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                              fields: ['user_email'],
-                              user_email: usermeta.user_email
-                            })
-                          }
-                        );
-                      }
-                    },
-                    i18n.confirm_mail_button
-                  )
-                );
-              }
-            }),
-            e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: usermeta.user_email })
+            { className: 'd-flex flex-row mb-3'},
+            e(
+              'div',
+              { className: 'd-flex flex-column w-50 pe-3' },
+              e('label', { for: 'profile-email' }, i18n.email),
+              e(AccountContext.Consumer, null, ({usermeta}) => {
+                if (usermeta.mail_confirmed != 'true') {
+                  return e(
+                    'div',
+                    { className: 'dialog-box info' },
+                    e('p', null, i18n.confirm_mail),
+                    e(
+                      'button',
+                      {
+                        className: 'btn-tall btn-sm blue',
+                        onClick: () => {
+                          fetch(
+                            i18n.api_link + '?update_userdata=1',
+                            {
+                              method: "POST",
+                              headers: {
+                                'Accept': 'application/json, text/plain, */*',
+                                'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({
+                                fields: ['user_email'],
+                                user_email: usermeta.user_email
+                              })
+                            }
+                          );
+                        }
+                      },
+                      i18n.confirm_mail_button
+                    )
+                  );
+                }
+              }),
+              e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: usermeta.user_email })
+            ),
+            e(
+              'div',
+              { className: 'd-flex flex-column w-50' },
+              e('label', { for: 'profile-phone' }, i18n.phone),
+              e(PhoneNumberInput),
+            )
           ),
           e(
             'div',
@@ -291,16 +340,6 @@ function AccountOptions_profileDetails(props) {
               e('label', { for: 'profile-last-name' }, i18n.lastname),
               e('input', { id: 'profile-last-name', type: "text", className: "input-last-name", placeholder: usermeta.last_name })
             ),
-          ),
-          e(
-            'div',
-            { className: 'd-flex flex-row mb-3'},
-            e(
-              'div',
-              { className: 'd-flex flex-column w-50 pe-3' },
-              e('label', { for: 'profile-phone' }, i18n.phone),
-              e('input', { id: 'profile-phone', name: 'user_phone', type: "tel", className: "input-phone" }),
-            )
           ),
           e(
             'div',
@@ -331,6 +370,7 @@ function AccountOptions_profileDetails(props) {
                     user_email: document.getElementById('profile-email'),
                     first_name: document.getElementById('profile-first-name'),
                     last_name: document.getElementById('profile-last-name'),
+                    user_phone: document.getElementById('profile-phone'),
                   }
 
                   Object.values(fields).forEach((item, i) => {
@@ -1005,16 +1045,6 @@ function Register(props) {
             { className: 'd-flex flex-column w-50' },
             e('label', { for: 'profile-lastname' }, i18n.lastname),
             e('input', { id: 'profile-lastname', name: 'user_last_name', type: "email", className: "input-lastname" })
-          )
-        ),
-        e(
-          'div',
-          { className: 'd-flex flex-row mb-3'},
-          e(
-            'div',
-            { className: 'd-flex flex-column w-50 me-3' },
-            e('label', { for: 'profile-phone' }, i18n.phone),
-            e('input', { id: 'profile-phone', name: 'user_phone', type: "number", className: "input-phone" }),
           )
         ),
         e(

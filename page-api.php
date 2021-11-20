@@ -8,6 +8,8 @@ global $current_user_gamedata;
 global $site_url;
 global $is_admin;
 
+nocache_headers();
+
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
 
 // Reply submission

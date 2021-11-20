@@ -48,7 +48,9 @@ if ($where_am_i == 'category/blog') {
 if ($where_am_i == 'account') {
   $profilebtn_class = $highlight_class;
   $body_class[] = 'profile';
-  $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['company_name'];
+  if ($is_logged_in) {
+    $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['company_name'];
+  }
 }
 
 if ($where_am_i == 'schools') {
