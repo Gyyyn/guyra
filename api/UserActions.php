@@ -16,7 +16,7 @@ $user = $_GET['user'];
 
 if ($_GET['update_elo'] && $_GET['value']) {
   $current_user_gamedata['elo'] = $_GET['value'];
-  guyra_update_user_meta($current_user_id, 'gamedata', addslashes(json_encode($current_user_gamedata)));
+  guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata, JSON_UNESCAPED_UNICODE));
 }
 
 if ($_GET['update_level'] && $_GET['value']) {
@@ -24,11 +24,11 @@ if ($_GET['update_level'] && $_GET['value']) {
 }
 
 if ($_GET['log_exercise_data']) {
-  guyra_log_to_db($current_user_id, addslashes(file_get_contents('php://input')));
+  guyra_log_to_db($current_user_id, mysql_real_escape_string(file_get_contents('php://input')));
 }
 
 if ($_GET['action'] == 'update_user_textareas') {
-  guyra_update_user_meta($current_user_id, 'textareas', addslashes(file_get_contents('php://input')));
+  guyra_update_user_meta($current_user_id, 'textareas', mysql_real_escape_string(file_get_contents('php://input')));
 }
 
 if ($_GET['teacher_code']) {
@@ -65,8 +65,16 @@ if ($_GET['update_userdata']) {
   // the json output will exit and nothing else will run.
   if ($nonce) {
     if ($_GET['action'] == 'confirm_mail' && $_SESSION['confirm_mail'][$current_user_id] == $nonce) {
+
+      // For now we need to update the WP DB too.
+      wp_update_user([
+        'ID' => $user,
+        'user_email' => $current_user_data['user_email']
+      ]);
+
       $current_user_data['mail_confirmed'] = 'true';
       $quit = false;
+
     } else {
       guyra_output_json('false', true);
     }
@@ -125,7 +133,7 @@ if ($_GET['update_userdata']) {
     }
   }
 
-  guyra_update_user_meta($current_user_id, 'userdata', addslashes(json_encode($current_user_data)));
+  guyra_update_user_meta($current_user_id, 'userdata', json_encode($current_user_data, JSON_UNESCAPED_UNICODE));
 
   if ($quit) {
     guyra_output_json('true', true);
@@ -148,7 +156,7 @@ if ($_GET['update_user_picture']) {
 
       $current_user_data['profile_picture_url'] = $movefile['url'];
 
-      guyra_update_user_meta($current_user_id, 'userdata', json_encode($current_user_data));
+      guyra_update_user_meta($current_user_id, 'userdata', json_encode($current_user_data, JSON_UNESCAPED_UNICODE));
 
       guyra_output_json($movefile['url'], true);
 
@@ -217,7 +225,7 @@ if ($_GET['register']) {
         'teacherid' => '',
         'studygroup' => '',
         'user_meetinglink' => ''
-      ]));
+      ], JSON_UNESCAPED_UNICODE));
 
       $creds = [
         'user_login'    => $data['user_email'],

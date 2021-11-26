@@ -165,5 +165,13 @@ function custom_die_handler( $message, $title="", $args = array() ) {
 function swap_die_handlers() {
     return 'custom_die_handler';
 }
-
 add_filter('wp_die_handler', 'swap_die_handlers' );
+
+// Disable default wp_mails
+function disabling_emails( $args ){
+    unset ( $args['to'] );
+    return $args;
+}
+add_filter('wp_mail','disabling_emails', 10,1);
+add_filter( 'send_password_change_email', '__return_false' );
+add_filter( 'send_email_change_email', '__return_false' );

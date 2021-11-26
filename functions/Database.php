@@ -146,6 +146,7 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
 function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $meta_value = $db->real_escape_string($meta_value);
 
   if ($db->connect_error) {
 
@@ -336,7 +337,7 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
 
   }
 
-  guyra_update_user_meta($user_id, 'userdata', addslashes(json_encode($user_data)));
+  guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
 }
 
 function guyra_get_user_data($user_id=1) {
@@ -400,7 +401,7 @@ function guyra_get_user_data($user_id=1) {
     delete_user_meta($user_id, 'user_registration_profile_pic_url');
 
     guyra_remove_user_meta($user_id, 'meetinglink', false);
-  	guyra_update_user_meta($user_id, 'userdata', addslashes(json_encode($user_data)));
+  	guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
 
   }
 
@@ -427,7 +428,7 @@ function guyra_get_user_game_data($user_id=1) {
     guyra_remove_user_meta($user_id, $level['meta_key'], false);
     guyra_remove_user_meta($user_id, $elo['meta_key'], false);
 
-  	guyra_update_user_meta($user_id, 'gamedata', addslashes(json_encode($user_data)));
+  	guyra_update_user_meta($user_id, 'gamedata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
   }
 
   return $user_data;

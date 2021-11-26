@@ -277,6 +277,39 @@ function AccountOptions_profileDetails(props) {
         e(
           'div',
           { className: 'form-control mb-5' },
+          e(AccountContext.Consumer, null, ({usermeta}) => {
+            if (usermeta.mail_confirmed != 'true') {
+              return e(
+                'div',
+                { className: 'dialog-box info' },
+                e('p', null, i18n.confirm_mail),
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall btn-sm blue',
+                    onClick: () => {
+                      fetch(
+                        i18n.api_link + '?update_userdata=1',
+                        {
+                          method: "POST",
+                          headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            fields: ['user_email'],
+                            user_email: usermeta.user_email
+                          })
+                        }
+                      )
+                      .then(res => res.text()).then(res => console.log(res));
+                    }
+                  },
+                  i18n.confirm_mail_button
+                )
+              );
+            }
+          }),
           e(
             'div',
             { className: 'd-flex flex-row mb-3'},
@@ -284,39 +317,6 @@ function AccountOptions_profileDetails(props) {
               'div',
               { className: 'd-flex flex-column w-50 pe-3' },
               e('label', { for: 'profile-email' }, i18n.email),
-              e(AccountContext.Consumer, null, ({usermeta}) => {
-                if (usermeta.mail_confirmed != 'true') {
-                  return e(
-                    'div',
-                    { className: 'dialog-box info' },
-                    e('p', null, i18n.confirm_mail),
-                    e(
-                      'button',
-                      {
-                        className: 'btn-tall btn-sm blue',
-                        onClick: () => {
-                          fetch(
-                            i18n.api_link + '?update_userdata=1',
-                            {
-                              method: "POST",
-                              headers: {
-                                'Accept': 'application/json, text/plain, */*',
-                                'Content-Type': 'application/json'
-                              },
-                              body: JSON.stringify({
-                                fields: ['user_email'],
-                                user_email: usermeta.user_email
-                              })
-                            }
-                          )
-                          .then(res => res.text()).then(res => console.log(res));
-                        }
-                      },
-                      i18n.confirm_mail_button
-                    )
-                  );
-                }
-              }),
               e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: usermeta.user_email })
             ),
             e(

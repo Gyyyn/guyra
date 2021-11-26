@@ -62,7 +62,7 @@ if ($_GET['action'] == 'get_diary') {
 // Update a user's diary.
 // ---
 if ($_GET['action'] == 'update_diary') {
-  guyra_update_user_meta($user, 'diary', addslashes(file_get_contents('php://input')));
+  guyra_update_user_meta($user, 'diary', mysql_real_escape_string(file_get_contents('php://input')));
 }
 
 // If we got a list of users there is only a few possible things we can do.

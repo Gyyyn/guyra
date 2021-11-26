@@ -77,7 +77,7 @@ if ($is_logged_in) {
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#06b6f1"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">

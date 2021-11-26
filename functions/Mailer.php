@@ -9,10 +9,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 function Guyra_mail($template, $subject, $to, $string_replacements) {
 
   global $template_dir;
+  global $gi18n;
 
   $mail = new PHPMailer();
+  $mail->CharSet = 'UTF-8';
   $mail->isSendmail();
-  $mail->setFrom('hello@guyra.me', 'Guyrá');
+  $mail->setFrom('hello@guyra.me', $gi18n['company_name']);
   $mail->addAddress($to);
   $mail->Subject = $subject;
 
