@@ -50,6 +50,11 @@ function GetTTSAudioFor($audioText) {
   $audioPath = $template_dir . $audioCacheLocation . md5($audioText) . $ext;
   $audioPathURL = $template_url . $audioCacheLocation . md5($audioText) . $ext;
 
+  // Check if the directory already exists.
+  if(!is_dir($template_dir . $audioCacheLocation)){
+      mkdir($template_dir . $audioCacheLocation, 0755, true);
+  }
+
   $cachedAudio = file_get_contents($audioPath);
 
   if ($cachedAudio === false) {
