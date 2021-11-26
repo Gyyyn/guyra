@@ -57,6 +57,7 @@ if ($_GET['update_userdata']) {
 
   $data = json_decode(file_get_contents('php://input'), true);
   $nonce = $_GET['nonce'];
+  $user = $current_user_id;
 
   session_start();
 
