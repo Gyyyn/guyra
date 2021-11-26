@@ -308,7 +308,8 @@ function AccountOptions_profileDetails(props) {
                                 user_email: usermeta.user_email
                               })
                             }
-                          );
+                          )
+                          .then(res => res.text()).then(res => console.log(res));
                         }
                       },
                       i18n.confirm_mail_button
@@ -396,11 +397,6 @@ function AccountOptions_profileDetails(props) {
                         dataToPost.fields.push(item);
                       });
 
-
-                      if (tryingToChangeEmail) {
-                        setMessageBox(i18n.confirm_mail_fields);
-                      }
-
                       fetch(
                         i18n.api_link + '?update_userdata=1',
                         {
@@ -412,6 +408,10 @@ function AccountOptions_profileDetails(props) {
                           body: JSON.stringify(dataToPost)
                         }
                       );
+
+                      if (tryingToChangeEmail) {
+                        setMessageBox(i18n.confirm_mail_fields);
+                      }
 
                     }
                   }
@@ -1072,7 +1072,6 @@ function Register(props) {
             dataToPost = {
               user_email: document.getElementById('profile-email').value,
               user_password: document.getElementById('profile-password').value,
-              user_phone: document.getElementById('profile-phone').value,
               user_firstname: document.getElementById('profile-firstname').value,
               user_lastname: document.getElementById('profile-lastname').value
             };

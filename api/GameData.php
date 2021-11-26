@@ -9,6 +9,7 @@ global $is_logged_in;
 if (!defined('ABSPATH')) { exit; }
 
 include_once $template_dir . '/functions/Game.php';
+include_once $template_dir . '/functions/Exercises.php';
 
 $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
 $levelMap = json_decode(file_get_contents($template_dir . '/assets/json/levelmap.json'), true);
@@ -61,6 +62,11 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 
       $used_numbers[] = $rnd;
       $ex = $json[$unit][$type][$rnd];
+
+      if ($type == 'WhatYouHear') {
+        $ex[] = GetTTSAudioFor($ex[0]);
+      }
+
       array_unshift($ex, $type);
 
       $res[] = $ex;

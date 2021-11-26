@@ -8,7 +8,10 @@ global $current_user_gamedata;
 global $site_url;
 global $is_admin;
 
-nocache_headers();
+if ($_GET['disable_cache'] != 'true') {
+  nocache_headers();
+  error_reporting(0);
+}
 
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
 

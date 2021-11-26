@@ -341,11 +341,23 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
 
 function guyra_get_user_data($user_id=1) {
 
+  global $site_api_url;
+
   $user_data = guyra_get_user_meta($user_id, 'userdata', true)['meta_value'];
 
   if ($user_data) {
   	$user_data = json_decode($user_data, true);
+
+    if ($user_data['profile_picture_url'] == '') {
+      $theHash = $user_data['first_name'] . $user_data['last_name'];
+      $user_data['profile_picture_url'] = $site_api_url . '?get_identicon=1&hash=' . $theHash;
+    }
+
   } else {
+
+    global $template_dir;
+
+    include_once $template_dir . '/functions/Hash.php';
 
     // TODO: Deprecate this once all user are moved
   	$wp_user_data = get_userdata($user_id);
@@ -356,7 +368,7 @@ function guyra_get_user_data($user_id=1) {
     $user_data = [
   		'user_email' => $wp_user_data->user_email,
       'mail_confirmed' => 'true',
-  		'profile_picture_url' => ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : get_avatar_url($user_id, ['size' => 256]),
+  		'profile_picture_url' => ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : '',
   		'first_name' => $wp_user_meta['first_name'][0],
   		'last_name' => $wp_user_meta['last_name'][0],
       'role' => $wp_user_meta['role'][0],
@@ -388,7 +400,6 @@ function guyra_get_user_data($user_id=1) {
     delete_user_meta($user_id, 'user_registration_profile_pic_url');
 
     guyra_remove_user_meta($user_id, 'meetinglink', false);
-
   	guyra_update_user_meta($user_id, 'userdata', addslashes(json_encode($user_data)));
 
   }

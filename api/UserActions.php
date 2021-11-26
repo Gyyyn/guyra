@@ -6,10 +6,13 @@ global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
+global $site_api_url;
 
 include_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/Game.php';
+
+$user = $_GET['user'];
 
 if ($_GET['update_elo'] && $_GET['value']) {
   $current_user_gamedata['elo'] = $_GET['value'];
@@ -96,11 +99,13 @@ if ($_GET['update_userdata']) {
         $current_user_data[$field] = $data[$field];
 
         if ($field == 'user_email') {
+
+          $userNewMail = $data[$field];
           $current_user_data['mail_confirmed'] = 'false';
           $bytes = bin2hex(random_bytes(16));
           $_SESSION['confirm_mail'][$user] = $bytes;
 
-          $link = $gi18n['home_link'] . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
+          $link = $site_api_url . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
 
           $string_replacements = [
             $gi18n['confirm_email_email_title'],
@@ -109,7 +114,7 @@ if ($_GET['update_userdata']) {
             $link
           ];
 
-          Guyra_mail('lost_password.html', $gi18n['confirm_email_email_title'], $userdata->user_email, $string_replacements);
+          Guyra_mail('lost_password.html', $gi18n['confirm_email_email_title'], $userNewMail, $string_replacements);
 
           $quit = true;
 
@@ -273,7 +278,7 @@ if ($_GET['lost_password']) {
       $bytes = bin2hex(random_bytes(16));
       $_SESSION['lost_password'][$user] = $bytes;
 
-      $link = $gi18n['home_link'] . '?lost_password=1&user=' . $user . '&nonce=' . $bytes;
+      $link = $site_api_url . '?lost_password=1&user=' . $user . '&nonce=' . $bytes;
 
       $string_replacements = [
         $gi18n['forgot_password_email_title'],
@@ -310,6 +315,21 @@ if ($_GET['get_user_data']) {
 
   guyra_output_json(json_encode($theData), true);
 
+}
+
+if ($_GET['get_identicon']) {
+  global $template_dir;
+  require $template_dir . '/vendor/autoload.php';
+
+  header('Cache-Control: max-age=604800');
+
+  $hash = $_GET['hash'];
+
+  $icon = new \Jdenticon\Identicon();
+  $icon->setValue($hash);
+  $icon->setSize(256);
+  $icon->displayImage('png');
+  exit;
 }
 
 ?>

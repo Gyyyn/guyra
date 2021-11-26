@@ -300,7 +300,8 @@ function activityWhatYouHear(theExercise, hint) {
       shuffleArray(phraseSplit),
       phrase,
       hint,
-      phrase
+      phrase,
+      theExercise[2]
     ];
 }
 
@@ -397,7 +398,7 @@ class AnswersPhraseBuilder extends React.Component {
             e(
               'a',
               {
-                className: 'btn-tall blue align-self-end flex-shrink-1',
+                className: 'btn-tall blue align-self-end flex-shrink-1 d-none',
                 onClick: () => { synthSpeak(phraseBuilderPhrase) }
               },
               e('i', { className: "bi bi-ear" })
@@ -511,6 +512,10 @@ function QuestionDialog(props) {
 
 function QuestionAudioButton(props) {
 
+  theAudio = new Audio(props.link);
+  theAudioSlow = new Audio(props.link);
+  theAudioSlow.playbackRate = 0.75;
+
   return e(
     'div',
     { className: 'd-inline-flex align-items-baseline' },
@@ -519,7 +524,7 @@ function QuestionAudioButton(props) {
       {
         className: 'text-larger btn-tall blue me-3',
         onClick: () => {
-          synthSpeak(props.phrase)
+          theAudio.play();
         }
       },
       e('i', { className: "bi bi-volume-up-fill" })
@@ -529,7 +534,7 @@ function QuestionAudioButton(props) {
       {
         className: 'text-normal btn-tall blue me-3',
         onClick: () => {
-          synthSpeak(props.phrase, 0.7)
+          theAudioSlow.play();
         }
       },
       e('i', { className: "bi bi-hourglass-split" })
@@ -559,7 +564,7 @@ function QuestionAudio(props) {
         {
           className: "exercise-dialog"
         },
-        e(QuestionAudioButton, {phrase: props.values[4]}),
+        e(QuestionAudioButton, { phrase: props.values[4], link: props.values[5] }),
         e('span', null, props.values[0])
       )
     )
@@ -1426,6 +1431,8 @@ class App extends React.Component {
   }
 
   setExerciseObject = (object) => {
+
+    console.log(object);
 
     object.forEach((item, i) => {
 

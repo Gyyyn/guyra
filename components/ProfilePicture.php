@@ -1,4 +1,6 @@
 <?php
+global $template_dir;
+global $template_url;
 
 function Guyra_get_profile_picture($user, $classlist=null, $onlylink=false) {
 

@@ -148,7 +148,7 @@ $gi18n = [
 	'pricesfeature_subtitlepro' => 'Aprendizado total.',
 	'pricesfeature_titlebusiness' => 'Guyrá for Schools',
 	'pricesfeature_subtitlebusiness' => 'Colocar todo mundo pra aprender.',
-	'pricesfeature_pricelite' => '<s class="text-small text-grey">49R$</s> <span class="text-primary">19R$</span>',
+	'pricesfeature_pricelite' => '<s class="text-small text-grey">59R$</s> <span class="text-primary">29R$</span>',
 	'pricesfeature_pricepro' => '149R$',
 	'pricesfeature_pricebusiness' => '<small>A partir de</small> 120R$',
 	'pricesfeature_courses_access' => 'Acesso as vídeo aulas.',
