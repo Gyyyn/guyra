@@ -1046,6 +1046,8 @@ class Diary extends React.Component {
       .then(res => res.json())
       .then(data => {
 
+        console.log(data);
+
         if (data[0] != false) {
           var theJson = JSON.parse(data[0].meta_value);
 

@@ -107,7 +107,7 @@ get_header(null, ['css' => 'schools.css']);
 
             $groupsData[$userGroup]['users'][] = $user;
             $groupsData[$userGroup]['usersNames'][] = $user_data['first_name'];
-            $groupsData[$userGroup]['usersMeta'][$user_data['first_name']] = $userdata;
+            $groupsData[$userGroup]['usersMeta'][$user_data['first_name']] = $user_data;
             $groupsData[$userGroup]['usersData'][$user_data['first_name']] = $x;
           }
           ?>
@@ -309,6 +309,10 @@ get_header(null, ['css' => 'schools.css']);
 
               </form>
             </div>
+
+            <?php $group_link = $group['usersMeta'][$group['usersNames'][0]]['user_meetinglink']; ?>
+
+            <p class="text-small mt-3"><?php echo $gi18n['current_link'] . ': '; ?> <a href="<?php echo $group_link; ?>"><?php echo $group_link; ?></a></p>
 
             <h4><?php echo $gi18n['remove_from_group'] ?></h4>
 

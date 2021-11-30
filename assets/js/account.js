@@ -1063,18 +1063,35 @@ function Register(props) {
             e('input', { id: 'profile-password', name: 'user_password', type: "password", className: "input-password" }),
           )
         ),
+        e(
+          'div',
+          { className: 'mb-3'},
+          e(
+            'span',
+            { className: '' },
+            e('label', { for: 'profile-code' }, i18n.teacher_code),
+            e('input', { id: 'profile-code', name: 'user_code', type: "text", className: "input-code" }),
+          )
+        ),
       ),
       e(
         'button',
         {
           className: 'btn-tall blue my-3',
-          onClick: () => {
+          onClick: (e) => {
+
+            var previousHTML = '';
+            previousHTML = e.target.innerHTML;
+            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
             dataToPost = {
               user_email: document.getElementById('profile-email').value,
               user_password: document.getElementById('profile-password').value,
               user_firstname: document.getElementById('profile-firstname').value,
               user_lastname: document.getElementById('profile-lastname').value
             };
+
+            var user_code = document.getElementById('profile-code').value;
 
             if (
               dataToPost.user_email == '' ||
@@ -1101,7 +1118,15 @@ function Register(props) {
             .then(json => {
 
               if (json[0] == 'true') {
-                window.location = i18n.home_link
+
+                if (user_code != '') {
+                  fetch(i18n.api_link + '?teacher_code=' + user_code)
+                }
+
+                setTimeout(() => {
+                  window.location = i18n.home_link
+                }, 500);
+
               } else {
                 setMessageBox(json[0]);
               }

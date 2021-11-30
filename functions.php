@@ -13,12 +13,15 @@ $site_api_url = $site_url . '/api';
 
 include_once $template_dir . '/components/i18n.php';
 include_once $template_dir . '/functions/Database.php';
+include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
 
 if ($is_logged_in) {
 	$current_user_meta = get_user_meta($current_user_id);
 	$current_user_data = guyra_get_user_data($current_user_id);
 	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
+
+	UserLoginUpdateStreakStatus($current_user_id);
 }
 
 if ( ! defined( '_S_VERSION' ) ) {

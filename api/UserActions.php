@@ -315,6 +315,7 @@ if ($_GET['get_user_data']) {
   if ($is_logged_in) {
     $theData = $current_user_data;
     $theData['gamedata'] = GetUserRanking($current_user_id);
+    $theData['gamedata_raw'] = $current_user_gamedata;
     $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
     $theData['user_diary'] = json_decode($user_diary);
     $theData['is_logged_in'] = true;

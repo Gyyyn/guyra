@@ -16,7 +16,11 @@ function guyra_output_json($message, $exit=false) {
 
 function guyra_log_to_file($object='something happened') {
   $object = date('d-m-Y H:i:s') . ': ' . $object . '\r\n';
-  //file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
+  // file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
+}
+
+function GetStandardDate() {
+  return date('d-m-Y H:i:s');
 }
 
 function guyra_database_create_db() {
@@ -421,8 +425,8 @@ function guyra_get_user_game_data($user_id=1) {
     $elo = guyra_get_user_meta($user_id, 'elo', true);
 
     $user_data = [
-  		'level' => $level['meta_value'],
-      'elo' => $elo['meta_value']
+  		'level' => ($level['meta_value'] == null) ? 0 : $level['meta_value'],
+      'elo' => ($elo['meta_value'] == null) ? 0 : $elo['meta_value']
   	];
 
     guyra_remove_user_meta($user_id, $level['meta_key'], false);
