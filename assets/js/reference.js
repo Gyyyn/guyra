@@ -169,7 +169,7 @@ function dictionarySubmitTrigger(e) {
   var TheWordElement = document.getElementById('dictionary-the-word');
   var TheContent = document.querySelector('#the-definition-content');
 
-  var naughty = new RegExp('(vagina)|(clit)|(sex)|(penis)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
+  var naughty = new RegExp('(vagina)|(condom)|(circumcised)|(ejaculation)|(ejaculate)|(erection)|(erect)|(pubic)|(cum)|(pubes)|(bollock)|(vulva)|(clit)|(sex)|(penis)|(phallus)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
 
   if (naughty.test(TheWord)) {
 
