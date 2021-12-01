@@ -291,7 +291,7 @@ class DiaryEntry extends React.Component {
       e(
         'div',
         {
-          className: 'date text-muted text-end col-3 position-relative',
+          className: 'date text-grey-darker text-end col-3 position-relative',
           title: this.props.entry.date
         },
         this.state.dateSection
@@ -491,7 +491,7 @@ function DiarySubmit(props) {
     { className: 'diary-new-entry row w-100 align-items-center justfade-animation animate' },
     e(
       'span',
-      { className: 'col-3 text-muted text-end'},
+      { className: 'col-3 text-grey-darker text-end'},
       GetCurrentDate().split(' ')[0]
     ),
     e(

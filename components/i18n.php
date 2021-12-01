@@ -91,6 +91,7 @@ $gi18n = [
 	'help' => 'Ajuda',
 	'reply' => 'Resposta',
 	'replies' => 'Respostas',
+	'load_more_replies' => 'Carregar mais respostas',
 	'report' => 'Reportar',
 	'replied' => 'respondeu',
 	'definition' => 'Definição',

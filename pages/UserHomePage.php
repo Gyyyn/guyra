@@ -74,7 +74,24 @@ get_header();
         <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/essay.png"></span>
       </div>
 
-      <?php GetUserStudyPage_comments($current_user_id); ?>
+      <?php if ($_GET['comment_history'] == 1) {
+        $comment_history_size = '1 years ago';
+        $redirect = $site_url;
+      } else {
+        $comment_history_size = '1 weeks ago';
+        $redirect = false;
+      }
+      ?>
+
+      <div class="replies-control my-5 d-flex">
+      <?php if ($redirect): ?>
+        <a href="<?php echo $redirect; ?>" class="btn-tall blue"><?php echo $gi18n['back']; ?></a>
+      <?php else: ?>
+        <a href="<?php echo $site_url . '?comment_history=1'; ?>" class="btn-tall"><?php echo $gi18n['load_more_replies']; ?></a>
+      <?php endif; ?>
+      </div>
+
+      <?php GetUserStudyPage_comments($current_user_id, true, false, $comment_history_size, $redirect); ?>
 
     </div>
 

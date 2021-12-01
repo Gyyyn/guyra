@@ -1287,7 +1287,7 @@ input.form-control:focus-visible,
 }
 
 .exercise-icon > img {
-  max-width: calc(1.5rem + 1.5vw);
+  max-width: calc(1rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
   transition: var(--guyra-transition);
 }

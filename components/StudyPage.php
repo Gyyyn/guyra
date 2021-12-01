@@ -112,13 +112,11 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
     ]
   ];
 
-  // if ($all_comments == false) {
-  //   $args['user_id'] = $user;
-  // }
-
   $comments = get_comments($args);
 
   foreach ($comments as $comment) {
+
+    echo $comment->user_id;
 
     $user_data = guyra_get_user_data($comment->user_id);
 
