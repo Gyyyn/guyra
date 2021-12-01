@@ -185,6 +185,13 @@ $user_payment_method = 'pix';
 
 			</div>
 
+			<div class="mb-5 text-small w-100">
+				
+				<h3 class="text-blue">Notificações</h3>
+				<button id="request-notification-permission" class="btn-tall blue" type="button" onclick="Notification.requestPermission()">Ativar Notificações</button>
+
+			</div>
+
 		</div>
 
 	</div>
@@ -240,6 +247,12 @@ $user_payment_method = 'pix';
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+if (!("Notification" in window) || window.location.protocol != "https:") {
+	document.getElementById('request-notification-permission').outerHTML = "Este navegador não permite notificações."
+}
+</script>
 
 <?php
 do_action( 'user_registration_account_dashboard' );
