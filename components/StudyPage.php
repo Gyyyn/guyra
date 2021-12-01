@@ -75,15 +75,21 @@ function GetUserStudyPage($user, $returnObject=false) {
 function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comment_author, $comment_parent=0, $redirect=false) {
 
   global $site_api_url;
+  global $gi18n;
 
   ?>
   <form action="<?php echo $site_api_url . '?reply=1' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
     <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
+
+    <div class="mb-3">
+      <span><?php echo $gi18n['attached'] . ': '; ?></span><span id="file_list"></span>
+    </div>
+
     <span class="form-submit">
 
       <label class="me-3 w-25">
-        <input class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
-        <a class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+        <input id="file_upload_input" class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
+        <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
       </label>
 
       <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">

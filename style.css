@@ -1022,6 +1022,10 @@ a:hover {
   color: var(--guyra-black);
 }
 
+.btn-tall.trans:active {
+  border-bottom: var(--guyra-grey-darkest) solid var(--guyra-border-size) !important;
+}
+
 #exercise-container .exercise-answers .btn-tall {
   display: flex;
   flex-grow: 1;
