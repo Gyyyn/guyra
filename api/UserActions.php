@@ -11,6 +11,7 @@ global $site_api_url;
 include_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/Game.php';
+include_once $template_dir . '/functions/User.php';
 
 $user = $_GET['user'];
 
@@ -94,7 +95,7 @@ if ($_GET['update_userdata']) {
         'remember'      => true
       );
 
-      $user = wp_signon($creds, false);
+      $user = Guyra_Login_User($creds);
 
       if (is_wp_error($user)) {
         guyra_output_json($user->get_error_message(), true);
@@ -179,7 +180,7 @@ if ($_GET['login']) {
     'remember'      => true
   );
 
-  $user = wp_signon($creds, false);
+  $user = Guyra_Login_User($creds, false);
 
   if (is_wp_error($user)) {
     guyra_output_json($user->get_error_message(), true);
@@ -233,7 +234,7 @@ if ($_GET['register']) {
         'remember'      => true
       ];
 
-      wp_signon($creds, false);
+      Guyra_Login_User($creds, false);
 
       guyra_output_json('true', true);
 
@@ -262,7 +263,7 @@ if ($_GET['lost_password']) {
         'remember'      => true
       ];
 
-      wp_signon($creds, false);
+      Guyra_Login_User($creds, false);
 
       $redirect = $gi18n['password_edit_link'];
 

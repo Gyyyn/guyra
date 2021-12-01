@@ -28,21 +28,21 @@ function UserLoginUpdateStreakStatus($user_id) {
     ];
   } else {
 
-    $gamedata['streak_info'] = json_decode($gamedata['streak_info'], true);
+    $streak_info = json_decode($gamedata['streak_info'], true);
 
-    $last_login = $now - $gamedata['streak_info']['last_logged_activity'];
+    $last_login = $now - $streak_info['last_logged_activity'];
     $daysSinceLastLogin = $last_login / $secondsForA['day'];
     $daysSinceLastLogin = round($daysSinceLastLogin, 0, PHP_ROUND_HALF_DOWN);
 
     if ($daysSinceLastLogin > 2) {
-      $gamedata['streak_info']['streak_length'] = 0;
+      $streak_info['streak_length'] = 0;
     } else {
-      $gamedata['streak_info']['streak_length'] += $daysSinceLastLogin;
+      $streak_info['streak_length'] += $daysSinceLastLogin;
     }
 
   }
 
-  $gamedata['streak_info'] = json_encode($gamedata['streak_info']);
+  $gamedata['streak_info'] = json_encode($streak_info);
 
   guyra_update_user_meta($user_id, 'gamedata', json_encode($gamedata, JSON_UNESCAPED_UNICODE));
 }

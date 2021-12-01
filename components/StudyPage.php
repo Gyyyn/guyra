@@ -24,8 +24,17 @@ function CreateStudyPage($id) {
 
 function GetUserStudyPage_object($user) {
 
-  $user_studygroup = get_user_meta($user, 'studygroup')[0];
-  $user_teacherid = get_user_meta($user, 'teacherid')[0];
+  global $current_user_id;
+  global $current_user_data;
+
+  if ($current_user_id == $user) {
+    $userdata = $current_user_data;
+  } else {
+    $userdata = guyra_get_user_data($user);
+  }
+
+  $user_studygroup = $userdata['studygroup'];
+  $user_teacherid = $userdata['teacherid'];
   $user_group_studypage = $user_studygroup . $user_teacherid;
 
   // If user has a group assigned he should see the group's page instead
