@@ -220,7 +220,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
             <hr />
 
-            <a class="btn btn-primary" href="<?php echo $x->ID; ?>/?cleargroup=1&user='<?php echo $x->ID; ?>">Clear Group</a>
+            <a class="btn btn-primary" href="<?php echo $site_api_url; ?>/?cleargroup=1&user='<?php echo $x->ID; ?>">Clear Group</a>
 
           </div>
 
