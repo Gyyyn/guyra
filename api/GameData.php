@@ -39,7 +39,6 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 } else {
 
   // If it wasn't the levelmap that was requested, pass on a unit
-
   $level = $_GET['level'];
   $unit = $_GET['unit'];
   $length = $_GET['length'];
@@ -63,9 +62,13 @@ if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
       $used_numbers[] = $rnd;
       $ex = $json[$unit][$type][$rnd];
 
+      // Get an audio link for audio questions
       if ($type == 'WhatYouHear') {
         $ex[] = GetTTSAudioFor($ex[0]);
       }
+
+      // Get a translation
+      $ex['translation'] = GetCloudTranslationFor($ex[0]);
 
       array_unshift($ex, $type);
 

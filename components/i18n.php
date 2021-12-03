@@ -97,6 +97,7 @@ $gi18n = [
 	'report' => 'Reportar',
 	'replied' => 'respondeu',
 	'definition' => 'Definição',
+	'meaning' => 'Significado',
 	'translations' => 'Tradução',
 	'options' => 'Opções',
 	'configs' => 'Configurações',
@@ -245,9 +246,6 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 		<h3>Instruções</h3>
 		<p>Use as dicas para completar os exercicios.</p>
 		<p>Você pode usar o botão da direita pra mudar o jeito de responder. Se esse botão mudar para uma caveira você só pode responder de um jeito. Isso significa que o exercício ficou mais difícil.<p>
-		<h3>Avisos</h3>
-		<p>Os navegadores "Opera" e "Opera GX" não suportam o tipo de áudio que usamos para os exercícios. Para poder usar está funcionalidade do site recomendamos os navegadores: Google Chrome, Firefox ou Microsoft Edge.</p>
-		<p>Agradecemos a compreensão 😉</p>
 	',
 	'check' => 'Verificar',
 	'returntomap' => 'Voltar ao Mapa',
@@ -260,6 +258,7 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'give_up' => 'Desistir',
 	'audio_hint' => 'Recontrua a frase que ouvir. Você pode checar sua resposta com o botão <i class="bi bi-ear"></i>.',
 	'correct_percentage' => 'Você acertou',
+	'still_loading' => 'Ainda carregando... 💭💭',
 	/* Reference page */
 	'reference_irregulars' => 'Verbos Irregulares',
 	'reference_grammar' => 'Tempo Gramatical',
@@ -322,6 +321,7 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'template_link' => $template_url,
 	'js_link' => $template_url . '/assets/js/',
 	'css_link' => $template_url . '/assets/css/',
+	'audio_link' => $template_url . '/assets/audio/',
 	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
 	'title_img' => $template_url . '/assets/img/guyra-title.svg',
 	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg'

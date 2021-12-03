@@ -1,31 +1,23 @@
-/*
-* -------- EXERCISES.JS
-*
-*
-*
-*/
-
 let e = React.createElement;
 
 const rootUrl = window.location.origin.concat('/');
 var phraseBuilderPhrase = [];
 
 function shuffleArray(a) {
- var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-
-    }
-    return a;
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
 }
 
 function randomNumber(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function synthSpeak(phrase, rate=1) {
@@ -56,19 +48,19 @@ function getRandomAvatar() {
     break;
 
     case 2:
-        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/man.png')
+      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/man.png')
     break;
 
     case 3:
-        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/girl.png')
+      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/girl.png')
     break;
 
     case 4:
-        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
+      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
     break;
 
     default:
-        return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
+      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
     break;
 
   }
@@ -282,34 +274,33 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
   options.push(poi);
   options = shuffleArray(options);
 
-  return [
-      phrase.replace(regex,'____'),
-      options,
-      poi,
-      hint,
-      phrase
-    ];
+  return {
+    translation: theExercise['translation'],
+    0: phrase.replace(regex,'____'),
+    1: options,
+    2: poi,
+    3: hint,
+    4: phrase
+    };
 }
 
 function activityWhatYouHear(theExercise, hint) {
   let phrase = theExercise[1];
   phraseSplit = theExercise[1].split(' ');
 
-  return [
-      phraseSplit[0].concat('...'),
-      shuffleArray(phraseSplit),
-      phrase,
-      hint,
-      phrase,
-      theExercise[2]
-    ];
+  return {
+    translation: theExercise['translation'],
+    0: phraseSplit[0].concat('...'),
+    1: shuffleArray(phraseSplit),
+    2: phrase,
+    3: hint,
+    4: phrase,
+    5: theExercise[2]
+  };
 }
 
 /*
-* -------- Exercise in action
-*
-*
-*
+* --- Exercise in action
 */
 
 function AnswerButtonProper(props) {
@@ -581,6 +572,7 @@ class CurrentQuestion extends React.Component {
     return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, questionType}) => e(
         'div',
         {
+          id: 'current-question',
           className: 'exercise pop-animation animate'
         },
         e('div', { className: 'my-5' }, e(returnToLevelMapButton)),
@@ -819,12 +811,38 @@ function LoadingIcon(props) {
   );
 }
 
-function LoadingPage(props) {
-  return e(
-    'span',
-    {className: 'loading justfade-animation animate'},
-    e(LoadingIcon)
-  );
+class LoadingPage extends React.Component {
+  constructor() {
+   super();
+   this.state = {
+     message: e('div', null, null)
+   };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        message: e(
+          'div',
+          { className: 'd-flex justify-content-center justfade-animation animate' },
+          'Ainda carregando... 💭💭'
+        )
+      });
+    }, 5000);
+  }
+
+  render() {
+    return e(
+      'span',
+      {className: 'loading justfade-animation animate d-flex flex-column'},
+      e(
+        'div',
+        { className: 'd-flex justify-content-center justfade-animation animate' },
+        e(LoadingIcon),
+      ),
+      this.state.message
+    );
+  }
 }
 
 function returnToLevelMapButton(props) {
@@ -920,12 +938,17 @@ function hintAreaInfo(props) {
 }
 
 function hintAreaCorrectAnswer(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, setNewActivity}) => e(
+  return e(ExerciseContext.Consumer, null, ({i18n, setNewActivity, values}) => e(
     'div',
     {
       className: 'exercise-hints correct'
     },
-    e('span', {className: 'exercise-hints-hint'}, i18n.goodjob),
+    e(
+      'span',
+      { className: 'exercise-hints-hint justfade-animation animate' },
+      i18n.goodjob + ' ' + i18n.meaning + ': ',
+      e('span', { className: ' ms-1 fst-italic' },  '"' + values['translation'] + '"')
+    ),
     e(
       'a',
       {
@@ -944,7 +967,7 @@ function reportAnswerButton() {
       className: 'btn-tall red my-3',
       "data-bs-dismiss": "modal",
       "data-bs-target": "#report-modal",
-      onClick: () => { reportAnswer(); console.log('hello'); }
+      onClick: () => { reportAnswer(); }
     },
     i18n.report
   ));
@@ -1052,13 +1075,6 @@ class App extends React.Component {
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
     this.disallowCandyOn = [];
-    this.allTheWords = [];
-
-    this.exerciseStartSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/start.ogg'));
-    this.exerciseEndSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/end.ogg'));
-    this.exerciseEndPerfectSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/perfect.ogg'));
-    this.correctHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/hit.ogg'));
-    this.wrongHitSound = new Audio(rootUrl.concat('wp-content/themes/guyra/audio/miss.ogg'));
 
     this.buttonClassGreen = 'btn-tall green';
     this.buttonClassBlack = 'btn-tall black text-center';
@@ -1084,7 +1100,7 @@ class App extends React.Component {
       difficulty: 0,
       activityType: '',
       answerType: AnswersTextArea,
-      avatarURL: getRandomAvatar(),
+      avatarURL: '',
       i18n: this.i18n,
       setPage: this.setPage,
       reset: this.reset,
@@ -1113,7 +1129,14 @@ class App extends React.Component {
           page: e(LevelChooser),
           levelMap: json.levelmap,
           i18n: json.i18n
-        })
+        });
+
+        this.exerciseStartSound = new Audio(this.i18n.audio_link + 'start.ogg');
+        this.exerciseEndSound = new Audio(this.i18n.audio_link + 'end.ogg');
+        this.exerciseEndPerfectSound = new Audio(this.i18n.audio_link + 'perfect.ogg');
+        this.correctHitSound = new Audio(this.i18n.audio_link + 'hit.ogg');
+        this.wrongHitSound = new Audio(this.i18n.audio_link + 'miss.ogg');
+
       });
 
   }
@@ -1156,6 +1179,8 @@ class App extends React.Component {
   }
 
   setNewActivity = () => {
+
+    document.getElementById('current-question').classList.add('d-none');
 
     this.setState({
       avatarURL: getRandomAvatar(),
@@ -1253,6 +1278,10 @@ class App extends React.Component {
         this.disallowCandyOn.splice(indexOfThisItem, 1);
       }
     });
+
+    setTimeout(() => {
+      document.getElementById('current-question').classList.remove('d-none')
+    }, 150);
 
   };
 
@@ -1432,18 +1461,22 @@ class App extends React.Component {
 
   setExerciseObject = (object) => {
 
-    console.log(object);
+    // Build a list of unique words
+    var allTheWords = [];
 
-    object.forEach((item, i) => {
+    object.forEach((item) => {
 
       var words = item[1].split(' ');
-
-      this.allTheWords = this.allTheWords.concat(words);
+      words.forEach((word) => {
+        if (!allTheWords.includes(word)) {
+          allTheWords.push(word);
+        }
+      });
 
     });
 
     this.setState({
-      allTheWords: this.allTheWords
+      allTheWords: allTheWords
     })
 
     this.ExerciseObject = object;
