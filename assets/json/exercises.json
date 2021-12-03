@@ -221,8 +221,8 @@
       ["She's having a snack.", "having a snack", "(tomando um lanche)"],
       ["It's late so he is sleeping.", "is sleeping", "(está dormindo)"],
       ["It's early so he is studying.", "is studying", "(está estudando)"],
-      ["It's late so she is having dinner.", "late", "(cedo)"],
-      ["It's early so he is having breakfast.", "early", "(tarde)"]
+      ["It's late so she is having dinner.", "late", "(tarde)"],
+      ["It's early so he is having breakfast.", "early", "(cedo)"]
     ],
 
     "WhatYouHear": [
@@ -876,15 +876,53 @@
 
     "CompleteThePhrase": [
       ["There are some stores in this street.", "some stores", "(algumas lojas)"],
-      ["Are there any groceries stores around here?", "around", "(por aqui)"],
+      ["There are some banks in that street.", "some banks", "(alguns bancos)"],
+      ["There are some coffee shops in this street.", "some coffee shops", "(algumas lojas de café)"],
+      ["There are some post offices in that street.", "some post offices", "(alguns correios)"],
+      ["Are there any groceries stores around here?", "around", "(por volta)"],
+      ["Are there any banks there?", "there", "(lá)"],
+      ["Are there any groceries stores over here?", "over here", "(aqui)"],
+      ["Are there any theaters in there?", "in there", "(lá dentro)"],
       ["There aren't any good restaurants here.", "There aren't", "(Não tem)"],
+      ["There aren't any interesting movies playing.", "interesting", "(interessantes)"],
+      ["There aren't good banks anywhere.", "anywhere", "(qualquer lugar)"],
+      ["There aren't any new clothes yet.", "yet", "(ainda)"],
       ["There is a bank on Third Avenue.", "bank on", "(banco na)"],
+      ["There is a library behind the park.", "behind", "(atrás)"],
+      ["There is a post office next to the bakery.", "next to", "(do lado)"],
+      ["There is a park in front of the library.", "park in front", "(parque na frente)"],
       ["Is there a post office in this area?", "post office", "(correio)"],
+      ["Is there a bank around here?", "around here", "(por aqui)"],
+      ["Is there a post office in this area?", "in this area", "(nessa área)"],
+      ["Is there a any chance we can get a discount?", "any chance", "(alguma chance)"],
       ["There is one opposite the train station.", "opposite", "(oposto)"],
+      ["There are a few in front of the book store.", "in front of", "(na frente)"],
+      ["There are two opposite the train station.", "are two", "(tem dois)"],
+      ["There is a good one opposite the train station.", "good one", "(um bom)"],
       ["It's on the corner of First and Main.", "on the corner", "(na esquina)"],
+      ["It's on the corner of Maple Street and Main.", "on the corner", "(na esquina)"],
+      ["It's in between the two supermarkets.", "supermarkets", "(supermercados)"],
+      ["It's in the mall after First Street.", "after", "(depois)"],
       ["There are no bakeries in this entire street.", "this entire", "(nessa ___ inteira)"],
+      ["There are no banks in this entire neighborhood.", "neighborhood", "(bairro)"],
+      ["There are no malls in this entire city.", "entire city", "(cidade inteira)"],
+      ["There are no parking lots in this entire area.", "parking lots", "(estacionamentos)"],
       ["There are many companies in the industrial district.", "district", "(distrito)"],
-      ["There isn't any crime in this neighborhood.", "any crime", "(nenhum crime)"]
+      ["There are many cars in the city.", "many cars", "(muitos carros)"],
+      ["There are many good restaurants in that neighborhood.", "in that", "(naquele)"],
+      ["There are many banks here.", "here", "(aqui)"],
+      ["There isn't any crime in this neighborhood.", "any crime", "(nenhum crime)"],
+      ["There isn't any chance of rain today.", "any chance", "(nenhuma chance)"],
+      ["There isn't any good food.", "food", "(comida)"],
+      ["There aren't good fast food chains here.", "fast food chains", "(redes de fast food)"]
+    ],
+
+    "WhatYouHear": [
+      ["There are many companies in the industrial district. I work there."],
+      ["There isn't any crime in this neighborhood. The police keep it safe."],
+      ["Is there a any chance we can get a discount? I have a cupon code."],
+      ["There is a good one opposite the train station."],
+      ["There is a bank on Third Avenue behind the park. You can't miss it."]
     ]
 
   },
