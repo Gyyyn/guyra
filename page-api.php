@@ -15,11 +15,6 @@ if ($_GET['disable_cache'] != 'true') {
 
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
 
-// Reply submission
-if ($_GET['reply']) {
-  include $template_dir . '/api/Reply.php';
-}
-
 // Game data
 if ($_GET['json']) {
   include $template_dir . '/api/GameData.php';

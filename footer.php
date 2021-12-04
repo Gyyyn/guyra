@@ -46,31 +46,32 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/html-react-parser@latest/dist/html-react-parser.min.js"></script>
 <?php endif; ?>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
 <?php if ($args['js']): ?>
 <script async src="<?php echo $gi18n['js_link'] . $args['js'] . '?v=' . _S_VERSION; ?>"></script>
-<?php endif;
-if ($args['aos']): ?>
+<?php endif; ?>
+
+<?php if ($args['aos']): ?>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
 <script>AOS.init();</script>
 <?php endif; ?>
-<script async src="<?php echo $gi18n['js_link']; ?>misc.js?v=<?php echo _S_VERSION; ?>"></script>
 
-<?php //if ($local_storage != ''):
-  if (false): ?>
+<?php if ($args['easymde']): ?>
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 <script>
-localStorageFromDB = JSON.parse("<?php echo addslashes($local_storage); ?>");
-
-if (localStorage.getItem('responseArea').length < localStorageFromDB['responseArea'].length) {
-  localStorage.setItem('responseArea', localStorageFromDB['responseArea']);
-}
-
-if (localStorage.getItem('notepad').length < localStorageFromDB['notepad'].length) {
-  localStorage.setItem('notepad', localStorageFromDB['notepad']);
-}
+const easyMDE = new EasyMDE({
+  element: document.getElementById('<?php echo $args['easymde']; ?>'),
+  autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
+  toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
+});
 </script>
 <?php endif; ?>
+
+<script async src="<?php echo $gi18n['js_link']; ?>misc.js?v=<?php echo _S_VERSION; ?>"></script>
 
 </body>
 </html>

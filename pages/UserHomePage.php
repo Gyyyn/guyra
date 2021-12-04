@@ -101,4 +101,4 @@ get_header();
 
 </main>
 <?php
-get_footer(null, ['js' => 'study.js']);
+get_footer(null, ['js' => 'study.js', 'easymde' => 'comment']);

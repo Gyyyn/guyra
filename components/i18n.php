@@ -90,6 +90,7 @@ $gi18n = [
 	'hello' => 'Olá',
 	'help' => 'Ajuda',
 	'reply' => 'Resposta',
+	'leave_reply' => 'Deixar Resposta',
 	'replies' => 'Respostas',
 	'load_more_replies' => 'Carregar mais respostas',
 	'files' => 'Arquivos',

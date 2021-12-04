@@ -24,29 +24,11 @@ if (getCookie('dismissed') == "true") {
   document.querySelector('.alert').className = 'd-none';
 }
 
-responseArea = localStorage.getItem('responseArea');
-commentArea = document.querySelector("#comment");
-submitButton = document.querySelector("#submit");
-theInput = document.getElementById('file_upload_input');
-
-if (responseArea !== null) {
-  commentArea.value = responseArea;
-}
-
-commentArea.onkeyup = eventTrigger;
-submitButton.onclick = submitTrigger;
-theInput.addEventListener('input', fileUploadTrigger);
-
-function eventTrigger(e) {
-  localStorage.setItem('responseArea', commentArea.value);
-}
-
-function submitTrigger(e) {
-  localStorage.setItem('responseArea', '');
-}
+file_upload_input = document.getElementById('file_upload_input');
+file_upload_input.addEventListener('input', fileUploadTrigger);
 
 function fileUploadTrigger(e) {
-  if (theInput.files.length != 0) {
-    document.getElementById('file_list').innerHTML = theInput.files[0].name;
+  if (file_upload_input.files.length != 0) {
+    document.getElementById('file_list').innerHTML = file_upload_input.files[0].name;
   }
 }

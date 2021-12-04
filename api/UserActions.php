@@ -343,4 +343,70 @@ if ($_GET['get_identicon']) {
   exit;
 }
 
-?>
+if ($_GET['post_reply']) {
+
+  if (!function_exists('wp_handle_upload')) {
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+  }
+
+  include_once $template_dir . '/functions/Game.php';
+  include_once $template_dir . '/components/StudyPage.php';
+
+  if (isset($_POST['redirect'])) {
+    $redirect  = $_POST['redirect'];
+  }
+
+  $uploadedfile = $_FILES['file'];
+  $file_found = false;
+  $upload_overrides = ['test_form' => false];
+  if (isset($_FILES['file'])) {
+  	$file_found = true;
+  }
+
+  if ($current_user_data['role'] == 'teacher') {
+    $comment_post_ID = $_POST['comment_post_ID'];
+  } else {
+    $user_studypage_object = GetUserStudyPage_object($current_user_id);
+    $comment_post_ID = $user_studypage_object->ID;
+  }
+
+  $comment_data_toPost = [
+    'comment_approved' => 1,
+    'comment_author' => $current_user_data['first_name'],
+    'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+    'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+    'comment_content' => $_POST['comment_content'],
+    'comment_parent' => $_POST['comment_parent'],
+    'comment_post_ID' => $comment_post_ID,
+    'user_id' => $current_user_id
+  ];
+
+  // Post whatever comment we have
+  $comment = wp_insert_comment($comment_data_toPost);
+
+  if (!$comment) {
+
+  	guyra_output_json('comment error' . var_dump($comment_data_toPost), true);
+
+  }
+
+  // Upload the attached image if it is found
+  if ($file_found) {
+  	$movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+  }
+
+  if ($movefile && !isset($movefile['error'])) {
+
+  	update_comment_meta($comment, 'comment_image', $movefile['url']);
+
+  } elseif ($file_found) {
+
+    guyra_output_json('file error', true);
+
+  }
+
+  Guyra_increase_user_level($current_user_id, 2);
+
+  guyra_output_json('true', true);
+
+}

@@ -930,9 +930,15 @@
   "unit19": {
 
     "CompleteThePhrase": [
-      ["Keep going forward and turn left.", "turn left", "(vire a direita)"],
+      ["Keep going forward and turn left.", "turn left", "(vire a esquerda)"],
+      ["Keep going forward and turn right.", "turn right", "(vire a direita)"],
+      ["Keep going towards the park and turn left.", "towards", "(em direção)"],
+      ["Keep going in this direction and turn left.", "this direction", "(essa direção)"],
       ["Take the street behind the shop.", "the street", "(a rua)"],
-      ["Take the roundbout and then the third exit...", "roundabout", "(rotatoria)"],
+      ["Take the avenue behind the shop.", "the avenue", "(a avenida)"],
+      ["Take the road behind the shop.", "the road", "(a estrada)"],
+      ["Take the highway after the shop.", "the highway", "(a rodovia)"],
+      ["Take the roundabout and then the third exit...", "roundabout", "(rotatoria)"],
       ["It's two blocks from here, on the corner of Pine St. and Second Ave.", "two blocks", "(duas quadras)"],
       ["Walk until the bus stop and take a left.", "Walk until", "(Ande até)"],
       ["It's not far from here.", "not far", "(não ___ longe)"],

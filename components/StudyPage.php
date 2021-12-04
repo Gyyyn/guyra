@@ -1,5 +1,7 @@
 <?php
 
+require $template_dir . '/vendor/autoload.php';
+
 include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/Icons.php';
 
@@ -72,13 +74,13 @@ function GetUserStudyPage($user, $returnObject=false) {
 
 }
 
-function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comment_author, $comment_parent=0, $redirect=false) {
+function RenderHTMLReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
 
   global $site_api_url;
   global $gi18n;
 
   ?>
-  <form action="<?php echo $site_api_url . '?reply=1' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
+  <form action="<?php echo $site_api_url . '?post_reply=1' ?>" method="POST" id="commentform" class="form-control" enctype="multipart/form-data">
     <textarea id="comment" name="comment_content" cols="45" rows="8" maxlength="65525" required="required"></textarea>
 
     <div class="mb-3">
@@ -95,9 +97,6 @@ function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comm
       <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">
 
       <input type="hidden" name="comment_post_ID" value="<?php echo $comment_post_ID; ?>" id="comment_post_ID">
-      <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="comment_user_ID">
-      <input type="hidden" name="comment_author_email" value="<?php echo $comment_author_email; ?>" id="comment_author_email">
-      <input type="hidden" name="comment_author" value="<?php echo $comment_author; ?>" id="comment_author">
       <?php if ($comment_parent != 0): ?>
       <input type="hidden" name="comment_parent" value="<?php echo $comment_parent; ?>" id="comment_parent">
       <?php endif; ?>
@@ -109,13 +108,76 @@ function RenderReplyBox($comment_post_ID, $user_id, $comment_author_email, $comm
   <?php
 }
 
+function RenderReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
+
+  global $site_api_url;
+  global $gi18n;
+
+  ?>
+  <h2 class="text-blue"><?php echo $gi18n['leave_reply'] ?></h2>
+  <div class="dialog-box">
+    <textarea id="comment"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <span><?php echo $gi18n['attached'] . ': '; ?></span><span id="file_list"></span>
+  </div>
+
+  <label class="me-3 w-25">
+    <input id="file_upload_input" class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
+    <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+  </label>
+
+  <button id="submitReply" class="btn-tall blue w-50"><?php echo $gi18n['leave_reply']; ?></button>
+
+  <script type="text/javascript">
+
+  function CommentSubmit() {
+    var form_data = new FormData();
+
+    var theFiles = document.getElementById('file_upload_input');
+    if (theFiles.files.length > 0) {
+      form_data.append('file', theFiles.files[0]);
+    }
+
+    form_data.append('comment_post_ID', <?php echo $comment_post_ID; ?>);
+    form_data.append('comment_parent', <?php echo $comment_parent; ?>);
+    form_data.append('comment_content', easyMDE.value());
+
+    fetch(
+       '<?php echo $site_api_url; ?>' + '?post_reply=1',
+      {
+        method: "POST",
+        body: form_data
+      }
+    ).then(res => res.json())
+    .then(res => {
+      if (res[0] != 'true') {
+        console.log(res[0]);
+      } else {
+        if (easyMDE) {
+          easyMDE.value('');
+          easyMDE.clearAutosavedValue();
+        }
+        location.reload();
+      }
+    });
+  }
+
+  var submitReply = document.getElementById('submitReply');
+  submitReply.onclick = CommentSubmit;
+
+  </script>
+
+  <?php
+}
+
 function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, $max_history='1 weeks ago', $redirect=false) {
 
   global $gi18n;
   global $current_user_id;
 
   $object = GetUserStudyPage_object($user);
-  $current_user = wp_get_current_user();
   $alreadyAnswered = [];
 
   $args = [
@@ -132,7 +194,6 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
   foreach ($comments as $comment) {
 
     $user_data = guyra_get_user_data($comment->user_id);
-
     $first_name = $user_data['first_name'];
 
     // Build a list of people who already answered
@@ -143,20 +204,17 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
     }
 
     if ( ($comment->comment_parent == 0 && $comment->user_id == $user) || ($all_comments && $comment->comment_parent == 0)):
-
     $profile_picture = Guyra_get_profile_picture($comment->user_id, ['page-icon', 'tiny']);
     $comment_image = get_comment_meta($comment->comment_ID, 'comment_image')[0];
-
     $comment_date_formatted = date_format(date_create($comment->comment_date), 'd/m/Y H:i:s');
-
     $children = $comment->get_children();
 
     ?>
 
-    <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment-body">
+    <div class="comment-body">
 
       <div class="comment-meta">
-        <span id="user-<?php echo $comment->user_id; ?>" class="author-name">
+        <span class="author-name">
           <?php echo $profile_picture; ?>
           <span class="ms-1"><?php echo $first_name; ?></span>
           <?php if ($all_comments): ?>
@@ -171,15 +229,18 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
       </div>
 
       <?php if ($all_comments): ?>
-      <div class="collapse my-3" id="replyto-<?php echo $comment->comment_ID; ?>">
-        <?php RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name, $comment->comment_ID, $redirect); ?>
+      <div class="collapse my-3">
+        <?php RenderHTMLReplyBox($object->ID, $comment->comment_ID, $redirect); ?>
       </div>
       <?php endif; ?>
 
       <div class="comment-content dialog-box">
 		    <?php
 
-        echo nl2br($comment->comment_content);
+        $Parsedown = new Parsedown();
+        $Parsedown->setSafeMode(true);
+
+        echo nl2br($Parsedown->text($comment->comment_content));
 
         if ($comment_image != '') { ?>
           <hr />
@@ -242,7 +303,7 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
   if ($reply_box) { ?>
 
-    <p class="already-answered fst-italic">
+    <p class="dialog-box info d-inline-block mt-3 already-answered fst-italic">
     <?php
       $howManyAnswered = count($alreadyAnswered);
       if ($howManyAnswered == 1):
@@ -253,7 +314,11 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
     ?>
     </p>
 
-    <?php RenderReplyBox($object->ID, $current_user->ID, $current_user->user_email, $current_user->display_name);
+    <div class="mt-5">
+      <?php RenderReplyBox($object->ID); ?>
+    </div>
+
+    <?php
   }
 
 }

@@ -18,38 +18,3 @@ function logoutTrigger(e) {
 if (logoutButton) {
   logoutButton.addEventListener("click", logoutTrigger);
 }
-
-var inactivityTime = function() {
-    var time;
-    window.onload = resetTimer;
-    document.onkeydown = resetTimer;
-
-    function postTextAreaData() {
-
-      var dataToPost = {
-        responseArea: localStorage.getItem('responseArea'),
-        notepad: localStorage.getItem('notepad')
-      }
-
-        fetch(
-        window.location.origin.concat('api?action=update_user_textareas'),
-        {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(dataToPost)
-        }
-      );
-    }
-
-    function resetTimer() {
-        clearTimeout(time);
-        time = setTimeout(postTextAreaData, 3000)
-    }
-}
-
-window.onload = function() {
-  //inactivityTime();
-}

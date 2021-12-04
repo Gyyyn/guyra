@@ -408,6 +408,10 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+.avatar {
+  border-radius: 50%;
+}
+
 /*
 * -------- Navbar
 *
@@ -1474,6 +1478,8 @@ input.form-control:focus-visible,
   transition: var(--guyra-transition);
 }
 
+.comment-content img { max-width: 50%; }
+
 .study-answers #comment {
   height: 15rem;
 }
@@ -1760,161 +1766,17 @@ input.form-control:focus-visible,
 }
 
 /*
-* -------- User Registration
+* -------- Editor
 *
 *
 */
 
-.left-side-image {
-  border-top-left-radius: var(--guyra-border-radius-bigger);
-  border-bottom-left-radius: var(--guyra-border-radius-bigger);
-  max-width: 100%;
+.EasyMDEContainer .CodeMirror,
+.editor-toolbar {
+  border: 0 !important;
+  border-radius: var(--guyra-border-radius-bigger) !important;
 }
 
-.page-squeeze #user-registration p {
-  color: var(--guyra-black);
-}
-
-.ur-form-grid {
-  flex-grow: 1;
-}
-
-.ur-form-row {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-}
-
-.page-squeeze .ur-frontend-form {
-  /* margin: 0 calc(1rem + 5vw); */
-  font-family: var(--guyra-fonts-text);
-}
-
-.page-squeeze .user-registration-form-row {
-    display: flex;
-    flex-direction: column;
-}
-
-.page-squeeze .ur-frontend-form legend {
-  margin-bottom: calc(1rem + 1vw);
-  font-size: var(--guyra-fonts-textsize-s);
-}
-
-.page-squeeze .ur-frontend-form label {
-  margin: .5rem 0;
-  font-size: var(--guyra-fonts-textsize-s);
-}
-
-.required {
-  color: var(--guyra-red);
-}
-
-.login-button {
-  display: flex;
-  justify-content: space-between;
-}
-
-.page-squeeze .ur-frontend-form .remember-me {
-  align-self: center;
-  font-size: var(--guyra-fonts-textsize-n);
-}
-
-.page-squeeze .user-registration-MyAccount-content .edit-password legend,
-.page-squeeze .user-registration-MyAccount-content h2 {
-  font-family: var(--guyra-fonts-title);
-  font-size: var(--guyra-fonts-textsize-xx);
-  font-weight: 900;
-}
-
-.page-squeeze .ur-frontend-form input:not(.button):focus-visible {
-    outline: unset;
-}
-
-.page-squeeze .ur-frontend-form .ur-form-grid .ur-field-item {
-  padding: 0 .15rem;
-}
-
-.page-squeeze .user-registration-message,
-.page-squeeze .user-registration-error,
-.page-squeeze .user-registration-info {
-	font-size: var(--guyra-fonts-textsize-n);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: .5rem;
-}
-
-.page-squeeze .user-registration-message li,
-.page-squeeze .user-registration-error li,
-.page-squeeze .user-registration-info li {
-	list-style: none;
-}
-
-.page-squeeze .user-registration-message ul,
-.page-squeeze .user-registration-error ul,
-.page-squeeze .user-registration-info ul {
-	margin: 0;
-  padding: 0;
-}
-
-.page-squeeze .user-registration-error {
-  border-bottom-color: var(--guyra-red-lighter);
-  background-color: var(--guyra-red-lightest);
-  color: var(--guyra-red-darker);
-}
-
-.page-squeeze .user-registration-message,
-.page-squeeze .user-registration-info {
-  border-bottom-color: var(--guyra-blue-lighter);
-  background-color: var(--guyra-blue-lightest);
-  color: var(--guyra-blue-darker);
-}
-
-.premium-badge {
-  padding: .1rem .3rem;
-  font-weight: bold;
-  font-family: var(--guyra-fonts-title);
-  cursor: default;
-  letter-spacing: 0;
-  transform: rotate(3deg);
-}
-
-.avatar {
-  border-radius: 50%;
-  aspect-ratio: 1 / 1;
-}
-
-.page-squeeze .user-registration-MyAccount-navigation ul,
-.page-squeeze .horizontal .user-registration-MyAccount-navigation ul {
-	justify-content: left;
-  display: flex;
-  list-style: none;
-  padding: 0;
-}
-
-.user-registration {
-  display: flex;
-  flex-direction: column;
-}
-
-.page-squeeze .ur-frontend-form .ur-button-container {
-  padding: 0;
-}
-
-
-.field-checkbox ul {
-  padding: 0;
-  margin: 0;
-}
-
-.ur-checkbox-list {
-    list-style: none;
-}
-
-.ur-checkbox-list .input-checkbox {
-  width: auto;
-  height: auto;
-}
 
 /*
 * -------- Animations
