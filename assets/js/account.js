@@ -693,7 +693,7 @@ function WhoAmI_openPayments_paymentItem(props) {
         ),
         e(
           'div',
-          { className: 'card mb-3' },
+          { className: 'card d-flex flex-row p-3 mb-3' },
           e(
             'span',
             {},
@@ -701,7 +701,7 @@ function WhoAmI_openPayments_paymentItem(props) {
           ),
           e(
             'span',
-            { className: 'badge bg-primary'},
+            { className: 'fw-bold ms-1'},
             'R$' + props.item.value
           )
         ),
@@ -853,10 +853,14 @@ function WhoAmI_buttonGroup(props) {
         i18n.configs
       )),
       e(
-        'a',
+        'button',
         {
-          href: rootUrl,
-          className: 'btn-tall red me-2 mb-2 d-inline d-xl-none'
+          className: 'btn-tall red me-2 mb-2 d-inline d-xl-none',
+          onClick: () => {
+            if (window.confirm(i18n.logout_confirm)) {
+              window.location = i18n.logout_link;
+            }
+          }
         },
         i18n.logout
       ),

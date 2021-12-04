@@ -1468,9 +1468,15 @@ class App extends React.Component {
 
       var words = item[1].split(' ');
       words.forEach((word) => {
-        if (!allTheWords.includes(word)) {
-          allTheWords.push(word);
+
+        var regex = new RegExp("[.,!?]",'g');
+        var wordWithoutPunct = word.replace(regex,'')
+
+        if (!allTheWords.includes(wordWithoutPunct)) {
+          console.log(wordWithoutPunct);
+          allTheWords.push(wordWithoutPunct);
         }
+
       });
 
     });
