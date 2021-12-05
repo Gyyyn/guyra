@@ -10,5 +10,11 @@
     "title": "Fonética 1",
     "desc": "Introdução a fonética do inglês e dicas de pronúncia.",
     "id": "speaking"
+  },
+  "advanced1": {
+    "link": "PLKL9JMrDmA-C4jh-QWOKvaA7mzXWjYMEV",
+    "title": "Advanced",
+    "desc": "Gramáticas avançadas e tópicos mais complicados.",
+    "id": "advanced1"
   }
 }
