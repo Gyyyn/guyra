@@ -6,6 +6,7 @@ global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
+global $is_admin;
 
 $user = $_GET['user'];
 $allowedUsers = [];
@@ -20,8 +21,26 @@ foreach ($users as $x) {
   }
 }
 
-// Only allow changes to assigned users.
-if(in_array($user, $allowedUsers) || $isAdmin):
+$canDoActionsHere = (in_array($user, $allowedUsers) || $is_admin);
+$user_is_users = json_decode($user);
+
+if (is_array($user_is_users)) {
+
+  foreach ($user_is_users as $user) {
+
+    $canActionThisUser = (in_array($user, $allowedUsers) || $is_admin);
+
+    if ($canActionThisUser) {
+
+      if ($_GET['meetinglink']) {
+        guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
+      }
+
+    }
+
+  }
+
+} elseif ($canDoActionsHere) {
 
 // ---
 // Manually assign a user to a group.
@@ -65,26 +84,4 @@ if ($_GET['action'] == 'update_diary') {
   guyra_update_user_meta($user, 'diary', file_get_contents('php://input'));
 }
 
-// If we got a list of users there is only a few possible things we can do.
-
-$user_is_users = json_decode($user);
-
-if (is_array($user_is_users)) {
-
-  if(in_array($user, $allowedUsers) || $isAdmin):
-
-  if ($_GET['meetinglink']) {
-
-    foreach ($user_is_users as $user) {
-      guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
-    }
-
-  }
-
-  endif;
-
-}
-
-endif;
-
-?>
+} // endif

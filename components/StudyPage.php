@@ -301,18 +301,25 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
 
   }
 
-  if ($reply_box) { ?>
+  if ($reply_box) {
 
-    <p class="dialog-box info d-inline-block mt-3 already-answered fst-italic">
-    <?php
       $howManyAnswered = count($alreadyAnswered);
-      if ($howManyAnswered == 1):
-        echo $alreadyAnswered[0] . ' ' . $gi18n['already_answered_singular'] . '!';
-      elseif ($howManyAnswered > 1):
-        echo implode($alreadyAnswered, ', ') . ' ' . $gi18n['already_answered'] . '!';
-      endif;
+
+      if ($howManyAnswered > 0) {
+        ?> <p class="dialog-box info d-inline-block mt-3 already-answered fst-italic"> <?php
+        if ($howManyAnswered == 1):
+          echo $alreadyAnswered[0] . ' ' . $gi18n['already_answered_singular'] . '!';
+        elseif ($howManyAnswered > 1):
+          echo implode($alreadyAnswered, ', ') . ' ' . $gi18n['already_answered'] . '!';
+        endif;if ($howManyAnswered == 1):
+          echo $alreadyAnswered[0] . ' ' . $gi18n['already_answered_singular'] . '!';
+        elseif ($howManyAnswered > 1):
+          echo implode($alreadyAnswered, ', ') . ' ' . $gi18n['already_answered'] . '!';
+        endif;
+        ?> </p><?php
+      }
+
     ?>
-    </p>
 
     <div class="mt-5">
       <?php RenderReplyBox($object->ID); ?>
