@@ -1397,6 +1397,61 @@
       ["I was wondering if you could watch my pets for my while I'm on vacation."]
     ]
 
+  },
+
+  "unit42": {
+
+    "CompleteThePhrase": [
+      ["I was just making some dinner!", "was just", "estava somente"],
+      ["I used it while I was working out.", "while I was", "enquanto eu estava"],
+      ["Some scientists were doing research on this very topic.", "were doing research", "estavam fazendo pesquisas"],
+      ["A man was looking for his car when he witnessed the accident.", "he witnessed", "ele testemunhou"],
+      ["As she was walking home she remembered that she forgot her keys.", "she forgot", "ela esqueceu"],
+      ["He was walking home one day when he saw an abandoned puppy.", "was walking", "estava andando"],
+      ["We were going home when our car simply broke down.", "were going", "estavamos indo"],
+      ["I was sleeping in my room when I heard a huge noise downstairs.", "was sleeping", "estava dormindo"],
+      ["We were riding our bikes when we were stopped by the police.", "were stopped", "fomos parados"],
+      ["I was brushing my teeth this morning and the water went out!", "was brushing", "estava escovando"],
+      ["The players were running towards the goal when the timeout was called.", "the timeout", "o tempo limite"],
+      ["We were thinking about going out but we decided against it.", "decided against", "decidimos contra"],
+      ["A police chase was happening this morning on the street I was walking through.", "was happening", "estava acontecendo"],
+      ["I was waiting at the airport when the flight got cancelled.", "was waiting", "estava esperando"],
+      ["I wasn't thinking straight when I said that.", "thinking straight", "pensando direito"],
+      ["I was going to, but I don't think I will anymore.", "will anymore", "vou mais"],
+      ["It was going to be the biggest event of it's kind.", "it's kind", "seu tipo"],
+      ["This morning they were playing tennis near my house.", "morning they", "manhã eles"],
+      ["Well, at 3 we were downtown finishing up some business.", "finishing up", "terminando"],
+      ["My phone rang while I was talking so I couldn't finish.", "rang while", "tocou enquanto"],
+      ["I was watching a movie when you called me.", "you called", "você ligou"],
+      ["I was walking along when I saw Dan, so I talked to him for a while.", "so I talked", "então eu falei"],
+      ["Wasn't he wearing those clothes yesterday too?", "he wearing", "ele usando"],
+      ["When I got to the café my friends were already eating.", "already eating", "já comendo"],
+      ["The TV was playing a movie but nobody was home.", "nobody was", "ninguém estava"],
+      ["She didn't come because she wasn't feeling well.", "wasn't feeling", "não estava se sentindo"],
+      ["When I first met Jennifer she was living in Toronto.", "first met", "conheci"],
+      ["They were waiting for me when I arrived.", "when I", "quando eu"],
+      ["They were hoping to start a fight unfortunately.", "start a fight", "começar uma briga"],
+      ["We were in a very difficult position, so we didn't do anything.", "didn't do anything", "não fizemos nada"],
+      ["When I last saw him he was moving to another city.", "was moving", "estava se mudando"],
+      ["I was walking through the hallway alone when I heard something behind me...", "heard something", "escutei algo"],
+      ["Somebody was following me on my way here.", "on my way", "a caminho"],
+      ["When I was young I wanted to be a pilot, but I changed my mind. I want to be an astronaut!", "wanted to be", "queria ser"],
+      ["I dropped a plate while I was washing it.", "was washing", "estava lavando"],
+      ["When I last saw them they were on vacation.", "saw them", "vi eles"],
+      ["I messed up while fixing my car so now I have to take the bus.", "have to take", "tenho que pegar"],
+      ["I wasn't going to try it but you changed my mind.", "you changed", "você mudou"],
+      ["She wasn't too excited about the trip, but I guess she is now.", "too excited", "muito animada"],
+      ["Wasn't it a nice experience?", "Wasn't it", "Não foi"]
+    ],
+
+    "WhatYouHear": [
+      ["Wasn't he wearing those clothes yesterday too?"],
+      ["The TV was playing a movie but nobody was home. It was a creepy experience."],
+      ["When I got to the café my friends were already eating. No one waited for me!"],
+      ["A police chase was happening this morning on the avenue I was driving through."],
+      ["Some scientists were doing research on this very topic but they didn't find anything conclusive."]
+    ]
+
   }
 
 }

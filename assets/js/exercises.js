@@ -244,11 +244,7 @@ function isAnswerCorrect(correct, userInput) {
 }
 
 /*
-* -------- Activity handlers
-*
-*
-*
-*/
+* --- Activity handlers */
 
 function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
   var hint = theExercise[3];
@@ -257,17 +253,30 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
   var regex = new RegExp(poi,'g');
 
   var rand = 0;
-  var usednums = [];
+  var usedWords = [''];
   var options = [];
 
   for (var i = 1; i < numOfOptions; i++) {
 
-    while (usednums.indexOf(rand) !== -1) {
+    var theWord = '';
+
+    while (usedWords.indexOf(theWord) !== -1) {
       rand = randomNumber(0, allTheWords.length - 1);
+      theWord = allTheWords[rand];
     }
 
-    usednums.push(rand);
-    options.push(allTheWords[rand]);
+    usedWords.push(theWord);
+
+    var useAnotherWord = randomNumber(1, 3);
+
+    if (useAnotherWord == 1) {
+      var anotherWord = allTheWords[randomNumber(0, allTheWords.length - 1)].toLowerCase();
+      if (theWord.toLowerCase() != anotherWord) {
+        theWord = theWord + ' ' + anotherWord;
+      }
+    }
+
+    options.push(theWord);
 
   }
 
@@ -284,32 +293,45 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     };
 }
 
-function activityWhatYouHear(theExercise, hint) {
+function activityWhatYouHear(theExercise, hinti18n) {
   let phrase = theExercise[1];
   phraseSplit = theExercise[1].split(' ');
+  let theHint = '';
+  let theHintLength = 3;
+
+  for (var i = 0; i < theHintLength; i++) {
+    theHint = theHint + ' ' + phraseSplit[i];
+  }
+
+  theHint = theHint + ' ... ' + phraseSplit[phraseSplit.length - 1];
 
   return {
     translation: theExercise['translation'],
-    0: phraseSplit[0].concat('...'),
+    0: phraseSplit[0] + '...',
     1: shuffleArray(phraseSplit),
     2: phrase,
-    3: hint,
+    3: theHint,
     4: phrase,
     5: theExercise[2]
   };
 }
 
 /*
-* --- Exercise in action
-*/
+* --- Exercises in action */
 
 function AnswerButtonProper(props) {
+
   var regex = new RegExp("[.,!?]",'g');
-  var value = props.value.replace(regex,'')
+  var value = props.value.replace(regex,'');
+
+  if (props.extraClass === undefined) {
+    props.extraClass = '';
+  }
+
   return e(
     'a',
     {
-      className: 'btn-tall trans',
+      className: 'btn-tall trans' + ' ' + props.extraClass,
       onClick: props.onClick
     },
     value
@@ -374,7 +396,7 @@ class AnswersPhraseBuilder extends React.Component {
                 e(
                   'a',
                   {
-                    className: 'btn-tall btn-sm trans disabled flex-grow-0',
+                    className: 'btn-tall btn-sm trans flex-grow-0',
                     key: item,
                   },
                   item
@@ -417,11 +439,19 @@ class AnswersPhraseBuilder extends React.Component {
         e('div', {className: 'exercise-answers-wordbank'},
 
           e(ExerciseContext.Consumer, null, ({values, AddWord}) => values[1].map(x => {
+
+            var extraClass = 'animate';
+
+            if (phraseBuilderPhrase.indexOf(x) !== -1) {
+              extraClass = ' disabled'
+            }
+
             return e(
               AnswerButtonProper,
               {
                 key: x,
                 value: x,
+                extraClass: extraClass,
                 onClick: () => { AddWord(x) }
               }
             )
@@ -1286,7 +1316,7 @@ class App extends React.Component {
   };
 
   scoreFunction(f, weight) {
-    let recoup = this.score * 0.25;
+    let recoup = this.score * 0.35;
     this.score = Math.round( (this.score / (2 * weight)) + recoup );
   }
 
@@ -1473,7 +1503,6 @@ class App extends React.Component {
         var wordWithoutPunct = word.replace(regex,'')
 
         if (!allTheWords.includes(wordWithoutPunct)) {
-          console.log(wordWithoutPunct);
           allTheWords.push(wordWithoutPunct);
         }
 

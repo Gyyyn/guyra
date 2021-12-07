@@ -30,15 +30,15 @@
       "unit4": {
         "id": "unit4",
         "name": "Atividades",
-        "description": "temp",
+        "description": "Present Continuous e atividades.",
         "image": "exercises/running.png",
         "bg": "#e4f7c3",
         "difficulty": 0.09
       },
       "unit5": {
         "id": "unit5",
-        "name": "Frequencia",
-        "description": "temp",
+        "name": "Frequência",
+        "description": "Expressões de tempo, rotinas e atividades.",
         "image": "exercises/schedule.png",
         "bg": "#ffe3e5",
         "difficulty": 0.1
@@ -48,7 +48,7 @@
       "unit6": {
         "id": "unit6",
         "name": "Lar",
-        "description": "temp",
+        "description": "There to be e coisas do lar.",
         "image": "exercises/house.png",
         "bg": "#f5f5dc",
         "difficulty": 0.1
@@ -56,7 +56,7 @@
       "unit7": {
         "id": "unit7",
         "name": "Trabalho",
-        "description": "temp",
+        "description": "Perguntas no simple present e trabalhos.",
         "image": "exercises/hard-work.png",
         "bg": "#f5f5dc",
         "difficulty": 0.1
@@ -66,7 +66,7 @@
       "unit9": {
         "id": "unit9",
         "name": "Rotinas",
-        "description": "temp",
+        "description": "Perguntas no simple present e rotinas.",
         "image": "exercises/routine.png",
         "bg": "#dbeffb",
         "difficulty": 0.13
@@ -74,7 +74,7 @@
       "unit8": {
         "id": "unit8",
         "name": "Trabalho 2",
-        "description": "temp",
+        "description": "Mais perguntas no simple present e trabalhos.",
         "image": "exercises/portfolio.png",
         "bg": "#f5f5dc",
         "difficulty": 0.13
@@ -84,7 +84,7 @@
       "unit10": {
         "id": "unit10",
         "name": "Futuro",
-        "description": "temp",
+        "description": "Futuro com going to.",
         "image": "exercises/clock-speeding.png",
         "bg": "#fff3b3",
         "difficulty": 0.13
@@ -92,7 +92,7 @@
       "unit11": {
         "id": "unit11",
         "name": "Futuro 2",
-        "description": "temp",
+        "description": "Futuro com will.",
         "image": "exercises/hourglass.png",
         "bg": "#fff3b3",
         "difficulty": 0.13
@@ -100,7 +100,7 @@
       "unit12": {
         "id": "unit12",
         "name": "Planos",
-        "description": "temp",
+        "description": "Futuro e expressões de tempo.",
         "image": "exercises/plan.png",
         "bg": "#dbeffb",
         "difficulty": 0.15
@@ -110,15 +110,15 @@
       "unit13": {
         "id": "unit13",
         "name": "Convites",
-        "description": "temp",
+        "description": "Would like e want to.",
         "image": "exercises/card.png",
         "bg": "#dbeffb",
         "difficulty": 0.15
       },
       "unit14": {
-        "id": "unit13",
+        "id": "unit14",
         "name": "Historias",
-        "description": "temp",
+        "description": "Simple past.",
         "image": "exercises/script.png",
         "bg": "#d1ffe6",
         "difficulty": 0.18
@@ -128,7 +128,7 @@
       "unit15": {
         "id": "unit15",
         "name": "Infância",
-        "description": "temp",
+        "description": "Past to be.",
         "image": "exercises/childhood.png",
         "bg": "#d1ffe6",
         "difficulty": 0.19

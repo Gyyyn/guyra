@@ -1030,6 +1030,11 @@ a:hover {
   border-bottom: var(--guyra-grey-darkest) solid var(--guyra-border-size) !important;
 }
 
+.btn-tall.trans.disabled {
+  color: var(--guyra-grey-dark);
+  border-color: var(--guyra-grey-dark);
+}
+
 #exercise-container .exercise-answers .btn-tall {
   display: flex;
   flex-grow: 1;
