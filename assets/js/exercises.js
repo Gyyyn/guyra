@@ -323,16 +323,21 @@ function AnswerButtonProper(props) {
 
   var regex = new RegExp("[.,!?]",'g');
   var value = props.value.replace(regex,'');
+  var theOnclick = props.onClick;
 
   if (props.extraClass === undefined) {
     props.extraClass = '';
+  }
+
+  if (props.disabled) {
+    theOnclick = null;
   }
 
   return e(
     'a',
     {
       className: 'btn-tall trans' + ' ' + props.extraClass,
-      onClick: props.onClick
+      onClick: theOnclick
     },
     value
   )
@@ -441,9 +446,11 @@ class AnswersPhraseBuilder extends React.Component {
           e(ExerciseContext.Consumer, null, ({values, AddWord}) => values[1].map(x => {
 
             var extraClass = 'animate';
+            var disableIt = false;
 
             if (phraseBuilderPhrase.indexOf(x) !== -1) {
-              extraClass = ' disabled'
+              extraClass = ' disabled';
+              disableIt = true;
             }
 
             return e(
@@ -452,6 +459,7 @@ class AnswersPhraseBuilder extends React.Component {
                 key: x,
                 value: x,
                 extraClass: extraClass,
+                disabled: disableIt,
                 onClick: () => { AddWord(x) }
               }
             )
@@ -1096,7 +1104,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.version = '0.0.1';
+    this.version = '0.0.2';
 
     this.ExerciseObject = [];
     this.exerciseLength = 0;
@@ -1110,7 +1118,7 @@ class App extends React.Component {
     this.buttonClassBlack = 'btn-tall black text-center';
     this.buttonClassDisabled = 'btn-tall disabled';
 
-    this.state = {
+    this.initialState = {
       values: [[],[],[]],
       currentQuestion: 0,
       setExerciseObject: this.setExerciseObject,
@@ -1145,7 +1153,9 @@ class App extends React.Component {
       ClearWord: this.ClearWord,
       DeleteWord: this.DeleteWord,
       reportAnswer: this.reportAnswer,
-    };
+    }
+
+    this.state = this.initialState;
 
   }
 
@@ -1557,23 +1567,12 @@ class App extends React.Component {
     this.ExerciseObject = [];
     this.exerciseLength = 0;
     this.currentQuestion = 0;
-    this.questionsAlreadyAnswered = [];
     this.score = 100;
+    this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
     this.disallowCandyOn = [];
 
-    this.setState({
-      values: [[],[],[]],
-      hintArea: e(hintAreaInfo),
-      alreadyAnswered: false,
-      answeredCorrect: false,
-      answers: [],
-      score: 100,
-      activityType: '',
-      candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
-      candyButtonClass: '',
-      disallowCandy: false
-    })
+    this.setState(initialState);
   }
 
   render() {

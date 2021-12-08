@@ -1195,6 +1195,26 @@
 
     "CompleteThePhrase": [
       ["Facebook was created by Mark Zuckerberg in 2004.", "was created", "(foi criado)"],
+      ["That problem was caused by something unknown.", "was caused", "(foi causado)"],
+      ["WhatsApp was adquired by Facebook in 2014", "was acquired", "foi adquirido"],
+      ["Google was founded by two Stanford students.", "was founded", "(foi fundado)"],
+      ["New cars are being made every second.", "are being", "estão sendo"],
+      ["Computer chips are mostly manufactured in Taiwan.", "manufactured", "manufaturados"],
+      ["A new mall is being built downtown.", "built", "construido"],
+      ["The iPhone is designed by Apple but built all around the world.", "is designed", "é projetado"],
+      ["Lord of the Rings was originally written by J. R. R. Tolkien", "originally", "originalmente"],
+      ["Many trees are growing in the new park across the street.", "are growing", "estão crescendo"],
+      ["Video games are made all over the world.", "are made", "são feitos"],
+      ["Music can be enjoyed by everyone regardless of age.", "be enjoyed", "ser aproveitada"],
+      ["Television is broadcast to every country in the world.", "broadcast", "trasmitida"],
+      ["Education is considered a topic of importance every election.", "election", "eleição"],
+      ["Ocean pollution is caused by bad waste management.", "waste", "resíduos"],
+      ["The electric guitar is usually played in rock bands.", "usually played", "geralmente tocada"],
+      ["Access to water is thought of as a human right.", "is thought", "é considerado"],
+      ["French perfumes are used all over the world.", "are used", "são usados"],
+      ["Spanish is spoken is almost every continent.", "is spoken", "é falado"],
+      ["CNN is watched in many countries.", "is watched", "é assistida"],
+      ["Nintendo is known for their video games.", "is known", "é conhecida"],
       ["Beethoven's fifth symphony was written in the renaissance era.", "was written", "(foi escrita)"],
       ["I'm very interested in music and performative arts.", "interested in music and", "(interessado em musica e)"],
       ["This picture was stolen from the museum last week.", "was stolen", "(foi roubada)"],
@@ -1204,6 +1224,14 @@
       ["The Taj Mahal is visited by 3 million people every year.", "million people", "(milhões de pessoas)"],
       ["Pluto was discovered by Clyde Tombaugh in 1930.", "discovered", "(descoberto)"],
       ["Game of Thrones was the most illegaly downloaded series in 2012.", "the most", "(a mais)"]
+    ],
+
+    "WhatYouHear": [
+      ["Ocean pollution is caused by bad waste management in poorer countries."],
+      ["The iPhone is designed by Apple in California but built all around the world"],
+      ["That problem was caused by something unknown and no one figured out the problem yet."],
+      ["Nintendo is known for their video games and video game consoles."],
+      ["This picture was stolen from the museum last week. The bandit is still on the run."]
     ]
 
   },
@@ -1212,6 +1240,17 @@
 
     "CompleteThePhrase": [
       ["If I pass the test I'm going to have a party!", "pass the test", "(passar o teste)"],
+      ["If the students get good grades we can reward them", "reward them", "(recompensar eles)"],
+      ["If people were more caring we would have less violence.", "would have", "(teriamos)"],
+      ["If we go see that movie I won't complain.", "won't complain", "não vou reclamar"],
+      ["I'll share my opinion with you if you'd like.", "you'd like", "você gostaria"],
+      ["I'll be going if you don't mind.", "don't mind", "(não se importar)"],
+      ["I would try to do something if I had the chance.", "had the chance", "tivesse a chance"],
+      ["If you don't make it tonight I can give you the summary.", "make it", "(chegar)"],
+      ["If the goverment wasn't so terrible we wouldn't be in this situation", "we wouldn't be", "(não estariamos)"],
+      ["If teenagers have all the freedom they will get in trouble.", "freedom", "(liberdade)"],
+      ["If they are alone all the time children will become lonely.", "become lonely", "(ficar solitários)"],
+      ["If only we could get it to work...", "if only", "(se apenas)"],
       ["I'll give you the book if you promise to be careful.", "if you promise", "(se você prometer)"],
       ["I'll be in trouble if I don't wake up early to go to work.", "don't wake up early", "(não acordar cedo)"],
       ["I've managed to secure a position in that company!", "managed to secure", "(consegui garantir)"],
@@ -1221,6 +1260,15 @@
       ["I've won prizes for my dancing.", "won prizes", "(genhei prêmios)"],
       ["I would work more on my hobbies if I had the time.", "would work", "(trabalharia)"],
       ["You shouldn't take that to heart, it wasn't on purpose.", "take that to heart", "(levar isso a sério)"]
+    ],
+
+    "WhatYouHear": [
+      ["If I pass the Math test tomorrow I'm going to have a party!"],
+      ["I worked all my life on this project so I hope it succeeds."],
+      ["I would work more on my hobbies if I had the time, but I only have time for work."],
+      ["If I don't get the top score on this test my parents are going to be angry."],
+      ["I think if we tried we could do it well."]
+
     ]
 
   },
