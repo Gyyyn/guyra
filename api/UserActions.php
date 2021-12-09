@@ -8,7 +8,7 @@ global $current_user_gamedata;
 global $site_url;
 global $site_api_url;
 
-include_once $template_dir . '/functions/Hash.php';
+require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/User.php';
@@ -165,7 +165,10 @@ if ($_GET['update_user_picture']) {
       guyra_output_json('error', true);
     }
   } else {
-    guyra_output_json('file too big', true);
+
+    global $gi18n;
+
+    guyra_output_json($gi18n['file_too_big'], true);
   }
 
 }
@@ -195,7 +198,15 @@ if ($_GET['logout']) {
 
 if ($_GET['register']) {
 
+  global $gi18n;
+
   $data = json_decode(file_get_contents('php://input'), true);
+
+  $captchaOk = verifyGoogleCaptcha($data['captcha']);
+
+  if (!$captchaOk) {
+    guyra_output_json($gi18n['captcha_error'], true);
+  }
 
   $creds = [
     'user_login' => $data['user_firstname'] . generateRandomString(),
@@ -302,7 +313,7 @@ if ($_GET['lost_password']) {
       guyra_output_json('sent', true);
 
     } else {
-      guyra_output_json('user not found', true);
+      guyra_output_json($gi18n['user_not_found'], true);
     }
 
   }
@@ -345,6 +356,8 @@ if ($_GET['get_identicon']) {
 
 if ($_GET['post_reply']) {
 
+  global $gi18n;
+
   if (!function_exists('wp_handle_upload')) {
     require_once( ABSPATH . 'wp-admin/includes/file.php' );
   }
@@ -352,14 +365,10 @@ if ($_GET['post_reply']) {
   include_once $template_dir . '/functions/Game.php';
   include_once $template_dir . '/components/StudyPage.php';
 
-  if (isset($_POST['redirect'])) {
-    $redirect  = $_POST['redirect'];
-  }
-
   $uploadedfile = $_FILES['file'];
   $file_found = false;
   $upload_overrides = ['test_form' => false];
-  if (isset($_FILES['file'])) {
+  if (isset($uploadedfile) && $uploadedfile['error'] != 4) {
   	$file_found = true;
   }
 
@@ -386,7 +395,7 @@ if ($_GET['post_reply']) {
 
   if (!$comment) {
 
-  	guyra_output_json('comment error' . var_dump($comment_data_toPost), true);
+  	guyra_output_json($gi18n['comment_error'] . var_dump($comment_data_toPost), true);
 
   }
 
@@ -401,12 +410,16 @@ if ($_GET['post_reply']) {
 
   } elseif ($file_found) {
 
-    guyra_output_json('file error', true);
+    guyra_output_json($gi18n['file_error'], true);
 
   }
 
   Guyra_increase_user_level($current_user_id, 2);
 
-  guyra_output_json('true', true);
+  if (isset($_POST['redirect'])) {
+    $redirect  = $_POST['redirect'];
+  } else {
+    guyra_output_json('true', true);
+  }
 
 }

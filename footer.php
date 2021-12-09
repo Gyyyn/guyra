@@ -41,6 +41,10 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 
 <?php wp_footer(); ?>
 
+<?php if ($args['recaptcha']): ?>
+<script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
+<?php endif; ?>
+
 <?php if ($args['react']): ?>
 <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>

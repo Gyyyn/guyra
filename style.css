@@ -598,11 +598,7 @@ input:checked + .slider:before {
 }
 
 /*
-* -------- Landing page
-*
-*
-*
-*/
+* -------- Landing page */
 
 .cover {
   min-height: calc(100vh - var(--guyra-navbar-size));
@@ -1120,10 +1116,16 @@ input.form-control:focus-visible,
 }
 
 /*
-* -------- Exercise
-*
-*
-*/
+* -------- Account Page */
+
+img.left-side-image {
+  border-top-left-radius: var(--guyra-border-radius-bigger);
+  border-bottom-left-radius: var(--guyra-border-radius-bigger);
+  max-width: 100%;
+}
+
+/*
+* -------- Exercise */
 
 #exercise-container {
   background-color: var(--guyra-white);

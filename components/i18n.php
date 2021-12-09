@@ -325,13 +325,12 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'audio_link' => $template_url . '/assets/audio/',
 	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
 	'title_img' => $template_url . '/assets/img/guyra-title.svg',
-	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg'
-];
-
-$labels = [
-	'username' => $gi18n['email'],
-	'password' => $gi18n['password'],
-	'remember_me' => $gi18n['remember_me'],
-	'login' =>  $gi18n['button_login'],
-	'lost_your_password' => $gi18n['forgot_password'],
+	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg',
+	// Errors,
+	'file_error' => 'Houve um erro no envio do arquivo.',
+	'file_too_big' => 'Arquivo grande demais.',
+	'error' => 'Houve um erro.',
+	'captcha_error' => 'Houve um erro com o CAPTCHA.',
+	'user_not_found' => 'Usuário não encontrado.',
+	'comment_error' => 'Erro ao enviar comentário: '
 ];

@@ -970,6 +970,11 @@
       ["Take the road behind the shop.", "the road", "(a estrada)"],
       ["Take the highway after the shop.", "the highway", "(a rodovia)"],
       ["Take the roundabout and then the third exit...", "roundabout", "(rotatoria)"],
+      ["Go towards the park and take a left.", "and take", "e pegue"],
+      ["Start at the park and go towards Fifth street.", "Start at", "comece no"],
+      ["It's three blocks down the street.", "down the street", "decendo a rua"],
+      ["Can you help me get to the coffee shop.", "get to", "chegar na"],
+      ["Could you tell me how to get to the train station.", "how to get", "como chegar"],
       ["It's two blocks from here, on the corner of Pine St. and Second Ave.", "two blocks", "(duas quadras)"],
       ["Walk until the bus stop and take a left.", "Walk until", "(Ande até)"],
       ["It's not far from here.", "not far", "(não ___ longe)"],
@@ -977,6 +982,14 @@
       ["It's down the street from here.", "down the street", "(descendo a rua)"],
       ["Walk three blocks and you're there.", "blocks and", "(quadras e)"],
       ["You can find it in the mall on First Avenue.", "in the mall", "(no shopping)"]
+    ],
+
+    "WhatYouHear": [
+      ["Walk until the bus stop and take a left to get to the mall."],
+      ["You can find that store in the mall on Second Avenue."],
+      ["It's between the gym and the library on Third street."],
+      ["Take the roundabout on Fifth street and then take the first exit."],
+      ["It's not far from the train station on Third Avenue."]
     ]
 
   },
@@ -985,6 +998,17 @@
 
     "CompleteThePhrase": [
       ["Brazil is a lot bigger than Italy.", "a lot bigger", "(muito maior)"],
+      ["Russia is the biggest country in the world.", "the biggest", "o maior"],
+      ["China has the largest population in the world.", "the largest", "a maior"],
+      ["India is going to be bigger than China eventually.", "eventually", "eventualmente"],
+      ["The Vatican is the smallest country in the world.", "smallest", "o menor"],
+      ["Argentina is smaller than Brazil.", "smaller", "menor"],
+      ["I'm having more fun than I expected!", "than I", "que eu"],
+      ["I'm having more fun than I expected!", "more fun", "mais diversão"],
+      ["The U.S. a worse country than Canada.", "worse", "pior"],
+      ["São Paulo is dirtier than most cities.", "dirtier", "mais suja"],
+      ["Paris is not much colder than São Paulo.", "colder", "mais frio"],
+      ["Barcelona is closer to Porto than to Milan.", "closer", "mais perto"],
       ["Which country is the most populous, the U.S., China or Japan?", "most populous", "(o mais populoso)"],
       ["This place is very relaxing and not stressful at all!", "very relaxing", "(muito relaxante)"],
       ["How expensive is it to live in Hong Kong?", "expensive is", "(caro é)"],
@@ -994,6 +1018,14 @@
       ["Hot countries are usually wetter than cold ones.", "countries are", "(países são)"],
       ["That city is not expensive, it's cheap!", "cheap", "(barato)"],
       ["How far away is Australia?", "away is", "(longe é)"]
+    ],
+
+    "WhatYouHear": [
+      ["This place is very relaxing and extremely beautiful!"],
+      ["This is a very expensive city. Everything costs a lot."],
+      ["How far away from Tokyo is Australia?"],
+      ["Cold places are usually drier than hot places."],
+      ["Most people prefer to live in hotter countries."]
     ]
 
   },

@@ -1084,61 +1084,71 @@ function Register(props) {
           className: 'btn-tall blue my-3',
           onClick: (e) => {
 
+            e.preventDefault();
+
             var previousHTML = '';
             previousHTML = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-            dataToPost = {
-              user_email: document.getElementById('profile-email').value,
-              user_password: document.getElementById('profile-password').value,
-              user_firstname: document.getElementById('profile-firstname').value,
-              user_lastname: document.getElementById('profile-lastname').value
-            };
+            grecaptcha.ready(function() {
+              grecaptcha.execute('6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt', {action: 'submit'}).then(function(token) {
 
-            var user_code = document.getElementById('profile-code').value;
+                dataToPost = {
+                  user_email: document.getElementById('profile-email').value,
+                  user_password: document.getElementById('profile-password').value,
+                  user_firstname: document.getElementById('profile-firstname').value,
+                  user_lastname: document.getElementById('profile-lastname').value,
+                  captcha: token
+                };
 
-            if (
-              dataToPost.user_email == '' ||
-              dataToPost.user_password == '' ||
-              dataToPost.user_phone == '' ||
-              dataToPost.user_firstname == '' ||
-              dataToPost.user_lastname == ''
-            ) {
-              setMessageBox(i18n.missing_fields);
-            } else {
+                var user_code = document.getElementById('profile-code').value;
 
-            fetch(
-              i18n.api_link + '?register=1',
-              {
-                method: "POST",
-                headers: {
-                  'Accept': 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataToPost)
-              }
-            )
-            .then(res => res.json())
-            .then(json => {
+                if (
+                  dataToPost.user_email == '' ||
+                  dataToPost.user_password == '' ||
+                  dataToPost.user_phone == '' ||
+                  dataToPost.user_firstname == '' ||
+                  dataToPost.user_lastname == ''
+                ) {
+                  setMessageBox(i18n.missing_fields);
+                  e.target.innerHTML = previousHTML;
+                } else {
 
-              if (json[0] == 'true') {
+                fetch(
+                  i18n.api_link + '?register=1',
+                  {
+                    method: "POST",
+                    headers: {
+                      'Accept': 'application/json, text/plain, */*',
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToPost)
+                  }
+                )
+                .then(res => res.json())
+                .then(json => {
 
-                if (user_code != '') {
-                  fetch(i18n.api_link + '?teacher_code=' + user_code)
+                  if (json[0] == 'true') {
+
+                    if (user_code != '') {
+                      fetch(i18n.api_link + '?teacher_code=' + user_code)
+                    }
+
+                    setTimeout(() => {
+                      window.location = i18n.home_link
+                    }, 500);
+
+                  } else {
+                    setMessageBox(json[0]);
+                    e.target.innerHTML = previousHTML;
+                  }
+
+                });
+
                 }
 
-                setTimeout(() => {
-                  window.location = i18n.home_link
-                }, 500);
-
-              } else {
-                setMessageBox(json[0]);
-              }
-
-              e.target.innerHTML = previousHTML;
+              });
             });
-
-            }
 
           }
         },
