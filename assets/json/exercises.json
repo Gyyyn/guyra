@@ -1034,15 +1034,48 @@
 
     "CompleteThePhrase": [
       ["What does he look like?", "he look", "(ele parece)"],
+      ["I hear you have a new boyfriend!", "hear", "ouvi"],
+      ["What does she look like today?", "look like", "parece"],
+      ["He is about 5 foot 4 I think.", "is about", "é mais ou menos"],
+      ["He has beautiful hair.", "beautiful", "bonito"],
+      ["She is really strong!", "strong", "forte"],
+      ["He is a little short but he looks pretty.", "little short", "um pouco baixo"],
+      ["She is tall and has long hair.", "tall", "alta"],
+      ["One meter eighty is pretty tall.", "pretty tall", "bem alto"],
+      ["What color are her eyes?", "eyes", "olhos"],
+      ["How tall are you", "How", "quão"],
+      ["What color is his hair?", "is his", "é dele"],
+      ["He is in his twenties.", "twenties", "vinte anos"],
+      ["She was born in the early nineties.", "nineties", "anos noventa"],
+      ["I have dark brown hair and light skin.", "skin", "pele"],
+      ["I have light brown hair and light skin.", "light", "claro"],
+      ["I have blonde and dark skin.", "blonde", "loiro"],
+      ["I have dark brown hair and I'm black.", "black", "preto"],
       ["She has long blonde hair and blue eyes.", "long blonde", "(longos loiros)"],
       ["She is pretty tall for his age.", "tall for", "(alta para a)"],
       ["He is not very handsome.", "not very", "(não muito)"],
+      ["She is really handsome.", "handsome", "(bonita)"],
+      ["He is quite pretty.", "quite", "bem"],
+      ["She is not very good-looking.", "good-looking", "boa aparência"],
+      ["I have dark eyes and I'm tall.", "I'm", "eu sou"],
+      ["I have light blue eyes and I'm tall.", "have", "tenho"],
+      ["I have green and I'm fat.", "I'm", "eu sou"],
+      ["I have dark hair and I'm tall.", "have", "tenho"],
       ["She is very tall.", "very tall", "(muito alta)"],
       ["He is fairly short with a mustache and a beard.", "short with a", "(baixo com um)"],
       ["How tall is she?", "tall is", "(alta ___ é)"],
       ["How long is his hair?", "How", "(Quão)"],
       ["Does she wear glasses?", "she wear", "(ele usa)"],
-      ["He's in his early twenties.", "twenties", "(seus vinte anos)"]
+      ["What kind of clothes does she wear?", "kind of", "tipo de"],
+      ["He's in his early twenties.", "twenties", "(vinte anos)"]
+    ],
+
+    "WhatYouHear": [
+      ["He is fairly tall with a brown mustache and a full beard."],
+      ["He is a little short but he looks pretty."],
+      ["She is not very good-looking because of those clothes."],
+      ["She is pretty tall for her age! How tall is she?"],
+      ["She was born in the early nineties. So she is in her thirties now."]
     ]
 
   },

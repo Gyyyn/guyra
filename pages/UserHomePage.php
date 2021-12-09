@@ -59,7 +59,7 @@ get_header();
     <div class="study-page rounded-box position-relative">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="marked"><?php echo $gi18n['studypage_homework_title']; ?></h1>
+        <h1 class="text-blue"><?php echo $gi18n['studypage_homework_title']; ?></h1>
         <span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/light.png"></span>
       </div>
 
@@ -70,7 +70,7 @@ get_header();
     <div class="study-answers rounded-box">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="marked"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
+        <h1 class="text-blue"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
         <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/essay.png"></span>
       </div>
 

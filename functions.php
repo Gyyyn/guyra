@@ -26,7 +26,7 @@ if ($is_logged_in) {
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '0.0.7' );
+	define( '_S_VERSION', '0.0.8' );
 }
 
 function generateRandomString($length = 10) {
@@ -143,15 +143,14 @@ add_action('init', 'prevent_wp_login');
 
 // Remove the normal WP die handler
 function custom_die_handler( $message, $title="", $args = array() ) {
-
-  echo '<html><body>';
-  echo '<h1>Erro:</h1>';
-  echo print_r($message);
-	echo $args['response'];
-	echo '<br />';
-	echo date('Y-m-d H:i:s');
+	echo '["server error"]';
+  echo '<html><body style="font-family: system-ui,-apple-system,sans-serif;">';
+	echo '<hr />';
+  echo '<h1>Erro ' . $args['response'] . '</h1>';
+	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro. Se alguem pedir, de o seguinte codigo: ";
+	echo time();
 	echo "<hr />";
-	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro.";
+	echo date('Y-m-d H:i:s');
   echo '</body></html>';
 	guyra_log_error(json_encode([$title, $message, $args['response']]));
   die();
