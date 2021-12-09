@@ -229,7 +229,7 @@ function GetUserStudyPage_comments($user, $reply_box=true, $all_comments=false, 
       </div>
 
       <?php if ($all_comments): ?>
-      <div class="collapse my-3">
+      <div id="replyto-<?php echo $comment->comment_ID; ?>" class="collapse my-3">
         <?php RenderHTMLReplyBox($object->ID, $comment->comment_ID, $redirect); ?>
       </div>
       <?php endif; ?>
