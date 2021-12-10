@@ -40,6 +40,17 @@ function synthSpeak(phrase, rate=1) {
   }
 }
 
+function findIndices(haystack, needle) {
+  var indices = [];
+  var idx = haystack.indexOf(needle);
+  while (idx != -1) {
+    indices.push(idx);
+    idx = haystack.indexOf(needle, idx + 1);
+  }
+
+  return indices;
+}
+
 function getRandomAvatar() {
   rand = randomNumber(1, 4);
   switch (rand) {
@@ -447,8 +458,10 @@ class AnswersPhraseBuilder extends React.Component {
 
             var extraClass = 'animate';
             var disableIt = false;
+            var ocrrInBuiltPhrase = findIndices(phraseBuilderPhrase, x);
+            var ocrrInFinalPhrase = findIndices(values[4], x);
 
-            if (phraseBuilderPhrase.indexOf(x) !== -1) {
+            if (ocrrInBuiltPhrase.length == ocrrInFinalPhrase.length) {
               extraClass = ' disabled';
               disableIt = true;
             }

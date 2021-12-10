@@ -1832,11 +1832,13 @@ img.left-side-image {
 @keyframes pop {
   from {
     transform: scale(0.75);
+    filter: blur(1px);
     opacity: 0;
   }
 
   to {
     transform: scale(1);
+    filter: blur(0);
     opacity: 1;
   }
 }
