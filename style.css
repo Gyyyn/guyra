@@ -1347,6 +1347,8 @@ img.left-side-image {
   justify-content: center;
 }
 
+@media (min-width: 768px)
+
 .courses-level-chooser .card {
     max-width: 46%;
 }

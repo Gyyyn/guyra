@@ -1084,6 +1084,23 @@
 
     "CompleteThePhrase": [
       ["She's the one with long hair.", "with long", "(com longo)"],
+      ["She's the only one wearing jeans.", "the only one", "a única"],
+      ["He's the one behind the couch.", "behind", "atrás"],
+      ["He's the one wearing preppy clothes.", "one wearing", "que está usando"],
+      ["She is the one playing card games next to Josh.", "playing cards", "jogando cartas"],
+      ["They are the ones wearing the matching outfits.", "matching", "combinando."],
+      ["He's the good-looking guy with jeans.", "good-looking", "boa aparência"],
+      ["I want the one with more space.", "more space", "mais espaço"],
+      ["Can you show me the one in the back", "in the back", "no fundo"],
+      ["Can you show me the one in the back", "show me", "me mostrar"],
+      ["I can't believe he has the newest one.", "can't believe", "não posso acreditar"],
+      ["I can't believe he has the newest one.", "newest", "o mais novo"],
+      ["I think those are the worst.", "worst", "o pior"],
+      ["He's the one with the designer bag.", "designer bag", "bolsa de grife"],
+      ["She's the one holding a drink in her hand.", "holding", "segurando"],
+      ["She's the one holding a drink in her hand.", "in her", "na dela"],
+      ["Can you point it out to me?", "point it", "apontar"],
+      ["She's the one with long hair.", "with long", "com longo"],
       ["He's the one looking out the window.", "the one looking", "(o que está olhando)"],
       ["Which one would you prefer?", "would you", "(você iria)"],
       ["I'd like the strawberry flavored one please.", "one", "(um)"],
@@ -1091,7 +1108,16 @@
       ["She's the one in red.", "one in", "(que está de)"],
       ["I'd prefer the lighter one.", "the lighter", "(o mais leve)"],
       ["I want the one with less spice.", "one with less", "(o que está com menos)"],
-      ["Which one do you mean?", "one do", "(qual)"]
+      ["Which one do you mean?", "one do", "(qual)"],
+      ["He's carrying a heavy backpack and he has black hair.", "carrying", "carregando"]
+    ],
+
+    "WhatYouHear": [
+      ["She's the one holding a large cup in her left hand."],
+      ["They are the ones wearing the matching uniforms on the right."],
+      ["He's the one wearing preppy clothes and sunglasses."],
+      ["He's carrying a heavy backpack and he has black hair."],
+      ["I'd like the caramel flavored one please."]
     ]
 
   },
@@ -1154,16 +1180,41 @@
   "unit24": {
 
     "CompleteThePhrase": [
-      ["You shouldn't use this medicine, it won't work.", "shouldn't use", "(não deveria)"],
+      ["You shouldn't use this medicine, it won't work.", "shouldn't use", "não deveria"],
+      ["You shouldn't use this medicine, it won't work.", "won't work", "não vai funcionar"],
+      ["You shouldn't use this medicine, use an Aspirin instead.", "instead", "em vez de"],
+      ["You shouldn't use an Aspirin, it won't help with your headache.", "headache", "dor de cabeça"],
+      ["You shouldn't use a nasal spray, it won't help with your headache.", "won't help", "não vai ajudar"],
+      ["You shouldn't use a nasal spray, it won't help with your stomachache.", "stomachache", "dor de estômago"],
       ["What do you suggest for a cold?", "you suggest", "(você sugere)"],
-      ["It's important to get some rest.", "to get", "(descansar)"],
+      ["What do you suggest for the flu?", "the flu", "gripe"],
+      ["What do you suggest for a cold?", "a cold", "um resfriado"],
+      ["What do you suggest for runny nose?", "runny", "escorrendo"],
+      ["It's important to get some rest.", "to get", "conseguir"],
+      ["It's a good idea to get some rest.", "good idea", "boa ideia"],
+      ["It's important to get some rest.", "rest", "descansar"],
+      ["It's important to take your medication.", "to take", "tomar"],
+      ["It's important to take your medication.", "medication", "medicamento"],
       ["I'd recommend a nice relaxing bath.", "recommend", "(recomenda)"],
+      ["A shower usually helps.", "helps", "ajuda"],
+      ["Take these pills, otherwise you won't get better.", "otherwise", "senão"],
       ["Could I have some painkillers, please?", "have some", "(ter um pouco)"],
       ["May I see your prescription?", "see your", "(ver sua)"],
       ["Can you get the Aspirin for me?", "get the", "(pegar a)"],
       ["You should see a doctor.", "should see", "(deveria ver)"],
       ["Should I be worried?", "I be", "(eu ___ estar)"],
+      ["I hope you get well soon.", "get well", "melhore"],
+      ["What do you think doctor, is it something serious?", "you think", "você acha"],
+      ["What do you think doctor, is it serious illness?", "illness", "doença"],
       ["It's a good idea to see a dentist.", "good idea", "(boa ideia)"]
+    ],
+
+    "WhatYouHear": [
+      ["You shouldn't use a nasal spray, it won't help with your stomachache."],
+      ["It's important to take your medication on time every day."],
+      ["Don't forget to take these pills every day, otherwise you won't get better."],
+      ["What do you suggest for runny nose and a headache?"],
+      ["What do you think doctor, is it some serious illness?"]
     ]
 
   },

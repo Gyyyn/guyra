@@ -1,7 +1,6 @@
 let e = React.createElement;
 
 const rootUrl = window.location.origin.concat('/');
-var phraseBuilderPhrase = [];
 
 function shuffleArray(a) {
   var j, x, i;
@@ -409,14 +408,17 @@ class AnswersPhraseBuilder extends React.Component {
             },
             phraseBuilderPhrase.map((item) => {
               return (
-                e(
+                e(ExerciseContext.Consumer, null, ({SpliceWord}) => e(
                   'a',
                   {
                     className: 'btn-tall btn-sm trans flex-grow-0',
                     key: item,
+                    onClick: () => {
+                      SpliceWord(item);
+                    }
                   },
                   item
-                )
+                ))
               )
             })
           )),
@@ -454,12 +456,12 @@ class AnswersPhraseBuilder extends React.Component {
 
         e('div', {className: 'exercise-answers-wordbank'},
 
-          e(ExerciseContext.Consumer, null, ({values, AddWord}) => values[1].map(x => {
+          e(ExerciseContext.Consumer, null, ({values, AddWord, phraseBuilderPhrase}) => values[1].map(x => {
 
             var extraClass = 'animate';
             var disableIt = false;
             var ocrrInBuiltPhrase = findIndices(phraseBuilderPhrase, x);
-            var ocrrInFinalPhrase = findIndices(values[4], x);
+            var ocrrInFinalPhrase = findIndices(values[4].split(' '), x);
 
             if (ocrrInBuiltPhrase.length == ocrrInFinalPhrase.length) {
               extraClass = ' disabled';
@@ -1161,10 +1163,11 @@ class App extends React.Component {
       disallowCandy: false,
       questionType: QuestionDialog,
       allTheWords: [],
-      phraseBuilderPhrase: phraseBuilderPhrase,
+      phraseBuilderPhrase: [],
       AddWord: this.AddWord,
       ClearWord: this.ClearWord,
       DeleteWord: this.DeleteWord,
+      SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
     }
 
@@ -1177,7 +1180,9 @@ class App extends React.Component {
     fetch(rootUrl + 'api?json=levelmap&i18n=full')
       .then(res => res.json())
       .then(json => {
-        this.i18n = json.i18n
+        this.i18n = json.i18n;
+        this.initialState.i18n = json.i18n;
+        this.initialState.levelMap = json.levelmap;
         this.setState({
           page: e(LevelChooser),
           levelMap: json.levelmap,
@@ -1344,23 +1349,35 @@ class App extends React.Component {
   }
 
   AddWord = (word) => {
-    phraseBuilderPhrase.push(word)
+    var thePhrase = this.state.phraseBuilderPhrase;
+    thePhrase.push(word)
     this.setState({
-      phraseBuilderPhrase: phraseBuilderPhrase
+      phraseBuilderPhrase: thePhrase
     });
   }
 
   DeleteWord = () => {
-    phraseBuilderPhrase.pop();
+    var thePhrase = this.state.phraseBuilderPhrase;
+    thePhrase.pop();
     this.setState({
-      phraseBuilderPhrase: phraseBuilderPhrase
+      phraseBuilderPhrase: thePhrase
     });
   }
 
   ClearWord = () => {
-    phraseBuilderPhrase = [];
     this.setState({
-      phraseBuilderPhrase: phraseBuilderPhrase
+      phraseBuilderPhrase: []
+    });
+  }
+
+  SpliceWord = (word) => {
+    var thePhrase = this.state.phraseBuilderPhrase;
+    var splicedHalf = thePhrase.splice(thePhrase.indexOf(word));
+    splicedHalf.shift();
+    thePhrase = thePhrase.concat(splicedHalf);
+    console.log(thePhrase);
+    this.setState({
+      phraseBuilderPhrase: thePhrase
     });
   }
 
@@ -1370,9 +1387,8 @@ class App extends React.Component {
     let correct = this.state.values[2].toLowerCase();
     answer = answer.toLowerCase();
     this.questionsAlreadyAnswered.push(this.currentQuestion);
-    phraseBuilderPhrase = [];
     this.setState({
-      phraseBuilderPhrase: phraseBuilderPhrase
+      phraseBuilderPhrase: []
     });
 
     // Check if answer was already given
@@ -1585,7 +1601,7 @@ class App extends React.Component {
     this.needToRetry = [];
     this.disallowCandyOn = [];
 
-    this.setState(initialState);
+    this.setState(this.initialState);
   }
 
   render() {

@@ -219,9 +219,9 @@ function CourseVideoList(props) {
     },
     e(
       'div',
-      { className: 'd-flex justify-content-between align-items-center py-3' },
+      { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
       e(returnButton, { page: e(CourseChooser)}),
-      e('h2', null, props.title)
+      e('h2', { className: 'mt-3 mt-md-0' }, props.title)
     ),
     e(
       'div',
