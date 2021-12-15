@@ -1129,7 +1129,7 @@ img.left-side-image {
 }
 
 /*
-* -------- Exercise */
+* -------- Exercises */
 
 #exercise-container {
   background-color: var(--guyra-white);
@@ -1194,6 +1194,31 @@ img.left-side-image {
   margin-bottom: 1rem;
 }
 
+progress#exercise-done-percent {
+    display: flex;
+    width: 100%;
+    margin: 1rem 0;
+    appearance: none;
+    background: none;
+    border: 0;
+    border-radius: var(--guyra-border-radius);
+}
+
+progress#exercise-done-percent[value]::-webkit-progress-bar {
+    background: none;
+    border-radius: var(--guyra-border-radius);
+}
+
+progress#exercise-done-percent[value]::-webkit-progress-value {
+    background: var(--guyra-green);
+    border-radius: var(--guyra-border-radius);
+}
+
+progress#exercise-done-percent[value]::-moz-progress-bar {
+    background: var(--guyra-green);
+    border-radius: var(--guyra-border-radius);
+}
+
 .exercise-answers,
 .exercise-answers textarea {
   min-height: 150px;
@@ -1201,7 +1226,7 @@ img.left-side-image {
 
 .exercise-answers-wordbank {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-grow: 1;
   height: max-content;
   flex-wrap: wrap;

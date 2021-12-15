@@ -722,6 +722,36 @@ function QuestionAudio(props) {
 
 }
 
+function ProgressBar(props) {
+
+  return e(ExerciseContext.Consumer, null, ({exerciseLength, answers}) => {
+
+    // Count the correct answers.
+    var correctAnswers = 0;
+
+    answers.forEach((item) => {
+      if (item[3] == 'correct') {
+        correctAnswers += 1;
+      }
+    });
+
+    correctAnswers = Math.trunc(( correctAnswers / (exerciseLength * 2) ) * 100);
+
+    if (correctAnswers === 0) {
+      correctAnswers = 5;
+    }
+
+    return e(
+      'progress',
+      {
+        id: 'exercise-done-percent',
+        max: 100,
+        value: correctAnswers
+      }
+    );
+  });
+}
+
 class CurrentQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -736,6 +766,7 @@ class CurrentQuestion extends React.Component {
         },
         e('div', { className: 'my-5' }, e(returnToLevelMapButton)),
         e(questionType, {values: values, avatarURL: avatarURL}),
+        e(ProgressBar),
         hintArea,
         e(
           'div',
@@ -1714,12 +1745,13 @@ class App extends React.Component {
 
     });
 
-    this.setState({
-      allTheWords: allTheWords
-    })
-
     this.ExerciseObject = object;
     this.exerciseLength = this.ExerciseObject.length;
+
+    this.setState({
+      allTheWords: allTheWords,
+      exerciseLength: this.ExerciseObject.length
+    })
 
     this.setState({
       page: e(CurrentQuestion)
