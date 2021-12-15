@@ -282,6 +282,7 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
   var hint = theExercise[3];
   var poi = theExercise[2];
   var phrase = theExercise[1];
+  var phraseSplit = phrase.split(' ');
   var regex = new RegExp(poi,'g');
 
   var rand = 0;
@@ -300,6 +301,13 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     usedWords.push(theWord);
 
     var useAnotherWord = randomNumber(1, 3);
+
+    phraseSplit.forEach((item, i) => {
+      if (RemovePunctuation(item).toLowerCase() == RemovePunctuation(theWord).toLowerCase()) {
+        useAnotherWord = 1;
+      }
+    });
+
 
     if (useAnotherWord == 1) {
       var anotherWord = allTheWords[randomNumber(0, allTheWords.length - 1)];
@@ -1509,7 +1517,7 @@ class App extends React.Component {
         }
 
         // Correct answers to audio questions makes them come back as word builder questions
-        if ((this.state.questionType == QuestionAudio) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
+        if ((this.state.questionType == QuestionAudio) && (this.needToRetry.indexOf(this.currentQuestion) === -1) && (this.state.disallowCandy === false)) {
           this.needToRetry.push(this.currentQuestion);
           this.disallowCandyOn.push(this.currentQuestion);
         }
