@@ -1039,7 +1039,6 @@ a:hover {
 }
 
 #exercise-container .exercise-answers .exercise-answers-wordbank .btn-tall {
-  min-width: 10rem;
   flex-grow: 0;
 }
 
