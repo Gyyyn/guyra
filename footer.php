@@ -48,7 +48,7 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 <?php if ($args['react']): ?>
 <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/html-react-parser@latest/dist/html-react-parser.min.js"></script>
+<script src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
 <?php endif; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

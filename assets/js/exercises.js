@@ -50,6 +50,17 @@ function findIndices(haystack, needle) {
   return indices;
 }
 
+function RemovePunctuation(word, options={}) {
+
+  if (options.includeApostrophe === true) {
+    var regex = new RegExp("[.,!?']",'g');
+  } else {
+    var regex = new RegExp("[.,!?]",'g');
+  }
+
+  return word.replace(regex,'');
+}
+
 function getRandomAvatar() {
   rand = randomNumber(1, 4);
   switch (rand) {
@@ -162,6 +173,11 @@ function getEquivalentAnswersFor(answer) {
     case "throughout":
       return ["all around", "throughout"];
     break;
+
+    case "get up":
+    case "wake up":
+      return ["get up", "wake up"];
+    break;
   }
 }
 
@@ -189,7 +205,13 @@ function joinEquivalents(input) {
 
 function isAnswerCorrect(correct, userInput) {
 
+  // Normalize everything
   userInput = userInput.trimEnd();
+  userInput = RemovePunctuation(userInput, {includeApostrophe: true});
+  userInput = userInput.toLowerCase();
+  correct = RemovePunctuation(correct, {includeApostrophe: true});
+  correct = correct.toLowerCase();
+
   let passable = true;
 
   if (userInput == '') {
@@ -280,8 +302,8 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     var useAnotherWord = randomNumber(1, 3);
 
     if (useAnotherWord == 1) {
-      var anotherWord = allTheWords[randomNumber(0, allTheWords.length - 1)].toLowerCase();
-      if (theWord.toLowerCase() != anotherWord) {
+      var anotherWord = allTheWords[randomNumber(0, allTheWords.length - 1)];
+      if (theWord.toLowerCase() != anotherWord.toLowerCase()) {
         theWord = theWord + ' ' + anotherWord;
       }
     }
@@ -303,17 +325,56 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     };
 }
 
-function activityWhatYouHear(theExercise, hinti18n) {
+function activityWhatYouHear(theExercise, options={}, allTheWords) {
   let phrase = theExercise[1];
-  phraseSplit = theExercise[1].split(' ');
+  let phraseSplit = theExercise[1].split(' ');
   let theHint = '';
   let theHintLength = 3;
+  let extraWords = [];
+  let extraWordsAmount = 3;
+  let theWord = '';
 
   for (var i = 0; i < theHintLength; i++) {
     theHint = theHint + ' ' + phraseSplit[i];
   }
 
   theHint = theHint + ' ... ' + phraseSplit[phraseSplit.length - 1];
+
+  if (options.useExtraWords === true) {
+
+    phraseSplit.forEach((item, i) => {
+      phraseSplit[i] = RemovePunctuation(phraseSplit[i]);
+    });
+
+
+    // Remove all the RemovePunctuation
+    phraseSplit.forEach((item, i) => {
+      var theIndex = allTheWords.indexOf(item);
+
+      if (theIndex !== -1) {
+        allTheWords[theIndex] = RemovePunctuation(allTheWords[theIndex]);
+      }
+
+      phraseSplit[i] = RemovePunctuation(phraseSplit[i]);
+
+    });
+
+    for (var i = 0; i < extraWordsAmount + 1; i++) {
+
+      while (extraWords.indexOf(theWord) !== -1) {
+        rand = randomNumber(0, allTheWords.length - 1);
+        theWord = allTheWords[rand];
+      }
+
+      allTheWords.splice(rand, 1);
+      extraWords.push(theWord);
+
+    }
+
+    extraWords.shift();
+    phraseSplit = phraseSplit.concat(extraWords);
+
+  }
 
   return {
     translation: theExercise['translation'],
@@ -331,8 +392,7 @@ function activityWhatYouHear(theExercise, hinti18n) {
 
 function AnswerButtonProper(props) {
 
-  var regex = new RegExp("[.,!?]",'g');
-  var value = props.value.replace(regex,'');
+  var value = RemovePunctuation(props.value);
   var theOnclick = props.onClick;
 
   if (props.extraClass === undefined) {
@@ -372,7 +432,6 @@ class AnswerButton extends React.Component {
 class AnswersWordBank extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -407,6 +466,7 @@ class AnswersPhraseBuilder extends React.Component {
               'data-phrase': phraseBuilderPhrase.join(' ')
             },
             phraseBuilderPhrase.map((item) => {
+
               return (
                 e(ExerciseContext.Consumer, null, ({SpliceWord}) => e(
                   'a',
@@ -419,11 +479,12 @@ class AnswersPhraseBuilder extends React.Component {
                   },
                   item
                 ))
-              )
+              );
+
             })
           )),
 
-          e(ExerciseContext.Consumer, null, ({ClearWord, DeleteWord}) => e(
+          e(ExerciseContext.Consumer, null, ({ClearWord}) => e(
             'div',
             { className: 'd-flex' },
             e(
@@ -433,14 +494,6 @@ class AnswersPhraseBuilder extends React.Component {
                 onClick: () => { synthSpeak(phraseBuilderPhrase) }
               },
               e('i', { className: "bi bi-ear" })
-            ),
-            e(
-              'a',
-              {
-                className: 'btn-tall blue align-self-end flex-shrink-1',
-                onClick: () => { DeleteWord() }
-              },
-              e('i', { className: "bi bi-x-square-fill" })
             ),
             e(
               'a',
@@ -456,29 +509,66 @@ class AnswersPhraseBuilder extends React.Component {
 
         e('div', {className: 'exercise-answers-wordbank'},
 
-          e(ExerciseContext.Consumer, null, ({values, AddWord, phraseBuilderPhrase}) => values[1].map(x => {
+          e(ExerciseContext.Consumer, null, ({values, AddWord, phraseBuilderPhrase}) => {
 
-            var extraClass = 'animate';
-            var disableIt = false;
-            var ocrrInBuiltPhrase = findIndices(phraseBuilderPhrase, x);
-            var ocrrInFinalPhrase = findIndices(values[4].split(' '), x);
+            var phraseBuilderWordsAmount = {};
 
-            if (ocrrInBuiltPhrase.length == ocrrInFinalPhrase.length) {
-              extraClass = ' disabled';
-              disableIt = true;
-            }
+            values[1].forEach((item, i) => {
 
-            return e(
-              AnswerButtonProper,
-              {
-                key: x,
-                value: x,
-                extraClass: extraClass,
-                disabled: disableIt,
-                onClick: () => { AddWord(x) }
+              if (phraseBuilderWordsAmount[item] === undefined) {
+                phraseBuilderWordsAmount[item] = {};
+                phraseBuilderWordsAmount[item].max = 1;
+                phraseBuilderWordsAmount[item].current = 0;
+              } else {
+                phraseBuilderWordsAmount[item].max += 1;
               }
-            )
-          }))
+
+            });
+
+            return values[1].map(x => {
+
+              var extraClass = 'animate';
+              var disableIt = false;
+              var ocrrInBuiltPhrase = findIndices(phraseBuilderPhrase, x);
+              var ocrrInOptions = findIndices(values[1], x);
+              var theButtonValue = x;
+
+              if (ocrrInBuiltPhrase.length == ocrrInOptions.length) {
+                extraClass = ' disabled';
+                disableIt = true;
+              } else {
+
+                var theOcrrAmountLeft = ocrrInOptions.length - ocrrInBuiltPhrase.length;
+                if (ocrrInOptions.length > 1) {
+                  theButtonValue = theButtonValue + ' ' + '(x' + theOcrrAmountLeft + ')';
+                }
+              }
+
+              if (phraseBuilderWordsAmount[x].current  >= 1) {
+
+                return e('span', {}, null);
+
+              } else {
+
+                phraseBuilderWordsAmount[x].current += 1;
+
+                return e(
+                  AnswerButtonProper,
+                  {
+                    key: x,
+                    value: theButtonValue,
+                    extraClass: extraClass,
+                    disabled: disableIt,
+                    onClick: () => { AddWord(x) }
+                  }
+                );
+
+              }
+
+            });
+
+
+          })
 
         )
 
@@ -560,30 +650,38 @@ function QuestionAudioButton(props) {
   theAudioSlow = new Audio(props.link);
   theAudioSlow.playbackRate = 0.75;
 
-  return e(
-    'div',
-    { className: 'd-inline-flex align-items-baseline' },
-    e(
-      'a',
-      {
-        className: 'text-larger btn-tall blue me-3',
-        onClick: () => {
-          theAudio.play();
-        }
-      },
-      e('i', { className: "bi bi-volume-up-fill" })
-    ),
-    e(
-      'a',
-      {
-        className: 'text-normal btn-tall blue me-3',
-        onClick: () => {
-          theAudioSlow.play();
-        }
-      },
-      e('i', { className: "bi bi-hourglass-split" })
-    )
-  );
+  return e(ExerciseContext.Consumer, null, ({disallowCandy}) => {
+
+      if (!disallowCandy) {
+        return e(
+          'div',
+          { className: 'd-inline-flex align-items-baseline' },
+          e(
+            'a',
+            {
+              className: 'text-larger btn-tall blue me-3',
+              onClick: () => {
+                theAudio.play();
+              }
+            },
+            e('i', { className: "bi bi-volume-up-fill" })
+          ),
+          e(
+            'a',
+            {
+              className: 'text-normal btn-tall blue me-3',
+              onClick: () => {
+                theAudioSlow.play();
+              }
+            },
+            e('i', { className: "bi bi-hourglass-split" })
+          )
+        );
+      } else {
+        return e('span', {}, null);
+      }
+
+  });
 
 }
 
@@ -717,7 +815,7 @@ function LevelChooserButton(props) {
           }
         )
       )),
-      props.values.name
+      e('span', { className: 'level-name' }, props.values.name)
     ))
   )
 }
@@ -1017,12 +1115,21 @@ function reportAnswerButton() {
   return e(ExerciseContext.Consumer, null, ({i18n, reportAnswer}) => e(
     'button',
     {
-      className: 'btn-tall red my-3',
-      "data-bs-dismiss": "modal",
-      "data-bs-target": "#report-modal",
-      onClick: () => { reportAnswer(); }
+      className: 'btn-tall btn-sm red me-1',
+      onClick: (e) => {
+        if (e.target.dataset.alreadyReported != 'true') {
+
+          if (window.confirm(i18n.execises_report_error_explain)) {
+            reportAnswer();
+            e.target.innerHTML = '<i class="bi bi-check-lg"></i>';
+            e.target.classList.remove('red');
+            e.target.dataset.alreadyReported = 'true';
+          }
+
+        }
+      },
     },
-    i18n.report
+    e('i', { className: 'bi bi-exclamation-lg' })
   ));
 }
 
@@ -1059,22 +1166,8 @@ function hintAreaWrongAnswer(props) {
     ),
     e(
       'div',
-      { className: 'd-flex flex-row'},
-      e(
-        BootstrapModal,
-        {
-          target: "report-modal",
-          text: e(
-            'div',
-            { className: 'd-flex flex-column' },
-            i18n.execises_report_error_explain,
-            e(reportAnswerButton)
-          ),
-          buttonclasses: "btn-tall btn-sm red me-2",
-          button: e('i', { className: 'bi bi-exclamation-lg' }),
-          title: i18n.report_error
-        }
-      ),
+      { className: 'd-flex flex-row align-items-center'},
+      e(reportAnswerButton),
       e(
         'a',
         {
@@ -1119,15 +1212,18 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.version = '0.0.2';
+    this.version = '0.0.3';
 
     this.ExerciseObject = [];
     this.exerciseLength = 0;
     this.currentQuestion = 0;
+    this.currentExercise = {};
+    this.currentExerciseType = '';
     this.score = 100;
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
     this.disallowCandyOn = [];
+    this.userAnswered = '';
 
     this.buttonClassGreen = 'btn-tall green';
     this.buttonClassBlack = 'btn-tall black text-center';
@@ -1136,6 +1232,7 @@ class App extends React.Component {
     this.initialState = {
       values: [[],[],[]],
       currentQuestion: 0,
+      currentExercise: {},
       setExerciseObject: this.setExerciseObject,
       alreadyAnswered: false,
       answeredCorrect: false,
@@ -1151,7 +1248,6 @@ class App extends React.Component {
       score: this.score,
       answers: [],
       difficulty: 0,
-      activityType: '',
       answerType: AnswersTextArea,
       avatarURL: '',
       i18n: this.i18n,
@@ -1166,7 +1262,6 @@ class App extends React.Component {
       phraseBuilderPhrase: [],
       AddWord: this.AddWord,
       ClearWord: this.ClearWord,
-      DeleteWord: this.DeleteWord,
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
     }
@@ -1216,14 +1311,14 @@ class App extends React.Component {
         });
       } else {
 
-        if (this.state.activityType == 'CompleteThePhrase') {
+        if (this.currentExerciseType == 'CompleteThePhrase') {
           this.setState({
             answerType: AnswersWordBank,
             checkAnswerButtonClass: this.buttonClassDisabled
           });
         }
 
-        if (this.state.activityType == 'WhatYouHear') {
+        if (this.currentExerciseType == 'WhatYouHear') {
           this.setState({
             answerType: AnswersPhraseBuilder,
             checkAnswerButtonClass: this.buttonClassDisabled
@@ -1314,32 +1409,44 @@ class App extends React.Component {
 
     }
 
+    // If we got here we need a new exercise.
     this.setState({
-      values: this.loadActivityByType(this.ExerciseObject),
+      values: this.loadActivityByType(),
       alreadyAnswered: false,
       currentQuestion: this.currentQuestion,
       answeredCorrect: false,
       hintArea: e(hintAreaInfo)
     });
 
+    // Check if we don't get candy this round
     this.disallowCandyOn.forEach((item) => {
+
       if (item == this.currentQuestion) {
+
+        // Determine which answer type to use;
+        var useAnswerType = AnswersTextArea;
+
+        if (this.currentExerciseType == 'WhatYouHear') {
+          useAnswerType = AnswersPhraseBuilder;
+        }
+
         this.setState({
           candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
           candyButtonClass: 'btn-tall black disabled',
           disallowCandy: true,
-          answerType: AnswersTextArea,
+          answerType: useAnswerType,
         });
 
         var indexOfThisItem = this.disallowCandyOn.indexOf(item);
 
         this.disallowCandyOn.splice(indexOfThisItem, 1);
       }
+
     });
 
     setTimeout(() => {
       document.getElementById('current-question').classList.remove('d-none')
-    }, 150);
+    }, 350);
 
   };
 
@@ -1356,14 +1463,6 @@ class App extends React.Component {
     });
   }
 
-  DeleteWord = () => {
-    var thePhrase = this.state.phraseBuilderPhrase;
-    thePhrase.pop();
-    this.setState({
-      phraseBuilderPhrase: thePhrase
-    });
-  }
-
   ClearWord = () => {
     this.setState({
       phraseBuilderPhrase: []
@@ -1375,7 +1474,6 @@ class App extends React.Component {
     var splicedHalf = thePhrase.splice(thePhrase.indexOf(word));
     splicedHalf.shift();
     thePhrase = thePhrase.concat(splicedHalf);
-    console.log(thePhrase);
     this.setState({
       phraseBuilderPhrase: thePhrase
     });
@@ -1384,8 +1482,8 @@ class App extends React.Component {
   CheckAnswer = (answer) => {
 
     let answered = "wrong";
-    let correct = this.state.values[2].toLowerCase();
-    answer = answer.toLowerCase();
+    let correct = this.state.values[2];
+    this.userAnswered = answer;
     this.questionsAlreadyAnswered.push(this.currentQuestion);
     this.setState({
       phraseBuilderPhrase: []
@@ -1407,11 +1505,21 @@ class App extends React.Component {
         // Make users retry answers with candy without the help
         if ((this.state.answerType == AnswersWordBank) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
           this.needToRetry.push(this.currentQuestion);
-          this.disallowCandyOn.push(this.currentQuestion)
+          this.disallowCandyOn.push(this.currentQuestion);
+        }
+
+        // Correct answers to audio questions makes them come back as word builder questions
+        if ((this.state.questionType == QuestionAudio) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
+          this.needToRetry.push(this.currentQuestion);
+          this.disallowCandyOn.push(this.currentQuestion);
         }
 
         this.correctHitSound.play();
-        synthSpeak(this.state.values[4]);
+
+        // TODO: Move this to a prerecorded audio
+        if (this.state.questionType != QuestionAudio) {
+          synthSpeak(this.state.values[4]);
+        }
 
       } else {
 
@@ -1425,11 +1533,29 @@ class App extends React.Component {
 
           var correctWords = [];
           var correctAnswersArray = correct.split(' ');
+          var lookAheadwasCorrect = false;
+          var currentIsCorrect = false;
 
           answer.split(' ').forEach((item, i) => {
+
+            currentIsCorrect = false;
+
             if (item == correctAnswersArray[i]) {
               correctWords.push(item);
+              currentIsCorrect = true;
             }
+
+            if (item == correctAnswersArray[i + 1]) {
+              lookAheadwasCorrect = true;
+
+              if ( (!currentIsCorrect) && (lookAheadwasCorrect) ) {
+                correctWords.push(answer[i - 1]);
+              }
+            } else {
+              lookAheadwasCorrect = false;
+            }
+
+
           });
 
           if (correctWords[0] != '') {
@@ -1479,6 +1605,10 @@ class App extends React.Component {
       rtrn = document.getElementById("phrase-builder").dataset.phrase;
     }
 
+    if (rtrn === undefined) {
+      rtrn = this.userAnswered;
+    }
+
     return rtrn;
   }
 
@@ -1491,20 +1621,42 @@ class App extends React.Component {
   }
 
   reportAnswer = () => {
-    console.log(this.state.values, this.getAnswerFromFields());
+
+    var reportObject = {
+      values: this.state.values,
+      userAnswer: this.getAnswerFromFields(),
+      candyAllowed: this.state.disallowCandy,
+      score: this.score,
+      usermeta: this.usermeta
+    }
+
+    fetch(
+      this.i18n.api_link + '?exercises=1&log_wrong_answer=1',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reportObject)
+      }
+    );
+
   }
 
-  loadActivityByType(object) {
+  // Warning: This method requires that all information about the
+  // current exercise already be set.
+  loadActivityByType() {
 
-    var type = object[this.currentQuestion][0]
-    var theExercise = object[this.currentQuestion];
+    this.currentExerciseType = this.ExerciseObject[this.currentQuestion][0];
+    var theExercise = this.ExerciseObject[this.currentQuestion];
 
     this.setState({
-      activityType: type,
+      currentExercise: theExercise,
       checkAnswerButtonClass: this.buttonClassGreen
     });
 
-    if (type == 'CompleteThePhrase') {
+    if (this.currentExerciseType == 'CompleteThePhrase') {
 
       this.setState({
         questionType: QuestionDialog,
@@ -1515,14 +1667,20 @@ class App extends React.Component {
 
     }
 
-    if (type == 'WhatYouHear') {
+    if (this.currentExerciseType == 'WhatYouHear') {
+
+      var useExtraWords = true;
 
       this.setState({
         questionType: QuestionAudio,
         answerType: AnswersPhraseBuilder
       });
 
-      return activityWhatYouHear(theExercise, this.state.i18n.audio_hint);
+      if (this.state.disallowCandy) {
+        useExtraWords = false;
+      }
+
+      return activityWhatYouHear(theExercise, {useExtraWords: useExtraWords}, this.state.allTheWords);
 
     }
 
@@ -1538,8 +1696,7 @@ class App extends React.Component {
       var words = item[1].split(' ');
       words.forEach((word) => {
 
-        var regex = new RegExp("[.,!?]",'g');
-        var wordWithoutPunct = word.replace(regex,'')
+        var wordWithoutPunct = RemovePunctuation(word);
 
         if (!allTheWords.includes(wordWithoutPunct)) {
           allTheWords.push(wordWithoutPunct);

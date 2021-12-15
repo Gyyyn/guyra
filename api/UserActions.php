@@ -423,3 +423,7 @@ if ($_GET['post_reply']) {
   }
 
 }
+
+if ($_GET['redirect_meeting']) {
+  $redirect = $current_user_data['user_meetinglink'];
+}

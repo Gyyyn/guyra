@@ -255,7 +255,7 @@ Se você não reconhece esse pedido entre em contato com a gente pra gente ver o
 	'hint' => 'Dica: ',
 	'hint_audio_exercise' => 'Digite o que foi dito no audio.',
 	'click_to_reveal' => 'Clique para revelar...',
-	'execises_report_error_explain' => 'Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar a nossa base de dados.',
+	'execises_report_error_explain' => 'Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar esta resposta a nossa base de dados.',
 	'give_up' => 'Desistir',
 	'audio_hint' => 'Recontrua a frase que ouvir. Você pode checar sua resposta com o botão <i class="bi bi-ear"></i>.',
 	'correct_percentage' => 'Você acertou',

@@ -1005,7 +1005,7 @@
       ["Argentina is smaller than Brazil.", "smaller", "menor"],
       ["I'm having more fun than I expected!", "than I", "que eu"],
       ["I'm having more fun than I expected!", "more fun", "mais diversão"],
-      ["The U.S. a worse country than Canada.", "worse", "pior"],
+      ["The U.S. is a worse country than Canada.", "worse", "pior"],
       ["São Paulo is dirtier than most cities.", "dirtier", "mais suja"],
       ["Paris is not much colder than São Paulo.", "colder", "mais frio"],
       ["Barcelona is closer to Porto than to Milan.", "closer", "mais perto"],
@@ -1223,6 +1223,9 @@
 
     "CompleteThePhrase": [
       ["I'd like a beef bowl please.", "like a", "(gostaria de um)"],
+      ["I'd like some beef with fries on the side.", "on the side", "de acompanhamento"],
+      ["I'd like some beef with fries on the side.", "beef", "bife"],
+      ["I'd like some beef with fries on the side.", "fries", "batatas fritas"],
       ["I was thinking of going out for dinner actually.", "thinking of", "(pensando sobre)"],
       ["I can't stand that music.", "stand that", "(suportar aquela)"],
       ["I want to see that concert for sure!", "to see", "(ver)"],

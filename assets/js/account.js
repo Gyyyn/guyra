@@ -301,8 +301,7 @@ function AccountOptions_profileDetails(props) {
                             user_email: usermeta.user_email
                           })
                         }
-                      )
-                      .then(res => res.text()).then(res => console.log(res));
+                      );
                     }
                   },
                   i18n.confirm_mail_button

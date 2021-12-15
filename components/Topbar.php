@@ -2,14 +2,12 @@
 
 function guyra_render_topbar() {
 
-  global $gi18n;
-  global $current_user_data;
-  global $current_user_id;
-  global $is_admin;
+global $gi18n;
+global $current_user_data;
+global $current_user_id;
+global $is_admin;
 
-  $meeting_link = $current_user_data['user_meetinglink'];
-
-  ?>
+?>
 
   <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden">
 
@@ -41,7 +39,7 @@ function guyra_render_topbar() {
 
     <?php if ($current_user_data['teacherid']): ?>
 
-    <a class="list-group-item meeting-link" href="<?php echo $meeting_link; ?>">
+    <a class="list-group-item meeting-link" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>">
       <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
       <span class="menu-title"><?php echo $gi18n['meeting']; ?></span>
     </a>

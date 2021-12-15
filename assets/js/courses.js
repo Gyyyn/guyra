@@ -66,7 +66,6 @@ function nextVideoButton(props) {
     {
       className: 'btn-tall green',
       onClick: () => {
-        console.log(props);
         setPage(
           e(CourseVideo, props)
         )

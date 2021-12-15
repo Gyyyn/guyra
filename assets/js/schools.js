@@ -1045,9 +1045,7 @@ class Diary extends React.Component {
       fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
       .then(res => res.json())
       .then(data => {
-
-        console.log(data);
-
+        
         if (data[0] != false) {
           var theJson = JSON.parse(data[0].meta_value);
 
