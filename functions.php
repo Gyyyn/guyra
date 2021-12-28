@@ -1,14 +1,20 @@
 <?php
 // Force HTTPS independent of server config.
-// function ForceHTTPS() {
-// 	if($_SERVER["HTTPS"] != "on") {
-// 	    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-// 	    exit();
-// 	}
-// }
-//
-// add_action('init', 'ForceHTTPS');
+function ForceHTTPS() {
+	if($_SERVER["HTTPS"] != "on") {
+	    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+	    exit();
+	}
+}
 
+add_action('init', 'ForceHTTPS');
+
+// Define the app version.
+if (!defined('GUYRA_VERSION')) {
+	define('GUYRA_VERSION', '0.1.0');
+}
+
+// Setup some globals.
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $current_user_id = get_current_user_id();
@@ -24,6 +30,10 @@ include_once $template_dir . '/functions/PWA.php';
 include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
 
+// Do all the necessary PWA stuff.
+$enable_PWA = guyra_handle_pwa();
+
+// Setup current user's globals.
 if ($is_logged_in) {
 	$current_user_meta = get_user_meta($current_user_id);
 	$current_user_data = guyra_get_user_data($current_user_id);
@@ -33,25 +43,12 @@ if ($is_logged_in) {
 	UserLoginUpdateStreakStatus($current_user_id);
 }
 
-if (!defined('GUYRA_VERSION')) {
-	define('GUYRA_VERSION', '0.1.0');
-}
-
-// Do all the necessary PWA stuff.
-$enable_PWA = guyra_handle_pwa();
-
-function generateRandomString($length = 10) {
-  return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
-}
-
 if ( ! function_exists( 'guyra_setup' ) ) :
 
 	function guyra_setup() {
 
 		// Kill all feeds
-		function itsme_disable_feed() {
-		 wp_die( __( 'No feed available, please visit the <a href="'. esc_url( home_url( '/' ) ) .'">homepage</a>!' ) );
-		}
+		function itsme_disable_feed() { exit; }
 
 		add_action('do_feed', 'itsme_disable_feed', 1);
 		add_action('do_feed_rdf', 'itsme_disable_feed', 1);
@@ -87,12 +84,6 @@ if ( ! function_exists( 'guyra_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'guyra_setup' );
 
-/**
- * Filter function used to remove the tinymce emoji plugin.
- *
- * @param array $plugins
- * @return array Difference betwen the two arrays
- */
 function disable_emojis_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
 		return array_diff( $plugins, array( 'wpemoji' ) );
@@ -101,13 +92,6 @@ function disable_emojis_tinymce( $plugins ) {
 	}
 }
 
-/**
- * Remove emoji CDN hostname from DNS prefetching hints.
- *
- * @param array $urls URLs to print for resource hints.
- * @param string $relation_type The relation type the URLs are printed for.
- * @return array Difference betwen the two arrays.
- */
 function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 	if ( 'dns-prefetch' == $relation_type ) {
 		/** This filter is documented in wp-includes/formatting.php */
@@ -119,9 +103,6 @@ function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 	return $urls;
 }
 
-/**
- * Disable the emoji's
- */
 function disable_emojis() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
