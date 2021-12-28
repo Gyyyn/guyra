@@ -12,6 +12,7 @@ require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/User.php';
+include_once $template_dir . '/functions/Assets.php';
 
 $user = $_GET['user'];
 
@@ -426,4 +427,15 @@ if ($_GET['post_reply']) {
 
 if ($_GET['redirect_meeting']) {
   $redirect = $current_user_data['user_meetinglink'];
+}
+
+if ($_GET['get_image']) {
+
+  if ($_GET['size']) {
+    $size = $_GET['size'];
+  } else {
+    $size = 64;
+  }
+
+  $redirect = GetImageCache($_GET['get_image'], $size);
 }

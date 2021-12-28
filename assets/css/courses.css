@@ -1,0 +1,82 @@
+.courses-level-chooser {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px)
+
+.courses-level-chooser .card {
+    max-width: 46%;
+}
+
+.courses-list {
+  padding: 3rem;
+}
+
+.courses-squeeze .card {
+  cursor: pointer;
+}
+
+.courses-squeeze .card:hover {
+  box-shadow: 0 0 30px 5px rgb(0 190 255 / 50%);
+  transition: var(--guyra-transition)
+}
+
+@media (max-width: 767px) {
+
+  .courses-list .card {
+    max-width: 320px;
+  }
+
+  .course-thumbnail {
+    border-top-left-radius: var(--guyra-border-radius-bigger);
+    border-top-right-radius: var(--guyra-border-radius-bigger);
+  }
+
+}
+
+@media (min-width: 768px) {
+  .course-thumbnail {
+    border-top-left-radius: var(--guyra-border-radius-bigger);
+    border-bottom-left-radius: var(--guyra-border-radius-bigger);
+  }
+}
+
+.course-title {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.course-description {
+  max-height: 6.5rem;
+  overflow: hidden;
+  margin: 0;
+}
+
+.course-description p {
+  margin: 0;
+}
+
+.video-responsive {
+    display: flex;
+    justify-content: center;
+}
+
+.video-responsive iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-top-left-radius: var(--guyra-border-radius-bigger);
+  border-top-right-radius: var(--guyra-border-radius-bigger);
+}
+
+.course-video-description-container {
+  padding: 1rem 3rem;
+}
+
+.course-video-description {
+  font-size: var(--guyra-fonts-textsize-s);
+  position: relative;
+}

@@ -7,7 +7,7 @@ global $site_url;
 global $site_api_url;
 global $gi18n;
 
-get_header();
+get_header(null, ['css' => 'blog.css']);
 ?>
 
 	<main id="intro-content" class="site-main blog">

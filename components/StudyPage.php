@@ -91,7 +91,7 @@ function RenderHTMLReplyBox($comment_post_ID, $comment_parent=0, $redirect=false
 
       <label class="me-3 w-25">
         <input id="file_upload_input" class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
-        <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+        <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png', 32); ?>"></a>
       </label>
 
       <input name="submit" type="submit" id="submit" class="btn-tall blue w-50" value="Deixar resposta">
@@ -125,7 +125,7 @@ function RenderReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
 
   <label class="me-3 w-25">
     <input id="file_upload_input" class="d-none" type="file" name="file" accept="image/jpeg,image/jpg,image/gif,image/png">
-    <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png'); ?>"></a>
+    <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png', 32); ?>"></a>
   </label>
 
   <button id="submitReply" class="btn-tall blue w-50"><?php echo $gi18n['leave_reply']; ?></button>

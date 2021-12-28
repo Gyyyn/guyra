@@ -11,12 +11,13 @@ global $is_admin;
 $user = $_GET['user'];
 $allowedUsers = [];
 $users = get_users();
+$usersdata = [];
 
 foreach ($users as $x) {
 
-  $userdata = guyra_get_user_data($x->ID);
+  $usersdata[$x->ID] = guyra_get_user_data($x->ID);
 
-  if ($userdata['teacherid'] == $current_user_id) {
+  if ($usersdata[$x->ID]['teacherid'] == $current_user_id) {
     $allowedUsers[] = $x->ID;
   }
 }
@@ -82,6 +83,29 @@ if ($_GET['action'] == 'get_diary') {
 // ---
 if ($_GET['action'] == 'update_diary') {
   guyra_update_user_meta($user, 'diary', file_get_contents('php://input'));
+}
+
+// ---
+// Get a list of actionable users.
+// ---
+if ($_GET['action'] == 'fetch_users') {
+
+  $users_array = [];
+
+  foreach ($users as $x) {
+
+    $theUserID = $x->ID;
+
+    if (in_array($theUserID, $allowedUsers)) {
+
+      $users_array[$theUserID]['id'] = $theUserID;
+      $users_array[$theUserID]['meta'] = guyra_get_user_meta($theUserID, false, true);
+
+    }
+
+  }
+
+  guyra_output_json($users_array, true);
 }
 
 } // endif

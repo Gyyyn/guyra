@@ -1,5 +1,7 @@
 <?php
 
+include_once $template_dir . '/functions/Assets.php';
+
 function guyra_render_topbar() {
 
 global $gi18n;
@@ -18,29 +20,29 @@ global $is_admin;
     <?php endif; ?>
 
     <a class="list-group-item home-link" href="<?php echo $gi18n['home_link'] ?>">
-      <span class="menu-icon"><img class="page-icon tiny" alt="homework" src="<?php echo $gi18n['template_link'] . '/assets/icons/light.png'; ?>"></span>
-      <span class="menu-title"><?php echo ($is_admin) ? $gi18n['schools'] : $gi18n['study']; ?></span>
+      <span class="menu-icon"><img class="page-icon tiny" alt="homework" src="<?php echo GetImageCache('icons/learning.png', 32); ?>"></span>
+      <span class="menu-title d-none d-md-block"><?php echo ($is_admin) ? $gi18n['schools'] : $gi18n['study']; ?></span>
     </a>
 
-    <a class="list-group-item practice-link" href="<?php echo $gi18n['practice_link'] ?>">
-      <span class="menu-icon"><img class="page-icon tiny" alt="practice" src="<?php echo $gi18n['template_link'] . '/assets/icons/target.png'; ?>"></span>
+    <a class="list-group-item practice-link d-none d-md-block" href="<?php echo $gi18n['practice_link'] ?>">
+      <span class="menu-icon"><img class="page-icon tiny" alt="practice" src="<?php echo GetImageCache('icons/target.png', 32); ?>"></span>
       <span class="menu-title"><?php echo $gi18n['practice']; ?></span>
     </a>
 
-    <a class="list-group-item reference-link" href="<?php echo $gi18n['home_link']; ?>/reference">
-      <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/lab.png'; ?>"></span>
-      <span class="menu-title"><?php echo $gi18n['ultilities']; ?></span>
+    <a class="list-group-item courses-link d-none d-md-block" href="<?php echo $gi18n['courses_link']; ?>">
+      <span class="menu-icon"><img class="page-icon tiny" alt="courses" src="<?php echo GetImageCache('icons/online-learning.png', 32); ?>"></span>
+      <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
     </a>
 
-    <a class="list-group-item courses-link" href="<?php echo $gi18n['courses_link']; ?>">
-      <span class="menu-icon"><img class="page-icon tiny" alt="courses" src="<?php echo $gi18n['template_link'] . '/assets/icons/online-learning.png'; ?>"></span>
-      <span class="menu-title"><?php echo $gi18n['courses']; ?></span>
+    <a class="list-group-item reference-link" href="<?php echo $gi18n['home_link']; ?>/reference">
+      <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo GetImageCache('icons/layers.png', 32); ?>"></span>
+      <span class="menu-title"><?php echo $gi18n['ultilities']; ?></span>
     </a>
 
     <?php if ($current_user_data['teacherid']): ?>
 
     <a class="list-group-item meeting-link" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>">
-      <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo $gi18n['template_link'] . '/assets/icons/video-camera.png'; ?>"></span>
+      <span class="menu-icon"><img class="page-icon tiny" alt="reference" src="<?php echo GetImageCache('icons/video-camera.png', 32); ?>"></span>
       <span class="menu-title"><?php echo $gi18n['meeting']; ?></span>
     </a>
 

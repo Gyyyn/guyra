@@ -6,8 +6,9 @@
  */
 
 global $gi18n;
+global $template_url;
 
-get_header();
+get_header(null, ['css' => 'landing.css']);
 
 ?>
 <style>
@@ -21,15 +22,15 @@ img.page-icon.large { width: calc(5vw + 5rem); }
        <div class="row row-cols-auto align-items-center justify-content-around cover-card p-5 bg-white">
 
          <div class="col-md text-center">
-           <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo get_template_directory_uri(); ?>/assets/img/icons.webm">
-             <img class="page-icon large" alt="Guyra" src="<?php echo get_template_directory_uri(); ?>/assets/icons/language.png">
+           <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url . '/assets/img/icons.webm'; ?>">
+             <img class="page-icon large" alt="Guyra" src="<?php echo GetImageCache('icons/language.png', 128); ?>">
            </video>
          </div>
 
          <div class="col-md text-left">
            <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered'] ?></h1>
            <p class="text-center py-3">
-             <a href="<?php echo get_site_url(); echo "/account"; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
+             <a href="<?php echo $gi18n['account_link']; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
            </p>
            <hr class="thick" />
            <div class="text-small">

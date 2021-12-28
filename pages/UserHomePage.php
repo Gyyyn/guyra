@@ -16,6 +16,7 @@ global $is_logged_in;
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
 include_once $template_dir . '/components/StudyPage.php';
+include_once $template_dir . '/functions/Assets.php';
 
 $newspage = get_page_by_title('News');
 $teacherid = $current_user_data['teacherid'];
@@ -33,7 +34,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['hello'] . ' ' . $current_user_data['first_name']; ?></h2>
-        <span class="page-icon small"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/waving-hand.png"></span>
+        <span class="page-icon small"><img alt="learning" src="<?php echo GetImageCache('icons/waving-hand.png', 128); ?>"></span>
       </div>
 
       <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
@@ -45,7 +46,7 @@ get_header();
     <div class="alert study-news study-page rounded-box position-relative alert-dismissible fade show" role="alert">
       <div class="icon-title mb-2 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['whatsnew']; ?></h2>
-        <span class="page-icon small"><img alt="sparkle" src="<?php echo $gi18n['template_link']; ?>/assets/icons/star.png"></span>
+        <span class="page-icon small"><img alt="sparkle" src="<?php echo GetImageCache('icons/star.png', 128); ?>"></span>
       </div>
       <div class="text-small">
         <?php echo apply_filters('the_content', $newspage->post_content); ?>
@@ -60,7 +61,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-blue"><?php echo $gi18n['studypage_homework_title']; ?></h1>
-        <span class="page-icon"><img alt="learning" src="<?php echo $gi18n['template_link']; ?>/assets/icons/light.png"></span>
+        <span class="page-icon"><img alt="learning" src="<?php echo GetImageCache('icons/light.png', 128); ?>"></span>
       </div>
 
       <?php GetUserStudyPage($current_user_id); ?>
@@ -71,7 +72,7 @@ get_header();
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
         <h1 class="text-blue"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
-        <span class="page-icon"><img alt="homework" src="<?php echo $gi18n['template_link']; ?>/assets/icons/essay.png"></span>
+        <span class="page-icon"><img alt="homework" src="<?php echo GetImageCache('icons/essay.png', 128); ?>"></span>
       </div>
 
       <?php if ($_GET['comment_history'] == 1) {

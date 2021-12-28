@@ -1,0 +1,14 @@
+#admin {
+  font-family: var(--bs-font-sans-serif);
+  font-size: var(--guyra-fonts-textsize-ss);
+}
+
+#admin h1,
+#admin h2,
+#admin h3,
+#admin h4,
+#admin h5,
+#admin h6 {
+  font-family: var(--bs-font-sans-serif);
+  font-weight: normal;
+}

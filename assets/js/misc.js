@@ -18,3 +18,8 @@ function logoutTrigger(e) {
 if (logoutButton) {
   logoutButton.addEventListener("click", logoutTrigger);
 }
+
+// PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/GuyraPWA.js');
+}

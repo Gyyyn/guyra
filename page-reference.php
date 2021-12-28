@@ -12,6 +12,8 @@ global $gi18n;
 
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
+include_once $template_dir . '/functions/Assets.php';
+
 get_header(null, ['css' => 'reference.css']);
 ?>
 
@@ -22,26 +24,26 @@ get_header(null, ['css' => 'reference.css']);
     <div class="list-group study-menu list-group-horizontal container-fluid overflow-hidden"  role="tablist">
 
       <a class="list-group-item" href="<?php echo $gi18n['home_link']; ?>">
-        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/img/back.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo GetImageCache('img/back.png', 32); ?>"></span>
       </a>
 
       <a class="list-group-item active" data-bs-toggle="pill" href="#dictionary-container" role="tab" aria-expanded="true" aria-controls="dictionary-container">
-        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/dictionary.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo GetImageCache('icons/dictionary.png', 32); ?>"></span>
         <span class="menu-title"><?php echo $gi18n['dictionary']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="pill" href="#irregulars-container" role="tab" aria-expanded="false" aria-controls="irregulars-container">
-        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/bookmark.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo GetImageCache('icons/bookmark.png', 32); ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_irregulars']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="pill" href="#grammar-container" role="tab" aria-expanded="false" aria-controls="grammar-container">
-        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/layers.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo GetImageCache('icons/document.png', 32); ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_grammar']; ?></span>
       </a>
 
       <a class="list-group-item" data-bs-toggle="pill" href="#phrasals-container" role="tab" aria-expanded="false" aria-controls="phrasals-container">
-        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo $gi18n['template_link'] . '/assets/icons/document.png'; ?>"></span>
+        <span class="menu-icon"><img class="page-icon tiny" src="<?php echo GetImageCache('icons/waving-hand.png', 32); ?>"></span>
         <span class="menu-title"><?php echo $gi18n['reference_phrasals']; ?></span>
       </a>
 

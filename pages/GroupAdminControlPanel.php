@@ -55,7 +55,7 @@ get_header(null, ['css' => 'schools.css']);
           <h1 class="mb-3 text-blue">Welcome, <?php echo $current_user_data['first_name']; ?></h1>
           <h2 class="mb-3 text-purple">to your student panel.</h2>
         </div>
-        <span class="page-icon"><img alt="<?php echo $gi18n['schools']; ?>" src="<?php echo $gi18n['template_link']; ?>/assets/icons/textbook.png"></span>
+        <span class="page-icon"><img alt="<?php echo $gi18n['schools']; ?>" src="<?php echo GetImageCache('icons/textbook.png', 128); ?>"></span>
       </div>
 
       <div class="py-3">
@@ -159,7 +159,7 @@ get_header(null, ['css' => 'schools.css']);
 
           <div class="collapse" id="controls-<?php echo $user_sha1d; ?>">
 
-            <div id="form-<?php echo $user_sha1d; ?>" class="admin-forms dialog mb-3">
+            <div id="form-<?php echo $user_sha1d; ?>" class="admin-forms dialog-box mb-3">
 
               <h4><?php echo $gi18n['group'] ?></h4>
               <div class="d-flex justify-content-between">
@@ -212,7 +212,7 @@ get_header(null, ['css' => 'schools.css']);
 
           <div class="collapse" id="page-<?php echo $user_sha1d; ?>"><div class="study-answers">
 
-            <div class="dialog">
+            <div class="dialog-box">
 
               <div class="d-flex float-end">
                 <a class="btn-tall blue edit-homework-button" data-target="<?php echo $user_sha1d; ?>" data-link="<?php echo $userStudentPageObjectEditLink; ?>">
@@ -293,7 +293,7 @@ get_header(null, ['css' => 'schools.css']);
 
         <div class="collapse" id="controls-<?php echo $group['name']; ?>">
 
-          <div id="form-<?php echo $group['name']; ?>" class="admin-forms dialog my-3">
+          <div id="form-<?php echo $group['name']; ?>" class="admin-forms dialog-box my-3">
 
             <h4><?php echo $gi18n['meeting_link'] ?></h4>
             <div class="d-flex justify-content-between">
@@ -356,7 +356,7 @@ get_header(null, ['css' => 'schools.css']);
 
         <div class="collapse" id="page-<?php echo $group['name']; ?>"><div class="study-answers">
 
-          <div class="dialog">
+          <div class="dialog-box">
 
             <div class="d-flex float-end">
               <a class="btn-tall blue edit-homework-button" data-target="<?php echo $group['name']; ?>" data-link="<?php echo $group['link']; ?>">
@@ -384,7 +384,7 @@ get_header(null, ['css' => 'schools.css']);
 
       <?php } // end group foreach loop ?>
 
-      <div class="dialog mt-3">
+      <div class="dialog-box mt-3">
         <h3><?php echo $gi18n['your_code']; ?>:</h3>
 
         <span class="d-flex my-3">

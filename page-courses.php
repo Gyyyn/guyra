@@ -37,7 +37,7 @@ foreach ($coursesArray as &$current) {
 
 unset($current);
 
-get_header();
+get_header(null, ['css' => 'courses.css']);
 ?>
 
 <main id="intro-content" class="site-main page squeeze">

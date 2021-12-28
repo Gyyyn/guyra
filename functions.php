@@ -1,6 +1,13 @@
 <?php
-
-define('WP_POST_REVISIONS', 3);
+// Force HTTPS independent of server config.
+// function ForceHTTPS() {
+// 	if($_SERVER["HTTPS"] != "on") {
+// 	    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+// 	    exit();
+// 	}
+// }
+//
+// add_action('init', 'ForceHTTPS');
 
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
@@ -13,6 +20,7 @@ $site_api_url = $site_url . '/api';
 
 include_once $template_dir . '/components/i18n.php';
 include_once $template_dir . '/functions/Database.php';
+include_once $template_dir . '/functions/PWA.php';
 include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
 
@@ -20,14 +28,17 @@ if ($is_logged_in) {
 	$current_user_meta = get_user_meta($current_user_id);
 	$current_user_data = guyra_get_user_data($current_user_id);
 	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
+	// $current_user_object = build_user_object($current_user_id);
 
 	UserLoginUpdateStreakStatus($current_user_id);
 }
 
-if ( ! defined( '_S_VERSION' ) ) {
-	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '0.0.12' );
+if (!defined('GUYRA_VERSION')) {
+	define('GUYRA_VERSION', '0.1.0');
 }
+
+// Do all the necessary PWA stuff.
+$enable_PWA = guyra_handle_pwa();
 
 function generateRandomString($length = 10) {
   return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
@@ -147,6 +158,7 @@ function custom_die_handler( $message, $title="", $args = array() ) {
   echo '<html><body style="font-family: system-ui,-apple-system,sans-serif;">';
 	echo '<hr />';
   echo '<h1>Erro ' . $args['response'] . '</h1>';
+	// print_r($message);
 	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro. Se alguem pedir, de o seguinte codigo: ";
 	echo time();
 	echo "<hr />";

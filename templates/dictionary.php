@@ -12,6 +12,8 @@ global $template_url;
 global $current_user_id;
 global $gi18n;
 
+if (!defined('GUYRA_VERSION')){exit;}
+
 ?>
 
 <div class="the-header text-center">

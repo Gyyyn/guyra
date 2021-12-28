@@ -1,0 +1,10 @@
+.btn-check:active + .btn-primary:focus, .btn-check:checked + .btn-primary:focus, .btn-primary.active:focus, .btn-primary:active:focus, .show > .btn-primary.dropdown-toggle:focus,
+.btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus {
+    box-shadow: unset;
+}
+
+.admin-btn { opacity: 0; }
+
+.admin-btn:hover { opacity: inherit; }
+
+body:not(.wp-admin) #wpadminbar { position: absolute; display: none; }

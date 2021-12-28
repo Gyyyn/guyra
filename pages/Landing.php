@@ -10,7 +10,9 @@ global $template_url;
 global $site_url;
 global $gi18n;
 
-get_header();
+include_once $template_dir . '/functions/Assets.php';
+
+get_header(null, ['css' => 'landing.css']);
  ?>
 
    <div class="cover">
@@ -25,7 +27,7 @@ get_header();
              </div>
              <div class="col-md d-flex align-items-center justify-content-around">
                <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm">
-                 <img class="page-icon large" alt="Guyra" src="<?php echo $template_url; ?>/assets/icons/language.png">
+                 <img class="page-icon large" alt="Guyra" src="<?php echo GetImageCache('icons/language.png', 128); ?>">
                </video>
              </div>
            </div>
@@ -44,7 +46,7 @@ get_header();
 
              <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered']; ?></h1>
              <p class="text-center py-3">
-               <a href="<?php echo $site_url; echo "/account"; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
+               <a href="<?php echo $gi18n['account_link']; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
              </p>
 
            </div>
@@ -133,7 +135,7 @@ get_header();
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
        <div class="page-icon large" data-aos="fade-left">
-         <img alt="phone" src="<?php echo $template_url; ?>/assets/icons/phone.png">
+         <img alt="phone" src="<?php echo GetImageCache('icons/phone.png', 128); ?>">
        </div>
      </div>
    </div>
@@ -149,7 +151,7 @@ get_header();
      </div>
      <div class="col-md-3 d-flex justify-content-center">
        <div class="page-icon large" data-aos="fade-right">
-         <img alt="clock" src="<?php echo $template_url; ?>/assets/icons/digital-clock.png">
+         <img alt="clock" src="<?php echo GetImageCache('icons/digital-clock.png', 128); ?>">
        </div>
      </div>
    </div>
@@ -210,7 +212,7 @@ get_header();
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
        <div class="page-icon large" data-aos="fade-left">
-         <img alt="diploma" src="<?php echo $template_url; ?>/assets/icons/certificate.png">
+         <img alt="diploma" src="<?php echo GetImageCache('icons/certificate.png', 128); ?>">
        </div>
      </div>
    </div>
@@ -226,7 +228,7 @@ get_header();
      </div>
      <div class="col-md-3 d-flex justify-content-center">
        <div class="page-icon large" data-aos="fade-right">
-         <img alt="Brazil" src="<?php echo $template_url; ?>/assets/icons/brazil-flag.png">
+         <img alt="Brazil" src="<?php echo GetImageCache('icons/brazil-flag.png', 128); ?>">
        </div>
      </div>
    </div>
@@ -242,7 +244,7 @@ get_header();
      </div>
      <div class="col-md-3 order-md-1 d-flex justify-content-center">
        <div class="page-icon large" data-aos="fade-left">
-         <img alt="laptop" src="<?php echo $template_url; ?>/assets/icons/laptop.png">
+         <img alt="laptop" src="<?php echo GetImageCache('icons/laptop.png', 128); ?>">
        </div>
      </div>
    </div>
@@ -250,7 +252,7 @@ get_header();
    <div class="bg-dark split-bg py-5"><div class="row feature squeeze">
 
      <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
-       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/quicktips.png">
+       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo GetImageCache('icons/courses/quicktips.png', 64); ?>">
        <h2 class="text-primary my-5">Gramática Rápida</h2>
        <div class="col">
          <p>Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.</p>
@@ -262,7 +264,7 @@ get_header();
      </div>
 
      <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
-       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo $gi18n['template_link']; ?>/assets/icons/courses/speaking.png">
+       <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo GetImageCache('icons/courses/speaking.png', 64); ?>">
        <h2 class="text-primary my-5">Fonética 1</h2>
        <div class="col">
          <p>Introdução a fonética do inglês e dicas de pronúncia.</p>

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) { exit; }
 
 include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/Exercises.php';
+include_once $template_dir . '/components/Icons.php';
 
 $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
 $levelMap = json_decode(file_get_contents($template_dir . '/assets/json/levelmap.json'), true);
@@ -18,7 +19,14 @@ $responseJSON = [];
 
 if(!$_GET['level'] || !$_GET['unit'] || !$_GET['length']) {
 
+  // We were requested the levelmap
   if ($_GET['json'] == 'levelmap') {
+
+    foreach ($levelMap['levelmap'] as &$level) {
+      foreach ($level as &$unit) {
+        $unit['image'] = GuyraGetIcon($unit['image']);
+      }
+    }
 
     $responseJSON = $levelMap;
 

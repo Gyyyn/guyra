@@ -7,7 +7,8 @@ global $is_logged_in;
 global $site_api_url;
 
 $gi18n = [
-	'meta_desc' => 'Aprenda Inglês facil e barato da onde você estiver online. Guyra oferece ferramentas de aprendizado modernas e conteudo sempre atualizado e engajador.',
+	'meta_name' => 'Guyrá - Ensino interativo e digital.',
+	'meta_desc' => 'Ensino interativo e digital. Aprenda inglês fácil e barato usando seu computador ou celular com nossos jogos interativos e aulas digitais.',
 	'company_name' => 'Guyrá',
 	'company_cnpj' => '41.915.538/0001-03',
 	'company_address' => 'Piracicaba - SP',
@@ -49,6 +50,7 @@ $gi18n = [
 	'reference' => 'Referência',
 	'ultilities' => 'Ultilidades',
 	'courses' => 'Cursos',
+	'lessons' => 'Lições',
 	'privacy' => 'Privacidade',
 	'terms' => 'Termos de uso',
 	'schools' => 'Escolas',

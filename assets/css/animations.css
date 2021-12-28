@@ -1,0 +1,105 @@
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}}
+
+@keyframes fadeout {
+  from {opacity: 1;}
+  to {opacity: 0;}}
+
+@keyframes slideup {
+  from {
+    transform: translateY(5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideleft {
+  from {
+    transform: translateX(5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideright {
+  from {
+    transform: translateX(-5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.75);
+    filter: blur(1px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes overpop {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  75% {
+    transform: scale(1.05);
+    opacity: .9;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pop-animation.animate {
+  animation: pop 0.35s;
+}
+
+.overpop-animation.animate {
+  animation: overpop 0.35s;
+}
+
+.fade-animation.animate {
+  animation: fadein 0.25s, slideup 0.5s;
+}
+
+.slideleft-animation.animate {
+  animation: fadein 0.25s, slideleft 0.5s;
+}
+
+.slideright-animation.animate {
+  animation: fadein 0.25s, slideright 0.5s;
+}
+
+.justfade-animation.animate {
+  animation: fadein 0.35s;
+}
+
+.justfadeout-animation {
+  animation: fadeout 0.35s;
+  opacity: 0;
+}
+
+.animate {
+  transition: var(--guyra-transition);
+}
+
+.animate.fast {
+  animation-duration: .1s;
+}

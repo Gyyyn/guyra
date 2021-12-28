@@ -14,7 +14,7 @@ global $template_url;
 global $current_user_id;
 global $gi18n;
 
-$local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_value'];
+include_once $template_dir . '/functions/Assets.php';
 
 ?>
 
@@ -54,7 +54,7 @@ $local_storage = guyra_get_user_meta($current_user_id, 'textareas', true)['meta_
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <?php if ($args['js']): ?>
-<script async src="<?php echo $gi18n['js_link'] . $args['js'] . '?v=' . _S_VERSION; ?>"></script>
+<script async src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>
 
 <?php if ($args['aos']): ?>
@@ -75,7 +75,7 @@ const easyMDE = new EasyMDE({
 </script>
 <?php endif; ?>
 
-<script async src="<?php echo $gi18n['js_link']; ?>misc.js?v=<?php echo _S_VERSION; ?>"></script>
+<script async src="<?php echo GetMinifiedAsset('js', 'misc.js'); ?>"></script>
 
 </body>
 </html>

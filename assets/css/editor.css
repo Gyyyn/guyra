@@ -1,0 +1,5 @@
+.EasyMDEContainer .CodeMirror,
+.editor-toolbar {
+  border: 0 !important;
+  border-radius: var(--guyra-border-radius-bigger) !important;
+}

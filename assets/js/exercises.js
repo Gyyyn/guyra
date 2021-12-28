@@ -355,7 +355,7 @@ function activityWhatYouHear(theExercise, options={}, allTheWords) {
     });
 
 
-    // Remove all the RemovePunctuation
+    // Remove all the RemovePunctuation and invert words that start with a capital letter
     phraseSplit.forEach((item, i) => {
       var theIndex = allTheWords.indexOf(item);
 
@@ -400,7 +400,12 @@ function activityWhatYouHear(theExercise, options={}, allTheWords) {
 
 function AnswerButtonProper(props) {
 
-  var value = RemovePunctuation(props.value);
+  if (props.value instanceof String) {
+    var value = RemovePunctuation(props.value);
+  } else {
+    var value = props.value;
+  }
+
   var theOnclick = props.onClick;
 
   if (props.extraClass === undefined) {
@@ -548,7 +553,7 @@ class AnswersPhraseBuilder extends React.Component {
 
                 var theOcrrAmountLeft = ocrrInOptions.length - ocrrInBuiltPhrase.length;
                 if (ocrrInOptions.length > 1) {
-                  theButtonValue = theButtonValue + ' ' + '(x' + theOcrrAmountLeft + ')';
+                  theButtonValue = e('span', {}, theButtonValue, e('span', { className: 'ms-1 text-grey-darker' }, '(x' + theOcrrAmountLeft + ')'));
                 }
               }
 
@@ -728,17 +733,23 @@ function ProgressBar(props) {
 
     // Count the correct answers.
     var correctAnswers = 0;
+    var wrongAnswers = 0;
+    var exercises = exerciseLength * 2;
 
     answers.forEach((item) => {
       if (item[3] == 'correct') {
         correctAnswers += 1;
+      } else {
+        wrongAnswers += 1;
       }
     });
 
-    correctAnswers = Math.trunc(( correctAnswers / (exerciseLength * 2) ) * 100);
+    correctAnswers = correctAnswers - wrongAnswers;
 
-    if (correctAnswers === 0) {
-      correctAnswers = 5;
+    correctAnswers = Math.trunc(( correctAnswers / exercises ) * 100);
+
+    if (correctAnswers <= 0) {
+      correctAnswers = 1;
     }
 
     return e(
@@ -850,7 +861,7 @@ function LevelChooserButton(props) {
         e(
           'img',
           {
-            src: i18n.template_link + '/assets/icons/' + props.values.image
+            src: props.values.image
           }
         )
       )),
@@ -1041,11 +1052,8 @@ function returnToLevelMapButton(props) {
     {
       className: 'btn-tall blue',
       onClick: () => {
-
-      setPage(e(LevelChooser));
-
-      reset();
-
+        reset();
+        setPage(e(LevelChooser));
       }
     },
     e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
@@ -1281,7 +1289,7 @@ class App extends React.Component {
       checkAnswerWithButton: this.checkAnswerWithButton,
       hintArea: e(hintAreaInfo),
       controlArea: controlArea,
-      page: e(LevelChooser),
+      page: e(LoadingPage),
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON,
       score: this.score,

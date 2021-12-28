@@ -12,7 +12,7 @@ global $gi18n;
 
 if (!$is_logged_in) { wp_redirect($site_url); exit; }
 
-get_header();
+get_header(null, ['css' => 'exercises.css']);
 ?>
 
 <main id="intro-content" class="site-main page">

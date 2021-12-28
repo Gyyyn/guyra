@@ -109,4 +109,12 @@ if ($_GET['create_page'] == "all") {
 
 }
 
-?>
+// ---
+// Delete a cache folder.
+// ---
+if ($_GET['delete_cache']) {
+
+  include_once $template_dir . '/functions/Assets.php';
+
+  delete_cache($_GET['delete_cache']);
+}

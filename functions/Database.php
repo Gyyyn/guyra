@@ -49,7 +49,13 @@ function guyra_database_create_db() {
       sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
       log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       object LONGTEXT,
-      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET)
+      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+
+      sprintf("CREATE TABLE IF NOT EXISTS guyra_users (
+      user_id BIGINT UNSIGNED PRIMARY KEY,
+      user_login VARCHAR(100),
+      type VARCHAR(255),
+      flags LONGTEXT) CHARACTER SET %s", DB_CHARSET)
     ];
 
     foreach ($tables as $table => $sql) {
@@ -332,7 +338,13 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
     $data_keys = array_keys($data_key);
 
     foreach ($data_keys as $key) {
-      $user_data[$key] = $data_key[$key];
+
+      if ($data_key[$key] === null) {
+        unset($user_data[$key]);
+      } else {
+        $user_data[$key] = $data_key[$key];
+      }
+
     }
 
   } else {
@@ -344,7 +356,7 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
   guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
 }
 
-function guyra_get_user_data($user_id=1) {
+function guyra_get_user_data($user_id) {
 
   global $site_api_url;
 
@@ -358,55 +370,6 @@ function guyra_get_user_data($user_id=1) {
       $user_data['profile_picture_url'] = $site_api_url . '?get_identicon=1&hash=' . $theHash;
     }
 
-  } else {
-
-    global $template_dir;
-
-    include_once $template_dir . '/functions/Hash.php';
-
-    // TODO: Deprecate this once all user are moved
-  	$wp_user_data = get_userdata($user_id);
-    $wp_user_meta = get_user_meta($user_id);
-
-    $profile_picture_url = $wp_user_meta['user_registration_profile_pic_url'];
-
-    $user_data = [
-  		'user_email' => $wp_user_data->user_email,
-      'mail_confirmed' => 'true',
-  		'profile_picture_url' => ( ! empty( $profile_picture_url ) ) ? $profile_picture_url : '',
-  		'first_name' => $wp_user_meta['first_name'][0],
-  		'last_name' => $wp_user_meta['last_name'][0],
-      'role' => $wp_user_meta['role'][0],
-  		'user_registered' => $wp_user_data->user_registered,
-  		'user_payment_method' => '',
-  		'user_subscription' => '',
-  		'user_subscription_since' => '',
-  		'user_subscription_expires' => '',
-  		'teacherid' => $wp_user_meta['teacherid'][0],
-      'studygroup' => $wp_user_meta['studygroup'][0],
-  		'user_meetinglink' => guyra_get_user_meta($user_id, 'meetinglink', true)['meta_value']
-  	];
-
-    // Clean up the DB
-
-    delete_user_meta($user_id, 'teacherid');
-    delete_user_meta($user_id, 'studygroup');
-    delete_user_meta($user_id, 'first_name');
-    delete_user_meta($user_id, 'last_name');
-    delete_user_meta($user_id, 'nickname');
-    delete_user_meta($user_id, 'role');
-    delete_user_meta($user_id, 'custompage_id');
-    delete_user_meta($user_id, 'ur_form_id');
-    delete_user_meta($user_id, 'ur_user_status');
-    delete_user_meta($user_id, 'ur_confirm_email');
-    delete_user_meta($user_id, 'ur_confirm_email_token');
-    delete_user_meta($user_id, 'user_registration_privacy_policy_agree');
-    delete_user_meta($user_id, 'user_registration_privacy_policy_1630936971');
-    delete_user_meta($user_id, 'user_registration_profile_pic_url');
-
-    guyra_remove_user_meta($user_id, 'meetinglink', false);
-  	guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
-
   }
 
   return $user_data;
@@ -419,22 +382,146 @@ function guyra_get_user_game_data($user_id=1) {
 
   if ($user_data) {
   	$user_data = json_decode($user_data, true);
-  } else {
-
-    $level = guyra_get_user_meta($user_id, 'level', true);
-    $elo = guyra_get_user_meta($user_id, 'elo', true);
-
-    $user_data = [
-  		'level' => ($level['meta_value'] == null) ? 0 : $level['meta_value'],
-      'elo' => ($elo['meta_value'] == null) ? 0 : $elo['meta_value']
-  	];
-
-    guyra_remove_user_meta($user_id, $level['meta_key'], false);
-    guyra_remove_user_meta($user_id, $elo['meta_key'], false);
-
-  	guyra_update_user_meta($user_id, 'gamedata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
   }
 
   return $user_data;
+
+}
+
+// WARNING: do not migrate this function outside of wordpress.
+function check_for_user_migration($user_id) {
+
+  $wp_user = get_user_by('id', $user_id);
+
+  if ($wp_user != false) {
+
+    $flags = [
+      'wp_migrated_user' => true,
+      'force_user_id' => $user_id
+    ];
+
+    $migrated_user = guyra_create_user('email', 'user', $flags);
+
+    if ($migrated_user != false) {
+      return guyra_get_user_object($migrated_user);
+    } else {
+      return $migrated_user;
+    }
+
+  } else {
+    return false;
+  }
+
+}
+
+function guyra_get_user_object($user_id) {
+
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    // This function will never output to the api, so no need to json the error.
+    guyra_log_to_file('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = sprintf("SELECT user_id, user_login, type, flags
+      FROM guyra_users
+      WHERE user_id='%d'", $user_id);
+      $result = $db->query($sql);
+      $output = false;
+
+      // Check if the user exists
+      if ($result->num_rows > 0) {
+
+        while ($row = $result->fetch_assoc()) {
+            $output[] = $row;
+        }
+
+      }
+
+      return $output;
+
+  }
+
+  $db->close();
+  guyra_log_to_file($sql);
+
+}
+
+function build_user_object($user_id) {
+
+  $user = guyra_get_user_object($user_id);
+
+  if ($user === false) {
+    $user_migrate = check_for_user_migration($user_id);
+
+    if ($user_migrate != false) {
+      $output = $user_migrate;
+    } else {
+      $output = false;
+    }
+  } else {
+
+    $user['flags'] = json_decode($user['flags'], true);
+
+    $output = $user;
+
+  }
+
+  return $output;
+
+}
+
+// This generates a random unused 16 length number
+function guyra_generate_user_id() {
+  $random = random_int(0, 9999999999999999);
+  $this_user_exists = guyra_get_user_object($random);
+
+  if ($this_user_exists != false) {
+
+    while ($this_user_exists != false) {
+      $random = random_int(0, 9999999999999999);
+      $this_user_exists = guyra_get_user_object($random);
+
+      sleep(1);
+    }
+
+  }
+
+  return $random;
+
+
+}
+
+function guyra_create_user($login, $type='user', $flags=[]) {
+
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    // This function will never output to the api, so no need to json the error.
+    guyra_log_to_file('connection error' . $db->connect_error, true);
+
+    return false;
+
+  } else {
+
+    $user_id = guyra_generate_user_id();
+
+    // TODO: Remove this bit once we migrate out of WP
+    if ($flags['force_user_id']) {
+      $user_id = $flags['force_user_id'];
+      unset($flags['force_user_id']);
+    }
+
+    $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
+    VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
+
+    $result = $db->query($sql);
+
+    return $user_id;
+
+  }
 
 }

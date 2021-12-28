@@ -257,7 +257,7 @@ function AccountOptions_profileDetails(props) {
               {
                 className: 'btn-tall blue'
               },
-              e('img', { className: 'page-icon tiny', alt: i18n.upload, src: i18n.template_link + '/assets/icons/add-image.png' })
+              e('img', { className: 'page-icon tiny', alt: i18n.upload, src: i18n.api_link + '?get_image=icons/add-image.png&size=32' })
             )
           )
         )
@@ -640,7 +640,7 @@ function WhoAmI_welcome(props) {
           'img',
           {
             alt: 'learning',
-            src: rootUrl + 'wp-content/themes/guyra/assets/icons/profile.png'
+            src: i18n.api_link + '?get_image=icons/profile.png'
           }
         )
       )
@@ -678,7 +678,7 @@ function WhoAmI_openPayments_paymentItem(props) {
           {
             className: 'page-icon large',
             alt: 'QR Code',
-            src: i18n.template_link + '/assets/img/qrcode.jpg'
+            src: i18n.api_link + '?get_image=img/qrcode.png'
           }
         )
       ),

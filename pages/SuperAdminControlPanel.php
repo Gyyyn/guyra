@@ -12,10 +12,12 @@ if (!$is_admin) {
   exit;
 }
 
+include_once $template_dir . '/functions/Assets.php';
+
 // Get users
 $users = get_users();
 
-get_header();
+get_header(null, ['css' => 'admin.css']);
 
 ?>
 
@@ -23,16 +25,16 @@ get_header();
 
 <div class="admin-section">
 
-  <h2>Admin panel</h2>
+  <h2 onclick="document.getElementById('debug').classList.remove('d-none');">Admin panel</h2>
 
 </div>
 
-<div class="admin-section d-none">
+<div id="debug" class="admin-section d-none">
 
   <h4 class="mt-5">Param debug:</h4>
   <div class="admin-forms border rounded p-3 m-0">
     <pre>
-    <?php print_r('here may be a var'); ?>
+    <?php print_r('nothing'); ?>
     </pre>
   </div>
 
