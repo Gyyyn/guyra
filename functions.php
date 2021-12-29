@@ -11,7 +11,7 @@ add_action('init', 'ForceHTTPS');
 
 // Define the app version.
 if (!defined('GUYRA_VERSION')) {
-	define('GUYRA_VERSION', '0.1.0');
+	define('GUYRA_VERSION', '0.1.1');
 }
 
 // Setup some globals.

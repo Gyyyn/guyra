@@ -26,7 +26,7 @@
   ],
   "start_url": "/",
   "background_color": "#9ddbef",
-  "display": "minimal-ui",
+  "display": "standalone",
   "scope": "/",
   "theme_color": "#00BFFF"
 }
