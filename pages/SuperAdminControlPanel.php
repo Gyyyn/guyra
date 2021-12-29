@@ -147,7 +147,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   foreach ($users as $x) {
 
     $guyra_user_data = guyra_get_user_data($x->ID);
-    $guyra_user_gamedata = guyra_get_user_game_data($x->ID);
+    $guyra_user_object = build_user_object($x->ID);
     $teacherid = $guyra_user_data['teacherid'];
     $grouptag = $guyra_user_data['studygroup'];
     $user_subscription = $guyra_user_data['subscription'];

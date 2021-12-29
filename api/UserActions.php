@@ -56,6 +56,7 @@ if ($_GET['teacher_code']) {
 if ($_GET['update_userdata']) {
 
   global $current_user_data;
+  global $current_user_object;
 
   $data = json_decode(file_get_contents('php://input'), true);
   $nonce = $_GET['nonce'];
@@ -71,7 +72,7 @@ if ($_GET['update_userdata']) {
       // For now we need to update the WP DB too.
       wp_update_user([
         'ID' => $user,
-        'user_email' => $current_user_data['user_email']
+        'user_email' => $current_user_object['user_login'],
       ]);
 
       $current_user_data['mail_confirmed'] = 'true';
@@ -89,9 +90,10 @@ if ($_GET['update_userdata']) {
     if ($data['fields'][0] == 'user_pass') {
 
       wp_set_password($data['user_pass'], $current_user_id);
+      guyra_update_user_meta($current_user_id, 'user_pass', password_hash($data['user_pass'], PASSWORD_DEFAULT));
 
       $creds = array(
-        'user_login'    => $current_user_data['user_email'],
+        'user_login'    => $current_user_object['user_login'],
         'user_password' => $data['user_pass'],
         'remember'      => true
       );
@@ -107,11 +109,13 @@ if ($_GET['update_userdata']) {
     } else {
 
       foreach ($data['fields'] as $field) {
-        $current_user_data[$field] = $data[$field];
 
         if ($field == 'user_email') {
 
           $userNewMail = $data[$field];
+
+          guyra_update_user($user, ['user_login' => $userNewMail]);
+
           $current_user_data['mail_confirmed'] = 'false';
           $bytes = bin2hex(random_bytes(16));
           $_SESSION['confirm_mail'][$user] = $bytes;
@@ -129,6 +133,8 @@ if ($_GET['update_userdata']) {
 
           $quit = true;
 
+        } else {
+          $current_user_data[$field] = $data[$field];
         }
       }
 
@@ -331,6 +337,7 @@ if ($_GET['get_user_data']) {
     $theData['gamedata_raw'] = $current_user_gamedata;
     $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
     $theData['user_diary'] = json_decode($user_diary);
+    $theData['user_email'] = $current_user_object['user_login'];
     $theData['is_logged_in'] = true;
   } else {
     $theData['is_logged_in'] = false;

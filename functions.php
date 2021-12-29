@@ -38,7 +38,7 @@ if ($is_logged_in) {
 	$current_user_meta = get_user_meta($current_user_id);
 	$current_user_data = guyra_get_user_data($current_user_id);
 	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
-	// $current_user_object = build_user_object($current_user_id);
+	$current_user_object = build_user_object($current_user_id);
 
 	UserLoginUpdateStreakStatus($current_user_id);
 }

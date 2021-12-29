@@ -96,6 +96,8 @@ function guyra_handle_query_error($error='') {
  * @param string $meta_key The key for the meta.
  * @param boolean $return If the value should be output or returned, false for return a json output.
  *
+ * @return array The values found or false on not found.
+ *
  */
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -354,6 +356,8 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
   }
 
   guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
+
+  return $user_data;
 }
 
 function guyra_get_user_data($user_id) {
@@ -399,8 +403,14 @@ function check_for_user_migration($user_id) {
       'wp_migrated_user' => true,
       'force_user_id' => $user_id
     ];
+    $user_type = 'user';
+    $user_data = guyra_update_user_data($user_id, ['user_email' => null]);
 
-    $migrated_user = guyra_create_user('email', 'user', $flags);
+    if ($user_data['role'] === 'teacher') {
+      $user_type = 'admin';
+    }
+
+    $migrated_user = guyra_create_user($wp_user->user_email, $user_type, $flags);
 
     if ($migrated_user != false) {
       return guyra_get_user_object($migrated_user);
@@ -414,7 +424,7 @@ function check_for_user_migration($user_id) {
 
 }
 
-function guyra_get_user_object($user_id) {
+function guyra_get_user_object($user_id, $user_email=null) {
 
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -425,22 +435,39 @@ function guyra_get_user_object($user_id) {
 
   } else {
 
-    $sql = sprintf("SELECT user_id, user_login, type, flags
-      FROM guyra_users
-      WHERE user_id='%d'", $user_id);
-      $result = $db->query($sql);
-      $output = false;
+    $sql_select = "SELECT user_id, user_login, type, flags FROM guyra_users WHERE";
+    $sql_userid_statement = sprintf(" user_id='%d'", $user_id);
+    $sql_useremail_statement = sprintf(" user_login='%s'", $user_email);
 
-      // Check if the user exists
-      if ($result->num_rows > 0) {
+    $sql = $sql_select;
 
-        while ($row = $result->fetch_assoc()) {
-            $output[] = $row;
-        }
+    if ($user_id !== null) {
+      $sql .= $sql_userid_statement;
+      $sql_useremail_statement = " AND" . $sql_useremail_statement;
+    }
 
+    if ($user_email !== null) {
+      $sql .= $sql_useremail_statement;
+    }
+
+    $result = $db->query($sql);
+    $output = false;
+
+    // Check if the user exists
+    if ($result->num_rows > 0) {
+
+      while ($row = $result->fetch_assoc()) {
+          $output[] = $row;
       }
 
-      return $output;
+      // Truncate the result
+      if ($result->num_rows === 1) {
+        $output = $output[0];
+      }
+
+    }
+
+    return $output;
 
   }
 
@@ -483,8 +510,6 @@ function guyra_generate_user_id() {
     while ($this_user_exists != false) {
       $random = random_int(0, 9999999999999999);
       $this_user_exists = guyra_get_user_object($random);
-
-      sleep(1);
     }
 
   }
@@ -505,23 +530,62 @@ function guyra_create_user($login, $type='user', $flags=[]) {
 
     return false;
 
-  } else {
+  }
 
-    $user_id = guyra_generate_user_id();
+  $user_id = guyra_generate_user_id();
 
-    // TODO: Remove this bit once we migrate out of WP
-    if ($flags['force_user_id']) {
-      $user_id = $flags['force_user_id'];
-      unset($flags['force_user_id']);
-    }
+  // TODO: Remove this bit once we migrate out of WP
+  if ($flags['force_user_id']) {
+    $user_id = $flags['force_user_id'];
+    unset($flags['force_user_id']);
+  }
 
-    $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
-    VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
+  $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
+  VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
 
-    $result = $db->query($sql);
+  $result = $db->query($sql);
 
-    return $user_id;
+  return $user_id;
+
+}
+
+function guyra_update_user($user_id, array $values) {
+
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  if ($db->connect_error) {
+
+    return false;
 
   }
+
+  $user_values = guyra_get_user_object($user_id);
+  $data_keys = array_keys($values);
+
+  foreach ($data_keys as $key) {
+
+    if ($key == 'flags' && is_array($values[$key])) {
+      $values[$key] = json_encode($values[$key], JSON_UNESCAPED_UNICODE);
+    }
+
+    $user_values[$key] = $values[$key];
+
+  }
+
+  $string_replacements = [
+    $user_values['user_login'],
+    $user_values['type'],
+    $user_values['flags'],
+    $user_id
+  ];
+
+  $sql = vsprintf("UPDATE guyra_users
+  SET
+    user_login = '%s',
+    type = '%s',
+    flags = '%s'
+  WHERE user_id = %d", $string_replacements);
+
+  $result = $db->query($sql);
 
 }
