@@ -1,4 +1,6 @@
+let e = React.createElement;
 const rootUrl = window.location.origin.concat('/');
+var thei18n = {};
 
 function regularTransform(x) {
   let verbs = document.getElementsByClassName("regular-verb");

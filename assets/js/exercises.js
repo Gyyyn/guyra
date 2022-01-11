@@ -1,6 +1,49 @@
 let e = React.createElement;
-
 const rootUrl = window.location.origin.concat('/');
+var thei18n = {};
+
+function LoadingIcon(props) {
+  return e(
+    'img',
+    {
+      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+    }
+  );
+}
+
+class LoadingPage extends React.Component {
+  constructor() {
+   super();
+   this.state = {
+     message: null
+   };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        message: e(
+          'div',
+          { className: 'd-flex justify-content-center justfade-animation animate' },
+          '💭💭'
+        )
+      });
+    }, 5000);
+  }
+
+  render() {
+    return e(
+      'span',
+      {className: 'loading justfade-animation animate d-flex flex-column'},
+      e(
+        'div',
+        { className: 'd-flex justify-content-center justfade-animation animate' },
+        e(LoadingIcon),
+      ),
+      this.state.message
+    );
+  }
+}
 
 function shuffleArray(a) {
   var j, x, i;
@@ -852,7 +895,7 @@ function LevelChooserButton(props) {
         title: props.values.name + ' - ' + props.values.description,
         onClick: () => {
           loadExerciseJSON(props.level, props.values.id);
-          window.scrollTo(0, 0);
+          window.location.hash = props.values.id;
         }
       },
       e(ExerciseContext.Consumer, null, ({i18n}) => e(
@@ -1003,49 +1046,6 @@ class BootstrapModal extends React.Component {
 *
 */
 
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: e('div', null, null)
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          'Ainda carregando... 💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
-
 function returnToLevelMapButton(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
     'a',
@@ -1054,6 +1054,7 @@ function returnToLevelMapButton(props) {
       onClick: () => {
         reset();
         setPage(e(LevelChooser));
+        window.location.hash = '';
       }
     },
     e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
@@ -1227,7 +1228,7 @@ function hintAreaWrongAnswer(props) {
   ));
 }
 
-function exerciseDone() {
+function ExerciseDone(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, score, answers}) => e(
     'div',
     {
@@ -1236,6 +1237,8 @@ function exerciseDone() {
     e('div', {className: 'd-flex'},
       e('span', {className: 'exercise-hints-hint me-1'}, i18n.goodjob),
       e('span', {className: 'exercise-hints-hint me-1'}, i18n.yourscore.concat(score)),
+      e('span', {className: 'exercise-hints-hint me-1'}, 'Nível +1'),
+      e('span', {className: 'exercise-hints-hint me-1'}, 'Elo +' + Math.round(props.eloChange)),
     ),
     e('div', {className: 'd-flex'},
       e(
@@ -1271,6 +1274,7 @@ class App extends React.Component {
     this.needToRetry = [];
     this.disallowCandyOn = [];
     this.userAnswered = '';
+    this.currentUnit = '';
 
     this.buttonClassGreen = 'btn-tall green';
     this.buttonClassBlack = 'btn-tall black text-center';
@@ -1311,6 +1315,7 @@ class App extends React.Component {
       ClearWord: this.ClearWord,
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
+      challengeTracker: JSON.parse(window.localStorage.getItem('challenge'))
     }
 
     this.state = this.initialState;
@@ -1325,11 +1330,33 @@ class App extends React.Component {
         this.i18n = json.i18n;
         this.initialState.i18n = json.i18n;
         this.initialState.levelMap = json.levelmap;
+        var hash = window.location.hash;
+        hash = hash.slice(1);
+        var loadHashUnit = false;
+
+        Object.values(json.levelmap).forEach((level, i) => {
+
+          var theLevelKey = Object.keys(json.levelmap)[i];
+
+          Object.values(level).forEach((unit, i) => {
+            if (unit.id == hash) {
+              loadHashUnit = {unit: hash, level: theLevelKey};
+            }
+          });
+        });
+
         this.setState({
-          page: e(LevelChooser),
           levelMap: json.levelmap,
           i18n: json.i18n
         });
+
+        if (loadHashUnit) {
+          this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
+        } else {
+          this.setState({
+            page: e(LevelChooser)
+          });
+        }
 
         this.exerciseStartSound = new Audio(this.i18n.audio_link + 'start.ogg');
         this.exerciseEndSound = new Audio(this.i18n.audio_link + 'end.ogg');
@@ -1393,22 +1420,41 @@ class App extends React.Component {
 
       if (this.needToRetry.length == 0) {
 
-        this.setState({
-          page: e(exerciseDone)
+        // Check if we completed any challenges
+        var theTracker = this.state.challengeTracker;
+
+        Object.values(theTracker).forEach((item, i) => {
+
+          var thisUnitChallengeCompleted = false;
+          var challengeTrackerKeys = Object.keys(theTracker);
+
+          item.challenges.exercises.forEach((item) => {
+            if (item == this.currentUnit) {
+              thisUnitChallengeCompleted = true;
+            }
+          });
+
+          if (thisUnitChallengeCompleted) {
+
+            if (theTracker[challengeTrackerKeys[i]].completed.exercises.indexOf(this.currentUnit) === -1) {
+              theTracker[challengeTrackerKeys[i]].completed.exercises.push(this.currentUnit);
+            }
+
+            this.setState({
+              challengeTracker: theTracker
+            });
+
+            window.localStorage.setItem('challenge', JSON.stringify(theTracker));
+
+          }
+
         });
 
-        if(this.state.score == 100) {
-          this.exerciseEndPerfectSound.play();
-        } else {
-          this.exerciseEndSound.play();
-        }
 
         // Finish up by posting userdata
-
         fetch(rootUrl + 'api?update_level=1&value=' + (Number(this.usermeta[3]) + 1));
 
         var userElo = this.usermeta[0] / 100;
-
         var mod = this.score / 75;
         mod = mod + 0.5;
 
@@ -1419,7 +1465,8 @@ class App extends React.Component {
         }
 
         var moddedScore = (userElo + (mod + diffMod));
-        var moddedScore = Number(this.usermeta[0]) + (this.currentExerciseWeight * moddedScore);
+        var eloChange = this.currentExerciseWeight * moddedScore;
+        var moddedScore = Number(this.usermeta[0]) + eloChange;
 
         fetch(rootUrl + 'api?update_elo=1&value=' + Number(moddedScore));
 
@@ -1427,7 +1474,8 @@ class App extends React.Component {
           version: this.version,
           answers: this.state.answers,
           usermeta: this.state.usermeta,
-          score: this.score
+          score: this.score,
+          unit: this.currentUnit
         }
 
         fetch(
@@ -1441,6 +1489,17 @@ class App extends React.Component {
             body: JSON.stringify(dataToPost)
           }
         );
+
+        // Put user in the final page
+        this.setState({
+          page: e(ExerciseDone, { eloChange: eloChange })
+        });
+
+        if(this.state.score == 100) {
+          this.exerciseEndPerfectSound.play();
+        } else {
+          this.exerciseEndSound.play();
+        }
 
       } else {
 
@@ -1458,17 +1517,20 @@ class App extends React.Component {
 
     // If we got here we need a new exercise.
     this.setState({
-      values: this.loadActivityByType(),
       alreadyAnswered: false,
       currentQuestion: this.currentQuestion,
       answeredCorrect: false,
       hintArea: e(hintAreaInfo)
     });
 
+    var disallowCandyNow = false;
+
     // Check if we don't get candy this round
     this.disallowCandyOn.forEach((item) => {
 
       if (item == this.currentQuestion) {
+
+        disallowCandyNow = true;
 
         // Determine which answer type to use;
         var useAnswerType = AnswersTextArea;
@@ -1491,9 +1553,15 @@ class App extends React.Component {
 
     });
 
+    // Finally set the values we are going to use.
+    this.setState({
+      values: this.loadActivityByType(disallowCandyNow)
+    });
+
+    // Play an animation when the exercise is ready.
     setTimeout(() => {
       document.getElementById('current-question').classList.remove('d-none')
-    }, 350);
+    }, 200);
 
   };
 
@@ -1678,7 +1746,7 @@ class App extends React.Component {
     }
 
     fetch(
-      this.i18n.api_link + '?exercises=1&log_wrong_answer=1',
+      this.i18n.api_link + '?log_wrong_answer=1',
       {
         method: "POST",
         headers: {
@@ -1693,7 +1761,7 @@ class App extends React.Component {
 
   // Warning: This method requires that all information about the
   // current exercise already be set.
-  loadActivityByType() {
+  loadActivityByType(disallowCandy) {
 
     this.currentExerciseType = this.ExerciseObject[this.currentQuestion][0];
     var theExercise = this.ExerciseObject[this.currentQuestion];
@@ -1723,7 +1791,7 @@ class App extends React.Component {
         answerType: AnswersPhraseBuilder
       });
 
-      if (this.state.disallowCandy) {
+      if (disallowCandy) {
         useExtraWords = false;
       }
 
@@ -1781,19 +1849,22 @@ class App extends React.Component {
     });
 
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
+    this.currentUnit = id;
 
-    fetch(rootUrl + 'api?json=exercise&level='.concat(level, '&unit=', id, '&length=5'))
+    fetch(rootUrl + 'api?json=exercise&unit=' + id)
       .then(res => res.json())
       .then(json => this.setExerciseObject(json));
 
     fetch(rootUrl + 'api?json=usermeta')
       .then(res => res.json())
       .then(json => {
-        this.usermeta = json
+        this.usermeta = json.usermeta
         this.setState({
           usermeta: this.usermeta
         })
       });
+
+      window.scrollTo(0, 0);
 
   }
 

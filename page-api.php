@@ -14,34 +14,36 @@ if ($_GET['disable_cache'] != 'true') {
 }
 
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
+$redirect = (!$_POST['redirect']) ? $site_url : $_POST['redirect'];
 
-// Game data
-if ($_GET['json']) {
-  include $template_dir . '/api/GameData.php';
+// If user isn't logged in he only has a few options.
+if (!$is_logged_in) {
+  include $template_dir . '/api/GuestUser.php';
+  exit;
 }
 
-// Case where user is site admin
+// Game data
+include $template_dir . '/api/GameData.php';
+
+// Case where user is site admin.
 if ($is_admin) {
 
   include $template_dir . '/api/SuperAdminActions.php';
 
 }
 
-// Case where user is a teacher
+// Case where user is a group admin.
 if ($is_admin || $current_user_data['role'] == "teacher") {
 
   include $template_dir . '/api/GroupAdminActions.php';
 
 }
 
+// Logged in user actions.
 include $template_dir . '/api/UserActions.php';
 
 // Game API
-if ($_GET['exercises']) {
-
-  include $template_dir . '/api/Exercises.php';
-
-}
+include $template_dir . '/api/Exercises.php';
 
 // If we got here we are meant to redirect
-wp_redirect($redirect);
+Guyra_Redirect($redirect);

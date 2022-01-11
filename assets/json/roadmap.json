@@ -1,0 +1,82 @@
+{
+
+  "level": {
+    "id": "start",
+    "title": "Pra começar!",
+    "description": "Vamos ver o que precisamos saber pra começar.",
+    "icon": "icons/exercises/chat.png",
+    "bonuses": {
+      "level": "+3 Niveis",
+      "elo": "ELO+"
+    },
+    "challenges": {
+      "videos": [
+        "iW2MXtiGgu4"
+      ],
+      "exercises": [
+        "unit1",
+        "unit2"
+      ]
+    }
+  },
+
+  "level2": {
+    "id": "basics",
+    "title": "O essencial.",
+    "description": "Alguns essenciais pra gente estudar.",
+    "icon": "icons/exercises/dialog.png",
+    "bonuses": {
+      "level": "+3 Niveis",
+      "elo": "ELO+++"
+    },
+    "challenges": {
+      "videos": [
+        "Ew4Uruyh9Os"
+      ],
+      "exercises": [
+        "unit3",
+        "unit4",
+        "unit7",
+        "unit8"
+      ]
+    }
+  },
+
+  "level3": {
+    "id": "basics2",
+    "title": "Tempos.",
+    "description": "Como falar em jeitos diferentes.",
+    "icon": "icons/exercises/hourglass.png",
+    "bonuses": {
+      "level": "+3 Niveis",
+      "elo": "ELO+++"
+    },
+    "challenges": {
+      "videos": [
+        "D8vsYO64Bvk"
+      ],
+      "exercises": [
+        "unit10",
+        "unit12"
+      ]
+    }
+  },
+
+  "level4": {
+    "id": "fun",
+    "title": "Diversão.",
+    "description": "Vamos falar sobre coisas do dia a dia.",
+    "icon": "icons/exercises/shopping-basket.png",
+    "bonuses": {
+      "level": "+3 Niveis",
+      "elo": "ELO++"
+    },
+    "challenges": {
+      "exercises": [
+        "unit5",
+        "unit7"
+      ]
+    }
+  }
+
+}

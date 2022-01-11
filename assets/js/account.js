@@ -1,7 +1,53 @@
 let e = React.createElement;
-
 const rootUrl = window.location.origin.concat('/');
+var thei18n = {};
+
+function LoadingIcon(props) {
+  return e(
+    'img',
+    {
+      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+    }
+  );
+}
+
+class LoadingPage extends React.Component {
+  constructor() {
+   super();
+   this.state = {
+     message: null
+   };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        message: e(
+          'div',
+          { className: 'd-flex justify-content-center justfade-animation animate' },
+          '💭💭'
+        )
+      });
+    }, 5000);
+  }
+
+  render() {
+    return e(
+      'span',
+      {className: 'loading justfade-animation animate d-flex flex-column'},
+      e(
+        'div',
+        { className: 'd-flex justify-content-center justfade-animation animate' },
+        e(LoadingIcon),
+      ),
+      this.state.message
+    );
+  }
+}
+
 const AccountContext = React.createContext();
+const PaymentContext = React.createContext({setPlan: () => {}});
+var thei18n = {};
 
 function setMessageBox(message) {
   var messageBox = document.getElementById('message');
@@ -59,6 +105,533 @@ function Account_BackButton(props) {
       e('span', { className: 'ms-1' }, title)
     );
   });
+}
+
+function Account_dialogBox(props) {
+
+  return e(
+    'div',
+    {
+      className: 'dialog-box ' + props.extraClasses
+    },
+    window.HTMLReactParser(props.value)
+  );
+
+}
+
+function AccountPayment_paymentForm(props) {
+  return e(AccountContext.Consumer, null, ({i18n}) => e(
+    'form',
+    {
+      id: 'form-checkout',
+      className: 'form-control'
+    },
+    e(
+      'div',
+      { className: 'row gy-3' },
+
+      e('h4', { className: 'mb-3' }, i18n.payment),
+
+      e(
+        'div',
+        { className: 'col-md-6' },
+        e('input', { type: 'text', name: 'cardholderName', id: 'form-checkout__cardholderName'})
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-6 d-none' },
+        e('select', {name: 'issuer', id: 'form-checkout__issuer'})
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-6 d-none' },
+        e('select', {name: 'installments', id: 'form-checkout__installments'})
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-6 position-relative' },
+        e('input', { type: 'text', name: 'cardNumber', id: 'form-checkout__cardNumber'}),
+        e(
+          'span',
+          { id: 'card-flag', className: 'bottom-0 end-0 pe-1 position-absolute translate-middle' },
+          e(
+            'img',
+            { className: 'd-none', src: '', style: {maxWidth: 2 + 'rem'} }
+          )
+        )
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-6 d-flex' },
+        e(
+          'input',
+          {
+            className: 'me-3',
+            type: 'text',
+            name: 'cardExpirationMonth',
+            id: 'form-checkout__cardExpirationMonth'
+          }
+        ),
+        e(
+          'input',
+          {
+            type: 'text',
+            name: 'cardExpirationYear',
+            id: 'form-checkout__cardExpirationYear'
+          }
+        ),
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-6' },
+        e('input', { type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
+      ),
+
+      e('h4', { className: 'mb-3' }, i18n.identification),
+
+      e(
+        'div',
+        { className: 'col-md-12' },
+        e('input', { type: 'text', name: 'cardholderEmail', id: 'form-checkout__cardholderEmail'})
+      ),
+
+      e(
+        'div',
+        { className: 'col-md-12 d-flex' },
+        e('select', { className: 'me-3', name: 'identificationType', id: 'form-checkout__identificationType'}),
+        e('input', { type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
+      ),
+
+    ),
+
+    e('input', { type: 'hidden', id: 'deviceId'}),
+
+    e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_processor_warning }),
+    e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_recurrence_warning }),
+
+    e('button', { id: 'purchase-submit', type: 'submit', className: 'w-100 btn-tall green' }, i18n.checkout),
+
+    e('progress', { value: 0, class: 'd-none progress-bar mt-3' }, '...'),
+
+  ));
+}
+
+function AccountPayment_planSelect(props) {
+
+  var premiumPlanExtraClass = '';
+  var litePlanExtraClass = '';
+  var checkoutTotal = 0;
+  var selectedPlan = props.selectedPlan;
+  if ((props.userPlan !== undefined) && (!props.userSelectedPlan)) {
+    selectedPlan = props.userPlan;
+  }
+
+  if (selectedPlan == 'premium') {
+    var premiumPlanExtraClass = 'active';
+    var checkoutTotal = 149;
+  } else if (selectedPlan == 'lite') {
+    var litePlanExtraClass = 'active';
+    var checkoutTotal = 29;
+  }
+
+  return e(
+    'div',
+    {
+      className: 'account-plans'
+    },
+    e(AccountContext.Consumer, null, ({i18n}) => e('h4', {}, i18n.plans)),
+    e(PaymentContext.Consumer, null, ({setPlan}) => e(
+      'ul',
+      { className: 'list-group more-rounded study-menu mt-0 mb-3' },
+
+      e(
+        'li',
+        {
+          id: 'plan-option-lite', className: 'list-group-item lh-sm ' + litePlanExtraClass,
+          onClick: () => {
+            setPlan('lite');
+          }
+        },
+        e(AccountContext.Consumer, null, ({i18n}) => e(
+          'div',
+          { className: 'd-flex justify-content-between w-100' },
+          e(
+            'div',
+            { className: 'plan-details' },
+            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlelite),
+            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlelite),
+          ),
+          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricelite_value)
+        )),
+      ),
+
+      e(
+        'li',
+        {
+          id: 'plan-option-premium', className: 'list-group-item d-flex justify-content-between lh-sm ' + premiumPlanExtraClass,
+          onClick: () => {
+            setPlan('premium');
+          }
+        },
+        e(AccountContext.Consumer, null, ({i18n}) => e(
+          'div',
+          { className: 'd-flex justify-content-between w-100' },
+          e(
+            'div',
+            { className: 'plan-details' },
+            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlepro),
+            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlepro),
+          ),
+          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricepro_value)
+        )),
+      ),
+
+    )),
+    e(AccountContext.Consumer, null, ({i18n}) => e(
+      'div',
+      { className: 'card d-flex flex-row justify-content-between p-3' },
+      e('span', {}, i18n.total),
+      e('strong', {}, 'R$', e('span', { id: 'price-total'}, checkoutTotal))
+    ))
+  );
+
+}
+
+function AccountPayment_cancelPlan(props) {
+
+  return e(AccountContext.Consumer, null, ({i18n}) => e(
+    'div',
+    { className: 'slideleft-animation animate' },
+    e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountPayment) })),
+    e(
+      'p',
+      { className: 'dialog-box mt-3' },
+      i18n.cancel_membership_message,
+      e(
+        'button',
+        {
+          className: 'blue btn-sm btn-tall d-block mt-3',
+          onClick: (e) => {
+
+            var before = e.target.innerHTML;
+            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+            setTimeout(() => {
+              document.querySelector('div#cancel-membership').classList.remove('d-none');
+              e.target.innerHTML = before;
+            }, 3000);
+
+          }
+        },
+        i18n.cancel_membership_confirm
+      )
+    ),
+    e(
+      'div',
+      { id: 'cancel-membership', className: 'd-none animate my-3' },
+      e(
+        'button',
+        { className: 'btn-tall red' },
+        i18n.cancel_membership
+      )
+    )
+
+  ));
+}
+
+function AccountPayment_yourPlan(props) {
+
+  return e(AccountContext.Consumer, null, ({i18n, setPage}) => e(
+    'div',
+    { className: 'dialog-box d-flex flex-row justify-content-between' },
+    e(
+      'div',
+      { className: 'align-self-start' },
+      e('h3', {}, i18n.your_plan),
+      e(
+        'div',
+        { className: 'd-flex flex-column'},
+        e('span', { className: 'fw-bold' }, i18n['pricesfeature_title' + props.values.payed_for]),
+        e(
+          'span',
+          { className: 'd-flex flex-row'},
+          e('span', { className: 'me-1' }, i18n['issuer_' + props.values.processor_data.payment_method_id]),
+          e('span', {}, i18n.card_ending_in + ': ' + props.values.processor_data.card_data.digits))
+      ),
+    ),
+    e(
+      'div',
+      { className: 'align-self-end' },
+      e(
+        'button',
+        {
+          className: 'btn-tall btn-sm trans',
+          onClick: () => {
+            setPage(e(AccountPayment_cancelPlan));
+          }
+        },
+        i18n.cancel_membership
+      )
+    )
+  ));
+}
+
+class AccountPayment extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedPlan: 'lite',
+      setPlan: this.setPlan,
+      userSelectedPlan: false
+    };
+
+  }
+
+  setPlan = (plan) => {
+    this.setState({
+      selectedPlan: plan,
+      userSelectedPlan: true
+    });
+  }
+
+  componentDidMount() {
+    const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
+    this.cardForm = mp.cardForm({
+      amount: "1",
+      autoMount: true,
+      form: {
+        id: "form-checkout",
+        cardholderName: {
+          id: "form-checkout__cardholderName",
+          placeholder: "Titular do cartão",
+        },
+        cardholderEmail: {
+          id: "form-checkout__cardholderEmail",
+          placeholder: "E-mail",
+        },
+        cardNumber: {
+          id: "form-checkout__cardNumber",
+          placeholder: "Número do cartão",
+        },
+        cardExpirationMonth: {
+          id: "form-checkout__cardExpirationMonth",
+          placeholder: "Mês de vencimento",
+        },
+        cardExpirationYear: {
+          id: "form-checkout__cardExpirationYear",
+          placeholder: "Ano de vencimento",
+        },
+        securityCode: {
+          id: "form-checkout__securityCode",
+          placeholder: "Código de segurança",
+        },
+        installments: {
+          id: "form-checkout__installments",
+          placeholder: "Parcelas",
+        },
+        identificationType: {
+          id: "form-checkout__identificationType",
+          placeholder: "Tipo de documento",
+        },
+        identificationNumber: {
+          id: "form-checkout__identificationNumber",
+          placeholder: "Número do documento",
+        },
+        issuer: {
+          id: "form-checkout__issuer",
+          placeholder: "Banco emissor",
+        },
+      },
+      callbacks: {
+        onFormMounted: error => {
+            if (error) return console.warn('Form Mounted handling error: ', error)
+            console.log('Form mounted')
+        },
+        onFormUnmounted: error => {
+            if (error) return console.warn('Form Unmounted handling error: ', error)
+            console.log('Form unmounted')
+        },
+        onIdentificationTypesReceived: (error, identificationTypes) => {
+            if (error) return console.warn('identificationTypes handling error: ', error)
+            console.log('Identification types available: ', identificationTypes)
+        },
+        onPaymentMethodsReceived: (error, paymentMethods) => {
+            if (error) return console.warn('paymentMethods handling error: ', error)
+            console.log('Payment Methods available: ', paymentMethods)
+            var cardFlag = document.querySelector('#card-flag img');
+            cardFlag.src = paymentMethods[0].thumbnail;
+            cardFlag.classList.remove('d-none');
+        },
+        onIssuersReceived: (error, issuers) => {
+            if (error) return console.warn('issuers handling error: ', error)
+            console.log('Issuers available: ', issuers)
+        },
+        onInstallmentsReceived: (error, installments) => {
+            if (error) return console.warn('installments handling error: ', error)
+            console.log('Installments available: ', installments)
+        },
+        onCardTokenReceived: (error, token) => {
+            if (error) return console.warn('Token handling error: ', error)
+            console.log('Token available: ', token)
+        },
+        onSubmit: event => {
+          event.preventDefault();
+
+          var submitButton = document.getElementById('purchase-submit');
+          var before = submitButton.innerHTML;
+          submitButton.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+          const {
+            paymentMethodId: payment_method_id,
+            issuerId: issuer_id,
+            cardholderEmail: email,
+            amount,
+            token,
+            installments,
+            identificationNumber,
+            identificationType,
+          } = this.cardForm.getCardFormData();
+
+          this.cardData = JSON.stringify({
+            token,
+            issuer_id,
+            card_digits: document.getElementById('form-checkout__cardNumber').value.slice(-4),
+            payment_method_id,
+            transaction_amount: Number(amount),
+            installments: Number(installments),
+            description: this.state.selectedPlan,
+            payer: {
+              email,
+              identification: {
+                type: identificationType,
+                number: identificationNumber,
+              },
+            },
+          });
+
+          // console.log('CardForm data available: ', this.cardData)
+
+          fetch(thei18n.api_link + "?proccess_payment=1", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: this.cardData,
+          }).then(res => res.json()).then(res => {
+
+            submitButton.innerHTML = before;
+            console.log(res);
+            var response = JSON.parse(res);
+
+            console.log(response);
+
+            if (response.status == 'authorized') {
+              submitButton.innerHTML = '<i class="bi bi-lock-fill"></i>';
+              window.location.href = thei18n.account_link;
+            } else {
+              if (response.status == 401) {
+                setMessageBox(thei18n.payment_refused);
+
+                setTimeout(() => {
+                  window.location.reload();
+                }, 5000);
+
+              } else if (response.status == 'error invalid plan') {
+                setMessageBox(thei18n.plan_invalid);
+              }
+            }
+
+          });
+
+        },
+        onFetching: (resource) => {
+          // console.log("Fetching resource: ", resource);
+
+          // Animate progress bar
+          const progressBar = document.querySelector(".progress-bar");
+          progressBar.removeAttribute("value");
+
+          return () => {
+            progressBar.setAttribute("value", "0");
+          };
+        },
+      },
+    });
+  }
+
+  componentWillUnmount() {
+    this.cardForm.unmount();
+  }
+
+  render() {
+
+    var topWarnings = e(AccountContext.Consumer, null, ({i18n, usermeta}) => {
+
+      var warningsList = [];
+
+      if (usermeta.payments.payment_status == 'approved') {
+        warningsList.push(
+          e(AccountPayment_yourPlan, {values: usermeta.payments})
+        );
+
+        warningsList.push(
+          e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_already_active_warning })
+        );
+      }
+
+      if (usermeta.payments.payment_status == 'expired') {
+        warningsList.push(
+          e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_expired_warning })
+        );
+      }
+
+      return e(
+        'div',
+        { className: 'warnings' },
+        warningsList
+      );
+
+    });
+
+    return e(
+      'div',
+      {
+        className: 'slideleft-animation animate account-payment row g-5'
+      },
+      e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountOptions) })),
+      e(AccountContext.Consumer, null, ({i18n}) => e('h2', { className: 'text-blue my-3' }, i18n.subscription)),
+      e(
+        'div',
+        { className: 'col-md-7 col-lg-8 mt-0' },
+        topWarnings,
+        e(AccountPayment_paymentForm),
+        e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' })
+      ),
+      e(
+        'div',
+        { className: 'col-md-5 col-lg-4 mt-0 order-md-last' },
+        e(PaymentContext.Provider, { value: this.state },
+          e(AccountContext.Consumer, null, ({usermeta}) => {
+            return e(
+              AccountPayment_planSelect,
+              {
+                selectedPlan: this.state.selectedPlan,
+                userPlan: usermeta.payments.payed_for,
+                userSelectedPlan: this.state.userSelectedPlan
+              }
+            );
+          })
+        ),
+      ),
+    );
+  }
+
 }
 
 function AccountOptions_changePassword(props) {
@@ -122,8 +695,8 @@ function AccountOptions_changePassword(props) {
                 }
               ).then(res => res.json())
               .then(json => {
-                if (json[0] != 'true') {
-                  setMessageBox(i18n.something_went_wrong + ' ' + json[0]);
+                if (json != 'true') {
+                  setMessageBox(i18n.something_went_wrong + ' ' + json);
                 }
               });
 
@@ -142,7 +715,8 @@ function AccountOptions_changePassword(props) {
         },
         className: 'btn-tall blue'
       },
-      i18n.save
+      i18n.save,
+      e('i', { className: 'bi bi-save ms-1' }),
     )),
     e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
   ));
@@ -242,10 +816,10 @@ function AccountOptions_profileDetails(props) {
                     }
                   ).then(res => res.json())
                   .then(res => {
-                    if (res[0] == 'file too big') {
+                    if (res == 'file too big') {
                       setMessageBox(i18n.filesize_too_big);
                     } else {
-                      document.getElementById('profile-picture').src = res[0];
+                      document.getElementById('profile-picture').src = res;
                     }
                   });
 
@@ -353,7 +927,8 @@ function AccountOptions_profileDetails(props) {
                 },
                 className: 'btn-tall'
               },
-              i18n.change_password
+              i18n.change_password,
+              e('i', { className: 'bi bi-arrow-repeat ms-1' }),
             )),
             e(
               'button',
@@ -421,7 +996,8 @@ function AccountOptions_profileDetails(props) {
 
                 }
               },
-              i18n.save
+              i18n.save,
+              e('i', { className: 'bi bi-save ms-1' }),
             ),
           ),
           e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
@@ -434,7 +1010,7 @@ function AccountOptions_profileDetails(props) {
 }
 
 function AccountOptions_accountDetails(props) {
-  return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
+  return e(AccountContext.Consumer, null, ({i18n, usermeta, setPage}) => e(
     'div',
     { className: 'profile-details'},
     e(
@@ -464,10 +1040,15 @@ function AccountOptions_accountDetails(props) {
           e(
             'a',
             {
-              href: rootUrl + 'purchase',
-              className: 'btn-tall btn-sm blue mt-1'
+              href: i18n.purchase_link,
+              className: 'btn-tall btn-sm blue mt-1',
+              onClick: () => {
+                setPage(e(AccountPayment));
+                window.location.hash = '#payment';
+              }
             },
-            i18n.change_payment_method
+            i18n.change_payment_method,
+            e('i', { className: 'bi bi-credit-card-fill ms-1' }),
           )
         )
       )
@@ -582,7 +1163,8 @@ function AccountOptions_accountDetails(props) {
 
               }
             },
-            i18n.apply
+            i18n.apply,
+            e('i', { className: 'bi bi-arrow-return-left ms-1' }),
           )
         )
       )
@@ -808,60 +1390,91 @@ function WhoAmI_openPayments(props) {
 
 }
 
+function WhoAmI_buttonGroup_button(props) {
+  return e(
+    'a',
+    {
+      href: props.href,
+      className: 'btn-tall me-2 mb-2 ' + props.buttonColor,
+      onClick: props.onClick
+    },
+    e(
+      'span',
+      { className: 'menu-icon' },
+      e('img', {
+        className: 'page-icon tiny me-1',
+        alt: props.alt,
+        src: props.img_src
+      })
+    ),
+    props.value
+  );
+}
+
 function WhoAmI_buttonGroup(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'row buttons justify-content-between my-5'},
     e(
       'div',
-      { className: 'col-sm d-flex flex-column flex-sm-row align-items-center justify-content-center' },
-
+      { className: 'col-sm d-flex flex-row flex-wrap align-items-center justify-content-center' },
       e(
-        'a',
+        WhoAmI_buttonGroup_button,
         {
-          href: rootUrl,
-          className: 'btn-tall blue me-2 mb-2'
-        },
-        i18n.button_studypage
+          href: i18n.home_link,
+          buttonColor: 'blue',
+          img_src: i18n.api_link + '?get_image=icons/learning.png&size=32',
+          value: i18n.study
+        }
       ),
       e(
-        'a',
+        WhoAmI_buttonGroup_button,
         {
-          href: rootUrl + 'courses',
-          className: 'btn-tall me-2 mb-2'
-        },
-        i18n.button_coursespage
+          href: i18n.practice_link,
+          buttonColor: 'green',
+          img_src: i18n.api_link + '?get_image=icons/target.png&size=32',
+          value: i18n.practice
+        }
       ),
       e(
-        'a',
+        WhoAmI_buttonGroup_button,
         {
-          href: rootUrl + 'practice',
-          className: 'btn-tall me-2 mb-2'
-        },
-        i18n.practice
+          href: i18n.courses_link,
+          img_src: i18n.api_link + '?get_image=icons/online-learning.png&size=32',
+          value: i18n.courses
+        }
       ),
       e(AccountContext.Consumer, null, ({setPage}) => e(
-        'a',
+        WhoAmI_buttonGroup_button,
         {
+          img_src: i18n.api_link + '?get_image=icons/sliders.png&size=32',
+          value: i18n.configs,
           onClick: () => {
             setPage(e(AccountOptions));
             window.location.hash = '#options';
           },
-          className: 'btn-tall green me-2 mb-2'
-        },
-        i18n.configs
+        }
       )),
       e(
-        'button',
+        WhoAmI_buttonGroup_button,
         {
-          className: 'btn-tall red me-2 mb-2 d-inline d-xl-none',
+          href: i18n.help_link,
+          img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
+          value: i18n.help
+        }
+      ),
+      e(
+        WhoAmI_buttonGroup_button,
+        {
+          img_src: i18n.api_link + '?get_image=icons/logout.png&size=32',
+          value: i18n.logout,
+          buttonColor: 'red d-inline d-xl-none',
           onClick: () => {
             if (window.confirm(i18n.logout_confirm)) {
               window.location = i18n.logout_link;
             }
-          }
-        },
-        i18n.logout
+          },
+        }
       ),
 
     )
@@ -871,16 +1484,19 @@ function WhoAmI_buttonGroup(props) {
 function WhoAmI(props) {
   return e(AccountContext.Consumer, null, ({usermeta}) => {
 
-    var openPayments = [];
+    var openPayments = null;
 
     if (usermeta.user_diary != undefined) {
       usermeta.user_diary.payments.forEach((item) => {
         if (item.status == 'pending') {
+
+          if (openPayments === null) {
+            openPayments = [];
+          }
+
           openPayments.push(item);
         }
       });
-    } else {
-      openPayments = null;
     }
 
     return e(
@@ -1127,7 +1743,7 @@ function Register(props) {
                 .then(res => res.json())
                 .then(json => {
 
-                  if (json[0] == 'true') {
+                  if (json == 'true') {
 
                     if (user_code != '') {
                       fetch(i18n.api_link + '?teacher_code=' + user_code)
@@ -1138,7 +1754,7 @@ function Register(props) {
                     }, 500);
 
                   } else {
-                    setMessageBox(json[0]);
+                    setMessageBox(json);
                     e.target.innerHTML = previousHTML;
                   }
 
@@ -1157,23 +1773,6 @@ function Register(props) {
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
     )
   ));
-}
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-function LoadingPage(props) {
-  return e(
-    'span',
-    {className: 'd-flex align-items-center justify-content-center loading justfade-animation animate'},
-    e(LoadingIcon)
-  );
 }
 
 function LoginForm(props) {
@@ -1232,10 +1831,10 @@ function LoginForm(props) {
             .then(res => res.json())
             .then(json => {
 
-              if (json[0] == 'true') {
+              if (json == 'true') {
                 window.location = i18n.home_link
               } else {
-                setMessageBox(json[0]);
+                setMessageBox(json);
               }
 
               e.target.innerHTML = previousHTML;
@@ -1358,10 +1957,10 @@ function LostPassword(props) {
                 fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
                 .then(res => res.json())
                 .then(json => {
-                  if (json[0] == 'sent') {
+                  if (json == 'sent') {
                     setMessageBox(i18n.forgot_password_email_sent);
                   } else {
-                    setMessageBox(i18n.something_went_wrong + '<br />' + json[0]);
+                    setMessageBox(i18n.something_went_wrong + '<br />' + json);
                   }
                 });
               } else {
@@ -1399,6 +1998,10 @@ class Account extends React.Component {
       decision = e(AccountOptions);
     }
 
+    if (window.location.hash == '#payment') {
+      decision = e(AccountPayment);
+    }
+
     if (window.location.hash == '#changepassword') {
       decision = e(AccountOptions_changePassword);
     }
@@ -1421,35 +2024,38 @@ class Account extends React.Component {
   componentWillMount() {
 
     fetch(rootUrl + 'api?get_user_data=1')
+    .then(res => res.json())
+    .then(res => {
+
+      let json = JSON.parse(res);
+      let page;
+
+      this.usermeta = json;
+
+      if (json.is_logged_in == true) {
+        page = this.getStartingPage();
+      } else {
+        page = this.getStartingPage(false);
+      }
+
+      this.setState({
+        usermeta: this.usermeta
+      })
+
+      fetch(rootUrl + 'api?i18n=full')
       .then(res => res.json())
-      .then(res => {
+      .then(json => {
 
-        let json = JSON.parse(res);
-        let page;
-
-        this.usermeta = json;
-
-        if (json.is_logged_in == true) {
-          page = this.getStartingPage();
-        } else {
-          page = this.getStartingPage(false);
-        }
+        thei18n = json.i18n;
 
         this.setState({
-          usermeta: this.usermeta
-        })
-
-        fetch(rootUrl + 'api?json=1&i18n=full')
-          .then(res => res.json())
-          .then(json => {
-            this.setState({
-              page: page,
-              i18n: json.i18n
-            });
-
-          });
+          page: page,
+          i18n: json.i18n
+        });
 
       });
+
+    });
 
   }
 

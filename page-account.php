@@ -12,4 +12,9 @@ get_header(null, ['css' => 'account.css']);
 <?php
 
 $getRecaptcha = $is_logged_in ? false : true;
-get_footer(null, ['react' => true, 'js' => 'account.js', 'recaptcha' => $getRecaptcha]);
+get_footer(null, [
+  'react' => true,
+  'js' => 'account.js',
+  'MercadoPago' => true,
+  'recaptcha' => $getRecaptcha
+]);

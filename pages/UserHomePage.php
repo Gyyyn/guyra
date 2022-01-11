@@ -1,9 +1,4 @@
 <?php
-/**
- * Logged in user home page
- *
- * @package guyra
- */
 
 global $template_dir;
 global $template_url;
@@ -12,8 +7,9 @@ global $current_user_data;
 global $current_user_meta;
 global $site_url;
 global $is_logged_in;
+global $current_user_subscription_valid;
 
-if (!$is_logged_in) { wp_redirect($site_url); exit; }
+Guyra_Safeguard_Access();
 
 include_once $template_dir . '/components/StudyPage.php';
 include_once $template_dir . '/functions/Assets.php';
@@ -30,15 +26,19 @@ get_header();
 
     <?php guyra_render_topbar(); ?>
 
-    <div class="greeting-page rounded-box position-relative">
+    <div class="greeting-page rounded-box py-3 position-relative">
 
-      <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
+      <div class="icon-title mb-3 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['hello'] . ' ' . $current_user_data['first_name']; ?></h2>
         <span class="page-icon small"><img alt="learning" src="<?php echo GetImageCache('icons/waving-hand.png', 128); ?>"></span>
       </div>
 
       <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
       <p><?php echo $gi18n['whats_for_today']; ?></p>
+
+      <?php if ($teacherid): ?>
+      <button type="button" name="button" class="btn-tall blue" id="load-roadmap-button">Carregar Roadmap</button>
+      <?php endif; ?>
 
     </div>
 
@@ -53,9 +53,12 @@ get_header();
       </div>
       <a type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick="setCookie('dismissed', true, 1);"></a>
     </div>
+
     <?php endif; ?>
 
-    <?php if ($teacherid): ?>
+    <?php if ($teacherid && $current_user_subscription_valid): ?>
+
+    <div id="roadmap-container" class="d-none justfade-animation animate"></div>
 
     <div class="study-page rounded-box position-relative">
 
@@ -96,10 +99,14 @@ get_header();
 
     </div>
 
+    <?php else: ?>
+
+    <div id="roadmap-container"></div>
+
     <?php endif; ?>
 
   </div>
 
 </main>
 <?php
-get_footer(null, ['js' => 'study.js', 'easymde' => 'comment']);
+get_footer(null, ['js' => 'study.js', 'easymde' => 'comment', 'react' => true]);

@@ -23,6 +23,25 @@ get_header(null, ['css' => 'admin.css']);
 
 <main class="page squeeze" id="admin"><div class="page-squeeze rounded-box">
 
+<script async type="text/javascript">
+
+function testGuyraAuth() {
+  fetch("<?php echo $gi18n['api_link'] . '?user=1&testings=1'; ?>", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Guyra-Auth": '$2y$10$LqmTEAcNgb/AH55zDRNCNeFO/5OfeoX9dcWZrRLMK9kOf0p8q.dKa'
+    },
+    body: '{"test": "hello"}',
+  }).then(res => res.json()).then(res => {
+
+    console.log(res);
+
+  });
+}
+
+</script>
+
 <div class="admin-section">
 
   <h2 onclick="document.getElementById('debug').classList.remove('d-none');">Admin panel</h2>
@@ -116,16 +135,21 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
     <h5>Change a site option:</h5>
 
     <div class="mb-4 alert alert-info" role="alert">
-      <p>Currently working options are:</p>
+      <p>Currently working options are (* indicates potentially critical functionality):</p>
       <ul>
         <li>landing_open - site has landing page or just login.</li>
+        <li>google_api* - google api key used for: cloud translate, youtube api.</li>
+        <li>google_cloud* - google cloud credentials json used for: cloud tts.</li>
+        <li>mp_access_token* - MercadoPado Prod Access Token used for payments.</li>
+        <li>mp_app_id* - MercadoPado app id used for payments.</li>
+        <li>mp_lite_planid* - MercadoPado plan id for lite subscription.</li>
+        <li>mp_premium_planid* - MercadoPado plan id for premium subscription.</li>
       </ul>
     </div>
 
-    <form action="<?php echo $site_api_url; ?>" method="GET">
+    <form action="<?php echo $site_api_url . '?change_option=1'; ?>" method="POST">
         Option: <input type="text" name="change_option">
         Value: <input type="text" name="value">
-        <input type="hidden" name="user" value="1" class="user-id">
         <input type="hidden" value="<?php echo $gi18n['guyra_admin_link'] ?>" name="redirect">
         <input type="submit" value="Go">
     </form>

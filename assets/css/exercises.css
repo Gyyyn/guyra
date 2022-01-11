@@ -26,7 +26,7 @@
 .exercise-dialog {
 	border: .35rem solid var(--guyra-grey-darkest);
 	border-radius: var(--guyra-border-radius-bigger);
-	padding: 2rem;
+	padding: var(--guyra-fonts-textsize-n);
 	font-size: var(--guyra-fonts-textsize-x);
 	font-family: "Komika";
   box-shadow: var(--guyra-box-shadow-bigger);
@@ -38,7 +38,7 @@
 .blank-space {
   width: 0;
   height: 0;
-  padding-right: 5rem;
+  padding-right: var(--guyra-fonts-textsize-super);
   margin-right: .5rem;
   border-bottom: var(--guyra-border-radius) solid var(--guyra-grey-darkest);
 }
@@ -51,10 +51,10 @@
 .dialog-arrow {
   width: 0;
   height: 0;
-  border-right: 2rem var(--guyra-grey-darkest) solid;
+  border-right: var(--guyra-fonts-textsize-x) var(--guyra-grey-darkest) solid;
   border-top: 0 solid transparent;
-  border-bottom: 2rem solid transparent;
-  margin-bottom: 3rem;
+  border-bottom: var(--guyra-fonts-textsize-x) solid transparent;
+  margin-bottom: var(--guyra-fonts-textsize-x);
 }
 
 .exercise-question {

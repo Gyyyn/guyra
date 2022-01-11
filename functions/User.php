@@ -27,3 +27,7 @@ function Guyra_Login_User($creds) {
 
   return $user;
 }
+
+function Guyra_Logout_User($user=0) {
+  wp_logout();
+}

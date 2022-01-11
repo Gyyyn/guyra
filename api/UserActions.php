@@ -7,26 +7,36 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 global $site_api_url;
+global $is_logged_in;
+
+Guyra_Safeguard_File();
 
 require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/User.php';
 include_once $template_dir . '/functions/Assets.php';
+include_once $template_dir . '/functions/Payment.php';
+include_once $template_dir . '/components/Icons.php';
+
+include_once $template_dir . '/api/UserActions/Roadmap.php';
 
 $user = $_GET['user'];
 
-if ($_GET['update_elo'] && $_GET['value']) {
-  $current_user_gamedata['elo'] = $_GET['value'];
-  guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata, JSON_UNESCAPED_UNICODE));
-}
+if (!$is_logged_in && $user !== null) {
 
-if ($_GET['update_level'] && $_GET['value']) {
-  Guyra_increase_user_level($current_user_id, 'level', $_GET['value']);
-}
+  if ($user !== null) {
+    $auth_token = $_SERVER['HTTP_GUYRA_AUTH'];
+    $attempted_login_password = guyra_get_user_meta($_GET['user'], 'user_pass', true)['meta_value'];
+    $return = false;
 
-if ($_GET['log_exercise_data']) {
-  guyra_log_to_db($current_user_id, mysql_real_escape_string(file_get_contents('php://input')));
+    if ($auth_token !== $attempted_login_password) {
+      guyra_output_json('auth invalid', true);
+    }
+  } else {
+    guyra_output_json('not logged in', true);
+  }
+
 }
 
 if ($_GET['action'] == 'update_user_textareas') {
@@ -180,83 +190,8 @@ if ($_GET['update_user_picture']) {
 
 }
 
-if ($_GET['login']) {
-
-  $data = json_decode(file_get_contents('php://input'), true);
-
-  $creds = array(
-    'user_login'    => $data['user_email'],
-    'user_password' => $data['user_password'],
-    'remember'      => true
-  );
-
-  $user = Guyra_Login_User($creds, false);
-
-  if (is_wp_error($user)) {
-    guyra_output_json($user->get_error_message(), true);
-  } else {
-    guyra_output_json('true', true);
-  }
-}
-
 if ($_GET['logout']) {
-  wp_logout();
-}
-
-if ($_GET['register']) {
-
-  global $gi18n;
-
-  $data = json_decode(file_get_contents('php://input'), true);
-
-  $captchaOk = verifyGoogleCaptcha($data['captcha']);
-
-  if (!$captchaOk) {
-    guyra_output_json($gi18n['captcha_error'], true);
-  }
-
-  $creds = [
-    'user_login' => $data['user_firstname'] . generateRandomString(),
-    'user_email' => $data['user_email'],
-    'user_pass' => $data['user_password'],
-    'first_name' => $data['user_firstname'],
-    'last_name' => $data['user_lastname']
-  ];
-
-    $user = wp_insert_user($creds);
-
-    if (is_wp_error($user)) {
-      guyra_output_json($user->get_error_message(), true);
-    } else {
-
-      guyra_update_user_meta($user, 'userdata', json_encode([
-        'user_email' => $data['user_email'],
-        'mail_confirmed' => 'false',
-        'profile_picture_url' => '',
-        'first_name' => $data['user_firstname'],
-        'last_name' => $data['user_lastname'],
-        'role' => '',
-        'user_registered' => date('Y-m-d H:i:s'),
-        'user_payment_method' => '',
-        'user_subscription' => '',
-        'user_subscription_since' => '',
-        'user_subscription_expires' => '',
-        'teacherid' => '',
-        'studygroup' => '',
-        'user_meetinglink' => ''
-      ], JSON_UNESCAPED_UNICODE));
-
-      $creds = [
-        'user_login'    => $data['user_email'],
-        'user_password' => $data['user_password'],
-        'remember'      => true
-      ];
-
-      Guyra_Login_User($creds, false);
-
-      guyra_output_json('true', true);
-
-    }
+  Guyra_Logout_User();
 }
 
 if ($_GET['lost_password']) {
@@ -329,19 +264,14 @@ if ($_GET['lost_password']) {
 
 if ($_GET['get_user_data']) {
 
-  global $is_logged_in;
-
-  if ($is_logged_in) {
-    $theData = $current_user_data;
-    $theData['gamedata'] = GetUserRanking($current_user_id);
-    $theData['gamedata_raw'] = $current_user_gamedata;
-    $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
-    $theData['user_diary'] = json_decode($user_diary);
-    $theData['user_email'] = $current_user_object['user_login'];
-    $theData['is_logged_in'] = true;
-  } else {
-    $theData['is_logged_in'] = false;
-  }
+  $theData = $current_user_data;
+  $theData['gamedata'] = GetUserRanking($current_user_id);
+  $theData['gamedata_raw'] = $current_user_gamedata;
+  $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
+  $theData['user_diary'] = json_decode($user_diary);
+  $theData['user_email'] = $current_user_object['user_login'];
+  $theData['is_logged_in'] = true;
+  $theData['payments'] = $current_user_payments;
 
   guyra_output_json(json_encode($theData), true);
 
@@ -439,10 +369,184 @@ if ($_GET['redirect_meeting']) {
 if ($_GET['get_image']) {
 
   if ($_GET['size']) {
-    $size = $_GET['size'];
+
+    $sizeArray = json_decode($_GET['size']);
+
+    if (is_array($sizeArray)) {
+      $size['x'] = $sizeArray[0];
+      $size['y'] = $sizeArray[1];
+    } else {
+      $size = (int) $_GET['size'];
+    }
   } else {
     $size = 64;
   }
 
   $redirect = GetImageCache($_GET['get_image'], $size);
+}
+
+if ($_GET['proccess_payment']) {
+
+  global $gi18n;
+  global $gSettings;
+  global $current_user_id;
+  global $current_user_payments;
+
+  $thePost = json_decode(file_get_contents('php://input'), true);
+  $put = false;
+  $url = false;
+
+  if ($thePost['description'] == 'lite') {
+    $selectedPlan = $gSettings['mp_lite_planid'];
+  } elseif ($thePost['description'] == 'premium') {
+    $selectedPlan = $gSettings['mp_premium_planid'];
+  } else {
+    guyra_output_json('error invalid plan', true);
+  }
+
+  $dataToPost = [
+    'preapproval_plan_id' => $selectedPlan,
+    'card_token_id' => $thePost['token'],
+    'payer_email' => $thePost['payer']['email']
+  ];
+
+  // If user has already payed we are going to update the payment.
+  if ($current_user_payments['payment_status'] == 'approved') {
+
+    $updating = 'plan';
+    $url = '/' . $current_user_payments['processor_data']['id'];
+
+    if ($current_user_payments['payed_for'] == $thePost['description']) {
+
+      $updating = 'payment';
+      $put = true;
+
+      $dataToPost = [
+        'application_id' => $applicationId,
+        'card_token_id' => $thePost['token']
+      ];
+    }
+
+  }
+
+  // If we are updating the plan the previous one needs to be cancelled first.
+  if ($updating == 'plan') {
+
+    $cancel_ch = CreateMPcURLObject([
+      'body' => ['status' => 'cancelled'],
+      'deviceId' => $thePost['deviceId'],
+      'put' => $put,
+      'url' => $url
+    ]);
+    $res_from_cancel = curl_exec($cancel_ch);
+    curl_close($cancel_ch);
+
+    $url = false;
+
+  }
+
+  $ch = CreateMPcURLObject([
+    'body' => $dataToPost,
+    'deviceId' => $thePost['deviceId'],
+    'put' => $put,
+    'url' => $url
+  ]);
+  $response = curl_exec($ch);
+
+  $response = json_decode($response, true);
+  $response['updated'] = $updating;
+  $response['card_data'] = [
+    'issuer_id' => $thePost['issuer_id'],
+    'digits' => $thePost['card_digits']
+  ];
+
+  if ($response['status'] == 'authorized') {
+
+    $paymentData = [
+      'processor_data' => $response,
+      'processor_id' => 'MP',
+      'payment_status' => 'approved',
+      'payed_for' => $thePost['description']
+    ];
+
+    guyra_update_user_meta($current_user_id, 'payment', json_encode($paymentData, JSON_UNESCAPED_UNICODE));
+
+  }
+
+  curl_close($ch);
+  guyra_output_json($response, true);
+}
+
+if ($_GET['cancel_membership']) {
+
+  $cancel_ch = CreateMPcURLObject([
+    'body' => ['status' => 'cancelled'],
+    'deviceId' => $thePost['deviceId'],
+    'put' => true,
+    'url' => $url = '/' . $current_user_payments['processor_data']['id']
+  ]);
+
+  $response = curl_exec($cancel_ch);
+  curl_close($cancel_ch);
+
+  $paymentData = [
+    'processor_data' => $response,
+    'processor_id' => 'MP',
+    'payment_status' => 'cancelled',
+    'payed_for' => 'free'
+  ];
+
+  guyra_update_user_meta($current_user_id, 'payment', json_encode($paymentData, JSON_UNESCAPED_UNICODE));
+
+}
+
+if ($_GET['is_valid_promo']) {
+
+  $supposed_promo = $_GET['is_valid_promo'];
+  $return = false;
+
+  $promos = [
+    '13OFFGABRIEL' => [
+      'price_cut_percent' => 13,
+      'valid_until' => '30/12/2022'
+    ]
+  ];
+
+  $promos_keys = array_keys($promos);
+
+  if (in_array($supposed_promo, $promos_keys)) {
+    $return = $promos[$supposed_promo];
+  }
+
+  guyra_output_json($return, true);
+
+}
+
+if ($_GET['get_courses']) {
+
+  function createYoutubeApiPlaylistLink($key) {
+
+    global $gSettings;
+
+    $youtubeApi = [
+      'Key' => $gSettings['google_api'],
+      'Link' => 'https://www.googleapis.com/youtube/v3/'
+    ];
+
+    $r = sprintf(
+        $youtubeApi['Link'] . 'playlistItems?part=snippet&maxResults=50&playlistId=%s&key=' . $youtubeApi['Key'],
+        $key
+      );
+
+    return $r;
+  }
+
+  $coursesArray = json_decode(file_get_contents($template_dir . '/assets/json/courses.json'), true);
+
+  foreach ($coursesArray as &$current) {
+    $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));
+    $current['image'] = GuyraGetIcon('courses/' . $current['id'] . '.png');
+  }
+
+  guyra_output_json($coursesArray, true);
 }

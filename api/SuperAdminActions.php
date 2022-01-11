@@ -7,6 +7,8 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 
+Guyra_Safeguard_File();
+
 $user = $_GET['user'];
 
 // ---
@@ -16,17 +18,6 @@ if ($_GET['assigntoteacher']) {
   guyra_update_user_data($user, [
     'teacherid' => $_GET['assigntoteacher'],
     'studygroup' => ''
-  ]);
-}
-
-// ---
-// Manually give a user a subscription plan.
-// ---
-if ($_GET['subscription']) {
-  guyra_update_user_data($user, [
-    'subscription' => $_GET['subscription'],
-    'subscribed_until' => $_GET['till'],
-    'subscribed_since' => date('d-m-Y H:i:s')
   ]);
 }
 
@@ -58,7 +49,16 @@ if ($_GET['create_db']) {
 // Change a site option.
 // ---
 if ($_GET['change_option']) {
-  guyra_update_user_meta(1, $_GET['change_option'], $_GET['value']);
+
+  global $gSettings;
+  global $redirect;
+
+  $value = stripslashes($_POST["value"]);
+
+  $gSettings[$_POST['change_option']] = $value;
+
+  GuyraGetSettings(true, $gSettings);
+
 }
 
 // ---

@@ -3,7 +3,7 @@
 function ForceHTTPS() {
 	if($_SERVER["HTTPS"] != "on") {
 	    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-	    exit();
+	    exit;
 	}
 }
 
@@ -11,12 +11,20 @@ add_action('init', 'ForceHTTPS');
 
 // Define the app version.
 if (!defined('GUYRA_VERSION')) {
-	define('GUYRA_VERSION', '0.1.1');
+	define('GUYRA_VERSION', '0.1.2');
 }
 
-// Setup some globals.
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
+$cache_dir = $template_dir . '/cache';
+
+// Prevent direct execution
+include_once $template_dir . '/functions/Server.php';
+Guyra_Safeguard_File();
+
+include_once $template_dir . '/functions/Security.php';
+
+$gSettings = GuyraGetSettings();
 $current_user_id = get_current_user_id();
 $is_logged_in = is_user_logged_in();
 $is_admin = current_user_can('manage_options');
@@ -39,6 +47,19 @@ if ($is_logged_in) {
 	$current_user_data = guyra_get_user_data($current_user_id);
 	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
 	$current_user_object = build_user_object($current_user_id);
+	$current_user_payments = guyra_get_user_meta($current_user_id, 'payment', true)['meta_value'];
+	$current_user_payments = json_decode($current_user_payments, true);
+
+	if (!$current_user_payments) {
+		$current_user_payments = [
+			'status' => 'none'
+		];
+	}
+
+	// Remove the need for admins and testers to adquire a subscription.
+	if ($is_admin || ($current_user_data['role'] == 'tester')) {
+		$current_user_subscription_valid = true;
+	}
 
 	UserLoginUpdateStreakStatus($current_user_id);
 }
@@ -126,8 +147,8 @@ function prevent_wp_login() {
 	global $gi18n;
 
   if($pagenow == 'wp-login.php') {
-    wp_redirect($gi18n['account_link']);
-    exit();
+    Guyra_Redirect($gi18n['account_link']);
+    exit;;
   }
 }
 
@@ -146,7 +167,7 @@ function custom_die_handler( $message, $title="", $args = array() ) {
 	echo date('Y-m-d H:i:s');
   echo '</body></html>';
 	guyra_log_error(json_encode([$title, $message, $args['response']]));
-  die();
+  exit;;
 }
 
 // Intermediate function is necessary to customize wp_die

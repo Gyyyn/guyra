@@ -5,6 +5,7 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $current_user_data;
+global $current_user_subscription_valid;
 global $is_logged_in;
 global $gi18n;
 
@@ -15,8 +16,15 @@ include_once $template_dir . '/functions/Assets.php';
 $body_class[0] = 'logged_out';
 
 if ($is_logged_in) {
+
   $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
   $body_class[0] = 'logged_in';
+  $home_icon = 'icons/learning.png';
+
+} else {
+
+  $home_icon = 'icons/exercises/house.png';
+
 }
 
 $where_am_i = $wp->request;
@@ -24,47 +32,29 @@ $highlight_class = 'purple';
 $page_Title = $gi18n['company_name'];
 
 if ($where_am_i == '') {
+
   $body_class[] = 'home';
-}
 
-if ($where_am_i == 'practice') {
-  $body_class[] = 'practice';
-}
+} elseif ($where_am_i == 'category/blog') {
 
-if ($where_am_i == 'reference') {
-  $body_class[] = 'reference';
-}
-
-if ($where_am_i == 'category/blog') {
   $body_class[] = 'blog';
+
   if ($is_logged_in) {
     $page_Title =  $gi18n['blog'] . ' ' . $gi18n['company_name'];
   }
-}
 
-if ($where_am_i == 'account') {
+} elseif ($where_am_i == 'account') {
+
   $body_class[] = 'profile';
+
   if ($is_logged_in) {
     $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['company_name'];
   }
-}
 
-if ($where_am_i == 'schools') {
-  $body_class[] = 'schools';
-}
-
-if ($where_am_i == 'register') {
-  $body_class[] = 'register';
-}
-
-if ($where_am_i == 'courses') {
-  $body_class[] = 'courses';
-}
-
-if ($is_logged_in) {
-  $home_icon = 'icons/learning.png';
 } else {
-  $home_icon = 'icons/exercises/house.png';
+
+  $body_class[] = $where_am_i;
+
 }
 
 ?>
@@ -79,13 +69,14 @@ if ($is_logged_in) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title><?php echo $page_Title; ?></title>
+<link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">
 
 <?php // We don't want anything echoed here, but we want wp_head to do it's thing.
 ob_start();
 wp_head();
 ob_end_clean(); ?>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css">
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
 <link rel="manifest" href="/GuyraManifest.json">
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff" as="font" crossorigin>
@@ -111,17 +102,17 @@ ob_end_clean(); ?>
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo GetMinifiedAsset('css', 'main.css'); ?>" rel="stylesheet">
-<link href="<?php echo GetMinifiedAsset('css', 'animations.css'); ?>" rel="stylesheet">
-<link href="<?php echo GetMinifiedAsset('css', 'editor.css'); ?>" rel="stylesheet">
-<link href="<?php echo GetMinifiedAsset('css', 'misc.css'); ?>" rel="stylesheet">
+<link href="<?php echo GetMinifiedAsset('css', 'animations.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'input.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'editor.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'misc.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <?php if ($args['css']): ?>
-<link href="<?php echo GetMinifiedAsset('css', $args['css']); ?>" rel="stylesheet">
+<link href="<?php echo GetMinifiedAsset('css', $args['css']); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <?php endif; ?>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7198773595231701" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DCFLSY9LC7');</script>
-
 
 </head>
 
@@ -163,11 +154,14 @@ ob_end_clean(); ?>
 
         <ul class="navbar-nav justify-content-end nav-rightside">
 
-          <?php if(!$is_logged_in) { ?>
+          <?php if(!$is_logged_in):  ?>
+
           <li class="nav-item">
             <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
           </li>
-        <?php } else { ?>
+
+          <?php else: ?>
+
           <li class="nav-item profile-item">
             <div class="dropdown m-0 d-inline">
               <a class="text-decoration-none d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -177,26 +171,28 @@ ob_end_clean(); ?>
               <ul class="dropdown-menu pop-animation animate fast">
                 <li>
                   <a class="dropdown-item" href="<?php echo $gi18n['account_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/profile.png', 32); ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
                     <?php echo $gi18n['button_myaccount'] ?>
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item" href="<?php echo $gi18n['profile_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/clipboard.png', 32); ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/clipboard.png', 64); ?>">
                     <?php echo $gi18n['profile'] ?>
                   </a>
                 </li>
                 <li>
                   <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item text-danger" href="<?php echo $gi18n['logout_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/logout.png', 32); ?>">
+                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/logout.png', 64); ?>">
                     <?php echo $gi18n['logout'] ?>
                   </a>
                 </li>
               </ul>
             </div>
           </li>
-        <?php } ?>
+
+          <?php endif; ?>
+
         </ul>
       </div>
 
@@ -209,22 +205,26 @@ ob_end_clean(); ?>
     <div class="d-flex w-100 justify-content-evenly">
 
       <a class="btn-tall page-icon small home-link" href="<?php echo $gi18n['home_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache($home_icon, 32); ?>">
+        <img alt="home" src="<?php echo GetImageCache($home_icon, 64); ?>">
         <span><?php echo $gi18n['lessons'] ?></span>
       </a>
 
+      <?php if ($current_user_subscription_valid): ?>
+
       <a class="btn-tall green page-icon small practice-link" href="<?php echo $gi18n['practice_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache('icons/target.png', 32); ?>">
+        <img alt="home" src="<?php echo GetImageCache('icons/target.png', 64); ?>">
         <span><?php echo $gi18n['practice'] ?></span>
       </a>
 
       <a class="btn-tall page-icon small courses-link" href="<?php echo $gi18n['courses_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache('icons/online-learning.png', 32); ?>">
+        <img alt="home" src="<?php echo GetImageCache('icons/online-learning.png', 64); ?>">
         <span><?php echo $gi18n['courses'] ?></span>
       </a>
 
+      <?php endif; ?>
+
       <a class="btn-tall page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
-        <img alt="account" src="<?php echo GetImageCache('icons/profile.png', 32); ?>">
+        <img alt="account" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
         <span><?php echo $gi18n['profile'] ?></span>
       </a>
 

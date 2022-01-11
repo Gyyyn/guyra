@@ -25,9 +25,7 @@ if($is_logged_in) {
 
 } else {
 
-  $landing_open = guyra_get_user_meta(1, 'landing_open', true)['meta_value'];
-
-  if ($landing_open === 'true') {
+  if ($gSettings['landing_open'] == true) {
 
     include $template_dir . '/pages/Landing.php';
 

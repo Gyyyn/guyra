@@ -8,6 +8,8 @@ global $current_user_gamedata;
 global $site_url;
 global $is_admin;
 
+Guyra_Safeguard_File();
+
 $user = $_GET['user'];
 $allowedUsers = [];
 $users = get_users();

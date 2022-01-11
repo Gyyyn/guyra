@@ -175,7 +175,7 @@ get_header(null, ['css' => 'landing.css']);
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
+             <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>
@@ -193,7 +193,7 @@ get_header(null, ['css' => 'landing.css']);
                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              </ul>
-             <a href="<?php echo $gi18n['purchase_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
+             <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
            </div>
          </div>
        </div>

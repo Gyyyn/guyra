@@ -9,33 +9,7 @@ global $template_dir;
 global $site_url;
 global $is_logged_in;
 
-if (!$is_logged_in) { wp_redirect($site_url); exit; }
-
-include_once $template_dir . '/components/Icons.php';
-
-function createYoutubeApiPlaylistLink($key) {
-
-  $youtubeApi = [
-    'Key' => 'AIzaSyDDX9Zk9C-0KelHpqBOA7inVpZJnrFrDbA',
-    'Link' => 'https://www.googleapis.com/youtube/v3/'
-  ];
-
-  $r = sprintf(
-      $youtubeApi['Link'] . 'playlistItems?part=snippet&maxResults=50&playlistId=%s&key=' . $youtubeApi['Key'],
-      $key
-    );
-
-  return $r;
-}
-
-$coursesArray = json_decode(file_get_contents($template_dir . '/assets/json/courses.json'), true);
-
-foreach ($coursesArray as &$current) {
-  $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));
-  $current['image'] = GuyraGetIcon('courses/' . $current['id'] . '.png');
-}
-
-unset($current);
+Guyra_Safeguard_Access();
 
 get_header(null, ['css' => 'courses.css']);
 ?>
@@ -55,6 +29,6 @@ get_header(null, ['css' => 'courses.css']);
   </div>
 
 </main>
-<script> var coursesJson = <?php echo json_encode($coursesArray); ?></script>
+
 <?php
 get_footer(null, ['js' => 'courses.js', 'react' => true]);

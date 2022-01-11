@@ -1,3 +1,5 @@
+import('%template_url/assets/js/roadmap.js');
+
 function setCookie(cname, cvalue, exdays) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -32,3 +34,10 @@ function fileUploadTrigger(e) {
     document.getElementById('file_list').innerHTML = file_upload_input.files[0].name;
   }
 }
+
+function loadRoadmap() {
+  document.getElementById('roadmap-container').classList.remove('d-none');
+}
+
+loadRoadmapButton = document.getElementById('load-roadmap-button');
+loadRoadmapButton.onclick = loadRoadmap;

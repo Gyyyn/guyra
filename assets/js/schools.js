@@ -1,3 +1,50 @@
+let e = React.createElement;
+const rootUrl = window.location.origin.concat('/');
+var thei18n = {};
+
+function LoadingIcon(props) {
+  return e(
+    'img',
+    {
+      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+    }
+  );
+}
+
+class LoadingPage extends React.Component {
+  constructor() {
+   super();
+   this.state = {
+     message: null
+   };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        message: e(
+          'div',
+          { className: 'd-flex justify-content-center justfade-animation animate' },
+          '💭💭'
+        )
+      });
+    }, 5000);
+  }
+
+  render() {
+    return e(
+      'span',
+      {className: 'loading justfade-animation animate d-flex flex-column'},
+      e(
+        'div',
+        { className: 'd-flex justify-content-center justfade-animation animate' },
+        e(LoadingIcon),
+      ),
+      this.state.message
+    );
+  }
+}
+
 editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
 
 editHomeworkButtons.forEach((button) => {
@@ -85,27 +132,7 @@ function GetCurrentDate() {
 
 }
 
-let e = React.createElement;
-
-const rootUrl = window.location.origin.concat('/');
 const DiaryContext = React.createContext();
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-function LoadingPage(props) {
-  return e(
-    'span',
-    {className: 'loading d-flex justify-content-center pop-animation animate'},
-    e(LoadingIcon)
-  );
-}
 
 function WeekdayList(props) {
 
@@ -908,7 +935,7 @@ class Diary extends React.Component {
       saveDiary: this.saveDiary,
       deleteEntry: this.deleteEntry,
       openPayments: this.openPayments,
-      paymentArea: e('div', null, null),
+      paymentArea: null,
       addPaymentEntry: this.addPaymentEntry,
       changePaymentEntry: this.changePaymentEntry,
       deletePaymentEntry: this.deletePaymentEntry,
@@ -1035,7 +1062,7 @@ class Diary extends React.Component {
 
   componentDidMount() {
 
-    fetch(rootUrl + 'api?json=1&i18n=full')
+    fetch(rootUrl + 'api?i18n=full')
     .then(res => res.json())
     .then(json => {
       this.setState({
@@ -1045,9 +1072,9 @@ class Diary extends React.Component {
       fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
       .then(res => res.json())
       .then(data => {
-        
-        if (data[0] != false) {
-          var theJson = JSON.parse(data[0].meta_value);
+
+        if (data != false) {
+          var theJson = JSON.parse(data.meta_value);
 
           if (this.props.diarytype == 'group') {
             this.theOtherDiaries = theJson;
@@ -1102,7 +1129,7 @@ class Diary extends React.Component {
 
               setTimeout(() => {
 
-                ReactDOM.render(e('div', null, null), theDiary);
+                ReactDOM.render(null, theDiary);
                 currentEditing = false;
                 diaryOpeners.forEach((item) => {
                   item.classList.remove('disabled');

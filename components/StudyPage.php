@@ -152,8 +152,8 @@ function RenderReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
       }
     ).then(res => res.json())
     .then(res => {
-      if (res[0] != 'true') {
-        console.log(res[0]);
+      if (res != 'true') {
+        console.log(res);
       } else {
         if (easyMDE) {
           easyMDE.value('');
