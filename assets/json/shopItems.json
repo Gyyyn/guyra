@@ -1,0 +1,28 @@
+{
+
+  "jackpot": {
+    "name": "Roleta",
+    "price": "10",
+    "image": "icons/jackpot-machine.png",
+    "description": "Tenha a chance de ganhar um item raro!",
+    "description_full": "Você pode ganhar um dos seguites items: ...",
+    "pin": true
+  },
+
+  "profile_pack1": {
+    "name": "Pacote de perfil: Básico",
+    "price": "10",
+    "image": "icons/avatars/boy.png",
+    "description": "Quatro avatares!",
+    "description_full": "Os quatro avatares que você vê na area de exercícios pra você usar no site."
+  },
+
+  "profile_pack_flags": {
+    "name": "Pacote de perfil: Bandeirias",
+    "price": "50",
+    "image": "icons/brazil-flag.png",
+    "description": "Bandeiras de perfil!",
+    "description_full": "Destrave várias bandeiras para usar no seu perfil."
+  }
+
+}

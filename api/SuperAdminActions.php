@@ -67,7 +67,6 @@ if ($_GET['change_option']) {
 if ($_GET['create_page'] == "all") {
 
   $posts = [
-    'Register',
     'Practice',
     'Work With Us',
     'Privacy Policy',
@@ -75,12 +74,13 @@ if ($_GET['create_page'] == "all") {
     'Schools',
     'Terms',
     'Thanks',
-    'Questions',
+    'FAQ',
     'Purchase',
-    'Classroom',
     'Courses',
-    'Comment',
     'Account',
+    'API',
+    'News',
+    'Shop'
   ];
 
   $post_data = array(

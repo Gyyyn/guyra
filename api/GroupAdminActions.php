@@ -70,7 +70,7 @@ if ($_GET['meetinglink']) {
 // Remove an user from a group.
 // ---
 if ($_GET['cleargroup']) {
-  guyra_update_user_data($user, 'studygroup', '');
+  guyra_update_user_data($user, 'studygroup', null);
 }
 
 // ---

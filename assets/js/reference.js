@@ -2,444 +2,1031 @@ let e = React.createElement;
 const rootUrl = window.location.origin.concat('/');
 var thei18n = {};
 
-function regularTransform(x) {
-  let verbs = document.getElementsByClassName("regular-verb");
-  let pronoun = document.getElementById("pronoun-input").value.toLowerCase();
-  let pronouns = document.getElementsByClassName("pronoun");
-  let aux = document.getElementsByClassName("aux");
-  x = x.toLowerCase();
-  let x2 = "";
-  matchCons = new RegExp("[bcdfghjklmnpqrstvwxyz]");
-  matchVowel = new RegExp("[aeiou]");
-  matchY = new RegExp("[y]");
-  matchSib = new RegExp("[sc]");
+function LoadingIcon(props) {
+  return e(
+    'img',
+    {
+      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+    }
+  );
+}
 
-  for (var i = 0; i < pronouns.length; i++) {
-    pronouns[i].innerHTML = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+class LoadingPage extends React.Component {
+  constructor() {
+   super();
+   this.state = {
+     message: null
+   };
   }
 
-  // Pronoun auxiliary stuff
-  for (var i = 0; i < aux.length; i++) {
-
-    // for present to be
-    if (i == 0 || i == 2 || i == 3) {
-
-      if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
-        aux[i].innerHTML = "is";
-      } else if (pronoun == "i") {
-        aux[i].innerHTML = "am";
-      } else {
-        aux[i].innerHTML = "are";
-      }
-
-    }
-
-    // for past to be
-    if (i == 1) {
-
-      if(pronoun == "we" || pronoun == "they") {
-        aux[i].innerHTML = "were";
-      } else {
-        aux[i].innerHTML = "was";
-      }
-
-    }
-
-    if (i == 4) {
-
-      if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
-        aux[i].innerHTML = "has";
-      } else {
-        aux[i].innerHTML = "have";
-      }
-
-    }
-
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        message: e(
+          'div',
+          { className: 'd-flex justify-content-center justfade-animation animate' },
+          '💭💭'
+        )
+      });
+    }, 5000);
   }
 
-  for (var i = 0; i < verbs.length; i++) {
-
-    verbs[i].innerHTML = x;
-
-    // Third person s
-    if(i == 1) {
-      if(pronoun == "he" || pronoun == "she" || pronoun == "it") {
-
-        if ( (matchSib.test(x[x.length - 2]) && matchCons.test(x[x.length - 1])) || (x[x.length - 1] == "o" || x[x.length - 1] == "x") ) {
-          verbs[i].innerHTML = x.concat("es");
-        } else {
-          verbs[i].innerHTML = x.concat("s");
-        }
-
-      }
-    }
-
-    // consonant y ending words get an i
-    if(i == 0 || i == 8 || i == 9 || i == 10) {
-
-      // Test for consonant + y
-      if ( matchCons.test(x[x.length - 2]) && matchY.test(x[x.length - 1]) ) {
-        x2 = x;
-        x2 = x2.replace(matchY, "i")
-        verbs[i].innerHTML = x2;
-      }
-    }
-
-    // if verb ends with e it is trimmed except on positions 1 2 3
-    if(x[x.length - 1] == "e") {
-      if(i != 1 && i != 2 && i != 3) {
-        verbs[i].innerHTML = x.slice(0, x.length - 1);
-      }
-    }
-
-    // CVC words get consonant doubling on pos 0 8 9 10
-    if (i == 0 || i == 8 || i == 9 || i == 10) {
-      if (x.length <= 4) {
-        if( matchCons.test(x[x.length - 3]) && matchVowel.test(x[x.length - 2]) && matchCons.test(x[x.length - 1]) ) {
-          if (x[x.length - 1] != "x") {
-            verbs[i].innerHTML = x.concat(x[x.length - 1]);
-          }
-        }
-      }
-    }
-
+  render() {
+    return e(
+      'span',
+      {className: 'loading justfade-animation animate d-flex flex-column'},
+      e(
+        'div',
+        { className: 'd-flex justify-content-center justfade-animation animate' },
+        e(LoadingIcon),
+      ),
+      this.state.message
+    );
   }
 }
 
-dictionarySubmit = document.getElementById('dictionary-submit');
-dictionarySubmit.onclick = dictionarySubmitTrigger;
-dictionaryInput = document.getElementById('dictionary-word');
-dictionaryInput.onkeydown = (i) => {
-  if (i.keyCode === 13) {
-    i.preventDefault();
-    dictionarySubmitTrigger();
+const ReferenceContext = React.createContext();
+
+function Irregulars_WordListing_wordRow(props) {
+
+  var rowExtraClass = '';
+
+  if (props.inset) {
+    rowExtraClass = ' mt-1 ms-3'
   }
+
+  return e(
+    'div',
+    { className: 'wordlist-word d-flex flex-row word-list-item' + rowExtraClass },
+    props.wordlist.map((item, i) => {
+
+      var theWord;
+      var rowExtraClass = '';
+
+      if (Array.isArray(item)) {
+        theWord = item.join(', ');
+      } else {
+        theWord = item;
+      }
+
+      if (i === 0) {
+        rowExtraClass = ' fw-bold';
+      }
+
+      return e('span', { className: 'wordlist-wordtense me-2' + rowExtraClass }, theWord);
+
+    })
+  );
+
 }
 
-function ReplaceAllLinks() {
+class Irregulars_WordListing extends React.Component {
+  constructor(props) {
+    super(props);
 
-  allLinks = document.querySelectorAll('#the-definition-content a');
+    this.submeanings = [];
 
-  allLinks.forEach((item) => {
+    if (Array.isArray(this.props.word.submeanings)) {
+      this.submeanings = this.props.word.submeanings;
+    }
 
-    itemUrlSplit = item.href.split('wiki');
-    urlToReplaceWIth = 'https://en.wiktionary.org/';
+  }
 
-    if(itemUrlSplit[0] == rootUrl) {
+  render() {
 
-      itemUrlSplit[0] = urlToReplaceWIth;
-      itemUrlSplitSecondHalf = itemUrlSplit[1].split('#');
+    var rowExtraClass = '';
 
-      if (itemUrlSplitSecondHalf[1] == 'English' || itemUrlSplitSecondHalf.length == 1) {
+    if (this.props.search !== '') {
 
-        if (itemUrlSplitSecondHalf.length == 1 && itemUrlSplitSecondHalf[0].split(':').length != 1) {
+      var matchword = new RegExp("(" + this.props.search + ")");
 
-          // console.log(itemUrlSplitSecondHalf);
+      if (!matchword.test(this.props.word.word.present.toLowerCase())) {
+        rowExtraClass = ' d-none';
+      }
 
-        } else {
+    }
 
-          item.onclick = (i) => {
-            window.scrollTo(0, 0);
-            i.preventDefault();
-            dictionaryInput.value = item.title;
-            dictionarySubmitTrigger();
+    return e(
+      'div',
+      { className: 'd-flex flex-column word-list py-2 text-n' + rowExtraClass },
+      e(Irregulars_WordListing_wordRow, { wordlist: Object.values(this.props.word.word) }),
+      this.submeanings.map(word => {
+        return e(Irregulars_WordListing_wordRow, { wordlist: word, inset: true });
+      })
+    );
+  }
+
+}
+
+class Irregulars_wrapper extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: '',
+    }
+
+  }
+
+  setSearch(query) {
+
+    this.setState({ search: query });
+
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex flex-column' },
+      e(ReferenceContext.Consumer, null, ({i18n}) => e(
+        'div',
+        { className: 'dialog-box mb-3' },
+        i18n.search + ': ',
+        e(
+          'input',
+          {
+            onChange: (e) => {
+              this.setSearch(e.target.value);
+            },
+            value: this.state.search
           }
+        )
+      )),
+      e(ReferenceContext.Consumer, null, ({irregularsObject}) => irregularsObject.map(word => {
+        return e(Irregulars_WordListing, { word: word, search: this.state.search });
+      }))
+    );
+  }
 
+}
+
+function Phrasals_WordListing(props) {
+
+  var rowExtraClass = '';
+
+  if (props.search !== '') {
+
+    var matchword = new RegExp("(" + props.search + ")");
+
+    if (!matchword.test(props.word.word.toLowerCase())) {
+      rowExtraClass = ' d-none';
+    }
+
+  }
+
+  return e(
+    'div',
+    { className: 'd-flex flex-row row word-list-item' + rowExtraClass },
+    e('span', { className: 'col-auto fw-bold me-2' }, props.word.word),
+    e('span', { className: 'col' }, props.word.meaning),
+  );
+}
+
+class Phrasals_wrapper extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: '',
+    }
+  }
+
+  setSearch(query) {
+    this.setState({ search: query });
+  }
+
+  render() {
+    return e(
+      'div',
+      {},
+      e(ReferenceContext.Consumer, null, ({i18n}) => e(
+        'div',
+        { className: 'dialog-box mb-3' },
+        i18n.search + ': ',
+        e(
+          'input',
+          {
+            onChange: (e) => {
+              this.setSearch(e.target.value);
+            },
+            value: this.state.search
+          }
+        )
+      )),
+      e(ReferenceContext.Consumer, null, ({phrasalsObject}) => e(
+        'div',
+        { className: 'phrasals word-list' },
+        phrasalsObject.map(word => {
+          return e(Phrasals_WordListing, { word: word, search: this.state.search });
+        })
+      ))
+    );
+  }
+
+}
+
+function GrammaticalTime_ListingSection_item(props) {
+
+  // Upper case pronouns.
+  var thePronoun = props.RowPronoun.charAt(0).toUpperCase() + props.RowPronoun.slice(1);
+  var auxRowExtraClass = '';
+
+  if (!props.RowAux) {
+    auxRowExtraClass = ' d-none';
+  }
+
+  return e(
+    'li',
+    { className: 'list-group-item d-flex' },
+    e('span', { className: 'col-md-3 text-end text-grey-darkest me-2' }, props.RowTitle + ': '),
+    e('span', { className: 'col-md-7 fw-bold text-black' },
+      e('span', { className: 'pronoun me-1' }, thePronoun),
+      e('span', { className: 'aux me-1' + auxRowExtraClass }, props.RowAux),
+      e('span', { className: 'verb me-1' }, props.RowVerb)
+    )
+  );
+}
+
+function GrammaticalTime_ListingSection(props) {
+
+  var theVerb = props.verb;
+  var thePronoun = props.pronoun;
+
+  // Make sure we have at least empty strings so no errors occur.
+  if (!theVerb) { theVerb = ''; }
+  if (!thePronoun) { thePronoun = ''; }
+
+  var theVerbEssed = theVerb;
+  var theVerbPast = theVerb + 'ed';
+  var theVerbModBase = theVerb;
+  var theAux = '';
+  var theAuxBe = '';
+  var theAuxBePast = '';
+  var theAuxPast = '';
+  var theAuxFuture = 'will';
+  var items = [];
+  var x2 = '';
+  var matchCons = new RegExp("[bcdfghjklmnpqrstvwxyz]");
+  var matchVowel = new RegExp("[aeiou]");
+  var matchY = new RegExp("[y]");
+  var matchSib = new RegExp("[sc]");
+  var theVerbPastParticiple = theVerbPast;
+  var theIrregulars = [];
+  thePronoun = thePronoun.toLowerCase();
+
+  // Consonat + Vowel endings
+  if (theVerb.length <= 4) {
+    if ( matchCons.test(theVerb[theVerb.length - 3]) && matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
+      if (theVerb[theVerb.length - 1] != "x" || theVerb[theVerb.length - 1] != "x") {
+        if (theVerb !== '') {
+          theVerbPast = theVerb.concat(theVerb[theVerb.length - 1]);
+        }
+      }
+    }
+  }
+
+  // Test for consonant + y
+  if ( matchCons.test(theVerb[theVerb.length - 2]) && matchY.test(theVerb[theVerb.length - 1]) ) {
+    theVerbEssed = theVerb.replace(matchY, "ie");
+    theVerbPast = theVerbPast.replace(matchY, "i");
+    theVerbPastParticiple = theVerbPastParticiple.replace(matchY, "i");
+  }
+
+  // E ending
+  if(theVerb[theVerb.length - 1] == "e") {
+    theVerbModBase = theVerb.slice(0, theVerb.length - 1);
+    theVerbPast = theVerbModBase + 'ed';
+    theVerbPastParticiple = theVerbModBase + 'ed';
+  }
+
+  // Irregulars
+  if (props.irregulars != undefined) {
+    theIrregulars = props.irregulars;
+  }
+
+  theIrregulars.forEach((item, i) => {
+
+    var theSubmeanings = [];
+
+    if (item.submeanings != undefined) {
+      theSubmeanings = item.submeanings;
+    }
+
+    if (item.word.present == props.verb) {
+      theVerbPast = item.word.past;
+      theVerbPastParticiple = item.word.past_participle;
+    }
+
+    theSubmeanings.forEach((item, i) => {
+      if (item[0] == props.verb) {
+
+        if (Array.isArray(item[1])) {
+          theVerbPast = item[1][0];
+        } else {
+          theVerbPast = item[1];
+        }
+
+        if (Array.isArray(item[2])) {
+          theVerbPastParticiple = item[2][0];
+        } else {
+          theVerbPastParticiple = item[2];
         }
 
       }
-
-      item.href = itemUrlSplit.join('wiki');
-    }
-
-    if (itemUrlSplit.length == 1) {
-      itemUrlSplit = item.href.split('w');
-      itemUrlSplit[0] = urlToReplaceWIth;
-      item.href = itemUrlSplit.join('w');
-    }
+    });
 
   });
 
+  if(thePronoun == "he" || thePronoun == "she" || thePronoun == "it") {
+    theAuxBe = "is";
+  } else if (thePronoun == "i") {
+    theAuxBe = "am";
+  } else {
+    theAuxBe = "are";
+  }
+
+  if(thePronoun == "we" || thePronoun == "they") {
+    theAuxBePast = "were";
+  } else {
+    theAuxBePast = "was";
+  }
+
+  if (props.GrammarTitle == 'Simple') {
+
+    if(thePronoun == "he" || thePronoun == "she" || thePronoun == "it") {
+
+      if (
+        (matchSib.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1])) ||
+        (theVerb[theVerb.length - 1] == "o" || theVerb[theVerb.length - 1] == "x")
+      ) {
+        theVerbEssed = theVerbEssed.concat("es");
+      } else {
+        theVerbEssed = theVerbEssed.concat("s");
+      }
+
+    } else {
+      theVerbEssed = theVerb;
+    }
+
+    items = [
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Present ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAux,
+        RowVerb: theVerbEssed,
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Past ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxPast,
+        RowVerb: theVerbPast,
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Future ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxFuture + '/' + theAuxBe + ' going to',
+        RowVerb: theVerb,
+      }),
+    ]
+  }
+
+  if (props.GrammarTitle == 'Continuous') {
+
+    items = [
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Present ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxBe,
+        RowVerb: theVerbModBase + 'ing',
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Past ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxBePast,
+        RowVerb: theVerbModBase + 'ing',
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Future ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxFuture + ' be',
+        RowVerb: theVerbModBase + 'ing',
+      }),
+    ]
+  }
+
+  if (props.GrammarTitle == 'Perfect') {
+
+    if(thePronoun == "he" || thePronoun == "she" || thePronoun == "it") {
+      theAux = "has";
+    } else {
+      theAux = "have";
+    }
+
+    items = [
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Present ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAux,
+        RowVerb: theVerbPastParticiple,
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Past ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: 'had',
+        RowVerb: theVerbPastParticiple,
+      }),
+      e(GrammaticalTime_ListingSection_item, {
+        RowTitle: 'Future ' + props.GrammarTitle,
+        RowPronoun: thePronoun,
+        RowAux: theAuxFuture + ' have',
+        RowVerb: theVerbPastParticiple,
+      }),
+    ]
+  }
+
+  return e(
+    'ul',
+    { className: 'list-group list-group border-0 m-0 mb-3' },
+    items
+  );
 }
 
-function dictionarySubmitTrigger(e) {
+class GrammaticalTime extends React.Component {
+  constructor(props) {
+    super(props);
 
-  dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
-  dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
+    this.defaultVerb = 'study';
+    this.defaultPronoun = 'I';
 
-  var TheWord = dictionaryInput.value;
-  var TheWordElement = document.getElementById('dictionary-the-word');
-  var TheContent = document.querySelector('#the-definition-content');
+    this.state = {
+      verb: this.defaultVerb,
+      pronoun: this.defaultPronoun,
+    };
+  }
 
-  var naughty = new RegExp('(vagina)|(condom)|(circumcised)|(ejaculation)|(ejaculate)|(erection)|(erect)|(pubic)|(cum)|(pubes)|(bollock)|(vulva)|(clit)|(sex)|(penis)|(phallus)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
+  setValues(values) {
 
-  if (naughty.test(TheWord)) {
+    // if (!values.verb) {
+    //   values.verb = this.defaultVerb;
+    // }
+    //
+    // if (!values.pronoun) {
+    //   values.pronoun = this.defaultPronoun;
+    // }
 
-    TheContent.innerHTML = 'Este conteúdo foi determinado impróprio para ser mostrado.';
-    TheContent.classList.add('animate');
+    this.setState(values)
 
-  } else {
+  }
 
-  var TheImagesHTML = document.getElementById('the-images');
-  var TheControls = document.getElementById('the-controls');
+  render() {
+    return e(ReferenceContext.Consumer, null, ({i18n, irregularsObject}) => e(
+      'div',
+      { className: 'grammar-reference' },
+      [
+        e(
+          'div',
+          { className: 'd-flex flex-column flex-md-row justify-content-around align-items-center mb-3' },
+          e(
+            'span',
+            { className: 'dialog-box info p-3 more-rounded' },
+            e('span', { className: 'me-2' }, i18n.pronoun),
+            e('input', { id: 'pronoun-input', type: 'text', value: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
+          ),
+          e(
+            'span',
+            { className: 'dialog-box info p-3 more-rounded' },
+            e('span', { className: 'me-2' }, i18n.verb),
+            e('input', { id: 'verb-input', type: 'text', value: this.state.verb, onChange: (e) => { this.setValues({ verb: e.target.value }); } })
+          )
+        ),
+        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Simple', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Continuous', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Perfect', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+      ]
+    ));
+  }
+}
 
-  TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
-  TheWordElement.classList.remove('d-none');
-  TheWordElement.classList.remove('animate');
-  TheImagesHTML.classList.remove('animate');
-  TheContent.classList.remove('animate');
+class Dictionary extends React.Component {
+  constructor(props) {
+    super(props);
 
-  var DictionaryBaseUrl = 'https://en.wiktionary.org/w/api.php?action=parse&origin=*&format=json&page=';
-  var LookUp = DictionaryBaseUrl.concat(TheWord);
+  }
 
-  fetch(LookUp)
-      .then(function(response) { return response.json() })
-      .then(function(json) {
+  componentDidMount() {
+    this.dictionaryInput = document.getElementById('dictionary-word');
+    this.dictionaryInput.onkeydown = (i) => {
+      if (i.keyCode === 13) {
+        i.preventDefault();
+        this.conceptFetch(this.getInputWord());
+      }
+    }
+  }
 
-          var parser = new DOMParser();
-          var numberOfInterest = -1;
-          sections = [];
-          doc = json.parse;
-          theHTML = '';
-          lastItemNext = {};
+  getInputWord() {
+    return this.dictionaryInput.value;
+  }
 
-          if (json.error != undefined) {
+  conceptFetch(submittedWord) {
 
-            console.log(json.error.info);
+    this.dictionarySubmit = document.getElementById('dictionary-submit');
+    var dictionarySubmitPreviousInnerHTML = this.dictionarySubmit.innerHTML;
+    this.dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-            var upperCaseRegex = new RegExp('[A-Z]+');
+    var TheWord = submittedWord;
+    var TheWordElement = document.getElementById('dictionary-the-word');
+    var TheContent = document.querySelector('#the-definition-content');
+    var sections = [];
+    var doc;
+    var theHTML = '';
+    var lastItemNext = {};
+    var fullText;
+    var findHTML;
 
-            theHTML = theHTML + '<h2>Erro:</h2>';
-            theHTML = theHTML + '<p>Palavra não encontrada.</p>';
+    var naughty = new RegExp('(vagina)|(condom)|(circumcised)|(ejaculation)|(ejaculate)|(erection)|(erect)|(pubic)|(cum)|(pubes)|(bollock)|(vulva)|(clit)|(sex)|(penis)|(phallus)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
 
-            if (upperCaseRegex.test(TheWord.split('')[0])) {
-              theHTML = theHTML + '<p>Este dicionário diferencia entre letras maiúsculas e minúsculas. Que tal tentar <a class="btn-tall blue" id="retry-word">' + TheWord.toLowerCase() + '</a>?</p>';
-            }
+    if (naughty.test(TheWord)) {
 
-            TheWordElement.classList.add('d-none');
+      TheContent.innerHTML = 'Este conteúdo foi determinado impróprio para ser mostrado.';
+      TheContent.classList.add('animate');
 
-          } else {
+    } else {
 
-          var wikidataBaseUrl = 'https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&languages=en&format=json&origin=*&titles=';
-          var wikidataImageQueryUrl = 'https://www.wikidata.org/w/api.php?action=query&prop=images&format=json&origin=*&titles=';
-          var wikimediaCommonsQueryUrl = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=images&imlimit=3&redirects=1&titles=';
-          var wikidataImageRedirectUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/';
-          var concept = wikidataBaseUrl + TheWord;
-          var images = [];
-          var imagesHTML = '';
+    var TheImagesHTML = document.getElementById('the-images');
+    var TheControls = document.getElementById('the-controls');
 
-          TheImagesHTML.innerHTML = '';
+    TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
+    TheWordElement.classList.remove('d-none');
+    TheWordElement.classList.remove('animate');
+    TheImagesHTML.classList.remove('animate');
+    TheContent.classList.remove('animate');
 
-          fetch(concept)
-          .then(function(response) { return response.json() })
-          .then(function(json) {
+    var DictionaryBaseUrl = 'https://en.wiktionary.org/w/api.php?action=parse&origin=*&format=json&page=';
+    var LookUp = DictionaryBaseUrl.concat(TheWord);
 
-            var firstConcept = json.entities[Object.keys(json.entities)[0]];
+    fetch(LookUp)
+        .then(function(response) { return response.json() })
+        .then(function(json) {
 
-            if (firstConcept.missing == '') {
-              TheWord = TheWord.charAt(0).toUpperCase() + TheWord.slice(1);
-              concept = wikidataBaseUrl + TheWord;
+            var parser = new DOMParser();
+            var numberOfInterest = -1;
+            doc = json.parse;
 
-              fetch(concept)
-              .then(function(response) { return response.json() })
-              .then(function(json) {
+            if (json.error != undefined) {
 
-                firstConcept = json.entities[Object.keys(json.entities)[0]];
+              console.log(json.error.info);
 
-                if (firstConcept.missing != '') {
+              var upperCaseRegex = new RegExp('[A-Z]+');
 
-                  concept = wikidataImageQueryUrl + firstConcept.title;
+              theHTML = theHTML + '<h2>Erro:</h2>';
+              theHTML = theHTML + '<p>Palavra não encontrada.</p>';
 
-                  fetch(concept)
-                  .then(function(response) { return response.json() })
-                  .then(function(json) {
+              if (upperCaseRegex.test(TheWord.split('')[0])) {
+                theHTML = theHTML + '<p>Este dicionário diferencia entre letras maiúsculas e minúsculas. Que tal tentar <a class="btn-tall blue" id="retry-word">' + TheWord.toLowerCase() + '</a>?</p>';
+              }
 
-                    try {
+              TheWordElement.classList.add('d-none');
 
-                      Object.values(json.query.pages).forEach((item) => {
+            } else {
 
-                        Object.values(item.images).forEach((image) => {
-                          images.push(image.title);
-                        });
+            var wikidataBaseUrl = 'https://www.wikidata.org/w/api.php?action=wbgetentities&sites=enwiki&languages=en&format=json&origin=*&titles=';
+            var wikidataImageQueryUrl = 'https://www.wikidata.org/w/api.php?action=query&prop=images&format=json&origin=*&titles=';
+            var wikimediaCommonsQueryUrl = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=images&imlimit=3&redirects=1&titles=';
+            var wikidataImageRedirectUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/';
+            var concept = wikidataBaseUrl + TheWord;
+            var images = [];
+            var imagesHTML = '';
 
+            TheImagesHTML.innerHTML = '';
 
-                      });
+            fetch(concept)
+            .then(function(response) { return response.json() })
+            .then(function(json) {
 
-                      images.forEach((image) => {
+              var firstConcept = json.entities[Object.keys(json.entities)[0]];
 
-                        ext = image.slice(-3);
+              if (firstConcept.missing == '') {
+                TheWord = TheWord.charAt(0).toUpperCase() + TheWord.slice(1);
+                concept = wikidataBaseUrl + TheWord;
 
-                        if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
-                          imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
-                        }
+                fetch(concept)
+                .then(function(response) { return response.json() })
+                .then(function(json) {
 
-                      });
+                  firstConcept = json.entities[Object.keys(json.entities)[0]];
 
-                    } catch (e) {
+                  if (firstConcept.missing != '') {
 
-                      console.log('No image found on wikidata');
+                    concept = wikidataImageQueryUrl + firstConcept.title;
 
-                    }
+                    fetch(concept)
+                    .then(function(response) { return response.json() })
+                    .then(function(json) {
 
-                    if (imagesHTML == '') {
+                      try {
 
-                      concept = wikimediaCommonsQueryUrl + TheWord;
+                        Object.values(json.query.pages).forEach((item) => {
 
-                      fetch(concept)
-                      .then(function(response) { return response.json() })
-                      .then(function(json) {
-
-                        try {
-
-                          Object.values(json.query.pages).forEach((item) => {
-
-                            Object.values(item.images).forEach((image) => {
-                              images.push(image.title);
-                            });
-
-                            images.forEach((image) => {
-
-                              ext = image.slice(-3);
-
-                              if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
-                                imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
-                              }
-
-                            });
-
-                            TheImagesHTML.innerHTML = imagesHTML;
-
+                          Object.values(item.images).forEach((image) => {
+                            images.push(image.title);
                           });
 
-                        } catch (e) {
-                          console.log('No image found on wikimedia commons');
-                        }
 
-                      });
+                        });
 
-                    }
+                        images.forEach((image) => {
 
-                    TheImagesHTML.innerHTML = imagesHTML;
-                    TheImagesHTML.classList.add('animate');
+                          var ext = image.slice(-3);
 
-                  })
+                          if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
+                            imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                          }
 
-                }
+                        });
 
-              })
+                      } catch (e) {
 
-            }
+                        console.log('No image found on wikidata');
 
-          })
+                      }
 
-          doc.sections.forEach((item) => {
+                      if (imagesHTML == '') {
 
-            var currentItemNumberSuper = item.number.split('.')[0];
+                        concept = wikimediaCommonsQueryUrl + TheWord;
 
-            if (item.line == 'English') {
-              numberOfInterest = currentItemNumberSuper;
-            }
+                        fetch(concept)
+                        .then(function(response) { return response.json() })
+                        .then(function(json) {
 
-            if (currentItemNumberSuper == numberOfInterest) {
-              sections.push(item);
-            }
+                          try {
 
-            if (item.number == parseInt(numberOfInterest) + 1) {
-              lastItemNext = item;
-            }
+                            Object.values(json.query.pages).forEach((item) => {
 
-          });
+                              Object.values(item.images).forEach((image) => {
+                                images.push(image.title);
+                              });
 
-          fullText = parser.parseFromString(json.parse.text['*'], "text/html");
+                              images.forEach((image) => {
 
-          sections.forEach((item, i) => {
+                                var ext = image.slice(-3);
 
-            findHTML = fullText.getElementById(item.anchor).parentElement;
-            var nextElement = sections[i + 1];
+                                if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
+                                  imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                                }
 
-            if (nextElement == undefined) {
-              nextElement = lastItemNext;
-            }
+                              });
 
-            var NextHTML = fullText.getElementById(nextElement.anchor);
+                              TheImagesHTML.innerHTML = imagesHTML;
 
-            if (NextHTML != null) {
-              var findNextHTML = fullText.getElementById(nextElement.anchor).parentElement;
-            }
+                            });
 
-            var sibling = findHTML.nextElementSibling;
-            var output = '';
+                          } catch (e) {
+                            console.log('No image found on wikimedia commons');
+                          }
 
-            theHTML = theHTML + '<div id="' + item.line + '" class="section ' + item.line + '">'
+                        });
 
-            if (findHTML != findNextHTML) {
+                      }
 
-              while(findNextHTML != sibling) {
+                      TheImagesHTML.innerHTML = imagesHTML;
+                      TheImagesHTML.classList.add('animate');
 
-                output = output + sibling.outerHTML;
-                sibling = sibling.nextElementSibling;
+                    })
+
+                  }
+
+                })
 
               }
 
+            })
+
+            doc.sections.forEach((item) => {
+
+              var currentItemNumberSuper = item.number.split('.')[0];
+
+              if (item.line == 'English') {
+                numberOfInterest = currentItemNumberSuper;
+              }
+
+              if (currentItemNumberSuper == numberOfInterest) {
+                sections.push(item);
+              }
+
+              if (item.number == parseInt(numberOfInterest) + 1) {
+                lastItemNext = item;
+              }
+
+            });
+
+            fullText = parser.parseFromString(json.parse.text['*'], "text/html");
+
+            sections.forEach((item, i) => {
+
+              findHTML = fullText.getElementById(item.anchor).parentElement;
+              var nextElement = sections[i + 1];
+
+              if (nextElement == undefined) {
+                nextElement = lastItemNext;
+              }
+
+              var NextHTML = fullText.getElementById(nextElement.anchor);
+
+              if (NextHTML != null) {
+                var findNextHTML = fullText.getElementById(nextElement.anchor).parentElement;
+              }
+
+              var sibling = findHTML.nextElementSibling;
+              var output = '';
+
+              theHTML = theHTML + '<div id="' + item.line + '" class="section ' + item.line + '">'
+
+              if (findHTML != findNextHTML) {
+
+                while(findNextHTML != sibling) {
+
+                  output = output + sibling.outerHTML;
+                  sibling = sibling.nextElementSibling;
+
+                }
+
+              }
+
+              if (item.anchor != 'English') {
+                findHTML.removeChild(findHTML.children[1])
+                theHTML = theHTML + findHTML.outerHTML;
+              }
+
+              theHTML = theHTML + output;
+
+              theHTML = theHTML + '</div>'
+
+            });
+
+          } // End error catcher else
+
+          TheWordElement.innerHTML = TheWord;
+          TheWordElement.classList.add('animate');
+          TheContent.innerHTML = theHTML;
+          TheContent.classList.add('animate');
+          TheControls.classList.remove('d-none');
+          TheControls.classList.add('d-flex');
+
+          ReplaceAllLinks();
+
+          var retryWord = document.getElementById('retry-word');
+
+          if (retryWord != undefined) {
+            retryWord.href = '';
+            retryWord.onclick = (e) => {
+              e.preventDefault();
+              document.getElementById('dictionary-word').value = TheWord.toLowerCase();
+              document.getElementById('dictionary-submit').click();
             }
-
-            if (item.anchor != 'English') {
-              findHTML.removeChild(findHTML.children[1])
-              theHTML = theHTML + findHTML.outerHTML;
-            }
-
-            theHTML = theHTML + output;
-
-            theHTML = theHTML + '</div>'
-
-          });
-
-        } // End error catcher else
-
-        TheWordElement.innerHTML = TheWord;
-        TheWordElement.classList.add('animate');
-        TheContent.innerHTML = theHTML;
-        TheContent.classList.add('animate');
-        TheControls.classList.remove('d-none');
-        TheControls.classList.add('d-flex');
-
-        ReplaceAllLinks();
-
-        var retryWord = document.getElementById('retry-word');
-
-        if (retryWord != undefined) {
-          retryWord.href = '';
-          retryWord.onclick = (e) => {
-            e.preventDefault();
-            document.getElementById('dictionary-word').value = TheWord.toLowerCase();
-            document.getElementById('dictionary-submit').click();
           }
-        }
+
+        });
+
+      }
+
+      this.dictionarySubmit.innerHTML = this.dictionarySubmitPreviousInnerHTML;
+
+  }
+
+  render() {
+    return e(ReferenceContext.Consumer, null, ({i18n}) => [
+      e(
+        'div',
+        { className: 'the-header' },
+        e('h1', { className: 'text-primary text-center mb-3' },
+          e(
+            'div',
+            { className: 'd-inline-flex flex-column justify-content-center' },
+            e('span', {}, i18n.dictionary),
+            e('span', { className: 'd-flex justify-content-end text-n' }, 'By ' + i18n.company_name),
+          )
+        ),
+        e(
+          'div',
+          { className: 'd-flex flex-row align-items-center justify-content-center mt-1 mb-5' },
+          e('input', { autocapitalize: "off", id: "dictionary-word", className: "form-control w-75 me-3", type: "text", placeholder: i18n.write_word_here }),
+          e('button', { className: 'btn-tall blue', id: 'dictionary-submit', onClick: () => { this.conceptFetch(this.getInputWord()); } }, e('i', { className: 'bi bi-search' }))
+        )
+      ),
+      e(
+        'div',
+        { className: 'the-definition' },
+        e('h1', { className: 'text-center border-0 mb-3' }, e(
+          'span',
+          {
+            id: 'dictionary-the-word',
+            className: 'bg-primary more-rounded text-white px-3 d-none pop-animation'
+          },
+          null
+        )),
+        e('div', { id: 'the-images', className: 'the-images d-flex flex-row my-5 pop-animation' }, null),
+        e('div', { id: 'the-definition-content', className: 'text-small justfade-animation' })
+      ),
+      e(
+        'div',
+        { className: 'cc-warning border-top text-smaller text-muted pt-1 mt-3 text-center' },
+        i18n.cc_warning
+      )
+    ]);
+  }
+}
+
+function Reference_Topbar_buttonImage(props) {
+  return  e(ReferenceContext.Consumer, null, ({i18n}) => e(
+    'span',
+    { className: 'menu-icon me-1' },
+    e('img',
+      { className: 'page-icon tiny', src: i18n.api_link + '?get_image=' + props.image + '&size=32' }
+    )
+  ));
+}
+
+function Reference_Topbar_button(props) {
+
+  var imageE = null;
+
+  if (props.image !== undefined) {
+    imageE = e(Reference_Topbar_buttonImage, { image: props.image });
+  }
+
+  return e(ReferenceContext.Consumer, null, ({pageId, setPage}) => {
+
+    var buttonClassExtra = '';
+
+    if (props.linkId == pageId) {
+      buttonClassExtra = ' active';
+    }
+
+    return e(
+      'a',
+      { className: 'list-group-item ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
+        setPage(props.pageLink, { pageId: props.linkId });
+      }},
+      imageE,
+      props.value
+    );
+  });
+}
+
+function Reference_Topbar(props) {
+  return e(ReferenceContext.Consumer, null, ({setPage, i18n}) => e(
+    'div',
+    { className: 'list-group study-menu list-group-horizontal container-fluid overflow-hidden' },
+    e(Reference_Topbar_button, {
+      linkId: 'back',
+      onClick: () => { window.location.href = i18n.home_link },
+      value: null,
+      image: 'img/back.png'
+    }),
+    e(Reference_Topbar_button, {
+      linkId: 'dictionary',
+      pageLink: e(Dictionary),
+      value: i18n.dictionary,
+      image: 'icons/dictionary.png'
+    }),
+    e(Reference_Topbar_button, {
+      linkId: 'grammar',
+      pageLink: e(GrammaticalTime),
+      value: i18n.reference_grammar,
+      image: 'icons/document.png'
+    }),
+    e(Reference_Topbar_button, {
+      linkId: 'irregulars',
+      pageLink: e(Irregulars_wrapper),
+      value: i18n.reference_irregulars,
+      image: 'icons/bookmark.png'
+    }),
+    e(Reference_Topbar_button, {
+      linkId: 'phrasals',
+      pageLink: e(Phrasals_wrapper),
+      value: i18n.reference_phrasals,
+      image: 'icons/waving-hand.png'
+    }),
+  ));
+}
+
+class Reference extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      page: e(LoadingPage),
+      topBar: e(LoadingPage),
+      setPage: this.setPage,
+      i18n: {},
+      phrasalsObject: window.localStorage.getItem('phrasalsObject'),
+      irregularsObject: window.localStorage.getItem('irregularsObject'),
+    };
+
+  }
+
+  componentWillMount() {
+
+    if (!this.state.phrasalsObject) {
+
+      fetch(rootUrl + 'api?fetch_phrasals_object=1')
+      .then(res => res.json())
+      .then(res => {
+
+        window.localStorage.setItem('phrasalsObject', JSON.stringify(res));
+
+        this.setState({
+          phrasalsObject: res
+        });
 
       });
 
+    } else {
+      this.setState({
+        phrasalsObject: JSON.parse(this.state.phrasalsObject)
+      });
     }
 
-    dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
+    if (!this.state.irregularsObject) {
 
+      fetch(rootUrl + 'api?fetch_irregulars_object=1')
+      .then(res => res.json())
+      .then(res => {
+
+        this.setState({
+          irregularsObject: res
+        });
+
+        window.localStorage.setItem('irregularsObject', JSON.stringify(res));
+
+      });
+
+    } else {
+      this.setState({
+        irregularsObject: JSON.parse(this.state.irregularsObject)
+      });
+    }
+
+    fetch(rootUrl + 'api?i18n=full')
+    .then(res => res.json())
+    .then(json => {
+
+      thei18n = json.i18n;
+
+      this.setState({
+        i18n: json.i18n,
+        topBar: e(Reference_Topbar),
+        page: this.decideStartingPage()
+      });
+
+    });
+
+  }
+
+  decideStartingPage() {
+
+    var hash = window.location.hash;
+    hash = hash.slice(1);
+
+    this.setState({
+      pageId: 'dictionary'
+    });
+
+    return e(Dictionary);
+
+  }
+
+  setPage = (page, args) => {
+
+    if (args.pageId) {
+      this.setState({
+        pageId: args.pageId
+      });
+    }
+
+    this.setState({
+      page: page
+    });
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'reference-squeeze ' },
+      e(ReferenceContext.Provider, {value: this.state}, e(
+        'div',
+        { className: 'reference-wrapper'},
+        this.state.topBar,
+        e(
+          'div',
+          { className: 'rounded-box' },
+          this.state.page
+        )
+      ))
+    );
+  };
 }
 
-document.querySelectorAll('a.extiw').forEach((item, i) => {
-  item.onclick = (e) => {
-    e.preventDefault();
-
-    var theWord = item.hash;
-    theWord = theWord.split('');
-    theWord.splice(0, 1);
-    theWord = theWord.join('');
-
-    var regex = new RegExp('(%20)','g');
-
-    theWord = theWord.replace(regex, ' ');
-
-    window.scrollTo(0, 0);
-
-    dictionaryInput.value = theWord;
-    dictionarySubmitTrigger();
-  }
-});
+if(document.getElementById('reference-container')) {
+  ReactDOM.render(e(Reference), document.getElementById('reference-container'));
+}

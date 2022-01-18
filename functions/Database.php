@@ -243,7 +243,7 @@ function guyra_log_to_db($user, $object) {
   } else {
 
     $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
-    VALUES (%d, '%s')", $user, $object);
+    VALUES (%d, '%s')", $user, addslashes($object));
 
     if ($db->query($sql) === TRUE) {
 
@@ -305,7 +305,7 @@ function guyra_log_error_todb($object) {
   } else {
 
     $sql = sprintf("INSERT INTO guyra_error_history (object)
-    VALUES ('%s')", $object);
+    VALUES ('%s')", addslashes($object));
 
     $db->query($sql);
 
@@ -331,9 +331,9 @@ function guyra_log_error($dump, $type='general') {
 
 }
 
-function guyra_update_user_data($user_id, $data_key, $data='') {
+function guyra_update_user_data($user_id, $data_key, $data='', $datatype='userdata') {
 
-  $user_data = guyra_get_user_data($user_id);
+  $user_data = guyra_get_user_data($user_id, $datatype);
 
   if (is_array($data_key)) {
 
@@ -355,37 +355,20 @@ function guyra_update_user_data($user_id, $data_key, $data='') {
 
   }
 
-  guyra_update_user_meta($user_id, 'userdata', json_encode($user_data, JSON_UNESCAPED_UNICODE));
+  guyra_update_user_meta($user_id, $datatype, json_encode($user_data, JSON_UNESCAPED_UNICODE));
 
   return $user_data;
 }
 
-function guyra_get_user_data($user_id) {
+function guyra_get_user_data($user_id, $datatype='userdata') {
 
   global $site_api_url;
 
-  $user_data = guyra_get_user_meta($user_id, 'userdata', true)['meta_value'];
+  $user_data = guyra_get_user_meta($user_id, $datatype, true)['meta_value'];
 
   if ($user_data) {
   	$user_data = json_decode($user_data, true);
 
-    if ($user_data['profile_picture_url'] == '') {
-      $theHash = $user_data['first_name'] . $user_data['last_name'];
-      $user_data['profile_picture_url'] = $site_api_url . '?get_identicon=1&hash=' . $theHash;
-    }
-
-  }
-
-  return $user_data;
-
-}
-
-function guyra_get_user_game_data($user_id=1) {
-
-  $user_data = guyra_get_user_meta($user_id, 'gamedata', true)['meta_value'];
-
-  if ($user_data) {
-  	$user_data = json_decode($user_data, true);
   }
 
   return $user_data;

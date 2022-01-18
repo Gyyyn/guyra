@@ -68,8 +68,6 @@
 
 /*
 * -------- Fonts
-*
-*
 */
 
 @font-face {
@@ -120,8 +118,6 @@
 
 /*
 * -------- General
-*
-*
 */
 
 /* One day I will hunt down what's overflowing so this won't be needed anymore.
@@ -214,6 +210,8 @@ large,
 .text-s { font-size: var(--guyra-fonts-textsize-s); }
 .text-ss { font-size: var(--guyra-fonts-textsize-ss); }
 .text-sss { font-size: var(--guyra-fonts-textsize-ss); }
+
+.capitalize { text-transform: capitalize; }
 
 hr {
 	background: var(--guyra-blue-purple-gradient);
@@ -629,6 +627,23 @@ input:checked + .slider:before {
   box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
 }
 
+.card.trans {
+  background: unset;
+  box-shadow: unset;
+  display: inline-flex;
+  min-width: 13rem;
+  min-height: 7rem;
+  border: var(--guyra-grey-darkest) solid var(--guyra-border-size);
+  border-top-width: .15rem !important;
+  border-right-width: .15rem !important;
+  border-left-width: .15rem !important;
+  color: var(--guyra-black);
+  padding: .5rem;
+}
+
+.card.trans.green { border-color: var(--guyra-green); color: var(--guyra-green-darkest); }
+.card.trans.blue { border-color: var(--guyra-blue); color: var(--guyra-blue-darkest); }
+
 .card.hoverable:hover {
     box-shadow: 0px 5px 15px 7px rgb(0 190 255 / 40%);
 }
@@ -698,4 +713,35 @@ a:hover {
 
 .rounded-box-padded {
   padding: calc(3vw + .25rem);
+}
+
+progress.progress {
+  display: block;
+  width: 100%;
+  height: 1rem;
+  border: unset;
+}
+
+progress.progress[value]::-webkit-progress-bar {
+  background: none;
+  border-radius: var(--guyra-border-radius);
+}
+
+progress.progress[value]::-webkit-progress-value {
+  background: var(--guyra-green);
+  border-radius: var(--guyra-border-radius);
+}
+
+progress.progress[value]::-moz-progress-bar {
+  background: var(--guyra-green);
+  border-radius: var(--guyra-border-radius);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading img {
+  width: calc(3rem + 3vw);
 }

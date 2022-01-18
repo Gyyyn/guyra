@@ -1,9 +1,4 @@
 <?php
-/**
- * The landing page, loaded when user is logged out
- *
- * @package guyra
- */
 
 global $template_dir;
 global $template_url;

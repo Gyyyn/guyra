@@ -45,15 +45,31 @@ $enable_PWA = guyra_handle_pwa();
 if ($is_logged_in) {
 	$current_user_meta = get_user_meta($current_user_id);
 	$current_user_data = guyra_get_user_data($current_user_id);
-	$current_user_gamedata = guyra_get_user_game_data($current_user_id);
+	$current_user_gamedata = guyra_get_user_data($current_user_id, 'gamedata');
 	$current_user_object = build_user_object($current_user_id);
 	$current_user_payments = guyra_get_user_meta($current_user_id, 'payment', true)['meta_value'];
 	$current_user_payments = json_decode($current_user_payments, true);
 
-	if (!$current_user_payments) {
-		$current_user_payments = [
-			'status' => 'none'
+	if (!$current_user_payments)
+	$current_user_payments = [
+		'status' => 'none'
+	];
+
+	if (!$current_user_gamedata['challenges'])
+	$current_user_gamedata['challenges'] = [
+		'daily' => [
+			'last_update' => 0
+		]
+	];
+
+	if (($current_user_gamedata['challenges']['daily']['last_update'] + 86400) < time()) {
+		$current_user_gamedata['challenges']['daily'] = [
+			'last_update' => time(),
+			'levels' => 5,
+			'levels_completed' => 0
 		];
+
+		guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata));
 	}
 
 	// Remove the need for admins and testers to adquire a subscription.
@@ -64,47 +80,30 @@ if ($is_logged_in) {
 	UserLoginUpdateStreakStatus($current_user_id);
 }
 
-if ( ! function_exists( 'guyra_setup' ) ) :
-
-	function guyra_setup() {
-
-		// Kill all feeds
-		function itsme_disable_feed() { exit; }
-
-		add_action('do_feed', 'itsme_disable_feed', 1);
-		add_action('do_feed_rdf', 'itsme_disable_feed', 1);
-		add_action('do_feed_rss', 'itsme_disable_feed', 1);
-		add_action('do_feed_rss2', 'itsme_disable_feed', 1);
-		add_action('do_feed_atom', 'itsme_disable_feed', 1);
-		add_action('do_feed_rss2_comments', 'itsme_disable_feed', 1);
-		add_action('do_feed_atom_comments', 'itsme_disable_feed', 1);
-
-		// Remove some WP stuff
-		remove_action('wp_head', 'wp_generator');
-		remove_action('wp_head', 'wlwmanifest_link');
-		remove_action('wp_head', 'rsd_link');
-
-		// Remove unused styles
-		function deregister_styles() {
-			wp_deregister_style('dashicons');
-			wp_deregister_style('admin-bar');
-			wp_deregister_style('wp-block-library');
-		}
-
-		add_action('wp_print_styles', 'deregister_styles', 100);
-
-		// Remove unused JS
-		function dequeue_js() {
-			wp_deregister_script('hoverintent');
-			wp_deregister_script('admin-bar');
-			wp_deregister_script('wp-embed');
-		}
-
-		add_action( 'wp_print_styles', 'dequeue_js' );
-	}
-endif;
-add_action( 'after_setup_theme', 'guyra_setup' );
-
+// --- Wordpress Stuff
+function itsme_disable_feed() { exit; }
+add_action('do_feed', 'itsme_disable_feed', 1);
+add_action('do_feed_rdf', 'itsme_disable_feed', 1);
+add_action('do_feed_rss', 'itsme_disable_feed', 1);
+add_action('do_feed_rss2', 'itsme_disable_feed', 1);
+add_action('do_feed_atom', 'itsme_disable_feed', 1);
+add_action('do_feed_rss2_comments', 'itsme_disable_feed', 1);
+add_action('do_feed_atom_comments', 'itsme_disable_feed', 1);
+remove_action('wp_head', 'wp_generator');
+remove_action('wp_head', 'wlwmanifest_link');
+remove_action('wp_head', 'rsd_link');
+function deregister_styles() {
+	wp_deregister_style('dashicons');
+	wp_deregister_style('admin-bar');
+	wp_deregister_style('wp-block-library');
+}
+add_action('wp_print_styles', 'deregister_styles', 100);
+function dequeue_js() {
+	wp_deregister_script('hoverintent');
+	wp_deregister_script('admin-bar');
+	wp_deregister_script('wp-embed');
+}
+add_action( 'wp_print_styles', 'dequeue_js' );
 function disable_emojis_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
 		return array_diff( $plugins, array( 'wpemoji' ) );
@@ -112,7 +111,6 @@ function disable_emojis_tinymce( $plugins ) {
 		return array();
 	}
 }
-
 function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 	if ( 'dns-prefetch' == $relation_type ) {
 		/** This filter is documented in wp-includes/formatting.php */
@@ -123,7 +121,6 @@ function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
 
 	return $urls;
 }
-
 function disable_emojis() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
@@ -135,13 +132,8 @@ function disable_emojis() {
 	add_filter( 'tiny_mce_plugins', 'disable_emojis_tinymce' );
 	add_filter( 'wp_resource_hints', 'disable_emojis_remove_dns_prefetch', 10, 2 );
 }
-
 add_action( 'init', 'disable_emojis' );
-
-/* Disable WordPress Admin Bar for all users */
 add_filter( 'show_admin_bar', '__return_false' );
-
-// prevent the default WP Login
 function prevent_wp_login() {
   global $pagenow;
 	global $gi18n;
@@ -151,10 +143,7 @@ function prevent_wp_login() {
     exit;;
   }
 }
-
 add_action('init', 'prevent_wp_login');
-
-// Remove the normal WP die handler
 function custom_die_handler( $message, $title="", $args = array() ) {
 	echo '["server error"]';
   echo '<html><body style="font-family: system-ui,-apple-system,sans-serif;">';
@@ -167,16 +156,13 @@ function custom_die_handler( $message, $title="", $args = array() ) {
 	echo date('Y-m-d H:i:s');
   echo '</body></html>';
 	guyra_log_error(json_encode([$title, $message, $args['response']]));
-  exit;;
+  exit;
 }
-
 // Intermediate function is necessary to customize wp_die
 function swap_die_handlers() {
     return 'custom_die_handler';
 }
 add_filter('wp_die_handler', 'swap_die_handlers' );
-
-// Disable default wp_mails
 function disabling_emails( $args ){
     unset ( $args['to'] );
     return $args;

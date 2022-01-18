@@ -22,8 +22,9 @@ if (!$is_logged_in) {
   exit;
 }
 
-// Game data
 include $template_dir . '/api/GameData.php';
+include $template_dir . '/api/Shop.php';
+include $template_dir . '/api/Reference.php';
 
 // Case where user is site admin.
 if ($is_admin) {

@@ -3,6 +3,7 @@
 global $template_dir;
 global $template_url;
 global $current_user_id;
+global $current_user_gamedata;
 global $site_url;
 global $is_logged_in;
 
@@ -15,9 +16,7 @@ include_once $template_dir . '/components/Icons.php';
 $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
 $levelMap = json_decode(file_get_contents($template_dir . '/assets/json/levelmap.json'), true);
 $responseJSON = [];
-$level = $_GET['level'];
 $unit = $_GET['unit'];
-$length = $_GET['length'];
 
 function GetRandomExercise($type, $unit, $json) {
   return random_int(0, sizeof($json[$unit][$type]) - 1);
@@ -84,6 +83,7 @@ if ($_GET['json'] == 'levelmap') {
 if ($_GET['json'] == 'usermeta') {
 
   $responseJSON['usermeta'] = GetUserRanking($current_user_id);
+  $responseJSON['gamedata'] = $current_user_gamedata;
 
 }
 

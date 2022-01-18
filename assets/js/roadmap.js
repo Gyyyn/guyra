@@ -185,9 +185,9 @@ function Roadmap_Banner(props) {
       'div',
       { className: 'welcome' },
       e(
-        'h2',
+        'h1',
         { className: 'text-blue' },
-        'Roadmap'
+        i18n.roadmap
       ),
     ),
     e(

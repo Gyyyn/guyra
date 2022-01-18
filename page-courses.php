@@ -1,9 +1,4 @@
 <?php
-/**
- * Courses page. Interprets some data on the courses.json file and passes it to the React frontend.
- *
- * @package guyra
- */
 
 global $template_dir;
 global $site_url;

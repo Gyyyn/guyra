@@ -278,18 +278,31 @@ if ($_GET['get_user_data']) {
 }
 
 if ($_GET['get_identicon']) {
-  global $template_dir;
-  require $template_dir . '/vendor/autoload.php';
 
-  header('Cache-Control: max-age=604800');
+  global $template_dir;
+  global $template_url;
+  global $cache_dir;
+  global $redirect;
 
   $hash = $_GET['hash'];
 
-  $icon = new \Jdenticon\Identicon();
-  $icon->setValue($hash);
-  $icon->setSize(256);
-  $icon->displayImage('png');
-  exit;
+  $cached_identicon_path = '/assets/' . md5('Icon' . $hash) . '.png';
+  $cached_identicon = $cache_dir . $cached_identicon_path;
+  $cached_identicon_file = file_get_contents($cached_identicon);
+  $redirect = $template_url . '/cache' . $cached_identicon_path;
+
+  if (!$cached_identicon_file) {
+
+    require $template_dir . '/vendor/autoload.php';
+
+    $icon = new \Jdenticon\Identicon();
+    $icon->setValue($hash);
+    $icon->setSize(256);
+
+    file_put_contents($cached_identicon, $icon->getImageData('png'));
+
+  }
+
 }
 
 if ($_GET['post_reply']) {

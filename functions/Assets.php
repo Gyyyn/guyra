@@ -8,7 +8,7 @@ require_once $template_dir . '/vendor/autoload.php';
 use MatthiasMullie\Minify;
 use Intervention\Image\ImageManager;
 
-function GetMinifiedAsset($assetFolder, $assetFile) {
+function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
   if ($assetFolder != 'js' && $assetFolder != 'css') {
     return false;
@@ -45,8 +45,12 @@ function GetMinifiedAsset($assetFolder, $assetFile) {
     }
 
     $objectMinified->minify($cachedObject);
+    $object = file_get_contents($realObject);
 
-    return $theLink;
+  }
+
+  if ($inline) {
+    return $object;
   } else {
     return $theLink;
   }

@@ -1535,7 +1535,7 @@ function AccountInfo_ranking(props) {
       { className: 'col-md' },
       e(
         'h2',
-        { className: 'text-blue' },
+        { className: 'text-blue capitalize' },
         i18n.ranking + usermeta.gamedata[2]
       ),
       e(

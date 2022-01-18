@@ -66,7 +66,7 @@ if ($where_am_i == '') {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#06b6f1"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 <title><?php echo $page_Title; ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">
@@ -87,10 +87,6 @@ ob_end_clean(); ?>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 <link rel="apple-touch-icon" href="<?php echo $template_url; ?>/assets/img/apple-icon.png">
-<?php if ($args['zoom']): ?>
-<link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/bootstrap.css" />
-<link type="text/css" rel="stylesheet" href="https://source.zoom.us/<?php echo $args['zoomver']; ?>/css/react-select.css" />
-<?php endif; ?>
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
@@ -109,14 +105,14 @@ ob_end_clean(); ?>
 <?php if ($args['css']): ?>
 <link href="<?php echo GetMinifiedAsset('css', $args['css']); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <?php endif; ?>
-
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7198773595231701" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DCFLSY9LC7');</script>
-
+<noscript><style media="screen">body>div,body>header,body>main{display:none!important;}</style></noscript>
 </head>
 
 <body class="guyra <?php echo implode(' ', $body_class); ?>">
+<noscript><?php echo $gi18n['noscript']; ?></noscript>
 <header>
   <nav id="guyra-navbar" class="navbar navbar-expand-lg d-none d-lg-flex navbar-light fixed-top">
 
@@ -135,18 +131,24 @@ ob_end_clean(); ?>
         <ul class="navbar-nav">
 
           <li class="nav-item me-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>"><?php echo $gi18n['homepage'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
           </li>
 
           <?php if (!$is_logged_in): ?>
 
           <li class="nav-item me-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-info"><?php echo $gi18n['info'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-info"><?php echo $gi18n['info']; ?></a>
           </li>
 
           <li class="nav-item me-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link'] ?>#jump-prices"><?php echo $gi18n['prices'] ?></a>
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-prices"><?php echo $gi18n['prices']; ?></a>
           </li>
+
+          <?php else: ?>
+
+            <li class="nav-item me-3">
+              <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
+            </li>
 
           <?php endif; ?>
 

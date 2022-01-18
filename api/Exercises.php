@@ -1,6 +1,10 @@
 <?php
 
+global $template_dir;
 global $current_user_id;
+global $current_user_gamedata;
+
+include_once $template_dir . '/functions/Game.php';
 
 Guyra_Safeguard_File();
 
@@ -16,10 +20,20 @@ if ($_GET['log_wrong_answer']) {
 
 if ($_GET['log_exercise_data']) {
 
-  $theData = file_get_contents('php://input');
-  guyra_log_to_db($current_user_id, mysql_real_escape_string($theData));
+  $theDataJSON = file_get_contents('php://input');
+  $theData = json_decode($theDataJSON, true);
+  $completed_units = $current_user_gamedata['completed_units'];
 
-  $theData = json_decode($theData, true);
+  if (!is_array($completed_units)) {
+    $completed_units = [];
+  }
+
+  $completed_units[] = $theData['unit'];
+  $current_user_gamedata['completed_units'] = $completed_units;
+
+  guyra_update_user_data($current_user_id, 'completed_units', json_encode($completed_units), 'gamedata');
+  guyra_log_to_db($current_user_id, $theDataJSON);
+
 }
 
 if ($_GET['update_elo'] && $_GET['value']) {
@@ -28,5 +42,5 @@ if ($_GET['update_elo'] && $_GET['value']) {
 }
 
 if ($_GET['update_level'] && $_GET['value']) {
-  Guyra_increase_user_level($current_user_id, 'level', $_GET['value']);
+  Guyra_increase_user_level($current_user_id, $_GET['value']);
 }

@@ -5,6 +5,7 @@ global $template_url;
 global $current_user_id;
 global $current_user_data;
 global $current_user_meta;
+global $current_user_gamedata;
 global $site_url;
 global $is_logged_in;
 global $current_user_subscription_valid;
@@ -16,6 +17,17 @@ include_once $template_dir . '/functions/Assets.php';
 
 $newspage = get_page_by_title('News');
 $teacherid = $current_user_data['teacherid'];
+$streak_info = json_decode($current_user_gamedata['streak_info'], true);
+$completed_daily_challenge = ($current_user_gamedata['challenges']['daily']['levels_completed'] >= $current_user_gamedata['challenges']['daily']['levels']);
+$current_streak_is_highest = ($streak_info['streak_length'] == $streak_info['streak_record']);
+$daily_challenges_card_class_extra = '';
+$streak_card_class_extra = '';
+
+if ($completed_daily_challenge)
+$daily_challenges_card_class_extra = 'green';
+
+if ($current_streak_is_highest)
+$streak_card_class_extra = 'blue';
 
 get_header();
 
@@ -33,12 +45,35 @@ get_header();
         <span class="page-icon small"><img alt="learning" src="<?php echo GetImageCache('icons/waving-hand.png', 128); ?>"></span>
       </div>
 
-      <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
-      <p><?php echo $gi18n['whats_for_today']; ?></p>
+      <div class="dialog-box">
+        <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
+        <p><?php echo $gi18n['whats_for_today']; ?></p>
+        <?php if ($teacherid): ?>
+        <div class="mt-3">
+          <a href="#roadmap-container" class="btn-tall blue" id="load-roadmap-button"><?php echo $gi18n['load'] . ' ' . $gi18n['roadmap']; ?></a>
+        </div>
+        <?php endif; ?>
+      </div>
 
-      <?php if ($teacherid): ?>
-      <button type="button" name="button" class="btn-tall blue" id="load-roadmap-button">Carregar Roadmap</button>
-      <?php endif; ?>
+      <h2 class="text-blue mb-3"><?php echo $gi18n['daily_challenges']; ?></h2>
+
+      <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+
+        <div class="card trans mb-3 mb-md-0 me-0 me-md-3 <?php echo $streak_card_class_extra; ?>">
+          <h4><?php echo $gi18n['streak']; ?></h4>
+          <span class="d-flex flex-row fw-bold"><?php echo $gi18n['current'] . ': ' . $streak_info['streak_length'] . ' ' . $gi18n['days']; ?></span>
+          <span class="d-flex flex-row"><?php echo $gi18n['biggest'] . ': ' . $streak_info['streak_record'] . ' ' . $gi18n['days']; ?></span>
+        </div>
+
+        <div class="card trans <?php echo $daily_challenges_card_class_extra; ?>">
+          <h4 class="me-2"><?php echo $gi18n['level']; ?></h4>
+          <div class="d-flex align-items-center">
+            <span><?php echo $current_user_gamedata['challenges']['daily']['levels_completed']; ?></span><span>/</span><span><?php echo $current_user_gamedata['challenges']['daily']['levels'] ?></span>
+          </div>
+          <progress class="progress" id="daily-challenge" max="<?php echo $current_user_gamedata['challenges']['daily']['levels']; ?>" value="<?php echo $current_user_gamedata['challenges']['daily']['levels_completed'] ?>"></progress>
+        </div>
+
+      </div>
 
     </div>
 

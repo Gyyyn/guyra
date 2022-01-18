@@ -14,15 +14,6 @@
   }
 }
 
-.exercise-squeeze .loading {
-  display: flex;
-  justify-content: center;
-}
-
-.exercise-squeeze .loading img {
-  width: calc(3rem + 3vw);
-}
-
 .exercise-dialog {
 	border: .35rem solid var(--guyra-grey-darkest);
 	border-radius: var(--guyra-border-radius-bigger);

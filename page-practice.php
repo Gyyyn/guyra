@@ -1,18 +1,6 @@
 <?php
-/**
- * Grammar reference page
- *
- * @package guyra
- */
 
-global $template_dir;
-global $site_url;
-global $is_logged_in;
-global $gi18n;
-global $current_user_subscription_valid;
-
-Guyra_Safeguard_Access();
-if (!$current_user_subscription_valid) { Guyra_Redirect($gi18n['purchase_link']); exit; }
+Guyra_Safeguard_Access($args['paid_users']);
 
 get_header(null, ['css' => 'exercises.css']);
 ?>

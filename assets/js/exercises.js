@@ -937,6 +937,75 @@ function LevelChooser(props) {
       {
         className: 'container-fluid exercise-level-chooser'
       },
+      e(
+        'div',
+        { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
+        e(
+          'div',
+          {},
+          e('h3', {}, 'Welcome back!')
+        ),
+        e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
+          'div',
+          { className: 'd-flex flex-row'},
+          e('button',
+            { className: 'btn-tall blue',
+              onClick: () => {
+                var levelMapKeys = Object.keys(levelMap);
+                var randomLevelIndex = randomNumber(0, levelMapKeys.length - 1);
+                var randomLevel = levelMap[levelMapKeys[randomLevelIndex]];
+                var randomLevelKeys = Object.keys(randomLevel);
+                var randomUnitIndex = randomNumber(0, randomLevelKeys.length - 1);
+                var randomUnit = randomLevel[randomLevelKeys[randomUnitIndex]];
+                loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
+                window.location.hash = randomUnit.id;
+              }},
+            'Jogar Aleatorio'),
+          e('button',
+            { className: 'btn-tall green ms-3',
+              onClick: () => {
+
+                var completed_units = gamedata.completed_units;
+                var unitToLoad;
+
+                if (completed_units != undefined && !Array.isArray(completed_units)) {
+                  completed_units = JSON.parse(completed_units);
+                } else {
+                  completed_units = [];
+                }
+
+                if (completed_units.length > 0) {
+                  var randomUnitIndex = randomNumber(0, completed_units.length - 1);
+                  unitToLoad = completed_units[randomUnitIndex];
+                } else {
+                  unitToLoad = 'unit1';
+                }
+
+                var levelOfUnit;
+                var levelMapKeys = Object.keys(levelMap);
+                Object.values(levelMap).forEach((item, i) => {
+
+                  var levelOfUnitIndex = false;
+
+                  Object.values(item).forEach((item) => {
+                    if (item.id == unitToLoad) {
+                      levelOfUnitIndex = true;
+                    }
+                  });
+
+                  if (levelOfUnitIndex) {
+                    levelOfUnit = levelMapKeys[i];
+                  }
+
+                });
+
+                loadExerciseJSON(levelOfUnit, unitToLoad);
+                window.location.hash = unitToLoad;
+
+              }},
+            'Revisar'),
+        )),
+      ),
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
         return e(
           LevelChooserLevel,
@@ -955,9 +1024,6 @@ function LevelChooser(props) {
 
 /*
 * -------- Misc Buttons & other reusable elements
-*
-*
-*
 */
 
 // Returns a bootstrap modal and the corresponding button trigger
@@ -1041,9 +1107,6 @@ class BootstrapModal extends React.Component {
 
 /*
 * -------- App class
-*
-*
-*
 */
 
 function returnToLevelMapButton(props) {
@@ -1228,32 +1291,48 @@ function hintAreaWrongAnswer(props) {
   ));
 }
 
-function ExerciseDone(props) {
-  return e(ExerciseContext.Consumer, null, ({i18n, setPage, score, answers}) => e(
-    'div',
-    {
-      className: 'exercise-hints correct'
-    },
-    e('div', {className: 'd-flex'},
-      e('span', {className: 'exercise-hints-hint me-1'}, i18n.goodjob),
-      e('span', {className: 'exercise-hints-hint me-1'}, i18n.yourscore.concat(score)),
-      e('span', {className: 'exercise-hints-hint me-1'}, 'Nível +1'),
-      e('span', {className: 'exercise-hints-hint me-1'}, 'Elo +' + Math.round(props.eloChange)),
-    ),
-    e('div', {className: 'd-flex'},
-      e(
-        'a',
-        {
-          className: 'btn-tall green me-1',
-          onClick: () => {
-            setPage(e(ReviewAnswers, {answers: answers}))
-          }
-        },
-        i18n.review
+class ExerciseDone extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      review: null
+    }
+  }
+
+  render() {
+    return [
+    e(ExerciseContext.Consumer, null, ({i18n, setPage, score, answers}) => e(
+      'div',
+      {
+        className: 'exercise-hints correct justfade-animation animate'
+      },
+      e('div', {className: 'd-flex align-items-center'},
+        e('h3', {className: 'exercise-hints-hint me-2'}, i18n.goodjob),
+        e('span', {className: 'exercise-hints-hint fw-bold me-2'}, i18n.yourscore.concat(score)),
+        e('span', {className: 'exercise-hints-hint me-2'}, 'Nível +1'),
+        e('span', {className: 'exercise-hints-hint me-2'}, 'Elo +' + Math.round(this.props.eloChange)),
       ),
-      e(returnToLevelMapButton)
-    )
-  ));
+      e('div', {className: 'd-flex'},
+        e(
+          'a',
+          {
+            className: 'btn-tall green me-1',
+            onClick: () => {
+              this.setState({
+                review: e(ReviewAnswers, {answers: answers})
+              });
+            }
+          },
+          i18n.review
+        ),
+        e(returnToLevelMapButton)
+      )
+    )),
+    this.state.review
+    ];
+  }
+
 }
 
 const ExerciseContext = React.createContext();
@@ -1325,46 +1404,57 @@ class App extends React.Component {
   componentWillMount() {
 
     fetch(rootUrl + 'api?json=levelmap&i18n=full')
-      .then(res => res.json())
-      .then(json => {
-        this.i18n = json.i18n;
-        this.initialState.i18n = json.i18n;
-        this.initialState.levelMap = json.levelmap;
-        var hash = window.location.hash;
-        hash = hash.slice(1);
-        var loadHashUnit = false;
+    .then(res => res.json())
+    .then(json => {
+      this.i18n = json.i18n;
+      this.initialState.i18n = json.i18n;
+      this.initialState.levelMap = json.levelmap;
+      var hash = window.location.hash;
+      hash = hash.slice(1);
+      var loadHashUnit = false;
 
-        Object.values(json.levelmap).forEach((level, i) => {
+      Object.values(json.levelmap).forEach((level, i) => {
 
-          var theLevelKey = Object.keys(json.levelmap)[i];
+        var theLevelKey = Object.keys(json.levelmap)[i];
 
-          Object.values(level).forEach((unit, i) => {
-            if (unit.id == hash) {
-              loadHashUnit = {unit: hash, level: theLevelKey};
-            }
-          });
+        Object.values(level).forEach((unit, i) => {
+          if (unit.id == hash) {
+            loadHashUnit = {unit: hash, level: theLevelKey};
+          }
         });
-
-        this.setState({
-          levelMap: json.levelmap,
-          i18n: json.i18n
-        });
-
-        if (loadHashUnit) {
-          this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
-        } else {
-          this.setState({
-            page: e(LevelChooser)
-          });
-        }
-
-        this.exerciseStartSound = new Audio(this.i18n.audio_link + 'start.ogg');
-        this.exerciseEndSound = new Audio(this.i18n.audio_link + 'end.ogg');
-        this.exerciseEndPerfectSound = new Audio(this.i18n.audio_link + 'perfect.ogg');
-        this.correctHitSound = new Audio(this.i18n.audio_link + 'hit.ogg');
-        this.wrongHitSound = new Audio(this.i18n.audio_link + 'miss.ogg');
-
       });
+
+      this.setState({
+        levelMap: json.levelmap,
+        i18n: json.i18n
+      });
+
+      if (loadHashUnit) {
+        this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
+      } else {
+        this.setState({
+          page: e(LevelChooser)
+        });
+      }
+
+      this.exerciseStartSound = new Audio(this.i18n.audio_link + 'start.ogg');
+      this.exerciseEndSound = new Audio(this.i18n.audio_link + 'end.ogg');
+      this.exerciseEndPerfectSound = new Audio(this.i18n.audio_link + 'perfect.ogg');
+      this.correctHitSound = new Audio(this.i18n.audio_link + 'hit.ogg');
+      this.wrongHitSound = new Audio(this.i18n.audio_link + 'miss.ogg');
+
+    });
+
+    fetch(rootUrl + 'api?json=usermeta')
+    .then(res => res.json())
+    .then(json => {
+      this.usermeta = json.usermeta;
+      this.gamedata = json.gamedata;
+      this.setState({
+        usermeta: this.usermeta,
+        gamedata: json.gamedata
+      })
+    });
 
   }
 
@@ -1408,6 +1498,7 @@ class App extends React.Component {
   setNewActivity = () => {
 
     document.getElementById('current-question').classList.add('d-none');
+    window.scrollTo(0, 0);
 
     this.setState({
       avatarURL: getRandomAvatar(),
@@ -1452,7 +1543,7 @@ class App extends React.Component {
 
 
         // Finish up by posting userdata
-        fetch(rootUrl + 'api?update_level=1&value=' + (Number(this.usermeta[3]) + 1));
+        fetch(rootUrl + 'api?update_level=1');
 
         var userElo = this.usermeta[0] / 100;
         var mod = this.score / 75;
@@ -1852,19 +1943,8 @@ class App extends React.Component {
     this.currentUnit = id;
 
     fetch(rootUrl + 'api?json=exercise&unit=' + id)
-      .then(res => res.json())
-      .then(json => this.setExerciseObject(json));
-
-    fetch(rootUrl + 'api?json=usermeta')
-      .then(res => res.json())
-      .then(json => {
-        this.usermeta = json.usermeta
-        this.setState({
-          usermeta: this.usermeta
-        })
-      });
-
-      window.scrollTo(0, 0);
+    .then(res => res.json())
+    .then(json => this.setExerciseObject(json));
 
   }
 

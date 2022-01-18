@@ -1,43 +1,4 @@
-.grammar-reference {
-  font-size: var(--guyra-fonts-textsize-s);
-}
-
-.grammar-reference > li {
-  border: 0;
-  background: none;
-}
-
-.grammar-reference li ul li:hover .highlight {
-  color: var(--guyra-blue);
-}
-
-.grammar-reference li:hover .highlight {
-  color: var(--guyra-blue-darker);
-}
-
-.grammar-reference li ul li:hover .text-muted {
-  color: var(--guyra-blue) !important;
-}
-
-.grammar-reference .list-group-item+.list-group-item {
-  border-top-width: 0;
-}
-
-.grammar-reference .list-group-item .list-group-item {
-  background: var(--guyra-grey);
-}
-
-.grammar-reference .list-group-item {
-  border-width: .25rem;
-}
-
-span.text-muted {
-  font-weight: bold;
-  color: var(--guyra-grey-darker) !important;
-}
-
-#grammar-regular input,
-#grammar-irregular input {
+.grammar-reference input {
   background: var(--guyra-blue-darkest);
   border: 1px var(--guyra-blue) solid;
   color: var(--guyra-white);
@@ -45,28 +6,17 @@ span.text-muted {
   border-radius: var(--guyra-border-radius);
 }
 
-.wikitable tr > td:last-child, .wikitable tr > th:last-child { display:none; }
-.wikitable i { font-style: normal; }
-.wikitable a { text-decoration: none; }
-.wikitable {
-  overflow: hidden;
-  font-size: var(--guyra-fonts-textsize-s);
+.grammar-reference .list-group-item,
+.word-list .word-list-item {
+  border-width: 0;
+  border-bottom: 0.25rem solid var(--guyra-grey-dark);
+  background: var(--guyra-grey);
+  margin-bottom: 0.5rem;
+  border-radius: var(--guyra-border-radius);
 }
 
-.wikitable dl {
-  margin: .25rem;
-}
-
-.wikitable dl,
-.wikitable dl a {
-  color: var(--guyra-grey-dark);
-}
-
-.wikitable dl:hover { color: var(--guyra-black); }
-.wikitable dl:hover a { color: var(--guyra-blue); }
-.wikitable dd {
-  font-size: var(--guyra-fonts-textsize-ss);
-  margin:0;
+.word-list .word-list-item {
+  padding: 0.25rem 0.5rem;
 }
 
 .the-definition .section {
