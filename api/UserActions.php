@@ -5,9 +5,14 @@ global $template_url;
 global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
+global $current_user_notifications;
+global $current_user_inventory;
 global $site_url;
 global $site_api_url;
 global $is_logged_in;
+global $gi18n;
+global $gSettings;
+global $current_user_payments;
 
 Guyra_Safeguard_File();
 
@@ -20,6 +25,7 @@ include_once $template_dir . '/functions/Payment.php';
 include_once $template_dir . '/components/Icons.php';
 
 include_once $template_dir . '/api/UserActions/Roadmap.php';
+include_once $template_dir . '/api/UserActions/Notifications.php';
 
 $user = $_GET['user'];
 
@@ -265,13 +271,19 @@ if ($_GET['lost_password']) {
 if ($_GET['get_user_data']) {
 
   $theData = $current_user_data;
-  $theData['gamedata'] = GetUserRanking($current_user_id);
-  $theData['gamedata_raw'] = $current_user_gamedata;
-  $user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
-  $theData['user_diary'] = json_decode($user_diary);
-  $theData['user_email'] = $current_user_object['user_login'];
+
   $theData['is_logged_in'] = true;
+  $theData['user_email'] = $current_user_object['user_login'];
+
+  $theData['gamedata'] = GetUserRanking($current_user_id);
+  $theData['gamedata']['raw'] = $current_user_gamedata;
+
+  $theData['user_diary'] = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
+  $theData['user_diary'] = json_decode($theData['user_diary']);
+
   $theData['payments'] = $current_user_payments;
+  $theData['notifications'] = $current_user_notifications;
+  $theData['inventory'] = $current_user_inventory;
 
   guyra_output_json(json_encode($theData), true);
 
@@ -395,15 +407,15 @@ if ($_GET['get_image']) {
     $size = 64;
   }
 
-  $redirect = GetImageCache($_GET['get_image'], $size);
+  // $redirect = GetImageCache($_GET['get_image'], $size);
+
+  $r = GetImageCache($_GET['get_image'], $size, 'png', 80, true);
+
+  header ('Content-Type: image/png');
+  echo $r; exit;
 }
 
 if ($_GET['proccess_payment']) {
-
-  global $gi18n;
-  global $gSettings;
-  global $current_user_id;
-  global $current_user_payments;
 
   $thePost = json_decode(file_get_contents('php://input'), true);
   $put = false;
@@ -424,15 +436,15 @@ if ($_GET['proccess_payment']) {
   ];
 
   // If user has already payed we are going to update the payment.
-  if ($current_user_payments['payment_status'] == 'approved') {
+  if ($current_user_payments['status'] == 'approved') {
 
     $updating = 'plan';
+    $put = true;
     $url = '/' . $current_user_payments['processor_data']['id'];
 
     if ($current_user_payments['payed_for'] == $thePost['description']) {
 
       $updating = 'payment';
-      $put = true;
 
       $dataToPost = [
         'application_id' => $applicationId,
@@ -448,13 +460,14 @@ if ($_GET['proccess_payment']) {
     $cancel_ch = CreateMPcURLObject([
       'body' => ['status' => 'cancelled'],
       'deviceId' => $thePost['deviceId'],
-      'put' => $put,
+      'put' => true,
       'url' => $url
     ]);
     $res_from_cancel = curl_exec($cancel_ch);
     curl_close($cancel_ch);
 
     $url = false;
+    $put = false;
 
   }
 
@@ -478,11 +491,17 @@ if ($_GET['proccess_payment']) {
     $paymentData = [
       'processor_data' => $response,
       'processor_id' => 'MP',
-      'payment_status' => 'approved',
+      'status' => 'approved',
       'payed_for' => $thePost['description']
     ];
 
     guyra_update_user_meta($current_user_id, 'payment', json_encode($paymentData, JSON_UNESCAPED_UNICODE));
+
+    if ($updating) {
+      PushNotification($gi18n['notification_plan_updated']);
+    } else {
+      PushNotification($gi18n['notification_plan_adquired']);
+    }
 
   }
 
@@ -496,7 +515,7 @@ if ($_GET['cancel_membership']) {
     'body' => ['status' => 'cancelled'],
     'deviceId' => $thePost['deviceId'],
     'put' => true,
-    'url' => $url = '/' . $current_user_payments['processor_data']['id']
+    'url' => '/' . $current_user_payments['processor_data']['id']
   ]);
 
   $response = curl_exec($cancel_ch);
@@ -505,11 +524,13 @@ if ($_GET['cancel_membership']) {
   $paymentData = [
     'processor_data' => $response,
     'processor_id' => 'MP',
-    'payment_status' => 'cancelled',
+    'status' => 'cancelled',
     'payed_for' => 'free'
   ];
 
+  PushNotification($gi18n['notification_plan_cancelled']);
   guyra_update_user_meta($current_user_id, 'payment', json_encode($paymentData, JSON_UNESCAPED_UNICODE));
+  guyra_output_json($response, true);
 
 }
 

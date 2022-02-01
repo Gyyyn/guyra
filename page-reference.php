@@ -5,7 +5,7 @@ global $site_url;
 global $is_logged_in;
 global $gi18n;
 
-Guyra_Safeguard_Access($args['paid_users']);
+Guyra_Safeguard_Access(['paid_users' => true]);
 
 get_header(null, ['css' => 'reference.css']);
 ?>

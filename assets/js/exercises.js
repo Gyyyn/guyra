@@ -321,7 +321,9 @@ function isAnswerCorrect(correct, userInput) {
 /*
 * --- Activity handlers */
 
-function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
+function activityCompleteThePhrase(theExercise, _allTheWords, numOfOptions) {
+
+  let allTheWords = Array.from(_allTheWords);
   var hint = theExercise[3];
   var poi = theExercise[2];
   var phrase = theExercise[1];
@@ -376,7 +378,9 @@ function activityCompleteThePhrase(theExercise, allTheWords, numOfOptions) {
     };
 }
 
-function activityWhatYouHear(theExercise, options={}, allTheWords) {
+function activityWhatYouHear(theExercise, options={}, _allTheWords) {
+
+  let allTheWords = Array.from(_allTheWords);
   let phrase = theExercise[1];
   let phraseSplit = theExercise[1].split(' ');
   let theHint = '';
@@ -513,7 +517,7 @@ class AnswersPhraseBuilder extends React.Component {
 
         e(
           'div',
-          {className: 'd-flex flex-column flex-xl-row my-3'},
+          {className: 'd-flex flex-column flex-md-row my-3'},
 
           e(ExerciseContext.Consumer, null, ({phraseBuilderPhrase}) => e('div',
             {
@@ -715,7 +719,7 @@ function QuestionAudioButton(props) {
           e(
             'a',
             {
-              className: 'text-larger btn-tall blue me-3',
+              className: 'text-x btn-tall blue me-3',
               onClick: () => {
                 theAudio.play();
               }
@@ -725,7 +729,7 @@ function QuestionAudioButton(props) {
           e(
             'a',
             {
-              className: 'text-normal btn-tall blue me-3',
+              className: 'text-normal btn-tall me-3',
               onClick: () => {
                 theAudioSlow.play();
               }
@@ -1623,18 +1627,10 @@ class App extends React.Component {
 
         disallowCandyNow = true;
 
-        // Determine which answer type to use;
-        var useAnswerType = AnswersTextArea;
-
-        if (this.currentExerciseType == 'WhatYouHear') {
-          useAnswerType = AnswersPhraseBuilder;
-        }
-
         this.setState({
           candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
           candyButtonClass: 'btn-tall black disabled',
-          disallowCandy: true,
-          answerType: useAnswerType,
+          disallowCandy: disallowCandyNow,
         });
 
         var indexOfThisItem = this.disallowCandyOn.indexOf(item);
@@ -1698,7 +1694,7 @@ class App extends React.Component {
     // Check if answer was already given
     if(this.state.alreadyAnswered == false) {
 
-      // Check the answer, all in lower case
+      // Check the answer
       if(isAnswerCorrect(correct, answer)) {
 
         answered = "correct";
@@ -1862,11 +1858,18 @@ class App extends React.Component {
       checkAnswerButtonClass: this.buttonClassGreen
     });
 
+    // Determine which answer type to use.
+    var useAnswerType = AnswersWordBank;
+
     if (this.currentExerciseType == 'CompleteThePhrase') {
+
+      if (disallowCandy) {
+        useAnswerType = AnswersTextArea;
+      }
 
       this.setState({
         questionType: QuestionDialog,
-        answerType: AnswersWordBank
+        answerType: useAnswerType
       });
 
       return activityCompleteThePhrase(theExercise, this.state.allTheWords, 5);
@@ -1876,10 +1879,11 @@ class App extends React.Component {
     if (this.currentExerciseType == 'WhatYouHear') {
 
       var useExtraWords = true;
+      useAnswerType = AnswersPhraseBuilder
 
       this.setState({
         questionType: QuestionAudio,
-        answerType: AnswersPhraseBuilder
+        answerType: useAnswerType
       });
 
       if (disallowCandy) {

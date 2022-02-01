@@ -14,6 +14,15 @@ if (!defined('GUYRA_VERSION')) {
 	define('GUYRA_VERSION', '0.1.2');
 }
 
+$secondsForA = [
+	'year' => 31536000,
+	'month' => 2592000,
+	'week' => 604800,
+	'day' => 86400,
+	'hour' => 3600,
+	'minute' => 60
+];
+
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $cache_dir = $template_dir . '/cache';
@@ -33,28 +42,73 @@ $admin_url = get_admin_url();
 $site_api_url = $site_url . '/api';
 
 include_once $template_dir . '/components/i18n.php';
+
+// Detect compatibility
+if (strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false ||
+		strpos($_SERVER["HTTP_USER_AGENT"], 'Trident') ? true : false) {
+	echo $gi18n['ie_unsupported_warning'];
+	exit;
+}
+
 include_once $template_dir . '/functions/Database.php';
 include_once $template_dir . '/functions/PWA.php';
+include_once $template_dir . '/functions/Notifications.php';
+include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
+
+// All functions are loaded, from this point on we can change data.
+
+// Build an user meta associative array.
+$current_user_meta = guyra_get_user_meta($current_user_id, null, true);
+
+// Convert the simple array into an associative array.
+// This allows it to be used by the guyra_get_user_meta function.
+for ($i=0; $i <= count($current_user_meta); $i++) {
+	$current_user_meta[$current_user_meta[$i]['meta_key']] = $current_user_meta[$i];
+	unset($current_user_meta[$i]);
+}
 
 // Do all the necessary PWA stuff.
 $enable_PWA = guyra_handle_pwa();
 
 // Setup current user's globals.
 if ($is_logged_in) {
-	$current_user_meta = get_user_meta($current_user_id);
-	$current_user_data = guyra_get_user_data($current_user_id);
-	$current_user_gamedata = guyra_get_user_data($current_user_id, 'gamedata');
+
+	// Set up user object for authentication.
 	$current_user_object = build_user_object($current_user_id);
+
+	// Set up WP data.
+	$current_user_meta = get_user_meta($current_user_id);
+
+	// Set up user data.
+	$current_user_data = guyra_get_user_data($current_user_id);
+
+	// Set up data for use in game events.
+	$current_user_gamedata = guyra_get_user_data($current_user_id, 'gamedata');
+
+	// Set up user payment trackers.
 	$current_user_payments = guyra_get_user_meta($current_user_id, 'payment', true)['meta_value'];
 	$current_user_payments = json_decode($current_user_payments, true);
+	$current_user_subscription_valid = false;
 
+	// Set up notifications data.
+	$current_user_notifications = guyra_get_user_meta($current_user_id, 'notifications', true)['meta_value'];
+	$current_user_notifications = json_decode($current_user_notifications, true);
+
+	// Set up inventory data.
+	$current_user_inventory = guyra_get_user_meta($current_user_id, 'inventory', true)['meta_value'];
+	$current_user_inventory = json_decode($current_user_inventory, true);
+
+	// Set up some defaults for uncreated data, and handle some time-based events.
+
+	// If there is no payment data it means the user never payed for anything.
 	if (!$current_user_payments)
 	$current_user_payments = [
 		'status' => 'none'
 	];
 
+	// If the user never engaged with the challenge system set it as so.
 	if (!$current_user_gamedata['challenges'])
 	$current_user_gamedata['challenges'] = [
 		'daily' => [
@@ -62,7 +116,9 @@ if ($is_logged_in) {
 		]
 	];
 
+	// Update the daily challenges
 	if (($current_user_gamedata['challenges']['daily']['last_update'] + 86400) < time()) {
+
 		$current_user_gamedata['challenges']['daily'] = [
 			'last_update' => time(),
 			'levels' => 5,
@@ -70,14 +126,47 @@ if ($is_logged_in) {
 		];
 
 		guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata));
+
+	}
+
+	// Set up some default so no errors occur.
+	if (!$current_user_notifications)
+	$current_user_notifications = [];
+
+	if (!$current_user_inventory)
+	$current_user_inventory = [];
+
+	// Update the login streak.
+	UserLoginUpdateStreakStatus($current_user_id);
+
+}
+
+// Allow payed users to access the site.
+if ($current_user_payments['status'] == 'approved')
+$current_user_subscription_valid = true;
+
+// Handle trial accounts and non-payed access.
+if (!$current_user_subscription_valid) {
+	$date_user_registered = strtotime($current_user_data['user_registered']);
+	$now = time();
+
+	// Users newer than a month old are considered trial users.
+	if (($date_user_registered + $secondsForA['month']) > $now) {
+		$current_user_subscription_valid = true;
+		$current_user_payments['status'] = 'trial';
+		$current_user_payments['days_left'] = ($now - $date_user_registered) / $secondsForA['day'];
+		$current_user_payments['days_left'] = round($current_user_payments['days_left']);
 	}
 
 	// Remove the need for admins and testers to adquire a subscription.
-	if ($is_admin || ($current_user_data['role'] == 'tester')) {
-		$current_user_subscription_valid = true;
-	}
+	if ($is_admin || ($current_user_data['role'] == 'tester'))
+	$current_user_subscription_valid = true;
 
-	UserLoginUpdateStreakStatus($current_user_id);
+}
+
+// Set up avatar and inventory stuff.
+if ($current_user_data['profile_picture_url'] == '') {
+	$current_user_data['profile_picture_url'] = Guyra_get_profile_picture($current_user_id, null, true);
 }
 
 // --- Wordpress Stuff

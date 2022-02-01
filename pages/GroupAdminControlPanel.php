@@ -12,7 +12,7 @@ include_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/components/StudyPage.php';
 include_once $template_dir . '/components/ProfilePicture.php';
 
-$users = get_users();
+$users = guyra_get_users();
 $userTeacherCode = Guyra_hash($current_user_id);
 
 $loaded_at = $gi18n['home_link'];
@@ -75,19 +75,18 @@ get_header(null, ['css' => 'schools.css']);
       <div class="user-list-wrapper">
       <?php
 
-      foreach ($users as $x) {
+      foreach ($users as $theUser) {
 
-        $user = $x->ID;
-        $user_data = guyra_get_user_data($user);
+        $user = $theUser['id'];
         $userInGroup = false;
-        $userProfile = Guyra_get_profile_picture($user, ['page-icon', 'tiny']);
+        $userProfile = Guyra_get_profile_picture($theUser['userdata'], ['page-icon', 'tiny']);
         $userStudentPageObject = GetUserStudyPage($user, true);
         $userStudentPageObjectEditLink = get_edit_post_link($userStudentPageObject->ID);
 
-        if ($user_data['teacherid'] == $current_user_id) {
+        if ($theUser['userdata']['teacherid'] == $current_user_id) {
 
           $user_sha1d = sha1($user);
-          $userGroup = $user_data['studygroup'];
+          $userGroup = $theUser['userdata']['studygroup'];
 
           if($userGroup != "") {
             $userInGroup = true;
@@ -106,9 +105,9 @@ get_header(null, ['css' => 'schools.css']);
             }
 
             $groupsData[$userGroup]['users'][] = $user;
-            $groupsData[$userGroup]['usersNames'][] = $user_data['first_name'];
-            $groupsData[$userGroup]['usersMeta'][$user_data['first_name']] = $user_data;
-            $groupsData[$userGroup]['usersData'][$user_data['first_name']] = $x;
+            $groupsData[$userGroup]['usersNames'][] = $theUser['userdata']['first_name'];
+            $groupsData[$userGroup]['usersMeta'][$theUser['userdata']['first_name']] = $theUser['userdata'];
+            $groupsData[$userGroup]['usersData'][$theUser['userdata']['first_name']] = $theUser;
           }
           ?>
 
@@ -122,17 +121,17 @@ get_header(null, ['css' => 'schools.css']);
                 <?php echo $userProfile; ?>
               </span>
 
-              <span class="me-1 text-primary text-bold" title="<?php echo $x->user_email; ?>"><strong>
-              <?php echo $user_data['first_name']; ?>
-              <?php echo $user_data['last_name']; ?>
+              <span class="me-1 text-primary text-bold"><strong>
+              <?php echo $theUser['userdata']['first_name']; ?>
+              <?php echo $theUser['userdata']['last_name']; ?>
               </strong></span>
 
-              <span class="badge bg-primary ms-1"><?php echo $user_data['role'] ?></span>
+              <span class="badge bg-primary ms-1"><?php echo $theUser['userdata']['role'] ?></span>
 
             </li>
 
             <li class="list-group-item col p-1 d-flex justify-content-around">
-              <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $user_data['first_name']; ?>">
+              <a class="btn-tall btn-sm blue me-1 diary-opener" data-diarytype="user" <?php if($userGroup != ""): ?> data-diaryoptions='{"onlyPayments": true}' <?php endif; ?> data-userid="<?php echo $user; ?>" data-username="<?php echo $theUser['userdata']['first_name']; ?>">
                 <i class="bi bi-card-list"></i>
                 <span class="d-none d-lg-inline"><?php echo $gi18n['diary']; ?></span>
               </a>
@@ -193,7 +192,7 @@ get_header(null, ['css' => 'schools.css']);
 
                 </form>
 
-                <p class="text-small mt-3"><?php echo $gi18n['current_link'] . ': '; ?> <a href="<?php echo $user_data['user_meetinglink']; ?>"><?php echo $user_data['user_meetinglink']; ?></a></p>
+                <p class="text-small mt-3"><?php echo $gi18n['current_link'] . ': '; ?> <a href="<?php echo $theUser['userdata']['user_meetinglink']; ?>"><?php echo $theUser['userdata']['user_meetinglink']; ?></a></p>
 
               </div>
 
@@ -202,7 +201,7 @@ get_header(null, ['css' => 'schools.css']);
 
                 <?php echo $gi18n['archive_student_explain']; ?>
 
-                <a class="btn-tall blue align-self-baseline" href="<?php echo $site_api_url; ?>/?clearteacher=1&user=<?php echo $x->ID; ?>&redirect=<?php echo $loaded_at; ?>"><?php echo $gi18n['archive_student']; ?></a>
+                <a class="btn-tall blue align-self-baseline" href="<?php echo $site_api_url; ?>/?clearteacher=1&user=<?php echo $user; ?>&redirect=<?php echo $loaded_at; ?>"><?php echo $gi18n['archive_student']; ?></a>
 
               </div>
 

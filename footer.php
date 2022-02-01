@@ -1,13 +1,4 @@
 <?php
-/**
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after.
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package guyra
- */
 
 global $template_dir;
 global $template_url;
@@ -17,27 +8,6 @@ global $gi18n;
 include_once $template_dir . '/functions/Assets.php';
 
 ?>
-
-<footer>
-  <div class="squeeze mx-3 mx-md-auto">
-    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a></li>
-        <?php if (false): ?><li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li> <?php endif; ?>
-        <li class="breadcrumb-item"><a href="<?php echo $gi18n['thanks_footer_link'] ?>"><?php echo $gi18n['thanks'] ?></a></li>
-      </ol>
-    </nav>
-    <p class="mt-3">
-      &copy; <?php echo date('Y') . ' ' . $gi18n['company_name']; ?> <br />
-      <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
-    </p>
-
-    <img class="float-end page-icon" alt="Guyra bird" src="<?php echo $gi18n['title_logo_img'] ?>" />
-
-  </div>
-</footer>
 
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
@@ -64,8 +34,9 @@ include_once $template_dir . '/functions/Assets.php';
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 <script async src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 <script>
+let easyMDE;
 window.addEventListener('load', function () {
-  const easyMDE = new EasyMDE({
+  easyMDE = new EasyMDE({
     element: document.getElementById('<?php echo $args['easymde']; ?>'),
     autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
     toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]

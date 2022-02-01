@@ -95,6 +95,22 @@ class YoutubeEmbed extends React.Component {
 
       if (percentDone > 75) {
 
+        // A watched video means +1 level.
+        fetch(rootUrl + 'api?update_level=1');
+
+        // Push a notification
+        fetch(
+          rootUrl + 'api?push_notification=1',
+          {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(thei18n.notification_video_level)
+          }
+        );
+
         // Check if we are completing any challenges.
         var theTracker = JSON.parse(window.localStorage.getItem('challenge'));
 

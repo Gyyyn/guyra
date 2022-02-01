@@ -327,8 +327,6 @@ class Roadmap extends React.Component {
 
     });
 
-    console.log(completed_challenges);
-
     return completed_challenges;
 
   }

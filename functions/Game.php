@@ -66,6 +66,11 @@ function GetUserRanking($user=1) {
   $ranking_name = $ranking . ' ' . $rank_level;
   $ranking = $ranking . '-' . $rank_level;
 
-  return [$elo, $ranking, $ranking_name, $level];
+  return [
+    'elo' => $elo,
+    'ranking' => $ranking,
+    'ranking_name' => $ranking_name,
+    'level' => $level
+  ];
 
 }

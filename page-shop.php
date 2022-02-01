@@ -1,6 +1,6 @@
 <?php
 
-Guyra_Safeguard_Access($args['paid_users']);
+Guyra_Safeguard_Access();
 
 get_header(null, ['css' => 'shop.css']);
 ?>

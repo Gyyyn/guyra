@@ -100,6 +100,21 @@ function guyra_handle_query_error($error='') {
  *
  */
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
+
+  global $current_user_meta;
+
+  // If there is already a loaded in user meta variable we can just return that.
+  if ( ($user === $current_user_id) && (isset($current_user_meta)) && (isset($current_user_meta[$meta_key])) ) {
+
+    $theReturn = $current_user_meta[$meta_key];
+
+    if (!$return) {
+      guyra_output_json($theReturn, true);
+    } else {
+      return $theReturn;
+    }
+  }
+
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   if ($db->connect_error) {
@@ -570,5 +585,51 @@ function guyra_update_user($user_id, array $values) {
   WHERE user_id = %d", $string_replacements);
 
   $result = $db->query($sql);
+
+}
+
+function guyra_get_users($bounds=[]) {
+
+  if ($_COOKIE['guyra_get_users']) {
+    return json_decode($_COOKIE['guyra_get_users'], true);
+  }
+
+  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  if ($db->connect_error) {
+
+    guyra_output_json('connection error' . $db->connect_error, true);
+
+  } else {
+
+    $sql = "SELECT user_id, meta_key, meta_value
+    FROM guyra_user_meta";
+
+    $result = $db->query($sql);
+    $output = false;
+
+    while ($row = $result->fetch_assoc()) {
+      $_output[] = $row;
+    }
+
+    foreach ($_output as $key) {
+
+      $jsonDecoded = json_decode($key['meta_value'], true);
+      $theValue = $key['meta_value'];
+
+      if ($jsonDecoded) {
+        $theValue = $jsonDecoded;
+      }
+
+      $output[$key['user_id']][$key['meta_key']] = $theValue;
+      $output[$key['user_id']]['id'] = $key['user_id'];
+    }
+
+    setcookie("guyra_get_users", json_encode($output), time()+3600);
+
+    $db->close();
+    guyra_log_to_file($sql);
+    return $output;
+
+  }
 
 }

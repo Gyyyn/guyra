@@ -64,7 +64,7 @@ function Irregulars_WordListing_wordRow(props) {
       var rowExtraClass = '';
 
       if (Array.isArray(item)) {
-        theWord = item.join(', ');
+        theWord = item.join('/');
       } else {
         theWord = item;
       }
@@ -95,12 +95,17 @@ class Irregulars_WordListing extends React.Component {
   render() {
 
     var rowExtraClass = '';
+    var searchableWord = this.props.word.word.present;
+
+    if (Array.isArray(searchableWord)) {
+      searchableWord = searchableWord.join()
+    }
 
     if (this.props.search !== '') {
 
       var matchword = new RegExp("(" + this.props.search + ")");
 
-      if (!matchword.test(this.props.word.word.present.toLowerCase())) {
+      if (!matchword.test(searchableWord.toLowerCase())) {
         rowExtraClass = ' d-none';
       }
 
@@ -130,7 +135,7 @@ class Irregulars_wrapper extends React.Component {
 
   setSearch(query) {
 
-    this.setState({ search: query });
+    this.setState({ search: query.toLowerCase() });
 
   }
 
@@ -192,7 +197,7 @@ class Phrasals_wrapper extends React.Component {
   }
 
   setSearch(query) {
-    this.setState({ search: query });
+    this.setState({ search: query.toLowerCase() });
   }
 
   render() {
@@ -250,15 +255,29 @@ function GrammaticalTime_ListingSection_item(props) {
 function GrammaticalTime_ListingSection(props) {
 
   var theVerb = props.verb;
+  var theVerbModBase = theVerb;
   var thePronoun = props.pronoun;
+
+  var matchCons = new RegExp("[bcdfghjklmnpqrstvwxyz]");
+  var matchVowel = new RegExp("[aeiou]");
+  var matchY = new RegExp("[y]");
+  var matchSib = new RegExp("[sc]");
 
   // Make sure we have at least empty strings so no errors occur.
   if (!theVerb) { theVerb = ''; }
   if (!thePronoun) { thePronoun = ''; }
 
+  // Consonat + Vowel endings
+  if ( matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
+    if (theVerb[theVerb.length - 1] != "x" || theVerb[theVerb.length - 1] != "x") {
+      if (theVerb !== '') {
+        theVerbModBase = theVerb.concat(theVerb[theVerb.length - 1]);
+      }
+    }
+  }
+
   var theVerbEssed = theVerb;
-  var theVerbPast = theVerb + 'ed';
-  var theVerbModBase = theVerb;
+  var theVerbPast = theVerbModBase + 'ed';
   var theAux = '';
   var theAuxBe = '';
   var theAuxBePast = '';
@@ -266,24 +285,9 @@ function GrammaticalTime_ListingSection(props) {
   var theAuxFuture = 'will';
   var items = [];
   var x2 = '';
-  var matchCons = new RegExp("[bcdfghjklmnpqrstvwxyz]");
-  var matchVowel = new RegExp("[aeiou]");
-  var matchY = new RegExp("[y]");
-  var matchSib = new RegExp("[sc]");
   var theVerbPastParticiple = theVerbPast;
   var theIrregulars = [];
   thePronoun = thePronoun.toLowerCase();
-
-  // Consonat + Vowel endings
-  if (theVerb.length <= 4) {
-    if ( matchCons.test(theVerb[theVerb.length - 3]) && matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
-      if (theVerb[theVerb.length - 1] != "x" || theVerb[theVerb.length - 1] != "x") {
-        if (theVerb !== '') {
-          theVerbPast = theVerb.concat(theVerb[theVerb.length - 1]);
-        }
-      }
-    }
-  }
 
   // Test for consonant + y
   if ( matchCons.test(theVerb[theVerb.length - 2]) && matchY.test(theVerb[theVerb.length - 1]) ) {
@@ -315,6 +319,14 @@ function GrammaticalTime_ListingSection(props) {
     if (item.word.present == props.verb) {
       theVerbPast = item.word.past;
       theVerbPastParticiple = item.word.past_participle;
+
+      if (Array.isArray(item.word.past)) {
+        theVerbPast = item.word.past[0];
+      }
+
+      if (Array.isArray(item.word.past_participle)) {
+        theVerbPast = item.word.past_participle[0];
+      }
     }
 
     theSubmeanings.forEach((item, i) => {
@@ -830,7 +842,7 @@ class Dictionary extends React.Component {
       e(
         'div',
         { className: 'cc-warning border-top text-smaller text-muted pt-1 mt-3 text-center' },
-        i18n.cc_warning
+        window.HTMLReactParser(i18n.cc_warning)
       )
     ]);
   }
@@ -866,9 +878,12 @@ function Reference_Topbar_button(props) {
       'a',
       { className: 'list-group-item ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
         setPage(props.pageLink, { pageId: props.linkId });
+        if (props.onClick) {
+          props.onClick();
+        }
       }},
       imageE,
-      props.value
+      e('span', { className: 'd-none d-md-inline' }, props.value)
     );
   });
 }
@@ -877,12 +892,6 @@ function Reference_Topbar(props) {
   return e(ReferenceContext.Consumer, null, ({setPage, i18n}) => e(
     'div',
     { className: 'list-group study-menu list-group-horizontal container-fluid overflow-hidden' },
-    e(Reference_Topbar_button, {
-      linkId: 'back',
-      onClick: () => { window.location.href = i18n.home_link },
-      value: null,
-      image: 'img/back.png'
-    }),
     e(Reference_Topbar_button, {
       linkId: 'dictionary',
       pageLink: e(Dictionary),
@@ -1012,8 +1021,8 @@ class Reference extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'reference-squeeze ' },
-      e(ReferenceContext.Provider, {value: this.state}, e(
+      { className: 'reference-squeeze' },
+      e(ReferenceContext.Provider, { value: this.state }, e(
         'div',
         { className: 'reference-wrapper'},
         this.state.topBar,

@@ -32,7 +32,7 @@ $streak_card_class_extra = 'blue';
 get_header();
 
 ?>
-<main id="intro-content" class="site-main study squeeze position-relative mb-5">
+<main id="intro-content" class="site-main study squeeze position-relative">
 
   <div class="page-squeeze">
 
@@ -46,6 +46,20 @@ get_header();
       </div>
 
       <div class="dialog-box">
+
+        <?php if ($current_user_payments['status'] == 'trial'):
+        $daysLeft = 30 - $current_user_payments['days_left']; ?>
+        <span class="fw-bold">Você tem <?php echo $daysLeft ?> dias no seu teste grátis.</span>
+        <progress class="progress" value="<?php echo $daysLeft; ?>" max="30"></progress>
+
+        <hr>
+        <?php elseif ($current_user_payments['status'] != 'approved'): ?>
+        <span><?php echo $gi18n['no_subscription_found'] ?></span>
+        <a class="btn-tall green d-block text-center w-100 my-3" role="button" href="<?php echo $gi18n['purchase_link'] ?>"><?php echo $gi18n['subscribe'] ?></a>
+
+        <hr>
+        <?php endif; ?>
+
         <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
         <p><?php echo $gi18n['whats_for_today']; ?></p>
         <?php if ($teacherid): ?>
@@ -59,13 +73,13 @@ get_header();
 
       <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
 
-        <div class="card trans mb-3 mb-md-0 me-0 me-md-3 <?php echo $streak_card_class_extra; ?>">
+        <div class="card trans mb-3 me-3 <?php echo $streak_card_class_extra; ?>">
           <h4><?php echo $gi18n['streak']; ?></h4>
           <span class="d-flex flex-row fw-bold"><?php echo $gi18n['current'] . ': ' . $streak_info['streak_length'] . ' ' . $gi18n['days']; ?></span>
           <span class="d-flex flex-row"><?php echo $gi18n['biggest'] . ': ' . $streak_info['streak_record'] . ' ' . $gi18n['days']; ?></span>
         </div>
 
-        <div class="card trans <?php echo $daily_challenges_card_class_extra; ?>">
+        <div class="card trans mb-3 me-3 <?php echo $daily_challenges_card_class_extra; ?>">
           <h4 class="me-2"><?php echo $gi18n['level']; ?></h4>
           <div class="d-flex align-items-center">
             <span><?php echo $current_user_gamedata['challenges']['daily']['levels_completed']; ?></span><span>/</span><span><?php echo $current_user_gamedata['challenges']['daily']['levels'] ?></span>
@@ -128,6 +142,7 @@ get_header();
       <?php else: ?>
         <a href="<?php echo $site_url . '?comment_history=1'; ?>" class="btn-tall"><?php echo $gi18n['load_more_replies']; ?></a>
       <?php endif; ?>
+      <button type="button" name="button" class="btn-tall ms-3" id="copy-from-notepad"><?php echo $gi18n['button_copy_notepad']; ?></button>
       </div>
 
       <?php GetUserStudyPage_comments($current_user_id, true, false, $comment_history_size, $redirect); ?>

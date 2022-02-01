@@ -10,7 +10,7 @@ use Intervention\Image\ImageManager;
 
 function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
-  if ($assetFolder != 'js' && $assetFolder != 'css') {
+  if ($assetFolder != 'js' && $assetFolder != 'css' && $assetFolder != 'json') {
     return false;
   }
 
@@ -38,7 +38,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
     // Replace URLs
     $object = str_replace("%template_url", $template_url, $object);
 
-    if ($assetFolder == 'js') {
+    if ($assetFolder == 'js' || $assetFolder == 'json') {
       $objectMinified = new Minify\JS($object);
     } elseif ($assetFolder == 'css') {
       $objectMinified = new Minify\CSS($object);
@@ -57,7 +57,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
 }
 
-function GetImageCache($asset, $size=null, $type='png', $compression=80) {
+function GetImageCache($asset, $size=null, $type='png', $compression=80, $full_image=false) {
 
   global $template_dir;
   global $template_url;
@@ -89,7 +89,10 @@ function GetImageCache($asset, $size=null, $type='png', $compression=80) {
 
     $image->save($cachedObject, $compression);
 
-    return $theLink;
+  }
+
+  if ($full_image) {
+    return $object;
   } else {
     return $theLink;
   }

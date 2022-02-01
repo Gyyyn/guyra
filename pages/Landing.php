@@ -61,11 +61,11 @@ get_header(null, ['css' => 'landing.css']);
                   <div class="col mx-auto prices primary pro">
                     <div class="card mb-4 border-secondary">
                       <div class="card-header py-2">
-                        <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
+                        <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepremium'] ?></h3>
                       </div>
                       <div class="card-body">
                         <h1 class="card-title text-secondary pricing-card-title">
-                          <?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small>
+                          <?php echo $gi18n['pricesfeature_pricepremium'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small>
                         </h1>
                         <a href="#jump-prices" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
                       </div>
@@ -182,10 +182,10 @@ get_header(null, ['css' => 'landing.css']);
        <div class="col-md prices primary">
          <div class="card mb-4 border-secondary">
            <div class="card-header py-2">
-             <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepro'] ?></h3>
+             <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlepremium'] ?></h3>
            </div>
            <div class="card-body">
-             <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepro'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
+             <h1 class="card-title text-secondary pricing-card-title"><?php echo $gi18n['pricesfeature_pricepremium'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
              <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_oneclass']; ?></span> <span class="text-normal d-flex align-items-center"><i class="bi bi-check-lg text-green"></i></span></li>
                <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
@@ -279,5 +279,25 @@ get_header(null, ['css' => 'landing.css']);
 
  </main>
 
+ <footer style="padding: calc(3rem + 2vw) 0;">
+   <div class="squeeze mx-3 mx-md-auto">
+     <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
+         <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
+         <li class="breadcrumb-item"><a href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a></li>
+         <?php if (false): ?><li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li> <?php endif; ?>
+         <li class="breadcrumb-item"><a href="<?php echo $gi18n['thanks_footer_link'] ?>"><?php echo $gi18n['thanks'] ?></a></li>
+       </ol>
+     </nav>
+     <p class="mt-3">
+       &copy; <?php echo date('Y') . ' ' . $gi18n['company_name']; ?> <br />
+       <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
+     </p>
+
+     <img class="float-end page-icon" alt="Guyra bird" src="<?php echo $gi18n['title_logo_img'] ?>" />
+
+   </div>
+ </footer>
  <?php
  get_footer(null, ['aos' => true]);

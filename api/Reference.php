@@ -11,12 +11,16 @@ global $is_logged_in;
 
 Guyra_Safeguard_File();
 
+include_once $template_dir . '/functions/Assets.php';
+
 if ($_GET['fetch_irregulars_object']) {
-  $theJson = json_decode(file_get_contents($template_dir . '/assets/json/irregularVerbs.json'), true);
-  guyra_output_json($theJson, true);
+  header("Content-Type: application/json");
+  echo GetMinifiedAsset('json', 'irregularVerbs.json', true);
+  exit;
 }
 
 if ($_GET['fetch_phrasals_object']) {
-  $theJson = json_decode(file_get_contents($template_dir . '/assets/json/phrasalVerbs.json'), true);
-  guyra_output_json($theJson, true);
+  header("Content-Type: application/json");
+  echo GetMinifiedAsset('json', 'phrasalVerbs.json', true);
+  exit;
 }

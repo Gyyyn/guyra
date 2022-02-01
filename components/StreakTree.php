@@ -4,16 +4,10 @@ function UserLoginUpdateStreakStatus($user_id) {
 
   global $current_user_id;
   global $current_user_gamedata;
-  $now = time();
+  global $gi18n;
+  global $secondsForA;
 
-  $secondsForA = [
-    'year' => 31536000,
-    'month' => 2592000,
-    'week' => 604800,
-    'day' => 86400,
-    'hour' => 3600,
-    'minute' => 60
-  ];
+  $now = time();
 
   if ($user_id == $current_user_id) {
     $gamedata = $current_user_gamedata;
@@ -43,17 +37,34 @@ function UserLoginUpdateStreakStatus($user_id) {
 
       $streak_info['streak_length'] = 0;
 
+      // Prevents a notifications being sent on streak reset.
+      if ($streak_info['last_logged_activity'] > 1) {
+        PushNotification($gi18n['notification_streak_lost']);
+      }
+
+      $streak_info['last_logged_activity'] = $now;
+
     } else {
 
-      $streak_info['streak_length'] += $daysSinceLastLogin;
+      // The streak continues.
+      if ($daysSinceLastLogin > 0) {
 
-      if ($streak_info['streak_length'] > (int) $streak_info['streak_record']) {
-        $streak_info['streak_record'] = $streak_info['streak_length'];
+        $streak_info['streak_length'] += $daysSinceLastLogin;
+        $notification_message = $gi18n['notification_streak_updated'];
+
+        if ($streak_info['streak_length'] > (int) $streak_info['streak_record']) {
+          $streak_info['streak_record'] = $streak_info['streak_length'];
+          $notification_message['contents'] .= ' ' . $gi18n['notification_streak_updated_highest'];
+        }
+
+        $streak_info['last_logged_activity'] = $now;
+
+        Guyra_increase_user_level($current_user_id, 1);
+        PushNotification($notification_message);
+
       }
-      
-    }
 
-    $streak_info['last_logged_activity'] = $now;
+    }
 
   }
 

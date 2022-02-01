@@ -83,42 +83,52 @@ class Shop_ItemView extends React.Component {
   }
 
   render() {
-    return e(ShopContext.Consumer, null, ({i18n}) => e(
-      'div',
-      { className: 'shop-item-wrapper justfade-animation animate' },
-      e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze-big' } }),
-      e(
+    return e(ShopContext.Consumer, null, ({i18n, userdata}) => {
+
+      var afterPurchaseBalance = userdata.gamedata.level - this.props.price;
+
+      if (afterPurchaseBalance < 0) {
+        afterPurchaseBalance = 0;
+      }
+
+      return e(
         'div',
-        { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
+        { className: 'shop-item-wrapper justfade-animation animate' },
+        e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze-big' } }),
         e(
           'div',
-          { className: 'welcome' },
-          e('h1', { className: 'mt-3' }, this.props.name),
+          { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
+          e(
+            'div',
+            { className: 'welcome' },
+            e('h1', { className: 'mt-3' }, this.props.name),
+          ),
+          e('img', { className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
         ),
-        e('img', { className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
-      ),
-      e(
-        'div',
-        { className: 'shop-item-description d-flex flex-column' },
-        e('span', {}, this.props.description),
-        e(
-          'span',
-          { className: 'text-n'},
-          e('span', { className: 'fw-bold' }, this.props.price), e('span', { className: 'fw-bold ms-1' }, i18n.levels),
-          e('span', { className: 'ms-1'}, 'Balanço após compra: 0 ' + i18n.levels)
-        ),
-      ),
-      e(
-        'div',
-        { className: 'shop-item-details d-flex flex-column mt-3' },
-        e('span', {}, this.props.description_full),
         e(
           'div',
-          { className: 'my-3' },
-          e('button', { className: 'btn-tall green w-100' }, i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels)
+          { className: 'shop-item-description d-flex flex-column' },
+          e('span', {}, this.props.description),
+          e(
+            'span',
+            { className: 'text-n'},
+            e('span', { className: 'fw-bold' }, this.props.price), e('span', { className: 'fw-bold ms-1' }, i18n.levels),
+            e('span', { className: 'ms-1'}, i18n.balance_after_purchase + ': ' + this.afterPurchaseBalance + ' ' + i18n.levels)
+          ),
+        ),
+        e(
+          'div',
+          { className: 'shop-item-details d-flex flex-column mt-3' },
+          e('span', {}, this.props.description_full),
+          e(
+            'div',
+            { className: 'my-3' },
+            e('button', { className: 'btn-tall green w-100' }, i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels)
+          )
         )
-      )
-    ));
+      );
+
+    });
   }
 
 }
@@ -133,12 +143,12 @@ class Shop_Item extends React.Component {
     var cardExtraClass = '';
 
     if (this.props.pin) {
-      cardExtraClass = ' w-100 mb-5'
+      cardExtraClass = ' green hoverable animate';
     }
 
     return e(ShopContext.Consumer, null, ({i18n, setPage}) => e(
       'div',
-      { className: 'card trans p-3 position-relative mb-2 me-2' + cardExtraClass },
+      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass },
       e(
         'div',
         { className: 'd-flex flex-row' },
@@ -149,13 +159,13 @@ class Shop_Item extends React.Component {
         ),
         e(
           'div',
-          { className: 'd-flex flex-column' },
+          { className: 'd-flex flex-column shop-item-details' },
           e('h3', {}, this.props.name),
           e('span', {}, this.props.description),
           e('span', { className: 'my-1 fw-bold text-n'}, this.props.price, e('span', { className: 'ms-1' }, i18n.levels)),
           e(
             'button',
-            { className: 'btn-tall btn-sm green disabled d-inline mt-3',
+            { className: 'btn-tall disabled btn-sm green d-inline mt-3',
               onClick: () => {
                 // setPage(
                 //   e(Shop_ItemView, this.props),
@@ -174,19 +184,60 @@ class Shop_Item extends React.Component {
 function Shop_ItemList(props) {
   return e(
     'div',
-    { className: 'shop-item-list mt-5' },
-    Object.values(props.shopObject).map(item => {
+    { className: 'shop-item-list d-flex flex-wrap justify-content-around mt-5' },
+    Object.values(props.shopObject).map((item, i) => {
+
       return e(Shop_Item, item);
+
     }
   ));
 }
 
 function Shop_Header(props) {
-  return e(
-    'div',
-    { className: 'd-flex flex-row' },
-    e('span', {}, 'Seus Niveis: 100')
-  );
+  return e(ShopContext.Consumer, null, ({i18n, userdata}) => {
+
+    var gamedata = userdata.gamedata;
+
+    if (!gamedata) {
+      gamedata = { level: '...' };
+    }
+
+    return e(
+      'div',
+      { className: 'd-flex flex-column' },
+      e(
+        'div',
+        { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
+        e(
+          'div',
+          { className: 'welcome' },
+          e('h1', { className: 'text-blue' }, i18n.shop),
+        ),
+        e(
+          'span',
+          { className: 'page-icon' },
+          e(
+            'img',
+            {
+              alt: i18n.shop,
+              src: i18n.api_link + '?get_image=icons/exercises/shop.png&size=128'
+            }
+          )
+        )
+      ),
+      e(
+        'div',
+        { className: 'balance d-flex flex-column' },
+        e('h3', { className: 'text-blue' }, i18n.yours + ' ' + i18n.points),
+        e(
+          'div',
+          { className: 'd-flex flex-row text-n' },
+          e('span', { className: 'me-1' }, i18n.levels + ': '),
+          e('span', { className: 'fw-bold' }, gamedata.level)
+        ),
+      ),
+    );
+  });
 }
 
 function Shop_wrapper(props) {
@@ -194,7 +245,6 @@ function Shop_wrapper(props) {
     e(ShopContext.Consumer, null, ({shopObject}) => e(
       'div',
       { className: 'shop-wrapper justfade-animation animate' },
-      e('h1', { className: 'text-blue' }, 'Shop'),
       e(Shop_Header),
       e(Shop_ItemList, { shopObject: shopObject })
     ))
@@ -209,7 +259,8 @@ class Shop extends React.Component {
       page: e(LoadingPage),
       setPage: this.setPage,
       shopObject: {},
-      squeezeType: 'squeeze-big'
+      squeezeType: 'squeeze-big',
+      userdata: {},
     };
 
   }
@@ -238,6 +289,18 @@ class Shop extends React.Component {
       });
 
     });
+
+    fetch(rootUrl + 'api?get_user_data=1')
+    .then(res => res.json())
+    .then(json => {
+
+      this.setState({
+        userdata: JSON.parse(json),
+      });
+
+    });
+
+
   }
 
   decideStartingPage() {

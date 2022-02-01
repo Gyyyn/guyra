@@ -12,15 +12,13 @@ Guyra_Safeguard_File();
 
 $user = $_GET['user'];
 $allowedUsers = [];
-$users = get_users();
+$users = guyra_get_users(['teacherid' => $current_user_id]);
 $usersdata = [];
 
 foreach ($users as $x) {
 
-  $usersdata[$x->ID] = guyra_get_user_data($x->ID);
-
-  if ($usersdata[$x->ID]['teacherid'] == $current_user_id) {
-    $allowedUsers[] = $x->ID;
+  if ($x['userdata']['teacherid'] == $current_user_id) {
+    $allowedUsers[] = $x['id'];
   }
 }
 
@@ -96,12 +94,12 @@ if ($_GET['action'] == 'fetch_users') {
 
   foreach ($users as $x) {
 
-    $theUserID = $x->ID;
+    $theUserID = $x['id'];
 
     if (in_array($theUserID, $allowedUsers)) {
 
       $users_array[$theUserID]['id'] = $theUserID;
-      $users_array[$theUserID]['meta'] = guyra_get_user_meta($theUserID, false, true);
+      $users_array[$theUserID]['data'] = $x['userdata'];
 
     }
 

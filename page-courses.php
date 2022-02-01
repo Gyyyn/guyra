@@ -4,7 +4,7 @@ global $template_dir;
 global $site_url;
 global $is_logged_in;
 
-Guyra_Safeguard_Access();
+Guyra_Safeguard_Access(['paid_users' => true]);
 
 get_header(null, ['css' => 'courses.css']);
 ?>

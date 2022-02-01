@@ -6,40 +6,17 @@ include_once $template_dir . '/functions/Assets.php';
 
 function Guyra_notepad() { ?>
 
-  <div class="position-fixed bottom-0 end-0 notepad-toggle">
-    <a class="btn-tall blue round-border" id="notepad-toggle">
+  <div class="position-fixed bottom-0 end-0 notepad-toggle overflow-x-visible" id="notepad-wrapper">
+    <a class="btn-tall blue round-border position-absolute" id="notepad-toggle">
       <img class="page-icon tiny" alt="notes" src="<?php echo GetImageCache('icons/notes.png', 32); ?>">
     </a>
   </div>
 
   <div class="d-none position-fixed end-0" id="notepad">
+    <div id="notepad-header" class="position-absolute top-0 end-0 p-3" style="cursor: move;"><i class="bi bi-arrows-move"></i></div>
     <textarea id="notepad-text" class="text-small" value=""></textarea>
   </div>
 
-  <script>
-    let toggler = document.getElementById('notepad-toggle');
-
-    function toggleNotepad() {
-      let notepad = document.getElementById('notepad');
-
-      notepad.classList.toggle('d-none');
-    }
-
-    toggler.addEventListener("click", toggleNotepad);
-
-    notepadStorage = localStorage.getItem('notepad');
-    notepadText = document.querySelector("#notepad-text");
-
-    if (notepadStorage !== null) {
-      notepadText.value = notepadStorage;
-    }
-
-    notepadText.onkeyup = eventTrigger;
-
-    function eventTrigger(e) {
-      localStorage.setItem('notepad', notepadText.value);
-    }
-
-  </script>
+  <script async src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
 
 <?php }

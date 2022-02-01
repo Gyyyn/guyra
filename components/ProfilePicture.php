@@ -5,8 +5,21 @@ global $template_url;
 function Guyra_get_profile_picture($user, $classlist=null, $onlylink=false) {
 
   global $site_api_url;
+  global $current_user_id;
+  global $current_user_data;
 
-  $user_data = guyra_get_user_data($user);
+  if (is_array($user)) {
+    $user_data = $user;
+  } else {
+
+    if ($user == $current_user_id) {
+      $user_data = $current_user_data;
+    } else {
+      $user_data = guyra_get_user_data($user);
+    }
+
+  }
+
   $profile_picture_url = $user_data['profile_picture_url'];
 
   // If no profile picture is set we are going to use a hashed generator.

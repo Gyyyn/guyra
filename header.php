@@ -3,14 +3,17 @@
 global $wp;
 global $template_dir;
 global $template_url;
+global $site_api_url;
 global $current_user_id;
 global $current_user_data;
 global $current_user_subscription_valid;
+global $current_user_notifications;
 global $is_logged_in;
 global $gi18n;
 
 include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/Notepad.php';
+include_once $template_dir . '/components/Header.php';
 include_once $template_dir . '/functions/Assets.php';
 
 $body_class[0] = 'logged_out';
@@ -34,26 +37,32 @@ $page_Title = $gi18n['company_name'];
 if ($where_am_i == '') {
 
   $body_class[] = 'home';
+  $page_Title = $gi18n['study'];
+
+  if (!$is_logged_in)
+  $page_Title = $gi18n['homepage'];
+
 
 } elseif ($where_am_i == 'category/blog') {
 
   $body_class[] = 'blog';
-
-  if ($is_logged_in) {
-    $page_Title =  $gi18n['blog'] . ' ' . $gi18n['company_name'];
-  }
+  $page_Title = $gi18n['blog'] . ' ' . $gi18n['company_name'];
 
 } elseif ($where_am_i == 'account') {
 
   $body_class[] = 'profile';
+  $page_Title = $gi18n['login'];
 
-  if ($is_logged_in) {
-    $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['company_name'];
-  }
+  if ($is_logged_in)
+  $page_Title = $current_user_data['first_name'] . ' - ' . $gi18n['account'] . ' ' . $gi18n['company_name'];
 
 } else {
 
   $body_class[] = $where_am_i;
+  $page_Title = $where_am_i;
+
+  if ($gi18n[$page_Title])
+  $page_Title = $gi18n[$page_Title] . ' - ' . $gi18n['company_name'];
 
 }
 
@@ -68,7 +77,7 @@ if ($where_am_i == '') {
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
-<title><?php echo $page_Title; ?></title>
+<title><?php echo ucfirst($page_Title); ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">
 
 <?php // We don't want anything echoed here, but we want wp_head to do it's thing.
@@ -130,11 +139,11 @@ ob_end_clean(); ?>
 
         <ul class="navbar-nav">
 
-          <li class="nav-item me-3">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
-          </li>
-
           <?php if (!$is_logged_in): ?>
+
+          <li class="nav-item me-3">
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['homepage']; ?></a>
+          </li>
 
           <li class="nav-item me-3">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-info"><?php echo $gi18n['info']; ?></a>
@@ -146,9 +155,13 @@ ob_end_clean(); ?>
 
           <?php else: ?>
 
-            <li class="nav-item me-3">
-              <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
-            </li>
+          <li class="nav-item me-3">
+            <a class="btn-tall btn-sm purple" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
+          </li>
+
+          <li class="nav-item me-3">
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
+          </li>
 
           <?php endif; ?>
 
@@ -164,33 +177,12 @@ ob_end_clean(); ?>
 
           <?php else: ?>
 
+          <li class="nav-item me-1">
+            <?php RenderNotificationsDropdown(['offset' => '-200,-20']); ?>
+          </li>
+
           <li class="nav-item profile-item">
-            <div class="dropdown m-0 d-inline">
-              <a class="text-decoration-none d-flex" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="btn-tall btn-sm text-small text-primary me-2"><?php echo $current_user_data['first_name']; ?></span>
-                <?php echo $profile_picture; ?>
-              </a>
-              <ul class="dropdown-menu pop-animation animate fast">
-                <li>
-                  <a class="dropdown-item" href="<?php echo $gi18n['account_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
-                    <?php echo $gi18n['button_myaccount'] ?>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="<?php echo $gi18n['profile_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/clipboard.png', 64); ?>">
-                    <?php echo $gi18n['profile'] ?>
-                  </a>
-                </li>
-                <li>
-                  <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item text-danger" href="<?php echo $gi18n['logout_link']; ?>">
-                    <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/logout.png', 64); ?>">
-                    <?php echo $gi18n['logout'] ?>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'offset' => '-150,-20']); ?>
           </li>
 
           <?php endif; ?>
@@ -233,6 +225,25 @@ ob_end_clean(); ?>
     </div>
 
   </nav>
+
+  <?php if ($is_logged_in): ?>
+  <div class="mobile-top-header d-flex flex-column d-lg-none justify-content-center align-items-center w-100 text-s fw-bold position-fixed top-0 start-0 pb-0">
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <span class="position-absolute start-0"><button class="btn text-white" type="button" name="button" id="mobile-header-back"><i class="bi bi-chevron-left"></i></button></span>
+      <span class="capitalize"><?php echo ucfirst($page_Title) ?></span>
+      <span class="page-icon tiny position-absolute end-0">
+        <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'name_button' => false, 'offset' => '0,-20']); ?>
+      </span>
+    </div>
+    <div class="d-flex flex-row justify-content-evenly w-100">
+      <a class="btn shop-link fw-bold text-white" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" src="<?php echo GetImageCache('icons/exercises/shop.png', 32); ?>"></a>
+      <a class="btn reference-link fw-bold text-white" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" src="<?php echo GetImageCache('icons/layers.png', 32); ?>"></a>
+      <a class="btn meeting-link fw-bold text-white" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" src="<?php echo GetImageCache('icons/video-camera.png', 32); ?>"></a>
+      <span class="position-relative"><?php RenderNotificationsDropdown(['buttonClass' => 'btn text-white p-1 pt-2']); ?></span>
+    </div>
+  </div>
+  <?php endif; ?>
+
 </header>
 
 <?php Guyra_notepad(); ?>

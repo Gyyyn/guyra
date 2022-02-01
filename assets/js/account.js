@@ -284,10 +284,10 @@ function AccountPayment_planSelect(props) {
           e(
             'div',
             { className: 'plan-details' },
-            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlepro),
-            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlepro),
+            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlepremium),
+            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlepremium),
           ),
-          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricepro_value)
+          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricepremium_value)
         )),
       ),
 
@@ -336,7 +336,28 @@ function AccountPayment_cancelPlan(props) {
       { id: 'cancel-membership', className: 'd-none animate my-3' },
       e(
         'button',
-        { className: 'btn-tall red' },
+        {
+          className: 'btn-tall red',
+          onClick: (e) => {
+
+            var before = e.target.innerHTML;
+            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+            fetch(i18n.api_link + '?cancel_membership=1')
+            .then(res => res.json())
+            .then(res => {
+              if (typeof res === 'string') {
+                res = JSON.parse(res);
+              }
+              if (res.status == 'cancelled') {
+                e.target.innerHTML = before;
+                window.location.href = i18n.account_link;
+              } else {
+                console.log(res);
+              }
+            })
+          }
+        },
         i18n.cancel_membership
       )
     )
@@ -526,8 +547,12 @@ class AccountPayment extends React.Component {
           }).then(res => res.json()).then(res => {
 
             submitButton.innerHTML = before;
-            console.log(res);
-            var response = JSON.parse(res);
+
+            if (typeof res === 'string') {
+              res = JSON.parse(res);
+            }
+
+            var response = res;
 
             console.log(response);
 
@@ -575,7 +600,7 @@ class AccountPayment extends React.Component {
 
       var warningsList = [];
 
-      if (usermeta.payments.payment_status == 'approved') {
+      if (usermeta.payments.status == 'approved') {
         warningsList.push(
           e(AccountPayment_yourPlan, {values: usermeta.payments})
         );
@@ -585,7 +610,7 @@ class AccountPayment extends React.Component {
         );
       }
 
-      if (usermeta.payments.payment_status == 'expired') {
+      if (usermeta.payments.status == 'expired') {
         warningsList.push(
           e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_expired_warning })
         );
@@ -1019,7 +1044,7 @@ function AccountOptions_accountDetails(props) {
       e(
         'h3',
         { className: 'text-blue' },
-        i18n.payment_method
+        i18n.your_plan
       ),
       e(
         'div',
@@ -1028,26 +1053,16 @@ function AccountOptions_accountDetails(props) {
           'div',
           { className: 'text-small d-flex flex-column align-items-start' },
           e(
-            'p',
-            {},
-            i18n.payment_message,
-            e(
-              'span',
-              { className: 'text-uppercase' },
-              usermeta.user_payment_method
-            ),
-          ),
-          e(
             'a',
             {
               href: i18n.purchase_link,
-              className: 'btn-tall btn-sm blue mt-1',
+              className: 'btn-tall blue mt-1',
               onClick: () => {
                 setPage(e(AccountPayment));
                 window.location.hash = '#payment';
               }
             },
-            i18n.change_payment_method,
+            i18n.manage_your_plan,
             e('i', { className: 'bi bi-credit-card-fill ms-1' }),
           )
         )
@@ -1068,10 +1083,6 @@ function AccountOptions_accountDetails(props) {
 
           var allowed = false;
 
-          if (Notification.permission === "granted") {
-            allowed = true;
-          }
-
           if (!("Notification" in window)) {
             return e(
               'p',
@@ -1079,36 +1090,25 @@ function AccountOptions_accountDetails(props) {
               i18n.notifications_not_supported
             );
           } else {
-            return [
-              e(
-                'p',
-                { className: 'me-3' },
-                i18n.notifications_enable
-              ),
-              e(
-                'label',
-                {
-                  className: 'switch',
-                  onClick: () => {
+            return e(AccountOptions_slider, { value: i18n.notifications_enable, onClick: () => {
 
-                    var checkbox = document.getElementById('notifications-checkbox');
+              var checkbox = document.getElementById('notifications-checkbox');
 
-                    if (allowed == false) {
-                      Notification.requestPermission().then((permission) => {
-                        if (permission === "granted") {
-                          checkbox.checked = true;
-                        } else {
-                          checkbox.checked = false;
-                        }
-                      });
-                    }
+              if (Notification.permission === "granted") {
+                allowed = true;
+              }
 
+              if (allowed == false) {
+                Notification.requestPermission().then((permission) => {
+                  if (permission === "granted") {
+                    checkbox.checked = true;
+                  } else {
+                    checkbox.checked = false;
                   }
-                },
-                e('input', { id: 'notifications-checkbox',type: 'checkbox', className: 'd-none', checked: allowed }),
-                e('span', { className: 'slider' })
-              )
-            ];
+                });
+              }
+
+            }});
           }
         })
       )
@@ -1168,8 +1168,51 @@ function AccountOptions_accountDetails(props) {
           )
         )
       )
-    )
+    ),
+    e(AccountOptions_privacyDetails),
   ));
+}
+
+function AccountOptions_slider(props) {
+  return e(
+    'div',
+    { className: 'd-flex flex-row' },
+    e(
+      'label',
+      {
+        className: 'switch',
+        onClick: () => {
+
+          props.onClick();
+
+        }
+      },
+      e('input', { id: 'notifications-checkbox', type: 'checkbox', className: 'd-none' }),
+      e('span', { className: 'slider' })
+    ),
+    e(
+      'p',
+      { className: 'ms-5' },
+      props.value
+    ),
+  );
+}
+
+function AccountOptions_privacyDetails(props) {
+  return e(
+    'div',
+    { className: 'row' },
+    e(
+      'div',
+      { className: 'd-flex flex-column' },
+      e(
+        'h3',
+        { className: 'text-blue' },
+        'Privacidade'
+      ),
+      e(AccountOptions_slider, { value: 'Aparecer publicamente nos rankings.' }),
+    )
+  );
 }
 
 function AccountOptions(props) {
@@ -1182,7 +1225,7 @@ function AccountOptions(props) {
       { className: 'd-flex w-100 my-3' },
       e(Account_BackButton, { page: e(AccountWrapper) })
     ),
-    e(AccountOptions_profileDetails)
+    e(AccountOptions_profileDetails),
   );
 
 }
@@ -1191,7 +1234,8 @@ function WhoAmI_welcome(props) {
 
   return e(AccountContext.Consumer, null, ({setPage, usermeta, i18n}) => {
 
-    var dateRegisteredSince = new Date(usermeta.user_registered);
+    // Safari cries if we use dashes for dates
+    var dateRegisteredSince = new Date(usermeta.user_registered.replace(/-/g, "/"));
 
     return e(
       'div',
@@ -1211,7 +1255,7 @@ function WhoAmI_welcome(props) {
           e(
             'span',
             { className: 'ms-1 fw-bold' },
-            dateRegisteredSince.toLocaleDateString() + '!'
+            dateRegisteredSince.toLocaleDateString('pt-BR') + '!'
           )
         )
       ),
@@ -1519,7 +1563,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue' },
-        i18n.level + usermeta.gamedata[3]
+        i18n.level + ': ' + usermeta.gamedata['level']
       ),
       e('p', {}, i18n.level_explain),
       e(
@@ -1536,7 +1580,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue capitalize' },
-        i18n.ranking + usermeta.gamedata[2]
+        i18n.ranking + usermeta.gamedata['ranking_name']
       ),
       e(
         'div',
@@ -1544,9 +1588,9 @@ function AccountInfo_ranking(props) {
         e(
           'img',
           {
-            className: 'page-icon avatar bg-grey p-2',
-            alt: usermeta.gamedata[2],
-            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + usermeta.gamedata[1] + '.png'
+            className: 'page-icon medium avatar bg-grey p-2',
+            alt: usermeta.gamedata['ranking'],
+            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + usermeta.gamedata['ranking'] + '.png'
           },
         )
       ),
@@ -1605,12 +1649,21 @@ function AccountInfo(props) {
     ),
     e(
       'div',
-      { className: 'col-md d-flex flex-column align-items-center' },
-      e(
-        'div',
-        { className: 'd-flex' },
+      { className: 'col-md d-flex flex-column mx-md-3' },
+      e('h2', { className: 'text-blue' }, i18n.inventory),
+      e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
 
-      )
+        var theInventory = usermeta.inventory;
+
+        if (theInventory.length == 0) {
+          return e('span', { className: 'text-muted' }, i18n.inventory_empty);
+        } else {
+          return theInventory.map((item, i) => {
+            return e('div', { className: 'inventory-item' }, item.title);
+          });
+        }
+
+      }),
     )
   ));
 }

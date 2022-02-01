@@ -1,0 +1,5 @@
+.account-plans {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(var(--guyra-navbar-size) + 1rem);
+}

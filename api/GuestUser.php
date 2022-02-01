@@ -62,14 +62,12 @@ if ($_GET['register']) {
         'last_name' => $data['user_lastname'],
         'role' => '',
         'user_registered' => date('Y-m-d H:i:s'),
-        'user_payment_method' => '',
-        'user_subscription' => '',
-        'user_subscription_since' => '',
-        'user_subscription_expires' => '',
         'teacherid' => '',
         'studygroup' => '',
         'user_meetinglink' => ''
       ], JSON_UNESCAPED_UNICODE));
+
+      PushNotification($gi18n['notification_welcome'], $user);
 
       $creds = [
         'user_login'    => $data['user_email'],

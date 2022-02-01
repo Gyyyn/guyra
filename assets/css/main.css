@@ -22,10 +22,14 @@
   --guyra-red-darker: rgba(217, 30, 0, 1);
   --guyra-red-darkest: rgb(140 31 13);
 
+  --guyra-yellow: rgb(255 235 0);
+  --guyra-yellow-lightest: rgb(255 253 179);
+  --guyra-yellow-darkest: rgb(155 143 2);
+
   --guyra-blue-blue-darker-gradient: linear-gradient(0deg, rgb(0 246 255) 0%, rgb(0 147 255) 100%);
   --guyra-blue-purple-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, var(--guyra-purple) 100%);
-  --guyra-blue-transparent-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, rgba(255, 255, 255, 0) 100%);
-  --guyra-white-transparent-gradient: linear-gradient(90deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
+  --guyra-white-transparent-gradient: linear-gradient(180deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
+  --guyra-black-transparent-gradient: linear-gradient(180deg, var(--guyra-black) 0%, rgba(255, 255, 255, 0) 100%);
 
   --guyra-white: #ffffff;
   --guyra-grey: #f0f0f0;
@@ -37,6 +41,7 @@
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
+  --guyra-box-shadow-material: 0 15px 1rem 3px rgba(0, 0, 0, 17%);
   --guyra-box-shadow-outline: 0 0 0 1rem rgba(255, 255, 255, .33);
   --guyra-box-shadow-outline-smaller: 0 0 0 .33rem rgba(255, 255, 255, .33);
   --guyra-box-shadow-outline-onwhite: 0 0 0 1rem rgba(166, 241, 255, .33);
@@ -120,14 +125,6 @@
 * -------- General
 */
 
-/* One day I will hunt down what's overflowing so this won't be needed anymore.
-not today tho */
-@media (max-width: 992px) {
-  * {
-    overflow-x: clip;
-  }
-}
-
 html,
 body,
 .post,
@@ -142,7 +139,7 @@ body {
 	font-family: var(--guyra-fonts-text);
 	font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
-  background-color: var(--guyra-blue-lightest);
+  background-color: #e5eaee;
 }
 
 h1 { font-size: var(--guyra-fonts-textsize-xxx); }
@@ -159,102 +156,41 @@ h1, h2, h3, h4 {
 	cursor: default;
 }
 
-.page-squeeze h1 {
-  font-size: var(--guyra-fonts-textsize-super);
-  margin: 0;
-}
-
-.text-normal {
-  font-size: var(--guyra-fonts-textsize-n);
-}
-
-small,
-.text-small {
-  font-size: var(--guyra-fonts-textsize-s);
-}
-
-.text-smaller {
-  font-size: var(--guyra-fonts-textsize-ss);
-}
-
-.text-smallest {
-  font-size: var(--guyra-fonts-textsize-sss);
-}
-
-large,
-.text-large {
-  font-size: var(--guyra-fonts-textsize-x);
-}
-
-.text-larger {
-  font-size: var(--guyra-fonts-textsize-xx) !important;
-}
-
-.text-largest {
-  font-size: var(--guyra-fonts-textsize-xxx) !important;
-}
-
-.text-muted {
-    color: var(--guyra-grey-dark) !important;
-}
-
-.text-blue { color: var(--guyra-blue); }
-.text-purple { color: var(--guyra-purple); }
+.text-blue, .text-primary { color: var(--guyra-blue) !important; }
+.text-purple, .text-secondary { color: var(--guyra-purple) !important; }
 .text-green { color: var(--guyra-green); }
 .text-red { color: var(--guyra-red); }
+.text-black { color: var(--guyra-black) !important; }
+.text-grey { color: var(--guyra-grey); }
+.text-grey-dark, .text-muted { color: var(--guyra-grey-dark) !important; }
+.text-grey-darker { color: var(--guyra-grey-darker); }
+.text-grey-darkest { color: var(--guyra-grey-darkest); }
 
-.text-xxx { font-size: var(--guyra-fonts-textsize-xxx); }
-.text-xx { font-size: var(--guyra-fonts-textsize-xx); }
-.text-x { font-size: var(--guyra-fonts-textsize-x); }
-.text-n { font-size: var(--guyra-fonts-textsize-n); }
-.text-s { font-size: var(--guyra-fonts-textsize-s); }
-.text-ss { font-size: var(--guyra-fonts-textsize-ss); }
-.text-sss { font-size: var(--guyra-fonts-textsize-ss); }
+.text-xxx, .text-largest { font-size: var(--guyra-fonts-textsize-xxx) !important; }
+.text-xx, .text-larger { font-size: var(--guyra-fonts-textsize-xx) !important; }
+.text-x, large, .text-large { font-size: var(--guyra-fonts-textsize-x) !important; }
+.text-n, .text-normal { font-size: var(--guyra-fonts-textsize-n) !important; }
+.text-s, small, .text-small { font-size: var(--guyra-fonts-textsize-s) !important; }
+.text-ss, .text-smaller { font-size: var(--guyra-fonts-textsize-ss) !important; }
+.text-sss, .text-smallest { font-size: var(--guyra-fonts-textsize-ss) !important; }
 
 .capitalize { text-transform: capitalize; }
 
-hr {
-	background: var(--guyra-blue-purple-gradient);
-}
-
-hr.thick {
-  height: .25rem;
-  overflow: hidden;
-}
-
+.bg-primary { background-color: var(--guyra-blue) !important; }
+.bg-secondary { background-color: var(--guyra-purple) !important; }
+.bg-success, .bg-green { background-color: var(--guyra-green) !important; }
+.bg-danger, .bg-red { background-color: var(--guyra-red) !important; }
+.bg-white { background: var(--guyra-white) !important; }
+.bg-grey {background: var(--guyra-grey); }
+.bg-grey-darker {background: var(--guyra-grey-darker); }
+.bg-grey-darkest {background: var(--guyra-grey-darkest); }
 .bg-gradient { background: var(--guyra-blue-purple-gradient); }
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
 
-.home.logged_in > footer,
-.practice > footer,
-.reference > footer,
-.profile > footer,
-.register > footer,
-.courses > footer {
-  display: none;
-}
-
-footer {
-  background: var(--guyra-white);
-}
-
-footer .squeeze {
-  text-align: left;
-  font-size: var(--guyra-fonts-textsize-sss);
-  max-width: calc(40vw + 20rem);
-  margin: 0 auto;
-  padding: calc(3rem + 2vw) 0;
-}
-
-footer .squeeze nav .breadcrumb {
-  justify-content: center;
-  font-size: var(--guyra-fonts-textsize-n);
-  margin: 0;
-}
-
-footer .squeeze nav a {
-  text-decoration: none;
-}
+.border-primary { border-color: var(--guyra-blue);}
+.border-secondary { border-color: var(--guyra-purple-darker); }
+.border-outline { box-shadow: var(--guyra-box-shadow-outline); }
+.round-border, a.round-border { border-radius: 50vw !important; }
 
 .page-icon {
   overflow-x: initial;
@@ -299,11 +235,6 @@ page-icon.tiny > img {
   filter: saturate(0);
 }
 
-.bg-white { background: var(--guyra-white); }
-.bg-grey {background: var(--guyra-grey); }
-.bg-grey-darker {background: var(--guyra-grey-darker); }
-.bg-grey-darkest {background: var(--guyra-grey-darkest); }
-
 .rounded { border-radius: var(--guyra-border-radius) !important; }
 .more-rounded { border-radius: var(--guyra-border-radius-bigger) !important; }
 
@@ -323,15 +254,6 @@ page-icon.tiny > img {
     border-bottom-left-radius: var(--guyra-border-radius-bigger) !important;
   }
 
-}
-
-.round-border,
-a.round-border {
-  border-radius: 50vw !important;
-}
-
-.border-outline {
-  box-shadow: var(--guyra-box-shadow-outline);
 }
 
 .no-focus:focus,
@@ -409,33 +331,6 @@ input:checked + .slider:before {
 * -------- Navbar
 */
 
-@media (min-width: 992px) {
-
-  main.study,
-  main.page,
-  main.practice {
-    margin-top: calc(var(--guyra-navbar-size) + 3rem);
-    min-height: calc(100vh - var(--guyra-navbar-size) + 1px);
-  }
-
-  main.blog {
-    margin-top: var(--guyra-navbar-size);
-  }
-
-}
-
-@media (max-width: 992px) {
-
-  body {
-    margin-bottom: 10rem !important;
-  }
-
-}
-
-.negate-navbar {
-  margin-top: var(--guyra-navbar-size);
-}
-
 .navbar {
   display: flex;
   flex-wrap: wrap;
@@ -452,7 +347,7 @@ input:checked + .slider:before {
 
 .navbar.fixed-bottom {
   height: unset;
-  /* padding-bottom: calc(var(--sab) + .5rem); */
+  margin-bottom: calc(var(--sab) + .5rem);
 }
 
 .navbar.fixed-bottom .btn-tall {
@@ -491,13 +386,18 @@ input:checked + .slider:before {
   font-size: var(--guyra-fonts-textsize-s);
   padding: 0;
   border-radius: var(--guyra-border-radius-bigger);
-  min-width: 8vw;
   color: var(--guyra-black);
   background-color: var(--guyra-white);
   border: .25rem solid var(--guyra-grey);
-  margin-top: 10px;
-  left: -16px !important;
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
+}
+
+.dropdown-menu.account-controls {
+  min-width: 10rem !important;
+}
+
+.dropdown-menu.notifications {
+  min-width: calc(19rem + 5vw) !important;
 }
 
 .dropdown-menu li:first-child .dropdown-item {
@@ -539,10 +439,22 @@ input:checked + .slider:before {
   color: var(--guyra-white);
 }
 
-.notepad-toggle {
+.mobile-top-header {
+  padding: 0.75rem 0;
+  background-color: var(--guyra-blue);
+  color: var(--guyra-white);
   z-index: 1080;
-  margin: 2rem;
-  margin-bottom: 6rem;
+}
+
+.mobile-top-header .avatar {
+  width: 32px;
+  height: auto;
+}
+
+.notepad-toggle {
+  z-index: 1081;
+  margin: 5rem;
+  margin-bottom: 5rem;
 }
 
 #notepad-toggle {
@@ -550,14 +462,15 @@ input:checked + .slider:before {
   min-height: 64px;
   min-width: 64px;
   align-items: center;
+  box-shadow: var(--guyra-box-shadow-material);
 }
 
-.logged_out #notepad-toggle, .practice #notepad-toggle { display: none; }
+.logged_out #notepad-toggle { display: none; }
 
 #notepad {
   z-index: 1080;
-  min-width: calc(15rem + 5vw);
-  min-height: 20rem;
+  width: calc(15rem + 5vw);
+  height: 20rem;
   background: var(--guyra-green-lightest);
   padding: 1rem;
   border-radius: var(--guyra-border-radius-bigger);
@@ -611,13 +524,26 @@ input:checked + .slider:before {
 	.squeeze { max-width: calc(40vw + 20rem); margin: 0 auto; }
 	.squeeze-big { max-width: 75vw; margin: calc(3rem + 2vw) auto; }
   .squeeze-small { max-width: calc(20vw + 20rem); margin: calc(3rem + 2vw) auto; }
+
+  main {
+    margin-top: calc(var(--guyra-navbar-size) * 1.75) !important;
+    margin-bottom: 5rem !important;
+  }
 }
 
 @media (max-width: 992px) {
 	.squeeze { max-width: unset; margin: 0 auto; }
 	.squeeze-big { max-width: unset; margin: 0 auto; }
   .squeeze-small { max-width: unset; margin: 0 1rem; }
+
+  main {
+    margin-top: 7rem !important;
+    margin-bottom: 5rem !important;
+  }
 }
+
+
+/* Cards */
 
 .card {
   border-radius: var(--guyra-border-radius-bigger);
@@ -627,12 +553,16 @@ input:checked + .slider:before {
   box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
 }
 
+.card.white {
+  background-color: var(--guyra-white);
+}
+
 .card.trans {
-  background: unset;
+  background: var(--guyra-grey);
   box-shadow: unset;
   display: inline-flex;
-  min-width: 13rem;
-  min-height: 7rem;
+  min-width: calc(8rem + 5vw);
+  min-height: calc(5rem + 3vw);
   border: var(--guyra-grey-darkest) solid var(--guyra-border-size);
   border-top-width: .15rem !important;
   border-right-width: .15rem !important;
@@ -641,8 +571,16 @@ input:checked + .slider:before {
   padding: .5rem;
 }
 
-.card.trans.green { border-color: var(--guyra-green); color: var(--guyra-green-darkest); }
-.card.trans.blue { border-color: var(--guyra-blue); color: var(--guyra-blue-darkest); }
+.card.trans.green { border-color: var(--guyra-green); color: var(--guyra-green-darkest); background-color: var(--guyra-green-lightest); }
+.card.trans.blue { border-color: var(--guyra-blue); color: var(--guyra-blue-darkest); background-color: var(--guyra-blue-lightest); }
+.card.trans.yellow { border-color: var(--guyra-yellow); color: var(--guyra-yellow-darkest); background-color: var(--guyra-yellow-lightest); }
+.card.trans.red { border-color: var(--guyra-red); color: var(--guyra-red-darkest); background-color: var(--guyra-red-lightest); }
+
+.card.thin {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
 
 .card.hoverable:hover {
     box-shadow: 0px 5px 15px 7px rgb(0 190 255 / 40%);
@@ -687,28 +625,12 @@ a:hover {
   text-decoration: none;
 }
 
-.text-primary { color: var(--guyra-blue) !important; }
-.text-secondary { color: var(--guyra-purple-darker) !important; }
-.text-black { color: var(--guyra-black) !important; }
-.text-grey { color: var(--guyra-grey) !important; }
-.text-grey-dark { color: var(--guyra-grey-dark) !important; }
-.text-grey-darker { color: var(--guyra-grey-darker) !important; }
-.text-grey-darkest { color: var(--guyra-grey-darkest) !important; }
-
-.border-primary { border-color: var(--guyra-blue);}
-.border-secondary { border-color: var(--guyra-purple-darker); }
-
-.bg-primary { background-color: var(--guyra-blue) !important; }
-.bg-secondary { background-color: var(--guyra-purple) !important; }
-.bg-success, .bg-green { background-color: var(--guyra-green) !important; }
-.bg-danger, .bg-red { background-color: var(--guyra-red) !important; }
-
 .rounded-box {
   background: var(--guyra-white);
   padding: calc(2vw + .25rem);
   border-radius: var(--guyra-border-radius-bigger);
   margin-top: 3rem;
-  box-shadow: var(--guyra-box-shadow-outline);
+  box-shadow: var(--guyra-box-shadow-bigger), var(--guyra-box-shadow-outline);
 }
 
 .rounded-box-padded {

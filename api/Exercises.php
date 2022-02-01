@@ -3,6 +3,7 @@
 global $template_dir;
 global $current_user_id;
 global $current_user_gamedata;
+global $gi18n;
 
 include_once $template_dir . '/functions/Game.php';
 
@@ -31,6 +32,7 @@ if ($_GET['log_exercise_data']) {
   $completed_units[] = $theData['unit'];
   $current_user_gamedata['completed_units'] = $completed_units;
 
+  PushNotification($gi18n['notification_exercise_levelup']);
   guyra_update_user_data($current_user_id, 'completed_units', json_encode($completed_units), 'gamedata');
   guyra_log_to_db($current_user_id, $theDataJSON);
 
