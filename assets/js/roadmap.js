@@ -1,49 +1,4 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from './Common.js';
 
 const RoadmapContext = React.createContext();
 
@@ -333,25 +288,17 @@ class Roadmap extends React.Component {
 
   componentWillMount() {
 
+    this.setState({
+      i18n: guyraGetI18n()
+    });
+
     fetch(rootUrl + 'api?get_roadmap=1')
     .then(res => res.json())
     .then(json => {
 
       this.setState({
-        roadmap: json
-      });
-
-      fetch(rootUrl + 'api?i18n=full')
-      .then(res => res.json())
-      .then(json => {
-
-        thei18n = json.i18n;
-
-        this.setState({
-          page: e(RoadmapWrapper),
-          i18n: json.i18n
-        });
-
+        roadmap: json,
+        page: e(RoadmapWrapper)
       });
 
     });

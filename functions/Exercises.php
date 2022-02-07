@@ -1,7 +1,10 @@
 <?php
+
 global $template_dir;
 global $template_url;
 global $gSettings;
+
+Guyra_Safeguard_File();
 
 require $template_dir . '/vendor/autoload.php';
 

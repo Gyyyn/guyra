@@ -1,49 +1,4 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
 
 const ShopContext = React.createContext();
 
@@ -83,7 +38,8 @@ class Shop_ItemView extends React.Component {
   }
 
   render() {
-    return e(ShopContext.Consumer, null, ({i18n, userdata}) => {
+
+    return e(ShopContext.Consumer, null, ({i18n, userdata, setPage}) => {
 
       var afterPurchaseBalance = userdata.gamedata.level - this.props.price;
 
@@ -101,29 +57,83 @@ class Shop_ItemView extends React.Component {
           e(
             'div',
             { className: 'welcome' },
-            e('h1', { className: 'mt-3' }, this.props.name),
+            e('h1', { className: 'mt-3' }, i18n._shop[this.props.id].name),
           ),
           e('img', { className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
         ),
         e(
           'div',
           { className: 'shop-item-description d-flex flex-column' },
-          e('span', {}, this.props.description),
+          e('h4', { className: 'mb-3' }, i18n._shop[this.props.id].description),
           e(
             'span',
-            { className: 'text-n'},
-            e('span', { className: 'fw-bold' }, this.props.price), e('span', { className: 'fw-bold ms-1' }, i18n.levels),
-            e('span', { className: 'ms-1'}, i18n.balance_after_purchase + ': ' + this.afterPurchaseBalance + ' ' + i18n.levels)
+            { className: 'text-n d-flex flex-column'},
+            e('span', {}, i18n.price + ': ', e('span', { className: 'fw-bold' }, this.props.price + ' ' + i18n.levels)),
+            e('span', {}, i18n.balance_after_purchase + ': ' + afterPurchaseBalance + ' ' + i18n.levels)
           ),
         ),
         e(
           'div',
           { className: 'shop-item-details d-flex flex-column mt-3' },
-          e('span', {}, this.props.description_full),
+          e('div', { className: 'dialog-box mb-3' }, i18n._shop[this.props.id].description_full),
           e(
             'div',
             { className: 'my-3' },
-            e('button', { className: 'btn-tall green w-100' }, i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels)
+            e(
+              'button',
+              {
+                className: 'btn-tall green w-100',
+                onClick: (ev) => {
+
+                  var before = ev.target.innerHTML;
+                  ev.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+                  var dataToPost = {
+                    amount: this.props.price,
+                    items: Object.keys(this.props.items)
+                  }
+
+                  fetch(
+                    rootUrl + 'api?shop_transaction=1',
+                    {
+                      method: "POST",
+                      headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(dataToPost)
+                    }
+                  ).then(res => res.json())
+                  .then(res => {
+                    if (res == 'true') {
+
+                      // This doesn't update the balance and inventory for realsies, only for the current session.
+                      userdata.gamedata.level = afterPurchaseBalance;
+                      userdata.inventory = Object.keys(this.props.items).concat(userdata.inventory);
+
+                      // Drop the user back to the main page.
+                      ev.target.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                      setTimeout(() => {
+                        setPage(e(Shop_wrapper));
+                      }, 500);
+
+                    } else {
+
+                      // Something went wrong.
+                      ev.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+                      ev.target.onclick = null;
+                      ev.target.classList.add('disabled');
+                      alert(i18n.something_went_wrong);
+                      window.location.reload();
+
+                    }
+
+                  });
+
+                }
+              },
+              i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels
+            )
           )
         )
       );
@@ -141,14 +151,20 @@ class Shop_Item extends React.Component {
   render() {
 
     var cardExtraClass = '';
+    var buyButtonExtraClass = '';
+    var popoverData = '';
 
     if (this.props.pin) {
       cardExtraClass = ' green hoverable animate';
     }
 
+    if (this.props.isOwned) {
+      buyButtonExtraClass = ' disabled';
+    }
+
     return e(ShopContext.Consumer, null, ({i18n, setPage}) => e(
       'div',
-      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass },
+      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass, style: { maxWidth: 'calc(12rem + 8vw)' } },
       e(
         'div',
         { className: 'd-flex flex-row' },
@@ -160,18 +176,20 @@ class Shop_Item extends React.Component {
         e(
           'div',
           { className: 'd-flex flex-column shop-item-details' },
-          e('h3', {}, this.props.name),
-          e('span', {}, this.props.description),
+          e('h4', {}, i18n._shop[this.props.id].name),
+          e('span', {}, i18n._shop[this.props.id].description),
           e('span', { className: 'my-1 fw-bold text-n'}, this.props.price, e('span', { className: 'ms-1' }, i18n.levels)),
           e(
             'button',
-            { className: 'btn-tall disabled btn-sm green d-inline mt-3',
+            { className: 'btn-tall btn-sm green d-inline mt-3' + buyButtonExtraClass,
               onClick: () => {
-                // setPage(
-                //   e(Shop_ItemView, this.props),
-                //   { squeezeType: 'squeeze' }
-                // );
-              }
+                if (!this.props.isOwned) {
+                  setPage(
+                    e(Shop_ItemView, this.props),
+                    { squeezeType: 'squeeze' }
+                  );
+                }
+              },
             },
             i18n.buy
           )
@@ -181,16 +199,83 @@ class Shop_Item extends React.Component {
   }
 }
 
-function Shop_ItemList(props) {
-  return e(
-    'div',
-    { className: 'shop-item-list d-flex flex-wrap justify-content-around mt-5' },
-    Object.values(props.shopObject).map((item, i) => {
+class Shop_ItemList extends React.Component {
+  constructor(props) {
+    super(props);
 
-      return e(Shop_Item, item);
-
+    this.state = {
+      search: '',
+      catSearch: ''
     }
-  ));
+  }
+
+  setCatSearch(cat) {
+    this.setState({
+      catSearch: cat
+    });
+  }
+
+  render() {
+
+    var theKeys = Object.keys(this.props.shopObject);
+
+    return e(
+      'div',
+      { className: 'd-flex flex-column' },
+      e('h3', {}, thei18n.categories),
+      e(
+        'div',
+        { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
+        e('button', { className: 'btn-tall blue me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
+        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
+        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
+      ),
+      e(
+        'div',
+        { className: 'shop-item-list d-flex flex-wrap justify-content-around mt-5' },
+        Object.values(this.props.shopObject).map((item, i) => {
+
+          var theItem = item;
+          theItem.id = theKeys[i];
+          var theItemCat = theItem.id.split('_')[0];
+
+          if (theItemCat !== this.state.catSearch && this.state.catSearch) {
+            return null;
+          }
+
+          // TODO: remove this once we get the jackpot working
+          if (theItemCat == 'jackpot') {
+            return null;
+          }
+
+          return e(ShopContext.Consumer, null, ({userdata}) => {
+
+            var isOwnedItem = true;
+            var theItems = item.items;
+
+            // If we got something empty here at least don't crash out.
+            if (!theItems) {
+              theItems = {};
+            }
+
+            Object.keys(theItems).forEach((item, i) => {
+              if (userdata.inventory.indexOf(item) === -1) {
+                isOwnedItem = false;
+              }
+            });
+
+            var props = theItem;
+
+            this.props.isOwned = isOwnedItem;
+
+            return e(Shop_Item, props);
+
+          });
+
+        })
+      ),
+    );
+  }
 }
 
 function Shop_Header(props) {
@@ -204,7 +289,7 @@ function Shop_Header(props) {
 
     return e(
       'div',
-      { className: 'd-flex flex-column' },
+      { className: 'd-flex flex-column mb-3' },
       e(
         'div',
         { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
@@ -240,12 +325,42 @@ function Shop_Header(props) {
   });
 }
 
+function Shop_yourItems(props) {
+
+  return e(ShopContext.Consumer, null, ({userdata, i18n}) => {
+
+    if (!userdata.inventory || userdata.inventory.length == 0) {
+      return null;
+    }
+
+    return e(
+      'div',
+      { className: 'd-flex flex-column mb-3' },
+      e('h3', {}, i18n.your_items),
+      e(
+        'div',
+        { className: 'dialog-box d-flex flex-wrap align-items-center justify-content-start' },
+        userdata.inventory.map((item, i) => {
+          if (i <= 3) {
+            return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+          } else if (i == 4) {
+            return e('button', { className: 'btn-tall green', onClick: () => { window.location.href = i18n.account_link } }, i18n.see_more);
+          }
+        })
+      )
+    );
+
+  });
+
+}
+
 function Shop_wrapper(props) {
   return [
     e(ShopContext.Consumer, null, ({shopObject}) => e(
       'div',
       { className: 'shop-wrapper justfade-animation animate' },
       e(Shop_Header),
+      e(Shop_yourItems),
       e(Shop_ItemList, { shopObject: shopObject })
     ))
   ];
@@ -267,25 +382,16 @@ class Shop extends React.Component {
 
   componentWillMount() {
 
+    this.setState({
+      i18n: guyraGetI18n()
+    });
+
     fetch(rootUrl + 'api?fetch_shop_items=1')
     .then(res => res.json())
     .then(res => {
 
       this.setState({
-        shopObject: res
-      });
-
-      fetch(rootUrl + 'api?i18n=full')
-      .then(res => res.json())
-      .then(json => {
-
-        thei18n = json.i18n;
-
-        this.setState({
-          i18n: json.i18n,
-          page: this.decideStartingPage(),
-        });
-
+        shopObject: res,
       });
 
     });
@@ -296,6 +402,7 @@ class Shop extends React.Component {
 
       this.setState({
         userdata: JSON.parse(json),
+        page: this.decideStartingPage(),
       });
 
     });

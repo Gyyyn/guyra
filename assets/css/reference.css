@@ -19,6 +19,11 @@
   padding: 0.25rem 0.5rem;
 }
 
+#dictionary-the-word.translatable {
+  border-bottom-color: var(--guyra-white);
+  border-bottom-width: 3px;
+}
+
 .the-definition .section {
   margin-bottom: 3rem;
 }

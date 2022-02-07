@@ -1,49 +1,4 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 function shuffleArray(a) {
   var j, x, i;
@@ -889,17 +844,58 @@ class ReviewAnswers extends React.Component {
 *
 */
 
+function BuyMoreUnits(props) {
+
+  return e(ExerciseContext.Consumer, null, ({i18n}) => e(
+    'div',
+    { className: 'buy-more-units pop-animation animate' },
+    e(returnToLevelMapButton),
+    e(
+      'div',
+      { className: 'd-flex flex-column justify-content-center text-center dialog-box my-5 p-3' },
+      e('h2', { className: 'text-blue'}, i18n.you_need_to_buy_this),
+      e(
+        'span',
+        { className: 'd-inline m-auto' },
+        e('img', { className: 'page-icon large', alt: i18n.upload, src: i18n.api_link + '?get_image=img/shopping-cart.png&size=256' })
+      ),
+      e('span', { className: 'text-n py-3' }, i18n.you_need_to_buy_this + ' ' + i18n.go_to_shop + '?'),
+      e(
+        'button',
+        {
+          onClick: () => { window.location.href = i18n.shop_link },
+          className: 'btn-tall green mx-auto'
+        },
+        e('span', { className: 'me-2' }, i18n.go_to_shop),
+        e('span',{}, e('i', {className: 'bi bi-shop'}))
+      )
+    ),
+  ));
+}
+
 function LevelChooserButton(props) {
+
+  var buttonExtraClass = ' overpop-animation animate';
+
+  if (props.values.disabled) {
+    buttonExtraClass = ' disabled';
+  }
+
   return (
-    e(ExerciseContext.Consumer, null, ({loadExerciseJSON}) => e(
+    e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage}) => e(
       'a',
       {
-        className: 'btn overpop-animation animate',
-        style: {backgroundColor: props.values.bg},
+        className: 'btn' + buttonExtraClass,
+        style: {backgroundColor: props.values.bg, pointerEvents: 'inherit'},
         title: props.values.name + ' - ' + props.values.description,
         onClick: () => {
-          loadExerciseJSON(props.level, props.values.id);
-          window.location.hash = props.values.id;
+          if (props.values.disabled) {
+            setPage(e(BuyMoreUnits));
+          } else {
+            loadExerciseJSON(props.level, props.values.id);
+            window.location.hash = props.values.id;
+          }
+
         }
       },
       e(ExerciseContext.Consumer, null, ({i18n}) => e(
@@ -947,7 +943,7 @@ function LevelChooser(props) {
         e(
           'div',
           {},
-          e('h3', {}, 'Welcome back!')
+          e(ExerciseContext.Consumer, null, ({i18n}) => e('h3', {}, 'Welcome back!'))
         ),
         e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
           'div',
@@ -1407,11 +1403,16 @@ class App extends React.Component {
 
   componentWillMount() {
 
-    fetch(rootUrl + 'api?json=levelmap&i18n=full')
+    this.i18n = guyraGetI18n();
+    this.initialState.i18n = this.i18n;
+
+    this.setState({
+      i18n: this.i18n
+    });
+
+    fetch(rootUrl + 'api?json=levelmap')
     .then(res => res.json())
     .then(json => {
-      this.i18n = json.i18n;
-      this.initialState.i18n = json.i18n;
       this.initialState.levelMap = json.levelmap;
       var hash = window.location.hash;
       hash = hash.slice(1);
@@ -1429,8 +1430,7 @@ class App extends React.Component {
       });
 
       this.setState({
-        levelMap: json.levelmap,
-        i18n: json.i18n
+        levelMap: json.levelmap
       });
 
       if (loadHashUnit) {
@@ -1547,8 +1547,6 @@ class App extends React.Component {
 
 
         // Finish up by posting userdata
-        fetch(rootUrl + 'api?update_level=1');
-
         var userElo = this.usermeta[0] / 100;
         var mod = this.score / 75;
         mod = mod + 0.5;
@@ -1563,14 +1561,13 @@ class App extends React.Component {
         var eloChange = this.currentExerciseWeight * moddedScore;
         var moddedScore = Number(this.usermeta[0]) + eloChange;
 
-        fetch(rootUrl + 'api?update_elo=1&value=' + Number(moddedScore));
-
         var dataToPost = {
           version: this.version,
           answers: this.state.answers,
           usermeta: this.state.usermeta,
           score: this.score,
-          unit: this.currentUnit
+          unit: this.currentUnit,
+          elo: moddedScore
         }
 
         fetch(

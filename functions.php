@@ -14,6 +14,7 @@ if (!defined('GUYRA_VERSION')) {
 	define('GUYRA_VERSION', '0.1.2');
 }
 
+// Setup some globals.
 $secondsForA = [
 	'year' => 31536000,
 	'month' => 2592000,
@@ -26,20 +27,30 @@ $secondsForA = [
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $cache_dir = $template_dir . '/cache';
+$site_url = get_site_url();
+$admin_url = get_admin_url();
+$site_api_url = $site_url . '/api';
 
 // Prevent direct execution
 include_once $template_dir . '/functions/Server.php';
 Guyra_Safeguard_File();
 
+// Handle settings and authentication.
 include_once $template_dir . '/functions/Security.php';
 
+// Setup some user-specific globals.
 $gSettings = GuyraGetSettings();
 $current_user_id = get_current_user_id();
 $is_logged_in = is_user_logged_in();
-$is_admin = current_user_can('manage_options');
-$site_url = get_site_url();
-$admin_url = get_admin_url();
-$site_api_url = $site_url . '/api';
+$is_admin = Guyra_Is_Admin();
+
+// If the site is closed load no further.
+if ($gSettings['site_closed'] && !$is_admin) {
+	echo "<body style=\" display: flex; justify-content: center; align-items: center; font-family: sans-serif; font-size: 32px; padding: 15vw; \">";
+	echo "Closed for maintenance | Fechado para manutenção | Cerrado por mantenimiento | закрыт на техническое обслуживание | 关闭进行维修 | メンテナンスのため閉鎖";
+	echo "</body>";
+	exit;
+}
 
 include_once $template_dir . '/components/i18n.php';
 
@@ -78,7 +89,7 @@ if ($is_logged_in) {
 	// Set up user object for authentication.
 	$current_user_object = build_user_object($current_user_id);
 
-	// Set up WP data.
+	// Set up WP data. TODO: Remove this once we migrate out of WP
 	$current_user_meta = get_user_meta($current_user_id);
 
 	// Set up user data.
@@ -99,6 +110,10 @@ if ($is_logged_in) {
 	// Set up inventory data.
 	$current_user_inventory = guyra_get_user_meta($current_user_id, 'inventory', true)['meta_value'];
 	$current_user_inventory = json_decode($current_user_inventory, true);
+
+	// Set up diary data.
+	$current_user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
+	$current_user_diary = json_decode($current_user_diary, true);
 
 	// Set up some defaults for uncreated data, and handle some time-based events.
 
@@ -141,9 +156,26 @@ if ($is_logged_in) {
 
 }
 
+// Now we can determine special user privileges.
+$is_GroupAdmin = ($current_user_data['role'] == 'teacher' || $current_user_data['role'] == 'schooladmin');
+$is_tester = ($current_user_data['role'] == 'tester');
+
 // Allow payed users to access the site.
 if ($current_user_payments['status'] == 'approved')
 $current_user_subscription_valid = true;
+
+// Allow payment through direct payment
+if ($current_user_diary && is_array($current_user_diary)) {
+
+	$latest_item = end($current_user_diary['payments']);
+	$latest_item_due_unix = strtotime($latest_item['due']);
+
+	// Allow if the latest oked payment is less than a month ago.
+	if ( $latest_item['status'] == 'ok' && ( ($latest_item_due_unix + $secondsForA['month']) > time() ) ) {
+		$current_user_subscription_valid = true;
+	}
+
+}
 
 // Handle trial accounts and non-payed access.
 if (!$current_user_subscription_valid) {
@@ -159,7 +191,7 @@ if (!$current_user_subscription_valid) {
 	}
 
 	// Remove the need for admins and testers to adquire a subscription.
-	if ($is_admin || ($current_user_data['role'] == 'tester'))
+	if ($is_admin || $is_GroupAdmin || $is_tester)
 	$current_user_subscription_valid = true;
 
 }
@@ -234,11 +266,21 @@ function prevent_wp_login() {
 }
 add_action('init', 'prevent_wp_login');
 function custom_die_handler( $message, $title="", $args = array() ) {
+
+	global $gSettings;
+
+	if (!$gSettings['dev_env']) {
+		$message = null;
+	}
+
 	echo '["server error"]';
   echo '<html><body style="font-family: system-ui,-apple-system,sans-serif;">';
 	echo '<hr />';
   echo '<h1>Erro ' . $args['response'] . '</h1>';
-	// print_r($message);
+	echo "<pre>";
+	print_r($message);
+	echo "</pre>";
+	echo "<hr />";
 	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro. Se alguem pedir, de o seguinte codigo: ";
 	echo time();
 	echo "<hr />";

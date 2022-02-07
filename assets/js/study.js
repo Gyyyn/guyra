@@ -26,8 +26,11 @@ if (getCookie('dismissed') == "true") {
   document.querySelector('.alert').className = 'd-none';
 }
 
-file_upload_input = document.getElementById('file_upload_input');
-file_upload_input.addEventListener('input', fileUploadTrigger);
+var file_upload_input = document.getElementById('file_upload_input');
+
+if (file_upload_input) {
+  file_upload_input.addEventListener('input', fileUploadTrigger);
+}
 
 function fileUploadTrigger(e) {
   if (file_upload_input.files.length != 0) {
@@ -39,5 +42,8 @@ function loadRoadmap() {
   document.getElementById('roadmap-container').classList.remove('d-none');
 }
 
-loadRoadmapButton = document.getElementById('load-roadmap-button');
-loadRoadmapButton.onclick = loadRoadmap;
+var loadRoadmapButton = document.getElementById('load-roadmap-button');
+
+if (loadRoadmapButton) {
+  loadRoadmapButton.onclick = loadRoadmap;
+}

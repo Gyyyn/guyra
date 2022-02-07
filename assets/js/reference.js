@@ -1,49 +1,4 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 const ReferenceContext = React.createContext();
 
@@ -268,8 +223,8 @@ function GrammaticalTime_ListingSection(props) {
   if (!thePronoun) { thePronoun = ''; }
 
   // Consonat + Vowel endings
-  if ( matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
-    if (theVerb[theVerb.length - 1] != "x" || theVerb[theVerb.length - 1] != "x") {
+  if ( matchCons.test(theVerb[theVerb.length - 3]) && matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
+    if (theVerb[theVerb.length - 1] != "x" && theVerb[theVerb.length - 1] != "y" && theVerb[theVerb.length - 1] != "w") {
       if (theVerb !== '') {
         theVerbModBase = theVerb.concat(theVerb[theVerb.length - 1]);
       }
@@ -297,7 +252,7 @@ function GrammaticalTime_ListingSection(props) {
   }
 
   // E ending
-  if(theVerb[theVerb.length - 1] == "e") {
+  if(theVerb[theVerb.length - 1] == "e" && theVerb[theVerb.length - 2] != "e") {
     theVerbModBase = theVerb.slice(0, theVerb.length - 1);
     theVerbPast = theVerbModBase + 'ed';
     theVerbPastParticiple = theVerbModBase + 'ed';
@@ -317,8 +272,18 @@ function GrammaticalTime_ListingSection(props) {
     }
 
     if (item.word.present == props.verb) {
-      theVerbPast = item.word.past;
-      theVerbPastParticiple = item.word.past_participle;
+
+      if (Array.isArray(item.word.past)) {
+        theVerbPast = item.word.past[0];
+      } else {
+        theVerbPast = item.word.past;
+      }
+
+      if (Array.isArray(item.word.past_participle)) {
+        theVerbPast = item.word.past_participle[0];
+      } else {
+        theVerbPastParticiple = item.word.past_participle;
+      }
 
       if (Array.isArray(item.word.past)) {
         theVerbPast = item.word.past[0];
@@ -541,32 +506,77 @@ class Dictionary extends React.Component {
 
   conceptFetch(submittedWord) {
 
-    this.dictionarySubmit = document.getElementById('dictionary-submit');
-    var dictionarySubmitPreviousInnerHTML = this.dictionarySubmit.innerHTML;
-    this.dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
+    var dictionarySubmit = document.getElementById('dictionary-submit');
+    var dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
+    dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
 
     var TheWord = submittedWord;
     var TheWordElement = document.getElementById('dictionary-the-word');
     var TheContent = document.querySelector('#the-definition-content');
+    var TheImagesHTML = document.getElementById('the-images');
+    TheImagesHTML.classList.add('d-none');
     var sections = [];
     var doc;
     var theHTML = '';
     var lastItemNext = {};
     var fullText;
     var findHTML;
+    var foundImages = false;
 
-    var naughty = new RegExp('(vagina)|(condom)|(circumcised)|(ejaculation)|(ejaculate)|(erection)|(erect)|(pubic)|(cum)|(pubes)|(bollock)|(vulva)|(clit)|(sex)|(penis)|(phallus)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
+    var naughty = new RegExp('(vagina)|(condom)|(circumcised)|(ejaculation)|(ejaculate)|(erection)|(pubic)|(cum)|(pubes)|(bollock)|(vulva)|(clit)|(sex)|(penis)|(phallus)|(genital)|(ballsack)|(testicle)|(butt)|(ass)|(breast)|(boob)|(nipple)|(dildo)|(labia)|(masturbation)|(masturbate)|(semen)|(smegma)','g');
+    var gross = new RegExp('(pus)|(blood)|(poop)|(excrement)|(urine)|(piss)|(shit)','g');
+
+    if (gross.test(TheWord)) {
+      TheImagesHTML.classList.add('blurred');
+      var revealGrossnessButton = document.createElement('button');
+      var revealGrossnessWarning = document.createElement('div');
+      revealGrossnessWarning.innerHTML = thei18n.images_gross_warning;
+      revealGrossnessButton.classList.add('btn-tall', 'mt-3');
+      revealGrossnessButton.innerHTML = thei18n.click_to_reveal;
+      revealGrossnessButton.id = 'grossness-warning';
+
+      revealGrossnessButton.onclick = (e) => {
+        TheImagesHTML.classList.remove('blurred');
+      };
+
+      if (!document.getElementById('grossness-warning')) {
+        TheImagesHTML.parentNode.insertBefore(revealGrossnessWarning, TheImagesHTML.nextSibling);
+        TheImagesHTML.parentNode.insertBefore(revealGrossnessButton, revealGrossnessWarning.nextSibling);
+      }
+
+    }
 
     if (naughty.test(TheWord)) {
 
+      TheImagesHTML.innerHTML = '';
+      TheWordElement.innerHTML = '😳';
       TheContent.innerHTML = 'Este conteúdo foi determinado impróprio para ser mostrado.';
       TheContent.classList.add('animate');
 
     } else {
 
-    var TheImagesHTML = document.getElementById('the-images');
-    var TheControls = document.getElementById('the-controls');
+    // Get a translation for this.
+    fetch(thei18n.api_link + '?translate=' + TheWord)
+    .then(res => res.json())
+    .then(res => {
 
+      // TODO: Optimize this.
+      var translatables = document.querySelectorAll('.translatable + .gtooltip');
+
+      translatables.forEach((item) => {
+        item.remove();
+      });
+
+      TheWordElement.classList.add('translatable');
+      TheWordElement.dataset['translation'] = res;
+
+      if (checkForTranslatables) {
+        checkForTranslatables();
+      }
+
+    });
+
+    // Get a dictionary entry on wiktionary.
     TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
     TheWordElement.classList.remove('d-none');
     TheWordElement.classList.remove('animate');
@@ -651,7 +661,8 @@ class Dictionary extends React.Component {
                           var ext = image.slice(-3);
 
                           if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
-                            imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                            imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />';
+                            foundImages = true;
                           }
 
                         });
@@ -683,7 +694,8 @@ class Dictionary extends React.Component {
                                 var ext = image.slice(-3);
 
                                 if(ext == 'png' || ext == 'jpg' || ext == 'ebp' || ext == 'gif' || ext == 'peg') {
-                                  imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />'
+                                  imagesHTML = imagesHTML + '<img src="' + wikidataImageRedirectUrl + image + '" />';
+                                  foundImages = true;
                                 }
 
                               });
@@ -698,6 +710,10 @@ class Dictionary extends React.Component {
 
                         });
 
+                      }
+
+                      if (foundImages) {
+                        TheImagesHTML.classList.remove('d-none');
                       }
 
                       TheImagesHTML.innerHTML = imagesHTML;
@@ -781,10 +797,6 @@ class Dictionary extends React.Component {
           TheWordElement.classList.add('animate');
           TheContent.innerHTML = theHTML;
           TheContent.classList.add('animate');
-          TheControls.classList.remove('d-none');
-          TheControls.classList.add('d-flex');
-
-          ReplaceAllLinks();
 
           var retryWord = document.getElementById('retry-word');
 
@@ -801,7 +813,7 @@ class Dictionary extends React.Component {
 
       }
 
-      this.dictionarySubmit.innerHTML = this.dictionarySubmitPreviousInnerHTML;
+      dictionarySubmit.innerHTML = dictionarySubmitPreviousInnerHTML;
 
   }
 
@@ -936,6 +948,10 @@ class Reference extends React.Component {
 
   componentWillMount() {
 
+    this.setState({
+      i18n: guyraGetI18n(),
+    });
+
     if (!this.state.phrasalsObject) {
 
       fetch(rootUrl + 'api?fetch_phrasals_object=1')
@@ -972,23 +988,11 @@ class Reference extends React.Component {
 
     } else {
       this.setState({
-        irregularsObject: JSON.parse(this.state.irregularsObject)
-      });
-    }
-
-    fetch(rootUrl + 'api?i18n=full')
-    .then(res => res.json())
-    .then(json => {
-
-      thei18n = json.i18n;
-
-      this.setState({
-        i18n: json.i18n,
+        irregularsObject: JSON.parse(this.state.irregularsObject),
         topBar: e(Reference_Topbar),
         page: this.decideStartingPage()
       });
-
-    });
+    }
 
   }
 

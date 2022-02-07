@@ -163,6 +163,10 @@ ob_end_clean(); ?>
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
           </li>
 
+          <li class="nav-item me-3">
+            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['ranking_link']; ?>"><?php echo $gi18n['ranking']; ?></a>
+          </li>
+
           <?php endif; ?>
 
         </ul>

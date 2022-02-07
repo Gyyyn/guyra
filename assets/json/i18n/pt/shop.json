@@ -1,0 +1,190 @@
+{
+
+  "_shop": {
+
+    "jackpot": {
+      "name": "Roleta",
+      "description": "Tenha a chance de ganhar um item raro!",
+      "description_full": "Você pode ganhar um dos seguites items: ..."
+    },
+
+    "profile_pack1": {
+      "name": "Pacote de perfil: Básico",
+      "description": "Quatro avatares!",
+      "description_full": "Os quatro avatares que você vê na area de exercícios pra você usar no site."
+    },
+
+    "profile_pack_flags": {
+      "name": "Pacote de perfil: Bandeiras",
+      "description": "Bandeiras de perfil!",
+      "description_full": "Destrave várias bandeiras para usar no seu perfil."
+    },
+
+    "profile_pack_animals": {
+      "name": "Pacote de perfil: Animais",
+      "description": "Use animais como foto de perfil!",
+      "description_full": "Inclui um Hamster, uma Tartaruga, um Peixe e um Gato."
+    },
+
+    "profile_pack_psychedelic": {
+      "name": "Pacote de perfil: Psicodélico",
+      "description": "Da pra entender o que tá acontecendo aqui?",
+      "description_full": "Inclui 5 avatares de difícil entendimento."
+    },
+
+    "profile_pack_halloween": {
+      "name": "Pacote de perfil: Halloween",
+      "description": "Assustador.",
+      "description_full": "Inclui 4 avatares temáticos de halloween."
+    },
+
+    "progress_pack1": {
+      "name": "Pacote de progressão 1",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Frequencia, Lar, Trabalho, Rotinas e Futuro."
+    },
+
+    "progress_pack2": {
+      "name": "Pacote de progressão 2",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Planos, Convites, Hostórias, Infância, Compras, Texting e Lugares."
+    },
+
+    "progress_pack3": {
+      "name": "Pacote de progressão 3",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Direções, Geografia, Aparência, Especificidade, Experiências, Seugestões e Desejos."
+    },
+
+    "progress_pack4": {
+      "name": "Pacote de progressão 4",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Mudanças, Comparação, Viagem, Favores, Propósito, Problemas e Cultura."
+    },
+
+    "progress_pack5": {
+      "name": "Pacote de progressão 5",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Conquistas, Filmes, Possibilidade, Situações, Definições, Trabalho 3 e Histórias.."
+    },
+
+    "progress_pack6": {
+      "name": "Pacote de progressão 6",
+      "description": "Destrave novos exercícios!",
+      "description_full": "Destrave os exercícios: Comparação 2, Pedidos, Hitórias 3 e 4, Expectativas e Problemas 2."
+    }
+
+  },
+
+  "_items": {
+
+    "jackpot": {
+      "name": "Roleta",
+      "preview": "%site_url/api/?get_image=icons/jackpot-machine.png&size=64"
+    },
+
+    "progress_pack1": {
+      "name": "Pacote de progressão 1",
+      "preview": "%site_url/api/?get_image=icons/exercises/portfolio.png&size=64"
+    },
+
+    "progress_pack2": {
+      "name": "Pacote de progressão 2",
+      "preview": "%site_url/api/?get_image=icons/exercises/plan.png&size=64"
+    },
+
+    "progress_pack3": {
+      "name": "Pacote de progressão 3",
+      "preview": "%site_url/api/?get_image=icons/exercises/map.png&size=64"
+    },
+
+    "progress_pack4": {
+      "name": "Pacote de progressão 4",
+      "preview": "%site_url/api/?get_image=icons/exercises/surprise.png&size=64"
+    },
+
+    "progress_pack5": {
+      "name": "Pacote de progressão 5",
+      "preview": "%site_url/api/?get_image=icons/exercises/achievement.png&size=64"
+    },
+
+    "progress_pack6": {
+      "name": "Pacote de progressão 6",
+      "preview": "%site_url/api/?get_image=icons/exercises/product.png&size=64"
+    },
+
+    "avatar_exercises1": {
+      "name": "Avatar: Boy",
+      "preview": "%site_url/api/?get_image=icons/avatars/boy.png&size=64"
+    },
+    "avatar_exercises2": {
+      "name": "Avatar: Girl",
+      "preview": "%site_url/api/?get_image=icons/avatars/girl.png&size=64"
+    },
+    "avatar_exercises3": {
+      "name": "Avatar: Man",
+      "preview": "%site_url/api/?get_image=icons/avatars/man.png&size=64"
+    },
+    "avatar_exercises4": {
+      "name": "Avatar: Woman",
+      "preview": "%site_url/api/?get_image=icons/avatars/woman.png&size=64"
+    },
+
+    "avatar_cat1": {
+      "name": "Avatar: Gato",
+      "preview": "%site_url/api/?get_image=icons/avatars/cat.png&size=64"
+    },
+    "avatar_hamster1": {
+      "name": "Avatar: Hamster",
+      "preview": "%site_url/api/?get_image=icons/avatars/hamster.png&size=64"
+    },
+    "avatar_turle1": {
+      "name": "Avatar: Tartaruga",
+      "preview": "%site_url/api/?get_image=icons/avatars/turtle.png&size=64"
+    },
+    "avatar_fish1": {
+      "name": "Avatar: Peixe",
+      "preview": "%site_url/api/?get_image=icons/avatars/fish.png&size=64"
+    },
+
+    "avatar_history_channel": {
+      "name": "Avatar: Psicodélico 1",
+      "preview": "%site_url/api/?get_image=icons/avatars/history_channel.png&size=64"
+    },
+    "avatar_illuminati": {
+      "name": "Avatar: Psicodélico 2",
+      "preview": "%site_url/api/?get_image=icons/avatars/illuminati.png&size=64"
+    },
+    "avatar_wheres_your_face": {
+      "name": "Avatar: Psicodélico 3",
+      "preview": "%site_url/api/?get_image=icons/avatars/wheres_your_face.png&size=64"
+    },
+    "avatar_its_alive": {
+      "name": "Avatar: Psicodélico 4",
+      "preview": "%site_url/api/?get_image=icons/avatars/its_alive.png&size=64"
+    },
+    "avatar_big_spender": {
+      "name": "Avatar: Psicodélico 5",
+      "preview": "%site_url/api/?get_image=icons/avatars/big_spender.png&size=64"
+    },
+
+    "avatar_tomb": {
+      "name": "Avatar: Túmulo",
+      "preview": "%site_url/api/?get_image=icons/avatars/tomb.png&size=64"
+    },
+    "avatar_halloween": {
+      "name": "Avatar: Halloween",
+      "preview": "%site_url/api/?get_image=icons/avatars/halloween.png&size=64"
+    },
+    "avatar_ghost": {
+      "name": "Avatar: Fantasma",
+      "preview": "%site_url/api/?get_image=icons/avatars/ghost.png&size=64"
+    },
+    "avatar_pumpkin": {
+      "name": "Avatar: Abóbora",
+      "preview": "%site_url/api/?get_image=icons/avatars/pumpkin.png&size=64"
+    }
+
+  }
+
+}

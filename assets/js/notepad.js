@@ -7,11 +7,32 @@ var posTracker = localStorage.getItem('pos-tracker');
 var lastRelativePos = [0, 0];
 var currentRelativePos = [0, 0];
 var elementPosTracker = [0, 0];
+var maxTopOffset = window.screen.height - (window.screen.height * 2) + Math.round(window.screen.height * 0.3);
+var maxLeftOffset = window.screen.width - (window.screen.width * 2) + Math.round(window.screen.width * 0.1);
 
 if (posTracker) {
   posTracker = JSON.parse(posTracker);
 } else {
   posTracker = {};
+}
+
+if (!localStorage.getItem('notepad-animation-finished')) {
+  y = document.createElement('span');
+  y.classList.add('ms-2');
+  y.innerHTML = 'Bloco de notas';
+  toggler.style.marginLeft = '-25vh';
+  toggler.appendChild(y);
+
+  setTimeout(() => {
+    y.classList.add('justfadeout-animation', 'animate');
+  }, 7000);
+
+  setTimeout(() => {
+    y.remove();
+    toggler.style.marginLeft = '0';
+    localStorage.setItem('notepad-animation-finished', true);
+  }, 7500);
+
 }
 
 if (notepadStorage !== null) {
@@ -22,6 +43,24 @@ toggler.addEventListener("click", toggleNotepad);
 notepadText.onkeyup = notepadSave;
 dragElement(toggler);
 dragElement(notepadTextWrapper);
+
+function updateElementOffset(element, pos) {
+
+  // Make sure the values didn't bug out and set the button out of bounds.
+  // WARNING: We are using negative numbers here, so comparisons must be negative.
+
+  if (pos.top < maxTopOffset) { pos.top = maxTopOffset; }
+  if (pos.left < maxLeftOffset) { pos.left = maxLeftOffset; }
+  if (pos.top > 0) { pos.top = 0; }
+  if (pos.left > 0) { pos.left = 0; }
+
+  element.style.top = pos.top + "px";
+  element.style.left = pos.left + "px";
+
+  // update the pos trackers
+  elementPosTracker = [pos.top, pos.left];
+
+}
 
 function notepadSave(e) {
   localStorage.setItem('notepad', notepadText.value);
@@ -50,9 +89,10 @@ function dragElement(elmnt) {
     pos3 = posTracker[theElement.id].pos3;
     pos4 = posTracker[theElement.id].pos4;
 
-    // set the element's position:
-    theElement.style.top = posTracker[theElement.id].top + "px";
-    theElement.style.left = posTracker[theElement.id].left + "px";
+    updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left});
+
+    toggler.classList.remove('opacity-0');
+
   }
 
   // if present, the header is where you move the DIV from:
@@ -83,11 +123,11 @@ function dragElement(elmnt) {
     var elementFinalPosLeft = (theElement.offsetLeft - pos1);
 
     // set the element's new position:
-    theElement.style.top = elementFinalPosTop + "px";
-    theElement.style.left = elementFinalPosLeft + "px";
-
-    // update the pos trackers
-    elementPosTracker = [elementFinalPosTop, elementFinalPosLeft];
+    // set the element's new position:
+    updateElementOffset(theElement, {
+      top: theElement.offsetTop - pos2,
+      left: theElement.offsetLeft - pos1,
+    });
 
   });
 
@@ -140,15 +180,12 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-    var elementFinalPosTop = (theElement.offsetTop - pos2);
-    var elementFinalPosLeft = (theElement.offsetLeft - pos1);
-
     // set the element's new position:
-    theElement.style.top = elementFinalPosTop + "px";
-    theElement.style.left = elementFinalPosLeft + "px";
+    updateElementOffset(theElement, {
+      top: theElement.offsetTop - pos2,
+      left: theElement.offsetLeft - pos1,
+    });
 
-    // update the pos trackers
-    elementPosTracker = [elementFinalPosTop, elementFinalPosLeft];
   }
 
   function closeDragElement() {

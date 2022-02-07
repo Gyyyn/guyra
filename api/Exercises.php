@@ -6,6 +6,7 @@ global $current_user_gamedata;
 global $gi18n;
 
 include_once $template_dir . '/functions/Game.php';
+include_once $template_dir . '/functions/Hash.php';
 
 Guyra_Safeguard_File();
 
@@ -31,18 +32,59 @@ if ($_GET['log_exercise_data']) {
 
   $completed_units[] = $theData['unit'];
   $current_user_gamedata['completed_units'] = $completed_units;
+  $current_user_gamedata['elo'] = $theData['elo'];
 
+  Guyra_increase_user_level($current_user_id, $_GET['value']);
   PushNotification($gi18n['notification_exercise_levelup']);
-  guyra_update_user_data($current_user_id, 'completed_units', json_encode($completed_units), 'gamedata');
+
+  guyra_update_user_data($current_user_id, ['completed_units' => json_encode($completed_units), 'elo' => $theData['elo']], 'gamedata');
   guyra_log_to_db($current_user_id, $theDataJSON);
 
 }
 
-if ($_GET['update_elo'] && $_GET['value']) {
-  $current_user_gamedata['elo'] = $_GET['value'];
-  guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata, JSON_UNESCAPED_UNICODE));
-}
+if ($_GET['get_ranking_page']) {
+  $users = guyra_get_users();
+  $users_by_elo = [];
+  $output = [];
 
-if ($_GET['update_level'] && $_GET['value']) {
-  Guyra_increase_user_level($current_user_id, $_GET['value']);
+  foreach ($users as $user) {
+
+    $user_elo = $user['gamedata']['elo'];
+
+    if ($user_elo > 1) {
+      $users_by_elo[$user['id']]['elo'] = $user_elo;
+      $users_by_elo[$user['id']]['id'] = $user['id'];
+    }
+
+  }
+
+  $users_by_elo = array_sort($users_by_elo, 'elo', SORT_DESC);
+
+  foreach ($users_by_elo as &$user) {
+
+    $user_data = $users[$user['id']];
+    $user_elo = $user['elo'];
+    $user_elo_info = GetUserRanking($user['id'], $user_data['gamedata']);
+    $user_first_name = $user_data['userdata']['first_name'];
+    $user_private = false;
+
+    if ($user_data['userdata']['privacy']['ranking_info_public'] === false) {
+      $user_first_name = substr($user_first_name, 0, 1) . '.';
+      $user_private = true;
+    }
+
+    $user = [
+      'first_name' => $user_first_name,
+      'user_ranking' => $user_elo_info,
+      'user_private' => $user_private
+    ];
+
+    $output[] = $user;
+
+  }
+
+  unset($users);
+  unset($users_by_elo);
+
+  guyra_output_json($output, true);
 }

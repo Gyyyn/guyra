@@ -1,53 +1,7 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
-var thei18n = {};
 
 function setMessageBox(message) {
   var messageBox = document.getElementById('message');
@@ -109,12 +63,16 @@ function Account_BackButton(props) {
 
 function Account_dialogBox(props) {
 
+  if (typeof props.value === 'string') {
+    props.value = window.HTMLReactParser(props.value);
+  }
+
   return e(
     'div',
     {
       className: 'dialog-box ' + props.extraClasses
     },
-    window.HTMLReactParser(props.value)
+    props.value
   );
 
 }
@@ -126,6 +84,7 @@ function AccountPayment_paymentForm(props) {
       id: 'form-checkout',
       className: 'form-control'
     },
+    e('progress', { value: 0, class: 'd-none progress-bar mt-3' }, '...'),
     e(
       'div',
       { className: 'row gy-3' },
@@ -135,24 +94,28 @@ function AccountPayment_paymentForm(props) {
       e(
         'div',
         { className: 'col-md-6' },
+        e('label', {}, i18n.card.holder),
         e('input', { type: 'text', name: 'cardholderName', id: 'form-checkout__cardholderName'})
       ),
 
       e(
         'div',
         { className: 'col-md-6 d-none' },
+        e('label', {}, i18n.card.issuer),
         e('select', {name: 'issuer', id: 'form-checkout__issuer'})
       ),
 
       e(
         'div',
         { className: 'col-md-6 d-none' },
+        e('label', {}, i18n.card.installments),
         e('select', {name: 'installments', id: 'form-checkout__installments'})
       ),
 
       e(
         'div',
         { className: 'col-md-6 position-relative' },
+        e('label', {}, i18n.card.number),
         e('input', { type: 'text', name: 'cardNumber', id: 'form-checkout__cardNumber'}),
         e(
           'span',
@@ -168,27 +131,37 @@ function AccountPayment_paymentForm(props) {
         'div',
         { className: 'col-md-6 d-flex' },
         e(
-          'input',
-          {
-            className: 'me-3',
-            type: 'text',
-            name: 'cardExpirationMonth',
-            id: 'form-checkout__cardExpirationMonth'
-          }
+          'span',
+          { className: 'me-3' },
+          e('label', {}, i18n.expiration),
+          e(
+            'input',
+            {
+              type: 'text',
+              name: 'cardExpirationMonth',
+              id: 'form-checkout__cardExpirationMonth'
+            }
+          ),
         ),
         e(
-          'input',
-          {
-            type: 'text',
-            name: 'cardExpirationYear',
-            id: 'form-checkout__cardExpirationYear'
-          }
-        ),
+          'span',
+          {},
+          e('label', { className: 'opacity-0' }, i18n.expiration),
+          e(
+            'input',
+            {
+              type: 'text',
+              name: 'cardExpirationYear',
+              id: 'form-checkout__cardExpirationYear'
+            }
+          ),
+        )
       ),
 
       e(
         'div',
         { className: 'col-md-6' },
+        e('label', {}, i18n.card.sec_code),
         e('input', { type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
       ),
 
@@ -197,26 +170,31 @@ function AccountPayment_paymentForm(props) {
       e(
         'div',
         { className: 'col-md-12' },
+        e('label', {}, i18n.email),
         e('input', { type: 'text', name: 'cardholderEmail', id: 'form-checkout__cardholderEmail'})
       ),
 
       e(
         'div',
-        { className: 'col-md-12 d-flex' },
-        e('select', { className: 'me-3', name: 'identificationType', id: 'form-checkout__identificationType'}),
-        e('input', { type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
+        { className: 'col-md-12 d-flex flex-column' },
+        e('label', {}, i18n.card.id),
+        e(
+          'span',
+          { className: 'd-flex flex-row' },
+          e('select', { className: 'me-3', name: 'identificationType', id: 'form-checkout__identificationType'}),
+          e('input', { type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
+        ),
       ),
 
     ),
 
     e('input', { type: 'hidden', id: 'deviceId'}),
 
-    e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_processor_warning }),
-    e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_recurrence_warning }),
-
-    e('button', { id: 'purchase-submit', type: 'submit', className: 'w-100 btn-tall green' }, i18n.checkout),
-
-    e('progress', { value: 0, class: 'd-none progress-bar mt-3' }, '...'),
+    e(
+      'div',
+      { className: 'payment-checkout-wrapper my-3 px-3 px-md-0 w-100 d-flex justify-content-center' },
+      e('button', { id: 'purchase-submit', type: 'submit', className: 'w-100 btn-tall green' }, i18n.checkout)
+    ),
 
   ));
 }
@@ -232,11 +210,13 @@ function AccountPayment_planSelect(props) {
   }
 
   if (selectedPlan == 'premium') {
-    var premiumPlanExtraClass = 'active';
-    var checkoutTotal = 149;
+    premiumPlanExtraClass = 'active';
   } else if (selectedPlan == 'lite') {
-    var litePlanExtraClass = 'active';
-    var checkoutTotal = 29;
+    litePlanExtraClass = 'active';
+  }
+
+  if (thei18n.prices_features[selectedPlan]) {
+    checkoutTotal = thei18n.prices_features[selectedPlan].value;
   }
 
   return e(
@@ -263,10 +243,10 @@ function AccountPayment_planSelect(props) {
           e(
             'div',
             { className: 'plan-details' },
-            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlelite),
-            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlelite),
+            e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.lite.title),
+            e('small', { className: 'fw-normal' }, i18n.prices_features.lite.subtitle),
           ),
-          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricelite_value)
+          e('span', { className: 'd-flex' }, "R$"+i18n.prices_features.lite.value)
         )),
       ),
 
@@ -284,17 +264,17 @@ function AccountPayment_planSelect(props) {
           e(
             'div',
             { className: 'plan-details' },
-            e('h6', { className: 'fw-bold my-0'}, i18n.pricesfeature_titlepremium),
-            e('small', { className: 'fw-normal' }, i18n.pricesfeature_subtitlepremium),
+            e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.premium.title),
+            e('small', { className: 'fw-normal' }, i18n.prices_features.premium.subtitle),
           ),
-          e('span', { className: 'd-flex' }, i18n.pricesfeature_pricepremium_value)
+          e('span', { className: 'd-flex' }, "R$"+i18n.prices_features.premium.value)
         )),
       ),
 
     )),
     e(AccountContext.Consumer, null, ({i18n}) => e(
       'div',
-      { className: 'card d-flex flex-row justify-content-between p-3' },
+      { className: 'account-plans-total card d-flex flex-row justify-content-between p-3' },
       e('span', {}, i18n.total),
       e('strong', {}, 'R$', e('span', { id: 'price-total'}, checkoutTotal))
     ))
@@ -309,9 +289,22 @@ function AccountPayment_cancelPlan(props) {
     { className: 'slideleft-animation animate' },
     e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountPayment) })),
     e(
-      'p',
-      { className: 'dialog-box mt-3' },
-      i18n.cancel_membership_message,
+      'div',
+      { className: 'd-flex flex-column justify-content-center dialog-box my-5 p-3' },
+      e('h2', { className: 'text-blue'}, i18n.cancel_membership),
+      e(
+        'span',
+        { className: 'd-inline m-auto' },
+        e('img', { className: 'page-icon large', alt: i18n.upload, src: i18n.api_link + '?get_image=img/break-up.png&size=256' })
+      ),
+      e('span', { className: 'text-n text-start py-3' }, i18n.cancel_membership_message + ' ' + i18n.no_subscription_found[1]),
+      e(
+        'ul',
+        { className: 'check-list mt-3' },
+        e('li', { className: 'x' }, i18n.no_subscription_found[2]),
+        e('li', { className: 'x' }, i18n.no_subscription_found[3]),
+        e('li', { className: 'x' }, i18n.no_subscription_found[4]),
+      ),
       e(
         'button',
         {
@@ -329,7 +322,7 @@ function AccountPayment_cancelPlan(props) {
           }
         },
         i18n.cancel_membership_confirm
-      )
+      ),
     ),
     e(
       'div',
@@ -377,7 +370,7 @@ function AccountPayment_yourPlan(props) {
       e(
         'div',
         { className: 'd-flex flex-column'},
-        e('span', { className: 'fw-bold' }, i18n['pricesfeature_title' + props.values.payed_for]),
+        e('span', { className: 'fw-bold' }, i18n.prices_features[props.values.payed_for].title),
         e(
           'span',
           { className: 'd-flex flex-row'},
@@ -430,76 +423,76 @@ class AccountPayment extends React.Component {
         id: "form-checkout",
         cardholderName: {
           id: "form-checkout__cardholderName",
-          placeholder: "Titular do cartão",
+          placeholder: thei18n.card.holder_ex,
         },
         cardholderEmail: {
           id: "form-checkout__cardholderEmail",
-          placeholder: "E-mail",
+          placeholder: thei18n.card.email_ex,
         },
         cardNumber: {
           id: "form-checkout__cardNumber",
-          placeholder: "Número do cartão",
+          placeholder: thei18n.card.number_ex,
         },
         cardExpirationMonth: {
           id: "form-checkout__cardExpirationMonth",
-          placeholder: "Mês de vencimento",
+          placeholder: thei18n.month,
         },
         cardExpirationYear: {
           id: "form-checkout__cardExpirationYear",
-          placeholder: "Ano de vencimento",
+          placeholder: thei18n.year,
         },
         securityCode: {
           id: "form-checkout__securityCode",
-          placeholder: "Código de segurança",
+          placeholder: thei18n.card.sec_code_ex,
         },
         installments: {
           id: "form-checkout__installments",
-          placeholder: "Parcelas",
+          placeholder: thei18n.card.installments,
         },
         identificationType: {
           id: "form-checkout__identificationType",
-          placeholder: "Tipo de documento",
+          placeholder: thei18n.card.doc_type,
         },
         identificationNumber: {
           id: "form-checkout__identificationNumber",
-          placeholder: "Número do documento",
+          placeholder: thei18n.card.doc_number,
         },
         issuer: {
           id: "form-checkout__issuer",
-          placeholder: "Banco emissor",
+          placeholder: thei18n.card.issuer,
         },
       },
       callbacks: {
         onFormMounted: error => {
             if (error) return console.warn('Form Mounted handling error: ', error)
-            console.log('Form mounted')
+            // console.log('Form mounted')
         },
         onFormUnmounted: error => {
             if (error) return console.warn('Form Unmounted handling error: ', error)
-            console.log('Form unmounted')
+            // console.log('Form unmounted')
         },
         onIdentificationTypesReceived: (error, identificationTypes) => {
             if (error) return console.warn('identificationTypes handling error: ', error)
-            console.log('Identification types available: ', identificationTypes)
+            // console.log('Identification types available: ', identificationTypes)
         },
         onPaymentMethodsReceived: (error, paymentMethods) => {
             if (error) return console.warn('paymentMethods handling error: ', error)
-            console.log('Payment Methods available: ', paymentMethods)
+            // console.log('Payment Methods available: ', paymentMethods)
             var cardFlag = document.querySelector('#card-flag img');
             cardFlag.src = paymentMethods[0].thumbnail;
             cardFlag.classList.remove('d-none');
         },
         onIssuersReceived: (error, issuers) => {
             if (error) return console.warn('issuers handling error: ', error)
-            console.log('Issuers available: ', issuers)
+            // console.log('Issuers available: ', issuers)
         },
         onInstallmentsReceived: (error, installments) => {
             if (error) return console.warn('installments handling error: ', error)
-            console.log('Installments available: ', installments)
+            // console.log('Installments available: ', installments)
         },
         onCardTokenReceived: (error, token) => {
             if (error) return console.warn('Token handling error: ', error)
-            console.log('Token available: ', token)
+            // console.log('Token available: ', token)
         },
         onSubmit: event => {
           event.preventDefault();
@@ -544,7 +537,7 @@ class AccountPayment extends React.Component {
               "Content-Type": "application/json",
             },
             body: this.cardData,
-          }).then(res => res.json()).then(res => {
+          }).then(res => res.text()).then(res => {
 
             submitButton.innerHTML = before;
 
@@ -554,21 +547,20 @@ class AccountPayment extends React.Component {
 
             var response = res;
 
-            console.log(response);
-
             if (response.status == 'authorized') {
               submitButton.innerHTML = '<i class="bi bi-lock-fill"></i>';
               window.location.href = thei18n.account_link;
             } else {
-              if (response.status == 401) {
-                setMessageBox(thei18n.payment_refused);
+              console.log(response);
+              if (response.status) {
+                setMessageBox(thei18n['payments_status_' + response.status]);
 
                 setTimeout(() => {
                   window.location.reload();
                 }, 5000);
 
-              } else if (response.status == 'error invalid plan') {
-                setMessageBox(thei18n.plan_invalid);
+              } else {
+                setMessageBox(thei18n[response]);
               }
             }
 
@@ -616,6 +608,19 @@ class AccountPayment extends React.Component {
         );
       }
 
+      warningsList.push(
+        e(Account_dialogBox, { extraClasses: 'info mt-3', value: [
+          e('p', {}, i18n.payment_processor_warning[0]),
+          e(
+            'ul',
+            { className: 'check-list' },
+            e('li', {}, i18n.payment_processor_warning[1]),
+            e('li', {}, i18n.payment_processor_warning[2]),
+            e('li', {}, i18n.payment_processor_warning[3]),
+          )
+        ]})
+      );
+
       return e(
         'div',
         { className: 'warnings' },
@@ -627,31 +632,35 @@ class AccountPayment extends React.Component {
     return e(
       'div',
       {
-        className: 'slideleft-animation animate account-payment row g-5'
+        className: 'slideleft-animation animate account-payment'
       },
       e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountOptions) })),
       e(AccountContext.Consumer, null, ({i18n}) => e('h2', { className: 'text-blue my-3' }, i18n.subscription)),
       e(
         'div',
-        { className: 'col-md-7 col-lg-8 mt-0' },
-        topWarnings,
-        e(AccountPayment_paymentForm),
-        e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' })
-      ),
-      e(
-        'div',
-        { className: 'col-md-5 col-lg-4 mt-0 order-md-last' },
-        e(PaymentContext.Provider, { value: this.state },
-          e(AccountContext.Consumer, null, ({usermeta}) => {
-            return e(
-              AccountPayment_planSelect,
-              {
-                selectedPlan: this.state.selectedPlan,
-                userPlan: usermeta.payments.payed_for,
-                userSelectedPlan: this.state.userSelectedPlan
-              }
-            );
-          })
+        { className: 'row g-3' },
+        e(
+          'div',
+          { className: 'col-md-5 col-lg-4 mt-0 mb-3 order-first order-md-last' },
+          e(PaymentContext.Provider, { value: this.state },
+            e(AccountContext.Consumer, null, ({usermeta}) => {
+              return e(
+                AccountPayment_planSelect,
+                {
+                  selectedPlan: this.state.selectedPlan,
+                  userPlan: usermeta.payments.payed_for,
+                  userSelectedPlan: this.state.userSelectedPlan
+                }
+              );
+            })
+          ),
+        ),
+        e(
+          'div',
+          { className: 'col-md-7 col-lg-8 mt-0 mb-5 mb-md-3' },
+          topWarnings,
+          e(AccountPayment_paymentForm),
+          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' })
         ),
       ),
     );
@@ -694,7 +703,8 @@ function AccountOptions_changePassword(props) {
       {
         onClick: (e) => {
 
-          loadingBefore = e.target.innerHTML;
+          var dataToPost = {};
+          var loadingBefore = e.target.innerHTML;
           e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
           var password = document.getElementById('profile-new-password').value;
@@ -814,51 +824,6 @@ function AccountOptions_profileDetails(props) {
               src: usermeta.profile_picture_url
             }
           ),
-          e(
-            'label',
-            { className: 'w-25 position-absolute bottom-0 end-0 translate-middle' },
-            e(
-              'input',
-              {
-                id: 'profile-picture-upload',
-                type: 'file',
-                name: 'profile-picture',
-                className: 'd-none profile-pic-upload',
-                accept: 'image/jpeg,image/jpg,image/gif,image/png',
-                onChange: (e) => {
-
-                  var theFile = e.target.files[0];
-
-                  const form_data = new FormData();
-
-                  form_data.append('file', theFile);
-
-                  fetch(
-                     i18n.api_link + '?update_user_picture=1',
-                    {
-                      method: "POST",
-                      body: form_data
-                    }
-                  ).then(res => res.json())
-                  .then(res => {
-                    if (res == 'file too big') {
-                      setMessageBox(i18n.filesize_too_big);
-                    } else {
-                      document.getElementById('profile-picture').src = res;
-                    }
-                  });
-
-                }
-              }
-            ),
-            e(
-              'a',
-              {
-                className: 'btn-tall blue'
-              },
-              e('img', { className: 'page-icon tiny', alt: i18n.upload, src: i18n.api_link + '?get_image=icons/add-image.png&size=32' })
-            )
-          )
         )
       )
     ),
@@ -1083,6 +1048,10 @@ function AccountOptions_accountDetails(props) {
 
           var allowed = false;
 
+          if (Notification.permission === "granted") {
+            allowed = true;
+          }
+
           if (!("Notification" in window)) {
             return e(
               'p',
@@ -1090,13 +1059,9 @@ function AccountOptions_accountDetails(props) {
               i18n.notifications_not_supported
             );
           } else {
-            return e(AccountOptions_slider, { value: i18n.notifications_enable, onClick: () => {
+            return e(AccountOptions_slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
 
               var checkbox = document.getElementById('notifications-checkbox');
-
-              if (Notification.permission === "granted") {
-                allowed = true;
-              }
 
               if (allowed == false) {
                 Notification.requestPermission().then((permission) => {
@@ -1181,13 +1146,14 @@ function AccountOptions_slider(props) {
       'label',
       {
         className: 'switch',
-        onClick: () => {
+        onClick: (e) => {
 
+          e.preventDefault()
           props.onClick();
 
         }
       },
-      e('input', { id: 'notifications-checkbox', type: 'checkbox', className: 'd-none' }),
+      e('input', { id: props.dom_id, type: 'checkbox', className: 'd-none', checked: props.checked }),
       e('span', { className: 'slider' })
     ),
     e(
@@ -1210,7 +1176,56 @@ function AccountOptions_privacyDetails(props) {
         { className: 'text-blue' },
         'Privacidade'
       ),
-      e(AccountOptions_slider, { value: 'Aparecer publicamente nos rankings.' }),
+      e(AccountContext.Consumer, null, ({usermeta}) => {
+
+        // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
+        if (typeof usermeta.privacy === 'string') {
+          usermeta.privacy = JSON.parse(usermeta.privacy);
+        } else if (!usermeta.privacy) {
+          usermeta.privacy = {};
+        }
+
+        // Freak out if we didn't get an object here.
+        if (typeof usermeta.privacy !== 'object') {
+          console.error('Guyra: Privacy meta is not object.');
+          return false;
+        }
+
+        var rankingInfoPublic = true;
+
+        if (usermeta.privacy.ranking_info_public != undefined) {
+          rankingInfoPublic = usermeta.privacy.ranking_info_public;
+        }
+
+        return e(AccountOptions_slider, { dom_id: 'privacy_ranking_info_public', checked: rankingInfoPublic, value: 'Aparecer publicamente nos rankings.', onClick: () => {
+
+          rankingInfoPublic = !rankingInfoPublic;
+
+          var dataToPost = {
+            fields: ['privacy']
+          };
+
+          usermeta.privacy.ranking_info_public = rankingInfoPublic;
+          dataToPost.privacy = usermeta.privacy;
+
+          fetch(
+            thei18n.api_link + '?update_userdata=1',
+            {
+              method: "POST",
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(dataToPost)
+            }
+          );
+
+          var checkbox = document.getElementById('privacy_ranking_info_public');
+          checkbox.checked = rankingInfoPublic;
+
+        }});
+
+      })
     )
   );
 }
@@ -1304,7 +1319,7 @@ function WhoAmI_openPayments_paymentItem(props) {
           {
             className: 'page-icon large',
             alt: 'QR Code',
-            src: i18n.api_link + '?get_image=img/qrcode.png'
+            src: i18n.api_link + '?get_image=img/qrcode.jpg'
           }
         )
       ),
@@ -1488,6 +1503,14 @@ function WhoAmI_buttonGroup(props) {
           value: i18n.courses
         }
       ),
+      e(
+        WhoAmI_buttonGroup_button,
+        {
+          href: i18n.ranking_link,
+          img_src: i18n.api_link + '?get_image=icons/podium.png&size=32',
+          value: i18n.ranking
+        }
+      ),
       e(AccountContext.Consumer, null, ({setPage}) => e(
         WhoAmI_buttonGroup_button,
         {
@@ -1580,7 +1603,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue capitalize' },
-        i18n.ranking + usermeta.gamedata['ranking_name']
+        i18n.ranking + ': ' + usermeta.gamedata['ranking_name']
       ),
       e(
         'div',
@@ -1604,6 +1627,31 @@ function AccountInfo_ranking(props) {
   ));
 }
 
+function AccountInfo_Inventory(props) {
+
+  return e(
+    'div',
+    { className: 'account-inventory' },
+    e(Account_BackButton, { page: e(AccountWrapper) }),
+    e(
+      'div',
+      { className: 'd-flex flex-row justify-content-around flex-wrap py-3' },
+      e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
+
+        var theInventory = usermeta.inventory;
+
+        return theInventory.map((item, i) => {
+
+          return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+
+        });
+
+      })
+    )
+  );
+
+}
+
 function AccountInfo(props) {
   return e(AccountContext.Consumer, null, ({usermeta, i18n}) => e(
     'div',
@@ -1622,20 +1670,6 @@ function AccountInfo(props) {
             src: usermeta.profile_picture_url
           }
         ),
-        e(
-          'span',
-          { className: 'position-absolute translate-middle-y bottom-0 end-0' },
-          e(AccountContext.Consumer, null, ({setPage}) => e(
-            'a',
-            {
-              onClick: () => {
-                setPage(e(AccountOptions));
-              },
-              className: 'btn-tall btn-sm purple'
-            },
-            e('i', {className: 'bi bi-pencil-square'})
-          )),
-        )
       ),
       e(
         'span',
@@ -1651,19 +1685,40 @@ function AccountInfo(props) {
       'div',
       { className: 'col-md d-flex flex-column mx-md-3' },
       e('h2', { className: 'text-blue' }, i18n.inventory),
-      e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
+      e(
+        'div',
+        { className: 'account-inventory-preview d-flex flex-row flex-wrap align-items-center justify-content-center' },
+        e(AccountContext.Consumer, null, ({usermeta, i18n, setPage}) => {
 
-        var theInventory = usermeta.inventory;
+          var theInventory = usermeta.inventory;
 
-        if (theInventory.length == 0) {
-          return e('span', { className: 'text-muted' }, i18n.inventory_empty);
-        } else {
-          return theInventory.map((item, i) => {
-            return e('div', { className: 'inventory-item' }, item.title);
-          });
-        }
+          if (theInventory.length == 0) {
+            return e('span', { className: 'text-muted' }, i18n.inventory_empty);
+          } else {
+            return theInventory.map((item, i) => {
 
-      }),
+              if (i < 3) {
+                return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+              }
+
+              if (i == 3) {
+                return e(
+                  'button',
+                  {
+                    className: 'btn-tall green',
+                    onClick: () => {
+                      setPage(e(AccountInfo_Inventory));
+                    }
+                  },
+                  i18n.see_more
+                );
+              }
+
+            });
+          }
+
+        }),
+      )
     )
   ));
 }
@@ -1741,7 +1796,7 @@ function Register(props) {
           e(
             'span',
             { className: '' },
-            e('label', { for: 'profile-code' }, i18n.teacher_code),
+            e('label', { for: 'profile-code' }, i18n.teacher_code, e('span', { className: 'ms-2 text-grey' }, '(' + i18n.optional + ')')),
             e('input', { id: 'profile-code', name: 'user_code', type: "text", className: "input-code" }),
           )
         ),
@@ -1754,6 +1809,7 @@ function Register(props) {
 
             e.preventDefault();
 
+            var dataToPost = {};
             var previousHTML = '';
             previousHTML = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
@@ -1861,6 +1917,8 @@ function LoginForm(props) {
         {
           className: 'btn-tall blue w-25 my-3',
           onClick: (e) => {
+
+            var dataToPost = {};
             var previousHTML = '';
             previousHTML = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
@@ -2092,20 +2150,9 @@ class Account extends React.Component {
       }
 
       this.setState({
-        usermeta: this.usermeta
-      })
-
-      fetch(rootUrl + 'api?i18n=full')
-      .then(res => res.json())
-      .then(json => {
-
-        thei18n = json.i18n;
-
-        this.setState({
-          page: page,
-          i18n: json.i18n
-        });
-
+        usermeta: this.usermeta,
+        page: page,
+        i18n: guyraGetI18n()
       });
 
     });

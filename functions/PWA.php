@@ -3,6 +3,8 @@
 global $template_dir;
 global $template_url;
 
+Guyra_Safeguard_File();
+
 require_once $template_dir . '/vendor/autoload.php';
 
 use MatthiasMullie\Minify;

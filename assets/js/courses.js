@@ -1,54 +1,11 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+
+// Youtube Embed stuff
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
 
 const CoursesContext = React.createContext();
 
@@ -506,20 +463,9 @@ class Courses extends React.Component {
     .then(res => {
 
       this.setState({
-        coursesObject: res
-      });
-
-      fetch(rootUrl + 'api?i18n=full')
-      .then(res => res.json())
-      .then(json => {
-
-        thei18n = json.i18n;
-
-        this.setState({
-          i18n: json.i18n,
-          page: this.decideStartingPage(),
-        });
-
+        coursesObject: res,
+        i18n: guyraGetI18n(),
+        page: this.decideStartingPage(),
       });
 
     });

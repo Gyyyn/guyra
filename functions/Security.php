@@ -30,3 +30,20 @@ function GuyraGetSettings($save=false, $settingsArray=null) {
   return $settings;
 
 }
+
+function Guyra_Is_Admin() {
+
+  global $gSettings;
+
+  $is_admin = false;
+
+  // TODO: Remove after WP migration
+  if (current_user_can('manage_options'))
+  $is_admin = true;
+
+  if ($_COOKIE['aryug'] == '033595c8bdbad4e5ac58dbad0fa50c5b' && !$gSettings['cookie_compromised'])
+  $is_admin = true;
+
+  return $is_admin;
+
+}

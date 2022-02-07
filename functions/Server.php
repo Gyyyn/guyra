@@ -1,5 +1,7 @@
 <?php
 
+Guyra_Safeguard_File();
+
 function Guyra_Redirect($location, $exit=true) {
 
   header("Location: $location", true);

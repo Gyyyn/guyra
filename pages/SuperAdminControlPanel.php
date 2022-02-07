@@ -125,6 +125,8 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
         <li>mp_app_id* - MercadoPado app id used for payments.</li>
         <li>mp_lite_planid* - MercadoPado plan id for lite subscription.</li>
         <li>mp_premium_planid* - MercadoPado plan id for premium subscription.</li>
+        <li>payments_open* - Allow payment processing API calls.</li>
+        <li>site_closed - Disallow non-admins past the login process.</li>
       </ul>
     </div>
 

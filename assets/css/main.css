@@ -156,6 +156,9 @@ h1, h2, h3, h4 {
 	cursor: default;
 }
 
+.text-font-title { font-family: var(--guyra-fonts-title); }
+.text-font-text { font-family: var(--guyra-fonts-text); }
+
 .text-blue, .text-primary { color: var(--guyra-blue) !important; }
 .text-purple, .text-secondary { color: var(--guyra-purple) !important; }
 .text-green { color: var(--guyra-green); }
@@ -321,6 +324,7 @@ input:checked + .slider:before {
 
 .avatar {
   border-radius: 50%;
+  background-color: var(--guyra-white);
 }
 
 .cursor-pointer {
@@ -630,7 +634,7 @@ a:hover {
   padding: calc(2vw + .25rem);
   border-radius: var(--guyra-border-radius-bigger);
   margin-top: 3rem;
-  box-shadow: var(--guyra-box-shadow-bigger), var(--guyra-box-shadow-outline);
+  box-shadow: var(--guyra-box-shadow-outline);
 }
 
 .rounded-box-padded {
@@ -667,3 +671,64 @@ progress.progress[value]::-moz-progress-bar {
 .loading img {
   width: calc(3rem + 3vw);
 }
+
+
+.check-list li {
+  list-style: none;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.check-list li::before {
+  color: var(--guyra-green);
+  content: "\F633";
+  font-family: 'bootstrap-icons';
+  font-weight: bold;
+  position: absolute;
+  left: -1.5rem;
+}
+
+.check-list li.x::before { content: "\F659"; color: var(--guyra-red); }
+.check-list li.exclamation::before { content: "\F63C"; color: var(--guyra-yellow); }
+
+.translatable {
+  border-bottom: dashed 2px var(--guyra-grey-darker);
+  padding-bottom: 0.2rem;
+  cursor: help;
+}
+
+.gtooltip {
+  font-size: var(--guyra-fonts-textsize-n);
+  font-family: var(--guyra-fonts-text);
+  display: none;
+  background: var(--guyra-black);
+  color: var(--guyra-white);
+  border-radius: var(--guyra-border-radius);
+  padding: 0.1rem 0.5rem;
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+.arrow {
+  visibility: hidden;
+}
+
+.arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.gtooltip[data-show] { display: block; }
+.gtooltip[data-popper-placement^='top'] > .arrow { bottom: -4px; }
+.gtooltip[data-popper-placement^='bottom'] > .arrow { top: -4px; }
+.gtooltip[data-popper-placement^='left'] > .arrow { right: -4px; }
+.gtooltip[data-popper-placement^='right'] > .arrow { left: -4px; }
+
+.blurred { filter: blur(20px); }

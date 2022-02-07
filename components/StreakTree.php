@@ -1,5 +1,14 @@
 <?php
 
+global $template_dir;
+global $current_user_id;
+global $current_user_gamedata;
+global $gi18n;
+
+include_once $template_dir . '/functions/Game.php';
+
+Guyra_Safeguard_File();
+
 function UserLoginUpdateStreakStatus($user_id) {
 
   global $current_user_id;
@@ -59,7 +68,8 @@ function UserLoginUpdateStreakStatus($user_id) {
 
         $streak_info['last_logged_activity'] = $now;
 
-        Guyra_increase_user_level($current_user_id, 1);
+        $gamedata['level'] += 1;
+        $gamedata['challenges']['daily']['levels_completed'] += 1;
         PushNotification($notification_message);
 
       }

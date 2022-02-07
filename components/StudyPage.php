@@ -114,7 +114,7 @@ function RenderReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
   global $gi18n;
 
   ?>
-  <h2 class="text-blue"><?php echo $gi18n['leave_reply'] ?></h2>
+  <h2 class="text-blue"><?php echo $gi18n['reply'] ?></h2>
   <div class="dialog-box">
     <textarea id="comment"></textarea>
   </div>
@@ -128,7 +128,7 @@ function RenderReplyBox($comment_post_ID, $comment_parent=0, $redirect=false) {
     <a id="file_upload_button" class="btn-tall blue"><img class="page-icon tiny" alt="upload" src="<?php echo GuyraGetIcon('add-image.png', 32); ?>"></a>
   </label>
 
-  <button id="submitReply" class="btn-tall blue w-50"><?php echo $gi18n['leave_reply']; ?></button>
+  <button id="submitReply" class="btn-tall blue w-50"><?php echo $gi18n['send']; ?><i class="bi bi-send-plus ms-3"></i></button>
 
   <script type="text/javascript">
 

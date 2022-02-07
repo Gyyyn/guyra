@@ -70,6 +70,7 @@ if ($_GET['create_page'] == "all") {
     'Practice',
     'Work With Us',
     'Privacy Policy',
+    'Ranking',
     'Reference',
     'Schools',
     'Terms',

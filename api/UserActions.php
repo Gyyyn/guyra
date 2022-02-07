@@ -18,6 +18,7 @@ Guyra_Safeguard_File();
 
 require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
+include_once $template_dir . '/functions/Exercises.php';
 include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/User.php';
 include_once $template_dir . '/functions/Assets.php';
@@ -28,11 +29,11 @@ include_once $template_dir . '/api/UserActions/Roadmap.php';
 include_once $template_dir . '/api/UserActions/Notifications.php';
 
 $user = $_GET['user'];
+$auth_token = $_SERVER['HTTP_GUYRA_AUTH'];
 
-if (!$is_logged_in && $user !== null) {
+if (!$is_logged_in) {
 
   if ($user !== null) {
-    $auth_token = $_SERVER['HTTP_GUYRA_AUTH'];
     $attempted_login_password = guyra_get_user_meta($_GET['user'], 'user_pass', true)['meta_value'];
     $return = false;
 
@@ -161,37 +162,6 @@ if ($_GET['update_userdata']) {
 
   if ($quit) {
     guyra_output_json('true', true);
-  }
-
-}
-
-if ($_GET['update_user_picture']) {
-
-  if ( ! function_exists( 'wp_handle_upload' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/file.php' );
-  }
-
-  $file = $_FILES['file'];
-
-  if ($file['size'] < 3000000) {
-    $movefile = wp_handle_upload($file, ['test_form' => false]);
-
-    if ( $movefile && ! isset( $movefile['error'] ) ) {
-
-      $current_user_data['profile_picture_url'] = $movefile['url'];
-
-      guyra_update_user_meta($current_user_id, 'userdata', json_encode($current_user_data, JSON_UNESCAPED_UNICODE));
-
-      guyra_output_json($movefile['url'], true);
-
-    } else {
-      guyra_output_json('error', true);
-    }
-  } else {
-
-    global $gi18n;
-
-    guyra_output_json($gi18n['file_too_big'], true);
   }
 
 }
@@ -417,6 +387,11 @@ if ($_GET['get_image']) {
 
 if ($_GET['proccess_payment']) {
 
+  // Only allow payment processing if the setting is enabled.
+  if (!$gSettings['payments_open']) {
+    guyra_output_json('payments closed', true);
+  }
+
   $thePost = json_decode(file_get_contents('php://input'), true);
   $put = false;
   $url = false;
@@ -583,4 +558,14 @@ if ($_GET['get_courses']) {
   }
 
   guyra_output_json($coursesArray, true);
+}
+
+if ($_GET['translate']) {
+
+  $translation = $_GET['translate'];
+  $output = GetCloudTranslationFor($translation);
+
+  if ($output)
+  guyra_output_json($output, true);
+
 }

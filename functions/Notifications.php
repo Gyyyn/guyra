@@ -1,5 +1,7 @@
 <?php
 
+Guyra_Safeguard_File();
+
 function GetNotifications($user=0, $args=[]) {
 
   global $current_user_id;

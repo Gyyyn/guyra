@@ -21,6 +21,7 @@ $criticalPages = [
   'Api',
   'Account',
   'Comment',
+  'Ranking',
   'Reference',
   'Practice',
   'Courses'

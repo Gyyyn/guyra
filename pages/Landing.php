@@ -278,26 +278,6 @@ get_header(null, ['css' => 'landing.css']);
    </div></div>
 
  </main>
-
- <footer style="padding: calc(3rem + 2vw) 0;">
-   <div class="squeeze mx-3 mx-md-auto">
-     <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
-       <ol class="breadcrumb">
-         <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
-         <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
-         <li class="breadcrumb-item"><a href="<?php echo $gi18n['blog_link'] ?>"><?php echo $gi18n['blog'] ?></a></li>
-         <?php if (false): ?><li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li> <?php endif; ?>
-         <li class="breadcrumb-item"><a href="<?php echo $gi18n['thanks_footer_link'] ?>"><?php echo $gi18n['thanks'] ?></a></li>
-       </ol>
-     </nav>
-     <p class="mt-3">
-       &copy; <?php echo date('Y') . ' ' . $gi18n['company_name']; ?> <br />
-       <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
-     </p>
-
-     <img class="float-end page-icon" alt="Guyra bird" src="<?php echo $gi18n['title_logo_img'] ?>" />
-
-   </div>
- </footer>
+ 
  <?php
  get_footer(null, ['aos' => true]);

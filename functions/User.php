@@ -1,5 +1,7 @@
 <?php
 
+Guyra_Safeguard_File();
+
 function Guyra_Login_User($creds) {
 
   global $current_user_object;

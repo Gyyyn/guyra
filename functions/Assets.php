@@ -3,6 +3,8 @@
 global $template_dir;
 global $template_url;
 
+Guyra_Safeguard_File();
+
 require_once $template_dir . '/vendor/autoload.php';
 
 use MatthiasMullie\Minify;
@@ -16,6 +18,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
   global $template_dir;
   global $template_url;
+  global $gSettings;
 
   $assetsCacheLocation = $template_dir . '/cache/assets/';
 
@@ -24,6 +27,8 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
   }
 
   $realObject = $template_dir . '/assets/' . $assetFolder . '/' . $assetFile;
+  $realLink = $template_url . '/assets/' . $assetFolder . '/' . $assetFile;
+
   $cachedObjectAppend = md5($assetFolder . $assetFile . GUYRA_VERSION) . '.' . $assetFolder;
   $cachedObject = $assetsCacheLocation . $cachedObjectAppend;
 
@@ -31,7 +36,8 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
   $theLink = $template_url . '/cache/assets/' . $cachedObjectAppend;
 
   // Create a cache for a file that's not found
-  if (!$object) {
+  // In a dev enviroment we aren't going to minify anything.
+  if (!$object || $gSettings['dev_env']) {
 
     $object = file_get_contents($realObject);
 

@@ -9,6 +9,22 @@ include_once $template_dir . '/functions/Assets.php';
 
 ?>
 
+<footer class="d-none d-md-flex flex-column my-3 text-grey-darker text-sss justify-content-center align-items-center">
+  <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
+      <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
+      <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
+    </ol>
+  </nav>
+  <span class="">Alguns recursos criados por Freepik, Smashicons, Flat Icons na <a href="https://www.flaticon.com/" title="flaticon">Flaticon</a>.</span>
+  <p class="mt-3">
+    &copy; 2019 - <?php echo date('Y') . ' ' . $gi18n['company_name']; ?>
+    <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
+  </p>
+</footer>
+
+<script type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
@@ -21,9 +37,10 @@ include_once $template_dir . '/functions/Assets.php';
 <script async src="https://sdk.mercadopago.com/js/v2"></script>
 <script async src="https://www.mercadopago.com/v2/security.js" view="checkout" output="deviceId"></script>
 <?php endif; ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <?php if ($args['js']): ?>
-<script async src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
+<script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>
 <?php if ($args['aos']): ?>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
@@ -36,11 +53,17 @@ include_once $template_dir . '/functions/Assets.php';
 <script>
 let easyMDE;
 window.addEventListener('load', function () {
-  easyMDE = new EasyMDE({
-    element: document.getElementById('<?php echo $args['easymde']; ?>'),
-    autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
-    toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
-  });
+
+  var theElement = document.getElementById('<?php echo $args['easymde']; ?>');
+
+  if (theElement) {
+    easyMDE = new EasyMDE({
+      element: theElement,
+      autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
+      toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
+    });
+  }
+
 });
 </script>
 <?php endif; ?>

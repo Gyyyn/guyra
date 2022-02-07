@@ -1,6 +1,9 @@
 <?php
+
 global $template_dir;
 global $template_url;
+
+Guyra_Safeguard_File();
 
 require $template_dir . '/vendor/autoload.php';
 

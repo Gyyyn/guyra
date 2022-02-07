@@ -1,8 +1,11 @@
 <?php
 
+Guyra_Safeguard_File();
+
 function Guyra_increase_user_level($user=1, $amount=1) {
 
   $gamedata = guyra_get_user_data($user, 'gamedata');
+
   $gamedata['level'] += $amount;
   $gamedata['challenges']['daily']['levels_completed'] += 1;
 
@@ -10,8 +13,18 @@ function Guyra_increase_user_level($user=1, $amount=1) {
 
 }
 
-function GetUserRanking($user=1) {
+function Guyra_decrease_user_level($user=1, $amount=1) {
 
+  $gamedata = guyra_get_user_data($user, 'gamedata');
+  $gamedata['level'] -= $amount;
+
+  guyra_update_user_data($user, $gamedata, '', 'gamedata');
+
+}
+
+function GetUserRanking($user=1, $gamedata=false) {
+
+  if(!$gamedata)
   $gamedata = guyra_get_user_data($user, 'gamedata');
 
   $elo = (float)$gamedata['elo'];

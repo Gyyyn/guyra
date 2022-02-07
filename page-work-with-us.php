@@ -5,15 +5,15 @@ global $template_url;
 global $site_url;
 global $gi18n;
 
-get_header();
- ?>
+get_header(null, ['css' => 'landing.css']);
+?>
 
  <div class="cover bg-dark">
    <div class="cover-container container pt-3">
 
      <div class="cover-card row p-5 bg-white">
        <div class="col-md order-md-2 px-md-5 align-self-center">
-         <h2 class="text-primary" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['company_name'] ?></h2>
+         <h2 class="text-primary" data-aos="fade" data-aos-delay="100"><?php echo $gi18n['prices_features']['business']['title']; ?></h2>
          <p data-aos="fade" data-aos-delay="500"><?php echo $gi18n['workwithus_thesell'] ?></p>
          <p data-aos="fade" data-aos-delay="1500">
            <?php echo $gi18n['workwithus_thesell_explain'] ?>
@@ -54,23 +54,23 @@ get_header();
         <div class="col-md prices primary business">
           <div class="card mb-4">
             <div class="card-header">
-              <h3 class="my-1 fw-normal"><?php echo $gi18n['pricesfeature_titlebusiness'] ?></h3>
+              <h3 class="my-1 fw-normal"><?php echo $gi18n['prices_features']['business']['title'] ?></h3>
             </div>
             <div class="card-body">
-              <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['pricesfeature_pricebusiness'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
+              <h1 class="card-title pricing-card-title fs-3"><?php echo $gi18n['prices_features']['business']['price'] ?><small class="text-muted fw-light">/<?php echo $gi18n['month'] ?></small></h1>
               <ul class="list-unstyled me-0 ms-0 mt-3 mb-4 features">
-                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_allfrompremium']; ?></span></li>
+                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['prices_features']['feature_allfrompremium']; ?></span></li>
 
-                <li><span><?php echo $gi18n['pricesfeature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-                <li><span><?php echo $gi18n['pricesfeature_whatsapp_questions2']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-                <li><span><?php echo $gi18n['pricesfeature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-                <li><span><?php echo $gi18n['pricesfeature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_courses_access']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_whatsapp_questions2']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
 
                 <hr />
-                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['pricesfeature_andforyourschool']; ?></span></li>
+                <li class="fw-bold mb-3"><span class="text-normal"><?php echo $gi18n['prices_features']['feature_andforyourschool']; ?></span></li>
 
-                <li><span><?php echo $gi18n['pricesfeature_school_management']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
-                <li><span><?php echo $gi18n['pricesfeature_payment_processor']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_school_management']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
+                <li><span><?php echo $gi18n['prices_features']['feature_payment_processor']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
               </ul>
               <button type="button" class="w-100 btn-tall" data-bs-toggle="modal" data-bs-target="#contact-modal"><?php echo $gi18n['button_contact'] ?></button>
             </div>

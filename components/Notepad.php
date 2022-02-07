@@ -7,7 +7,7 @@ include_once $template_dir . '/functions/Assets.php';
 function Guyra_notepad() { ?>
 
   <div class="position-fixed bottom-0 end-0 notepad-toggle overflow-x-visible" id="notepad-wrapper">
-    <a class="btn-tall blue round-border position-absolute" id="notepad-toggle">
+    <a class="btn-tall blue opacity-0 animate round-border position-absolute" id="notepad-toggle">
       <img class="page-icon tiny" alt="notes" src="<?php echo GetImageCache('icons/notes.png', 32); ?>">
     </a>
   </div>

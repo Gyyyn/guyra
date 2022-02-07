@@ -45,26 +45,34 @@ get_header();
         <span class="page-icon small"><img alt="learning" src="<?php echo GetImageCache('icons/waving-hand.png', 128); ?>"></span>
       </div>
 
+      <?php if ($current_user_payments['status'] == 'trial'):
+      $daysLeft = 30 - $current_user_payments['days_left']; ?>
       <div class="dialog-box">
-
-        <?php if ($current_user_payments['status'] == 'trial'):
-        $daysLeft = 30 - $current_user_payments['days_left']; ?>
         <span class="fw-bold">Você tem <?php echo $daysLeft ?> dias no seu teste grátis.</span>
         <progress class="progress" value="<?php echo $daysLeft; ?>" max="30"></progress>
-
-        <hr>
-        <?php elseif ($current_user_payments['status'] != 'approved'): ?>
-        <span><?php echo $gi18n['no_subscription_found'] ?></span>
+      </div>
+      <?php elseif ($current_user_payments['status'] != 'approved'): ?>
+      <div class="dialog-box">
+        <span class="fw-bold"><?php echo $gi18n['no_subscription_found'][0] + $gi18n['no_subscription_found'][1]; ?></span>
+        <ul class="check-list my-3">
+          <li class="x"><?php echo $gi18n['no_subscription_found'][2] ?></li>
+          <li class="x"><?php echo $gi18n['no_subscription_found'][3] ?></li>
+          <li class="x"><?php echo $gi18n['no_subscription_found'][4] ?></li>
+          <li><?php echo $gi18n['no_subscription_found'][5] ?></li>
+          <li><?php echo $gi18n['no_subscription_found'][6] ?></li>
+        </ul>
+        <span><?php echo $gi18n['no_subscription_found'][7] ?></span>
         <a class="btn-tall green d-block text-center w-100 my-3" role="button" href="<?php echo $gi18n['purchase_link'] ?>"><?php echo $gi18n['subscribe'] ?></a>
+      </div>
+      <?php endif; ?>
 
-        <hr>
-        <?php endif; ?>
+      <div class="dialog-box">
 
         <p><?php echo $gi18n['greetings'][random_int(0, count($gi18n['greetings']) - 1)]; ?></p>
         <p><?php echo $gi18n['whats_for_today']; ?></p>
         <?php if ($teacherid): ?>
         <div class="mt-3">
-          <a href="#roadmap-container" class="btn-tall blue" id="load-roadmap-button"><?php echo $gi18n['load'] . ' ' . $gi18n['roadmap']; ?></a>
+          <a href="#roadmap-container" class="btn-tall btn-sm blue" id="load-roadmap-button"><?php echo $gi18n['load'] . ' ' . $gi18n['roadmap']; ?></a>
         </div>
         <?php endif; ?>
       </div>
@@ -91,7 +99,7 @@ get_header();
 
     </div>
 
-    <?php if (is_object($newspage)): ?>
+    <?php if (is_object($newspage) && $newspage->post_content): ?>
     <div class="alert study-news study-page rounded-box position-relative alert-dismissible fade show" role="alert">
       <div class="icon-title mb-2 d-flex justify-content-between align-items-center">
         <h2 class="text-primary"><?php echo $gi18n['whatsnew']; ?></h2>
@@ -112,7 +120,7 @@ get_header();
     <div class="study-page rounded-box position-relative">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="text-blue"><?php echo $gi18n['studypage_homework_title']; ?></h1>
+        <h1 class="text-blue"><?php echo $gi18n['lessons']; ?></h1>
         <span class="page-icon"><img alt="learning" src="<?php echo GetImageCache('icons/light.png', 128); ?>"></span>
       </div>
 
@@ -123,7 +131,7 @@ get_header();
     <div class="study-answers rounded-box">
 
       <div class="icon-title mb-5 d-flex justify-content-between align-items-center">
-        <h1 class="text-blue"><?php echo $gi18n['studypage_homework_replytitle']; ?></h1>
+        <h1 class="text-blue"><?php echo $gi18n['reply']; ?></h1>
         <span class="page-icon"><img alt="homework" src="<?php echo GetImageCache('icons/essay.png', 128); ?>"></span>
       </div>
 
@@ -151,7 +159,7 @@ get_header();
 
     <?php else: ?>
 
-    <div id="roadmap-container"></div>
+    <div id="roadmap-container" class="justfade-animation animate"></div>
 
     <?php endif; ?>
 

@@ -1,36 +1,190 @@
 {
 
   "jackpot": {
-    "name": "Roleta",
     "price": "5",
     "image": "icons/jackpot-machine.png",
-    "description": "Tenha a chance de ganhar um item raro!",
-    "description_full": "Você pode ganhar um dos seguites items: ...",
+    "items": ["jackpot"],
     "pin": true
   },
 
   "profile_pack1": {
-    "name": "Pacote de perfil: Básico",
-    "price": "10",
+    "price": "5",
     "image": "icons/avatars/boy.png",
-    "description": "Quatro avatares!",
-    "description_full": "Os quatro avatares que você vê na area de exercícios pra você usar no site."
+    "items": {
+      "avatar_exercises1": {
+        "location": "icons/avatars/boy.png"
+      },
+      "avatar_exercises2": {
+        "location": "icons/avatars/girl.png"
+      },
+      "avatar_exercises3": {
+        "location": "icons/avatars/man.png"
+      },
+      "avatar_exercises4": {
+        "location": "icons/avatars/woman.png"
+      }
+    }
   },
 
-  "profile_pack_flags": {
-    "name": "Pacote de perfil: Bandeiras",
+  "profile_pack_animals": {
+    "price": "5",
+    "image": "icons/avatars/fish.png",
+    "items": {
+      "avatar_cat1": {
+        "location": "icons/avatars/cat.png"
+      },
+      "avatar_hamster1": {
+        "location": "icons/avatars/hamster.png"
+      },
+      "avatar_turle1": {
+        "location": "icons/avatars/turtle.png"
+      },
+      "avatar_fish1": {
+        "location": "icons/avatars/fish.png"
+      }
+    }
+  },
+
+  "profile_pack_psychedelic": {
     "price": "25",
-    "image": "icons/brazil-flag.png",
-    "description": "Bandeiras de perfil!",
-    "description_full": "Destrave várias bandeiras para usar no seu perfil."
+    "image": "icons/avatars/history_channel.png",
+    "items": {
+      "avatar_history_channel": {
+        "location": "icons/avatars/history_channel.png"
+      },
+      "avatar_illuminati": {
+        "location": "icons/avatars/illuminati.png"
+      },
+      "avatar_wheres_your_face": {
+        "location": "icons/avatars/wheres_your_face.png"
+      },
+      "avatar_its_alive": {
+        "location": "icons/avatars/its_alive.png"
+      },
+      "avatar_big_spender": {
+        "location": "icons/avatars/big_spender.png"
+      }
+    }
+  },
+
+  "profile_pack_halloween": {
+    "price": "25",
+    "image": "icons/avatars/tomb.png",
+    "items": {
+      "avatar_tomb": {
+        "location": "icons/avatars/tomb.png"
+      },
+      "avatar_pumpkin": {
+        "location": "icons/avatars/pumpkin.png"
+      },
+      "avatar_ghost": {
+        "location": "icons/avatars/ghost.png"
+      },
+      "avatar_halloween": {
+        "location": "icons/avatars/halloween.png"
+      }
+    }
   },
 
   "progress_pack1": {
-    "name": "Pacote de progressão 1",
     "price": "10",
+    "type":"progress",
     "image": "icons/exercises/portfolio.png",
-    "description": "Destrave novos exercícios videos!",
-    "description_full": "Destrave novos exercícios videos!"
+    "items": {
+      "progress_pack1": [
+        "unit5",
+        "unit6",
+        "unit7",
+        "unit8",
+        "unit9",
+        "unit10",
+        "unit11"
+      ]
+    }
+  },
+
+  "progress_pack2": {
+    "price": "15",
+    "type":"progress",
+    "image": "icons/exercises/plan.png",
+    "items": {
+      "progress_pack2": [
+        "unit12",
+        "unit13",
+        "unit14",
+        "unit15",
+        "unit16",
+        "unit17",
+        "unit18"
+      ]
+    }
+  },
+
+  "progress_pack3": {
+    "price": "25",
+    "type":"progress",
+    "image": "icons/exercises/map.png",
+    "items": {
+      "progress_pack3": [
+        "unit19",
+        "unit20",
+        "unit21",
+        "unit22",
+        "unit23",
+        "unit24",
+        "unit25"
+      ]
+    }
+  },
+
+  "progress_pack4": {
+    "price": "30",
+    "type":"progress",
+    "image": "icons/exercises/surprise.png",
+    "items": {
+      "progress_pack4": [
+        "unit26",
+        "unit27",
+        "unit28",
+        "unit29",
+        "unit30",
+        "unit31",
+        "unit32"
+      ]
+    }
+  },
+
+  "progress_pack5": {
+    "price": "40",
+    "type":"progress",
+    "image": "icons/exercises/achievement.png",
+    "items": {
+      "progress_pack5": [
+        "unit33",
+        "unit34",
+        "unit35",
+        "unit36",
+        "unit37",
+        "unit38",
+        "unit39"
+      ]
+    }
+  },
+
+  "progress_pack6": {
+    "price": "45",
+    "type":"progress",
+    "image": "icons/exercises/product.png",
+    "items": {
+      "progress_pack6": [
+        "unit40",
+        "unit41",
+        "unit42",
+        "unit43",
+        "unit44",
+        "unit45"
+      ]
+    }
   }
 
 }

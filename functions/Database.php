@@ -4,6 +4,8 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 
+Guyra_Safeguard_File();
+
 function guyra_output_json($message, $exit=false) {
 
   header("Content-Type: application/json");
@@ -590,10 +592,6 @@ function guyra_update_user($user_id, array $values) {
 
 function guyra_get_users($bounds=[]) {
 
-  if ($_COOKIE['guyra_get_users']) {
-    return json_decode($_COOKIE['guyra_get_users'], true);
-  }
-
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   if ($db->connect_error) {
 
@@ -623,8 +621,6 @@ function guyra_get_users($bounds=[]) {
       $output[$key['user_id']][$key['meta_key']] = $theValue;
       $output[$key['user_id']]['id'] = $key['user_id'];
     }
-
-    setcookie("guyra_get_users", json_encode($output), time()+3600);
 
     $db->close();
     guyra_log_to_file($sql);

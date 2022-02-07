@@ -1,49 +1,4 @@
-let e = React.createElement;
-const rootUrl = window.location.origin.concat('/');
-var thei18n = {};
-
-function LoadingIcon(props) {
-  return e(
-    'img',
-    {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
-    }
-  );
-}
-
-class LoadingPage extends React.Component {
-  constructor() {
-   super();
-   this.state = {
-     message: null
-   };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
-      });
-    }, 5000);
-  }
-
-  render() {
-    return e(
-      'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
-      e(
-        'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
-        e(LoadingIcon),
-      ),
-      this.state.message
-    );
-  }
-}
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
 
@@ -1062,52 +1017,47 @@ class Diary extends React.Component {
 
   componentDidMount() {
 
-    fetch(rootUrl + 'api?i18n=full')
-    .then(res => res.json())
-    .then(json => {
-      this.setState({
-        i18n: json.i18n
-      });
-
-      fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
-      .then(res => res.json())
-      .then(data => {
-
-        if (data != false) {
-          var theJson = JSON.parse(data.meta_value);
-
-          if (this.props.diarytype == 'group') {
-            this.theOtherDiaries = theJson;
-
-            if (theJson.diaries == undefined) {
-              theJson.diaries = {};
-            }
-
-            theJson = theJson.diaries[this.props.grouptag];
-          } else {
-            if (theJson.payments == undefined) {
-              theJson.payments = [];
-            }
-          }
-
-          if (theJson) {
-            this.setState({
-              diary: theJson
-            });
-          }
-        }
-
-        if (Object.keys(this.state.diary).length === 0) {
-          this.setPage(e(NeedNewDiary));
-        } else {
-          this.setPage(
-            e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
-          );
-        }
-
-      })
-
+    this.setState({
+      i18n: guyraGetI18n()
     });
+
+    fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
+    .then(res => res.json())
+    .then(data => {
+
+      if (data != false) {
+        var theJson = JSON.parse(data.meta_value);
+
+        if (this.props.diarytype == 'group') {
+          this.theOtherDiaries = theJson;
+
+          if (theJson.diaries == undefined) {
+            theJson.diaries = {};
+          }
+
+          theJson = theJson.diaries[this.props.grouptag];
+        } else {
+          if (theJson.payments == undefined) {
+            theJson.payments = [];
+          }
+        }
+
+        if (theJson) {
+          this.setState({
+            diary: theJson
+          });
+        }
+      }
+
+      if (Object.keys(this.state.diary).length === 0) {
+        this.setPage(e(NeedNewDiary));
+      } else {
+        this.setPage(
+          e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
+        );
+      }
+
+    })
 
   }
 
