@@ -25,55 +25,62 @@ function GetStandardDate() {
   return date('d-m-Y H:i:s');
 }
 
-function guyra_database_create_db() {
+function Guyra_GetDBConnection($args=[]) {
 
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $db->set_charset("utf8");
 
   if ($db->connect_error) {
 
-    guyra_output_json('connection error: ' . $db->connect_error, true);
+    guyra_output_json('connection error' . $db->connect_error, true);
 
-  } else {
+  }
 
-    $tables = [
-      sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
-      log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-      user_id BIGINT UNSIGNED,
-      object LONGTEXT,
-      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+  return $db;
 
-      sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
-      meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-      user_id BIGINT UNSIGNED,
-      meta_key VARCHAR(255),
-      meta_value LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+}
 
-      sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
-      log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-      object LONGTEXT,
-      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+function guyra_database_create_db() {
 
-      sprintf("CREATE TABLE IF NOT EXISTS guyra_users (
-      user_id BIGINT UNSIGNED PRIMARY KEY,
-      user_login VARCHAR(100),
-      type VARCHAR(255),
-      flags LONGTEXT) CHARACTER SET %s", DB_CHARSET)
-    ];
+  $db = Guyra_GetDBConnection();
 
-    foreach ($tables as $table => $sql) {
-      if (!$sql) {
-        guyra_output_json('empty query, check input vars', true);
-      }
+  $tables = [
+    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
+    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED,
+    object LONGTEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
 
-      if ($db->query($sql) === TRUE) {
+    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
+    meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED,
+    meta_key VARCHAR(255),
+    meta_value LONGTEXT) CHARACTER SET %s", DB_CHARSET),
 
-        guyra_output_json('query successful');
+    sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
+    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    object LONGTEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
 
-      } else {
-        guyra_output_json('query error: ' . $db->error, true);
-      }
+    sprintf("CREATE TABLE IF NOT EXISTS guyra_users (
+    user_id BIGINT UNSIGNED PRIMARY KEY,
+    user_login VARCHAR(100),
+    type VARCHAR(255),
+    flags LONGTEXT) CHARACTER SET %s", DB_CHARSET)
+  ];
+
+  foreach ($tables as $table => $sql) {
+    if (!$sql) {
+      guyra_output_json('empty query, check input vars', true);
     }
 
+    if ($db->query($sql) === TRUE) {
+
+      guyra_output_json('query successful');
+
+    } else {
+      guyra_output_json('query error: ' . $db->error, true);
+    }
   }
 
   $db->close();
@@ -117,55 +124,47 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
     }
   }
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $db = Guyra_GetDBConnection();
 
-  if ($db->connect_error) {
+  $sql = sprintf("SELECT user_id, meta_key, meta_value
+  FROM guyra_user_meta
+  WHERE user_id='%d'", $user);
+  $result = $db->query($sql);
+  $output = false;
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  // Check if the user exists
+  if ($result->num_rows > 0) {
 
+    if (!$meta_key) {
+
+      while ($row = $result->fetch_assoc()) {
+          $output[] = $row;
+      }
+
+    } else {
+
+      foreach ($result as $row) {
+
+        if ($row['meta_key'] == $meta_key) {
+          $output = $row;
+        }
+
+      }
+
+    }
+
+    if ($return === 'exists' && $output != false) {
+
+      $output = true;
+
+    }
+
+  }
+
+  if (!$return) {
+    guyra_output_json($output, true);
   } else {
-
-    $sql = sprintf("SELECT user_id, meta_key, meta_value
-      FROM guyra_user_meta
-      WHERE user_id='%d'", $user);
-      $result = $db->query($sql);
-      $output = false;
-
-      // Check if the user exists
-      if ($result->num_rows > 0) {
-
-        if (!$meta_key) {
-
-          while ($row = $result->fetch_assoc()) {
-              $output[] = $row;
-          }
-
-        } else {
-
-          foreach ($result as $row) {
-
-            if ($row['meta_key'] == $meta_key) {
-              $output = $row;
-            }
-
-          }
-
-        }
-
-        if ($return === 'exists' && $output != false) {
-
-          $output = true;
-
-        }
-
-      }
-
-      if (!$return) {
-        guyra_output_json($output, true);
-      } else {
-        return $output;
-      }
-
+    return $output;
   }
 
   $db->close();
@@ -174,41 +173,34 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 }
 
 function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+  $db = Guyra_GetDBConnection();
   $meta_value = $db->real_escape_string($meta_value);
 
-  if ($db->connect_error) {
+  if (guyra_get_user_meta($user, $meta_key, 'exists')) {
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+    $sql = sprintf("UPDATE guyra_user_meta
+    SET meta_value = '%s'
+    WHERE user_id = %d AND meta_key = '%s'", $meta_value, $user, $meta_key);
 
   } else {
 
-    if (guyra_get_user_meta($user, $meta_key, 'exists')) {
+    $sql = sprintf("INSERT INTO guyra_user_meta (user_id, meta_key, meta_value)
+    VALUES (%d, '%s', '%s')", $user, $meta_key, $meta_value);
 
-      $sql = sprintf("UPDATE guyra_user_meta
-      SET meta_value = '%s'
-      WHERE user_id = %d AND meta_key = '%s'", $meta_value, $user, $meta_key);
+  }
 
-    } else {
+  if ($db->query($sql) === TRUE) {
 
-      $sql = sprintf("INSERT INTO guyra_user_meta (user_id, meta_key, meta_value)
-      VALUES (%d, '%s', '%s')", $user, $meta_key, $meta_value);
+    if ($return) {
 
-    }
-
-    if ($db->query($sql) === TRUE) {
-
-      if ($return) {
-
-        guyra_output_json('query successful');
-
-      }
-
-    } else {
-
-      guyra_handle_query_error($db->error);
+      guyra_output_json('query successful');
 
     }
+
+  } else {
+
+    guyra_handle_query_error($db->error);
 
   }
 
@@ -218,30 +210,23 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 }
 
 function guyra_remove_user_meta($user, $meta_key, $return=false) {
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  if ($db->connect_error) {
+  $db = Guyra_GetDBConnection();
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  $sql = sprintf("DELETE FROM guyra_user_meta
+  WHERE user_id = %d AND meta_key = '%s'", $user, $meta_key);
+
+  if ($db->query($sql) === TRUE) {
+
+    if ($return) {
+
+      guyra_output_json('query successful');
+
+    }
 
   } else {
 
-    $sql = sprintf("DELETE FROM guyra_user_meta
-    WHERE user_id = %d AND meta_key = '%s'", $user, $meta_key);
-
-    if ($db->query($sql) === TRUE) {
-
-      if ($return) {
-
-        guyra_output_json('query successful');
-
-      }
-
-    } else {
-
-      guyra_handle_query_error($db->error);
-
-    }
+    guyra_handle_query_error($db->error);
 
   }
 
@@ -251,26 +236,19 @@ function guyra_remove_user_meta($user, $meta_key, $return=false) {
 }
 
 function guyra_log_to_db($user, $object) {
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  if ($db->connect_error) {
+  $db = Guyra_GetDBConnection();
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
+  VALUES (%d, '%s')", $user, addslashes($object));
+
+  if ($db->query($sql) === TRUE) {
+
+    guyra_output_json('query successful');
 
   } else {
 
-    $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
-    VALUES (%d, '%s')", $user, addslashes($object));
-
-    if ($db->query($sql) === TRUE) {
-
-      guyra_output_json('query successful');
-
-    } else {
-
-      guyra_handle_query_error($db->error);
-
-    }
+    guyra_handle_query_error($db->error);
 
   }
 
@@ -280,31 +258,24 @@ function guyra_log_to_db($user, $object) {
 }
 
 function guyra_get_logdb_items($amount=10, $return=false) {
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  if ($db->connect_error) {
+  $db = Guyra_GetDBConnection();
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  $sql = sprintf("SELECT * FROM (
+     SELECT * FROM guyra_user_history ORDER BY log_id DESC LIMIT %u
+  )Var1", $amount);
 
+  $result = $db->query($sql);
+  $output = false;
+
+  while ($row = $result->fetch_assoc()) {
+      $output[] = $row;
+  }
+
+  if (!$return) {
+    guyra_output_json($output, true);
   } else {
-
-    $sql = sprintf("SELECT * FROM (
-       SELECT * FROM guyra_user_history ORDER BY log_id DESC LIMIT %u
-    )Var1", $amount);
-
-      $result = $db->query($sql);
-      $output = false;
-
-      while ($row = $result->fetch_assoc()) {
-          $output[] = $row;
-      }
-
-      if (!$return) {
-        guyra_output_json($output, true);
-      } else {
-        return $output;
-      }
-
+    return $output;
   }
 
   $db->close();
@@ -313,20 +284,13 @@ function guyra_get_logdb_items($amount=10, $return=false) {
 }
 
 function guyra_log_error_todb($object) {
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  if ($db->connect_error) {
+  $db = Guyra_GetDBConnection();
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  $sql = sprintf("INSERT INTO guyra_error_history (object)
+  VALUES ('%s')", addslashes($object));
 
-  } else {
-
-    $sql = sprintf("INSERT INTO guyra_error_history (object)
-    VALUES ('%s')", addslashes($object));
-
-    $db->query($sql);
-
-  }
+  $db->query($sql);
 
   $db->close();
   guyra_log_to_file($sql);
@@ -426,53 +390,44 @@ function check_for_user_migration($user_id) {
 
 function guyra_get_user_object($user_id, $user_email=null) {
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $db = Guyra_GetDBConnection();
 
-  if ($db->connect_error) {
+  $sql_select = "SELECT user_id, user_login, type, flags FROM guyra_users WHERE";
+  $sql_userid_statement = sprintf(" user_id='%d'", $user_id);
+  $sql_useremail_statement = sprintf(" user_login='%s'", $user_email);
 
-    // This function will never output to the api, so no need to json the error.
-    guyra_log_to_file('connection error' . $db->connect_error, true);
+  $sql = $sql_select;
 
-  } else {
+  if ($user_id !== null) {
+    $sql .= $sql_userid_statement;
+    $sql_useremail_statement = " AND" . $sql_useremail_statement;
+  }
 
-    $sql_select = "SELECT user_id, user_login, type, flags FROM guyra_users WHERE";
-    $sql_userid_statement = sprintf(" user_id='%d'", $user_id);
-    $sql_useremail_statement = sprintf(" user_login='%s'", $user_email);
+  if ($user_email !== null) {
+    $sql .= $sql_useremail_statement;
+  }
 
-    $sql = $sql_select;
+  $result = $db->query($sql);
+  $output = false;
 
-    if ($user_id !== null) {
-      $sql .= $sql_userid_statement;
-      $sql_useremail_statement = " AND" . $sql_useremail_statement;
+  // Check if the user exists
+  if ($result->num_rows > 0) {
+
+    while ($row = $result->fetch_assoc()) {
+        $output[] = $row;
     }
 
-    if ($user_email !== null) {
-      $sql .= $sql_useremail_statement;
+    // Truncate the result
+    if ($result->num_rows === 1) {
+      $output = $output[0];
     }
-
-    $result = $db->query($sql);
-    $output = false;
-
-    // Check if the user exists
-    if ($result->num_rows > 0) {
-
-      while ($row = $result->fetch_assoc()) {
-          $output[] = $row;
-      }
-
-      // Truncate the result
-      if ($result->num_rows === 1) {
-        $output = $output[0];
-      }
-
-    }
-
-    return $output;
 
   }
 
   $db->close();
   guyra_log_to_file($sql);
+
+  return $output;
 
 }
 
@@ -521,16 +476,7 @@ function guyra_generate_user_id() {
 
 function guyra_create_user($login, $type='user', $flags=[]) {
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-  if ($db->connect_error) {
-
-    // This function will never output to the api, so no need to json the error.
-    guyra_log_to_file('connection error' . $db->connect_error, true);
-
-    return false;
-
-  }
+  $db = Guyra_GetDBConnection();
 
   $user_id = guyra_generate_user_id();
 
@@ -551,13 +497,7 @@ function guyra_create_user($login, $type='user', $flags=[]) {
 
 function guyra_update_user($user_id, array $values) {
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-  if ($db->connect_error) {
-
-    return false;
-
-  }
+  $db = Guyra_GetDBConnection();
 
   $user_values = guyra_get_user_object($user_id);
   $data_keys = array_keys($values);
@@ -592,40 +532,33 @@ function guyra_update_user($user_id, array $values) {
 
 function guyra_get_users($bounds=[]) {
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  if ($db->connect_error) {
+  $db = Guyra_GetDBConnection();
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+  $sql = "SELECT user_id, meta_key, meta_value
+  FROM guyra_user_meta";
 
-  } else {
+  $result = $db->query($sql);
+  $output = false;
 
-    $sql = "SELECT user_id, meta_key, meta_value
-    FROM guyra_user_meta";
-
-    $result = $db->query($sql);
-    $output = false;
-
-    while ($row = $result->fetch_assoc()) {
-      $_output[] = $row;
-    }
-
-    foreach ($_output as $key) {
-
-      $jsonDecoded = json_decode($key['meta_value'], true);
-      $theValue = $key['meta_value'];
-
-      if ($jsonDecoded) {
-        $theValue = $jsonDecoded;
-      }
-
-      $output[$key['user_id']][$key['meta_key']] = $theValue;
-      $output[$key['user_id']]['id'] = $key['user_id'];
-    }
-
-    $db->close();
-    guyra_log_to_file($sql);
-    return $output;
-
+  while ($row = $result->fetch_assoc()) {
+    $_output[] = $row;
   }
+
+  foreach ($_output as $key) {
+
+    $jsonDecoded = json_decode($key['meta_value'], true);
+    $theValue = $key['meta_value'];
+
+    if ($jsonDecoded) {
+      $theValue = $jsonDecoded;
+    }
+
+    $output[$key['user_id']][$key['meta_key']] = $theValue;
+    $output[$key['user_id']]['id'] = $key['user_id'];
+  }
+
+  $db->close();
+  guyra_log_to_file($sql);
+  return $output;
 
 }

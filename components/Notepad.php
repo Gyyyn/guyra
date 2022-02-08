@@ -4,10 +4,14 @@ global $template_dir;
 
 include_once $template_dir . '/functions/Assets.php';
 
-function Guyra_notepad() { ?>
+function Guyra_notepad() {
+
+  global $gi18n;
+
+  ?>
 
   <div class="position-fixed bottom-0 end-0 notepad-toggle overflow-x-visible" id="notepad-wrapper">
-    <a class="btn-tall blue opacity-0 animate round-border position-absolute" id="notepad-toggle">
+    <a class="btn-tall blue opacity-0 round-border position-absolute" id="notepad-toggle" aria-label="<?php echo $gi18n['notepad'] ?>">
       <img class="page-icon tiny" alt="notes" src="<?php echo GetImageCache('icons/notes.png', 32); ?>">
     </a>
   </div>
@@ -17,6 +21,6 @@ function Guyra_notepad() { ?>
     <textarea id="notepad-text" class="text-small" value=""></textarea>
   </div>
 
-  <script async src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
+  <script async type="module" src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
 
 <?php }

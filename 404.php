@@ -18,13 +18,14 @@ $post_data = [
 ];
 
 $criticalPages = [
-  'Api',
   'Account',
-  'Comment',
+  'Api',
+  'Courses',
+  'Practice',
   'Ranking',
   'Reference',
-  'Practice',
-  'Courses'
+  'Shop',
+  'Work-With-Us'
 ];
 
 $weHaveDoneSomething = false;

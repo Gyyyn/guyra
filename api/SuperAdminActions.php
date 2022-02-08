@@ -67,21 +67,19 @@ if ($_GET['change_option']) {
 if ($_GET['create_page'] == "all") {
 
   $posts = [
+    'Account',
+    'Api',
+    'Courses',
     'Practice',
-    'Work With Us',
-    'Privacy Policy',
     'Ranking',
     'Reference',
-    'Schools',
+    'Shop',
+    'Work-With-Us',
+    'Privacy Policy',
     'Terms',
     'Thanks',
     'FAQ',
-    'Purchase',
-    'Courses',
-    'Account',
-    'API',
-    'News',
-    'Shop'
+    'News'
   ];
 
   $post_data = array(

@@ -63,7 +63,7 @@ function RenderAccountDropdown($args=[]) {
   }
 
   ?>
-  <div class="dropdown m-0 d-inline">
+  <div class="dropstart m-0 d-inline">
     <button class="btn d-flex flex-row p-0" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="<?php echo $args['offset']; ?>">
       <span class="<?php echo $nameButtonClass ?>"><?php echo $current_user_data['first_name']; ?></span>
       <?php echo ($args['profile_picture']) ? $args['profile_picture'] : null; ?>

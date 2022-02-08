@@ -926,12 +926,12 @@ function AccountOptions_profileDetails(props) {
                 className: 'btn-tall green',
                 onClick: (e) => {
 
-                  loadingBefore = e.target.innerHTML;
+                  var loadingBefore = e.target.innerHTML;
                   e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
                   var dataToPost = {};
 
-                  fields = {
+                  var fields = {
                     user_email: document.getElementById('profile-email'),
                     first_name: document.getElementById('profile-first-name'),
                     last_name: document.getElementById('profile-last-name'),
@@ -1112,7 +1112,7 @@ function AccountOptions_accountDetails(props) {
               className: "btn-tall green w-25",
               onClick: (e) => {
 
-                loadingBefore = e.target.innerHTML;
+                var loadingBefore = e.target.innerHTML;
                 e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
                 var theCode = document.getElementById('teacher-code-input');

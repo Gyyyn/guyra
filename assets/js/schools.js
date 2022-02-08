@@ -1,9 +1,9 @@
 import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
-editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
+var editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
 
 editHomeworkButtons.forEach((button) => {
-  targetId = button.dataset.target;
+  var targetId = button.dataset.target;
   var target = document.getElementById('inner-'.concat(targetId));
   var previousState = false;
   var buttonPreviousInner = button.innerHTML;

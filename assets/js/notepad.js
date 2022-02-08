@@ -17,9 +17,10 @@ if (posTracker) {
 }
 
 if (!localStorage.getItem('notepad-animation-finished')) {
-  y = document.createElement('span');
-  y.classList.add('ms-2');
-  y.innerHTML = 'Bloco de notas';
+
+  var y = document.createElement('span');
+  y.classList.add('animate', 'ms-2');
+  y.innerHTML = toggler.ariaLabel;
   toggler.style.marginLeft = '-25vh';
   toggler.appendChild(y);
 
@@ -91,9 +92,9 @@ function dragElement(elmnt) {
 
     updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left});
 
-    toggler.classList.remove('opacity-0');
-
   }
+
+  toggler.classList.remove('opacity-0');
 
   // if present, the header is where you move the DIV from:
   if (document.getElementById(theElement.id + "header")) {
@@ -119,10 +120,6 @@ function dragElement(elmnt) {
     pos3 = touches.clientX;
     pos4 = touches.clientY;
 
-    var elementFinalPosTop = (theElement.offsetTop - pos2);
-    var elementFinalPosLeft = (theElement.offsetLeft - pos1);
-
-    // set the element's new position:
     // set the element's new position:
     updateElementOffset(theElement, {
       top: theElement.offsetTop - pos2,

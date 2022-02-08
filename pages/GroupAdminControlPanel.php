@@ -64,16 +64,12 @@ get_header(null, ['css' => 'schools.css']);
 
       <div class="schools-wrapper fade-animation animate">
 
+      <h4><?php echo $gi18n['your_students']; ?></h4>
+      <div class="user-list-wrapper">
       <?php
 
       $groups = [];
       $groupsData = [];
-
-      ?>
-
-      <h4><?php echo $gi18n['your_students']; ?></h4>
-      <div class="user-list-wrapper">
-      <?php
 
       foreach ($users as $theUser) {
 
@@ -317,7 +313,7 @@ get_header(null, ['css' => 'schools.css']);
 
             <div class="d-flex my-3">
               <?php foreach ($group['usersNames'] as $user) {
-              $user_id = $group['usersData'][$user]->ID;
+              $user_id = $group['usersData'][$user]['id'];
               ?>
               <form action="<?php echo $site_api_url; ?>" method="GET">
 
@@ -340,7 +336,7 @@ get_header(null, ['css' => 'schools.css']);
 
             <div class="d-flex my-3">
               <?php foreach ($group['usersNames'] as $user) {
-              $user_id = $group['usersData'][$user]->ID;
+              $user_id = $group['usersData'][$user]['id'];
               ?>
               <a class="btn-tall btn-sm blue me-3 diary-opener" data-diarytype="user" data-diaryoptions='{"onlyPayments": true}' data-userid="<?php echo $user_id; ?>" data-username="<?php echo $user; ?>">
                 <i class="bi bi-card-list"></i>
