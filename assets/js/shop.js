@@ -158,7 +158,7 @@ class Shop_Item extends React.Component {
       cardExtraClass = ' green hoverable animate';
     }
 
-    if (this.props.isOwned) {
+    if (this.props.isOwned || this.props.unbuyable) {
       buyButtonExtraClass = ' disabled';
     }
 
@@ -183,7 +183,7 @@ class Shop_Item extends React.Component {
             'button',
             { className: 'btn-tall btn-sm green d-inline mt-3' + buyButtonExtraClass,
               onClick: () => {
-                if (!this.props.isOwned) {
+                if (buyButtonExtraClass !== ' disabled') {
                   setPage(
                     e(Shop_ItemView, this.props),
                     { squeezeType: 'squeeze' }
@@ -266,7 +266,12 @@ class Shop_ItemList extends React.Component {
 
             var props = theItem;
 
-            this.props.isOwned = isOwnedItem;
+            props.isOwned = isOwnedItem;
+            props.unbuyable = false;
+
+            if (userdata.gamedata.level < item.price) {
+              props.unbuyable = true;
+            }
 
             return e(Shop_Item, props);
 

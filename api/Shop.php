@@ -30,6 +30,9 @@ if ($_GET['shop_transaction']) {
   if (!$thePost)
   guyra_output_json('no post data', true);
 
+  if ($current_user_gamedata['level'] < $thePost['amount'])
+  guyra_output_json('no credit', true);
+
   Guyra_decrease_user_level($current_user_id, $thePost['amount']);
   AddItemToInventory($thePost['items']);
 

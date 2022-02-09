@@ -439,5 +439,6 @@
    "payments_status_401":"Este cartão foi recusado. Por favor tente outro.",
    "payments_status_400":"Formulário com erros. Por favor verifique as informações.",
    "item not in inventory":"Este item não está em seu inventário",
+   "no credit":"Você não tem pontos o suficiente para esta trasação.",
    "ie_unsupported_warning":"Internet Explorer não é suportado. Por favor atualize seu navegador."
 }
