@@ -54,13 +54,15 @@ if (copyFromNotepadButton) {
 // Header
 var mobileHeaderBackButton = document.getElementById('mobile-header-back');
 
-if (window.location.pathname == '/') {
-  mobileHeaderBackButton.classList.add('opacity-0');
-  mobileHeaderBackButton.onclick = null;
-} else {
-  mobileHeaderBackButton.onclick = (e) => {
-    // window.history.back();
-    window.location.href = window.location.origin;
+if (mobileHeaderBackButton) {
+  if (window.location.pathname == '/') {
+    mobileHeaderBackButton.classList.add('opacity-0');
+    mobileHeaderBackButton.onclick = null;
+  } else {
+    mobileHeaderBackButton.onclick = (e) => {
+      // window.history.back();
+      window.location.href = window.location.origin;
+    }
   }
 }
 

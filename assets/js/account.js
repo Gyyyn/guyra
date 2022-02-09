@@ -2134,6 +2134,10 @@ class Account extends React.Component {
 
   componentWillMount() {
 
+    this.setState({
+      i18n: guyraGetI18n(),
+    });
+
     fetch(rootUrl + 'api?get_user_data=1')
     .then(res => res.json())
     .then(res => {
@@ -2149,11 +2153,31 @@ class Account extends React.Component {
         page = this.getStartingPage(false);
       }
 
-      this.setState({
-        usermeta: this.usermeta,
-        page: page,
-        i18n: guyraGetI18n()
-      });
+      var finishUp = (i18n) => {
+
+        var obj = {
+          usermeta: this.usermeta,
+          page: page,
+        }
+
+        if (i18n) {
+          obj.i18n = thei18n;
+        }
+
+        this.setState(obj);
+
+      }
+
+      // Give the i18n some time to catch up if needed.
+      // We only do this here because this is often the first point of access for the user.
+      // Afterwards the data will be cached locally.
+      if (!this.state.i18n.company_name) {
+        setTimeout(() => {
+          finishUp(true);
+        }, 3000)
+      } else {
+        finishUp();
+      }
 
     });
 

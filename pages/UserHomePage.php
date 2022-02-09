@@ -51,9 +51,9 @@ get_header();
         <span class="fw-bold">Você tem <?php echo $daysLeft ?> dias no seu teste grátis.</span>
         <progress class="progress" value="<?php echo $daysLeft; ?>" max="30"></progress>
       </div>
-      <?php elseif ($current_user_payments['status'] != 'approved'): ?>
+      <?php elseif (!$current_user_subscription_valid): ?>
       <div class="dialog-box">
-        <span class="fw-bold"><?php echo $gi18n['no_subscription_found'][0] + $gi18n['no_subscription_found'][1]; ?></span>
+        <span class="fw-bold"><?php echo $gi18n['no_subscription_found'][0] . ' ' . $gi18n['no_subscription_found'][1]; ?></span>
         <ul class="check-list my-3">
           <li class="x"><?php echo $gi18n['no_subscription_found'][2] ?></li>
           <li class="x"><?php echo $gi18n['no_subscription_found'][3] ?></li>

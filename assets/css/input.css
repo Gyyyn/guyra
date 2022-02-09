@@ -193,7 +193,7 @@
 * -------- Inputs
 */
 
-.form-control {
+.form-control:not(.bs) {
   padding: unset;
   border: unset;
   color: unset;
@@ -203,12 +203,9 @@
   background-color: unset;
 }
 
-input.form-control,
+input.form-control:not(.bs),
 .form-control input,
-.form-control select,
-.page-squeeze .user-registration-message,
-.page-squeeze .user-registration-error,
-.page-squeeze .user-registration-info {
+.form-control select {
   padding: .5rem 1rem;
   font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
@@ -220,7 +217,7 @@ input.form-control,
   width: 100%;
 }
 
-input.form-control:focus,
+input.form-control:focus:not(.bs),
 .form-control input:focus {
   color: var(--guyra-blacker);
   background: var(--guyra-grey);

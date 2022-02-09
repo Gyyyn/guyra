@@ -70,6 +70,7 @@ if ($_GET['create_page'] == "all") {
     'Account',
     'Api',
     'Courses',
+    'Help',
     'Practice',
     'Ranking',
     'Reference',

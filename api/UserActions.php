@@ -558,6 +558,7 @@ if ($_GET['get_courses']) {
   }
 
   guyra_output_json($coursesArray, true);
+
 }
 
 if ($_GET['translate']) {
@@ -567,5 +568,27 @@ if ($_GET['translate']) {
 
   if ($output)
   guyra_output_json($output, true);
+
+}
+
+
+if ($_GET['send_help_form']) {
+
+  $theData = json_decode(file_get_contents('php://input'), true);
+
+  if (!is_array($theData))
+  guyra_output_json('post error', true);
+
+  $title = 'Support Ticket from ' . $theData['help-email'] . ': ' . $theData['help-subject'];
+  $message = 'Message from ' . $theData['help-email'] . ': <hr />' . $theData['help-message'];
+
+  $string_replacements = [
+    $title,
+    $message
+  ];
+
+  Guyra_mail('support_request_form.html', $title, 'hello@guyra.me', $string_replacements);
+
+  guyra_output_json('true', true);
 
 }

@@ -455,11 +455,7 @@ input:checked + .slider:before {
   height: auto;
 }
 
-.notepad-toggle {
-  z-index: 1081;
-  margin: 5rem;
-  margin-bottom: 5rem;
-}
+.notepad-element { z-index: 1081; }
 
 #notepad-toggle {
   display: inline-flex;
@@ -472,16 +468,13 @@ input:checked + .slider:before {
 .logged_out #notepad-toggle { display: none; }
 
 #notepad {
-  z-index: 1080;
   width: calc(15rem + 5vw);
   height: 20rem;
   background: var(--guyra-green-lightest);
   padding: 1rem;
   border-radius: var(--guyra-border-radius-bigger);
-  margin-right: 2rem;
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
   display: flex;
-  bottom: 25%;
 }
 
 #notepad-text {

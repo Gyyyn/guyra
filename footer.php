@@ -12,12 +12,13 @@ include_once $template_dir . '/functions/Assets.php';
 <footer class="d-none d-md-flex flex-column my-3 text-grey-darker text-sss justify-content-center align-items-center">
   <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
     <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?php echo $gi18n['help_link'] ?>"><?php echo $gi18n['help'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
     </ol>
   </nav>
-  <span class="">Alguns recursos criados por Freepik, Smashicons, Flat Icons na <a href="https://www.flaticon.com/" title="flaticon">Flaticon</a>.</span>
+  <span><?php echo $gi18n['meta_thirdparty_credit'] ?></span>
   <p class="mt-3">
     &copy; 2019 - <?php echo date('Y') . ' ' . $gi18n['company_name']; ?>
     <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
