@@ -168,6 +168,11 @@ $current_user_subscription_valid = true;
 if ($current_user_diary && is_array($current_user_diary)) {
 
 	$latest_item = end($current_user_diary['payments']);
+	$secondtolast_item = prev($current_user_diary['payments']);
+
+	if ($latest_item['status'] != 'ok' && $secondtolast_item['status'] == 'ok')
+	$latest_item = $secondtolast_item;
+
 	$latest_item_due_unix = strtotime($latest_item['due']);
 
 	// Allow if the latest oked payment is less than a month ago.
