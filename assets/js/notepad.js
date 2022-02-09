@@ -62,13 +62,19 @@ function dragElement(theElement, clickFunction) {
   }
 
   if (typeof posTracker[theElement.id] !== 'object') {
-    posTracker[theElement.id] = {}
+    posTracker[theElement.id] = {
+      top: 0,
+      left: 0
+    }
   }
 
   // if present, the header is where you move the DIV from:
   if (document.getElementById(theElement.id + "-header")) {
     theElementDragPoint = document.getElementById(theElement.id + "-header");
   }
+
+  // If there is a saved position set that.
+  updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left }, true);
 
   function updateElementOffset(element, pos, force=false) {
 
@@ -95,14 +101,6 @@ function dragElement(theElement, clickFunction) {
     posTracker[element.id].top = pos.top;
     posTracker[element.id].left = pos.left;
 
-  }
-
-  // If there is a saved position set that.
-  if (posTracker[theElement.id]) {
-    updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left }, true);
-  } else {
-    // Or make sure the elements are within bounds.
-    updateElementOffset(theElement, {top:0,left:0});
   }
 
   // Set up vars used to determine clickness.
