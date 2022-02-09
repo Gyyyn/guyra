@@ -415,7 +415,7 @@ class AccountPayment extends React.Component {
   }
 
   componentDidMount() {
-    const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
+    const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
     this.cardForm = mp.cardForm({
       amount: "1",
       autoMount: true,
