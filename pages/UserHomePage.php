@@ -38,6 +38,8 @@ get_header();
 
     <?php guyra_render_topbar(); ?>
 
+    <div class="rounded-box" id="flashcards-container"></div>
+
     <div class="greeting-page rounded-box py-3 position-relative">
 
       <div class="icon-title mb-3 d-flex justify-content-between align-items-center">

@@ -67,6 +67,21 @@
   }
 }
 
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  99% {
+    transform: rotateY(90deg);
+  }
+
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+/* Pops */
 .pop-animation.animate {
   animation: pop 0.35s;
 }
@@ -75,16 +90,18 @@
   animation: overpop 0.35s;
 }
 
-.fade-animation.animate {
-  animation: fadein 0.25s, slideup 0.5s;
-}
-
+/* Slides */
 .slideleft-animation.animate {
   animation: fadein 0.25s, slideleft 0.5s;
 }
 
 .slideright-animation.animate {
   animation: fadein 0.25s, slideright 0.5s;
+}
+
+/* Fades */
+.fade-animation.animate {
+  animation: fadein 0.25s, slideup 0.5s;
 }
 
 .justfade-animation.animate {
@@ -96,10 +113,20 @@
   opacity: 0;
 }
 
+/* Flips */
+.flip-animation {
+  animation: flip 0.35s;
+}
+
+/* Common */
 .animate {
   transition: var(--guyra-transition);
 }
 
 .animate.fast {
   animation-duration: .1s;
+}
+
+.animate.reverse {
+  animation-direction: reverse;
 }

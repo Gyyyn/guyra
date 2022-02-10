@@ -72,6 +72,12 @@
       "name": "Pacote de progressão 6",
       "description": "Destrave novos exercícios!",
       "description_full": "Destrave os exercícios: Comparação 2, Pedidos, Hitórias 3 e 4, Expectativas e Problemas 2."
+    },
+
+    "flashcards_verbs1": {
+      "name": "Deck de cartas: Verbos 1",
+      "description": "Inclui verbos de nível um para praticar.",
+      "description_full": "Verbos de nivel básico."
     }
 
   },
@@ -183,6 +189,11 @@
     "avatar_pumpkin": {
       "name": "Avatar: Abóbora",
       "preview": "%site_url/api/?get_image=icons/avatars/pumpkin.png&size=64"
+    },
+
+    "flashcards_verbs1": {
+      "name": "Deck de cartas: Verbos 1",
+      "preview": "%site_url/api/?get_image=icons/cards.png&size=64"
     }
 
   }
