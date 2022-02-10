@@ -60,7 +60,7 @@ function RemovePunctuation(word, options={}) {
 }
 
 function getRandomAvatar() {
-  rand = randomNumber(1, 4);
+  var rand = randomNumber(1, 4);
   switch (rand) {
     case 1:
       return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/boy.png')
