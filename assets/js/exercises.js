@@ -229,7 +229,7 @@ function isAnswerCorrect(correct, userInput) {
   // Set up the list of alternative answers for each word
   correct.forEach((item, i) => {
 
-    equal = getEquivalentAnswersFor(item);
+    var equal = getEquivalentAnswersFor(item);
 
     if (equal != undefined) {
       correct[i] = equal
@@ -372,7 +372,7 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
     for (var i = 0; i < extraWordsAmount + 1; i++) {
 
       while (extraWords.indexOf(theWord) !== -1) {
-        rand = randomNumber(0, allTheWords.length - 1);
+        var rand = randomNumber(0, allTheWords.length - 1);
         theWord = allTheWords[rand];
       }
 
@@ -661,8 +661,8 @@ function QuestionDialog(props) {
 
 function QuestionAudioButton(props) {
 
-  theAudio = new Audio(props.link);
-  theAudioSlow = new Audio(props.link);
+  var theAudio = new Audio(props.link);
+  var theAudioSlow = new Audio(props.link);
   theAudioSlow.playbackRate = 0.75;
 
   return e(ExerciseContext.Consumer, null, ({disallowCandy}) => {
@@ -1121,7 +1121,7 @@ function returnToLevelMapButton(props) {
       }
     },
     e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
-    i18n.returntomap
+    e('span', { className: 'd-none d-md-inline' }, i18n.returntomap)
   ));
 }
 
@@ -1301,6 +1301,13 @@ class ExerciseDone extends React.Component {
   }
 
   render() {
+
+    var levelsGained = 1;
+
+    if (this.props.score == 100) {
+      levelsGained = 3;
+    }
+
     return [
     e(ExerciseContext.Consumer, null, ({i18n, setPage, score, answers}) => e(
       'div',
@@ -1310,10 +1317,10 @@ class ExerciseDone extends React.Component {
       e('div', {className: 'd-flex align-items-center'},
         e('h3', {className: 'exercise-hints-hint me-2'}, i18n.goodjob),
         e('span', {className: 'exercise-hints-hint fw-bold me-2'}, i18n.yourscore.concat(score)),
-        e('span', {className: 'exercise-hints-hint me-2'}, 'Nível +1'),
-        e('span', {className: 'exercise-hints-hint me-2'}, 'Elo +' + Math.round(this.props.eloChange)),
+        e('span', {className: 'exercise-hints-hint me-2'}, 'Nível +' + levelsGained),
+        e('span', {className: 'exercise-hints-hint me-2'}, 'Elo ' + this.props.eloChange.toString()),
       ),
-      e('div', {className: 'd-flex'},
+      e('div', {className: 'd-flex align-items-center'},
         e(
           'a',
           {
@@ -1547,19 +1554,14 @@ class App extends React.Component {
 
 
         // Finish up by posting userdata
-        var userElo = this.usermeta[0] / 100;
-        var mod = this.score / 75;
-        mod = mod + 0.5;
+        var userElo = this.usermeta.elo;
+        var newElo;
 
         if (userElo >= this.currentExerciseWeight) {
-          var diffMod = this.currentExerciseWeight -  mod - 0.5;
+          newElo = userElo - this.currentExerciseWeight;
         } else {
-          var diffMod = (userElo + this.currentExerciseWeight) + mod;
+          newElo = userElo + this.currentExerciseWeight;
         }
-
-        var moddedScore = (userElo + (mod + diffMod));
-        var eloChange = this.currentExerciseWeight * moddedScore;
-        var moddedScore = Number(this.usermeta[0]) + eloChange;
 
         var dataToPost = {
           version: this.version,
@@ -1567,7 +1569,7 @@ class App extends React.Component {
           usermeta: this.state.usermeta,
           score: this.score,
           unit: this.currentUnit,
-          elo: moddedScore
+          elo: newElo
         }
 
         fetch(
@@ -1584,7 +1586,7 @@ class App extends React.Component {
 
         // Put user in the final page
         this.setState({
-          page: e(ExerciseDone, { eloChange: eloChange })
+          page: e(ExerciseDone, { eloChange: newElo, score: this.score })
         });
 
         if(this.state.score == 100) {
@@ -1644,7 +1646,10 @@ class App extends React.Component {
 
     // Play an animation when the exercise is ready.
     setTimeout(() => {
-      document.getElementById('current-question').classList.remove('d-none')
+      var currQuestion = document.getElementById('current-question');
+      if (currQuestion) {
+        currQuestion.classList.remove('d-none')
+      }
     }, 200);
 
   };
