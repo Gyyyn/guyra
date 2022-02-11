@@ -6,6 +6,12 @@
   from {opacity: 1;}
   to {opacity: 0;}}
 
+@keyframes pulse {
+  0% {opacity: 1;}
+  50% {opacity: .5;}
+  100% {opacity: 1;}
+}
+
 @keyframes slideup {
   from {
     transform: translateY(5rem);
@@ -129,4 +135,11 @@
 
 .animate.reverse {
   animation-direction: reverse;
+}
+
+
+i.bi.bi-three-dots {
+  transition: var(--guyra-transition);
+  animation: pulse 0.75s;
+  animation-iteration-count: infinite;
 }

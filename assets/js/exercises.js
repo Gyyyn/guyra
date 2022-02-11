@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, randomNumber } from '%template_url/assets/js/Common.js';
 
 function shuffleArray(a) {
   var j, x, i;
@@ -9,12 +9,6 @@ function shuffleArray(a) {
     a[j] = x;
   }
   return a;
-}
-
-function randomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function synthSpeak(phrase, rate=1) {

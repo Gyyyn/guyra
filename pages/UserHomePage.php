@@ -34,11 +34,11 @@ get_header();
 ?>
 <main id="intro-content" class="site-main study squeeze position-relative">
 
-  <div class="page-squeeze">
+  <div id="user-home"></div>
+
+  <div class="page-squeeze d-none">
 
     <?php guyra_render_topbar(); ?>
-
-    <div class="rounded-box" id="flashcards-container"></div>
 
     <div class="greeting-page rounded-box py-3 position-relative">
 

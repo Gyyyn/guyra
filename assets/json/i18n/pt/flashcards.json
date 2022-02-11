@@ -1,0 +1,28 @@
+{
+
+  "flashcards_verbs1": [
+    { "front": "to go", "back": "ir" },
+    { "front": "to introduce", "back": "apresentar" },
+    { "front": "to meet", "back": "conhecer" },
+    { "front": "am", "back": "sou, estou" },
+    { "front": "is", "back": "é, esta" },
+    { "front": "are", "back": "somos/são/é, estamos/estão/é" },
+    { "front": "to listen", "back": "ouvir" },
+    { "front": "to practice", "back": "praticar" },
+    { "front": "to spell", "back": "soletrar" },
+    { "front": "to check", "back": "checar" },
+    { "front": "to write", "back": "escrever" },
+    { "front": "to complete", "back": "completar" },
+    { "front": "to correct", "back": "corrigir" },
+    { "front": "to take", "back": "tomar, pegar" },
+    { "front": "to put", "back": "colocar" },
+    { "front": "to notice", "back": "notar" },
+    { "front": "to work", "back": "trabalhar" },
+    { "front": "to do", "back": "fazer (executar)" },
+    { "front": "to make", "back": "fazer (criar)" },
+    { "front": "to say", "back": "dizer" },
+    { "front": "to talk", "back": "conversar" },
+    { "front": "to discuss", "back": "discutir" }
+  ]
+
+}

@@ -1,7 +1,16 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from '%template_url/assets/js/Common.js';
 
 var user_gamedata = {};
 const FlashcardsContext = React.createContext();
+
+function hashCard(card) {
+
+  if (!card.front || !card.back) {
+    return '';
+  }
+
+  return MD5(card.front + '_' + card.back);
+}
 
 function Flashcards_BackButton(props) {
   return e(FlashcardsContext.Consumer, null, ({setPage}) => e(
@@ -51,17 +60,17 @@ class Flashcards_Exercise_CurrentView extends React.Component {
 
       theCard.classList.remove('flip-animation');
 
-    }, 100);
+    }, 350);
 
   }
 
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-column justify-content-center align-items-center' },
+      { className: 'd-flex flex-column justify-content-center align-items-center mb-3' },
       e(
         'div',
-        { className: 'card trans animate fast slideleft-animation', id: 'current-view-card' },
+        { className: 'card trans animate slideleft-animation', id: 'current-view-card' },
         e(
           'span',
           { className: 'text-xx fw-bold d-flex justify-content-center mb-3', id: 'card-text' },
@@ -89,7 +98,7 @@ function Flashcards_Exercise_Done(props) {
     e(
       'div',
       { className: 'dialog-box' },
-      'Você acabou esse deck por hoje!'
+      thei18n.deck_finished
     )
   );
 }
@@ -98,10 +107,9 @@ class Flashcards_Exercise extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentCardIndex = 0;
-
     this.state = {
-      currentCard: this.props.deck[this.currentCardIndex]
+      currentCard: this.props.deck.splice(0, 1)[0],
+      userCanAnswer: true
     };
 
   }
@@ -114,20 +122,29 @@ class Flashcards_Exercise extends React.Component {
 
     setTimeout(() => {
 
-      this.currentCardIndex += 1;
-
       this.setState({
-        currentCard: this.props.deck[this.currentCardIndex]
+        currentCard: this.props.deck.splice(0, 1)[0]
       });
 
       theCard.classList.remove('slideright-animation', 'reverse');
       theCard.classList.add('slideleft-animation');
 
-    }, 100);
+    }, 350);
 
   }
 
-  answer() {
+  answer(type) {
+
+    if (!this.state.userCanAnswer) {
+      return;
+    }
+
+    var theControlArea = document.getElementById('flashcards-control-area');
+    theControlArea.classList.add('disabled');
+
+    this.setState({
+      userCanAnswer: false
+    });
 
     var modifiers = {
       easy: 4,
@@ -136,9 +153,29 @@ class Flashcards_Exercise extends React.Component {
       daysOffset: 6
     }
 
+    var cardHash = hashCard(this.state.currentCard);
+    var cardOffset = modifiers.daysOffset;
 
+    // If this is the first time seeing a card set the offset to 1.
+    if (!user_gamedata.flashcards.cards[cardHash]) {
+      cardOffset = 1;
+    }
+
+    if (type == 'v_hard') {
+      this.props.deck.push(this.state.currentCard);
+    } else {
+      user_gamedata.flashcards.cards[cardHash] = cardOffset * modifiers[type];
+    }
 
     this.nextCard();
+
+    setTimeout(() => {
+      theControlArea.classList.remove('disabled');
+      this.setState({
+        userCanAnswer: true
+      });
+    }, 1500);
+
   }
 
   render() {
@@ -147,20 +184,27 @@ class Flashcards_Exercise extends React.Component {
       'div',
       { className: 'd-flex flex-column' },
       e(Flashcards_BackButton),
-      e(FlashcardsContext.Consumer, null, ({setPage}) => {
+      e(FlashcardsContext.Consumer, null, ({setPage, packName, postData}) => {
 
+        // Exercise done.
         if (!this.state.currentCard) {
+
+          user_gamedata.flashcards.decks[packName].last_practice = Math.floor(Date.now() / 1000);
+
           setPage(e(Flashcards_Exercise_Done));
+          postData();
+
         }
 
         return e(Flashcards_Exercise_CurrentView, this.state.currentCard);
       }),
       e(
         'div',
-        { className: 'd-flex justify-content-center my-3' },
-        e('button', { className: 'btn-tall green me-3', onClick: () => { this.answer('easy') }}, 'Easy'),
-        e('button', { className: 'btn-tall blue me-3', onClick: () => { this.answer('normal') }}, 'Normal'),
-        e('button', { className: 'btn-tall', onClick: () => { this.answer('hard') }}, 'Hard'),
+        { className: 'd-flex justify-content-center my-3', id: 'flashcards-control-area' },
+        e('button', { className: 'btn-tall green me-3', onClick: () => { this.answer('easy') }}, thei18n.easy),
+        e('button', { className: 'btn-tall blue me-3', onClick: () => { this.answer('normal') }}, thei18n.normal),
+        e('button', { className: 'btn-tall me-3', onClick: () => { this.answer('hard') }}, thei18n.hard),
+        e('button', { className: 'btn-tall red', onClick: () => { this.answer('v_hard') }}, thei18n.didnt_remember),
       )
     ));
   }
@@ -176,24 +220,95 @@ function Flashcards_YourItems_ItemListing(props) {
       'button',
       {
         className: 'btn-tall btn-sm blue',
-        onClick: () => {
+        onClick: (event) => {
 
-          // TEMP:
-          var thePack = [
-            { front: "Hello", back: "Oi" },
-            { front: "Bye", back: "Tchau" },
-            { front: "Fun", back: "asd" },
-            { front: "lol", back: "asd" },
-            { front: "aaa", back: "asd" },
-            { front: "ksoes", back: "asd" },
-          ];
+          var eventBefore = event.target.innerHTML;
+          event.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-          setPack(thePack);
-          setPage(
-            e(FlashcardsContext.Consumer, null, ({currentPack}) =>
-              e(Flashcards_Exercise, { deck: currentPack })
-            )
-          );
+          var thePackOrdered = [];
+          var zeroDayCards = {
+            limit: 20,
+            current: 0
+          }
+          var now = new Date();
+
+          // Check if user has cards data.
+          if (typeof user_gamedata.flashcards !== 'object') {
+            user_gamedata.flashcards = {};
+          }
+
+          if (typeof user_gamedata.flashcards.cards !== 'object') {
+            user_gamedata.flashcards.cards = {};
+          }
+
+          if (typeof user_gamedata.flashcards.decks !== 'object') {
+            user_gamedata.flashcards.decks = {};
+          }
+
+          if (typeof user_gamedata.flashcards.decks[props.name] !== 'object') {
+            user_gamedata.flashcards.decks[props.name] = {
+              last_practice: 0;
+            }
+          }
+
+          // Reminder: Unix time in milliseconds for JS.
+          var packLastPractice = user_gamedata.flashcards.decks[props.name].last_practice;
+          packLastPractice = packLastPractice * 1000;
+          packLastPractice = new Date(packLastPractice);
+
+          fetch(thei18n.api_link + '?fetch_flashcard_deck=' + props.name)
+          .then(res => res.json())
+          .then(thePack => {
+
+            if (thePack == 'invalid deck') {
+              event.target.innerHTML = thei18n[thePack];
+              console.error('Deck error');
+              return;
+            }
+
+            var thePackFiltered = [];
+
+            thePack.forEach((item, i) => {
+
+              var cardHash = hashCard(item);
+
+              if (!user_gamedata.flashcards.cards[cardHash]) {
+                item.daysOffset = 0;
+                zeroDayCards.current += 1;
+              } else {
+                item.daysOffset = user_gamedata.flashcards.cards[cardHash];
+              }
+
+              // Reminder: Unix time in milliseconds for JS.
+              // We also do a - 1 in the time to convert it to a timestamp, idk how to do it otherwise.
+              var minDateToSeeCardAgain = (packLastPractice - 1) + ((86400 * 1000) * item.daysOffset);
+              minDateToSeeCardAgain = new Date(minDateToSeeCardAgain);
+
+              // Delete cards which we shouldn't see yet.
+              if (minDateToSeeCardAgain < now && zeroDayCards.current < zeroDayCards.limit) {
+                thePackFiltered.push(item);
+              }
+
+            });
+
+            thePackFiltered.sort((a,b) => (a.daysOffset > b.daysOffset) ? 1 : ((b.daysOffset > a.daysOffset) ? -1 : 0));
+
+            if (thePackFiltered.length == 0) {
+              event.target.innerHTML = thei18n.deck_finished;
+              setTimeout(() => {
+                event.target.innerHTML = eventBefore;
+              }, 2500);
+              return;
+            }
+
+            setPack(thePackFiltered, props.name);
+            setPage(
+              e(FlashcardsContext.Consumer, null, ({currentPack}) =>
+                e(Flashcards_Exercise, { deck: currentPack })
+              )
+            );
+
+          });
 
         }
       },
@@ -204,14 +319,22 @@ function Flashcards_YourItems_ItemListing(props) {
 
 function Flashcards_YourItems(props) {
 
-  var noFlashcardsWarning = e('div', {}, 'Você não tem nenhum deck. Vamos comprar um?');
+  var noFlashcardsWarning = e(
+    'div',
+    { className: 'dialog-box my-3' },
+    e('div', {}, thei18n.no_decks),
+    e(
+      'button',
+      {
+        onClick: () => { window.location.href = thei18n.shop_link },
+        className: 'btn-tall green mx-auto mt-3'
+      },
+      e('span', { className: 'me-2' }, thei18n.go_to_shop),
+      e('span',{}, e('i', {className: 'bi bi-shop'}))
+    )
+  );
 
-  return e(FlashcardsContext.Consumer, null, ({setPack}) => {
-
-    // TEMP:
-    var userdata = {
-      inventory: ["flashcards_verbs1"]
-    }
+  return e(FlashcardsContext.Consumer, null, ({setPack, userdata}) => {
 
     if (!userdata || !userdata.inventory) {
       return noFlashcardsWarning;
@@ -285,9 +408,14 @@ class Flashcards extends React.Component {
     super(props);
 
     this.state = {
+      userdata: {},
       page: e(LoadingPage),
       setPage: this.setPage,
       i18n: {},
+      currentPack: [],
+      packName: null,
+      setPack: this.setPack,
+      postData: this.postData
     };
 
   }
@@ -296,12 +424,20 @@ class Flashcards extends React.Component {
 
     var thei18n = guyraGetI18n();
 
-    this.setState({
-      i18n: thei18n,
-      page: e(Flashcards_Wrapper),
-      setPage: this.setPage,
-      currentPack: [],
-      setPack: this.setPack
+    fetch(rootUrl + 'api?get_user_data=1')
+    .then(res => res.json())
+    .then(res => {
+
+      let json = JSON.parse(res);
+
+      user_gamedata = json.gamedata.raw;
+
+      this.setState({
+        i18n: thei18n,
+        page: e(Flashcards_Wrapper),
+        userdata: json
+      });
+
     });
 
   }
@@ -312,10 +448,27 @@ class Flashcards extends React.Component {
     });
   }
 
-  setPack = (pack) => {
+  setPack = (pack, packName) => {
     this.setState({
-      currentPack: pack
+      currentPack: pack,
+      packName: packName
     });
+  }
+
+  postData = () => {
+
+    fetch(
+       thei18n.api_link + '?update_flashcards=1',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user_gamedata.flashcards)
+      }
+    )
+
   }
 
   render() {

@@ -13,6 +13,7 @@ global $is_logged_in;
 global $gi18n;
 global $gSettings;
 global $current_user_payments;
+global $current_user_subscription_valid;
 
 Guyra_Safeguard_File();
 
@@ -244,6 +245,7 @@ if ($_GET['get_user_data']) {
 
   $theData['is_logged_in'] = true;
   $theData['user_email'] = $current_user_object['user_login'];
+  $theData['user_subscription_valid'] = $current_user_subscription_valid;
 
   $theData['gamedata'] = GetUserRanking($current_user_id);
   $theData['gamedata']['raw'] = $current_user_gamedata;

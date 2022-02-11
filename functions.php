@@ -69,6 +69,7 @@ include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
 
 // All functions are loaded, from this point on we can change data.
+$gLang = ['pt', 'BR'];
 
 // Build an user meta associative array.
 $current_user_meta = guyra_get_user_meta($current_user_id, null, true);
