@@ -25,7 +25,7 @@ foreach ($users as $x) {
 $canDoActionsHere = (in_array($user, $allowedUsers) || $is_admin);
 $user_is_users = explode(',', $user);
 
-if (is_array($user_is_users)) {
+if (count($user_is_users) > 1) {
 
   foreach ($user_is_users as $user) {
 
