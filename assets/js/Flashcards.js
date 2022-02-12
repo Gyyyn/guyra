@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from './Common.js';
 
 var user_gamedata = {};
 const FlashcardsContext = React.createContext();
@@ -247,7 +247,7 @@ function Flashcards_YourItems_ItemListing(props) {
 
           if (typeof user_gamedata.flashcards.decks[props.name] !== 'object') {
             user_gamedata.flashcards.decks[props.name] = {
-              last_practice: 0;
+              last_practice: 0
             }
           }
 
@@ -403,7 +403,7 @@ function Flashcards_Wrapper(props) {
   ];
 }
 
-class Flashcards extends React.Component {
+export class Flashcards extends React.Component {
   constructor(props) {
     super(props);
 

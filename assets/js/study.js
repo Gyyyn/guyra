@@ -1,13 +1,92 @@
-import('%template_url/assets/js/roadmap.js');
 import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading } from '%template_url/assets/js/Common.js';
+import { Roadmap } from '%template_url/assets/js/roadmap.js';
+import { Flashcards } from '%template_url/assets/js/Flashcards.js';
 
 const HomeContext = React.createContext();
 
-function UserHome_WelcomeCard(props) {
+class UserHome_ReplyCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      attachments: null,
+    }
+  }
+
+  componentDidMount() {
+
+    this.easyMDE = new EasyMDE({
+      element: document.getElementById('comment'),
+      autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
+      toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
+    });
+
+  }
+
+  attachFile = (event) => {
+
+    var theFile = document.getElementById('comment-file');
+    if (theFile.files.length != 0) {
+      theFile = theFile.files[0];
+    } else {
+      return;
+    }
+
+    this.attachedFile = theFile;
+
+  }
+
+  submit = (event) => {
+    console.log(event);
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: '' },
+      e(RoundedBoxHeading, { icon: 'icons/essay.png', value: thei18n.reply }),
+      e(
+        'div',
+        { className: 'dialog-box' },
+        e('textarea', { id: 'comment'}, null),
+      ),
+      this.state.attachments,
+      e(
+        'div',
+        { className: 'd-flex flex-row justify-content-center' },
+        e(
+          'label',
+          { className: 'me-3 w-25' },
+          e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png' }),
+          e('a', { id: 'comment-file-button', className: 'btn btn-tall', onClick: (event) => { this.attachFile(event) } },
+            e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
+          )
+        ),
+        e('button', { className: 'btn-tall blue w-50', onClick: (event) => { this.submit(event) } }, thei18n.send, e('i', { className: 'bi bi-send-plus ms-3' })),
+      )
+    );
+  }
+
+}
+
+function UserHome_LessonCard(props) {
   return e(HomeContext.Consumer, null, ({userdata}) => {
+    return e(
+      'div',
+      { className: '' },
+      e(RoundedBoxHeading, { icon: 'icons/light.png', value: thei18n.lessons }),
+      window.HTMLReactParser(marked.parse(userdata.user_diary.userpage)),
+    );
+  });
+}
+
+function UserHome_WelcomeCard(props) {
+
+  var randomGreeting = thei18n.greetings[randomNumber(0 , thei18n.greetings.length - 1)];
+
+  return e(HomeContext.Consumer, null, ({userdata, addCard}) => {
 
     var TrialDaysLeft = 30 - userdata.payments['days_left'];
-    var randomGreeting = thei18n.greetings[randomNumber(0 , thei18n.greetings.length - 1)];
     var streak_info = JSON.parse(userdata.gamedata.raw.streak_info);
 
     var WelcomeTrialCountdown = e(
@@ -37,24 +116,48 @@ function UserHome_WelcomeCard(props) {
       'div',
       { className: 'dialog-box' },
       e('div', {}, window.HTMLReactParser(randomGreeting)),
-      e('div', {}, thei18n.whats_for_today),
-      e(
+      e('h3', { className: 'mt-3' }, thei18n.whats_for_today),
+      e(HomeContext.Consumer, null, ({addCard}) => e(
         'div',
         { className: 'd-flex flex-wrap mt-3' },
         e(
           'button',
-          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3' },
+          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
+          onClick: () => {
+              addCard([
+                { id: 'lesson', element: e(UserHome_LessonCard) },
+                { id: 'reply', element: e(UserHome_ReplyCard) }
+              ], 2);
+            } },
+          e('i', { className: 'bi bi-book' }),
+          thei18n.lessons
+        ),
+        e(
+          'button',
+          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
+          onClick: () => {
+            addCard({
+              id: 'map',
+              element: e(Roadmap)
+            }, 2);
+          } },
           e('i', { className: 'bi bi-map' }),
           thei18n.roadmap
         ),
         e(
           'button',
-          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3' },
+          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
+          onClick: () => {
+            addCard({
+              id: 'flashcards',
+              element: e(Flashcards)
+            }, 2);
+          } },
           e('i', { className: 'bi bi-card-heading' }),
           thei18n.flashcards
         ),
-      ),
-      e('h2', { className: 'mt-3' }, thei18n.daily_challenges),
+      )),
+      e('h3', { className: 'mt-3' }, thei18n.daily_challenges),
       e(
         'div',
         { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
@@ -234,11 +337,11 @@ class UserHome extends React.Component {
     .then(res => res.json())
     .then(res => {
 
-      let json = JSON.parse(res);
+      let userdata = JSON.parse(res);
 
       this.setState({
         page: e(UserHome_CardsRenderer),
-        userdata: json
+        userdata: userdata
       });
 
     });
@@ -249,6 +352,27 @@ class UserHome extends React.Component {
     this.setState({
       page: page
     });
+  }
+
+  addCard = (cardObj, index, insertWithoutDeleting) => {
+
+    var cards = Array.from(this.state.cards);
+    var leftovers = [];
+
+    if (index && index < cards.length) {
+      leftovers = cards.splice(index);
+    }
+
+    cards = cards.concat(cardObj);
+
+    if (insertWithoutDeleting) {
+      cards = cards.concat(leftovers);
+    }
+
+    this.setState({
+      cards: cards
+    });
+
   }
 
   render() {
@@ -262,52 +386,4 @@ class UserHome extends React.Component {
 
 if(document.getElementById('user-home')) {
   ReactDOM.render(e(UserHome), document.getElementById('user-home'));
-}
-
-function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  let expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-}
-
-if (getCookie('dismissed') == "true") {
-  document.querySelector('.alert').className = 'd-none';
-}
-
-var file_upload_input = document.getElementById('file_upload_input');
-
-if (file_upload_input) {
-  file_upload_input.addEventListener('input', fileUploadTrigger);
-}
-
-function fileUploadTrigger(e) {
-  if (file_upload_input.files.length != 0) {
-    document.getElementById('file_list').innerHTML = file_upload_input.files[0].name;
-  }
-}
-
-function loadRoadmap() {
-  document.getElementById('roadmap-container').classList.remove('d-none');
-}
-
-var loadRoadmapButton = document.getElementById('load-roadmap-button');
-
-if (loadRoadmapButton) {
-  loadRoadmapButton.onclick = loadRoadmap;
 }

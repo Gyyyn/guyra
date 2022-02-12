@@ -237,7 +237,7 @@ function RoadmapWrapper(props) {
   ];
 }
 
-class Roadmap extends React.Component {
+export class Roadmap extends React.Component {
   constructor(props) {
     super(props);
 
@@ -318,8 +318,4 @@ class Roadmap extends React.Component {
     );
 
   }
-}
-
-if(document.getElementById('roadmap-container')) {
-  ReactDOM.render(e(Roadmap), document.getElementById('roadmap-container'));
 }

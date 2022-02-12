@@ -26,11 +26,15 @@ include_once $template_dir . '/functions/Assets.php';
 </footer>
 
 <script type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
-<script type="module" src="<?php echo GetMinifiedAsset('js', 'Flashcards.js'); ?>"></script>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
+<?php if ($args['easymde']): ?>
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<script async src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<?php endif; ?>
 <?php if ($args['react']): ?>
+<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
 <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
@@ -48,26 +52,6 @@ include_once $template_dir . '/functions/Assets.php';
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
 <script>AOS.init();</script>
-<?php endif; ?>
-<?php if ($args['easymde']): ?>
-<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-<script async src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-<script>
-let easyMDE;
-window.addEventListener('load', function () {
-
-  var theElement = document.getElementById('<?php echo $args['easymde']; ?>');
-
-  if (theElement) {
-    easyMDE = new EasyMDE({
-      element: theElement,
-      autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
-      toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
-    });
-  }
-
-});
-</script>
 <?php endif; ?>
 <script async src="<?php echo GetMinifiedAsset('js', 'misc.js'); ?>"></script>
 
