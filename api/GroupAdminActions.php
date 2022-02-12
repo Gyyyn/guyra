@@ -23,7 +23,7 @@ foreach ($users as $x) {
 }
 
 $canDoActionsHere = (in_array($user, $allowedUsers) || $is_admin);
-$user_is_users = json_decode($user);
+$user_is_users = explode(',', $user);
 
 if (is_array($user_is_users)) {
 

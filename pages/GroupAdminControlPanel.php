@@ -299,7 +299,7 @@ get_header(null, ['css' => 'schools.css']);
                     <a class="btn-tall green" title="<?php echo $gi18n['add'] ?>" type="button" name="button"><i class="bi bi-check-lg"></i></a>
                     <input class="d-none" type="submit" />
                   </label>
-                  <input type="hidden" value="<?php echo json_encode($group['users']) ?>" name="user">
+                  <input type="hidden" value="<?php echo implode(',', $group['users']) ?>" name="user">
                   <input type="hidden" value="<?php echo $loaded_at ?>" name="redirect">
 
               </form>
