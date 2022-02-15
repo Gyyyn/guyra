@@ -129,3 +129,92 @@ function delete_cache($cacheName) {
   $cache = $template_dir . '/cache/' . $cacheName;
   return guyra_output_json(delete_directory($cache), true);
 }
+
+function GuyraHandleFileUpload() {
+
+  $maxfilesize = 10000000;
+  $fileGlobalId = 'file';
+
+  try {
+
+    // Undefined | Multiple Files | $_FILES Corruption Attack
+    // If this request falls under any of them, treat it invalid.
+    if (
+        !isset($_FILES[$fileGlobalId]['error']) ||
+        is_array($_FILES[$fileGlobalId]['error'])
+    ) {
+        throw new RuntimeException('Invalid parameters.');
+    }
+
+    // check for errors
+    switch ($_FILES[$fileGlobalId]['error']) {
+        case UPLOAD_ERR_OK:
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new RuntimeException('No file sent.');
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            throw new RuntimeException('Exceeded filesize limit.');
+        default:
+            throw new RuntimeException('Unknown errors.');
+    }
+
+    // check filesize
+    if ($_FILES[$fileGlobalId]['size'] > $maxfilesize) {
+      throw new RuntimeException('Exceeded filesize limit.');
+    }
+
+    // check MIME
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    if (false === $ext = array_search(
+        $finfo->file($_FILES[$fileGlobalId]['tmp_name']),
+        array(
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+        ),
+        true
+    )) {
+      throw new RuntimeException('Invalid file format.');
+    }
+
+    global $cache_dir;
+    global $template_url;
+
+    // check the cache dir.
+    $assetsCacheLocation = $cache_dir . '/assets';
+
+    if(!is_dir($assetsCacheLocation)) {
+      mkdir($assetsCacheLocation, 0755, true);
+    }
+
+    // upload compressed to jpg.
+    $manager = new ImageManager();
+    $compression = 75;
+    $ext = '.jpg';
+    $uploadFileAppend = '/' . md5($current_user_id . '_' . $_FILES['file']['name']) . $ext;
+    $uploadFileURL = $template_url . '/cache/assets' . $uploadFileAppend;
+    $uploadFile = $assetsCacheLocation . $uploadFileAppend;
+
+    $image = $manager->make($_FILES['file']['tmp_name']);
+
+    if (file_get_contents($uploadFile)) {
+      unlink($uploadFile);
+    }
+
+    $image->save($uploadFile, $compression);
+
+    if (!$image) {
+      throw new RuntimeException('Failed to move uploaded file.');
+    }
+
+    guyra_output_json($uploadFileURL, true);
+
+  } catch (RuntimeException $e) {
+
+    guyra_output_json(['false', $e->getMessage()], true);
+
+  }
+
+}

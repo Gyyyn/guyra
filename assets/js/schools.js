@@ -1,65 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
-
-var editHomeworkButtons = document.querySelectorAll('.edit-homework-button');
-
-editHomeworkButtons.forEach((button) => {
-  var targetId = button.dataset.target;
-  var target = document.getElementById('inner-'.concat(targetId));
-  var previousState = false;
-  var buttonPreviousInner = button.innerHTML;
-  var pageLink = button.dataset.link;
-
-  button.onclick = editTrigger;
-
-  function editTrigger(e) {
-
-    var frameId = 'frame-'.concat(targetId);
-
-    if (!previousState) {
-
-      button.innerHTML = '<i class="bi bi-check-lg"></i>'
-      previousState = target.innerHTML;
-      target.innerHTML = '<iframe id="'.concat(frameId).concat('" class="editor-inline" src="').concat(pageLink).concat('"/>');
-
-    } else {
-
-      var frame = document.getElementById(frameId).contentDocument;
-      frame.querySelector('.editor-post-publish-button').click();
-      button.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-      setTimeout(function(){
-        document.location.reload();
-
-        target.innerHTML = previousState;
-        previousState = false;
-      }, 2000);
-
-    }
-
-    button.classList.toggle('blue');
-    button.classList.toggle('green');
-
-  }
-});
-
-var theCode = document.getElementById("your-code");
-var copyCodeButton = document.getElementById("copy-code");
-
-function copyCode() {
-  theCode.focus();
-  theCode.select();
-  document.execCommand("copy");
-}
-
-theCode.onclick = () => { copyCode() };
-copyCodeButton.onclick = () => {
-  copyCode();
-  var before = copyCodeButton.innerHTML;
-  copyCodeButton.innerHTML = '<i class="bi bi-check-lg"></i>'
-  setTimeout(() => { copyCodeButton.innerHTML = before; }, 1000)
-};
-
-// Start ReactJS
+import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading } from '%template_url/assets/js/Common.js';
 
 function GetCurrentDate() {
 
@@ -87,6 +26,8 @@ function GetCurrentDate() {
 
 }
 
+// TODO: Merge these
+const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
 
 function WeekdayList(props) {
@@ -633,17 +574,7 @@ function NeedNewDiary(props) {
           }
         },
         i18n.yes
-      )),
-      e(
-        'button',
-        {
-          className: "btn-tall red",
-          onClick: () => {
-            document.getElementById('close-diary-button').click();
-          }
-        },
-        i18n.no
-      )
+      ))
     )
   ));
 
@@ -880,7 +811,7 @@ class Diary extends React.Component {
     this.state = {
       page: e(LoadingPage),
       diary: {},
-      diaryOptions: (this.props.diaryoptions != undefined) ? JSON.parse(this.props.diaryoptions) : {},
+      diaryOptions: (this.props.diaryOptions != undefined) ? this.props.diaryOptions : {},
       name: this.diaryName,
       isGroup: (this.props.diarytype == 'group') ? true : false,
       setPage: this.setPage,
@@ -1015,49 +946,38 @@ class Diary extends React.Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
+
+    if (this.props.diarytype == 'group') {
+
+      this.theOtherDiaries = this.props.diary;
+
+      if (this.props.diary.diaries == undefined) {
+        this.props.diary.diaries = {};
+      }
+
+      this.props.diary = this.props.diary.diaries[this.props.grouptag];
+
+    } else {
+
+      if (this.props.diary.payments == undefined) {
+        this.props.diary.payments = [];
+      }
+
+    }
 
     this.setState({
-      i18n: guyraGetI18n()
+      i18n: thei18n,
+      diary: this.props.diary
     });
 
-    fetch(rootUrl + 'api?action=get_diary&user=' + this.props.diaryId)
-    .then(res => res.json())
-    .then(data => {
-
-      if (data != false) {
-        var theJson = JSON.parse(data.meta_value);
-
-        if (this.props.diarytype == 'group') {
-          this.theOtherDiaries = theJson;
-
-          if (theJson.diaries == undefined) {
-            theJson.diaries = {};
-          }
-
-          theJson = theJson.diaries[this.props.grouptag];
-        } else {
-          if (theJson.payments == undefined) {
-            theJson.payments = [];
-          }
-        }
-
-        if (theJson) {
-          this.setState({
-            diary: theJson
-          });
-        }
-      }
-
-      if (Object.keys(this.state.diary).length === 0) {
-        this.setPage(e(NeedNewDiary));
-      } else {
-        this.setPage(
-          e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
-        );
-      }
-
-    })
+    if (Object.keys(this.props.diary).length === 0) {
+      this.setPage(e(NeedNewDiary));
+    } else {
+      this.setPage(
+        e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
+      );
+    }
 
   }
 
@@ -1065,33 +985,6 @@ class Diary extends React.Component {
     return e(
       'div',
       { className: 'diary-inner position-relative'},
-      e(
-        'span',
-        { className: 'close-button position-absolute top-0 end-0'},
-        e(
-          'button',
-          {
-            className: "btn-tall btn-sm red",
-            id: 'close-diary-button',
-            onClick: () => {
-
-              document.querySelector('.diary-inner').classList.add('justfadeout-animation');
-
-              setTimeout(() => {
-
-                ReactDOM.render(null, theDiary);
-                currentEditing = false;
-                diaryOpeners.forEach((item) => {
-                  item.classList.remove('disabled');
-                });
-
-              }, 500);
-
-            }
-          },
-          e('i', { className: "bi bi-x-lg", alt: this.state.i18n.close })
-        )
-      ),
       e(
         DiaryContext.Provider,
         {value: this.state},
@@ -1107,27 +1000,299 @@ class Diary extends React.Component {
   };
 }
 
-var diaryOpeners = document.querySelectorAll('.diary-opener');
-var currentEditing = false;
-var theDiary =  document.getElementById('the-diary');
+class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
+  constructor(props) {
+    super(props);
 
-diaryOpeners.forEach((item) => {
-  item.addEventListener('click', () => {
+    this.theUserpage = props.diary.userpage;
 
-    if (!currentEditing) {
-      currentEditing = true;
-      window.scrollTo(0, 0);
-      ReactDOM.render(e(Diary, {
-        diaryId: item.dataset.userid,
-        username: item.dataset.username,
-        grouptag: item.dataset.grouptag,
-        diarytype: item.dataset.diarytype,
-        diaryoptions: item.dataset.diaryoptions
-      }), theDiary);
-      diaryOpeners.forEach((item) => {
-        item.classList.add('disabled');
-      });
+    if (!this.theUserpage) {
+      this.theUserpage = 'This user has no userpage yet.';
     }
 
-  })
-});
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex flex-column' },
+      e(
+        'div',
+        { className: 'control-area d-flex flex-row mb-3' },
+        e(
+          'button',
+          { className: 'btn-tall btn-sm green' },
+          thei18n.edit
+        )
+      ),
+      e(
+        'div',
+        { className: 'mt-3 text-n' },
+        window.HTMLReactParser(marked.parse(this.theUserpage)),
+      ),
+    );
+  }
+
+}
+
+class GroupAdminHome_AdminPanel_UserListing extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // If we got a group listing we show othat instead.
+    if (!this.props.user && this.props.group) {
+
+      this.listingType = 'group';
+      this.listingName = this.props.groupName;
+      this.listingGrouptag = this.props.groupName;
+      this.listingDiaryUserId = theUserdata.id;
+
+      // Assign a user as the user for this listing.
+      // It doesn't matter what user we choose since all actions will apply to
+      // all users equally.
+      this.representativeUser = this.props.group[0];
+
+      // If we got a group the diary will be in the teachers own data.
+      this.diary = theUserdata.user_diary;
+
+      this.listingTitle = [
+        e('span', { className: 'fw-bold' }, this.props.groupName),
+        e('span', { className: 'ms-1' }, null),
+      ];
+
+    } else {
+
+      this.listingType = 'user';
+      this.representativeUser = this.props.user;
+      this.diary = this.props.user.diary;
+      this.listingName = this.representativeUser.userdata.first_name;
+      this.listingGrouptag = this.representativeUser.userdata.studygroup;
+      this.listingDiaryUserId = this.representativeUser.id;
+
+      this.listingTitle = [
+        e('span', { className: 'fw-bold' }, this.representativeUser.userdata.first_name),
+        e('span', { className: 'ms-1' }, this.representativeUser.userdata.last_name),
+      ];
+
+    }
+
+    this.state = {
+      userdata: this.representativeUser.userdata,
+      diary: this.diary,
+      listingTitle: this.listingTitle,
+      currentView: null,
+    };
+
+  }
+
+  setView(view) {
+
+    var views = {
+      userpage: e(GroupAdminHome_AdminPanel_UserpageView, { diary: this.state.diary }),
+      diary: e(Diary, {
+        diaryId: this.listingDiaryUserId,
+        username: this.listingName,
+        grouptag: this.listingGrouptag,
+        diarytype: this.listingType,
+        diary: this.state.diary
+      })
+    };
+
+    this.setState({
+      currentView: e(
+        'div',
+        { className: 'justfade-animation animate page-view mt-3 position-relative'},
+        e(
+          'span',
+          { className: 'close-button position-absolute top-0 end-0', style: { zIndex: 1 } },
+          e(
+            'button',
+            {
+              className: "btn-tall btn-sm red",
+              onClick: () => {
+
+                this.setState({
+                  currentView: null
+                });
+
+              }
+            },
+            e('i', { className: "bi bi-x-lg", alt: thei18n.close })
+          )
+        ),
+        views[view]
+      )
+    });
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex flex-column mb-2 dialog-box' },
+      e(
+        'div',
+        { className: 'control-area d-flex flex-row justify-content-between align-items-center' },
+        e(
+          'span',
+          {},
+          e(
+            'span',
+            {},
+            e('img', { className: 'avatar page-icon tiny', src: '' }),
+          ),
+          e(
+            'span',
+            { className: 'user-name' },
+            this.state.listingTitle
+          ),
+        ),
+        e(
+          'span',
+          { className: 'user-buttons me-3'},
+          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
+          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.homework),
+          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'me-1 bi bi-list-ul'}), thei18n.replies),
+          e('button', { className: 'btn-tall btn-sm blue', onClick: () => {this.setView('controls')} }, e('i', {className: 'me-1 bi bi-toggles'}), thei18n.controls),
+        ),
+      ),
+      this.state.currentView
+    );
+  }
+}
+
+class GroupAdminHome_AdminPanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+  copyCode() {
+
+    var theCode = document.getElementById('the-code');
+
+    theCode.focus();
+    theCode.select();
+
+    document.execCommand("copy");
+
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'squeeze-big schools rounded-box' },
+      e(
+        'div',
+        { className: 'mb-3' },
+        e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: thei18n.schools }),
+      ),
+      e(GroupAdminHomeContext.Consumer, null, ({user_list}) => {
+
+        var groupeds = {};
+
+        return e(
+          'div',
+          { className: 'd-flex flex-column mb-3' },
+          Object.values(user_list).map((user) => {
+
+            if (user.userdata.studygroup) {
+
+              if (!groupeds[user.userdata.studygroup]) {
+                groupeds[user.userdata.studygroup] = [];
+              }
+
+              groupeds[user.userdata.studygroup].push(user);
+
+            } else {
+              return e(GroupAdminHome_AdminPanel_UserListing, { user: user });
+            }
+
+          }),
+          Object.values(groupeds).map((group, i) => {
+
+            return e(GroupAdminHome_AdminPanel_UserListing, { group: group, groupName: Object.keys(groupeds)[i] });
+
+          }),
+        );
+      }),
+      e(
+        'div',
+        { className: 'your-code' },
+        e('h3', { className: 'mb-3' }, thei18n.your_code),
+        e(
+          'div',
+          { className: 'dialog-box d-inline' },
+          e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus' }, null),
+          e(
+            'button',
+            {
+              className: 'btn-tall btn-sm green',
+              onClick: (event) => {
+
+                var before = event.target.innerHTML;
+
+                this.copyCode();
+
+                event.target.innerHTML = '<i class="bi bi-clipboard-check-fill"></i>'
+                setTimeout(() => { event.target.innerHTML = before; }, 2000)
+
+              }
+            },
+            e('i', { className: 'bi bi-clipboard' })
+          )
+        ),
+      )
+    );
+  }
+
+}
+
+class GroupAdminHome extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userdata: {},
+      user_list: {},
+      page: e(LoadingPage),
+      setPage: this.setPage,
+    };
+
+  }
+
+  componentWillMount() {
+
+    guyraGetI18n();
+    guyraGetUserdata();
+
+    fetch(rootUrl + 'api?action=fetch_users')
+    .then(res => res.json())
+    .then(res => {
+
+      this.setState({
+        page: e(GroupAdminHome_AdminPanel),
+        user_list: res
+      });
+
+    });
+
+  }
+
+  setPage = (page, args) => {
+    this.setState({
+      page: page
+    });
+  }
+
+  render() {
+    return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
+      'div',
+      { className: 'home-wrapper' },
+      this.state.page
+    ));
+  };
+}
+
+if(document.getElementById('groupadmin-home')) {
+  ReactDOM.render(e(GroupAdminHome), document.getElementById('groupadmin-home'));
+}

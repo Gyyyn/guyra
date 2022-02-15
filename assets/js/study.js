@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, GuyraParseDate } from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
 
@@ -10,6 +10,7 @@ class UserHome_ReplyCard extends React.Component {
 
     this.state = {
       attachments: null,
+      localReplies: []
     }
   }
 
@@ -26,18 +27,91 @@ class UserHome_ReplyCard extends React.Component {
   attachFile = (event) => {
 
     var theFile = document.getElementById('comment-file');
+    this.theFileButton = document.getElementById('comment-file-button');
+    this.buttonBefore = this.theFileButton.innerHTML;
+
     if (theFile.files.length != 0) {
       theFile = theFile.files[0];
     } else {
       return;
     }
 
-    this.attachedFile = theFile;
+    var formData = new FormData();
+    formData.append("file", theFile);
+
+    fetch(thei18n.api_link + '?post_attachment=1', {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json())
+    .then(res => {
+
+      if (typeof res === 'object') {
+        console.error(res[1]);
+        return;
+      }
+
+      this.attachedFile = res;
+
+      this.theFileButton.innerHTML = '<img class="page-icon tiny" src=' + this.attachedFile + '>';
+
+    });
 
   }
 
   submit = (event) => {
-    console.log(event);
+
+    if (!this.easyMDE) {
+      console.error('Fatal: EasyMDE instance not found.');
+      return;
+    }
+
+    var attachment = false;
+
+    if (this.attachedFile) {
+      attachment = this.attachedFile;
+    }
+
+    var dataToPost = {
+      attachment: attachment,
+      comment: this.easyMDE.value()
+    };
+
+    fetch(
+       thei18n.api_link + '?post_reply=1',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToPost)
+      }
+    ).then(res => res.json())
+    .then(json => {
+
+      if (json != 'true') {
+        console.error('Comment post error');
+        return;
+      }
+
+      this.easyMDE.value('');
+
+      var localReplies = this.state.localReplies;
+      localReplies.push({
+        comment: dataToPost.comment,
+        attachment: dataToPost.attachment,
+        date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        author: thei18n.you
+      });
+
+      this.theFileButton = this.buttonBefore;
+
+      this.setState({
+        localReplies: localReplies
+      });
+
+    });
+
   }
 
   render() {
@@ -45,6 +119,117 @@ class UserHome_ReplyCard extends React.Component {
       'div',
       { className: '' },
       e(RoundedBoxHeading, { icon: 'icons/essay.png', value: thei18n.reply }),
+      e(HomeContext.Consumer, null, ({userdata}) => {
+
+        var theReplies = [];
+        if (!Array.isArray(userdata.user_diary.user_comments)) {
+          userdata.user_diary.user_comments = [];
+        }
+
+        userdata.user_diary.user_comments.forEach((reply, i) => {
+
+          var now = new Date();
+          var replyDate = GuyraParseDate(reply.date);
+          var maxDaysOfReplies = 7;
+          var replyDatePlusMaxDays = (replyDate - 1) + ((86400 * maxDaysOfReplies) * 1000);
+          replyDatePlusMaxDays = new Date(replyDatePlusMaxDays);
+
+          if (replyDatePlusMaxDays > now) {
+
+            var formattedReply = reply;
+            formattedReply.replyId = i;
+
+            theReplies.push(formattedReply);
+
+          }
+
+        });
+
+        if (!theReplies) {
+          theReplies = [];
+        }
+
+        if (this.state.localReplies.length > 0) {
+          theReplies = theReplies.concat(this.state.localReplies);
+        }
+
+        if (theReplies.length == 0) {
+          return;
+        }
+
+        return theReplies.map((reply) => {
+
+          var repliesToTheReply = null;
+
+          if (reply.replies && reply.replies.length > 0) {
+
+            repliesToTheReply = [
+              e('span', { className: 'border-top my-2' }, null)
+            ];
+
+            reply.replies.forEach((replyReply, i) => {
+              repliesToTheReply.push(
+                e(
+                  'div',
+                  {},
+                  e('span', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
+                    replyReply.author
+                  ),
+                  e(
+                    'p',
+                    {},
+                    window.HTMLReactParser(marked.parse(replyReply.comment)),
+                  ),
+                ),
+              );
+            });
+          }
+
+          var theAttachment = null;
+
+          // setup files
+          if (reply.attachment) {
+            theAttachment = e(
+              'div',
+              {},
+              e(
+                'span',
+                { className: 'position-relative' },
+                e(
+                  'img',
+                  {
+                    src: reply.attachment,
+                    className: 'medium page-icon'
+                  }
+                ),
+                e('a', { className: 'btn-tall btn-sm position-absolute top-0 end-0 m-2', href: reply.attachment, target: '_blank' }, e('i', { className: 'bi bi-cloud-download' }))
+              )
+            );
+          }
+
+          return e(
+            'div',
+            { className: 'dialog-box d-flex flex-column' },
+            e('div', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
+              e(
+                'span',
+                {},
+                e('img', { className: 'avatar page-icon tiny', src: userdata.profile_picture_url }),
+                e('span', { className: 'ms-2' }, reply.author + ':'),
+              ),
+              e(
+                'span',
+                { className: 'fw-bold'},
+                GuyraParseDate(reply.date).toLocaleDateString()
+              ),
+            ),
+            window.HTMLReactParser(marked.parse(reply.comment)),
+            theAttachment,
+            repliesToTheReply
+          );
+        });
+
+      }),
       e(
         'div',
         { className: 'dialog-box' },
@@ -57,8 +242,8 @@ class UserHome_ReplyCard extends React.Component {
         e(
           'label',
           { className: 'me-3 w-25' },
-          e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png' }),
-          e('a', { id: 'comment-file-button', className: 'btn btn-tall', onClick: (event) => { this.attachFile(event) } },
+          e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png', onChange: (event) => { this.attachFile(event) } }),
+          e('a', { id: 'comment-file-button', className: 'btn btn-tall' },
             e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
           )
         ),
@@ -112,51 +297,79 @@ function UserHome_WelcomeCard(props) {
       e('span', {}, thei18n.no_subscription_found[6])
     );
 
+    var WelcomeGreeting_Button = (props) => {
+      return e(
+        'button',
+        { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
+        onClick: () => {
+            props.onClick();
+          } },
+        props.value
+      );
+    }
+
+    var WelcomeGreeting_buttons = [];
+
+    if (userdata.teacherid) {
+      WelcomeGreeting_buttons.push(
+        e(HomeContext.Consumer, null, ({addCard}) => e(
+          WelcomeGreeting_Button,
+          {
+            onClick: () => {
+              addCard([
+                { id: 'lesson', element: e(UserHome_LessonCard) },
+                { id: 'reply', element: e(UserHome_ReplyCard) }
+              ], 2);
+            },
+            value: [
+              e('i', { className: 'bi bi-book' }),
+              thei18n.lessons
+            ]
+          },
+        ))
+      );
+    }
+
+    WelcomeGreeting_buttons.push(
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            addCard([
+              { id: 'map', element: e(Roadmap) }
+            ], 2);
+          },
+          value: [
+            e('i', { className: 'bi bi-map' }),
+            thei18n.roadmap
+          ]
+        },
+      ))
+    );
+
+    WelcomeGreeting_buttons.push(
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            addCard([
+              { id: 'flashcards', element: e(Flashcards) }
+            ], 2);
+          },
+          value: [
+            e('i', { className: 'bi bi-card-heading' }),
+            thei18n.flashcards
+          ]
+        },
+      ))
+    );
+
     var WelcomeGreeting = e(
       'div',
       { className: 'dialog-box' },
       e('div', {}, window.HTMLReactParser(randomGreeting)),
       e('h3', { className: 'mt-3' }, thei18n.whats_for_today),
-      e(HomeContext.Consumer, null, ({addCard}) => e(
-        'div',
-        { className: 'd-flex flex-wrap mt-3' },
-        e(
-          'button',
-          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
-          onClick: () => {
-              addCard([
-                { id: 'lesson', element: e(UserHome_LessonCard) },
-                { id: 'reply', element: e(UserHome_ReplyCard) }
-              ], 2);
-            } },
-          e('i', { className: 'bi bi-book' }),
-          thei18n.lessons
-        ),
-        e(
-          'button',
-          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
-          onClick: () => {
-            addCard({
-              id: 'map',
-              element: e(Roadmap)
-            }, 2);
-          } },
-          e('i', { className: 'bi bi-map' }),
-          thei18n.roadmap
-        ),
-        e(
-          'button',
-          { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
-          onClick: () => {
-            addCard({
-              id: 'flashcards',
-              element: e(Flashcards)
-            }, 2);
-          } },
-          e('i', { className: 'bi bi-card-heading' }),
-          thei18n.flashcards
-        ),
-      )),
+      e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
       e('h3', { className: 'mt-3' }, thei18n.daily_challenges),
       e(
         'div',
@@ -286,27 +499,36 @@ function UserHome_Topbar(props) {
   });
 }
 
-function UserHome_CardsRenderer(props) {
+class UserHome_CardsRenderer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-  return e(HomeContext.Consumer, null, ({cards}) => {
+  componentDidMount() {
+    checkForTranslatables();
+  }
 
-     var theCards = cards;
+  render() {
+    return e(HomeContext.Consumer, null, ({cards}) => {
 
-     return theCards.map((card) => {
+       var theCards = cards;
 
-       if (!card.class) {
-         card.class = 'rounded-box position-relative';
-       }
+       return theCards.map((card) => {
 
-       return e(
-         'div',
-         { className: card.class, key: card.id },
-         card.element
-       );
+         if (!card.class) {
+           card.class = 'rounded-box position-relative fade-animation animate';
+         }
 
-     });
+         return e(
+           'div',
+           { className: card.class, key: card.id },
+           card.element
+         );
 
-  });
+       });
+
+    });
+  }
 
 }
 

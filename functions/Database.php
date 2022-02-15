@@ -16,13 +16,13 @@ function guyra_output_json($message, $exit=false) {
 
 }
 
-function guyra_log_to_file($object='something happened') {
-  $object = date('d-m-Y H:i:s') . ': ' . $object . '\r\n';
-  // file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
-}
-
 function GetStandardDate() {
   return date('d-m-Y H:i:s');
+}
+
+function guyra_log_to_file($object='something happened') {
+  $object = GetStandardDate() . ': ' . $object . '\r\n';
+  // file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 
 function Guyra_GetDBConnection($args=[]) {
@@ -530,12 +530,21 @@ function guyra_update_user($user_id, array $values) {
 
 }
 
-function guyra_get_users($bounds=[]) {
+function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
+
+  global $current_user_id;
 
   $db = Guyra_GetDBConnection();
 
   $sql = "SELECT user_id, meta_key, meta_value
   FROM guyra_user_meta";
+
+  if (is_array($bounds) && count($bounds) > 0) {
+
+    $bounded_key = array_keys($bounds)[0];
+    $bounded_value = $bounds[$bounded_key];
+
+  }
 
   $result = $db->query($sql);
   $output = false;
@@ -544,9 +553,10 @@ function guyra_get_users($bounds=[]) {
     $_output[] = $row;
   }
 
-  foreach ($_output as $key) {
+  foreach ($_output as &$key) {
 
     $jsonDecoded = json_decode($key['meta_value'], true);
+    $theKey = $key['meta_key'];
     $theValue = $key['meta_value'];
 
     if ($jsonDecoded) {
@@ -555,6 +565,21 @@ function guyra_get_users($bounds=[]) {
 
     $output[$key['user_id']][$key['meta_key']] = $theValue;
     $output[$key['user_id']]['id'] = $key['user_id'];
+
+  }
+
+  foreach ($output as $user) {
+
+    $theKeys = array_keys($user);
+
+    if (in_array($bounded_datatype, $theKeys)) {
+      if ($user[$bounded_datatype][$bounded_key] != $bounded_value) {
+        unset($output[$user['id']]);
+      }
+    } else {
+      unset($output[$user['id']]);
+    }
+
   }
 
   $db->close();

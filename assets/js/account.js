@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, GuyraParseDate } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -1250,7 +1250,7 @@ function WhoAmI_welcome(props) {
   return e(AccountContext.Consumer, null, ({setPage, usermeta, i18n}) => {
 
     // Safari cries if we use dashes for dates
-    var dateRegisteredSince = new Date(usermeta.user_registered.replace(/-/g, "/"));
+    var dateRegisteredSince = GuyraParseDate(usermeta.user_registered);
 
     return e(
       'div',
@@ -1270,7 +1270,7 @@ function WhoAmI_welcome(props) {
           e(
             'span',
             { className: 'ms-1 fw-bold' },
-            dateRegisteredSince.toLocaleDateString('pt-BR') + '!'
+            dateRegisteredSince.toLocaleDateString() + '!'
           )
         )
       ),
@@ -1292,7 +1292,7 @@ function WhoAmI_welcome(props) {
 
 function WhoAmI_openPayments_paymentItem(props) {
 
-  var itemDue = new Date(props.item.due);
+  var itemDue = GuyraParseDate(props.item.due);
 
   var paymentMethod = e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
 
@@ -1374,7 +1374,7 @@ function WhoAmI_openPayments(props) {
   if (props.openPayments != null) {
     props.openPayments.forEach((item) => {
 
-      var itemDue = new Date(item.due);
+      var itemDue = GuyraParseDate(item.due);
       var now = new Date();
       var itemBadgeClass = 'badge bg-success';
 

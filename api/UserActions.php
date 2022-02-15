@@ -176,6 +176,7 @@ if ($_GET['get_user_data']) {
   $theData = $current_user_data;
 
   $theData['is_logged_in'] = true;
+  $theData['id'] = $current_user_id;
   $theData['user_email'] = $current_user_object['user_login'];
   $theData['user_subscription_valid'] = $current_user_subscription_valid;
 
@@ -188,6 +189,10 @@ if ($_GET['get_user_data']) {
   $theData['payments'] = $current_user_payments;
   $theData['notifications'] = $current_user_notifications;
   $theData['inventory'] = $current_user_inventory;
+
+  if ($is_GroupAdmin || $is_admin) {
+    $theData['user_code'] = Guyra_hash($current_user_id);
+  }
 
   guyra_output_json(json_encode($theData), true);
 
@@ -223,63 +228,31 @@ if ($_GET['get_identicon']) {
 
 if ($_GET['post_reply']) {
 
-  global $gi18n;
+  $thePost = json_decode(file_get_contents('php://input'), true);
 
-  if (!function_exists('wp_handle_upload')) {
-    require_once( ABSPATH . 'wp-admin/includes/file.php' );
-  }
-
-  include_once $template_dir . '/functions/Game.php';
-  include_once $template_dir . '/components/StudyPage.php';
-
-  $uploadedfile = $_FILES['file'];
-  $file_found = false;
-  $upload_overrides = ['test_form' => false];
-  if (isset($uploadedfile) && $uploadedfile['error'] != 4) {
-  	$file_found = true;
-  }
+  // Validations
+  if (!$thePost['comment'])
+  guyra_output_json('comment empty', true);
 
   if ($current_user_data['role'] == 'teacher') {
-    $comment_post_ID = $_POST['comment_post_ID'];
+    // TODO: allow teacher replies
   } else {
-    $user_studypage_object = GetUserStudyPage_object($current_user_id);
-    $comment_post_ID = $user_studypage_object->ID;
+    $diary = &$current_user_diary;
   }
 
-  $comment_data_toPost = [
-    'comment_approved' => 1,
-    'comment_author' => $current_user_data['first_name'],
-    'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-    'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-    'comment_content' => $_POST['comment_content'],
-    'comment_parent' => $_POST['comment_parent'],
-    'comment_post_ID' => $comment_post_ID,
-    'user_id' => $current_user_id
+  if (!is_array($diary['user_comments'])) {
+    $diary['user_comments'] = [];
+  }
+
+  $diary['user_comments'][] = [
+    'date' => GetStandardDate(),
+    'author' => $current_user_data['first_name'],
+    'author_id' => $current_user_id,
+    'attachment' => $thePost['attachment'],
+    'comment' => nl2br($thePost['comment'])
   ];
 
-  // Post whatever comment we have
-  $comment = wp_insert_comment($comment_data_toPost);
-
-  if (!$comment) {
-
-  	guyra_output_json($gi18n['comment_error'] . var_dump($comment_data_toPost), true);
-
-  }
-
-  // Upload the attached image if it is found
-  if ($file_found) {
-  	$movefile = wp_handle_upload($uploadedfile, $upload_overrides);
-  }
-
-  if ($movefile && !isset($movefile['error'])) {
-
-  	update_comment_meta($comment, 'comment_image', $movefile['url']);
-
-  } elseif ($file_found) {
-
-    guyra_output_json($gi18n['file_error'], true);
-
-  }
+  guyra_update_user_data($current_user_id, ['user_comments' => $diary['user_comments']], null, 'diary');
 
   Guyra_increase_user_level($current_user_id, 2);
 
@@ -289,6 +262,10 @@ if ($_GET['post_reply']) {
     guyra_output_json('true', true);
   }
 
+}
+
+if ($_GET['post_attachment']) {
+  GuyraHandleFileUpload();
 }
 
 if ($_GET['redirect_meeting']) {

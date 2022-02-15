@@ -13,14 +13,8 @@ Guyra_Safeguard_File();
 $user = $_GET['user'];
 $allowedUsers = [];
 $users = guyra_get_users(['teacherid' => $current_user_id]);
+$allowedUsers = array_keys($users);
 $usersdata = [];
-
-foreach ($users as $x) {
-
-  if ($x['userdata']['teacherid'] == $current_user_id) {
-    $allowedUsers[] = $x['id'];
-  }
-}
 
 $canDoActionsHere = (in_array($user, $allowedUsers) || $is_admin);
 $user_is_users = explode(',', $user);
@@ -54,7 +48,7 @@ if ($_GET['assigntogroup']) {
 // Archive an user.
 // ---
 if ($_GET['clearteacher']) {
-  guyra_update_user_data($user, ['teacherid' => 0, 'studygroup' => '']);
+  guyra_update_user_data($user, ['teacherid' => null, 'studygroup' => null]);
 }
 
 // ---
@@ -68,14 +62,7 @@ if ($_GET['meetinglink']) {
 // Remove an user from a group.
 // ---
 if ($_GET['cleargroup']) {
-  guyra_update_user_data($user, 'studygroup', null);
-}
-
-// ---
-// Get a user's diary.
-// ---
-if ($_GET['action'] == 'get_diary') {
-  guyra_get_user_meta($user, 'diary');
+  guyra_update_user_data($user, ['studygroup' => null]);
 }
 
 // ---
@@ -89,23 +76,7 @@ if ($_GET['action'] == 'update_diary') {
 // Get a list of actionable users.
 // ---
 if ($_GET['action'] == 'fetch_users') {
-
-  $users_array = [];
-
-  foreach ($users as $x) {
-
-    $theUserID = $x['id'];
-
-    if (in_array($theUserID, $allowedUsers)) {
-
-      $users_array[$theUserID]['id'] = $theUserID;
-      $users_array[$theUserID]['data'] = $x['userdata'];
-
-    }
-
-  }
-
-  guyra_output_json($users_array, true);
+  guyra_output_json($users, true);
 }
 
 } // endif
