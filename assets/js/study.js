@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, GuyraParseDate } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
 
@@ -9,7 +9,6 @@ class UserHome_ReplyCard extends React.Component {
     super(props);
 
     this.state = {
-      attachments: null,
       localReplies: []
     }
   }
@@ -121,43 +120,15 @@ class UserHome_ReplyCard extends React.Component {
       e(RoundedBoxHeading, { icon: 'icons/essay.png', value: thei18n.reply }),
       e(HomeContext.Consumer, null, ({userdata}) => {
 
-        var theReplies = [];
-        if (!Array.isArray(userdata.user_diary.user_comments)) {
-          userdata.user_diary.user_comments = [];
-        }
-
-        userdata.user_diary.user_comments.forEach((reply, i) => {
-
-          var now = new Date();
-          var replyDate = GuyraParseDate(reply.date);
-          var maxDaysOfReplies = 7;
-          var replyDatePlusMaxDays = (replyDate - 1) + ((86400 * maxDaysOfReplies) * 1000);
-          replyDatePlusMaxDays = new Date(replyDatePlusMaxDays);
-
-          if (replyDatePlusMaxDays > now) {
-
-            var formattedReply = reply;
-            formattedReply.replyId = i;
-
-            theReplies.push(formattedReply);
-
-          }
-
-        });
-
-        if (!theReplies) {
-          theReplies = [];
-        }
-
         if (this.state.localReplies.length > 0) {
-          theReplies = theReplies.concat(this.state.localReplies);
+          userdata.user_diary.user_comments = userdata.user_diary.user_comments.concat(this.state.localReplies);
         }
 
-        if (theReplies.length == 0) {
+        if (userdata.user_diary.user_comments == 0) {
           return;
         }
 
-        return theReplies.map((reply) => {
+        return userdata.user_diary.user_comments.map((reply, i) => {
 
           var repliesToTheReply = null;
 
@@ -185,48 +156,8 @@ class UserHome_ReplyCard extends React.Component {
             });
           }
 
-          var theAttachment = null;
+          return e(RenderReplies, { reply: reply, repliesToTheReply: repliesToTheReply, replyId: i, maxAge: 7 });
 
-          // setup files
-          if (reply.attachment) {
-            theAttachment = e(
-              'div',
-              {},
-              e(
-                'span',
-                { className: 'position-relative' },
-                e(
-                  'img',
-                  {
-                    src: reply.attachment,
-                    className: 'medium page-icon'
-                  }
-                ),
-                e('a', { className: 'btn-tall btn-sm position-absolute top-0 end-0 m-2', href: reply.attachment, target: '_blank' }, e('i', { className: 'bi bi-cloud-download' }))
-              )
-            );
-          }
-
-          return e(
-            'div',
-            { className: 'dialog-box d-flex flex-column' },
-            e('div', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
-              e(
-                'span',
-                {},
-                e('img', { className: 'avatar page-icon tiny', src: userdata.profile_picture_url }),
-                e('span', { className: 'ms-2' }, reply.author + ':'),
-              ),
-              e(
-                'span',
-                { className: 'fw-bold'},
-                GuyraParseDate(reply.date).toLocaleDateString()
-              ),
-            ),
-            window.HTMLReactParser(marked.parse(reply.comment)),
-            theAttachment,
-            repliesToTheReply
-          );
         });
 
       }),
@@ -234,21 +165,20 @@ class UserHome_ReplyCard extends React.Component {
         'div',
         { className: 'dialog-box' },
         e('textarea', { id: 'comment'}, null),
-      ),
-      this.state.attachments,
-      e(
-        'div',
-        { className: 'd-flex flex-row justify-content-center' },
         e(
-          'label',
-          { className: 'me-3 w-25' },
-          e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png', onChange: (event) => { this.attachFile(event) } }),
-          e('a', { id: 'comment-file-button', className: 'btn btn-tall' },
-            e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
-          )
-        ),
-        e('button', { className: 'btn-tall blue w-50', onClick: (event) => { this.submit(event) } }, thei18n.send, e('i', { className: 'bi bi-send-plus ms-3' })),
-      )
+          'div',
+          { className: 'd-flex flex-row justify-content-center mt-3' },
+          e(
+            'label',
+            { className: 'me-3 w-25' },
+            e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png', onChange: (event) => { this.attachFile(event) } }),
+            e('a', { id: 'comment-file-button', className: 'btn btn-tall green' },
+              e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
+            )
+          ),
+          e('button', { className: 'btn-tall blue w-50', onClick: (event) => { this.submit(event) } }, thei18n.send, e('i', { className: 'bi bi-send-plus ms-3' })),
+        )
+      ),
     );
   }
 

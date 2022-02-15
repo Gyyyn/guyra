@@ -79,4 +79,7 @@ if ($_GET['action'] == 'fetch_users') {
   guyra_output_json($users, true);
 }
 
+// Nothing else happened here, let's output a true.
+guyra_output_json('true', true);
+
 } // endif

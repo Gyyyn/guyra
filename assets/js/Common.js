@@ -48,6 +48,97 @@ export class LoadingPage extends React.Component {
   }
 }
 
+export class RenderReplies extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.ageBound = false;
+    this.repliesToTheReply = null;
+
+    if (!this.props.repliesToTheReply) {
+      this.props.repliesToTheReply = null;
+    }
+
+    if (this.props.avatarUrl) {
+      this.avatar = e('img', { className: 'avatar page-icon tiny', src: this.props.avatarUrl });
+    }
+
+    if (this.props.maxAge) {
+
+      this.ageBound = true;
+
+      this.now = new Date();
+      var replyDate = GuyraParseDate(this.props.reply.date);
+      var maxDaysOfReplies = this.props.maxAge;
+      this.replyDatePlusMaxDays = (replyDate - 1) + ((86400 * maxDaysOfReplies) * 1000);
+      this.replyDatePlusMaxDays = new Date(this.replyDatePlusMaxDays);
+
+    }
+
+    if (this.props.repliesToTheReply) {
+      this.repliesToTheReply = this.props.repliesToTheReply;
+    }
+
+    this.wrapperClass = 'dialog-box d-flex flex-column';
+
+    if (this.props.wrapperClass) {
+      this.wrapperClass = this.props.wrapperClass;
+    }
+
+  }
+
+  render() {
+
+    if (this.ageBound && (this.replyDatePlusMaxDays < this.now)) {
+      return null;
+    }
+
+    var reply = this.props.reply;
+    var theAttachment = null;
+
+    // setup files
+    if (reply.attachment) {
+      theAttachment = e(
+        'div',
+        {},
+        e(
+          'span',
+          { className: 'position-relative' },
+          e(
+            'img',
+            {
+              src: reply.attachment,
+              className: 'medium page-icon'
+            }
+          ),
+          e('a', { className: 'btn-tall btn-sm position-absolute top-0 end-0 m-2', href: reply.attachment, target: '_blank' }, e('i', { className: 'bi bi-cloud-download' }))
+        )
+      );
+    }
+
+    return e(
+      'div',
+      { className: this.wrapperClass },
+      e('div', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
+        e(
+          'span',
+          {},
+          this.avatar,
+          e('span', { className: 'ms-2' }, reply.author + ':'),
+        ),
+        e(
+          'span',
+          { className: 'fw-bold'},
+          GuyraParseDate(reply.date).toLocaleDateString()
+        ),
+      ),
+      window.HTMLReactParser(marked.parse(reply.comment)),
+      theAttachment,
+      this.repliesToTheReply,
+    );
+  }
+}
+
 export function guyraGetI18n() {
 
   var localStorageI18n = window.localStorage.getItem('guyra_i18n');

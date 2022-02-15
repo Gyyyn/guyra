@@ -1,4 +1,4 @@
-import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading } from '%template_url/assets/js/Common.js';
+import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
 
 function GetCurrentDate() {
 
@@ -1000,15 +1000,218 @@ class Diary extends React.Component {
   };
 }
 
+class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.cardsClasses = 'card trans thin blue d-flex flex-column p-3 me-3 mb-3';
+  }
+
+  validateForm(element) {
+
+    if (!element.value) {
+
+      element.classList.add('is-invalid');
+
+      setTimeout(() => {
+        element.classList.remove('is-invalid');
+      }, 5000);
+
+      return false;
+
+    } else {
+      return true;
+    }
+
+  }
+
+  addToGroup = () => {
+
+    var theGroupTag = document.getElementById('add-to-group');
+
+    if (!validateForm(theGroupTag)) {
+      return;
+    }
+
+    console.log(thei18n.api_link + '?user=' + this.props.userId + 'assigntogroup=' + theGroupTag.value);
+
+  }
+
+  addMeetingLink = () => {
+
+    var theMeetingLink = document.getElementById('meeting-link');
+
+    if (!validateForm(theMeetingLink)) {
+      return;
+    }
+
+    console.log(thei18n.api_link + '?user=' + this.props.userId + 'meetinglink=' + theMeetingLink.value);
+
+  }
+
+  archiveStudent = () => {
+    if (confirm(thei18n.are_you_sure)) {
+
+      var theUserListing = document.getElementById('user_' + this.props.listingName);
+
+      if (theUserListing) {
+
+        theUserListing.classList.add('justfadeout-animation', 'animate');
+
+        setTimeout(() => {
+          theUserListing.remove();
+        }, 500);
+
+      }
+
+      console.log(thei18n.api_link + '?user=' + this.props.userId + 'clearteacher=1');
+    }
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex flex-row flex-wrap form-control' },
+
+      e(
+        'div',
+        { className: this.cardsClasses, style: { minHeight: 'unset' } },
+        e('h4', {}, thei18n.group),
+        e(
+          'span',
+          { className: 'd-flex flex-row' },
+          e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
+          e('button', { className: 'btn-tall green', onClick: this.addToGroup }, e('i', {className: 'bi bi-plus-lg'}))
+        ),
+      ),
+
+      e(
+        'div',
+        { className: this.cardsClasses, style: { minHeight: 'unset' } },
+        e('h4', {}, thei18n.meeting_link),
+        e(
+          'span',
+          { className: 'd-flex flex-row' },
+          e('input', { id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3' }),
+          e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
+        ),
+      ),
+
+      e(
+        'div',
+        { className: this.cardsClasses, style: { minHeight: 'unset' } },
+        e('h4', {}, thei18n.archive_student),
+        e('span', {}, window.HTMLReactParser(thei18n.archive_student_explain)),
+        e(
+          'span',
+          { className: 'd-flex flex-row' },
+          e('button', { className: 'btn-tall btn-sm', onClick: this.archiveStudent },  e('i', {className: 'bi bi-archive me-3'}), thei18n.archive_student)
+        ),
+      ),
+
+    )
+  }
+}
+
+class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.theReplies = [];
+
+    if (this.props.diary.user_comments) {
+      this.theReplies = this.props.diary.user_comments;
+    }
+
+  }
+
+  render() {
+    return this.theReplies.map((reply, i) => {
+
+      return e(RenderReplies, { reply: reply, replyId: i, wrapperClass: 'bg-white more-rounded p-3 mt-2', maxAge: this.props.maxAge });
+
+    });
+  }
+
+}
+
 class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.theUserpage = props.diary.userpage;
+    this.theUserpage = this.props.diary.userpage;
 
     if (!this.theUserpage) {
       this.theUserpage = 'This user has no userpage yet.';
     }
+
+    this.state = {
+      view: [
+        window.HTMLReactParser(marked.parse(this.theUserpage)),
+        e(GroupAdminHome_AdminPanel_UserpageView_Replies, { diary: this.props.diary, maxAge: 7 }),
+      ],
+      editButtonValue: thei18n.edit,
+      editButtonOnclick: this.edit
+    }
+
+  }
+
+  edit = () => {
+
+    this.setState({
+      view: e('textarea', { id: 'userpage-edit', className: 'd-none' }, null),
+      editButtonValue: thei18n.save,
+      editButtonOnclick: this.save
+    });
+
+    setTimeout(() => {
+      this.easyMDE = new EasyMDE({
+        element: document.getElementById('userpage-edit'),
+        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.username },
+        initialValue: this.theUserpage
+      });
+    }, 300);
+
+  }
+
+  save = () => {
+
+    this.setState({
+      view: window.HTMLReactParser(marked.parse(this.theUserpage)),
+      editButtonValue: e('i', {className: 'bi bi-three-dots'}),
+      editButtonOnclick: null
+    });
+
+    this.props.diary.userpage = this.easyMDE.value();
+    this.theUserpage = this.props.diary.userpage;
+
+    fetch(
+      rootUrl + 'api?action=update_diary&user=' + this.props.userId,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.props.diary)
+      }
+    ).then(res => res.json())
+    .then(res => {
+
+      if (res != 'true') {
+        console.error('Update failed.');
+        return;
+      }
+
+      // Make sure we only change everything back when we got a response from the server.
+      document.querySelector('.EasyMDEContainer').remove();
+
+      this.setState({
+        view: window.HTMLReactParser(marked.parse(this.theUserpage)),
+        editButtonValue: thei18n.edit,
+        editButtonOnclick: this.edit
+      });
+    });
 
   }
 
@@ -1021,14 +1224,14 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
         { className: 'control-area d-flex flex-row mb-3' },
         e(
           'button',
-          { className: 'btn-tall btn-sm green' },
-          thei18n.edit
+          { className: 'btn-tall btn-sm green', onClick: this.state.editButtonOnclick },
+          this.state.editButtonValue
         )
       ),
       e(
         'div',
         { className: 'mt-3 text-n' },
-        window.HTMLReactParser(marked.parse(this.theUserpage)),
+        this.state.view,
       ),
     );
   }
@@ -1052,6 +1255,15 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       // all users equally.
       this.representativeUser = this.props.group[0];
 
+      // Sometimes we need a list of users to apply all actions however.
+      this.groupUsersIds = [];
+
+      this.props.group.forEach((user) => {
+        this.groupUsersIds.push(user.id);
+      });
+
+      this.listingUserId = this.groupUsersIds.join(',');
+
       // If we got a group the diary will be in the teachers own data.
       this.diary = theUserdata.user_diary;
 
@@ -1068,6 +1280,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingName = this.representativeUser.userdata.first_name;
       this.listingGrouptag = this.representativeUser.userdata.studygroup;
       this.listingDiaryUserId = this.representativeUser.id;
+      this.listingUserId = this.representativeUser.id;
 
       this.listingTitle = [
         e('span', { className: 'fw-bold' }, this.representativeUser.userdata.first_name),
@@ -1088,14 +1301,26 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   setView(view) {
 
     var views = {
-      userpage: e(GroupAdminHome_AdminPanel_UserpageView, { diary: this.state.diary }),
+      userpage: e(GroupAdminHome_AdminPanel_UserpageView, {
+        diary: this.state.diary,
+        username: this.listingName,
+        userId: this.listingDiaryUserId
+      }),
       diary: e(Diary, {
         diaryId: this.listingDiaryUserId,
         username: this.listingName,
         grouptag: this.listingGrouptag,
         diarytype: this.listingType,
         diary: this.state.diary
-      })
+      }),
+      replies: e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
+        diary: this.state.diary
+      }),
+      controls: e(GroupAdminHome_AdminPanel_ControlsView, {
+        listingType: this.listingType,
+        listingName: this.listingName,
+        userId: this.listingUserId
+      }),
     };
 
     this.setState({
@@ -1128,7 +1353,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-column mb-2 dialog-box' },
+      { className: 'd-flex flex-column mb-2 dialog-box', id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'control-area d-flex flex-row justify-content-between align-items-center' },

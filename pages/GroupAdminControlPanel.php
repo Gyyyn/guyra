@@ -10,4 +10,4 @@ get_header(null, ['css' => 'schools.css']);
 
 </main>
 <?php
-get_footer(null, ['react' => true, 'js' => 'schools.js']);
+get_footer(null, ['react' => true, 'easymde' => true, 'js' => 'Schools.js']);
