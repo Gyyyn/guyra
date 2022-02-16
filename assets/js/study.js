@@ -130,33 +130,7 @@ class UserHome_ReplyCard extends React.Component {
 
         return userdata.user_diary.user_comments.map((reply, i) => {
 
-          var repliesToTheReply = null;
-
-          if (reply.replies && reply.replies.length > 0) {
-
-            repliesToTheReply = [
-              e('span', { className: 'border-top my-2' }, null)
-            ];
-
-            reply.replies.forEach((replyReply, i) => {
-              repliesToTheReply.push(
-                e(
-                  'div',
-                  {},
-                  e('span', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
-                    replyReply.author
-                  ),
-                  e(
-                    'p',
-                    {},
-                    window.HTMLReactParser(marked.parse(replyReply.comment)),
-                  ),
-                ),
-              );
-            });
-          }
-
-          return e(RenderReplies, { reply: reply, repliesToTheReply: repliesToTheReply, replyId: i, maxAge: 7 });
+          return e(RenderReplies, { reply: reply, replyId: i, maxAge: 7, disableReply: true });
 
         });
 

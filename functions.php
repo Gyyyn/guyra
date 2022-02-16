@@ -100,21 +100,17 @@ if ($is_logged_in) {
 	$current_user_gamedata = guyra_get_user_data($current_user_id, 'gamedata');
 
 	// Set up user payment trackers.
-	$current_user_payments = guyra_get_user_meta($current_user_id, 'payment', true)['meta_value'];
-	$current_user_payments = json_decode($current_user_payments, true);
+	$current_user_payments = guyra_get_user_data($current_user_id, 'payment');
 	$current_user_subscription_valid = false;
 
 	// Set up notifications data.
-	$current_user_notifications = guyra_get_user_meta($current_user_id, 'notifications', true)['meta_value'];
-	$current_user_notifications = json_decode($current_user_notifications, true);
+	$current_user_notifications = guyra_get_user_data($current_user_id, 'notifications');
 
 	// Set up inventory data.
-	$current_user_inventory = guyra_get_user_meta($current_user_id, 'inventory', true)['meta_value'];
-	$current_user_inventory = json_decode($current_user_inventory, true);
+	$current_user_inventory = guyra_get_user_data($current_user_id, 'inventory');
 
 	// Set up diary data.
-	$current_user_diary = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
-	$current_user_diary = json_decode($current_user_diary, true);
+	$current_user_diary = guyra_get_user_data($current_user_id, 'diary');
 
 	// Set up some defaults for uncreated data, and handle some time-based events.
 

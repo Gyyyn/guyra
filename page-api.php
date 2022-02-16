@@ -46,5 +46,9 @@ include $template_dir . '/api/UserActions.php';
 // Game API
 include $template_dir . '/api/Exercises.php';
 
+// If we have no redirect then we assume things went right.
+if (!$redirect)
+guyra_output_json('true', true);
+
 // If we got here we are meant to redirect
 Guyra_Redirect($redirect);

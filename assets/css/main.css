@@ -1,16 +1,16 @@
 :root {
-  --guyra-blue: #00BFFF;
+  --guyra-blue: #0cbaf5;
   --guyra-blue-darker: rgb(2 144 191);
   --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
   --guyra-blue-lightest: rgba(157, 219, 239, 1);
 
-  --guyra-purple: #6A45FF;
+  --guyra-purple: #7a63d5;
   --guyra-purple-lighter: rgb(184 160 245);
   --guyra-purple-darker: rgb(80 33 202);
   --guyra-purple-darkest: rgb(50 29 103);
 
-  --guyra-green: rgba(154, 255, 0, 1);
+  --guyra-green: #a9f13b;
   --guyra-green-lighter: rgba(199, 255, 112, 1);
   --guyra-green-lightest: rgba(219, 255, 164, 1);
   --guyra-green-darker: rgba(121, 200, 0, 1);
@@ -48,7 +48,7 @@
   --guyra-box-shadow-outline-onwhite-smaller: 0 0 0 .33rem rgba(166, 241, 255, .33);
 
   --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
-  --guyra-fonts-title: 'Campton Black',var(--bs-font-sans-serif);
+  --guyra-fonts-title: 'Campton',var(--bs-font-sans-serif);
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
@@ -76,49 +76,85 @@
 */
 
 @font-face {
-    font-family: 'Campton Black';
-    src: url('%template_url/assets/fonts/campton_black.woff2') format('woff2'),
-         url('%template_url/assets/fonts/campton_black.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Campton';
+  src: url('%template_url/assets/fonts/campton_black.woff2') format('woff2'),
+       url('%template_url/assets/fonts/campton_black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Rubik';
-    src: url('%template_url/assets/fonts/Rubik-Regular.woff2') format('woff2'),
-         url('%template_url/assets/fonts/Rubik-Regular.woff') format('woff');
-   font-weight: 400;
-   font-style: normal;
-   font-display: swap;
+  font-family: 'Campton';
+  src: url('%template_url/assets/fonts/campton_bold-webfont.woff2') format('woff2'),
+       url('%template_url/assets/fonts/campton_bold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Rubik';
-    src: url('%template_url/assets/fonts/Rubik-Black.woff2') format('woff2'),
-        url('%template_url/assets/fonts/Rubik-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Campton';
+  src: url('%template_url/assets/fonts/campton_bold_italic-webfont.woff2') format('woff2'),
+       url('%template_url/assets/fonts/campton_bold_italic-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Rubik';
-    src: url('%template_url/assets/fonts/Rubik-Bold.woff2') format('woff2'),
-        url('%template_url/assets/fonts/Rubik-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Campton';
+  src: url('%template_url/assets/fonts/campton_extrabold-webfont.woff2') format('woff2'),
+       url('%template_url/assets/fonts/campton_extrabold-webfont.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Campton';
+  src: url('%template_url/assets/fonts/campton_extrabold-webfont.woff2') format('woff2'),
+       url('%template_url/assets/fonts/campton_extrabold-webfont.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('%template_url/assets/fonts/Rubik-Regular.woff2') format('woff2'),
+       url('%template_url/assets/fonts/Rubik-Regular.woff') format('woff');
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('%template_url/assets/fonts/Rubik-Black.woff2') format('woff2'),
+      url('%template_url/assets/fonts/Rubik-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('%template_url/assets/fonts/Rubik-Bold.woff2') format('woff2'),
+      url('%template_url/assets/fonts/Rubik-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 
 @font-face {
-    font-family: 'Komika';
-    src: url('%template_url/assets/fonts/komikask-webfont.woff2') format('woff2'),
-         url('%template_url/assets/fonts/komikask-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Komika';
+  src: url('%template_url/assets/fonts/komikask-webfont.woff2') format('woff2'),
+       url('%template_url/assets/fonts/komikask-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /*
@@ -151,9 +187,13 @@ h6 { font-size: var(--guyra-fonts-textsize-n); }
 
 h1, h2, h3, h4 {
 	font-family: var(--guyra-fonts-title);
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -.05rem;
 	cursor: default;
+}
+
+h1 {
+  font-weight: 900;
 }
 
 .text-font-title { font-family: var(--guyra-fonts-title); }

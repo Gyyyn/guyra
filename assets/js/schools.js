@@ -1033,7 +1033,15 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       return;
     }
 
-    console.log(thei18n.api_link + '?user=' + this.props.userId + 'assigntogroup=' + theGroupTag.value);
+    fetch(thei18n.api_link + '?user=' + this.props.userId + 'assigntogroup=' + theGroupTag.value)
+    .then(res => res.json()).then(res => {
+
+      if (res != 'true') {
+        console.error('Update failed.');
+        return;
+      }
+
+    });
 
   }
 
@@ -1045,7 +1053,15 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       return;
     }
 
-    console.log(thei18n.api_link + '?user=' + this.props.userId + 'meetinglink=' + theMeetingLink.value);
+    fetch(thei18n.api_link + '?user=' + this.props.userId + 'meetinglink=' + theMeetingLink.value)
+    .then(res => res.json()).then(res => {
+
+      if (res != 'true') {
+        console.error('Update failed.');
+        return;
+      }
+
+    });
 
   }
 
@@ -1064,7 +1080,15 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
       }
 
-      console.log(thei18n.api_link + '?user=' + this.props.userId + 'clearteacher=1');
+      fetch(thei18n.api_link + '?user=' + this.props.userId + 'clearteacher=1')
+      .then(res => res.json()).then(res => {
+
+        if (res != 'true') {
+          console.error('Update failed.');
+          return;
+        }
+
+      });
     }
   }
 
@@ -1095,6 +1119,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
           e('input', { id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3' }),
           e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
         ),
+        e('span', { className: 'text-sss mt-2' }, this.props.userData.userdata.user_meetinglink)
       ),
 
       e(
@@ -1126,9 +1151,20 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
   }
 
   render() {
+
+    if (this.theReplies.length == 0) {
+      return e('span', { className: 'fst-italic text-muted text-sss' }, thei18n.no_comments);
+    }
+
     return this.theReplies.map((reply, i) => {
 
-      return e(RenderReplies, { reply: reply, replyId: i, wrapperClass: 'bg-white more-rounded p-3 mt-2', maxAge: this.props.maxAge });
+      return e(RenderReplies, {
+        reply: reply,
+        replyId: i,
+        diaryId: this.props.diaryId,
+        wrapperClass: 'bg-white more-rounded p-3 mt-2',
+        maxAge: this.props.maxAge
+      });
 
     });
   }
@@ -1142,13 +1178,17 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
     this.theUserpage = this.props.diary.userpage;
 
     if (!this.theUserpage) {
-      this.theUserpage = 'This user has no userpage yet.';
+      this.theUserpage = thei18n.no_userpage;
     }
 
     this.state = {
       view: [
         window.HTMLReactParser(marked.parse(this.theUserpage)),
-        e(GroupAdminHome_AdminPanel_UserpageView_Replies, { diary: this.props.diary, maxAge: 7 }),
+        e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
+          diary: this.props.diary,
+          diaryId: this.props.userId,
+          maxAge: 7
+        }),
       ],
       editButtonValue: thei18n.edit,
       editButtonOnclick: this.edit
@@ -1314,12 +1354,14 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         diary: this.state.diary
       }),
       replies: e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
-        diary: this.state.diary
+        diary: this.state.diary,
+        diaryId: this.listingDiaryUserId
       }),
       controls: e(GroupAdminHome_AdminPanel_ControlsView, {
         listingType: this.listingType,
         listingName: this.listingName,
-        userId: this.listingUserId
+        userId: this.listingUserId,
+        userData: this.representativeUser
       }),
     };
 
@@ -1356,7 +1398,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       { className: 'd-flex flex-column mb-2 dialog-box', id: 'user_' + this.listingName },
       e(
         'div',
-        { className: 'control-area d-flex flex-row justify-content-between align-items-center' },
+        { className: 'control-area d-flex flex-column flex-md-row justify-content-between align-items-center' },
         e(
           'span',
           {},
@@ -1367,17 +1409,17 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           ),
           e(
             'span',
-            { className: 'user-name' },
+            { className: 'text-font-title user-name' },
             this.state.listingTitle
           ),
         ),
         e(
           'span',
-          { className: 'user-buttons me-3'},
+          { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
           e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
-          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.homework),
-          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'me-1 bi bi-list-ul'}), thei18n.replies),
-          e('button', { className: 'btn-tall btn-sm blue', onClick: () => {this.setView('controls')} }, e('i', {className: 'me-1 bi bi-toggles'}), thei18n.controls),
+          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
+          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'me-1 bi bi-list-ul'}), thei18n.replies),
+          e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'me-1 bi bi-toggles'}), thei18n.controls),
         ),
       ),
       this.state.currentView
@@ -1418,6 +1460,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         return e(
           'div',
           { className: 'd-flex flex-column mb-3' },
+          e('h3', { className: 'mb-3' }, thei18n.your_students),
           Object.values(user_list).map((user) => {
 
             if (user.userdata.studygroup) {
@@ -1447,7 +1490,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         e(
           'div',
           { className: 'dialog-box d-inline' },
-          e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus' }, null),
+          e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
           e(
             'button',
             {

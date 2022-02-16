@@ -54,9 +54,34 @@ export class RenderReplies extends React.Component {
 
     this.ageBound = false;
     this.repliesToTheReply = null;
+    this.avatar = null;
 
-    if (!this.props.repliesToTheReply) {
-      this.props.repliesToTheReply = null;
+    if (this.props.reply.replies && this.props.reply.replies.length > 0) {
+
+      this.repliesToTheReply = [
+        e('span', { className: 'border-top my-2' }, null)
+      ];
+
+      this.props.reply.replies.forEach((replyReply, i) => {
+        this.repliesToTheReply.push(
+          e(
+            'div',
+            { className: 'reply-reply my-3 border more-rounded p-3' },
+            e('span', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
+              replyReply.author
+            ),
+            e(
+              'p',
+              {},
+              window.HTMLReactParser(marked.parse(replyReply.comment)),
+            ),
+          ),
+        );
+      });
+    }
+
+    if (!this.repliesToTheReply || this.props.disableReplyReplies) {
+      this.repliesToTheReply = null;
     }
 
     if (this.props.avatarUrl) {
@@ -75,16 +100,146 @@ export class RenderReplies extends React.Component {
 
     }
 
-    if (this.props.repliesToTheReply) {
-      this.repliesToTheReply = this.props.repliesToTheReply;
-    }
-
     this.wrapperClass = 'dialog-box d-flex flex-column';
 
     if (this.props.wrapperClass) {
       this.wrapperClass = this.props.wrapperClass;
     }
 
+    var replyArea = e(this.replyButton, {});
+
+    if (this.props.disableReply) {
+      replyArea = null;
+    }
+
+    this.state = {
+      replyArea: replyArea,
+      replyOnclick: this.openReply,
+      replyButtonValue: e('i', {className: 'bi bi-reply-fill'}),
+      localReplies: []
+    }
+
+  }
+
+  openReply = () => {
+
+    var replyArea = [
+      e(
+        'div',
+        { className: 'd-flex flex-column position-relative mt-3 border-top d-none fade-animation animate', id: 'reply-area' },
+        e('h3', { className: 'my-3' }, thei18n.reply),
+        e(
+          'span',
+          {},
+          e(this.replyButton, { pos: 'top' })
+        ),
+        e(
+          'div',
+          { className: 'border more-rounded' },
+          e('textarea', { id: 'reply' }, null),
+        ),
+        e(
+          'div',
+          { className: 'mt-3' },
+          e('button', { className: 'btn-tall green', onClick: this.submitReply }, thei18n.send)
+        )
+      )
+    ];
+
+    this.setState({
+      replyArea: replyArea,
+      replyOnclick: this.closeReply,
+      replyButtonValue: [e('i', {className: 'me-2 bi bi-x-lg'}), thei18n.close]
+    });
+
+    setTimeout(() => {
+
+      document.getElementById('reply-area').classList.remove('d-none');
+
+      this.easyMDE = new EasyMDE({
+        element: document.getElementById('reply'),
+      });
+
+    }, 300);
+
+  }
+
+  closeReply = () => {
+
+    this.easyMDE = null;
+
+    this.setState({
+      replyArea: e(this.replyButton, {}),
+      replyOnclick: this.openReply,
+      replyButtonValue: e('i', {className: 'bi bi-reply-fill'})
+    });
+
+
+  }
+
+  submitReply = () => {
+
+    var dataToPost = {
+      comment: this.easyMDE.value(),
+      attachment: null,
+      replyTo: this.props.replyId,
+      diaryId: this.props.diaryId,
+    };
+
+    fetch(
+       thei18n.api_link + '?post_reply=1',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToPost)
+      }
+    ).then(res => res.json())
+    .then(json => {
+
+      if (json != 'true') {
+        console.error('Comment post error');
+        return;
+      }
+
+      this.easyMDE.value('');
+
+      var localReplies = this.state.localReplies;
+      localReplies.push({
+        comment: dataToPost.comment,
+        attachment: dataToPost.attachment,
+        date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        author: thei18n.you
+      });
+
+      this.closeReply();
+
+    });
+
+  }
+
+  replyButton = (props) => {
+
+    var pos = 'bottom-0';
+
+    if (props.pos == 'top') {
+      pos = 'top-0';
+    }
+
+    return e(
+      'div',
+      { className: 'p-2 position-absolute end-0 ' + pos, style: {zIndex: 1} },
+      e(
+        'button',
+        {
+          className: 'btn-tall btn-sm blue',
+          onClick: this.state.replyOnclick
+        },
+        this.state.replyButtonValue
+      )
+    );
   }
 
   render() {
@@ -100,31 +255,39 @@ export class RenderReplies extends React.Component {
     if (reply.attachment) {
       theAttachment = e(
         'div',
-        {},
+        { className: 'card trans p-2 position-relative', style: { minWidth: 'unset' } },
+        e(
+          'img',
+          {
+            src: reply.attachment,
+            className: 'medium page-icon'
+          }
+        ),
         e(
           'span',
-          { className: 'position-relative' },
+          { className: 'position-absolute bottom-0 end-0 m-2' },
           e(
-            'img',
+            'a',
             {
-              src: reply.attachment,
-              className: 'medium page-icon'
-            }
-          ),
-          e('a', { className: 'btn-tall btn-sm position-absolute top-0 end-0 m-2', href: reply.attachment, target: '_blank' }, e('i', { className: 'bi bi-cloud-download' }))
+              className: 'btn-tall blue btn-sm',
+              href: reply.attachment,
+              target: '_blank',
+            },
+            e('i', { className: 'bi bi-cloud-download me-2 text-ss' }), thei18n.download
+          )
         )
       );
     }
 
     return e(
       'div',
-      { className: this.wrapperClass },
+      { className: this.wrapperClass + ' position-relative' },
       e('div', { className: 'text-ss d-flex flex-row justify-content-between align-items-center fst-italic mb-2' },
         e(
           'span',
           {},
-          this.avatar,
-          e('span', { className: 'ms-2' }, reply.author + ':'),
+          e('span', {className: 'me-2'}, this.avatar),
+          e('span', {}, reply.author + ':'),
         ),
         e(
           'span',
@@ -135,6 +298,7 @@ export class RenderReplies extends React.Component {
       window.HTMLReactParser(marked.parse(reply.comment)),
       theAttachment,
       this.repliesToTheReply,
+      this.state.replyArea
     );
   }
 }
@@ -244,6 +408,7 @@ export function Guyra_InventoryItem(props) {
       'button',
       {
         className: 'btn-tall btn-sm green' + useButtonExtraClass,
+        "aria-label": thei18n.use,
         onClick: (e) => {
 
           if (itemCategory == 'progress') {
@@ -287,7 +452,7 @@ export function RoundedBoxHeading(props) {
     e('h2', { className: 'text-blue' }, props.value),
     e(
       'span',
-      { className: 'page-icon small' },
+      { className: 'page-icon' },
       e('img', { alt: '', src: thei18n.api_link + '?get_image=' + props.icon + '&size=128' }),
     ),
   );

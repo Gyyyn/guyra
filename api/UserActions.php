@@ -14,6 +14,8 @@ global $gi18n;
 global $gSettings;
 global $current_user_payments;
 global $current_user_subscription_valid;
+global $is_admin;
+global $is_GroupAdmin;
 
 Guyra_Safeguard_File();
 
@@ -234,17 +236,26 @@ if ($_GET['post_reply']) {
   if (!$thePost['comment'])
   guyra_output_json('comment empty', true);
 
-  if ($current_user_data['role'] == 'teacher') {
-    // TODO: allow teacher replies
-  } else {
+  if (isset($thePost['replyTo']) && (!$is_GroupAdmin || !$is_admin))
+  guyra_output_json('action not allowed', true);
+
+  if ($thePost['diaryId'] != $current_user_id && (!$is_GroupAdmin || !$is_admin))
+  guyra_output_json('action not allowed', true);
+
+  $user = (int) $thePost['diaryId'];
+
+  if ($thePost['diaryId'] == $current_user_id) {
     $diary = &$current_user_diary;
+  } else {
+    $diary = guyra_get_user_data($user, 'diary');
   }
 
-  if (!is_array($diary['user_comments'])) {
-    $diary['user_comments'] = [];
-  }
+  if (!is_array($diary['user_comments']))
+  $diary['user_comments'] = [];
 
-  $diary['user_comments'][] = [
+  $replyTo = $thePost['replyTo'];
+
+  $commentData = [
     'date' => GetStandardDate(),
     'author' => $current_user_data['first_name'],
     'author_id' => $current_user_id,
@@ -252,15 +263,22 @@ if ($_GET['post_reply']) {
     'comment' => nl2br($thePost['comment'])
   ];
 
-  guyra_update_user_data($current_user_id, ['user_comments' => $diary['user_comments']], null, 'diary');
+  if (isset($thePost['replyTo'])) {
+
+    if (!is_array($diary['user_comments'][$replyTo]['replies']))
+    $diary['user_comments'][$replyTo]['replies'] = [];
+
+    $diary['user_comments'][$replyTo]['replies'][] = $commentData;
+
+  } else {
+    $diary['user_comments'][] = $commentData;
+  }
+
+  guyra_update_user_data($user, ['user_comments' => $diary['user_comments']], null, 'diary');
 
   Guyra_increase_user_level($current_user_id, 2);
 
-  if (isset($_POST['redirect'])) {
-    $redirect  = $_POST['redirect'];
-  } else {
-    guyra_output_json('true', true);
-  }
+  guyra_output_json('true', true);
 
 }
 
