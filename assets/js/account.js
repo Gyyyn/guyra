@@ -1319,7 +1319,7 @@ function WhoAmI_openPayments_paymentItem(props) {
           {
             className: 'page-icon large',
             alt: 'QR Code',
-            src: i18n.api_link + '?get_image=img/qrcode.jpg'
+            src: i18n.api_link + '?get_image=img/qrcode.jpg&size=256'
           }
         )
       ),
