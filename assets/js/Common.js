@@ -158,6 +158,7 @@ export class RenderReplies extends React.Component {
 
       this.easyMDE = new EasyMDE({
         element: document.getElementById('reply'),
+        toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
       });
 
     }, 300);
@@ -210,7 +211,7 @@ export class RenderReplies extends React.Component {
       localReplies.push({
         comment: dataToPost.comment,
         attachment: dataToPost.attachment,
-        date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        date: GetStandardDate(),
         author: thei18n.you
       });
 
@@ -449,7 +450,7 @@ export function RoundedBoxHeading(props) {
   return e(
     'div',
     { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
-    e('h2', { className: 'text-blue' }, props.value),
+    e('h1', { className: 'text-blue' }, props.value),
     e(
       'span',
       { className: 'page-icon' },
@@ -478,6 +479,41 @@ export function getCookie(cname) {
       return c.substring(name.length, c.length);
     }
   }
+}
+
+export function GetStandardDate(args={}) {
+
+  // In Guyra, a "standard date" is a MySQL compatible string.
+
+  var currentdate = new Date();
+
+  var month = currentdate.getMonth() + 1;
+  var day = currentdate.getDate();
+  var hours = currentdate.getHours();
+  var minutes = currentdate.getMinutes();
+  var seconds = currentdate.getSeconds();
+
+  if (month < 10) {month = '0' + month}
+  if (day < 10) {day = '0' + day}
+  if (hours < 10) {hours = '0' + hours}
+  if (minutes < 10) {minutes = '0' + minutes}
+  if (seconds < 10) {seconds = '0' + seconds}
+
+  var fromDateObject =  ""
+  + currentdate.getFullYear() + "-"
+  + month + "-"
+  + day + " "
+  + hours + ":"
+  + minutes + ":"
+  + seconds;
+
+  var fromISOString = currentdate.toISOString().slice(0, 19).replace('T', ' ');
+
+  if (args.fromObject) {
+    return fromDateObject;
+  }
+
+  return fromISOString;
 }
 
 export function GuyraParseDate(date) {

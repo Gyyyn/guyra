@@ -1338,7 +1338,7 @@ class ExerciseDone extends React.Component {
 
 const ExerciseContext = React.createContext();
 
-class App extends React.Component {
+export class Exercises extends React.Component {
   constructor(props) {
     super(props);
 
@@ -1970,5 +1970,5 @@ class App extends React.Component {
 }
 
 if(document.getElementById('exercise-container')) {
-  ReactDOM.render(e(App), document.getElementById('exercise-container'));
+  ReactDOM.render(e(Exercises), document.getElementById('exercise-container'));
 }

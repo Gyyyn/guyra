@@ -12,7 +12,7 @@ function Guyra_notepad() {
 
   <div class="position-fixed bottom-0 end-0 notepad-element overflow-x-visible">
     <a class="btn-tall blue opacity-0 round-border position-absolute" id="notepad-toggle" aria-label="<?php echo $gi18n['notepad'] ?>">
-      <img class="page-icon tiny" alt="notes" src="<?php echo GetImageCache('icons/notes.png', 32); ?>">
+      <img class="page-icon tiny" alt="notes" width="32" height="32" src="<?php echo GetImageCache('icons/notes.png', 64); ?>">
     </a>
   </div>
 

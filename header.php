@@ -240,9 +240,9 @@ ob_end_clean(); ?>
       </span>
     </div>
     <div class="d-flex flex-row justify-content-evenly w-100">
-      <a class="btn shop-link fw-bold text-white" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" src="<?php echo GetImageCache('icons/exercises/shop.png', 32); ?>"></a>
-      <a class="btn reference-link fw-bold text-white" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" src="<?php echo GetImageCache('icons/layers.png', 32); ?>"></a>
-      <a class="btn meeting-link fw-bold text-white" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" src="<?php echo GetImageCache('icons/video-camera.png', 32); ?>"></a>
+      <a class="btn shop-link fw-bold text-white" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" width="32" height="32" src="<?php echo GetImageCache('icons/exercises/shop.png', 64); ?>"></a>
+      <a class="btn reference-link fw-bold text-white" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" width="32" height="32" src="<?php echo GetImageCache('icons/layers.png', 64); ?>"></a>
+      <a class="btn meeting-link fw-bold text-white" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" width="32" height="32" src="<?php echo GetImageCache('icons/video-camera.png', 64); ?>"></a>
       <span class="position-relative"><?php RenderNotificationsDropdown(['buttonClass' => 'btn text-white p-1 pt-2']); ?></span>
     </div>
   </div>

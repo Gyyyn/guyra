@@ -162,7 +162,7 @@ function UserHome_LessonCard(props) {
   return e(HomeContext.Consumer, null, ({userdata}) => {
     return e(
       'div',
-      { className: '' },
+      { className: 'userpage' },
       e(RoundedBoxHeading, { icon: 'icons/light.png', value: thei18n.lessons }),
       window.HTMLReactParser(marked.parse(userdata.user_diary.userpage)),
     );
@@ -270,35 +270,49 @@ function UserHome_WelcomeCard(props) {
 
     var WelcomeGreeting = e(
       'div',
-      { className: 'dialog-box' },
-      e('div', {}, window.HTMLReactParser(randomGreeting)),
-      e('h3', { className: 'mt-3' }, thei18n.whats_for_today),
-      e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
-      e('h3', { className: 'mt-3' }, thei18n.daily_challenges),
+      { className: 'welcome-greeting' },
       e(
         'div',
-        { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
+        { className: 'dialog-box greeting' },
+        e('h2', { className: 'mb-2' }, thei18n.whats_for_today),
+        e('div', {}, window.HTMLReactParser(randomGreeting)),
+      ),
+      e(
+        'div',
+        { className: 'dialog-box' },
+        e('h3', { className: 'mb-2' }, thei18n.lessons),
+        e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
+      ),
+      e(
+        'div',
+        { className: 'dialog-box greeting' },
+        e('h3', { className: 'mb-2' }, thei18n.daily_challenges),
         e(
           'div',
-          { className: 'card trans mb-3 me-3' },
-          e('h4', {}, thei18n.streak),
+          { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
           e(
-            'span',
-            { className: 'd-flex flex-row fw-bold'},
-            thei18n.current + ': ' + streak_info.streak_length + ' ' + thei18n.days,
+            'div',
+            { className: 'card trans mb-3 me-3' },
+            e('h4', {}, thei18n.streak),
+            e(
+              'span',
+              { className: 'd-flex flex-row fw-bold' },
+              thei18n.current + ': ' + streak_info.streak_length + ' ' + thei18n.days,
+            ),
+            e('progress', { className: 'progress', max: streak_info.streak_record, value: streak_info.streak_length}),
+            e(
+              'span',
+              { className: 'd-flex flex-row text-ss' },
+              thei18n.biggest + ': ' + streak_info.streak_record + ' ' + thei18n.days,
+            ),
           ),
           e(
-            'span',
-            { className: 'd-flex flex-row fw-bold'},
-            thei18n.biggest + ': ' + streak_info.streak_record + ' ' + thei18n.days,
+            'div',
+            { className: 'card trans mb-3 me-3' },
+            e('h4', { className: 'mb-2' }, thei18n.level),
+            e('div', { className: 'd-flex align-items-center' }, userdata.gamedata.raw.challenges.daily.levels_completed + '/' + userdata.gamedata.raw.challenges.daily.levels),
+            e('progress', { className: 'progress', id: 'daily-challenge', max: userdata.gamedata.raw.challenges.daily.levels, value: userdata.gamedata.raw.challenges.daily.levels_completed}),
           ),
-        ),
-        e(
-          'div',
-          { className: 'card trans mb-3 me-3' },
-          e('h4', {}, thei18n.level),
-          e('div', { className: 'd-flex align-items-center' }, userdata.gamedata.raw.challenges.daily.levels_completed + '/' + userdata.gamedata.raw.challenges.daily.levels),
-          e('progress', { className: 'progress', id: 'daily-challenge', max: userdata.gamedata.raw.challenges.daily.levels, value: userdata.gamedata.raw.challenges.daily.levels_completed}),
         ),
       ),
     );
@@ -367,17 +381,17 @@ function UserHome_Topbar(props) {
     if (userdata.user_subscription_valid) {
       buttonList.push(
         e(UserHome_Topbar_button, {
-          onClick: () => {},
+          onClick: () => { window.location.href = thei18n.practice_link; },
           value: thei18n.practice,
           image: 'icons/target.png'
         }),
         e(UserHome_Topbar_button, {
-          onClick: () => {},
+          onClick: () => { window.location.href = thei18n.courses_link; },
           value: thei18n.courses,
           image: 'icons/online-learning.png'
         }),
         e(UserHome_Topbar_button, {
-          onClick: () => {},
+          onClick: () => { window.location.href = thei18n.reference_link; },
           value: thei18n.ultilities,
           image: 'icons/layers.png'
         }),
@@ -387,7 +401,7 @@ function UserHome_Topbar(props) {
     if (userdata.teacherid) {
       buttonList.push(
         e(UserHome_Topbar_button, {
-          onClick: () => {},
+          onClick: () => { window.location.href = thei18n.api_link + '?redirect_meeting=1'; },
           value: thei18n.meeting,
           image: 'icons/video-camera.png'
         }),
@@ -396,7 +410,7 @@ function UserHome_Topbar(props) {
 
     return e(
       'div',
-      { className: 'list-group study-menu list-group-horizontal' },
+      { className: 'list-group study-menu list-group-horizontal d-none d-md-flex' },
       buttonList
     );
 
@@ -499,13 +513,29 @@ class UserHome extends React.Component {
       cards: cards
     });
 
+    var closeables = document.querySelectorAll('.greeting');
+
+    closeables.forEach((closeable) => {
+      closeable.classList.add('justfadeout-animation', 'animate', 'fast');
+
+      setTimeout(() => {
+        closeable.classList.add('closed', 'd-none');
+        closeable.classList.remove('justfadeout-animation', 'animate', 'fast');
+      }, 100)
+    });
+
+
   }
 
   render() {
     return e(HomeContext.Provider, { value: this.state }, e(
-      'div',
-      { className: 'd-flex flex-column justify-content-center home-wrapper' },
-      this.state.page
+      'main',
+      {},
+      e(
+        'div',
+        { className: 'd-flex flex-column justify-content-center home-wrapper' },
+        this.state.page
+      )
     ));
   };
 }

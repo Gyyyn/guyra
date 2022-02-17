@@ -132,22 +132,30 @@ function delete_cache($cacheName) {
 
 function GuyraHandleFileUpload() {
 
+  global $is_GroupAdmin;
+
   $maxfilesize = 10000000;
   $fileGlobalId = 'file';
+  $theFile = $_FILES[$fileGlobalId];
+
+  // EasyMDE uses a different image name.
+  if ($_GET['easymde']) {
+    $theFile = $_FILES['image'];
+  }
 
   try {
 
     // Undefined | Multiple Files | $_FILES Corruption Attack
     // If this request falls under any of them, treat it invalid.
     if (
-        !isset($_FILES[$fileGlobalId]['error']) ||
-        is_array($_FILES[$fileGlobalId]['error'])
+        !isset($theFile['error']) ||
+        is_array($theFile['error'])
     ) {
         throw new RuntimeException('Invalid parameters.');
     }
 
     // check for errors
-    switch ($_FILES[$fileGlobalId]['error']) {
+    switch ($theFile['error']) {
         case UPLOAD_ERR_OK:
             break;
         case UPLOAD_ERR_NO_FILE:
@@ -160,14 +168,14 @@ function GuyraHandleFileUpload() {
     }
 
     // check filesize
-    if ($_FILES[$fileGlobalId]['size'] > $maxfilesize) {
+    if ($theFile['size'] > $maxfilesize) {
       throw new RuntimeException('Exceeded filesize limit.');
     }
 
     // check MIME
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     if (false === $ext = array_search(
-        $finfo->file($_FILES[$fileGlobalId]['tmp_name']),
+        $finfo->file($theFile['tmp_name']),
         array(
             'jpg' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
@@ -191,17 +199,35 @@ function GuyraHandleFileUpload() {
 
     // upload compressed to jpg.
     $manager = new ImageManager();
-    $compression = 75;
+    $compression = 25;
     $ext = '.jpg';
-    $uploadFileAppend = '/' . md5($current_user_id . '_' . $_FILES['file']['name']) . $ext;
+
+    // Set all the file paths. We don't use the ext directly yet to check for duplicates later.
+    $uploadFileAppend = '/' . md5($current_user_id . '_' . $theFile['name']);
     $uploadFileURL = $template_url . '/cache/assets' . $uploadFileAppend;
     $uploadFile = $assetsCacheLocation . $uploadFileAppend;
 
-    $image = $manager->make($_FILES['file']['tmp_name']);
+    $image = $manager->make($theFile['tmp_name']);
 
-    if (file_get_contents($uploadFile)) {
-      unlink($uploadFile);
+    if (file_get_contents($uploadFile . $ext)) {
+
+      // Group admins can upload more than one picture.
+      if ($is_GroupAdmin) {
+
+        $randomness = md5(time());
+
+        $uploadFile = $uploadFile . '_' . $randomness;
+        $uploadFileURL = $uploadFileURL . '_' . $randomness;
+
+      } else {
+        unlink($uploadFile . $ext);
+      }
+
     }
+
+    // Finally set the final paths.
+    $uploadFile = $uploadFile . $ext;
+    $uploadFileURL = $uploadFileURL . $ext;
 
     $image->save($uploadFile, $compression);
 
@@ -209,9 +235,19 @@ function GuyraHandleFileUpload() {
       throw new RuntimeException('Failed to move uploaded file.');
     }
 
+    if ($_GET['easymde']) {
+      guyra_output_json([
+        'data' => ['filePath' => $uploadFileURL]
+      ], true);
+    }
+
     guyra_output_json($uploadFileURL, true);
 
   } catch (RuntimeException $e) {
+
+    if ($_GET['easymde']) {
+      guyra_output_json(['error' => $e->getMessage()], true);
+    }
 
     guyra_output_json(['false', $e->getMessage()], true);
 

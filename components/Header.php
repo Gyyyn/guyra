@@ -26,7 +26,7 @@ function RenderNotificationsDropdown($args=[]) {
       <?php endif; ?>
     </button>
     <div class="dropdown-menu notifications pop-animation animate fast p-3">
-      <h3 class="mb-3"><?php echo $gi18n['notifications']; ?></h3>
+      <h2 class="mb-3"><?php echo $gi18n['notifications']; ?></h2>
       <?php if ($notifications_amount < 1): ?>
         <span class="text-muted"><?php echo $gi18n['no_notifications'] ?></span>
       <?php else: ?>
@@ -39,8 +39,8 @@ function RenderNotificationsDropdown($args=[]) {
             <span class="position-absolute top-0 end-0">
               <button type="button" name="button" class="btn delete-notification-button" data-index="<?php echo $x ?>"><i class="bi bi-x-lg"></i></button>
             </span>
-            <h4><?php echo $item['title'] ?></h4>
-            <span><?php echo $item['contents'] ?></span>
+            <h3><?php echo $item['title'] ?></h3>
+            <span class="fw-normal text-n"><?php echo $item['contents'] ?></span>
           </div>
           <?php $x += 1; ?>
         <?php endforeach; ?>

@@ -312,7 +312,7 @@ export class Roadmap extends React.Component {
       { className: 'roadmap' },
       e(RoadmapContext.Provider, {value: this.state}, e(
         'div',
-        { className: 'rounded-box mt-5' },
+        { className: 'rounded-box' },
         this.state.page
       ))
     );

@@ -54,8 +54,8 @@
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
   --guyra-fonts-textsize-n: calc(0.75rem + 0.25vw);
   --guyra-fonts-textsize-x: calc(0.95rem + 0.85vw);
-  --guyra-fonts-textsize-xx: calc(1.65rem + 0.95vw);
-  --guyra-fonts-textsize-xxx: calc(1.85rem + 1.05vw);
+  --guyra-fonts-textsize-xx: calc(1.5rem + 0.95vw);
+  --guyra-fonts-textsize-xxx: calc(2rem + 1.05vw);
   --guyra-fonts-textsize-super: calc(2.5rem + 2.2vw);
 
   --guyra-navbar-size: 3.5rem;
@@ -163,8 +163,7 @@
 
 html,
 body,
-.post,
-.page-squeeze .post {
+.post {
   border: unset;
 	box-shadow: unset;
   margin: 0 !important;
@@ -181,8 +180,8 @@ body {
 h1 { font-size: var(--guyra-fonts-textsize-xxx); }
 h2 { font-size: var(--guyra-fonts-textsize-xx); }
 h3 { font-size: var(--guyra-fonts-textsize-x); }
-h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .25rem); }
-h5 { font-size: calc(var(--guyra-fonts-textsize-x) - .5rem); }
+h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .15rem); }
+h5 { font-size: calc(var(--guyra-fonts-textsize-x) - .25rem); }
 h6 { font-size: var(--guyra-fonts-textsize-n); }
 
 h1, h2, h3, h4 {
@@ -194,6 +193,11 @@ h1, h2, h3, h4 {
 
 h1 {
   font-weight: 900;
+}
+
+h4 {
+  font-weight: 700;
+  letter-spacing: unset;
 }
 
 .text-font-title { font-family: var(--guyra-fonts-title); }
@@ -526,11 +530,6 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 992px) {
-	.page-squeeze .page-content,
-	.page-squeeze .entry-content,
-	.page-squeeze .entry-summary {
-		padding: 0.5rem; margin: 0;
-	}
 
 	.navbar .nav-rightside {
 		margin: 0;
@@ -551,12 +550,6 @@ input:checked + .slider:before {
   }
 }
 
-.page-squeeze,
-.page-squeeze.rounded-box {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
 @media (min-width: 992px) {
 	.squeeze { max-width: calc(40vw + 20rem); margin: 0 auto; }
 	.squeeze-big { max-width: 75vw; margin: calc(3rem + 2vw) auto; }
@@ -574,6 +567,11 @@ input:checked + .slider:before {
   .squeeze-small { max-width: unset; margin: 0 1rem; }
 
   main {
+    margin-top: 3rem !important;
+    margin-bottom: 5rem !important;
+  }
+
+  .logged_in main {
     margin-top: 7rem !important;
     margin-bottom: 5rem !important;
   }
@@ -666,7 +664,7 @@ a:hover {
   background: var(--guyra-white);
   padding: calc(2vw + .25rem);
   border-radius: var(--guyra-border-radius-bigger);
-  margin-top: 3rem;
+  margin-bottom: 3rem;
   box-shadow: var(--guyra-box-shadow-outline);
 }
 
@@ -765,3 +763,17 @@ progress.progress[value]::-moz-progress-bar {
 .gtooltip[data-popper-placement^='right'] > .arrow { left: -4px; }
 
 .blurred { filter: blur(20px); }
+
+.notifications {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.userpage {
+  overflow-x: clip;
+}
+
+.userpage img {
+  display: block;
+  max-width: 100%;
+}

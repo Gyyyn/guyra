@@ -167,6 +167,14 @@
 	}
 }
 
+@media (max-width: 992px) {
+  .page-squeeze .page-content,
+	.page-squeeze .entry-content,
+	.page-squeeze .entry-summary {
+		padding: 0.5rem; margin: 0;
+	}
+}
+
 .archive .page-squeeze .entry-title {
 	background-position: -100em;
 }

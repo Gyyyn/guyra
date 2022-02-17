@@ -2198,7 +2198,7 @@ class Account extends React.Component {
 
     return e(
       'main',
-      { className: 'site-main page squeeze' },
+      { className: 'squeeze' },
       e(
         'div',
         { className: wrapperClass },

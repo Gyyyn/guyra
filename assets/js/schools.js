@@ -1,30 +1,4 @@
-import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
-
-function GetCurrentDate() {
-
-  var currentdate = new Date();
-
-  var month = currentdate.getMonth() + 1;
-  var day = currentdate.getDate();
-  var hours = currentdate.getHours();
-  var minutes = currentdate.getMinutes();
-  var seconds = currentdate.getSeconds();
-
-  if (month < 10) {month = '0' + month}
-  if (day < 10) {day = '0' + day}
-  if (hours < 10) {hours = '0' + hours}
-  if (minutes < 10) {minutes = '0' + minutes}
-  if (seconds < 10) {seconds = '0' + seconds}
-
-  return ""
-  + currentdate.getFullYear() + "-"
-  + month + "-"
-  + day + " "
-  + hours + ":"
-  + minutes + ":"
-  + seconds;
-
-}
+import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies, GetStandardDate } from '%template_url/assets/js/Common.js';
 
 // TODO: Merge these
 const GroupAdminHomeContext = React.createContext();
@@ -415,7 +389,7 @@ function DiarySubmit(props) {
     e(
       'span',
       { className: 'col-3 text-grey-darker text-end'},
-      GetCurrentDate().split(' ')[0]
+      GetStandardDate().split(' ')[0]
     ),
     e(
       'span',
@@ -445,7 +419,7 @@ function DiarySubmit(props) {
           className: "btn-tall btn-sm blue add-entry-button",
           onClick: () => {
             var entryComment = document.getElementById('newentry-comment');
-            var time = GetCurrentDate();
+            var time = GetStandardDate();
 
             if (entryComment.value == '') {
               alert(i18n.comment_missing);
@@ -545,7 +519,7 @@ class DiaryProper extends React.Component {
 
 function NeedNewDiary(props) {
 
-  var now = GetCurrentDate();
+  var now = GetStandardDate();
 
   var diaryToSet = {
     "dayAssigned": "",
@@ -714,7 +688,7 @@ class PaymentArea extends React.Component {
   constructor(props) {
     super(props);
 
-    this.today = GetCurrentDate().split(' ')[0];
+    this.today = GetStandardDate().split(' ')[0];
 
   }
 
@@ -1208,7 +1182,12 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       this.easyMDE = new EasyMDE({
         element: document.getElementById('userpage-edit'),
         autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.username },
-        initialValue: this.theUserpage
+        toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"],
+        uploadImage: true,
+        initialValue: this.theUserpage,
+        imagePathAbsolute: true,
+        previewImagesInEditor: true,
+        imageUploadEndpoint: thei18n.api_link + '?post_attachment=1&easymde=1'
       });
     }, 300);
 
@@ -1270,7 +1249,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       ),
       e(
         'div',
-        { className: 'mt-3 text-n' },
+        { className: 'userpage mt-3 text-n' },
         this.state.view,
       ),
     );
@@ -1554,9 +1533,13 @@ class GroupAdminHome extends React.Component {
 
   render() {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
-      'div',
-      { className: 'home-wrapper' },
-      this.state.page
+      'main',
+      {},
+      e(
+        'div',
+        { className: 'home-wrapper' },
+        this.state.page
+      )
     ));
   };
 }

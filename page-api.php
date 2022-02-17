@@ -13,8 +13,7 @@ if ($_GET['disable_cache'] != 'true') {
   error_reporting(0);
 }
 
-$redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
-$redirect = (!$_POST['redirect']) ? $site_url : $_POST['redirect'];
+$redirect = false;
 
 // If user isn't logged in he only has a few options.
 if (!$is_logged_in) {
@@ -49,6 +48,9 @@ include $template_dir . '/api/Exercises.php';
 // If we have no redirect then we assume things went right.
 if (!$redirect)
 guyra_output_json('true', true);
+
+$redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];
+$redirect = (!$_POST['redirect']) ? $site_url : $_POST['redirect'];
 
 // If we got here we are meant to redirect
 Guyra_Redirect($redirect);
