@@ -14,6 +14,7 @@ function guyra_handle_pwa() {
   global $template_dir;
   global $template_url;
   global $gi18n;
+  global $gLang;
 
   $root = ABSPATH;
   $image_url = $template_url . '/assets/img';
@@ -32,7 +33,7 @@ function guyra_handle_pwa() {
     $file = file_get_contents($js_path . '/PWA_ServiceWorker.js');
 
     $file = vsprintf($file, [
-      $template_url . '/templates/offline.html'
+      $template_url . '/assets/json/i18n/' . $gLang[0] . '/templates/offline.html'
     ]);
 
     $output = new Minify\JS($file);

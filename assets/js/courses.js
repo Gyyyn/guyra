@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 // Youtube Embed stuff
 var tag = document.createElement('script');
@@ -458,13 +458,22 @@ class Courses extends React.Component {
 
   componentWillMount() {
 
+    var dataPromise = GuyraGetData();
+
+    dataPromise.then(res => {
+
+      this.setState({
+        i18n: res.i18n,
+      });
+
+    });
+
     fetch(rootUrl + 'api?get_courses=1')
     .then(res => res.json())
     .then(res => {
 
       this.setState({
         coursesObject: res,
-        i18n: guyraGetI18n(),
         page: this.decideStartingPage(),
       });
 

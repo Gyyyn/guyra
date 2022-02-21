@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
 
 const ShopContext = React.createContext();
 
@@ -387,31 +387,24 @@ class Shop extends React.Component {
 
   componentWillMount() {
 
-    this.setState({
-      i18n: guyraGetI18n()
-    });
+    var dataPromise = GuyraGetData();
 
-    fetch(rootUrl + 'api?fetch_shop_items=1')
-    .then(res => res.json())
-    .then(res => {
+    dataPromise.then(res => {
 
-      this.setState({
-        shopObject: res,
+      fetch(rootUrl + 'api?fetch_shop_items=1')
+      .then(res => res.json())
+      .then(res => {
+
+        this.setState({
+          shopObject: res,
+          page: this.decideStartingPage(),
+          userdata: theUserdata,
+          i18n: thei18n
+        });
+
       });
 
     });
-
-    fetch(rootUrl + 'api?get_user_data=1')
-    .then(res => res.json())
-    .then(json => {
-
-      this.setState({
-        userdata: JSON.parse(json),
-        page: this.decideStartingPage(),
-      });
-
-    });
-
 
   }
 
@@ -424,7 +417,7 @@ class Shop extends React.Component {
 
   }
 
-  setPage = (page, args) => {
+  setPage = (page, args={}) => {
     this.setState({
       page: page
     });

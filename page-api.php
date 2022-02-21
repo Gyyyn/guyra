@@ -21,7 +21,6 @@ if (!$is_logged_in) {
   exit;
 }
 
-include $template_dir . '/api/GameData.php';
 include $template_dir . '/api/Shop.php';
 include $template_dir . '/api/Reference.php';
 
@@ -46,7 +45,7 @@ include $template_dir . '/api/UserActions.php';
 include $template_dir . '/api/Exercises.php';
 
 // If we have no redirect then we assume things went right.
-if (!$redirect)
+if (!$_POST['redirect'] || !$_GET['redirect'])
 guyra_output_json('true', true);
 
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];

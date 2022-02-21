@@ -5,13 +5,7 @@ Guyra_Safeguard_Access(['paid_users' => true]);
 get_header();
 ?>
 
-<main id="intro-content" class="site-main page">
-
-  <div class="page-squeeze">
-
-    <?php guyra_render_topbar(); ?>
-
-  </div>
+<main>
 
   <div id="ranking-container"></div>
 

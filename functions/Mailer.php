@@ -13,6 +13,7 @@ function Guyra_mail($template, $subject, $to, $string_replacements) {
 
   global $template_dir;
   global $gi18n;
+  global $gLang;
 
   $mail = new PHPMailer();
   $mail->CharSet = 'UTF-8';
@@ -21,7 +22,7 @@ function Guyra_mail($template, $subject, $to, $string_replacements) {
   $mail->addAddress($to);
   $mail->Subject = $subject;
 
-  $template = file_get_contents($template_dir . '/templates/mail/' . $template);
+  $template = file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/' . $template);
 
   $message = vsprintf($template, $string_replacements);
 

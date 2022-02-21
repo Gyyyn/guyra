@@ -49,6 +49,9 @@ if (!$is_logged_in) {
 
 }
 
+if ($_GET['i18n'] == "full")
+guyra_output_json($gi18n, true);
+
 if ($_GET['action'] == 'update_user_textareas') {
   guyra_update_user_meta($current_user_id, 'textareas', mysql_real_escape_string(file_get_contents('php://input')));
 }
@@ -195,6 +198,9 @@ if ($_GET['get_user_data']) {
   if ($is_GroupAdmin || $is_admin) {
     $theData['user_code'] = Guyra_hash($current_user_id);
   }
+
+  // Unset some sensitive data;
+  unset($theData['user_pass']);
 
   guyra_output_json(json_encode($theData), true);
 

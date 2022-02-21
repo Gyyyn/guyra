@@ -76,8 +76,14 @@
 
     "flashcards_verbs1": {
       "name": "Deck de cartas: Verbos 1",
-      "description": "Inclui verbos de nível um para praticar.",
+      "description": "Inclui verbos de nível 1 para praticar.",
       "description_full": "Verbos de nivel básico."
+    },
+
+    "flashcards_nouns_introduction": {
+      "name": "Deck de cartas: Palavras 1",
+      "description": "Inclui palavras de nível iniciante.",
+      "description_full": "Substantivos de nivel básico."
     }
 
   },
@@ -193,6 +199,11 @@
 
     "flashcards_verbs1": {
       "name": "Deck de cartas: Verbos 1",
+      "preview": "%site_url/api/?get_image=icons/cards.png&size=64"
+    },
+
+    "flashcards_nouns_introduction": {
+      "name": "Deck de cartas: Palavras 1",
       "preview": "%site_url/api/?get_image=icons/cards.png&size=64"
     }
 

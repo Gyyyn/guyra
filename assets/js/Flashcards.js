@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from './Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from './Common.js';
 
 var user_gamedata = {};
 const FlashcardsContext = React.createContext();
@@ -150,6 +150,7 @@ class Flashcards_Exercise extends React.Component {
       easy: 4,
       normal: 2,
       hard: 1,
+      v_hard: 0.5,
       daysOffset: 6
     }
 
@@ -161,14 +162,24 @@ class Flashcards_Exercise extends React.Component {
       cardOffset = 1;
     }
 
+    // Cards that are "very hard" get tried again.
     if (type == 'v_hard') {
       this.props.deck.push(this.state.currentCard);
-    } else {
-      user_gamedata.flashcards.cards[cardHash] = cardOffset * modifiers[type];
     }
+
+    // No floats messing up code later please.
+    var newOffset = Math.round(cardOffset * modifiers[type]);
+
+    // If by any chance we get an offset that's a fraction of a day let's round it to 1.
+    if (newOffset > 1) {
+      newOffset = 1;
+    }
+
+    user_gamedata.flashcards.cards[cardHash] = newOffset;
 
     this.nextCard();
 
+    // Set a delay to avoid code weirdness and accidental clicks.
     setTimeout(() => {
       theControlArea.classList.remove('disabled');
       this.setState({
@@ -255,6 +266,15 @@ function Flashcards_YourItems_ItemListing(props) {
           var packLastPractice = user_gamedata.flashcards.decks[props.name].last_practice;
           packLastPractice = packLastPractice * 1000;
           packLastPractice = new Date(packLastPractice);
+
+          // If pack was practiced today, return.
+          var packLastPracticeTimeout = new Date(packLastPractice);
+          packLastPracticeTimeout.setDate(packLastPracticeTimeout.getDate() + 1);
+
+          if (packLastPracticeTimeout > now) {
+            event.target.innerHTML = thei18n.deck_finished;
+            return;
+          }
 
           fetch(thei18n.api_link + '?fetch_flashcard_deck=' + props.name)
           .then(res => res.json())
@@ -422,20 +442,16 @@ export class Flashcards extends React.Component {
 
   componentWillMount() {
 
-    var thei18n = guyraGetI18n();
+    var dataPromise = GuyraGetData();
 
-    fetch(rootUrl + 'api?get_user_data=1')
-    .then(res => res.json())
-    .then(res => {
+    dataPromise.then(res => {
 
-      let json = JSON.parse(res);
-
-      user_gamedata = json.gamedata.raw;
+      user_gamedata = res.userdata.gamedata.raw;
 
       this.setState({
-        i18n: thei18n,
         page: e(Flashcards_Wrapper),
-        userdata: json
+        userdata: res.userdata,
+        i18n: res.i18n
       });
 
     });

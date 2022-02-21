@@ -1,4 +1,4 @@
-import { guyraGetI18n, guyraGetUserdata, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies, GetStandardDate } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies, GetStandardDate } from '%template_url/assets/js/Common.js';
 
 // TODO: Merge these
 const GroupAdminHomeContext = React.createContext();
@@ -1509,16 +1509,19 @@ class GroupAdminHome extends React.Component {
 
   componentWillMount() {
 
-    guyraGetI18n();
-    guyraGetUserdata();
+    var dataPromise = GuyraGetData();
 
-    fetch(rootUrl + 'api?action=fetch_users')
-    .then(res => res.json())
-    .then(res => {
+    dataPromise.then(res => {
 
-      this.setState({
-        page: e(GroupAdminHome_AdminPanel),
-        user_list: res
+      fetch(rootUrl + 'api?action=fetch_users')
+      .then(res => res.json())
+      .then(res => {
+
+        this.setState({
+          page: e(GroupAdminHome_AdminPanel),
+          user_list: res
+        });
+
       });
 
     });

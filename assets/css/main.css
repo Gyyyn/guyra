@@ -777,3 +777,5 @@ progress.progress[value]::-moz-progress-bar {
   display: block;
   max-width: 100%;
 }
+
+.grecaptcha-badge { display: none; }

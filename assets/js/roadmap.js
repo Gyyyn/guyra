@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from './Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from './Common.js';
 
 const RoadmapContext = React.createContext();
 
@@ -15,7 +15,7 @@ class Roadmap_Popup extends React.Component {
     this.popup = e(
       'div',
       {
-        className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center',
+        className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center mt-5',
         id: 'popup',
         style: {
           zIndex: 1055,
@@ -142,7 +142,7 @@ function Roadmap_Banner(props) {
       e(
         'h1',
         { className: 'text-blue' },
-        i18n.roadmap
+        thei18n.roadmap
       ),
     ),
     e(
@@ -152,7 +152,7 @@ function Roadmap_Banner(props) {
         'img',
         {
           alt: 'learning',
-          src: i18n.api_link + '?get_image=icons/hill.png&size=128'
+          src: thei18n.api_link + '?get_image=icons/hill.png&size=128'
         }
       )
     )
@@ -166,7 +166,7 @@ function Roadmap_LevelCard(props) {
     e(
       'div',
       { className: 'd-flex flex-row mb-1' },
-      e('img', { className: 'page-icon small', src: i18n.api_link + '?get_image=' + props.values.icon + '&size=64' }),
+      e('img', { className: 'page-icon small', src: thei18n.api_link + '?get_image=' + props.values.icon + '&size=64' }),
       e(
         'span',
         { className: 'd-flex flex-column ms-3' },
@@ -223,7 +223,7 @@ function Roadmap_Level(props) {
       e(
         'div',
         { className: 'd-inline-flex justify-content-center mb-3 ' + imageClass },
-        e('img', { src: i18n.api_link + '?get_image=img/' + imageName + '.png&size=[308,155]' }),
+        e('img', { src: thei18n.api_link + '?get_image=img/' + imageName + '.png&size=[308,155]' }),
       )
     );
 
@@ -288,8 +288,14 @@ export class Roadmap extends React.Component {
 
   componentWillMount() {
 
-    this.setState({
-      i18n: guyraGetI18n()
+    var dataPromise = GuyraGetData();
+
+    dataPromise.then(res => {
+
+      this.setState({
+        i18n: res.i18n
+      });
+
     });
 
     fetch(rootUrl + 'api?get_roadmap=1')

@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, GuyraParseDate } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, GuyraParseDate } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -588,13 +588,13 @@ class AccountPayment extends React.Component {
 
   render() {
 
-    var topWarnings = e(AccountContext.Consumer, null, ({i18n, usermeta}) => {
+    var topWarnings = e(AccountContext.Consumer, null, ({i18n, userdata}) => {
 
       var warningsList = [];
 
-      if (usermeta.payments.status == 'approved') {
+      if (userdata.payments.status == 'approved') {
         warningsList.push(
-          e(AccountPayment_yourPlan, {values: usermeta.payments})
+          e(AccountPayment_yourPlan, {values: userdata.payments})
         );
 
         warningsList.push(
@@ -602,7 +602,7 @@ class AccountPayment extends React.Component {
         );
       }
 
-      if (usermeta.payments.status == 'expired') {
+      if (userdata.payments.status == 'expired') {
         warningsList.push(
           e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_expired_warning })
         );
@@ -643,12 +643,12 @@ class AccountPayment extends React.Component {
           'div',
           { className: 'col-md-5 col-lg-4 mt-0 mb-3 order-first order-md-last' },
           e(PaymentContext.Provider, { value: this.state },
-            e(AccountContext.Consumer, null, ({usermeta}) => {
+            e(AccountContext.Consumer, null, ({userdata}) => {
               return e(
                 AccountPayment_planSelect,
                 {
                   selectedPlan: this.state.selectedPlan,
-                  userPlan: usermeta.payments.payed_for,
+                  userPlan: userdata.payments.payed_for,
                   userSelectedPlan: this.state.userSelectedPlan
                 }
               );
@@ -758,14 +758,14 @@ function AccountOptions_changePassword(props) {
 }
 
 function PhoneNumberInput(props) {
-  return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
+  return e(AccountContext.Consumer, null, ({i18n, userdata}) => e(
       'input',
       {
         id: 'profile-phone',
         name: 'user_phone',
         type: "tel",
         className: "input-phone",
-        placeholder: usermeta.user_phone,
+        placeholder: userdata.user_phone,
         onKeyPress: (e) => {
 
           o = e.target;
@@ -798,7 +798,7 @@ function PhoneNumberInput(props) {
 
 function AccountOptions_profileDetails(props) {
 
-  return e(AccountContext.Consumer, null, ({i18n, usermeta}) => e(
+  return e(AccountContext.Consumer, null, ({i18n, userdata}) => e(
     'div',
     { className: 'row' },
     e(
@@ -821,7 +821,7 @@ function AccountOptions_profileDetails(props) {
               id: 'profile-picture',
               className: 'profile-preview avatar page-icon medium',
               alt: i18n.profile_details_picture,
-              src: usermeta.profile_picture_url
+              src: userdata.profile_picture_url
             }
           ),
         )
@@ -841,8 +841,8 @@ function AccountOptions_profileDetails(props) {
         e(
           'div',
           { className: 'form-control mb-5' },
-          e(AccountContext.Consumer, null, ({usermeta}) => {
-            if (usermeta.mail_confirmed != 'true') {
+          e(AccountContext.Consumer, null, ({userdata}) => {
+            if (userdata.mail_confirmed != 'true') {
               return e(
                 'div',
                 { className: 'dialog-box info' },
@@ -862,7 +862,7 @@ function AccountOptions_profileDetails(props) {
                           },
                           body: JSON.stringify({
                             fields: ['user_email'],
-                            user_email: usermeta.user_email
+                            user_email: userdata.user_email
                           })
                         }
                       );
@@ -880,7 +880,7 @@ function AccountOptions_profileDetails(props) {
               'div',
               { className: 'd-flex flex-column w-50 pe-3' },
               e('label', { for: 'profile-email' }, i18n.email),
-              e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: usermeta.user_email })
+              e('input', { id: 'profile-email', type: "email", className: "input-email", placeholder: userdata.user_email })
             ),
             e(
               'div',
@@ -896,13 +896,13 @@ function AccountOptions_profileDetails(props) {
               'span',
               { className: 'w-50 pe-3' },
               e('label', { for: 'profile-first-name' }, i18n.firstname),
-              e('input', { id: 'profile-first-name', type: "text", className: "input-first-name", placeholder: usermeta.first_name }),
+              e('input', { id: 'profile-first-name', type: "text", className: "input-first-name", placeholder: userdata.first_name }),
             ),
             e(
               'span',
               { className: 'w-50' },
               e('label', { for: 'profile-last-name' }, i18n.lastname),
-              e('input', { id: 'profile-last-name', type: "text", className: "input-last-name", placeholder: usermeta.last_name })
+              e('input', { id: 'profile-last-name', type: "text", className: "input-last-name", placeholder: userdata.last_name })
             ),
           ),
           e(
@@ -1000,7 +1000,7 @@ function AccountOptions_profileDetails(props) {
 }
 
 function AccountOptions_accountDetails(props) {
-  return e(AccountContext.Consumer, null, ({i18n, usermeta, setPage}) => e(
+  return e(AccountContext.Consumer, null, ({i18n, userdata, setPage}) => e(
     'div',
     { className: 'profile-details'},
     e(
@@ -1176,25 +1176,25 @@ function AccountOptions_privacyDetails(props) {
         { className: 'text-blue' },
         'Privacidade'
       ),
-      e(AccountContext.Consumer, null, ({usermeta}) => {
+      e(AccountContext.Consumer, null, ({userdata}) => {
 
         // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
-        if (typeof usermeta.privacy === 'string') {
-          usermeta.privacy = JSON.parse(usermeta.privacy);
-        } else if (!usermeta.privacy) {
-          usermeta.privacy = {};
+        if (typeof userdata.privacy === 'string') {
+          userdata.privacy = JSON.parse(userdata.privacy);
+        } else if (!userdata.privacy) {
+          userdata.privacy = {};
         }
 
         // Freak out if we didn't get an object here.
-        if (typeof usermeta.privacy !== 'object') {
+        if (typeof userdata.privacy !== 'object') {
           console.error('Guyra: Privacy meta is not object.');
           return false;
         }
 
         var rankingInfoPublic = true;
 
-        if (usermeta.privacy.ranking_info_public != undefined) {
-          rankingInfoPublic = usermeta.privacy.ranking_info_public;
+        if (userdata.privacy.ranking_info_public != undefined) {
+          rankingInfoPublic = userdata.privacy.ranking_info_public;
         }
 
         return e(AccountOptions_slider, { dom_id: 'privacy_ranking_info_public', checked: rankingInfoPublic, value: 'Aparecer publicamente nos rankings.', onClick: () => {
@@ -1205,8 +1205,8 @@ function AccountOptions_privacyDetails(props) {
             fields: ['privacy']
           };
 
-          usermeta.privacy.ranking_info_public = rankingInfoPublic;
-          dataToPost.privacy = usermeta.privacy;
+          userdata.privacy.ranking_info_public = rankingInfoPublic;
+          dataToPost.privacy = userdata.privacy;
 
           fetch(
             thei18n.api_link + '?update_userdata=1',
@@ -1247,10 +1247,10 @@ function AccountOptions(props) {
 
 function WhoAmI_welcome(props) {
 
-  return e(AccountContext.Consumer, null, ({setPage, usermeta, i18n}) => {
+  return e(AccountContext.Consumer, null, ({setPage, userdata, i18n}) => {
 
     // Safari cries if we use dashes for dates
-    var dateRegisteredSince = GuyraParseDate(usermeta.user_registered);
+    var dateRegisteredSince = GuyraParseDate(userdata.user_registered);
 
     return e(
       'div',
@@ -1261,7 +1261,7 @@ function WhoAmI_welcome(props) {
         e(
           'h2',
           { className: 'text-blue' },
-          'Welcome, ' + usermeta.first_name + '!'
+          'Welcome, ' + userdata.first_name + '!'
         ),
         e(
           'p',
@@ -1294,13 +1294,13 @@ function WhoAmI_openPayments_paymentItem(props) {
 
   var itemDue = GuyraParseDate(props.item.due);
 
-  var paymentMethod = e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
+  var paymentMethod = e(AccountContext.Consumer, null, ({userdata, i18n}) => {
 
     var paymentMethodString = '';
-    if (usermeta.user_payment_method == null) {
+    if (userdata.user_payment_method == null) {
       paymentMethodString = 'PIX';
     } else {
-      paymentMethodString = usermeta.user_payment_method;
+      paymentMethodString = userdata.user_payment_method;
     }
   });
 
@@ -1549,12 +1549,12 @@ function WhoAmI_buttonGroup(props) {
 }
 
 function WhoAmI(props) {
-  return e(AccountContext.Consumer, null, ({usermeta}) => {
+  return e(AccountContext.Consumer, null, ({userdata}) => {
 
     var openPayments = null;
 
-    if (usermeta.user_diary != undefined) {
-      usermeta.user_diary.payments.forEach((item) => {
+    if (userdata.user_diary != undefined) {
+      userdata.user_diary.payments.forEach((item) => {
         if (item.status == 'pending') {
 
           if (openPayments === null) {
@@ -1577,7 +1577,7 @@ function WhoAmI(props) {
 }
 
 function AccountInfo_ranking(props) {
-  return e(AccountContext.Consumer, null, ({usermeta, i18n}) => e(
+  return e(AccountContext.Consumer, null, ({userdata, i18n}) => e(
     'div',
     { className: 'row my-3 text-small' },
     e(
@@ -1586,7 +1586,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue' },
-        i18n.level + ': ' + usermeta.gamedata['level']
+        i18n.level + ': ' + userdata.gamedata['level']
       ),
       e('p', {}, i18n.level_explain),
       e(
@@ -1603,7 +1603,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue capitalize' },
-        i18n.ranking + ': ' + usermeta.gamedata['ranking_name']
+        i18n.ranking + ': ' + userdata.gamedata['ranking_name']
       ),
       e(
         'div',
@@ -1612,8 +1612,8 @@ function AccountInfo_ranking(props) {
           'img',
           {
             className: 'page-icon medium avatar bg-grey p-2',
-            alt: usermeta.gamedata['ranking'],
-            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + usermeta.gamedata['ranking'] + '.png'
+            alt: userdata.gamedata['ranking'],
+            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + userdata.gamedata['ranking'] + '.png'
           },
         )
       ),
@@ -1636,9 +1636,9 @@ function AccountInfo_Inventory(props) {
     e(
       'div',
       { className: 'd-flex flex-row justify-content-around flex-wrap py-3' },
-      e(AccountContext.Consumer, null, ({usermeta, i18n}) => {
+      e(AccountContext.Consumer, null, ({userdata, i18n}) => {
 
-        var theInventory = usermeta.inventory;
+        var theInventory = userdata.inventory;
 
         return theInventory.map((item, i) => {
 
@@ -1653,7 +1653,7 @@ function AccountInfo_Inventory(props) {
 }
 
 function AccountInfo(props) {
-  return e(AccountContext.Consumer, null, ({usermeta, i18n}) => e(
+  return e(AccountContext.Consumer, null, ({userdata, i18n}) => e(
     'div',
     { className: 'row my-3 overflow-x-visible' },
     e(
@@ -1667,7 +1667,7 @@ function AccountInfo(props) {
           {
             className: 'avatar page-icon medium border-outline mb-5',
             alt: '',
-            src: usermeta.profile_picture_url
+            src: userdata.profile_picture_url
           }
         ),
       ),
@@ -1677,7 +1677,7 @@ function AccountInfo(props) {
         e(
           'h3',
           { className: 'text-white' },
-          usermeta.first_name + ' ' + usermeta.last_name
+          userdata.first_name + ' ' + userdata.last_name
         )
       )
     ),
@@ -1688,9 +1688,9 @@ function AccountInfo(props) {
       e(
         'div',
         { className: 'account-inventory-preview d-flex flex-row flex-wrap align-items-center justify-content-center' },
-        e(AccountContext.Consumer, null, ({usermeta, i18n, setPage}) => {
+        e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
 
-          var theInventory = usermeta.inventory;
+          var theInventory = userdata.inventory;
 
           if (theInventory.length == 0) {
             return e('span', { className: 'text-muted' }, i18n.inventory_empty);
@@ -1916,6 +1916,7 @@ function LoginForm(props) {
         'button',
         {
           className: 'btn-tall blue w-25 my-3',
+          type: 'submit',
           onClick: (e) => {
 
             var dataToPost = {};
@@ -1943,7 +1944,7 @@ function LoginForm(props) {
             .then(json => {
 
               if (json == 'true') {
-                window.location = i18n.home_link
+                window.location = i18n.home_link;
               } else {
                 setMessageBox(json);
               }
@@ -2092,7 +2093,7 @@ class Account extends React.Component {
   constructor(props) {
     super(props);
 
-    this.usermeta = {};
+    this.userdata = {};
 
     this.state = {
       page: e(LoadingPage),
@@ -2134,50 +2135,27 @@ class Account extends React.Component {
 
   componentWillMount() {
 
-    this.setState({
-      i18n: guyraGetI18n(),
-    });
+    var dataPromise = GuyraGetData();
 
-    fetch(rootUrl + 'api?get_user_data=1')
-    .then(res => res.json())
-    .then(res => {
+    dataPromise.then(res => {
 
-      let json = JSON.parse(res);
       let page;
 
-      this.usermeta = json;
+      this.userdata = res.userdata;
 
-      if (json.is_logged_in == true) {
+      if (this.userdata.is_logged_in == true) {
         page = this.getStartingPage();
       } else {
         page = this.getStartingPage(false);
       }
 
-      var finishUp = (i18n) => {
-
-        var obj = {
-          usermeta: this.usermeta,
-          page: page,
-        }
-
-        if (i18n) {
-          obj.i18n = thei18n;
-        }
-
-        this.setState(obj);
-
+      var obj = {
+        userdata: this.userdata,
+        i18n: res.i18n,
+        page: page,
       }
 
-      // Give the i18n some time to catch up if needed.
-      // We only do this here because this is often the first point of access for the user.
-      // Afterwards the data will be cached locally.
-      if (!this.state.i18n.company_name) {
-        setTimeout(() => {
-          finishUp(true);
-        }, 3000)
-      } else {
-        finishUp();
-      }
+      this.setState(obj);
 
     });
 
@@ -2192,7 +2170,7 @@ class Account extends React.Component {
   render() {
 
     var wrapperClass = 'account-squeeze page-squeeze rounded-box';
-    if (this.usermeta.is_logged_in == false) {
+    if (this.userdata.is_logged_in == false) {
       wrapperClass = wrapperClass + ' p-0';
     }
 

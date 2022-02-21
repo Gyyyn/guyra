@@ -100,7 +100,7 @@ export class RenderReplies extends React.Component {
 
     }
 
-    this.wrapperClass = 'dialog-box d-flex flex-column';
+    this.wrapperClass = 'dialog-box';
 
     if (this.props.wrapperClass) {
       this.wrapperClass = this.props.wrapperClass;
@@ -306,81 +306,118 @@ export class RenderReplies extends React.Component {
 
 export function guyraGetI18n() {
 
-  var localStorageI18n = window.localStorage.getItem('guyra_i18n');
-  var now = new Date();
+  return new Promise((resolve) => {
 
-  if (!localStorageI18n) {
-    localStorageI18n = {};
-  } else if (typeof localStorageI18n === 'string') {
-    localStorageI18n = JSON.parse(localStorageI18n);
-  }
+    var localStorageI18n = window.localStorage.getItem('guyra_i18n');
+    var now = new Date();
 
-  localStorageI18n.expires = new Date(localStorageI18n.expires);
+    if (!localStorageI18n) {
+      localStorageI18n = {};
+    } else if (typeof localStorageI18n === 'string') {
+      localStorageI18n = JSON.parse(localStorageI18n);
+    }
 
-  if (localStorageI18n && (localStorageI18n.expires > now)) {
-    thei18n = localStorageI18n.i18n;
-    return thei18n;
-  } else {
+    localStorageI18n.expires = new Date(localStorageI18n.expires);
 
-    fetch(rootUrl + 'api?i18n=full')
-    .then(res => res.json())
-    .then(json => {
+    if (localStorageI18n && (localStorageI18n.expires > now)) {
+      thei18n = localStorageI18n.i18n;
+      resolve(thei18n);
+    } else {
 
-      var oneWeekFromNow = now.setDate(now.getDate() + 7);
-      thei18n = json.i18n;
+      fetch(rootUrl + 'api?i18n=full')
+      .then(res => res.json())
+      .then(json => {
 
-      var localStorageI18n = {
-        i18n: json.i18n,
-        expires: oneWeekFromNow
-      }
+        var expires = now.setDate(now.getDate() + 1);
+        thei18n = json;
 
-      window.localStorage.setItem('guyra_i18n', JSON.stringify(localStorageI18n));
+        var localStorageI18n = {
+          i18n: json,
+          expires: expires
+        }
 
-    });
+        window.localStorage.setItem('guyra_i18n', JSON.stringify(localStorageI18n));
 
-    return thei18n;
+      });
 
-  }
+      resolve(thei18n);
+
+    }
+
+  });
 
 }
 
 export function guyraGetUserdata(args=[]) {
 
-  var localStorageUserdata = window.localStorage.getItem('guyra_userdata');
-  var now = new Date();
+  return new Promise(resolve => {
 
-  if (!localStorageUserdata) {
-    localStorageUserdata = {};
-  } else if (typeof localStorageUserdata === 'string') {
-    localStorageUserdata = JSON.parse(localStorageUserdata);
-  }
+    var localStorageUserdata = window.localStorage.getItem('guyra_userdata');
+    var now = new Date();
 
-  localStorageUserdata.expires = new Date(localStorageUserdata.expires);
+    if (!localStorageUserdata) {
+      localStorageUserdata = {};
+    } else if (typeof localStorageUserdata === 'string') {
+      localStorageUserdata = JSON.parse(localStorageUserdata);
+    }
 
-  if (localStorageUserdata && (localStorageUserdata.expires > now)) {
-    theUserdata = localStorageUserdata.userdata;
-    return theUserdata;
-  } else {
+    localStorageUserdata.expires = new Date(localStorageUserdata.expires);
 
-    fetch(rootUrl + 'api?get_user_data=1')
-    .then(res => res.json())
-    .then(json => {
+    if (localStorageUserdata && (localStorageUserdata.expires > now)) {
 
-      var oneDayFromNow = now.setDate(now.getDate() + 1);
-      theUserdata = JSON.parse(json);;
+      theUserdata = localStorageUserdata.userdata;
+      resolve(theUserdata);
 
-      var localStorageUserdata = {
-        userdata: theUserdata,
-        expires: oneDayFromNow
-      }
+    } else {
 
-      window.localStorage.setItem('guyra_userdata', JSON.stringify(localStorageUserdata));
+      fetch(rootUrl + 'api?get_user_data=1')
+      .then(res => res.json())
+      .then(json => {
 
-    });
+        var expires = now.setMinutes(now.getMinutes() + 1);
+        theUserdata = JSON.parse(json);
 
-    return theUserdata;
+        var localStorageUserdata = {
+          userdata: theUserdata,
+          expires: expires
+        }
 
-  }
+        window.localStorage.setItem('guyra_userdata', JSON.stringify(localStorageUserdata));
+
+        resolve(theUserdata);
+
+      });
+
+    }
+
+  });
+
+}
+
+export function GuyraGetData(args={}) {
+
+  return new Promise((resolve) => {
+
+    var userDataPromise = guyraGetUserdata();
+    var i18nPromise = guyraGetI18n();
+
+    var output = {};
+
+    i18nPromise.then(res => {
+
+      output.i18n = res;
+
+      userDataPromise.then(res => {
+
+        output.userdata = res;
+
+        resolve(output);
+
+      })
+
+    })
+
+  });
 
 }
 
@@ -391,11 +428,16 @@ export function Guyra_InventoryItem(props) {
   var useButtonExtraClass = '';
   var useButton = thei18n.use;
 
+  var disabledCats = [
+    "progress",
+    "flashcards",
+  ]
+
   if (!props.preview) {
     imagePreview = null;
   }
 
-  if (itemCategory == 'progress') {
+  if (disabledCats.indexOf(itemCategory) !== -1) {
     useButtonExtraClass = ' disabled';
     useButton = thei18n.cant_use;
   }
@@ -412,7 +454,7 @@ export function Guyra_InventoryItem(props) {
         "aria-label": thei18n.use,
         onClick: (e) => {
 
-          if (itemCategory == 'progress') {
+          if (disabledCats.indexOf(itemCategory) !== -1) {
             return;
           }
 

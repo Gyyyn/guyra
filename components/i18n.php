@@ -5,6 +5,7 @@ global $admin_url;
 global $site_url;
 global $is_logged_in;
 global $site_api_url;
+global $gLang;
 
 $i18n_links = [
 	'home_link' => $site_url,
@@ -71,7 +72,7 @@ function Fetchi18n($args=[]) {
 
 }
 
-$gi18n = Fetchi18n();
+$gi18n = Fetchi18n(['lang' => $gLang[0]]);
 $gi18n = array_merge($gi18n, $i18n_links);
 
 unset($i18n_links);

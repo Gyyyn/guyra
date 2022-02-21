@@ -22,7 +22,9 @@
     { "front": "to make", "back": "fazer (criar)" },
     { "front": "to say", "back": "dizer" },
     { "front": "to talk", "back": "conversar" },
-    { "front": "to discuss", "back": "discutir" }
+    { "front": "to discuss", "back": "discutir" },
+    { "front": "to thank", "back": "agradecer" },
+    { "front": "to apologize", "back": "se desculpar" }
   ],
 
   "flashcards_nouns_introduction": [
@@ -40,7 +42,6 @@
     { "front": "afternoon", "back": "tarde" },
     { "front": "how", "back": "como, quão" },
     { "front": "just", "back": "somente" },
-    { "front": "thank", "back": "agradecer" },
     { "front": "fine", "back": "bem" },
     { "front": "spell", "back": "soletrar" },
     { "front": "class", "back": "sala, aula" },

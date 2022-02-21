@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 const HelpContext = React.createContext();
 
@@ -235,12 +235,16 @@ class Help extends React.Component {
 
   componentWillMount() {
 
-    var thei18n = guyraGetI18n();
+    var dataPromise = GuyraGetData();
 
-    this.setState({
-      i18n: thei18n,
-      page: e(Help_Wrapper)
-    })
+    dataPromise.then(res => {
+
+      this.setState({
+        i18n: res.i18n,
+        page: e(Help_Wrapper)
+      })
+
+    });
 
   }
 

@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, randomNumber } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, randomNumber } from '%template_url/assets/js/Common.js';
 
 function shuffleArray(a) {
   var j, x, i;
@@ -1404,11 +1404,22 @@ export class Exercises extends React.Component {
 
   componentWillMount() {
 
-    this.i18n = guyraGetI18n();
-    this.initialState.i18n = this.i18n;
+    var dataPromise = GuyraGetData();
 
-    this.setState({
-      i18n: this.i18n
+    dataPromise.then(res => {
+
+      this.usermeta = res.userdata.gamedata;
+      this.gamedata = res.userdata.gamedata.raw;
+
+      this.i18n = res.i18n;
+      this.initialState.i18n = this.i18n;
+
+      this.setState({
+        i18n: this.i18n,
+        usermeta: this.usermeta,
+        gamedata: this.gamedata,
+      });
+
     });
 
     fetch(rootUrl + 'api?json=levelmap')
@@ -1442,23 +1453,12 @@ export class Exercises extends React.Component {
         });
       }
 
-      this.exerciseStartSound = new Audio(this.i18n.audio_link + 'start.ogg');
-      this.exerciseEndSound = new Audio(this.i18n.audio_link + 'end.ogg');
-      this.exerciseEndPerfectSound = new Audio(this.i18n.audio_link + 'perfect.ogg');
-      this.correctHitSound = new Audio(this.i18n.audio_link + 'hit.ogg');
-      this.wrongHitSound = new Audio(this.i18n.audio_link + 'miss.ogg');
+      this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.ogg');
+      this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.ogg');
+      this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.ogg');
+      this.correctHitSound = new Audio(thei18n.audio_link + 'hit.ogg');
+      this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.ogg');
 
-    });
-
-    fetch(rootUrl + 'api?json=usermeta')
-    .then(res => res.json())
-    .then(json => {
-      this.usermeta = json.usermeta;
-      this.gamedata = json.gamedata;
-      this.setState({
-        usermeta: this.usermeta,
-        gamedata: json.gamedata
-      })
     });
 
   }

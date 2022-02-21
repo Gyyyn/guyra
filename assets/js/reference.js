@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
 
 const ReferenceContext = React.createContext();
 
@@ -948,8 +948,14 @@ class Reference extends React.Component {
 
   componentWillMount() {
 
-    this.setState({
-      i18n: guyraGetI18n(),
+    var dataPromise = GuyraGetData();
+
+    dataPromise.then(res => {
+
+      this.setState({
+        i18n: res.i18n,
+      });
+
     });
 
     if (!this.state.phrasalsObject) {

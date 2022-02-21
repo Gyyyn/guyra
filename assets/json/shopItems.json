@@ -3,7 +3,7 @@
   "jackpot": {
     "price": "5",
     "image": "icons/jackpot-machine.png",
-    "items": ["jackpot"],
+    "items": {"jackpot": {}},
     "pin": true
   },
 
@@ -184,6 +184,24 @@
         "unit44",
         "unit45"
       ]
+    }
+  },
+
+  "flashcards_verbs1": {
+    "price": "5",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_verbs1": {}
+    }
+  },
+
+  "flashcards_nouns_introduction": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_nouns_introduction": {}
     }
   }
 

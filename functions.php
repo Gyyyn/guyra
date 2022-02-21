@@ -52,6 +52,14 @@ if ($gSettings['site_closed'] && !$is_admin) {
 	exit;
 }
 
+// Set up language.
+$gLang = ['pt', 'BR'];
+
+// Allow a language override.
+if ($_GET['lang']) {
+	$gLang = explode('-', $_GET['lang']);
+}
+
 include_once $template_dir . '/components/i18n.php';
 
 // Detect compatibility
@@ -69,7 +77,6 @@ include_once $template_dir . '/components/StreakTree.php';
 include_once $template_dir . '/components/Topbar.php';
 
 // All functions are loaded, from this point on we can change data.
-$gLang = ['pt', 'BR'];
 
 // Build an user meta associative array.
 $current_user_meta = guyra_get_user_meta($current_user_id, null, true);
@@ -111,6 +118,11 @@ if ($is_logged_in) {
 
 	// Set up diary data.
 	$current_user_diary = guyra_get_user_data($current_user_id, 'diary');
+
+	// If a language has been set we can load it here.
+	if (is_array($current_user_data['lang'])) {
+		$gLang = $current_user_data['lang'];
+	}
 
 	// Set up some defaults for uncreated data, and handle some time-based events.
 

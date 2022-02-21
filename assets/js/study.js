@@ -1,4 +1,4 @@
-import { guyraGetI18n, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
 
@@ -204,7 +204,7 @@ function UserHome_WelcomeCard(props) {
     var WelcomeGreeting_Button = (props) => {
       return e(
         'button',
-        { className: 'btn-tall blue d-flex flex-column justify-content-center align-items-center me-3',
+        { className: 'btn-tall btn-sm blue d-flex flex-column justify-content-center align-items-center me-2 mb-2',
         onClick: () => {
             props.onClick();
           } },
@@ -292,7 +292,7 @@ function UserHome_WelcomeCard(props) {
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
           e(
             'div',
-            { className: 'card trans mb-3 me-3' },
+            { className: 'card trans mb-2 me-2' },
             e('h4', {}, thei18n.streak),
             e(
               'span',
@@ -308,7 +308,7 @@ function UserHome_WelcomeCard(props) {
           ),
           e(
             'div',
-            { className: 'card trans mb-3 me-3' },
+            { className: 'card trans mb-2 me-2' },
             e('h4', { className: 'mb-2' }, thei18n.level),
             e('div', { className: 'd-flex align-items-center' }, userdata.gamedata.raw.challenges.daily.levels_completed + '/' + userdata.gamedata.raw.challenges.daily.levels),
             e('progress', { className: 'progress', id: 'daily-challenge', max: userdata.gamedata.raw.challenges.daily.levels, value: userdata.gamedata.raw.challenges.daily.levels_completed}),
@@ -410,7 +410,7 @@ function UserHome_Topbar(props) {
 
     return e(
       'div',
-      { className: 'list-group study-menu list-group-horizontal d-none d-md-flex' },
+      { className: 'list-group study-menu list-group-horizontal d-none d-md-flex mb-5' },
       buttonList
     );
 
@@ -471,17 +471,13 @@ class UserHome extends React.Component {
 
   componentWillMount() {
 
-    var thei18n = guyraGetI18n();
+    var dataPromise = GuyraGetData();
 
-    fetch(rootUrl + 'api?get_user_data=1')
-    .then(res => res.json())
-    .then(res => {
-
-      let userdata = JSON.parse(res);
+    dataPromise.then(res => {
 
       this.setState({
         page: e(UserHome_CardsRenderer),
-        userdata: userdata
+        userdata: theUserdata
       });
 
     });
@@ -533,7 +529,7 @@ class UserHome extends React.Component {
       {},
       e(
         'div',
-        { className: 'd-flex flex-column justify-content-center home-wrapper' },
+        { className: 'squeeze d-flex flex-column justify-content-center home-wrapper' },
         this.state.page
       )
     ));
