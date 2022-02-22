@@ -1,4 +1,17 @@
-import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, randomNumber, RoundedBoxHeading, RenderReplies } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  theUserdata,
+  LoadingIcon,
+  LoadingPage,
+  Guyra_InventoryItem,
+  randomNumber,
+  RoundedBoxHeading,
+  RenderReplies,
+  checkForTranslatables
+} from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
 
@@ -89,6 +102,7 @@ class UserHome_ReplyCard extends React.Component {
     .then(json => {
 
       if (json != 'true') {
+        console.log(json);
         console.error('Comment post error');
         return;
       }
@@ -120,15 +134,17 @@ class UserHome_ReplyCard extends React.Component {
       e(RoundedBoxHeading, { icon: 'icons/essay.png', value: thei18n.reply }),
       e(HomeContext.Consumer, null, ({userdata}) => {
 
+        var theReplies = Array.from(userdata.user_diary.user_comments);
+
         if (this.state.localReplies.length > 0) {
-          userdata.user_diary.user_comments = userdata.user_diary.user_comments.concat(this.state.localReplies);
+          theReplies = userdata.user_diary.user_comments.concat(this.state.localReplies);
         }
 
-        if (userdata.user_diary.user_comments == 0) {
+        if (theReplies == 0) {
           return;
         }
 
-        return userdata.user_diary.user_comments.map((reply, i) => {
+        return theReplies.map((reply, i) => {
 
           return e(RenderReplies, { reply: reply, replyId: i, maxAge: 7, disableReply: true });
 
@@ -227,29 +243,12 @@ function UserHome_WelcomeCard(props) {
             },
             value: [
               e('i', { className: 'bi bi-book' }),
-              thei18n.lessons
+              thei18n.homework
             ]
           },
         ))
       );
     }
-
-    WelcomeGreeting_buttons.push(
-      e(HomeContext.Consumer, null, ({addCard}) => e(
-        WelcomeGreeting_Button,
-        {
-          onClick: () => {
-            addCard([
-              { id: 'map', element: e(Roadmap) }
-            ], 2);
-          },
-          value: [
-            e('i', { className: 'bi bi-map' }),
-            thei18n.roadmap
-          ]
-        },
-      ))
-    );
 
     WelcomeGreeting_buttons.push(
       e(HomeContext.Consumer, null, ({addCard}) => e(
@@ -263,6 +262,23 @@ function UserHome_WelcomeCard(props) {
           value: [
             e('i', { className: 'bi bi-card-heading' }),
             thei18n.flashcards
+          ]
+        },
+      ))
+    );
+
+    WelcomeGreeting_buttons.push(
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            addCard([
+              { id: 'map', element: e(Roadmap) }
+            ], 2);
+          },
+          value: [
+            e('i', { className: 'bi bi-map' }),
+            thei18n.roadmap
           ]
         },
       ))
@@ -350,7 +366,11 @@ function UserHome_Topbar_buttonImage(props) {
 function UserHome_Topbar_button(props) {
 
   var imageE = null;
-  var buttonClassExtra = '';
+  var buttonClassExtra = ' ';
+
+  if (props.classExtra !== undefined) {
+    buttonClassExtra = buttonClassExtra + props.classExtra;
+  }
 
   if (props.image !== undefined) {
     imageE = e(UserHome_Topbar_buttonImage, { image: props.image });
@@ -367,12 +387,15 @@ function UserHome_Topbar_button(props) {
 
 }
 
+// TODO: Move this to Common.js and make the buttonList prop an object array
+// that is converted at to an element array by the component.
 function UserHome_Topbar(props) {
   return e(HomeContext.Consumer, null, ({userdata}) => {
 
     var buttonList = [
       e(UserHome_Topbar_button, {
         onClick: () => {},
+        classExtra: 'active',
         value: thei18n.study,
         image: 'icons/learning.png'
       }),

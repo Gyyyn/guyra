@@ -16,6 +16,11 @@
 	box-shadow: unset;
 }
 
+.btn:focus:not(.bs) {
+	border: unset;
+	box-shadow: unset;
+}
+
 .page-squeeze .list-group.study-menu {
   margin-bottom: 3rem;
   margin-top: 3rem;
@@ -195,7 +200,8 @@
 
 .form-control:not(.bs) {
   padding: unset;
-  border: unset;
+	border: unset;
+  outline: unset;
   color: unset;
   font-size: unset;
   font-weight: unset;
@@ -211,9 +217,9 @@ input.form-control:not(.bs),
   color: var(--guyra-black);
   font-family: var(--guyra-fonts-text);
   border: unset;
+  outline: unset;
   background: var(--guyra-grey);
   border-radius: var(--guyra-border-radius);
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
   width: 100%;
 }
 
@@ -221,13 +227,13 @@ input.form-control:focus:not(.bs),
 .form-control input:focus {
   color: var(--guyra-blacker);
   background: var(--guyra-grey);
-  border: unset;
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
-  box-shadow: var(--guyra-box-shadow-outline-onwhite-smaller);
+	border: unset;
+  outline: unset;
 }
 
 input.form-control:focus-visible,
 .form-control input:focus-visible {
+	border: unset;
   outline: unset;
 }
 

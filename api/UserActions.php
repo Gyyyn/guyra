@@ -16,6 +16,8 @@ global $current_user_payments;
 global $current_user_subscription_valid;
 global $is_admin;
 global $is_GroupAdmin;
+global $cache_dir;
+global $redirect;
 
 Guyra_Safeguard_File();
 
@@ -92,12 +94,6 @@ if ($_GET['update_userdata']) {
   if ($nonce) {
     if ($_GET['action'] == 'confirm_mail' && $_SESSION['confirm_mail'][$current_user_id] == $nonce) {
 
-      // For now we need to update the WP DB too.
-      wp_update_user([
-        'ID' => $user,
-        'user_email' => $current_user_object['user_login'],
-      ]);
-
       $current_user_data['mail_confirmed'] = 'true';
       $quit = false;
 
@@ -112,7 +108,6 @@ if ($_GET['update_userdata']) {
     // set by itself because of it.
     if ($data['fields'][0] == 'user_pass') {
 
-      wp_set_password($data['user_pass'], $current_user_id);
       guyra_update_user_meta($current_user_id, 'user_pass', password_hash($data['user_pass'], PASSWORD_DEFAULT));
 
       $creds = array(
@@ -123,8 +118,8 @@ if ($_GET['update_userdata']) {
 
       $user = Guyra_Login_User($creds);
 
-      if (is_wp_error($user)) {
-        guyra_output_json($user->get_error_message(), true);
+      if ($user['error']) {
+        guyra_output_json($user['error'], true);
       } else {
         guyra_output_json('true', true);
       }
@@ -173,7 +168,21 @@ if ($_GET['update_userdata']) {
 }
 
 if ($_GET['logout']) {
+  ?>
+  <script type="text/javascript">
+  localStorage.removeItem('guyra_userdata');
+  localStorage.removeItem('guyra_i18n');
+
+  localStorage.setItem('guyra_members', JSON.stringify({
+    user_name: "<?php echo $current_user_data['first_name']; ?>",
+    user_email: "<?php echo $current_user_object['user_login']; ?>"
+  }));
+
+  window.location.href = "<?php echo $gi18n['home_link']; ?>";
+  </script>
+  <?php
   Guyra_Logout_User();
+  exit;
 }
 
 if ($_GET['get_user_data']) {
@@ -208,11 +217,6 @@ if ($_GET['get_user_data']) {
 
 if ($_GET['get_identicon']) {
 
-  global $template_dir;
-  global $template_url;
-  global $cache_dir;
-  global $redirect;
-
   $hash = $_GET['hash'];
 
   $cached_identicon_path = '/assets/' . md5('Icon' . $hash) . '.png';
@@ -237,6 +241,7 @@ if ($_GET['get_identicon']) {
 if ($_GET['post_reply']) {
 
   $thePost = json_decode(file_get_contents('php://input'), true);
+  $notify = false;
 
   // Validations
   if (!$thePost['comment'])
@@ -245,13 +250,19 @@ if ($_GET['post_reply']) {
   if (isset($thePost['replyTo']) && (!$is_GroupAdmin || !$is_admin))
   guyra_output_json('action not allowed', true);
 
-  if ($thePost['diaryId'] != $current_user_id && (!$is_GroupAdmin || !$is_admin))
+  if (isset($thePost['diaryId']) && ($thePost['diaryId'] != $current_user_id) && (!$is_GroupAdmin || !$is_admin))
   guyra_output_json('action not allowed', true);
 
   $user = (int) $thePost['diaryId'];
 
-  if ($thePost['diaryId'] == $current_user_id) {
+  if (!isset($thePost['diaryId']))
+  $user = $current_user_id;
+
+  if ($user == $current_user_id) {
+
     $diary = &$current_user_diary;
+    $notify = $current_user_data['teacherid'];
+
   } else {
     $diary = guyra_get_user_data($user, 'diary');
   }
@@ -283,6 +294,16 @@ if ($_GET['post_reply']) {
   guyra_update_user_data($user, ['user_comments' => $diary['user_comments']], null, 'diary');
 
   Guyra_increase_user_level($current_user_id, 2);
+
+  // Finally send a notification to the Group Admin.
+  if ($notify != false) {
+
+    $notification = $gi18n['notification_user_posted'];
+    $notification['title'] = str_replace("%user", $current_user_data['first_name'], $notification['title']);
+
+    PushNotification($notification, $notify);
+
+  }
 
   guyra_output_json('true', true);
 

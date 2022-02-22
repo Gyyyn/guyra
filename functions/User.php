@@ -4,32 +4,49 @@ Guyra_Safeguard_File();
 
 function Guyra_Login_User($creds) {
 
+  global $current_user_id;
   global $current_user_object;
+  global $secondsForA;
+
+  if (!$creds['user_login'])
+  return ['error' => 'login empty'];
+
+  if (!$creds['user_password'])
+  return ['error' => 'password empty'];
 
   $attempted_login = guyra_get_user_object(null, $creds['user_login']);
   $attempted_login_password = guyra_get_user_meta($attempted_login['user_id'], 'user_pass', true)['meta_value'];
 
-  // if (password_verify($creds['user_pass'], $attempted_login_password)) {
-  //   // Login user here
-  //
-  //   // WARNING: For now we must login admins through WP as well.
-  //   // Remove this once we finish migrating.
-  //   if ($creds['user_type'] === 'admin') {
-  //     wp_signon($creds, true);
-  //   }
-  //
-  // }
+  if (!$attempted_login)
+  return ['error' => 'user_not_found'];
 
-  $user = wp_signon($creds, true);
+  if (password_verify($creds['user_password'], $attempted_login_password)) {
 
-  // NOTE: Remove this once all users have been migrated.
-  if (!$attempted_login_password && $attempted_login['user_id']) {
-    guyra_update_user_meta($attempted_login['user_id'], 'user_pass', password_hash($creds['user_pass'], PASSWORD_DEFAULT));
+    // Auth passed, set all the globals.
+    $current_user_id = (int) $attempted_login['user_id'];
+
+    setcookie(
+      'guyra_auth',
+      $attempted_login['user_id'] . '_' . md5($attempted_login_password),
+      time() + $secondsForA['year'],
+      '/'
+    );
+
+  } else {
+    return ['error' => 'password check failed'];
   }
 
   return $user;
+
 }
 
 function Guyra_Logout_User($user=0) {
-  wp_logout();
+
+  global $current_user_object;
+
+  unset($_COOKIE['guyra_auth']);
+  setcookie('guyra_auth', '', time() - 3600, '/');
+
+  return true;
+
 }

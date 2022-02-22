@@ -126,7 +126,7 @@ class DiaryEntry extends React.Component {
         e(
           'button',
           {
-            className: "btn-tall btn-sm green",
+            className: "btn-tall btn-sm green me-2",
             onClick: (event) => {
 
               var theDate = document.getElementById('datepicker-' + this.props.id).value;
@@ -159,7 +159,7 @@ class DiaryEntry extends React.Component {
         e(
           'button',
           {
-            className: "btn-tall btn-sm blue",
+            className: "btn-tall btn-sm blue me-2",
             onClick: () => {
               this.setState({
                 dateSection: this.datePicker
@@ -182,7 +182,7 @@ class DiaryEntry extends React.Component {
     return e(
       'div',
       {
-        className: 'diary-entry row w-100 justfade-animation animate',
+        className: 'diary-entry row g-3 justfade-animation animate',
         key: 'diary-entry-' + this.props.id
       },
       e(
@@ -217,7 +217,7 @@ class DiaryEntry extends React.Component {
             }
           }
         },
-        this.props.entry.status
+        thei18n._diary.status[this.props.entry.status]
       )}),
       e(
         'div',
@@ -376,7 +376,7 @@ function DiaryEntries(props) {
   return e(DiaryContext.Consumer, null, ({diary}) => e(
     'div',
     {
-      className: 'diary-entries'
+      className: 'diary-entries px-2'
     },
     e(DiaryPaginatedEntries, {entries: Object.values(diary.entries)})
   ));
@@ -385,7 +385,7 @@ function DiaryEntries(props) {
 function DiarySubmit(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'diary-new-entry row w-100 align-items-center justfade-animation animate' },
+    { className: 'align-items-center animate bg-white diary-new-entry justfade-animation m-0 mt-3 more-rounded p-2 row' },
     e(
       'span',
       { className: 'col-3 text-grey-darker text-end'},
@@ -405,7 +405,7 @@ function DiarySubmit(props) {
         'input',
         {
           placeholder: i18n.comment + '...',
-          className: "w-100",
+          className: "form-control w-100",
           id: "newentry-comment"
         }
       )
@@ -448,10 +448,10 @@ function DiaryControls(props) {
     var paymentsButton = e(DiaryContext.Consumer, null, ({openPayments, i18n}) => e(
       'button',
       {
-        className: 'btn-tall blue me-3',
+        className: 'btn-tall blue me-2',
         onClick: () => { openPayments(); }
       },
-      e('i', { className: "bi bi-wallet2 me-1"}),
+      e('i', { className: "bi bi-wallet2 me-1" }),
       i18n.payment
     ))
   } else {
@@ -464,6 +464,47 @@ function DiaryControls(props) {
       className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-5'
     },
     paymentsButton,
+    e(DiaryContext.Consumer, null, ({diary, name, i18n}) => e(
+      'button',
+      {
+        className: 'btn-tall green me-2',
+        onClick: () => {
+
+          var exportString = [
+            thei18n.date,
+            thei18n.status,
+            thei18n.comment
+          ];
+
+          exportString = exportString.join(',') + "\n";
+
+          diary.entries.forEach((entry, i) => {
+
+            var stringConcat = [
+              entry.date,
+              thei18n._diary.status[entry.status],
+              entry.comment
+            ];
+
+            exportString = exportString + stringConcat.join(',') + '\n';
+
+          });
+
+          var element = document.createElement("a");
+          var file = new Blob([exportString], {type: "application/csv"});
+          element.href = URL.createObjectURL(file);
+          element.download = thei18n.diary_for + ' ' + name + ".csv";
+          element.click();
+
+          // Clean up
+          file = null;
+          element.remove();
+
+        }
+      },
+      e('i', { className: 'bi bi-file-earmark-spreadsheet me-1' }),
+      'Export',
+    )),
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
       {
@@ -654,7 +695,7 @@ class PaymentAreaEntry extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary}) => e(
       'div',
       {
-        className: 'diary-entry pop-animation animate w-100 row mt-3'
+        className: 'diary-entry pop-animation animate row mt-3'
       },
       e(
         'span',
@@ -678,7 +719,7 @@ class PaymentAreaEntry extends React.Component {
             changePaymentEntry(this.props.index, 'status', 'pending');
           }
         }
-      }, diary.payments[this.props.index].status)),
+      }, thei18n._diary.status[diary.payments[this.props.index].status])),
       this.state.dateSection
     ));
   }
@@ -696,7 +737,7 @@ class PaymentArea extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
       { className: 'justfade-animation animate mt-5' },
-      e('h4', { className: 'border-bottom pb-3 mb-3' }, i18n.payment),
+      e('h2', { className: 'mb-3' }, i18n.payment),
       e(PaymentAreaInfo),
       e(
         'div',
@@ -706,13 +747,16 @@ class PaymentArea extends React.Component {
       e(
         'div',
         {
-          className: 'w-100 row diary-new-entry mt-3'
+          className: 'row align-items-center diary-new-entry m-0 mt-3 p-2 bg-white more-rounded'
         },
         e(
           'span',
-          { className: 'col-2 d-flex flex-row' },
-          e('span', { className: 'me-3' }, 'R$'),
-          e('input', { id: 'the-payment-value', className: 'w-100', type: 'number' })
+          { className: 'col-2 d-flex flex-row position-relative' },
+          e(
+            'input',
+            { id: 'the-payment-value', className: 'form-control w-100', type: 'number', placeholder: 'Ex.: 100' }
+          ),
+          e('span', { for: 'the-payment-value', className: 'end-0 me-3 position-absolute top-50 translate-middle' }, 'R$'),
         ),
         e(
           'span',
@@ -728,7 +772,7 @@ class PaymentArea extends React.Component {
             'input',
             {
               id: 'the-payment-due',
-              className: 'w-100',
+              className: 'form-control w-100',
               type: 'date',
               min: this.today
             }
@@ -963,9 +1007,9 @@ class Diary extends React.Component {
         DiaryContext.Provider,
         {value: this.state},
         e(
-          'h4',
-          { className: 'pb-3 mb-3' },
-          this.state.i18n.diary_for,
+          'h2',
+          { className: 'mb-3' },
+          this.state.i18n.diary_for + ' ',
           e('span', { className: 'badge bg-primary rounded' }, this.state.name)
         ),
         this.state.page

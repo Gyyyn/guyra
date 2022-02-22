@@ -7,6 +7,7 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 global $is_admin;
+global $redirect;
 
 if ($_GET['disable_cache'] != 'true') {
   nocache_headers();
@@ -18,7 +19,7 @@ $redirect = false;
 // If user isn't logged in he only has a few options.
 if (!$is_logged_in) {
   include $template_dir . '/api/GuestUser.php';
-  exit;
+  guyra_output_json('true', true);
 }
 
 include $template_dir . '/api/Shop.php';
@@ -45,7 +46,7 @@ include $template_dir . '/api/UserActions.php';
 include $template_dir . '/api/Exercises.php';
 
 // If we have no redirect then we assume things went right.
-if (!$_POST['redirect'] || !$_GET['redirect'])
+if (!$_POST['redirect'] && !$_GET['redirect'] && !$redirect)
 guyra_output_json('true', true);
 
 $redirect = (!$_GET['redirect']) ? $site_url : $_GET['redirect'];

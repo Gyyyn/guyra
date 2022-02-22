@@ -130,7 +130,7 @@ ob_end_clean(); ?>
       <div class="navbar-brand d-flex me-3">
         <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
           <span class="navbar-center-title">
-            <img class="mb-1" alt="Guyra" src="<?php echo $gi18n['title_img']; ?>" />
+            <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo $gi18n['title_img']; ?>" />
           </span>
         </a>
       </div>
@@ -141,29 +141,29 @@ ob_end_clean(); ?>
 
           <?php if (!$is_logged_in): ?>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['homepage']; ?></a>
           </li>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-info"><?php echo $gi18n['info']; ?></a>
           </li>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-prices"><?php echo $gi18n['prices']; ?></a>
           </li>
 
           <?php else: ?>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm purple" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
           </li>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
           </li>
 
-          <li class="nav-item me-3">
+          <li class="nav-item me-2">
             <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['ranking_link']; ?>"><?php echo $gi18n['ranking']; ?></a>
           </li>
 
@@ -181,7 +181,7 @@ ob_end_clean(); ?>
 
           <?php else: ?>
 
-          <li class="nav-item me-1">
+          <li class="nav-item me-2">
             <?php RenderNotificationsDropdown(['offset' => '-200,-20']); ?>
           </li>
 

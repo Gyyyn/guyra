@@ -1,4 +1,4 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, GuyraParseDate } from '%template_url/assets/js/Common.js';
+import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, Guyra_InventoryItem, GuyraParseDate, RoundedBoxHeading } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -89,7 +89,7 @@ function AccountPayment_paymentForm(props) {
       'div',
       { className: 'row gy-3' },
 
-      e('h4', { className: 'mb-3' }, i18n.payment),
+      e('h3', { className: 'mt-3 mb-1' }, i18n.payment),
 
       e(
         'div',
@@ -165,7 +165,7 @@ function AccountPayment_paymentForm(props) {
         e('input', { type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
       ),
 
-      e('h4', { className: 'mb-3' }, i18n.identification),
+      e('h3', { className: 'mt-3 mb-1' }, i18n.identification),
 
       e(
         'div',
@@ -181,7 +181,7 @@ function AccountPayment_paymentForm(props) {
         e(
           'span',
           { className: 'd-flex flex-row' },
-          e('select', { className: 'me-3', name: 'identificationType', id: 'form-checkout__identificationType'}),
+          e('select', { className: 'me-3 w-25', name: 'identificationType', id: 'form-checkout__identificationType'}),
           e('input', { type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
         ),
       ),
@@ -224,7 +224,7 @@ function AccountPayment_planSelect(props) {
     {
       className: 'account-plans'
     },
-    e(AccountContext.Consumer, null, ({i18n}) => e('h4', {}, i18n.plans)),
+    e(AccountContext.Consumer, null, ({i18n}) => e('h3', {}, i18n.plans)),
     e(PaymentContext.Consumer, null, ({setPlan}) => e(
       'ul',
       { className: 'list-group more-rounded study-menu mt-0 mb-3' },
@@ -635,7 +635,10 @@ class AccountPayment extends React.Component {
         className: 'slideleft-animation animate account-payment'
       },
       e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountOptions) })),
-      e(AccountContext.Consumer, null, ({i18n}) => e('h2', { className: 'text-blue my-3' }, i18n.subscription)),
+      e(AccountContext.Consumer, null, ({i18n}) => e(
+        RoundedBoxHeading,
+        { value: i18n.subscription, icon: 'icons/credit-card.png' }
+      )),
       e(
         'div',
         { className: 'row g-3' },
@@ -731,7 +734,7 @@ function AccountOptions_changePassword(props) {
               ).then(res => res.json())
               .then(json => {
                 if (json != 'true') {
-                  setMessageBox(i18n.something_went_wrong + ' ' + json);
+                  setMessageBox(i18n[json]);
                 }
               });
 
@@ -1884,107 +1887,137 @@ function Register(props) {
   ));
 }
 
-function LoginForm(props) {
-  return e(AccountContext.Consumer, null, ({i18n}) => e(
-    'div',
-    { className: 'form-control p-5' },
-    e(
+class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.emailField = '';
+
+    var member = window.localStorage.getItem('guyra_members');
+
+    if (typeof member === 'string') {
+      member = JSON.parse(member);
+    }
+
+    if (member.user_email) {
+      this.emailField = member.user_email;
+    }
+
+    this.state = {
+      emailField: this.emailField,
+    }
+
+  }
+
+  onChangeEmail = (event) => {
+    this.setState({
+      emailField: event.target.value
+    });
+  }
+
+  render() {
+    return e(AccountContext.Consumer, null, ({i18n}) => e(
       'div',
-      { className: 'mb-3'},
-      e('h2', { className: 'text-primary'}, i18n.login)
-    ),
-    e(
-      'div',
-      { className: 'mb-3'},
-      e('label', { for: 'profile-email' }, i18n.email),
-      e('input', { id: 'profile-email', name: 'user_email', type: "email", className: "input-email", placeholder: "you@example.com" })
-    ),
-    e(
-      'div',
-      { className: 'mb-3'},
+      { className: 'form-control p-5' },
       e(
-        'span',
-        { className: '' },
-        e('label', { for: 'profile-password' }, i18n.password),
-        e('input', { id: 'profile-password', name: 'user_password', type: "password", className: "input-password" }),
-      )
-    ),
-    e(
-      'div',
-      { className: 'd-flex flex-row align-items-center justify-content-between' },
+        'div',
+        { className: 'mb-3'},
+        e('h2', { className: 'text-primary'}, i18n.login)
+      ),
       e(
-        'button',
-        {
-          className: 'btn-tall blue w-25 my-3',
-          type: 'submit',
-          onClick: (e) => {
-
-            var dataToPost = {};
-            var previousHTML = '';
-            previousHTML = e.target.innerHTML;
-            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-            dataToPost = {
-              user_email: document.getElementById('profile-email').value,
-              user_password: document.getElementById('profile-password').value
-            };
-
-            fetch(
-               i18n.api_link + '?login=1',
-              {
-                method: "POST",
-                headers: {
-                  'Accept': 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataToPost)
-              }
-            )
-            .then(res => res.json())
-            .then(json => {
-
-              if (json == 'true') {
-                window.location = i18n.home_link;
-              } else {
-                setMessageBox(json);
-              }
-
-              e.target.innerHTML = previousHTML;
-            });
-
-          }
-        },
-        i18n.button_login
-      )
-    ),
-    e(AccountContext.Consumer, null, ({setPage}) => e(
-      'div',
-      { className: 'd-flex flex-row align-items-center my-5' },
+        'div',
+        { className: 'mb-3'},
+        e('label', { for: 'profile-email' }, i18n.email),
+        e('input', { id: 'profile-email', value: this.state.emailField, onChange: this.onChangeEmail, name: 'user_email', type: "email", className: "input-email", placeholder: "you@example.com" })
+      ),
       e(
-       'button',
-         {
-           className: 'btn-tall w-50 me-3',
-           onClick: () => {
-             setPage(e(LostPassword));
-             window.location.hash = '#lostpassword';
-           }
-         },
-         i18n.forgot_password
-       ),
-       e(
-        'button',
-        {
-          className: 'btn-tall green w-50',
-          onClick: () => {
-            setPage(e(Register));
-            window.location.hash = '#register';
-          }
-        },
-        i18n.register
-      )
-    )),
-    e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
-  ));
+        'div',
+        { className: 'mb-3'},
+        e(
+          'span',
+          { className: '' },
+          e('label', { for: 'profile-password' }, i18n.password),
+          e('input', { id: 'profile-password', name: 'user_password', type: "password", className: "input-password" }),
+        )
+      ),
+      e(
+        'div',
+        { className: 'd-flex flex-row align-items-center justify-content-between' },
+        e(
+          'button',
+          {
+            className: 'btn-tall blue w-25 my-3',
+            type: 'submit',
+            onClick: (e) => {
+
+              var dataToPost = {};
+              var previousHTML = '';
+              previousHTML = e.target.innerHTML;
+              e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+              dataToPost = {
+                user_email: document.getElementById('profile-email').value,
+                user_password: document.getElementById('profile-password').value
+              };
+
+              fetch(
+                 i18n.api_link + '?login=1',
+                {
+                  method: "POST",
+                  headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(dataToPost)
+                }
+              )
+              .then(res => res.json())
+              .then(json => {
+
+                if (json == 'true') {
+                  window.location = i18n.home_link;
+                } else {
+                  setMessageBox(i18n[json]);
+                }
+
+                e.target.innerHTML = previousHTML;
+              });
+
+            }
+          },
+          i18n.button_login
+        )
+      ),
+      e(AccountContext.Consumer, null, ({setPage}) => e(
+        'div',
+        { className: 'd-flex flex-row align-items-center my-5' },
+        e(
+         'button',
+           {
+             className: 'btn-tall w-50 me-3',
+             onClick: () => {
+               setPage(e(LostPassword));
+               window.location.hash = '#lostpassword';
+             }
+           },
+           i18n.forgot_password
+         ),
+         e(
+          'button',
+          {
+            className: 'btn-tall green w-50',
+            onClick: () => {
+              setPage(e(Register));
+              window.location.hash = '#register';
+            }
+          },
+          i18n.register
+        )
+      )),
+      e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
+    ));
+  }
+
 }
 
 class Login extends React.Component {
@@ -2069,14 +2102,14 @@ function LostPassword(props) {
                 fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
                 .then(res => res.json())
                 .then(json => {
-                  if (json == 'sent') {
+                  if (json == 'true') {
                     setMessageBox(i18n.forgot_password_email_sent);
                   } else {
-                    setMessageBox(i18n.something_went_wrong + '<br />' + json);
+                    setMessageBox(i18n[json]);
                   }
                 });
               } else {
-                setMessageBox(i18n.missing_fields);
+                setMessageBox(i18n['login empty']);
               }
 
             }
@@ -2149,13 +2182,11 @@ class Account extends React.Component {
         page = this.getStartingPage(false);
       }
 
-      var obj = {
+      this.setState({
         userdata: this.userdata,
         i18n: res.i18n,
         page: page,
-      }
-
-      this.setState(obj);
+      });
 
     });
 

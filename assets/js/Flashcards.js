@@ -37,6 +37,8 @@ class Flashcards_Exercise_CurrentView extends React.Component {
       view: this.props.front
     };
 
+    this.flipSound = new Audio(thei18n.audio_link + 'paperflip.ogg');
+
   }
 
   flipCard() {
@@ -45,6 +47,8 @@ class Flashcards_Exercise_CurrentView extends React.Component {
 
     theCard.classList.remove('slideleft-animation');
     theCard.classList.add('flip-animation');
+
+    this.flipSound.play();
 
     setTimeout(() => {
 
@@ -60,7 +64,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
 
       theCard.classList.remove('flip-animation');
 
-    }, 350);
+    }, 300);
 
   }
 
@@ -110,6 +114,18 @@ class Flashcards_Exercise extends React.Component {
     this.state = {
       currentCard: this.props.deck.splice(0, 1)[0],
       userCanAnswer: true
+    };
+
+    this.easySound = new Audio(thei18n.audio_link + 'easy.ogg');
+    this.normalSound = new Audio(thei18n.audio_link + 'normal.ogg');
+    this.hardSound = new Audio(thei18n.audio_link + 'hard.ogg');
+    this.vHardSound = new Audio(thei18n.audio_link + 'v_hard.ogg');
+
+    this.sounds = {
+      easy: this.easySound,
+      normal: this.normalSound,
+      hard: this.hardSound,
+      v_hard: this.vHardSound,
     };
 
   }
@@ -177,6 +193,9 @@ class Flashcards_Exercise extends React.Component {
 
     user_gamedata.flashcards.cards[cardHash] = newOffset;
 
+    // Play the answer sound and set next card.
+    this.sounds[type].play();
+
     this.nextCard();
 
     // Set a delay to avoid code weirdness and accidental clicks.
@@ -225,7 +244,7 @@ function Flashcards_YourItems_ItemListing(props) {
 
   return e(FlashcardsContext.Consumer, null, ({setPack, setPage}) => e(
     'div',
-    { className: 'card trans' },
+    { className: 'card trans mb-3 me-3' },
     e('span', { className: 'fw-bold mb-3' }, thei18n._items[props.name].name),
     e(
       'button',

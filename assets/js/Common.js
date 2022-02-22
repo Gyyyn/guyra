@@ -311,13 +311,13 @@ export function guyraGetI18n() {
     var localStorageI18n = window.localStorage.getItem('guyra_i18n');
     var now = new Date();
 
-    if (!localStorageI18n) {
-      localStorageI18n = {};
-    } else if (typeof localStorageI18n === 'string') {
+    if (typeof localStorageI18n === 'string') {
       localStorageI18n = JSON.parse(localStorageI18n);
     }
 
-    localStorageI18n.expires = new Date(localStorageI18n.expires);
+    if (typeof localStorageI18n === 'object' && localStorageI18n !== null) {
+      localStorageI18n.expires = new Date(localStorageI18n.expires);
+    }
 
     if (localStorageI18n && (localStorageI18n.expires > now)) {
       thei18n = localStorageI18n.i18n;
@@ -338,9 +338,9 @@ export function guyraGetI18n() {
 
         window.localStorage.setItem('guyra_i18n', JSON.stringify(localStorageI18n));
 
-      });
+        resolve(thei18n);
 
-      resolve(thei18n);
+      });
 
     }
 
@@ -382,7 +382,9 @@ export function guyraGetUserdata(args=[]) {
           expires: expires
         }
 
-        window.localStorage.setItem('guyra_userdata', JSON.stringify(localStorageUserdata));
+        if (theUserdata.is_logged_in) {
+          window.localStorage.setItem('guyra_userdata', JSON.stringify(localStorageUserdata));
+        }
 
         resolve(theUserdata);
 
@@ -419,6 +421,12 @@ export function GuyraGetData(args={}) {
 
   });
 
+}
+
+export function Guyra_Logout_User() {
+  // TODO: Finish this function once the header is transfered to React.
+  localStorage.removeItem('guyra_userdata');
+  localStorage.removeItem('guyra_i18n');
 }
 
 export function Guyra_InventoryItem(props) {
@@ -579,4 +587,70 @@ export function GuyraParseDate(date) {
 
   return new Date(parseInt(splittings[2]), parseInt(splittings[1]) - 1, parseInt(splittings[0]));
 
+}
+
+// Translatables
+export function checkForTranslatables() {
+  var translatables = document.querySelectorAll('.translatable');
+
+  translatables.forEach((item, i) => {
+
+    var tooltip = document.createElement('div');
+    tooltip.innerHTML = '<i class="bi bi-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
+    tooltip.classList.add('gtooltip');
+    item.parentNode.insertBefore(tooltip, item.nextSibling);
+
+    var placement = 'top';
+
+    if (item.dataset['placement']) {
+      placement = item.dataset['placement'];
+    }
+
+    const popperInstance = Popper.createPopper(item, tooltip, {
+      placement: placement,
+    });
+
+    function show() {
+      // Make the tooltip visible
+      tooltip.setAttribute('data-show', '');
+
+      // Enable the event listeners
+      popperInstance.setOptions((options) => ({
+        ...options,
+        modifiers: [
+          ...options.modifiers,
+          { name: 'eventListeners', enabled: true },
+        ],
+      }));
+
+      // Update its position
+      popperInstance.update();
+    }
+
+    function hide() {
+      // Hide the tooltip
+      tooltip.removeAttribute('data-show');
+
+      // Disable the event listeners
+      popperInstance.setOptions((options) => ({
+        ...options,
+        modifiers: [
+          ...options.modifiers,
+          { name: 'eventListeners', enabled: false },
+        ],
+      }));
+    }
+
+    const showEvents = ['mouseenter', 'focus'];
+    const hideEvents = ['mouseleave', 'blur'];
+
+    showEvents.forEach((event) => {
+      item.addEventListener(event, show);
+    });
+
+    hideEvents.forEach((event) => {
+      item.addEventListener(event, hide);
+    });
+
+  });
 }

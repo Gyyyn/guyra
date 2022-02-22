@@ -36,13 +36,15 @@
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--guyra-grey);
-    margin: 0;
-    padding: 1rem 0 !important;
+    margin: 0.25rem 0;
+    padding: 1rem !important;
+    background: var(--guyra-white);
+    border-radius: var(--guyra-border-radius-bigger);
   }
 
   .diary-entry > * {
-    width: 100%;
     margin-top: 1rem;
+    padding: 0;
   }
 
   .diary-info {
@@ -64,22 +66,6 @@
 .diary-entries .diary-entry {
     padding: .75rem 0;
     border-bottom: 1px solid var(--guyra-grey);
-}
-
-.diary-new-entry {
-  margin-top: .5rem;
-}
-
-.diary-new-entry input {
-  border: unset;
-  padding: .5rem 1rem;
-  font-size: var(--guyra-fonts-textsize-s);
-  color: var(--guyra-black);
-  font-family: var(--guyra-fonts-text);
-  background: var(--guyra-grey);
-  border-radius: var(--guyra-border-radius);
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
-  margin-right: .25rem;
 }
 
 #day-picker {

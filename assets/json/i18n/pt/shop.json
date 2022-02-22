@@ -199,12 +199,12 @@
 
     "flashcards_verbs1": {
       "name": "Deck de cartas: Verbos 1",
-      "preview": "%site_url/api/?get_image=icons/cards.png&size=64"
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     },
 
     "flashcards_nouns_introduction": {
       "name": "Deck de cartas: Palavras 1",
-      "preview": "%site_url/api/?get_image=icons/cards.png&size=64"
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     }
 
   }

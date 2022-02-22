@@ -1,4 +1,12 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingIcon,
+  LoadingPage,
+  checkForTranslatables
+} from '%template_url/assets/js/Common.js';
 
 const ReferenceContext = React.createContext();
 
@@ -854,7 +862,7 @@ class Dictionary extends React.Component {
       e(
         'div',
         { className: 'cc-warning border-top text-smaller text-muted pt-1 mt-3 text-center' },
-        window.HTMLReactParser(i18n.cc_warning)
+        window.HTMLReactParser(thei18n.cc_warning)
       )
     ]);
   }

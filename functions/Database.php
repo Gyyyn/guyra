@@ -21,8 +21,8 @@ function GetStandardDate() {
 }
 
 function guyra_log_to_file($object='something happened') {
-  $object = GetStandardDate() . ': ' . $object . '\r\n';
-  // file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
+  $object = GetStandardDate() . ': ' . $object . '\\r\\n';
+  file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 
 function Guyra_GetDBConnection($args=[]) {
@@ -85,8 +85,6 @@ function guyra_database_create_db() {
 
   $db->close();
 
-  guyra_log_to_file($sql);
-
 }
 
 function guyra_handle_query_error($error='') {
@@ -111,6 +109,7 @@ function guyra_handle_query_error($error='') {
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
   global $current_user_meta;
+  global $current_user_id;
 
   // If there is already a loaded in user meta variable we can just return that.
   if ( ($user === $current_user_id) && (isset($current_user_meta)) && (isset($current_user_meta[$meta_key])) ) {
@@ -168,7 +167,6 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -205,7 +203,6 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -231,7 +228,6 @@ function guyra_remove_user_meta($user, $meta_key, $return=false) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -253,7 +249,6 @@ function guyra_log_to_db($user, $object) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -279,7 +274,6 @@ function guyra_get_logdb_items($amount=10, $return=false) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -293,7 +287,6 @@ function guyra_log_error_todb($object) {
   $db->query($sql);
 
   $db->close();
-  guyra_log_to_file($sql);
 
 }
 
@@ -356,38 +349,6 @@ function guyra_get_user_data($user_id, $datatype='userdata') {
 
 }
 
-// WARNING: do not migrate this function outside of wordpress.
-function check_for_user_migration($user_id) {
-
-  $wp_user = get_user_by('id', $user_id);
-
-  if ($wp_user != false) {
-
-    $flags = [
-      'wp_migrated_user' => true,
-      'force_user_id' => $user_id
-    ];
-    $user_type = 'user';
-    $user_data = guyra_update_user_data($user_id, ['user_email' => null]);
-
-    if ($user_data['role'] === 'teacher') {
-      $user_type = 'admin';
-    }
-
-    $migrated_user = guyra_create_user($wp_user->user_email, $user_type, $flags);
-
-    if ($migrated_user != false) {
-      return guyra_get_user_object($migrated_user);
-    } else {
-      return $migrated_user;
-    }
-
-  } else {
-    return false;
-  }
-
-}
-
 function guyra_get_user_object($user_id, $user_email=null) {
 
   $db = Guyra_GetDBConnection();
@@ -425,7 +386,6 @@ function guyra_get_user_object($user_id, $user_email=null) {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
 
   return $output;
 
@@ -434,16 +394,9 @@ function guyra_get_user_object($user_id, $user_email=null) {
 function build_user_object($user_id) {
 
   $user = guyra_get_user_object($user_id);
+  $output = false;
 
-  if ($user === false) {
-    $user_migrate = check_for_user_migration($user_id);
-
-    if ($user_migrate != false) {
-      $output = $user_migrate;
-    } else {
-      $output = false;
-    }
-  } else {
+  if ($user) {
 
     $user['flags'] = json_decode($user['flags'], true);
 
@@ -471,20 +424,23 @@ function guyra_generate_user_id() {
 
   return $random;
 
-
 }
 
 function guyra_create_user($login, $type='user', $flags=[]) {
 
+  // Check if this login already exists.
+  $loginCheck = guyra_get_user_object(null, $login);
+
+  if ($loginCheck) {
+    return ['error' => 'user already exists'];
+  }
+
+  unset($loginCheck);
+
+  // Check passes, proceed as normal.
   $db = Guyra_GetDBConnection();
 
   $user_id = guyra_generate_user_id();
-
-  // TODO: Remove this bit once we migrate out of WP
-  if ($flags['force_user_id']) {
-    $user_id = $flags['force_user_id'];
-    unset($flags['force_user_id']);
-  }
 
   $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
   VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
@@ -583,7 +539,7 @@ function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
   }
 
   $db->close();
-  guyra_log_to_file($sql);
+
   return $output;
 
 }

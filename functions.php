@@ -11,7 +11,7 @@ add_action('init', 'ForceHTTPS');
 
 // Define the app version.
 if (!defined('GUYRA_VERSION')) {
-	define('GUYRA_VERSION', '0.1.2');
+	define('GUYRA_VERSION', '0.2.0');
 }
 
 // Setup some globals.
@@ -27,7 +27,7 @@ $secondsForA = [
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $cache_dir = $template_dir . '/cache';
-$site_url = get_site_url();
+$site_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
 $admin_url = get_admin_url();
 $site_api_url = $site_url . '/api';
 
@@ -35,14 +35,15 @@ $site_api_url = $site_url . '/api';
 include_once $template_dir . '/functions/Server.php';
 Guyra_Safeguard_File();
 
+// Load database functions
+include_once $template_dir . '/functions/Database.php';
+
 // Handle settings and authentication.
 include_once $template_dir . '/functions/Security.php';
 
 // Setup some user-specific globals.
 $gSettings = GuyraGetSettings();
-$current_user_id = get_current_user_id();
-$is_logged_in = is_user_logged_in();
-$is_admin = Guyra_Is_Admin();
+$is_logged_in = Guyra_IsLoggedIn();
 
 // If the site is closed load no further.
 if ($gSettings['site_closed'] && !$is_admin) {
@@ -69,7 +70,6 @@ if (strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false ||
 	exit;
 }
 
-include_once $template_dir . '/functions/Database.php';
 include_once $template_dir . '/functions/PWA.php';
 include_once $template_dir . '/functions/Notifications.php';
 include_once $template_dir . '/components/ProfilePicture.php';
@@ -96,9 +96,6 @@ if ($is_logged_in) {
 
 	// Set up user object for authentication.
 	$current_user_object = build_user_object($current_user_id);
-
-	// Set up WP data. TODO: Remove this once we migrate out of WP
-	$current_user_meta = get_user_meta($current_user_id);
 
 	// Set up user data.
 	$current_user_data = guyra_get_user_data($current_user_id);
@@ -166,6 +163,7 @@ if ($is_logged_in) {
 }
 
 // Now we can determine special user privileges.
+$is_admin = Guyra_Is_Admin();
 $is_GroupAdmin = ($current_user_data['role'] == 'teacher' || $current_user_data['role'] == 'schooladmin');
 $is_tester = ($current_user_data['role'] == 'tester');
 

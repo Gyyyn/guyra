@@ -350,13 +350,21 @@
    "guyra_thanks_you":"Obrigado por escolher a Guyrá ❤️",
    "clear_group":"Tirar grupo",
    "no_diary":"Nenhum diário foi encontrado, gostaria de criar um?",
-   "no_userpage":"Este usuário não tem uma página ainda.",
+   "no_userpage":"Este usuário não tem uma página ainda!",
    "no_comments":"Nenhum comentário foi encontrado.",
    "comment_missing":"Por favor adicione um comentário.",
    "value_missing":"Por favor adicione um valor.",
    "user_ingroup":"Este usuário está em um grupo. Pra ver o diário, abra o diário do grupo.",
    "delete_confirm":"Tem certeza que quer deletar?",
-   "diary_for":"Diário para: ",
+   "diary_for":"Diário de",
+   "_diary": {
+     "status": {
+      "finished":"Finalizada",
+      "absent":"Falta",
+      "pending":"Em aberto",
+      "ok":"OK"
+     }
+   },
    "full_comments":"Todas as respostas",
    "archive_student":"Arquivar aluno",
    "archive_student_explain":" <p>Se este aluno nao está mais ativo ele pode ser arquivado. Ele vai sair da sua lista de aluno mas ainda vai ter acesso ao site.</p> <p>Uma vez arquivado você não vai ter mais acesso a esse aluno a não ser que ele use seu código de novo.</p> \t",
@@ -367,11 +375,11 @@
    "manage_your_plan":"Gerenciar seu plano",
    "card": {
      "holder": "Titular do cartão",
-     "holder_ex": "John Smith",
+     "holder_ex": "Ex.: John Smith",
      "number": "Número do cartão",
-     "number_ex": "1234 5678 9101 1121",
+     "number_ex": "Ex.: 1234 5678 9101 1121",
      "sec_code": "Código de segurança",
-     "sec_code_ex": "123",
+     "sec_code_ex": "Ex.: 123",
      "issuer": "Emissor",
      "exp_month": "Mês de vencimento",
      "exp_year": "Ano de vencimento",
@@ -379,7 +387,7 @@
      "id": "Documento",
      "doc_type": "Tipo de documento",
      "doc_number": "Número do documento",
-     "email_ex": "johnsmith@example.com"
+     "email_ex": "Ex.: johnsmith@example.com"
    },
    "issuer_master":"Mastercard",
    "issuer_visa":"VISA",
@@ -444,13 +452,20 @@
       "title":"O item que você adquiriu está no seu inventário.",
       "contents":""
    },
+   "notification_user_posted":{
+      "title":"%user postou uma resposta!",
+      "contents":"Corrija o quanto antes."
+   },
    "something_went_wrong":"Algo deu errado, tente de novo.",
    "post error":"Houve um erro no envio de informações, tente de novo",
    "file_error":"Houve um erro no envio do arquivo.",
    "file_too_big":"Arquivo grande demais.",
    "error":"Houve um erro.",
    "captcha_error":"Houve um erro com o CAPTCHA.",
-   "user_not_found":"Usuário não encontrado.",
+   "user_not_found":"Usuário não encontrado!",
+   "login empty":"O email não pode estar vazio!",
+   "password empty":"A senha não pode estar vazia!",
+   "password check failed":"A senha está incorreta!",
    "error invalid plan":"O plano escolhido é inválido",
    "comment_error":"Erro ao enviar comentário",
    "deck error": "Houve um erro ao processar este pacote. Tente de novo mais tarde.",
