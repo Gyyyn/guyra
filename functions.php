@@ -97,6 +97,10 @@ if ($is_logged_in) {
 	// Set up user object for authentication.
 	$current_user_object = build_user_object($current_user_id);
 
+	// if ($current_user_object['flags']['wp_migrated_user']) {
+	// 	// TODO: Create user ID migration.
+	// }
+
 	// Set up user data.
 	$current_user_data = guyra_get_user_data($current_user_id);
 
@@ -267,16 +271,6 @@ function disable_emojis() {
 }
 add_action( 'init', 'disable_emojis' );
 add_filter( 'show_admin_bar', '__return_false' );
-function prevent_wp_login() {
-  global $pagenow;
-	global $gi18n;
-
-  if($pagenow == 'wp-login.php') {
-    Guyra_Redirect($gi18n['account_link']);
-    exit;;
-  }
-}
-add_action('init', 'prevent_wp_login');
 function custom_die_handler( $message, $title="", $args = array() ) {
 
 	global $gSettings;

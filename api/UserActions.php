@@ -17,7 +17,6 @@ global $current_user_subscription_valid;
 global $is_admin;
 global $is_GroupAdmin;
 global $cache_dir;
-global $redirect;
 
 Guyra_Safeguard_File();
 
@@ -92,78 +91,76 @@ if ($_GET['update_userdata']) {
   // If any action requires nonce we can do them first, then
   // the json output will exit and nothing else will run.
   if ($nonce) {
-    if ($_GET['action'] == 'confirm_mail' && $_SESSION['confirm_mail'][$current_user_id] == $nonce) {
 
-      $current_user_data['mail_confirmed'] = 'true';
-      $quit = false;
+    if ($_GET['action'] == 'confirm_mail' && $_SESSION['confirm_mail'][$current_user_id] == $nonce)
+    $current_user_data['mail_confirmed'] = 'true';
 
-    } else {
-      guyra_output_json('false', true);
-    }
+    // TODO: Handle nonce fail.
+
+    $redirect = $gi18n['account_link'];
+
   }
 
-  if ($data) {
+  // By now if we don't have any posted date the logic can't continue.
+  if (!$data)
+  guyra_output_json('post error');
 
-    // 'user_pass' fields needs different logic and can only be
-    // set by itself because of it.
-    if ($data['fields'][0] == 'user_pass') {
+  // 'user_pass' fields needs different logic and can only be
+  // set by itself because of it.
+  if ($data['fields'][0] == 'user_pass') {
 
-      guyra_update_user_meta($current_user_id, 'user_pass', password_hash($data['user_pass'], PASSWORD_DEFAULT));
+    guyra_update_user_meta($current_user_id, 'user_pass', password_hash($data['user_pass'], PASSWORD_DEFAULT));
 
-      $creds = array(
-        'user_login'    => $current_user_object['user_login'],
-        'user_password' => $data['user_pass'],
-        'remember'      => true
-      );
+    $creds = array(
+      'user_login'    => $current_user_object['user_login'],
+      'user_password' => $data['user_pass'],
+      'remember'      => true
+    );
 
-      $user = Guyra_Login_User($creds);
+    $user = Guyra_Login_User($creds);
 
-      if ($user['error']) {
-        guyra_output_json($user['error'], true);
-      } else {
-        guyra_output_json('true', true);
-      }
+    if ($user['error']) {
+      guyra_output_json($user['error'], true);
+    }
+
+    guyra_output_json('true', true);
+
+  }
+
+  // Since we got here, it means we are updating other data fields.
+  foreach ($data['fields'] as $field) {
+
+    if ($field == 'user_email') {
+
+      $userNewMail = $data[$field];
+
+      guyra_update_user($user, ['user_login' => $userNewMail]);
+
+      $current_user_data['mail_confirmed'] = 'false';
+      $bytes = bin2hex(random_bytes(16));
+      $_SESSION['confirm_mail'][$user] = $bytes;
+
+      $link = $site_api_url . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
+
+      $string_replacements = [
+        $gi18n['confirm_email_email_title'],
+        $gi18n['confirm_email_email_message'],
+        $link,
+        $link
+      ];
+
+      Guyra_mail('lost_password.html', $gi18n['confirm_email_email_title'], $userNewMail, $string_replacements);
 
     } else {
-
-      foreach ($data['fields'] as $field) {
-
-        if ($field == 'user_email') {
-
-          $userNewMail = $data[$field];
-
-          guyra_update_user($user, ['user_login' => $userNewMail]);
-
-          $current_user_data['mail_confirmed'] = 'false';
-          $bytes = bin2hex(random_bytes(16));
-          $_SESSION['confirm_mail'][$user] = $bytes;
-
-          $link = $site_api_url . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
-
-          $string_replacements = [
-            $gi18n['confirm_email_email_title'],
-            $gi18n['confirm_email_email_message'],
-            $link,
-            $link
-          ];
-
-          Guyra_mail('lost_password.html', $gi18n['confirm_email_email_title'], $userNewMail, $string_replacements);
-
-          $quit = true;
-
-        } else {
-          $current_user_data[$field] = $data[$field];
-        }
-      }
-
+      $current_user_data[$field] = $data[$field];
     }
+
   }
 
   guyra_update_user_meta($current_user_id, 'userdata', json_encode($current_user_data, JSON_UNESCAPED_UNICODE));
 
-  if ($quit) {
-    guyra_output_json('true', true);
-  }
+  if ($redirect)
+  Guyra_Redirect($redirect);
 
 }
 
@@ -221,8 +218,7 @@ if ($_GET['get_identicon']) {
 
   $cached_identicon_path = '/assets/' . md5('Icon' . $hash) . '.png';
   $cached_identicon = $cache_dir . $cached_identicon_path;
-  $cached_identicon_file = file_get_contents($cached_identicon);
-  $redirect = $template_url . '/cache' . $cached_identicon_path;
+  $cached_identicon_file = file_exists($cached_identicon);
 
   if (!$cached_identicon_file) {
 
@@ -235,6 +231,8 @@ if ($_GET['get_identicon']) {
     file_put_contents($cached_identicon, $icon->getImageData('png'));
 
   }
+
+  Guyra_Redirect($template_url . '/cache' . $cached_identicon_path);
 
 }
 
@@ -314,7 +312,7 @@ if ($_GET['post_attachment']) {
 }
 
 if ($_GET['redirect_meeting']) {
-  $redirect = $current_user_data['user_meetinglink'];
+  Guyra_Redirect($current_user_data['user_meetinglink']);
 }
 
 if ($_GET['get_image']) {
@@ -332,8 +330,6 @@ if ($_GET['get_image']) {
   } else {
     $size = 64;
   }
-
-  // $redirect = GetImageCache($_GET['get_image'], $size);
 
   $r = GetImageCache($_GET['get_image'], $size, 'png', 80, true);
 

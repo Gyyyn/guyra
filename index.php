@@ -1,38 +1,30 @@
 <?php
 
-global $template_dir;
-global $is_logged_in;
-global $is_admin;
+function DecideStartingPage() {
 
-if($is_logged_in) {
+  global $template_dir;
+  global $is_logged_in;
+  global $is_admin;
+  global $current_user_data;
+  global $gSettings;
 
-  if ($is_admin && $_GET['page'] == 'admin') {
+  if($is_logged_in) {
 
-    include $template_dir . '/pages/SuperAdminControlPanel.php';
+    if ($is_admin && $_GET['page'] == 'admin')
+    return $template_dir . '/pages/SuperAdminControlPanel.php';
 
-  } else {
+    if ($current_user_data['role'] == 'teacher')
+    return $template_dir . '/pages/GroupAdminControlPanel.php';
 
-    if ($current_user_data['role'] == 'teacher') {
-
-      include $template_dir . '/pages/GroupAdminControlPanel.php';
-
-    } else {
-
-      include $template_dir . '/pages/UserHomePage.php';
-
-    }
-  }
-
-} else {
-
-  if ($gSettings['landing_open'] == true) {
-
-    include $template_dir . '/pages/Landing.php';
-
-  } else {
-
-    include $template_dir . '/pages/LandingLogin.php';
+    return $template_dir . '/pages/UserHomePage.php';
 
   }
+
+  if ($gSettings['landing_open'] == true)
+  return $template_dir . '/pages/Landing.php';
+
+  return $template_dir . '/pages/LandingLogin.php';
 
 }
+
+include_once DecideStartingPage();

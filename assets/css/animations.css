@@ -122,9 +122,15 @@
 /* Flips */
 .flip-animation {
   animation: flip 0.35s;
+  transform-style: preserve-3d;
 }
 
 /* Common */
+
+.perspective {
+  perspective: 500px;
+}
+
 .animate {
   transition: var(--guyra-transition);
 }

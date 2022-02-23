@@ -198,7 +198,7 @@ function UserHome_WelcomeCard(props) {
       'div',
       { className: 'dialog-box' },
       e('span', { className: 'fw-bold' }, 'Você tem ' + TrialDaysLeft + ' dias no seu teste grátis.'),
-      e('progress', { max: 30, value: TrialDaysLeft }),
+      e('progress', { className: 'progress', max: 30, value: TrialDaysLeft }),
     );
 
     var WelcomeNoPlanWarning = e(
@@ -319,7 +319,7 @@ function UserHome_WelcomeCard(props) {
             e(
               'span',
               { className: 'd-flex flex-row text-ss' },
-              thei18n.biggest + ': ' + streak_info.streak_record + ' ' + thei18n.days,
+              thei18n.biggest + ': ' + ((streak_info.streak_record) ? streak_info.streak_record : "0") + ' ' + thei18n.days,
             ),
           ),
           e(

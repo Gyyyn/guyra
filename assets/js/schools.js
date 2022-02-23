@@ -1320,9 +1320,11 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
 
       // Sometimes we need a list of users to apply all actions however.
       this.groupUsersIds = [];
+      this.groupUsersNames = [];
 
       this.props.group.forEach((user) => {
         this.groupUsersIds.push(user.id);
+        this.groupUsersNames.push(user.userdata.first_name);
       });
 
       this.listingUserId = this.groupUsersIds.join(',');
@@ -1331,9 +1333,13 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.diary = theUserdata.user_diary;
 
       this.listingTitle = [
-        e('span', { className: 'fw-bold' }, this.props.groupName),
+        e('span', { className: 'fw-bold' }, this.props.groupName,
+          e('span', { className: 'ms-2 text-grey-darkest' }, '(' + this.groupUsersNames.join(', ') + ')')
+        ),
         e('span', { className: 'ms-1' }, null),
       ];
+
+      this.avatar = null;
 
     } else {
 
@@ -1349,6 +1355,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e('span', { className: 'fw-bold' }, this.representativeUser.userdata.first_name),
         e('span', { className: 'ms-1' }, this.representativeUser.userdata.last_name),
       ];
+
+      this.avatar = e('img', { className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
 
     }
 
@@ -1428,7 +1436,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           e(
             'span',
             {},
-            e('img', { className: 'avatar page-icon tiny', src: '' }),
+            this.avatar,
           ),
           e(
             'span',

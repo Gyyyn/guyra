@@ -45,8 +45,8 @@ class Flashcards_Exercise_CurrentView extends React.Component {
 
     var theCard = document.getElementById('current-view-card');
 
-    theCard.classList.remove('slideleft-animation');
-    theCard.classList.add('flip-animation');
+    theCard.classList.remove('slideleft-animation', 'animate');
+    theCard.classList.add('flip-animation', 'animate');
 
     this.flipSound.play();
 
@@ -71,7 +71,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-column justify-content-center align-items-center mb-3' },
+      { className: 'perspective d-flex flex-column justify-content-center align-items-center mb-3' },
       e(
         'div',
         { className: 'card trans animate slideleft-animation', id: 'current-view-card' },

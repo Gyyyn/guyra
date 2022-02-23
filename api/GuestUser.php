@@ -15,11 +15,8 @@ require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Mailer.php';
 include_once $template_dir . '/functions/User.php';
 
-if ($_GET['i18n'] == 'full') {
-
-  guyra_output_json($gi18n, true);
-
-}
+if ($_GET['i18n'] == 'full')
+guyra_output_json($gi18n, true);
 
 if ($_GET['get_user_data']) {
 
