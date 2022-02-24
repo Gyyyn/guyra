@@ -764,11 +764,11 @@
       ["I remember visiting there last year! ", "remember", "(lembro)"],
       ["I exercised today already. ", "exercised", "(me exercitei)"],
       ["I used to play in a band. ", "used to", "(costumava)"],
-      ["I collected dolls when I saw a kid. ", "collected", "(colecionava)"]
+      ["I collected dolls when I was a kid. ", "collected", "(colecionava)"]
     ],
 
     "WhatYouHear": [
-      ["I collected dolls when I saw a kid, it was fun!"],
+      ["I collected dolls when I was a kid, it was fun!"],
       ["I exercised today already. It was nice."],
       ["We saw a cool movie and then we went to a restaurant."],
       ["We went swimming and then walked on the beach."],

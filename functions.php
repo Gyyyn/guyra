@@ -74,7 +74,6 @@ include_once $template_dir . '/functions/PWA.php';
 include_once $template_dir . '/functions/Notifications.php';
 include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/StreakTree.php';
-include_once $template_dir . '/components/Topbar.php';
 
 // All functions are loaded, from this point on we can change data.
 

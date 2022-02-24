@@ -1,6 +1,7 @@
 import {
   e,
   GuyraGetData,
+  Study_Topbar,
   rootUrl,
   thei18n,
   theUserdata,
@@ -353,93 +354,6 @@ function UserHome_WelcomeCard(props) {
   });
 }
 
-function UserHome_Topbar_buttonImage(props) {
-  return e(
-    'span',
-    { className: 'menu-icon me-1' },
-    e('img',
-      { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=' + props.image + '&size=32' }
-    )
-  );
-}
-
-function UserHome_Topbar_button(props) {
-
-  var imageE = null;
-  var buttonClassExtra = ' ';
-
-  if (props.classExtra !== undefined) {
-    buttonClassExtra = buttonClassExtra + props.classExtra;
-  }
-
-  if (props.image !== undefined) {
-    imageE = e(UserHome_Topbar_buttonImage, { image: props.image });
-  }
-
-  return e(
-    'a',
-    { className: 'list-group-item' + buttonClassExtra, onClick: () => {
-      props.onClick();
-    }},
-    imageE,
-    e('span', { className: 'd-none d-md-inline' }, props.value)
-  );
-
-}
-
-// TODO: Move this to Common.js and make the buttonList prop an object array
-// that is converted at to an element array by the component.
-function UserHome_Topbar(props) {
-  return e(HomeContext.Consumer, null, ({userdata}) => {
-
-    var buttonList = [
-      e(UserHome_Topbar_button, {
-        onClick: () => {},
-        classExtra: 'active',
-        value: thei18n.study,
-        image: 'icons/learning.png'
-      }),
-    ];
-
-    if (userdata.user_subscription_valid) {
-      buttonList.push(
-        e(UserHome_Topbar_button, {
-          onClick: () => { window.location.href = thei18n.practice_link; },
-          value: thei18n.practice,
-          image: 'icons/target.png'
-        }),
-        e(UserHome_Topbar_button, {
-          onClick: () => { window.location.href = thei18n.courses_link; },
-          value: thei18n.courses,
-          image: 'icons/online-learning.png'
-        }),
-        e(UserHome_Topbar_button, {
-          onClick: () => { window.location.href = thei18n.reference_link; },
-          value: thei18n.ultilities,
-          image: 'icons/layers.png'
-        }),
-      );
-    }
-
-    if (userdata.teacherid) {
-      buttonList.push(
-        e(UserHome_Topbar_button, {
-          onClick: () => { window.location.href = thei18n.api_link + '?redirect_meeting=1'; },
-          value: thei18n.meeting,
-          image: 'icons/video-camera.png'
-        }),
-      );
-    }
-
-    return e(
-      'div',
-      { className: 'list-group study-menu list-group-horizontal d-none d-md-flex mb-5' },
-      buttonList
-    );
-
-  });
-}
-
 class UserHome_CardsRenderer extends React.Component {
   constructor(props) {
     super(props)
@@ -478,7 +392,7 @@ class UserHome extends React.Component {
     super(props);
 
     this.defaultCards = [
-      { id: 'topbar', class: 'userhome-topbar d-flex justify-content-center', element: e(UserHome_Topbar) },
+      { id: 'topbar', class: 'userhome-topbar d-flex justify-content-center', element: e(Study_Topbar) },
       { id: 'welcome', element: e(UserHome_WelcomeCard) }
     ];
 

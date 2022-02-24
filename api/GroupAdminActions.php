@@ -25,58 +25,41 @@ if (count($user_is_users) > 1) {
 
     $canActionThisUser = (in_array($user, $allowedUsers) || $is_admin);
 
-    if ($canActionThisUser) {
+    // Exploit prevention.
+    if (!$canActionThisUser)
+    guyra_output_json('false', true);
 
-      if ($_GET['meetinglink']) {
-        guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
-      }
-
-    }
+    if ($_GET['meetinglink'])
+    guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
 
   }
 
-} elseif ($canDoActionsHere) {
+}
 
-// ---
+// In case someone gets here and shouldn't.
+if (!$canDoActionsHere)
+guyra_output_json('false', true);
+
 // Manually assign a user to a group.
-// ---
-if ($_GET['assigntogroup']) {
-  guyra_update_user_data($user, 'studygroup', $_GET['assigntogroup']);
-}
+if ($_GET['assigntogroup'])
+guyra_update_user_data($user, 'studygroup', $_GET['assigntogroup']);
 
-// ---
 // Archive an user.
-// ---
-if ($_GET['clearteacher']) {
-  guyra_update_user_data($user, ['teacherid' => null, 'studygroup' => null]);
-}
+if ($_GET['clearteacher'])
+guyra_update_user_data($user, ['teacherid' => null, 'studygroup' => null]);
 
-// ---
-// Manually a link to a user.
-// ---
-if ($_GET['meetinglink']) {
-  guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
-}
+// Manually add a link to a user.
+if ($_GET['meetinglink'])
+guyra_update_user_data($user, 'user_meetinglink', $_GET['meetinglink']);
 
-// ---
 // Remove an user from a group.
-// ---
-if ($_GET['cleargroup']) {
-  guyra_update_user_data($user, ['studygroup' => null]);
-}
+if ($_GET['cleargroup'])
+guyra_update_user_data($user, ['studygroup' => null]);
 
-// ---
 // Update a user's diary.
-// ---
-if ($_GET['action'] == 'update_diary') {
-  guyra_update_user_meta($user, 'diary', file_get_contents('php://input'));
-}
+if ($_GET['action'] == 'update_diary')
+guyra_update_user_meta($user, 'diary', file_get_contents('php://input'));
 
-// ---
 // Get a list of actionable users.
-// ---
-if ($_GET['action'] == 'fetch_users') {
-  guyra_output_json($users, true);
-}
-
-} // endif
+if ($_GET['action'] == 'fetch_users')
+guyra_output_json($users, true);

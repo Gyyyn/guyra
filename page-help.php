@@ -1,9 +1,5 @@
 <?php
 
-global $template_dir;
-global $site_url;
-global $is_logged_in;
-
 Guyra_Safeguard_Access();
 
 get_header();

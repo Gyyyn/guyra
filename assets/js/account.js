@@ -8,7 +8,8 @@ import {
   Guyra_InventoryItem,
   GuyraParseDate,
   RoundedBoxHeading,
-  validatePhoneNumber
+  validatePhoneNumber,
+  createTooltip
 } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
@@ -221,9 +222,9 @@ function AccountPayment_planSelect(props) {
   }
 
   if (selectedPlan == 'premium') {
-    premiumPlanExtraClass = 'active';
+    premiumPlanExtraClass = 'bg-primary text-white';
   } else if (selectedPlan == 'lite') {
-    litePlanExtraClass = 'active';
+    litePlanExtraClass = 'bg-primary text-white';
   }
 
   if (thei18n.prices_features[selectedPlan]) {
@@ -238,12 +239,12 @@ function AccountPayment_planSelect(props) {
     e(AccountContext.Consumer, null, ({i18n}) => e('h3', {}, i18n.plans)),
     e(PaymentContext.Consumer, null, ({setPlan}) => e(
       'ul',
-      { className: 'list-group more-rounded study-menu mt-0 mb-3' },
+      { className: 'list-group more-rounded mt-0 mb-3' },
 
       e(
         'li',
         {
-          id: 'plan-option-lite', className: 'list-group-item lh-sm ' + litePlanExtraClass,
+          id: 'plan-option-lite', className: 'list-group-item cursor-pointer lh-sm ' + litePlanExtraClass,
           onClick: () => {
             setPlan('lite');
           }
@@ -264,7 +265,7 @@ function AccountPayment_planSelect(props) {
       e(
         'li',
         {
-          id: 'plan-option-premium', className: 'list-group-item d-flex justify-content-between lh-sm ' + premiumPlanExtraClass,
+          id: 'plan-option-premium', className: 'list-group-item cursor-pointer d-flex justify-content-between lh-sm ' + premiumPlanExtraClass,
           onClick: () => {
             setPlan('premium');
           }
@@ -684,89 +685,99 @@ class AccountPayment extends React.Component {
 function AccountOptions_changePassword(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'profile-change-password slideleft-animation animate' },
-    e(Account_BackButton, { page: e(AccountOptions) }),
+    { className: 'profile-change-password slideleft-animation animate row' },
+    e('h1', { className: 'text-blue mb-4' }, i18n.change_password),
     e(
-      'h3',
-      { className: 'text-blue my-3' },
-      i18n.change_password
+      'div',
+      { className: 'col-md-4 mb-3 mb-md-0' },
+      e(
+        'div',
+        { className: 'card trans' },
+        e('h4', { className: 'mb-2' }, i18n.warning),
+        i18n.password_safety_warning
+      )
     ),
     e(
       'div',
-      { className: 'form-control' },
+      { className: 'col' },
       e(
         'div',
-        { className: 'd-flex flex-row mb-3'},
+        { className: 'form-control' },
         e(
-          'span',
-          { className: 'w-50 pe-3' },
-          e('label', { for: 'profile-new-password' }, i18n.new_password),
-          e('input', { id: 'profile-new-password', type: "password", className: "input-new-password" }),
-        ),
-        e(
-          'span',
-          { className: 'w-50' },
-          e('label', { for: 'profile-new-password-again' }, i18n.new_password_again),
-          e('input', { id: 'profile-new-password-again', type: "password", className: "input-new-password-again" })
+          'div',
+          { className: 'd-flex flex-column mb-4' },
+          e(
+            'span',
+            { className: 'form-floating mb-2' },
+            e('input', { id: 'profile-new-password', type: "password", className: "input-new-password form-control", placeholder: '1' }),
+            e('label', { for: 'profile-new-password' }, i18n.new_password),
+          ),
+          e(
+            'span',
+            { className: 'form-floating' },
+            e('input', { id: 'profile-new-password-again', type: "password", className: "input-new-password-again form-control", placeholder: '1' }),
+            e('label', { for: 'profile-new-password-again' }, i18n.new_password_again),
+          ),
         ),
       ),
-    ),
-    e(AccountContext.Consumer, null, ({setPage}) => e(
-      'button',
-      {
-        onClick: (e) => {
+      e(Account_BackButton, { page: e(AccountOptions) }),
+      e(AccountContext.Consumer, null, ({setPage}) => e(
+        'button',
+        {
+          className: 'btn-tall green ms-2',
+          onClick: (e) => {
 
-          var dataToPost = {};
-          var loadingBefore = e.target.innerHTML;
-          e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+            var dataToPost = {};
+            var loadingBefore = e.target.innerHTML;
+            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-          var password = document.getElementById('profile-new-password').value;
-          var passwordConfirm = document.getElementById('profile-new-password-again').value;
+            var password = document.getElementById('profile-new-password').value;
+            var passwordConfirm = document.getElementById('profile-new-password-again').value;
 
-          if ( (password === passwordConfirm && password != '')) {
+            if ( (password === passwordConfirm && password != '')) {
 
-            if (password.length >= 8) {
-              dataToPost = {
-                fields: ['user_pass'],
-                user_pass: password
-              };
+              if (password.length >= 8) {
+                dataToPost = {
+                  fields: ['user_pass'],
+                  user_pass: password
+                };
 
-              fetch(
-                 i18n.api_link + '?update_userdata=1',
-                {
-                  method: "POST",
-                  headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(dataToPost)
-                }
-              ).then(res => res.json())
-              .then(json => {
-                if (json != 'true') {
-                  setMessageBox(i18n[json]);
-                }
-              });
+                fetch(
+                   i18n.api_link + '?update_userdata=1',
+                  {
+                    method: "POST",
+                    headers: {
+                      'Accept': 'application/json, text/plain, */*',
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToPost)
+                  }
+                ).then(res => res.json())
+                .then(json => {
+                  if (json != 'true') {
+                    setMessageBox(i18n[json]);
+                  }
+                });
+
+              } else {
+                setMessageBox(i18n.password_too_small);
+              }
 
             } else {
-              setMessageBox(i18n.password_too_small);
+              setMessageBox(i18n.nonmatch_fields);
             }
 
-          } else {
-            setMessageBox(i18n.nonmatch_fields);
+            setTimeout(() => {
+              e.target.innerHTML = loadingBefore;
+            }, 500);
+
           }
-
-          setTimeout(() => {
-            e.target.innerHTML = loadingBefore;
-          }, 500);
-
         },
-        className: 'btn-tall blue'
-      },
-      i18n.save,
-      e('i', { className: 'bi bi-save ms-1' }),
-    )),
-    e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
+        e('i', { className: 'bi bi-save me-2' }),
+        i18n.save,
+      )),
+      e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
+    )
   ));
 }
 
@@ -1339,74 +1350,102 @@ function WhoAmI_openPayments_paymentItem(props) {
 
   var itemDue = GuyraParseDate(props.item.due);
 
-  var paymentMethod = e(AccountContext.Consumer, null, ({userdata, i18n}) => {
-
-    var paymentMethodString = '';
-    if (userdata.user_payment_method == null) {
-      paymentMethodString = 'PIX';
-    } else {
-      paymentMethodString = userdata.user_payment_method;
-    }
-  });
-
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'payments-pay slideleft-animation animate' },
     e(Account_BackButton, { page: e(AccountWrapper) }),
     e(
       'div',
-      { className: 'payment-item row' },
+      { className: 'payment-item row mt-3' },
       e(
         'div',
-        { className: 'qr-code col-4' },
+        { className: 'qr-code col-auto' },
         e(
-          'img',
-          {
-            className: 'page-icon large',
-            alt: 'QR Code',
-            src: i18n.api_link + '?get_image=img/qrcode.jpg&size=256'
-          }
-        )
+          'div',
+          { className: 'card trans blue' },
+          e('h3', { className: 'mb-2' },
+            i18n.qr_code,
+            e(
+              'button',
+              {
+                className: 'btn',
+                onMouseOver: (event) => {
+
+                  var tooltip = createTooltip(event.target, i18n.pix_qr_code_explain, {class: 'text-font-text'});
+
+                  event.target.onmouseout = () => {
+                    tooltip.remove();
+                  }
+
+                }
+              },
+              e('i', { className: 'bi bi-question-circle ms-1' })
+            )
+          ),
+          e(
+            'img',
+            {
+              className: 'page-icon large',
+              alt: 'QR Code',
+              src: i18n.api_link + '?get_image=img/qrcode.jpg&size=256'
+            }
+          ),
+        ),
       ),
       e(
         'div',
-        { className: 'col-7 d-flex flex-column align-items-start text-normal' },
-        e(
-          'h3',
-          { className: 'my-3' },
-          i18n.payment
-        ),
+        { className: 'col' },
         e(
           'div',
-          { className: 'card d-flex flex-row p-3 mb-3' },
+          { className: 'card trans' },
+          e('h2', { className: 'mb-2' }, i18n.payment),
           e(
-            'span',
-            {},
-            i18n.value + ': '
+            'div',
+            { className: 'd-inline mb-2' },
+            e(
+              'div',
+              { className: 'badge bg-white me-2 mb-2' },
+              e('span', {}, i18n.value + ': '),
+              e('span', { className: 'fw-bold ms-1'}, 'R$' + props.item.value)
+            ),
+            e(
+              'div',
+              { className: 'badge bg-white me-2 mb-2' },
+              e('span', {}, i18n.due_date + ': '),
+              e('span', {}, itemDue.toLocaleDateString())
+            ),
+            e(
+              'div',
+              { className: 'badge bg-primary text-white me-2 mb-2' },
+              e('span', {}, 'PIX/CNPJ: '),
+              e('span', {}, i18n.company_cnpj),
+              e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm green ms-2',
+                  onClick: (event) => {
+
+                    var before = event.target.innerHTML;
+                    event.target.innerHTML = i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
+
+                    navigator.clipboard.writeText(i18n.company_cnpj);
+
+                    setTimeout(() => {
+                      event.target.innerHTML = before;
+                    }, 300);
+
+                  }
+                },
+                i18n.copy,
+                e('i', { className: 'bi bi-files-alt ms-1' })
+              )
+            ),
           ),
-          e(
-            'span',
-            { className: 'fw-bold ms-1'},
-            'R$' + props.item.value
-          )
-        ),
-        e(
-          'div',
-          { className: 'mb-3' },
-          e(
-            'span',
-            {},
-            i18n.due_date + ': '
+          e('div', { className: 'd-inline mb-2' },
+            e('span', {}, i18n.payment_message),
           ),
-          e(
-            'span',
-            { className: ''},
-            itemDue.toLocaleDateString()
-          )
-        ),
-        e('p', {}, i18n.payment_message + ': ', paymentMethod),
-        e('p', { className: 'badge bg-primary text-white' }, i18n.company_cnpj),
-        e('p', { className: 'text-small' }, i18n.payment_message_cont)
+          e('div', { className: 'text-ss mb-2' }, i18n.payment_message_cont)
+        )
       )
     )
   ));
@@ -1422,41 +1461,46 @@ function WhoAmI_openPayments(props) {
       var itemDue = GuyraParseDate(item.due);
       var now = new Date();
       var itemBadgeClass = 'badge bg-success';
+      var itemColor = 'green';
+      var itemCardClass = itemColor;
 
       if (itemDue < now) {
         itemBadgeClass = 'badge bg-danger';
+        itemColor = 'red';
+        itemCardClass = itemColor + ' overpop-animation animate';
       }
 
       items.push(
         e(AccountContext.Consumer, null, ({setPage, i18n}) => e(
-          'li',
-          { className: 'pb-3 border-bottom w-100 align-items-center row mt-3' },
+          'div',
+          { className: 'card trans mb-3 me-3 ' + itemCardClass },
           e(
             'span',
-            { className: 'col-2 badge bg-primary ms-3'},
-            'R$' + item.value
+            { className: 'd-flex justify-content-between align-items-baseline mb-2' },
+            e('span', { className: 'fw-bold text-x' }, i18n.bill),
+            e('span', { className: 'fw-bold me-1' }, i18n.value + ': R$' + item.value ),
           ),
           e(
             'span',
-            { className: 'col text-center'},
+            { className: 'badge bg-white mb-2'},
             e(
               'span',
-              { className: 'me-1 text-muted' },
+              { className: 'me-1' },
               i18n.due_date + ': '
             ),
             e(
               'span',
-              { className: itemBadgeClass },
+              { className: 'text-white ' + itemBadgeClass },
               item.due
             )
           ),
           e(
             'span',
-            { className: 'col-md-1 text-center mt-3 mt-sm-0'},
+            { className: 'mt-2' },
             e(
               'button',
               {
-                className: "btn-tall btn-sm purple",
+                className: "w-100 btn-tall btn-sm " + itemColor,
                 onClick: () => {
                   setPage(e(WhoAmI_openPayments_paymentItem, { item: item }))
                 }
@@ -1470,27 +1514,7 @@ function WhoAmI_openPayments(props) {
 
   }
 
-  return e(AccountContext.Consumer, null, ({i18n}) => {
-    if (props.openPayments != null) {
-      return e(
-        'div',
-        { className: 'row payments justify-content-between overpop-animation animate' },
-        e(
-          'div',
-          { className: 'dialog-box info' },
-          i18n.payments_available
-        ),
-        e(
-          'ol',
-          { className: 'overflow-x-visible' },
-          items
-        )
-      );
-    } else {
-      return e('span', null, null);
-    }
-
-  });
+  return items;
 
 }
 

@@ -1,4 +1,13 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, randomNumber } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  Study_Topbar,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingIcon,
+  LoadingPage,
+  randomNumber
+} from '%template_url/assets/js/Common.js';
 
 function shuffleArray(a) {
   var j, x, i;
@@ -1395,7 +1404,8 @@ export class Exercises extends React.Component {
       ClearWord: this.ClearWord,
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
-      challengeTracker: JSON.parse(window.localStorage.getItem('challenge'))
+      challengeTracker: JSON.parse(window.localStorage.getItem('challenge')),
+      topbar: null
     }
 
     this.state = this.initialState;
@@ -1416,8 +1426,10 @@ export class Exercises extends React.Component {
 
       this.setState({
         i18n: this.i18n,
+        userdata: res.userdata,
         usermeta: this.usermeta,
         gamedata: this.gamedata,
+        topbar: e(Study_Topbar, { userdata: this.state.userdata })
       });
 
     });
@@ -1962,9 +1974,20 @@ export class Exercises extends React.Component {
 
   render() {
     return e(
-      'div',
-      {className: 'exercise-squeeze'},
-      e(ExerciseContext.Provider, {value: this.state}, this.state.page)
+      'main',
+      { className: '' },
+      e(
+        'div',
+        { className: 'page-squeeze' },
+        this.state.topbar,
+      ),
+      e('div', { className: 'bg-white' },
+        e(
+          'div',
+          { className: 'exercise-squeeze' },
+          e(ExerciseContext.Provider, { value: this.state }, this.state.page)
+        )
+      )
     );
   };
 }

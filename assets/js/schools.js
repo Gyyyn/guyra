@@ -695,7 +695,7 @@ class PaymentAreaEntry extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary}) => e(
       'div',
       {
-        className: 'diary-entry pop-animation animate row mt-3'
+        className: 'diary-entry row g-3 justfade-animation animate'
       },
       e(
         'span',
@@ -1023,6 +1023,99 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     super(props);
 
     this.cardsClasses = 'card trans thin blue d-flex flex-column p-3 me-3 mb-3';
+
+    this.state = {
+      user_meetinglink: this.props.userData.userdata.user_meetinglink,
+      cards: [],
+    };
+
+    this.userAddToGroupCard = e(
+      'div',
+      { className: this.cardsClasses, style: { minHeight: 'unset' } },
+      e('h4', {}, thei18n.group),
+      e(
+        'span',
+        { className: 'd-flex flex-row' },
+        e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
+        e('button', { className: 'btn-tall green', onClick: this.addToGroup }, e('i', {className: 'bi bi-plus-lg'}))
+      ),
+    );
+
+    this.linkCard = e(
+      'div',
+      { className: this.cardsClasses, style: { minHeight: 'unset' } },
+      e('h4', {}, thei18n.meeting_link),
+      e(
+        'span',
+        { className: 'd-flex flex-row' },
+        e(
+          'input', {
+            id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3',
+            onChange: (event) => {
+
+              // Force https protocol start.
+
+              var isHttps = (event.target.value.split('https://')[0] == '') ? true : false;
+              var isHttp = (event.target.value.split('http://')[0] == '') ? true : false;
+
+              if (!isHttp && !isHttps && event.nativeEvent.data) {
+                event.target.value = 'https://' + event.target.value;
+              }
+
+            }
+          }
+        ),
+        e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
+      ),
+      e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, this.state.user_meetinglink)
+    );
+
+    this.userArchiveStudentCard = e(
+      'div',
+      { className: this.cardsClasses, style: { minHeight: 'unset' } },
+      e('h4', {}, thei18n.archive_student),
+      e('span', {}, window.HTMLReactParser(thei18n.archive_student_explain)),
+      e(
+        'span',
+        { className: 'd-flex flex-row' },
+        e('button', { className: 'btn-tall btn-sm', onClick: this.archiveStudent },  e('i', {className: 'bi bi-archive me-3'}), thei18n.archive_student)
+      ),
+    );
+
+
+    this.state.cards.push(this.linkCard);
+
+    if (this.props.listingType == 'user') {
+      this.state.cards.push(this.userAddToGroupCard, this.userArchiveStudentCard);
+    }
+
+    if (this.props.listingType == 'group') {
+
+      this.groupRemoveUsers = e(
+        'div',
+        { className: this.cardsClasses, style: { minHeight: 'unset' } },
+        e('h4', {}, thei18n.remove_from_group),
+        e(
+          'span',
+          { className: 'd-flex flex-row flex-wrap' },
+          this.props.groupData.map((user) => {
+
+            return e(
+              'button', {
+                className: 'btn-tall btn-sm red me-2 mb-2',
+                id: 'remove-from-group-' + user.id,
+                onClick: () => { this.removeFromGroup(user.id) }
+              },
+              e('i', {className: 'bi bi-dash-lg me-1'}), user.userdata.first_name
+            );
+
+          }),
+        ),
+      );
+
+      this.state.cards.push(this.groupRemoveUsers);
+    }
+
   }
 
   validateForm(element) {
@@ -1037,9 +1130,9 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
       return false;
 
-    } else {
-      return true;
     }
+
+    return true;
 
   }
 
@@ -1047,16 +1140,38 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
     var theGroupTag = document.getElementById('add-to-group');
 
-    if (!validateForm(theGroupTag)) {
+    if (!this.validateForm(theGroupTag)) {
       return;
     }
 
-    fetch(thei18n.api_link + '?user=' + this.props.userId + 'assigntogroup=' + theGroupTag.value)
+    fetch(thei18n.api_link + '?user=' + this.props.userId + '&assigntogroup=' + theGroupTag.value)
     .then(res => res.json()).then(res => {
 
       if (res != 'true') {
         console.error('Update failed.');
         return;
+      }
+
+      this.removeUser();
+
+    });
+
+  }
+
+  removeFromGroup = (id) => {
+
+    var theButton = document.getElementById('remove-from-group-' + id);
+
+    fetch(thei18n.api_link + '?user=' + id + '&cleargroup=1')
+    .then(res => res.json()).then(res => {
+
+      if (res != 'true') {
+        console.error('Call failed.');
+        return;
+      }
+
+      if (theButton) {
+        theButton.remove();
       }
 
     });
@@ -1067,17 +1182,21 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
     var theMeetingLink = document.getElementById('meeting-link');
 
-    if (!validateForm(theMeetingLink)) {
+    if (!this.validateForm(theMeetingLink)) {
       return;
     }
 
-    fetch(thei18n.api_link + '?user=' + this.props.userId + 'meetinglink=' + theMeetingLink.value)
+    fetch(thei18n.api_link + '?user=' + this.props.userId + '&meetinglink=' + theMeetingLink.value)
     .then(res => res.json()).then(res => {
 
       if (res != 'true') {
         console.error('Update failed.');
         return;
       }
+
+      this.setState({
+        user_meetinglink: theMeetingLink.value,
+      });
 
     });
 
@@ -1086,19 +1205,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   archiveStudent = () => {
     if (confirm(thei18n.are_you_sure)) {
 
-      var theUserListing = document.getElementById('user_' + this.props.listingName);
-
-      if (theUserListing) {
-
-        theUserListing.classList.add('justfadeout-animation', 'animate');
-
-        setTimeout(() => {
-          theUserListing.remove();
-        }, 500);
-
-      }
-
-      fetch(thei18n.api_link + '?user=' + this.props.userId + 'clearteacher=1')
+      fetch(thei18n.api_link + '?user=' + this.props.userId + '&clearteacher=1')
       .then(res => res.json()).then(res => {
 
         if (res != 'true') {
@@ -1106,52 +1213,35 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
           return;
         }
 
+        this.removeUser();
+
       });
     }
+  }
+
+  removeUser() {
+
+    // WARNING: This is purely visual.
+
+    var theUserListing = document.getElementById('user_' + this.props.listingName);
+
+    if (theUserListing) {
+
+      theUserListing.classList.add('justfadeout-animation', 'animate');
+
+      setTimeout(() => {
+        theUserListing.remove();
+      }, 500);
+
+    }
+
   }
 
   render() {
     return e(
       'div',
       { className: 'd-flex flex-row flex-wrap form-control' },
-
-      e(
-        'div',
-        { className: this.cardsClasses, style: { minHeight: 'unset' } },
-        e('h4', {}, thei18n.group),
-        e(
-          'span',
-          { className: 'd-flex flex-row' },
-          e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
-          e('button', { className: 'btn-tall green', onClick: this.addToGroup }, e('i', {className: 'bi bi-plus-lg'}))
-        ),
-      ),
-
-      e(
-        'div',
-        { className: this.cardsClasses, style: { minHeight: 'unset' } },
-        e('h4', {}, thei18n.meeting_link),
-        e(
-          'span',
-          { className: 'd-flex flex-row' },
-          e('input', { id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3' }),
-          e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
-        ),
-        e('span', { className: 'text-sss mt-2' }, this.props.userData.userdata.user_meetinglink)
-      ),
-
-      e(
-        'div',
-        { className: this.cardsClasses, style: { minHeight: 'unset' } },
-        e('h4', {}, thei18n.archive_student),
-        e('span', {}, window.HTMLReactParser(thei18n.archive_student_explain)),
-        e(
-          'span',
-          { className: 'd-flex flex-row' },
-          e('button', { className: 'btn-tall btn-sm', onClick: this.archiveStudent },  e('i', {className: 'bi bi-archive me-3'}), thei18n.archive_student)
-        ),
-      ),
-
+      this.state.cards,
     )
   }
 }
@@ -1319,10 +1409,12 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.representativeUser = this.props.group[0];
 
       // Sometimes we need a list of users to apply all actions however.
+      this.groupUsers = [];
       this.groupUsersIds = [];
       this.groupUsersNames = [];
 
       this.props.group.forEach((user) => {
+        this.groupUsers.push(user);
         this.groupUsersIds.push(user.id);
         this.groupUsersNames.push(user.userdata.first_name);
       });
@@ -1350,6 +1442,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingGrouptag = this.representativeUser.userdata.studygroup;
       this.listingDiaryUserId = this.representativeUser.id;
       this.listingUserId = this.representativeUser.id;
+
+      this.groupUsers = null;
 
       this.listingTitle = [
         e('span', { className: 'fw-bold' }, this.representativeUser.userdata.first_name),
@@ -1392,7 +1486,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         listingType: this.listingType,
         listingName: this.listingName,
         userId: this.listingUserId,
-        userData: this.representativeUser
+        userData: this.representativeUser,
+        groupData: this.groupUsers
       }),
     };
 

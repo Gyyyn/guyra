@@ -30,7 +30,7 @@ img.page-icon.large { width: calc(5vw + 5rem); }
          <div class="col-md text-left">
            <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered'] ?></h1>
            <p class="text-center py-3">
-             <a href="<?php echo $gi18n['account_link']; ?>" class="btn-tall blue text-larger"><?php echo $gi18n['button_login'] ?></a>
+             <a href="<?php echo $gi18n['account_link']; ?>" class="btn-tall btn-lg blue text-larger"><?php echo $gi18n['button_login'] ?></a>
            </p>
            <hr class="thick" />
            <div class="text-small">

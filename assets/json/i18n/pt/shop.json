@@ -41,13 +41,13 @@
     "progress_pack1": {
       "name": "Pacote de progressão 1",
       "description": "Destrave novos exercícios!",
-      "description_full": "Destrave os exercícios: Frequencia, Lar, Trabalho, Rotinas e Futuro."
+      "description_full": "Destrave os exercícios: Frequência, Lar, Trabalho, Rotinas e Futuro."
     },
 
     "progress_pack2": {
       "name": "Pacote de progressão 2",
       "description": "Destrave novos exercícios!",
-      "description_full": "Destrave os exercícios: Planos, Convites, Hostórias, Infância, Compras, Texting e Lugares."
+      "description_full": "Destrave os exercícios: Planos, Convites, Histórias, Infância, Compras, Texting e Lugares."
     },
 
     "progress_pack3": {
@@ -81,9 +81,33 @@
     },
 
     "flashcards_nouns_introduction": {
-      "name": "Deck de cartas: Palavras 1",
+      "name": "Deck de cartas: Apresentação",
       "description": "Inclui palavras de nível iniciante.",
       "description_full": "Substantivos de nivel básico."
+    },
+
+    "flashcards_nouns_items1": {
+      "name": "Deck de cartas: Items 1",
+      "description": "Inclui palavras de items.",
+      "description_full": "Substantivos de nivel básico."
+    },
+
+    "flashcards_nouns_places1": {
+      "name": "Deck de cartas: Lugares 1",
+      "description": "Inclui palavras de lugares.",
+      "description_full": "Substantivos de nivel básico."
+    },
+
+    "flashcards_people1": {
+      "name": "Deck de cartas: Pessoas 1",
+      "description": "Inclui palavras para descrever pessoas.",
+      "description_full": "Adjetivos de nivel básico."
+    },
+
+    "flashcards_jobs1": {
+      "name": "Deck de cartas: Trabalho 1",
+      "description": "Inclui palavras sobre trabalho.",
+      "description_full": "Palavras de nivel básico."
     }
 
   },
@@ -203,7 +227,27 @@
     },
 
     "flashcards_nouns_introduction": {
-      "name": "Deck de cartas: Palavras 1",
+      "name": "Deck de cartas: Apresentação",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_nouns_items1": {
+      "name": "Deck de cartas: Items 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_nouns_places1": {
+      "name": "Deck de cartas: Lugares 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_people1": {
+      "name": "Deck de cartas: Pessoas 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_jobs1": {
+      "name": "Deck de cartas: Trabalho 1",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     }
 

@@ -304,6 +304,175 @@ export class RenderReplies extends React.Component {
   }
 }
 
+function Topbar_buttonImage(props) {
+  return e(
+    'span',
+    { className: 'menu-icon me-1' },
+    e('img',
+      { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=' + props.image + '&size=32' }
+    )
+  );
+}
+
+function Topbar_Button(props) {
+
+  var imageE = null;
+  var buttonClassExtra = ' ';
+
+  if (props.classExtra !== undefined) {
+    buttonClassExtra = buttonClassExtra + props.classExtra;
+  }
+
+  if (props.image !== undefined) {
+    imageE = e(Topbar_buttonImage, { image: props.image });
+  }
+
+  return e(
+    'a',
+    { className: 'topbar-button btn' + buttonClassExtra, onClick: () => {
+      props.onClick();
+    }},
+    imageE,
+    e('span', { className: 'd-none d-md-inline' }, props.value)
+  );
+
+}
+
+export class Topbar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.buttonList = [];
+
+
+    if (!this.props.buttonList) {
+      this.props.buttonList = [];
+    }
+
+    this.props.buttonList.forEach((button, i) => {
+      this.buttonList.push(
+        e(Topbar_Button, {
+          onClick: () => { button.onClick() },
+          value: button.value,
+          image: button.image
+        })
+      );
+    });
+
+    this.state = {
+      buttonList: this.buttonList,
+    };
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'topbar mb-5 d-none d-md-flex' },
+      this.state.buttonList
+    );
+
+  }
+
+}
+
+export function Study_Topbar(props) {
+
+  var userdata = props.userdata;
+
+  if (!props.userdata) {
+    userdata = theUserdata;
+  }
+
+  var buttonList = [
+    {
+      onClick: () => {
+
+        if (props.home_link) {
+          props.home_link.onClick();
+          return;
+        }
+
+        window.location.href = thei18n.home_link;
+      },
+      classExtra: (props.home_link) ? props.home_link.classExtra : null,
+      value: thei18n.study,
+      image: 'icons/learning.png'
+    },
+  ];
+
+  if (userdata.user_subscription_valid) {
+    buttonList.push(
+      {
+        onClick: () => {
+
+          if (props.practice_link) {
+            props.practice_link.onClick();
+            return;
+          }
+
+          window.location.href = thei18n.practice_link;
+        },
+        classExtra: (props.practice_link) ? props.practice_link.classExtra : null,
+        value: thei18n.practice,
+        image: 'icons/target.png'
+      },
+      {
+        onClick: () => {
+
+          if (props.courses_link) {
+            props.courses_link.onClick();
+            return;
+          }
+
+          window.location.href = thei18n.courses_link;
+
+        },
+        classExtra: (props.courses_link) ? props.courses_link.classExtra : null,
+        value: thei18n.courses,
+        image: 'icons/online-learning.png'
+      },
+      {
+        onClick: () => {
+
+          if (props.reference_link) {
+            props.reference_link.onClick();
+            return;
+          }
+
+          window.location.href = thei18n.reference_link;
+        },
+        classExtra: (props.reference_link) ? props.reference_link.classExtra : null,
+        value: thei18n.ultilities,
+        image: 'icons/layers.png'
+      },
+    );
+  }
+
+  if (userdata.teacherid) {
+    buttonList.push(
+      {
+        onClick: () => {
+
+          if (props.meeting_link) {
+            props.meeting_link.onClick();
+            return;
+          }
+
+          window.location.href = thei18n.api_link + '?redirect_meeting=1';
+        },
+        classExtra: (props.meeting_link) ? props.meeting_link.classExtra : null,
+        value: thei18n.meeting,
+        image: 'icons/video-camera.png'
+      },
+    );
+  }
+
+  return e(Topbar, { buttonList: buttonList });
+
+}
+
 export function guyraGetI18n() {
 
   return new Promise((resolve) => {
@@ -589,68 +758,84 @@ export function GuyraParseDate(date) {
 
 }
 
-// Translatables
+// Tooltips
+
+export function createTooltip(element, value, args={}) {
+
+  var tooltip = document.createElement('div');
+  tooltip.innerHTML = value;
+  tooltip.classList.add('gtooltip');
+
+  if (args.class) {
+    tooltip.classList.add(args.class);
+  }
+
+  element.parentNode.insertBefore(tooltip, element.nextSibling);
+
+  var placement = 'top';
+
+  if (element.dataset['placement']) {
+    placement = element.dataset['placement'];
+  }
+
+  const popperInstance = Popper.createPopper(element, tooltip, {
+    placement: placement,
+  });
+
+  function show() {
+    // Make the tooltip visible
+    tooltip.setAttribute('data-show', '');
+
+    // Enable the event listeners
+    popperInstance.setOptions((options) => ({
+      ...options,
+      modifiers: [
+        ...options.modifiers,
+        { name: 'eventListeners', enabled: true },
+      ],
+    }));
+
+    // Update its position
+    popperInstance.update();
+  }
+
+  function hide() {
+    // Hide the tooltip
+    tooltip.removeAttribute('data-show');
+
+    // Disable the event listeners
+    popperInstance.setOptions((options) => ({
+      ...options,
+      modifiers: [
+        ...options.modifiers,
+        { name: 'eventListeners', enabled: false },
+      ],
+    }));
+  }
+
+  const showEvents = ['mouseenter', 'focus'];
+  const hideEvents = ['mouseleave', 'blur'];
+
+  showEvents.forEach((event) => {
+    element.addEventListener(event, show);
+  });
+
+  hideEvents.forEach((event) => {
+    element.addEventListener(event, hide);
+  });
+
+  return tooltip;
+
+}
+
 export function checkForTranslatables() {
   var translatables = document.querySelectorAll('.translatable');
 
   translatables.forEach((item, i) => {
 
-    var tooltip = document.createElement('div');
-    tooltip.innerHTML = '<i class="bi bi-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
-    tooltip.classList.add('gtooltip');
-    item.parentNode.insertBefore(tooltip, item.nextSibling);
+    var value = '<i class="bi bi-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
 
-    var placement = 'top';
-
-    if (item.dataset['placement']) {
-      placement = item.dataset['placement'];
-    }
-
-    const popperInstance = Popper.createPopper(item, tooltip, {
-      placement: placement,
-    });
-
-    function show() {
-      // Make the tooltip visible
-      tooltip.setAttribute('data-show', '');
-
-      // Enable the event listeners
-      popperInstance.setOptions((options) => ({
-        ...options,
-        modifiers: [
-          ...options.modifiers,
-          { name: 'eventListeners', enabled: true },
-        ],
-      }));
-
-      // Update its position
-      popperInstance.update();
-    }
-
-    function hide() {
-      // Hide the tooltip
-      tooltip.removeAttribute('data-show');
-
-      // Disable the event listeners
-      popperInstance.setOptions((options) => ({
-        ...options,
-        modifiers: [
-          ...options.modifiers,
-          { name: 'eventListeners', enabled: false },
-        ],
-      }));
-    }
-
-    const showEvents = ['mouseenter', 'focus'];
-    const hideEvents = ['mouseleave', 'blur'];
-
-    showEvents.forEach((event) => {
-      item.addEventListener(event, show);
-    });
-
-    hideEvents.forEach((event) => {
-      item.addEventListener(event, hide);
-    });
+    createTooltip(item, );
 
   });
 }

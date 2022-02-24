@@ -466,7 +466,7 @@ class GrammaticalTime extends React.Component {
   render() {
     return e(ReferenceContext.Consumer, null, ({i18n, irregularsObject}) => e(
       'div',
-      { className: 'grammar-reference' },
+      { className: 'grammar-reference fade-animation animate' },
       [
         e(
           'div',
@@ -896,7 +896,7 @@ function Reference_Topbar_button(props) {
 
     return e(
       'a',
-      { className: 'list-group-item ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
+      { className: 'topbar-button btn ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
         setPage(props.pageLink, { pageId: props.linkId });
         if (props.onClick) {
           props.onClick();
@@ -911,7 +911,7 @@ function Reference_Topbar_button(props) {
 function Reference_Topbar(props) {
   return e(ReferenceContext.Consumer, null, ({setPage, i18n}) => e(
     'div',
-    { className: 'list-group study-menu list-group-horizontal container-fluid overflow-hidden' },
+    { className: 'topbar mb-5' },
     e(Reference_Topbar_button, {
       linkId: 'dictionary',
       pageLink: e(Dictionary),
@@ -945,7 +945,7 @@ class Reference extends React.Component {
 
     this.state = {
       page: e(LoadingPage),
-      topBar: e(LoadingPage),
+      topBar: null,
       setPage: this.setPage,
       i18n: {},
       phrasalsObject: window.localStorage.getItem('phrasalsObject'),
@@ -1037,20 +1037,22 @@ class Reference extends React.Component {
   }
 
   render() {
-    return e(
-      'div',
-      { className: 'reference-squeeze' },
-      e(ReferenceContext.Provider, { value: this.state }, e(
+    return e(ReferenceContext.Provider, { value: this.state },  e(
+      'main',
+      { className: '' },
+      e(
         'div',
-        { className: 'reference-wrapper'},
+        { className: 'page-squeeze' },
         this.state.topBar,
+      ),
+      e('div', { className: 'reference-squeeze squeeze' },
         e(
           'div',
-          { className: 'rounded-box' },
+          { className: 'rounded-box fade-animation animate' },
           this.state.page
         )
-      ))
-    );
+      )
+    ));
   };
 }
 

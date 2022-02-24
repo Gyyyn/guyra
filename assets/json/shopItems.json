@@ -197,11 +197,47 @@
   },
 
   "flashcards_nouns_introduction": {
-    "price": "10",
+    "price": "5",
     "type": "flashcards",
     "image": "icons/card.png",
     "items": {
       "flashcards_nouns_introduction": {}
+    }
+  },
+
+  "flashcards_nouns_items1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_nouns_items1": {}
+    }
+  },
+
+  "flashcards_nouns_places1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_nouns_places1": {}
+    }
+  },
+
+  "flashcards_people1": {
+    "price": "15",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_people1": {}
+    }
+  },
+
+  "flashcards_jobs1": {
+    "price": "15",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_jobs1": {}
     }
   }
 

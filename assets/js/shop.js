@@ -132,7 +132,8 @@ class Shop_ItemView extends React.Component {
 
                 }
               },
-              i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels
+              i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels,
+              e('i', { className: 'bi bi-bag-fill ms-2' })
             )
           )
         )
@@ -191,7 +192,8 @@ class Shop_Item extends React.Component {
                 }
               },
             },
-            i18n.buy
+            i18n.buy,
+            e('i', { className: 'bi bi-box-arrow-up-right ms-2' })
           )
         ),
       )
@@ -228,6 +230,7 @@ class Shop_ItemList extends React.Component {
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
         e('button', { className: 'btn-tall blue me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
         e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
+        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
         e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
       ),
       e(

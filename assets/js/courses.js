@@ -1,4 +1,12 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  Study_Topbar,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingIcon,
+  LoadingPage
+} from '%template_url/assets/js/Common.js';
 
 // Youtube Embed stuff
 var tag = document.createElement('script');
@@ -464,6 +472,7 @@ class Courses extends React.Component {
 
       this.setState({
         i18n: res.i18n,
+        userdata: res.userdata
       });
 
     });
@@ -547,10 +556,17 @@ class Courses extends React.Component {
 
   render() {
     return e(
-      'div',
-      {className: 'courses-squeeze'},
-      e(CoursesContext.Provider, {value: this.state}, this.state.page)
-    );
+      'main',
+      { className: 'squeeze' },
+      e(
+        'div',
+        { className: 'page-squeeze' },
+        e(Study_Topbar, { userdata: this.state.userdata }),
+      ),
+      e('div', { className: 'courses-squeeze rounded-box' },
+        e(CoursesContext.Provider, {value: this.state}, this.state.page)
+      )
+    )
   };
 }
 
