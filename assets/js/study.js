@@ -392,7 +392,11 @@ class UserHome extends React.Component {
     super(props);
 
     this.defaultCards = [
-      { id: 'topbar', class: 'userhome-topbar d-flex justify-content-center', element: e(Study_Topbar) },
+      {
+        id: 'topbar',
+        class: 'userhome-topbar d-flex justify-content-center',
+        element: e(Study_Topbar, { home_link: { onClick: null, classExtra: 'active' } })
+      },
       { id: 'welcome', element: e(UserHome_WelcomeCard) }
     ];
 

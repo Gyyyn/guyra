@@ -1429,7 +1429,7 @@ export class Exercises extends React.Component {
         userdata: res.userdata,
         usermeta: this.usermeta,
         gamedata: this.gamedata,
-        topbar: e(Study_Topbar, { userdata: this.state.userdata })
+        topbar: e(Study_Topbar, { userdata: this.state.userdata, practice_link: { onClick: null, classExtra: 'active' } })
       });
 
     });

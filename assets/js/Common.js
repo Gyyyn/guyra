@@ -353,6 +353,7 @@ export class Topbar extends React.Component {
       this.buttonList.push(
         e(Topbar_Button, {
           onClick: () => { button.onClick() },
+          classExtra: button.classExtra,
           value: button.value,
           image: button.image
         })

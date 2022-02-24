@@ -561,7 +561,7 @@ class Courses extends React.Component {
       e(
         'div',
         { className: 'page-squeeze' },
-        e(Study_Topbar, { userdata: this.state.userdata }),
+        e(Study_Topbar, { userdata: this.state.userdata, courses_link: { onClick: null, classExtra: 'active' } }),
       ),
       e('div', { className: 'courses-squeeze rounded-box' },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)

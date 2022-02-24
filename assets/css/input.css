@@ -204,6 +204,11 @@
 	color: var(--guyra-grey-darker);
 }
 
+.topbar-button.active {
+  border-color: var(--guyra-blue);
+  color: var(--guyra-blue);
+}
+
 /*
 * -------- Inputs
 */
