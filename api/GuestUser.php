@@ -143,7 +143,12 @@ if ($_GET['lost_password']) {
         $link
       ];
 
-      Guyra_mail('lost_password.html', $gi18n['forgot_password_email_title'], $userdata['user_login'], $string_replacements);
+      $mail = Guyra_mail('lost_password.html', $gi18n['forgot_password_email_title'], $userdata['user_login'], $string_replacements);
+
+      if ($mail['error'])
+      guyra_output_json($mail['error'], true);
+
+      guyra_output_json('true', true);
 
     } else {
       guyra_output_json('user_not_found', true);

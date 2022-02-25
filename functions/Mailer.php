@@ -22,14 +22,21 @@ function Guyra_mail($template, $subject, $to, $string_replacements) {
   $mail->addAddress($to);
   $mail->Subject = $subject;
 
-  $template = file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/' . $template);
+  $template_link = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/' . $template;
+
+  $template = file_get_contents($template_link);
 
   $message = vsprintf($template, $string_replacements);
+
+  if (!$message) {
+    guyra_log_to_file(json_encode($string_replacements));
+    return ['error' => 'message error'];
+  }
 
   $mail->msgHTML($message);
 
   if (!$mail->send()) {
-    guyra_output_json('Mailer Error: ' . $mail->ErrorInfo);
+    return ['error' => $mail->ErrorInfo];
   } else {
     return true;
   }

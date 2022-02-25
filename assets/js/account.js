@@ -2186,6 +2186,7 @@ function LostPassword(props) {
                   if (json == 'true') {
                     setMessageBox(i18n.forgot_password_email_sent);
                   } else {
+                    console.error(json);
                     setMessageBox(i18n[json]);
                   }
                 });
