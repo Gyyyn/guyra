@@ -105,7 +105,7 @@ class Irregulars_wrapper extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-column' },
+      { className: 'd-flex flex-column fade-animation animate' },
       e(ReferenceContext.Consumer, null, ({i18n}) => e(
         'div',
         { className: 'dialog-box mb-3' },
@@ -166,7 +166,7 @@ class Phrasals_wrapper extends React.Component {
   render() {
     return e(
       'div',
-      {},
+      { className: 'fade-animation animate' },
       e(ReferenceContext.Consumer, null, ({i18n}) => e(
         'div',
         { className: 'dialog-box mb-3' },
@@ -829,7 +829,7 @@ class Dictionary extends React.Component {
     return e(ReferenceContext.Consumer, null, ({i18n}) => [
       e(
         'div',
-        { className: 'the-header' },
+        { className: 'the-header fade-animation animate' },
         e('h1', { className: 'text-primary text-center mb-3' },
           e(
             'div',
@@ -895,7 +895,7 @@ function Reference_Topbar_button(props) {
     }
 
     return e(
-      'a',
+      'button',
       { className: 'topbar-button btn ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
         setPage(props.pageLink, { pageId: props.linkId });
         if (props.onClick) {
@@ -1048,7 +1048,7 @@ class Reference extends React.Component {
       e('div', { className: 'reference-squeeze squeeze' },
         e(
           'div',
-          { className: 'rounded-box fade-animation animate' },
+          { className: 'rounded-box justfade-animation animate' },
           this.state.page
         )
       )

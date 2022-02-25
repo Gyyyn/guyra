@@ -5,12 +5,21 @@ const RankingContext = React.createContext();
 function Ranking_Wrapper(props) {
   return  e(RankingContext.Consumer, null, ({i18n, ranking_list}) => e(
     'div',
-    {},
+    { className: 'ranking-squeeze' },
+    e('h1', { className: 'text-blue' }, i18n.ranking),
     Object.values(ranking_list).map((list_item, i) => {
 
       var cardExtraValues = '';
       var rankingSize = 'small';
       var rankingNumberSize = 'x';
+      var rankingImage = null;
+
+      if (i == '') {
+        rankingImage = e('img', {
+          alt: thei18n.ranking,
+          src: thei18n.api_link + '?get_image=icons/trophy.png&size=64'
+        });
+      }
 
       if (i > 2) {
         rankingSize = 'tiny';
@@ -34,7 +43,8 @@ function Ranking_Wrapper(props) {
         e(
           'div',
           { className: 'd-flex flex-row align-items-center' },
-          e('span', { className: 'text-font-title text-' + rankingNumberSize + ' ms-3 me-1' }, i+1),
+          e('span', { className: 'text-font-title text-' + rankingNumberSize + ' mx-3' }, i+1),
+          rankingImage,
           e('span', { className: 'badge text-n bg-white text-black fw-bold mx-3' }, list_item.first_name),
           e('span', { className: 'me-3'}, e('i', { className: "bi bi-award-fill me-1" }), e('span', { className: 'fw-bold capitalize' }, list_item.user_ranking.ranking_name)),
           e('span', { className: 'me-3' }, e('i', { className: "bi bi-bar-chart-fill me-1" }), e('span', {}, list_item.user_ranking.level)),

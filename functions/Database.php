@@ -9,10 +9,11 @@ Guyra_Safeguard_File();
 function guyra_output_json($message, $exit=false) {
 
   header("Content-Type: application/json");
+  
   echo json_encode($message);
-  if ($exit) {
-    exit;
-  }
+
+  if ($exit)
+  exit;
 
 }
 

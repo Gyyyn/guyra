@@ -33,7 +33,7 @@ if ($_GET['register']) {
   $captchaOk = verifyGoogleCaptcha($data['captcha']);
 
   if (!$captchaOk) {
-    guyra_output_json($gi18n['captcha_error'], true);
+    guyra_output_json('captcha_error', true);
   }
 
   // All is ok, let's generate a user id and populate the data.

@@ -621,7 +621,15 @@ class AccountPayment extends React.Component {
 
       warningsList.push(
         e(Account_dialogBox, { extraClasses: 'info mt-3', value: [
-          e('p', {}, i18n.payment_processor_warning[0]),
+          e(
+            'div',
+            { className: 'd-flex flex-row justify-content-between align-items-center' },
+            e('h3', {}, i18n.payment_processor_warning[0]),
+            e('img', {
+              alt: thei18n.payment,
+              src: thei18n.api_link + '?get_image=icons/lock.png&size=64'
+            }),
+          ),
           e(
             'ul',
             { className: 'check-list' },

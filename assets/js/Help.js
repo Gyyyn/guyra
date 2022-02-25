@@ -172,6 +172,10 @@ class Help_Main extends React.Component {
       e('p', {}, thei18n.help_form_redirect[1], e('a', { className:'ms-2', href: thei18n.help_wp_link }, thei18n.here))
     );
 
+    if (window.location.hash == '#email') {
+      this.state.helpForm = e(Help_Main_Form);
+    }
+
   }
 
   setForm(element) {
@@ -182,13 +186,21 @@ class Help_Main extends React.Component {
 
   render() {
 
+    var controlAreaExtraClass = 'd-flex';
+    var headerExtraClass = '';
+
+    if (window.location.hash == '#email') {
+      controlAreaExtraClass = 'd-none';
+      headerExtraClass = 'd-none';
+    }
+
     return e(
       'div',
       { className: 'd-flex flex-column' },
-      e('h3', { className: 'mb-5' }, thei18n.help_form_subtitle),
+      e('h3', { className: 'mb-5 ' + headerExtraClass }, thei18n.help_form_subtitle),
       e(
         'div',
-        { className: 'd-flex flex-row' },
+        { className: 'flex-row ' + controlAreaExtraClass },
         e(
           'button',
           { className: 'btn-tall green me-2', onClick: () => {

@@ -8,14 +8,10 @@ global $site_api_url;
 global $is_admin;
 global $gi18n;
 
-if (!$is_admin) {
-  exit;
-}
+if (!$is_admin)
+exit;
 
 include_once $template_dir . '/functions/Assets.php';
-
-// Get users
-$users = guyra_get_users();
 
 get_header(null, ['css' => 'admin.css']);
 
@@ -85,12 +81,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <h4 class="mt-5">Site:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-    <a class="btn btn-primary" data-bs-toggle="collapse" href="#new-post-collapse">New Blog Post</a>
     <a class="btn btn-primary" href="<?php echo $gi18n['guyra_admin_link']; ?>&exercise_log=10">See LogDB</a>
-
-    <div class="mt-3 collapse" id="new-post-collapse">
-      <iframe id="new-post" class="editor-inline" src="<?php echo $gi18n['admin_link'] . 'post-new.php'; ?>" /></iframe>
-    </div>
 
     <hr />
 
@@ -146,7 +137,8 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
   <h4 class="mt-4">Registered Users:</h4>
 
-  <?php if($_GET['load_all_users']): ?>
+  <?php if($_GET['load_all_users']):
+  $users = guyra_get_users(); ?>
 
   <ul class="list-group m-0">
   <?php
@@ -237,41 +229,20 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
           <h4 class="mt-4">Site:</h4>
           <div class="admin-forms border rounded p-3 m-0">
 
-            <h5>Give premium:</h5>
-            <form action="<?php echo $site_api_url; ?>" method="GET">
-                <?php echo $gi18n['date']; ?>: <input type="date" name="till">
-                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
-                <input type="hidden" value="premium" name="subscription">
-                <input type="hidden" value="<?php echo $user['id']; ?>" name="user">
-                <input type="submit" value="Go">
-            </form>
-
-            <hr />
-
-            <h5>Give lite:</h5>
-            <form action="<?php echo $site_api_url; ?>" method="GET">
-                <?php echo $gi18n['date']; ?>: <input type="date" name="till">
-                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
-                <input type="hidden" value="lite" name="subscription">
-                <input type="hidden" value="<?php echo $user['id']; ?>" name="user">
-                <input type="submit" value="Go">
-            </form>
-
-            <hr />
-
             <h5>Give user role:</h5>
             <div class="mb-4 alert alert-info" role="alert">
               <p>Currently working roles are:</p>
               <ul>
                 <li>teacher - has access to the student admin panel and can be assigned students by site admins.</li>
+                <li>tester - has free site access as a normal paying student.</li>
               </ul>
             </div>
 
             <form action="<?php echo $site_api_url; ?>" method="GET">
-                Role: <input type="text" name="giverole">
-                <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
-                <input type="hidden" value="<?php echo $user['id']; ?>" name="user">
-                <input type="submit" value="Go">
+              Role: <input type="text" name="giverole">
+              <input type="hidden" value="<?php echo $gi18n['guyra_admin_link']; ?>" name="redirect">
+              <input type="hidden" value="<?php echo $user['id']; ?>" name="user">
+              <input type="submit" value="Go">
             </form>
 
           </div>

@@ -8,6 +8,7 @@ global $site_api_url;
 global $gLang;
 
 $i18n_links = [
+	'guyra_version' => GUYRA_VERSION,
 	'home_link' => $site_url,
 	'api_link' => $site_api_url,
 	'blog_link' => $site_url . '/category/blog',

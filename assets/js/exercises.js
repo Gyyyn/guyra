@@ -778,11 +778,19 @@ class CurrentQuestion extends React.Component {
         'div',
         {
           id: 'current-question',
-          className: 'exercise pop-animation animate'
+          className: 'exercise pop-animation animate position-relative'
         },
-        e('div', { className: 'my-5' }, e(returnToLevelMapButton)),
+        e(
+          'div',
+          { className: 'row align-items-center mb-3' },
+          e('div', { className: 'col' },
+            e(ProgressBar),
+          ),
+          e('div', { className: 'col-auto' },
+            e(returnToLevelMapButton)
+          ),
+        ),
         e(questionType, {values: values, avatarURL: avatarURL}),
-        e(ProgressBar),
         hintArea,
         e(
           'div',
@@ -937,9 +945,7 @@ function LevelChooser(props) {
   return (
     e(
       'div',
-      {
-        className: 'container-fluid exercise-level-chooser'
-      },
+      { className: 'exercise-level-chooser' },
       e(
         'div',
         { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
@@ -1019,8 +1025,6 @@ function LevelChooser(props) {
           }
         )
       })),
-      e('hr', null, null),
-      e('div', {className: 'text-center text-muted'}, "Mais em breve!")
     )
   )
 }
@@ -1405,7 +1409,7 @@ export class Exercises extends React.Component {
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
       challengeTracker: JSON.parse(window.localStorage.getItem('challenge')),
-      topbar: null
+      renderTopbar: true
     }
 
     this.state = this.initialState;
@@ -1475,7 +1479,7 @@ export class Exercises extends React.Component {
 
   }
 
-  setPage = (page) => {
+  setPage = (page, args={}) => {
     this.setState({
       page: page
     });
@@ -1949,6 +1953,7 @@ export class Exercises extends React.Component {
   loadExerciseJSON = (level, id) => {
     this.setState({
       page: e(LoadingPage),
+      renderTopbar: false,
     });
 
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
@@ -1973,13 +1978,20 @@ export class Exercises extends React.Component {
   }
 
   render() {
+
+    var topbar = this.state.topbar;
+
+    if (!this.state.renderTopbar) {
+      topbar = null;
+    }
+
     return e(
       'main',
       { className: '' },
       e(
         'div',
         { className: 'page-squeeze' },
-        this.state.topbar,
+        topbar,
       ),
       e('div', { className: 'bg-white' },
         e(

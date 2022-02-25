@@ -1,5 +1,6 @@
 import {
   e,
+  MD5,
   GuyraGetData,
   Study_Topbar,
   rootUrl,

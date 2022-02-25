@@ -10,6 +10,7 @@ function hashCard(card) {
   }
 
   return MD5(card.front + '_' + card.back);
+
 }
 
 function Flashcards_BackButton(props) {
@@ -130,6 +131,31 @@ class Flashcards_Exercise extends React.Component {
 
   }
 
+  componentWillMount() {
+
+    var answerKeys = (event) => {
+
+      var keyEvents = {
+        '1': () => { this.answer('easy') },
+        '2': () => { this.answer('normal') },
+        '3': () => { this.answer('hard') },
+        '4': () => { this.answer('v_hard') },
+      }
+
+      if (Object.keys(keyEvents).indexOf(event.key) !== -1) {
+        keyEvents[event.key]();
+      }
+
+    }
+
+    document.onkeydown = answerKeys;
+
+  }
+
+  componentWillUnmount() {
+    document.onkeydown = null;
+  }
+
   nextCard() {
 
     var theCard = document.getElementById('current-view-card');
@@ -227,6 +253,7 @@ class Flashcards_Exercise extends React.Component {
         }
 
         return e(Flashcards_Exercise_CurrentView, this.state.currentCard);
+
       }),
       e(
         'div',

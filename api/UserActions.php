@@ -149,7 +149,7 @@ if ($_GET['update_userdata']) {
         $link
       ];
 
-      Guyra_mail('lost_password.html', $gi18n['confirm_email_email_title'], $userNewMail, $string_replacements);
+      Guyra_mail('basic_link.html', $gi18n['confirm_email_email_title'], $userNewMail, $string_replacements);
 
     } else {
       $current_user_data[$field] = $data[$field];

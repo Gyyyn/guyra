@@ -340,43 +340,59 @@ function CourseChooserLevel(props) {
   ))
 }
 
-function CourseVideoList(props) {
+class CourseVideoList extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return e(
-    'div',
-    {
-      className: "courses-list fade-animation animate",
-      key: props.course.etag,
-    },
-    e(
+    this.videoList = [];
+
+    Object.values(this.props.course.items).map((item, n) => {
+
+      this.videoList.push(
+        e(
+          CourseChooserLevel,
+          {
+            item: item.snippet,
+            number: n,
+            key: item.snippet.resourceId.videoId,
+            course: props.course,
+            courseTitle: props.title,
+            courseDesc: props.desc,
+            course_key: props.course_key
+          }
+        )
+      );
+
+    });
+
+    this.state = {
+      videoList: this.videoList,
+    }
+
+  }
+
+  render() {
+
+    return e(
       'div',
-      { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
-      e(returnButton, { page: e(CourseChooser), set_hash: '' }),
-      e('h2', { className: 'mt-3 mt-md-0' }, props.title)
-    ),
-    e(
-      'div',
-      { className: 'd-flex justify-content-left py-3' },
-      e('p', null, props.desc)
-    ),
-    Object.keys(props.course.items).map( (n) => {
-
-      var item = props.course.items[n].snippet;
-      return e(
-        CourseChooserLevel,
-        {
-          item: item,
-          number: n,
-          key: item.resourceId.videoId,
-          course: props.course,
-          courseTitle: props.title,
-          courseDesc: props.desc,
-          course_key: props.course_key
-        }
-      )
-
-    })
-  )
+      {
+        className: "courses-list fade-animation animate",
+        key: this.props.course.etag,
+      },
+      e(
+        'div',
+        { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
+        e(returnButton, { page: e(CourseChooser), set_hash: '' }),
+        e('h2', { className: 'mt-3 mt-md-0' }, this.props.title)
+      ),
+      e(
+        'div',
+        { className: 'd-flex justify-content-left py-3' },
+        e('p', null, this.props.desc)
+      ),
+      this.state.videoList
+    )
+  }
 
 }
 
@@ -385,7 +401,9 @@ function CourseListButton(props) {
   return e(CoursesContext.Consumer, null, ({setPage}) => e(
     'div',
     {
+      className: 'd-inline-flex align-items-center flex-row card p-3 m-3',
       onClick: () => {
+
         setPage(
           e(CourseVideoList,
             {
@@ -397,8 +415,8 @@ function CourseListButton(props) {
         );
 
         window.location.hash = props.course_key;
+
       },
-      className: 'd-inline-flex align-items-center flex-row card p-3 m-3'
     },
     e(
       'span',
@@ -422,30 +440,23 @@ function CourseChooser(props) {
     return e(
       'div',
       {
-        className: 'container-fluid'
+        className: 'courses-level-chooser'
       },
-      e(
-        'div',
-        {
-          className: 'courses-level-chooser'
-        },
-        Object.keys(coursesObject).map( (n) => {
+      Object.keys(coursesObject).map( (n) => {
 
-          var curr = coursesObject[n];
-          var course = JSON.parse(curr['contents']);
+        var curr = coursesObject[n];
+        var course = JSON.parse(curr['contents']);
 
-          return e(CourseListButton, {
-            title: curr['title'],
-            desc: curr['desc'],
-            imgURL: curr['image'],
-            course: course,
-            course_key: n,
-            key: course.etag
-          })
-
+        return e(CourseListButton, {
+          title: curr['title'],
+          desc: curr['desc'],
+          imgURL: curr['image'],
+          course: course,
+          course_key: n,
+          key: course.etag
         })
-      ),
-      e('div', {className: 'text-center text-muted p-5'}, e('hr', null, null), "Mais em breve!")
+
+      })
     );
 
   });
@@ -477,14 +488,15 @@ class Courses extends React.Component {
 
     });
 
-    fetch(rootUrl + 'api?get_courses=1')
+    fetch(thei18n.api_link + '?get_courses=1')
     .then(res => res.json())
     .then(res => {
 
       this.setState({
         coursesObject: res,
-        page: this.decideStartingPage(),
       });
+
+      this.setState({page: this.decideStartingPage()});
 
     });
   }
@@ -563,7 +575,7 @@ class Courses extends React.Component {
         { className: 'page-squeeze' },
         e(Study_Topbar, { userdata: this.state.userdata, courses_link: { onClick: null, classExtra: 'active' } }),
       ),
-      e('div', { className: 'courses-squeeze rounded-box' },
+      e('div', { className: 'courses-squeeze rounded-box p-0' },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)
       )
     )

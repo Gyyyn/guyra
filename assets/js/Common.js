@@ -674,7 +674,7 @@ export function RoundedBoxHeading(props) {
     e(
       'span',
       { className: 'page-icon' },
-      e('img', { alt: '', src: thei18n.api_link + '?get_image=' + props.icon + '&size=128' }),
+      e('img', { alt: props.value, src: thei18n.api_link + '?get_image=' + props.icon + '&size=128' }),
     ),
   );
 }
@@ -836,7 +836,7 @@ export function checkForTranslatables() {
 
     var value = '<i class="bi bi-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
 
-    createTooltip(item, );
+    createTooltip(item, value);
 
   });
 }

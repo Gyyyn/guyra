@@ -17,7 +17,7 @@
 }
 
 .btn:focus:not(.bs) {
-	border: unset;
+	outline: unset;
 	box-shadow: unset;
 }
 
@@ -25,11 +25,6 @@
 .btn-primary:active,
 .btn-outline-primary:active
 {
-	box-shadow: unset;
-}
-
-.btn:focus:not(.bs) {
-	border: unset;
 	box-shadow: unset;
 }
 
