@@ -1979,7 +1979,7 @@ class LoginForm extends React.Component {
       member = JSON.parse(member);
     }
 
-    if (member.user_email) {
+    if (member && member.user_email) {
       this.emailField = member.user_email;
     }
 
