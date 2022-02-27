@@ -4,7 +4,6 @@ import {
   GuyraGetData,
   rootUrl,
   thei18n,
-  LoadingIcon,
   LoadingPage,
   randomNumber
 } from '%template_url/assets/js/Common.js';
@@ -662,13 +661,29 @@ function QuestionDialog(props) {
   )
 }
 
-function QuestionAudioButton(props) {
+class QuestionAudioButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-  var theAudio = new Audio(props.link);
-  var theAudioSlow = new Audio(props.link);
-  theAudioSlow.playbackRate = 0.75;
+    this.theAudio = new Audio(props.link);
+    this.theAudioSlow = new Audio(props.link);
+    this.theAudioSlower = new Audio(props.link);
+    this.theAudioSlow.playbackRate = 0.75;
+    this.theAudioSlower.playbackRate = 0.5;
 
-  return e(ExerciseContext.Consumer, null, ({disallowCandy}) => {
+    this.audioSlowCounter = 0;
+
+  }
+
+  render() {
+
+    return e(ExerciseContext.Consumer, null, ({disallowCandy}) => {
+
+      var audioButtonClassExtra = '';
+
+      if (this.audioSlowCounter < 3) {
+        audioButtonClassExtra = ' tilt-20';
+      }
 
       if (!disallowCandy) {
         return e(
@@ -679,17 +694,25 @@ function QuestionAudioButton(props) {
             {
               className: 'text-x btn-tall blue me-3',
               onClick: () => {
-                theAudio.play();
+                this.theAudio.play();
               }
             },
-            e('i', { className: "bi bi-volume-up-fill" })
+            e('i', { className: "bi bi-volume-up-fill" + audioButtonClassExtra })
           ),
           e(
             'a',
             {
               className: 'text-normal btn-tall me-3',
               onClick: () => {
-                theAudioSlow.play();
+
+                if (this.audioSlowCounter < 3) {
+                  this.theAudioSlow.play();
+                  this.audioSlowCounter += 1;
+                } else {
+                  this.theAudioSlower.play();
+                  this.audioSlowCounter = 0;
+                }
+
               }
             },
             e('i', { className: "bi bi-hourglass-split" })
@@ -699,7 +722,9 @@ function QuestionAudioButton(props) {
         return e('span', {}, null);
       }
 
-  });
+    });
+
+  }
 
 }
 
@@ -960,16 +985,44 @@ function LevelChooser(props) {
           e('button',
             { className: 'btn-tall blue',
               onClick: () => {
+
+                var unlockedMap = {};
                 var levelMapKeys = Object.keys(levelMap);
+
+                Object.values(levelMap).forEach((item, i) => {
+
+                  var thisLevel = levelMapKeys[i];
+                  var unitsKeys = Object.keys(item);
+
+                  Object.values(item).forEach((item, i) => {
+
+                    if (!item.disabled) {
+
+                      if (!unlockedMap[thisLevel]) {
+                        unlockedMap[thisLevel] = {};
+                      }
+
+                      unlockedMap[thisLevel][unitsKeys[i]] = item;
+
+                    }
+
+                  });
+
+
+                });
+
+                levelMapKeys = Object.keys(unlockedMap);
                 var randomLevelIndex = randomNumber(0, levelMapKeys.length - 1);
-                var randomLevel = levelMap[levelMapKeys[randomLevelIndex]];
+                var randomLevel = unlockedMap[levelMapKeys[randomLevelIndex]];
                 var randomLevelKeys = Object.keys(randomLevel);
                 var randomUnitIndex = randomNumber(0, randomLevelKeys.length - 1);
                 var randomUnit = randomLevel[randomLevelKeys[randomUnitIndex]];
+
                 loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
                 window.location.hash = randomUnit.id;
+
               }},
-            'Jogar Aleatorio'),
+            thei18n.play_random),
           e('button',
             { className: 'btn-tall green ms-3',
               onClick: () => {
@@ -1012,7 +1065,7 @@ function LevelChooser(props) {
                 window.location.hash = unitToLoad;
 
               }},
-            'Revisar'),
+            thei18n.review),
         )),
       ),
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {

@@ -565,8 +565,8 @@ input:checked + .slider:before {
 
 @media (min-width: 992px) {
 	.squeeze { max-width: calc(40vw + 25rem); margin: 0 auto; }
-	.squeeze-big { max-width: 75vw; margin: calc(3rem + 2vw) auto; }
-  .squeeze-small { max-width: calc(20vw + 25rem); margin: calc(3rem + 2vw) auto; }
+	.squeeze-big { max-width: 75vw; margin: 0 auto; }
+  .squeeze-small { max-width: calc(20vw + 25rem); margin: 0 auto; }
 
   main {
     margin-top: calc(var(--guyra-navbar-size) * 1.75) !important;
@@ -783,6 +783,7 @@ progress.progress[value]::-moz-progress-bar {
 .gtooltip[data-popper-placement^='right'] > .arrow { left: -4px; }
 
 .blurred { filter: blur(20px); }
+.tilt-20 { transform: rotateZ(20deg); }
 
 .notifications {
   max-height: 75vh;

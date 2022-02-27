@@ -1,4 +1,10 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingPage,
+} from '%template_url/assets/js/Common.js';
 
 const HelpContext = React.createContext();
 

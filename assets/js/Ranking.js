@@ -1,4 +1,11 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  RoundedBoxHeading,
+  LoadingPage
+} from '%template_url/assets/js/Common.js';
 
 const RankingContext = React.createContext();
 
@@ -6,7 +13,7 @@ function Ranking_Wrapper(props) {
   return  e(RankingContext.Consumer, null, ({i18n, ranking_list}) => e(
     'div',
     { className: 'ranking-squeeze' },
-    e('h1', { className: 'text-blue' }, i18n.ranking),
+    e(RoundedBoxHeading, { icon: 'icons/podium.png', value: i18n.ranking }),
     Object.values(ranking_list).map((list_item, i) => {
 
       var cardExtraValues = '';

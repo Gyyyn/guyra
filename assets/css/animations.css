@@ -87,6 +87,36 @@
   }
 }
 
+@keyframes itemAdd {
+
+  0% {
+    position: relative;
+    top: 0;
+    right: 0;
+    z-index: 1080;
+    opacity: 1;
+  }
+
+  65% {
+    opacity: 1;
+    top: -10vh;
+    right: 0;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    position: relative;
+    top: -30vh;
+    right: -10vw;
+    z-index: 1080;
+    opacity: 0;
+  }
+
+}
+
 /* Pops */
 .pop-animation.animate {
   animation: pop 0.35s;
@@ -123,6 +153,12 @@
 .flip-animation {
   animation: flip 0.35s;
   transform-style: preserve-3d;
+}
+
+/* Other */
+.itemAdd-animation {
+  opacity: 0;
+  animation: itemAdd 1s;
 }
 
 /* Common */

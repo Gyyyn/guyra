@@ -4,7 +4,6 @@ import {
   GuyraGetData,
   rootUrl,
   thei18n,
-  LoadingIcon,
   LoadingPage
 } from '%template_url/assets/js/Common.js';
 

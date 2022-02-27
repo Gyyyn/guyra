@@ -86,6 +86,28 @@
     }
   },
 
+  "profile_pack_cyberpunk": {
+    "price": "50",
+    "image": "icons/avatars/cyberpunk1.png",
+    "items": {
+      "avatar_cyberpunk1": {
+        "location": "icons/avatars/cyberpunk1.png"
+      },
+      "avatar_cyberpunk2": {
+        "location": "icons/avatars/cyberpunk2.png"
+      },
+      "avatar_cyberpunk3": {
+        "location": "icons/avatars/cyberpunk3.png"
+      },
+      "avatar_cyberpunk4": {
+        "location": "icons/avatars/cyberpunk4.png"
+      },
+      "avatar_cyberpunk5": {
+        "location": "icons/avatars/cyberpunk5.png"
+      }
+    }
+  },
+
   "progress_pack1": {
     "price": "10",
     "type":"progress",

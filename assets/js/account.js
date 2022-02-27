@@ -3,7 +3,6 @@ import {
   GuyraGetData,
   rootUrl,
   thei18n,
-  LoadingIcon,
   LoadingPage,
   Guyra_InventoryItem,
   GuyraParseDate,
@@ -411,19 +410,19 @@ class AccountPayment extends React.Component {
   constructor(props) {
     super(props);
 
+    this.setPlan = (plan) => {
+      this.setState({
+        selectedPlan: plan,
+        userSelectedPlan: true
+      });
+    }
+
     this.state = {
       selectedPlan: 'lite',
       setPlan: this.setPlan,
       userSelectedPlan: false
     };
 
-  }
-
-  setPlan = (plan) => {
-    this.setState({
-      selectedPlan: plan,
-      userSelectedPlan: true
-    });
   }
 
   componentDidMount() {
@@ -793,6 +792,24 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onChangeField = (event) => {
+
+      var tempState = this.state;
+      var newValue = event.target.value;
+
+      if (event.target.id == 'user_phone') {
+        newValue = validatePhoneNumber(newValue);
+      }
+
+      tempState[event.target.id] = newValue;
+
+      if (tempState.modified.indexOf(event.target.id) === -1) {
+        tempState.modified.push(event.target.id);
+      }
+
+      this.setState(tempState);
+    }
+
     this.state = {
       "user_email": this.props.userdata.user_email,
       "first_name": this.props.userdata.first_name,
@@ -800,24 +817,6 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
       "user_phone": this.props.userdata.user_phone,
       modified: [],
     };
-  }
-
-  onChangeField = (event) => {
-
-    var tempState = this.state;
-    var newValue = event.target.value;
-
-    if (event.target.id == 'user_phone') {
-      newValue = validatePhoneNumber(newValue);
-    }
-
-    tempState[event.target.id] = newValue;
-
-    if (tempState.modified.indexOf(event.target.id) === -1) {
-      tempState.modified.push(event.target.id);
-    }
-
-    this.setState(tempState);
   }
 
   render() {
@@ -1984,16 +1983,16 @@ class LoginForm extends React.Component {
       this.emailField = member.user_email;
     }
 
+    this.onChangeEmail = (event) => {
+      this.setState({
+        emailField: event.target.value
+      });
+    }
+
     this.state = {
       emailField: this.emailField,
     }
 
-  }
-
-  onChangeEmail = (event) => {
-    this.setState({
-      emailField: event.target.value
-    });
   }
 
   render() {
@@ -2210,6 +2209,12 @@ class Account extends React.Component {
 
     this.userdata = {};
 
+    this.setPage = (page) => {
+      this.setState({
+        page: page
+      });
+    }
+
     this.state = {
       page: e(LoadingPage),
       setPage: this.setPage
@@ -2272,12 +2277,6 @@ class Account extends React.Component {
 
     });
 
-  }
-
-  setPage = (page) => {
-    this.setState({
-      page: page
-    });
   }
 
   render() {

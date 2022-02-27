@@ -3,7 +3,6 @@ import {
   GuyraGetData,
   rootUrl,
   thei18n,
-  LoadingIcon,
   LoadingPage,
   checkForTranslatables
 } from '%template_url/assets/js/Common.js';

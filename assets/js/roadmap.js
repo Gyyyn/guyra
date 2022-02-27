@@ -1,4 +1,10 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e } from './Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingPage
+} from './Common.js';
 
 const RoadmapContext = React.createContext();
 

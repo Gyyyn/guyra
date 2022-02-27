@@ -38,6 +38,12 @@
       "description_full": "Inclui 4 avatares temáticos de halloween."
     },
 
+    "profile_pack_cyberpunk": {
+      "name": "Pacote de perfil: Cyberpunk",
+      "description": "Importado do futuro.",
+      "description_full": "Inclui 5 avatares temáticos de Cyberpunk."
+    },
+
     "progress_pack1": {
       "name": "Pacote de progressão 1",
       "description": "Destrave novos exercícios!",
@@ -219,6 +225,27 @@
     "avatar_pumpkin": {
       "name": "Avatar: Abóbora",
       "preview": "%site_url/api/?get_image=icons/avatars/pumpkin.png&size=64"
+    },
+
+    "avatar_cyberpunk1": {
+      "name": "Avatar: Caveira Cyberpunk",
+      "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk1.png&size=64"
+    },
+    "avatar_cyberpunk2": {
+      "name": "Avatar: Pessoa Cyberpunk 1",
+      "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk2.png&size=64"
+    },
+    "avatar_cyberpunk3": {
+      "name": "Avatar: Pessoa Cyberpunk 2",
+      "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk3.png&size=64"
+    },
+    "avatar_cyberpunk4": {
+      "name": "Avatar: Pessoa Cyberpunk 3",
+      "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk4.png&size=64"
+    },
+    "avatar_cyberpunk5": {
+      "name": "Avatar: Gato Cyberpunk",
+      "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk5.png&size=64"
     },
 
     "flashcards_verbs1": {

@@ -1,6 +1,16 @@
-import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, RoundedBoxHeading, RenderReplies, GetStandardDate } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  Study_Topbar,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  theUserdata,
+  LoadingPage,
+  RoundedBoxHeading,
+  RenderReplies,
+  GetStandardDate
+} from '%template_url/assets/js/Common.js';
 
-// TODO: Merge these
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
 
@@ -1685,6 +1695,7 @@ class GroupAdminHome extends React.Component {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
       'main',
       {},
+      e(Study_Topbar, { userdata: theUserdata }),
       e(
         'div',
         { className: 'home-wrapper' },

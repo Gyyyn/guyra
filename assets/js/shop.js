@@ -1,4 +1,12 @@
-import { GuyraGetData, rootUrl, thei18n, theUserdata, LoadingIcon, LoadingPage, e, Guyra_InventoryItem } from '%template_url/assets/js/Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  theUserdata,
+  LoadingPage,
+  Guyra_InventoryItem
+} from '%template_url/assets/js/Common.js';
 
 const ShopContext = React.createContext();
 
@@ -59,7 +67,7 @@ class Shop_ItemView extends React.Component {
             { className: 'welcome' },
             e('h1', { className: 'mt-3' }, i18n._shop[this.props.id].name),
           ),
-          e('img', { className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
+          e('img', { id: 'item-listing-icon', className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
         ),
         e(
           'div',
@@ -113,9 +121,14 @@ class Shop_ItemView extends React.Component {
 
                       // Drop the user back to the main page.
                       ev.target.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                      document.getElementById('item-listing-icon').classList.add('itemAdd-animation', 'animate');
+
+                      // Force userdata update.
+                      window.localStorage.removeItem('guyra_userdata');
+
                       setTimeout(() => {
                         setPage(e(Shop_wrapper));
-                      }, 500);
+                      }, 1300);
 
                     } else {
 
@@ -228,10 +241,10 @@ class Shop_ItemList extends React.Component {
       e(
         'div',
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
-        e('button', { className: 'btn-tall blue me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
-        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
-        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
-        e('button', { className: 'btn-tall me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
+        e('button', { className: 'btn-tall blue mb-3 me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
       ),
       e(
         'div',
@@ -390,7 +403,7 @@ class Shop extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
+    var dataPromise = GuyraGetData({ force: true });
 
     dataPromise.then(res => {
 

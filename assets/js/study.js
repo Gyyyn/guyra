@@ -6,7 +6,6 @@ import {
   rootUrl,
   thei18n,
   theUserdata,
-  LoadingIcon,
   LoadingPage,
   Guyra_InventoryItem,
   randomNumber,

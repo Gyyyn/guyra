@@ -1,4 +1,11 @@
-import { GuyraGetData, rootUrl, thei18n, LoadingIcon, LoadingPage, e, MD5 } from './Common.js';
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  LoadingPage,
+  MD5
+} from './Common.js';
 
 var user_gamedata = {};
 const FlashcardsContext = React.createContext();
