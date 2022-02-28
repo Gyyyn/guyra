@@ -635,7 +635,11 @@ class AccountPayment extends React.Component {
             e('li', {}, i18n.payment_processor_warning[1]),
             e('li', {}, i18n.payment_processor_warning[2]),
             e('li', {}, i18n.payment_processor_warning[3]),
-          )
+          ),
+          e('img', {
+            className: '',
+            src: i18n.api_link + '?get_image=img/google-safe-browsing.png&size=[150,30]'
+          })
         ]})
       );
 
@@ -1111,7 +1115,7 @@ function AccountOptions_accountDetails(props) {
 
           var allowed = false;
 
-          if (Notification.permission === "granted") {
+          if (Notification && Notification.permission === "granted") {
             allowed = true;
           }
 
