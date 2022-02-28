@@ -1119,14 +1119,16 @@ function AccountOptions_accountDetails(props) {
               { className: 'me-3' },
               i18n.notifications_not_supported
             );
-          } else {
+          }
+
+          if ("Notification" in window) {
 
             var allowed = false;
 
             if (Notification.permission === "granted") {
               allowed = true;
             }
-            
+
             return e(AccountOptions_slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
 
               var checkbox = document.getElementById('notifications-checkbox');
@@ -1142,7 +1144,9 @@ function AccountOptions_accountDetails(props) {
               }
 
             }});
+
           }
+
         })
       )
     ),
