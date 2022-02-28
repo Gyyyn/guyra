@@ -1113,12 +1113,6 @@ function AccountOptions_accountDetails(props) {
         { className: 'd-flex flex-row' },
         e(AccountContext.Consumer, null, ({i18n}) => {
 
-          var allowed = false;
-
-          if (Notification && Notification.permission === "granted") {
-            allowed = true;
-          }
-
           if (!("Notification" in window)) {
             return e(
               'p',
@@ -1126,6 +1120,13 @@ function AccountOptions_accountDetails(props) {
               i18n.notifications_not_supported
             );
           } else {
+
+            var allowed = false;
+
+            if (Notification.permission === "granted") {
+              allowed = true;
+            }
+            
             return e(AccountOptions_slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
 
               var checkbox = document.getElementById('notifications-checkbox');
