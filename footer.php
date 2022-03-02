@@ -25,6 +25,12 @@ include_once $template_dir . '/functions/Assets.php';
   </p>
 </footer>
 
+<?php if ($args['react']): ?>
+<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
+<script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
+<?php endif; ?>
 <script type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
@@ -32,12 +38,6 @@ include_once $template_dir . '/functions/Assets.php';
 <?php if ($args['easymde']): ?>
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 <script async src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-<?php endif; ?>
-<?php if ($args['react']): ?>
-<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
-<script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
 <?php endif; ?>
 <?php if ($args['MercadoPago']): ?>
 <script async src="https://sdk.mercadopago.com/js/v2"></script>

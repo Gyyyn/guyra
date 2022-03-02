@@ -186,6 +186,11 @@
    "already_answered":"já responderam",
    "already_answered_singular":"já respondeu",
    "thirdparty_processor":"Mercado Pago",
+   "subscription_donations": [
+     "Ajude uma causa",
+     "1% da sua mensalidade na Guyrá e direcionada a doações para organizações sem fins lucrativos!",
+     "Veja a lista de organizações que ajudamos clicando"
+   ],
    "no_subscription_found": [
      "Parece que você não um plano ativo!",
      "Sem uma assinatura você:",
@@ -218,8 +223,8 @@
      "lite": {
        "title": "Guyrá Pass",
        "subtitle": "Acesso ao site e ferramentas.",
-       "price": "<s class=\"text-small text-grey\">59R$</s> <span class=\"text-primary\">29R$</span>",
-       "value": "29"
+       "price": "<s class=\"text-small text-grey\">30R$</s> <span class=\"text-primary\">19R$</span>",
+       "value": "20"
      },
      "premium": {
        "title": "Guyrá Premium",

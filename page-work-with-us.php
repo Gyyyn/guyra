@@ -30,7 +30,7 @@ get_header(null, ['css' => 'landing.css']);
    </div>
   </div>
 
- 	<main id="jump-info" class="landing bg-white">
+ 	<div id="jump-info" class="landing bg-white">
 
     <div class="row feature squeeze">
       <div class="col order-md-2 px-md-5 align-self-center">
@@ -117,7 +117,7 @@ get_header(null, ['css' => 'landing.css']);
 
     </div></div>
 
- </main>
+ </div>
 
  <?php
  get_footer(null, ['aos' => true]);

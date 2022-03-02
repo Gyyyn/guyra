@@ -636,10 +636,18 @@ class AccountPayment extends React.Component {
             e('li', {}, i18n.payment_processor_warning[2]),
             e('li', {}, i18n.payment_processor_warning[3]),
           ),
-          e('img', {
-            className: '',
-            src: i18n.api_link + '?get_image=img/google-safe-browsing.png&size=[150,30]'
-          })
+          e(
+            'a',
+            {
+              className: 'btn',
+              href: 'https://transparencyreport.google.com/safe-browsing/search?url=guyra.me',
+              target: '_blank'
+            },
+            e('img', {
+              className: '',
+              src: i18n.api_link + '?get_image=img/google-safe-browsing.png&size=[150,30]'
+            })
+          ),
         ]})
       );
 
@@ -685,7 +693,29 @@ class AccountPayment extends React.Component {
           { className: 'col-md-7 col-lg-8 mt-0 mb-5 mb-md-3' },
           topWarnings,
           e(AccountPayment_paymentForm),
-          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' })
+          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' }),
+          e(
+            'div',
+            { className: 'dialog-box info' },
+            e(
+              'div',
+              { className: 'd-flex flex-row justify-content-between align-items-center' },
+              e('h2', {}, thei18n.subscription_donations[0]),
+              e('img', {
+                alt: thei18n.payment,
+                src: thei18n.api_link + '?get_image=icons/charity.png&size=64'
+              }),
+            ),
+            e('div', { className: '' },
+              e('p', {},
+                thei18n.subscription_donations[1],
+              ),
+              e('p', {},
+                thei18n.subscription_donations[2] + ' ',
+                e('a', { href: thei18n.home_link + '/faq#donations' }, thei18n.here.toLowerCase())
+              ),
+            )
+          )
         ),
       ),
     );

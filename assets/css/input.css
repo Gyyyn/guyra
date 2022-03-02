@@ -77,7 +77,7 @@
 	border-bottom-width: calc(var(--guyra-border-size) * 1.5);
 }
 
-.btn-tall.btn-sm:active:not(.disabled) { top: calc(var(--guyra-border-size) * 1.5); }
+.btn-tall.btn-lg:active:not(.disabled) { top: calc(var(--guyra-border-size) * 1.5); }
 
 .btn-tall.btn-sm:hover {
   padding: .35rem .75rem;

@@ -15,6 +15,7 @@ import {
 } from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
+import { PersistentMeeting } from '%template_url/assets/js/Header.js';
 
 const HomeContext = React.createContext();
 
@@ -391,11 +392,31 @@ class UserHome extends React.Component {
   constructor(props) {
     super(props);
 
+    this.setMeeting = (state) => {
+
+      if (state) {
+        this.setState({
+          meeting: e(PersistentMeeting, { close: () => { this.setMeeting(false); } }),
+        });
+      } else {
+        this.setState({
+          meeting: null,
+        });
+      }
+
+    }
+
     this.defaultCards = [
       {
         id: 'topbar',
         class: 'userhome-topbar d-flex justify-content-center',
-        element: e(Study_Topbar, { home_link: { onClick: null, classExtra: 'active' } })
+        element: e(
+          Study_Topbar,
+          {
+            home_link: { onClick: null, classExtra: 'active' },
+            meeting_link: { onClick: () => { this.setMeeting(true); } }
+          }
+        )
       },
       { id: 'welcome', element: e(UserHome_WelcomeCard) }
     ];
@@ -405,7 +426,8 @@ class UserHome extends React.Component {
       page: e(LoadingPage),
       setPage: this.setPage,
       addCard: this.addCard,
-      cards: this.defaultCards
+      cards: this.defaultCards,
+      meeting: null,
     };
 
   }
@@ -468,6 +490,7 @@ class UserHome extends React.Component {
     return e(HomeContext.Provider, { value: this.state }, e(
       'main',
       {},
+      this.state.meeting,
       e(
         'div',
         { className: 'squeeze d-flex flex-column justify-content-center home-wrapper' },
