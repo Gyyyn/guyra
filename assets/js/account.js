@@ -60,6 +60,7 @@ function Account_BackButton(props) {
     return e(
       'button',
       {
+        id: 'back-button',
         className: 'btn-tall blue round-border',
         onClick: () => {
           setPage(props.page);
@@ -696,7 +697,7 @@ class AccountPayment extends React.Component {
           e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' }),
           e(
             'div',
-            { className: 'dialog-box info' },
+            { className: 'dialog-box info mt-3' },
             e(
               'div',
               { className: 'd-flex flex-row justify-content-between align-items-center' },
@@ -1408,7 +1409,7 @@ function WhoAmI_openPayments_paymentItem(props) {
         { className: 'qr-code col-auto' },
         e(
           'div',
-          { className: 'card trans blue' },
+          { className: 'card trans blue mb-3' },
           e('h3', { className: 'mb-2' },
             i18n.qr_code,
             e(

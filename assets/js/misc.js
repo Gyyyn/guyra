@@ -52,16 +52,32 @@ if (copyFromNotepadButton) {
 
 
 // Header
-var mobileHeaderBackButton = document.getElementById('mobile-header-back');
+// TODO: Move this to header.js
 
-if (mobileHeaderBackButton) {
-  if (window.location.pathname == '/') {
-    mobileHeaderBackButton.classList.add('opacity-0');
-    mobileHeaderBackButton.onclick = null;
-  } else {
+function updateBackButton() {
+
+  var mobileHeaderBackButton = document.getElementById('mobile-header-back');
+  var backButtonInPage = document.getElementById('back-button');
+
+  if (mobileHeaderBackButton || backButtonInPage) {
+
+    if (window.location.pathname == '/' && !backButtonInPage) {
+      mobileHeaderBackButton.classList.add('opacity-0');
+      mobileHeaderBackButton.onclick = null;
+    }
+
     mobileHeaderBackButton.onclick = (e) => {
-      // window.history.back();
+
+      if (backButtonInPage) {
+        backButtonInPage.click();
+        return;
+      }
+
       window.location.href = window.location.origin;
     }
+
   }
+
 }
+
+document.addEventListener('scroll', updateBackButton);

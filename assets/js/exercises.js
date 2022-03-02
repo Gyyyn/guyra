@@ -1173,6 +1173,7 @@ function returnToLevelMapButton(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
     'a',
     {
+      id: 'back-button',
       className: 'btn-tall blue',
       onClick: () => {
         reset();

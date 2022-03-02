@@ -7,4 +7,4 @@ get_header();
 ?>
 <div id="user-home"></div>
 <?php
-get_footer(null, ['js' => 'Study.js', 'easymde' => true, 'react' => true]);
+get_footer(null, ['js' => 'study.js', 'easymde' => true, 'react' => true]);
