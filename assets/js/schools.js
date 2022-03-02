@@ -249,6 +249,9 @@ class DiaryPaginatedEntries extends React.Component {
   constructor(props) {
     super(props);
 
+    if (!this.props.entries) {
+    this.props.entries = [] }
+
     this.entries = [];
     this.entriesPerPage = (this.props.entriesPerPage != undefined) ? this.props.entriesPerPage : 10;
     this.currentMinIndex = -1;
@@ -335,6 +338,12 @@ class DiaryPaginatedEntries extends React.Component {
   render() {
     return e(DiaryContext.Consumer, null, ({diary}) => {
 
+      if (!diary.payments) {
+      diary.payments = {} }
+
+      if (!diary.entries) {
+      diary.entries = {} }
+
       return this.state.entries.map((i) => {
 
         var returnElement = [];
@@ -383,13 +392,22 @@ class DiaryPaginatedEntries extends React.Component {
 
 function DiaryEntries(props) {
 
-  return e(DiaryContext.Consumer, null, ({diary}) => e(
-    'div',
-    {
-      className: 'diary-entries px-2'
-    },
-    e(DiaryPaginatedEntries, {entries: Object.values(diary.entries)})
-  ));
+  return e(DiaryContext.Consumer, null, ({diary}) => {
+
+    var theEntries = diary.entries;
+
+    if (!theEntries) {
+    theEntries = {} }
+
+    return e(
+      'div',
+      {
+        className: 'diary-entries px-2'
+      },
+      e(DiaryPaginatedEntries, { entries: Object.values(theEntries) })
+    );
+
+  });
 }
 
 function DiarySubmit(props) {

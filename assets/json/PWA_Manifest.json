@@ -25,8 +25,17 @@
     }
   ],
   "start_url": "/",
-  "background_color": "#9ddbef",
+  "background_color": "#e5eaee",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#00BFFF"
+  "theme_color": "#0cbaf5",
+  "shortcuts": [
+    {
+      "name": "%s",
+      "short_name": "%s",
+      "description": "%s",
+      "url": "%s",
+      "icons": [{ "src": "%s", "sizes": "512x512" }]
+    }
+  ]
 }

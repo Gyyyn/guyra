@@ -41,19 +41,8 @@ if (clearNotificationsButton) {
   }
 }
 
-// Notepad
-var copyFromNotepadButton = document.getElementById('copy-from-notepad');
-
-if (copyFromNotepadButton) {
-  copyFromNotepadButton.onclick = (e) => {
-    easyMDE.value(localStorage.getItem('notepad'));
-  }
-}
-
-
 // Header
 // TODO: Move this to header.js
-
 function updateBackButton() {
 
   var mobileHeaderBackButton = document.getElementById('mobile-header-back');

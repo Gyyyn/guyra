@@ -1669,7 +1669,7 @@ function WhoAmI(props) {
 
     var openPayments = null;
 
-    if (userdata.user_diary != undefined) {
+    if (userdata.user_diary && userdata.user_diary.payments) {
       userdata.user_diary.payments.forEach((item) => {
         if (item.status == 'pending') {
 

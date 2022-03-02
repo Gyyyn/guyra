@@ -24,10 +24,11 @@ $secondsForA = [
 	'minute' => 60
 ];
 
+$site_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+$site_root = ABSPATH;
 $template_dir = get_template_directory();
 $template_url = get_template_directory_uri();
 $cache_dir = $template_dir . '/cache';
-$site_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
 $admin_url = get_admin_url();
 $site_api_url = $site_url . '/api';
 
@@ -175,7 +176,7 @@ if ($current_user_payments['status'] == 'approved')
 $current_user_subscription_valid = true;
 
 // Allow payment through direct payment
-if ($current_user_diary && is_array($current_user_diary)) {
+if ($current_user_diary['payments'] && is_array($current_user_diary)) {
 
 	$latest_item = end($current_user_diary['payments']);
 	$secondtolast_item = prev($current_user_diary['payments']);

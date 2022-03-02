@@ -69,6 +69,7 @@
 	border-bottom-width: calc(var(--guyra-border-size) * 0.75);
 }
 
+.btn-tall.btn-sm:hover { padding: .35rem .75rem; }
 .btn-tall.btn-sm:active:not(.disabled) { top: calc(var(--guyra-border-size) * 0.75); }
 
 .btn-tall.btn-lg {
@@ -77,10 +78,14 @@
 	border-bottom-width: calc(var(--guyra-border-size) * 1.5);
 }
 
+.btn-tall.btn-lg { padding: 1rem 1.75rem; }
 .btn-tall.btn-lg:active:not(.disabled) { top: calc(var(--guyra-border-size) * 1.5); }
 
-.btn-tall.btn-sm:hover {
-  padding: .35rem .75rem;
+.btn-tall.btn-v {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .btn-tall.blue,

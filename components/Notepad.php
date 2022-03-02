@@ -23,6 +23,4 @@ function Guyra_notepad() {
     </div>
   </div>
 
-  <script async type="module" src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
-
 <?php }

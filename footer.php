@@ -26,12 +26,11 @@ include_once $template_dir . '/functions/Assets.php';
 </footer>
 
 <?php if ($args['react']): ?>
-<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
 <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
+<script async src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
 <?php endif; ?>
-<script type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
@@ -45,9 +44,11 @@ include_once $template_dir . '/functions/Assets.php';
 <?php endif; ?>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script async type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
 <?php if ($args['js']): ?>
 <script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>
+<script async type="module" src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
 <?php if ($args['aos']): ?>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>

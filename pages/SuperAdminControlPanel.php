@@ -110,6 +110,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
       <p>Currently working options are (* indicates potentially critical functionality):</p>
       <ul>
         <li>landing_open - site has landing page or just login.</li>
+        <li>dev_env - series of actions: 1. forces always refresh cache for js, css.</li>
         <li>google_api* - google api key used for: cloud translate, youtube api.</li>
         <li>google_cloud* - google cloud credentials json used for: cloud tts.</li>
         <li>mp_access_token* - MercadoPado Prod Access Token used for payments.</li>
@@ -277,6 +278,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <a href="<?php echo $site_api_url . '?delete_cache=assets&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Asset Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=translations&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Translations Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Audio Cache</a>
+  <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Refresh PWA</a>
 
   </div>
 

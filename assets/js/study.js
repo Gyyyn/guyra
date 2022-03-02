@@ -56,8 +56,7 @@ class UserHome_ReplyCard extends React.Component {
     fetch(thei18n.api_link + '?post_attachment=1', {
       method: 'POST',
       body: formData
-    }).then(res => res.json())
-    .then(res => {
+    }).then(res => res.json()).then(res => {
 
       if (typeof res === 'object') {
         console.error(res[1]);
@@ -136,6 +135,10 @@ class UserHome_ReplyCard extends React.Component {
       e(RoundedBoxHeading, { icon: 'icons/essay.png', value: thei18n.reply }),
       e(HomeContext.Consumer, null, ({userdata}) => {
 
+        // Check if we have a diary and comments.
+        if (!userdata.user_diary || !userdata.user_diary.user_comments) {
+        return; }
+
         var theReplies = Array.from(userdata.user_diary.user_comments);
 
         if (this.state.localReplies.length > 0) {
@@ -156,6 +159,29 @@ class UserHome_ReplyCard extends React.Component {
       e(
         'div',
         { className: 'dialog-box' },
+        e('div', { className: 'controls' },
+          e(
+            'button',
+            {
+              className: 'btn-tall btn-v green me-2 mb-2',
+              onClick: (event) => {
+
+                if (!this.easyMDE) {
+                return; }
+
+                var before = event.target.innerHTML;
+
+                this.easyMDE.value(localStorage.getItem('notepad'));
+
+                event.target.innerHTML = thei18n.button_copy_notepad + '<i class="bi bi-clipboard-check-fill"></i>'
+                setTimeout(() => { event.target.innerHTML = before; }, 2000)
+
+              }
+            },
+            e('i', { className: 'bi bi-clipboard' }),
+            thei18n.button_copy_notepad
+          ),
+        ),
         e('textarea', { id: 'comment'}, null),
         e(
           'div',
@@ -178,11 +204,20 @@ class UserHome_ReplyCard extends React.Component {
 
 function UserHome_LessonCard(props) {
   return e(HomeContext.Consumer, null, ({userdata}) => {
+
+    var theUserpage;
+
+    if (!userdata.user_diary || !userdata.user_diary.userpage) {
+      theUserpage = thei18n.no_userpage;
+    } else {
+      theUserpage = userdata.user_diary.userpage;
+    }
+
     return e(
       'div',
       { className: 'userpage' },
       e(RoundedBoxHeading, { icon: 'icons/light.png', value: thei18n.lessons }),
-      window.HTMLReactParser(marked.parse(userdata.user_diary.userpage)),
+      window.HTMLReactParser(marked.parse(theUserpage)),
     );
   });
 }
@@ -222,7 +257,7 @@ function UserHome_WelcomeCard(props) {
     var WelcomeGreeting_Button = (props) => {
       return e(
         'button',
-        { className: 'btn-tall btn-sm blue d-flex flex-column justify-content-center align-items-center me-2 mb-2',
+        { className: 'btn-tall btn-v btn-sm blue me-2 mb-2',
         onClick: () => {
             props.onClick();
           } },
