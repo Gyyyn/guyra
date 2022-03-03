@@ -2197,46 +2197,50 @@ function LostPassword(props) {
         e('h2', { className: 'text-primary'}, i18n.forgot_password)
       ),
       e(
-        'p',
+        'div',
         { className: 'dialog-box my-3' },
         i18n.forgot_password_message
       ),
       e(
         'div',
-        { className: 'mb-3'},
-        e('label', { for: 'profile-email' }, i18n.email),
-        e('input', { id: 'profile-email', name: 'user_email', type: "email", className: "input-email", placeholder: "you@example.com" })
-      ),
-      e(
-        'div',
-        { className: 'mb-3'},
+        { className: 'row align-items-center g-2' },
         e(
-          'button',
-          {
-            className: 'btn-tall blue w-50',
-            onClick: () => {
+          'div',
+          { className: 'form-floating col mb-3'},
+          e('input', { id: 'profile-email', name: 'user_email', type: "email", className: "input-email form-control", placeholder: "you@example.com" }),
+          e('label', { for: 'profile-email' }, i18n.email),
+        ),
+        e(
+          'div',
+          { className: 'col-auto mb-3'},
+          e(
+            'button',
+            {
+              className: 'btn-tall blue',
+              onClick: () => {
 
-              var theEmail = document.getElementById('profile-email').value;
+                var theEmail = document.getElementById('profile-email').value;
 
-              if (theEmail != '') {
-                fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
-                .then(res => res.json())
-                .then(json => {
-                  if (json == 'true') {
-                    setMessageBox(i18n.forgot_password_email_sent);
-                  } else {
-                    console.error(json);
-                    setMessageBox(i18n[json]);
-                  }
-                });
-              } else {
-                setMessageBox(i18n['login empty']);
+                if (theEmail != '') {
+                  fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
+                  .then(res => res.json())
+                  .then(json => {
+                    if (json == 'true') {
+                      setMessageBox(i18n.forgot_password_email_sent);
+                    } else {
+                      console.error(json);
+                      setMessageBox(i18n[json]);
+                    }
+                  });
+                } else {
+                  setMessageBox(i18n['login empty']);
+                }
+
               }
-
-            }
-          },
-          i18n.reset_password
-        )
+            },
+            i18n.reset_password
+          )
+        ),
       ),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
     )

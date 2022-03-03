@@ -20,6 +20,9 @@ function Guyra_Login_User($creds) {
   if (!$attempted_login)
   return ['error' => 'user_not_found'];
 
+  if (!$attempted_login_password)
+  return ['error' => 'user_no_password'];
+
   if (password_verify($creds['user_password'], $attempted_login_password)) {
 
     // Auth passed, set all the globals.

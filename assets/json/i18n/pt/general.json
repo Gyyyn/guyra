@@ -478,6 +478,7 @@
    "error":"Houve um erro.",
    "captcha_error":"Houve um erro com o CAPTCHA.",
    "user_not_found":"Usuário não encontrado!",
+   "user_no_password":"Por motivo de segurança por favor crie uma nova senha usando a função \"Perdi minha senha!\".",
    "user already exists":"Este email já está em uso. Você não perdeu sua senha?",
    "login empty":"O email não pode estar vazio!",
    "password empty":"A senha não pode estar vazia!",

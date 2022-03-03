@@ -198,7 +198,7 @@ class DiaryEntry extends React.Component {
       e(
         'div',
         {
-          className: 'date text-grey-darker text-end col-3 position-relative',
+          className: 'date text-grey-darker text-end col-lg-3 position-relative',
           title: this.props.entry.date
         },
         this.state.dateSection
@@ -232,7 +232,7 @@ class DiaryEntry extends React.Component {
       e(
         'div',
         { className: 'comment col position-relative' },
-        this.props.entry.comment,
+        e('span', { className: '' }, this.props.entry.comment),
         e(
           'div',
           { className: 'position-absolute bottom-0 end-0' },

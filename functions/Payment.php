@@ -32,6 +32,4 @@ function CreateMPcURLObject($args=[]) {
 
   return $ch;
 
-  curl_close($ch);
-
 }

@@ -639,7 +639,7 @@ input:checked + .slider:before {
 }
 
 .card.hoverable:hover {
-    box-shadow: 0px 5px 15px 7px rgb(0 190 255 / 40%);
+    box-shadow: 0 5px 15px 7px rgb(0 190 255 / 40%);
 }
 
 .card-title {

@@ -22,8 +22,9 @@ function returnButton(props) {
     'div',
     {},
     e(ShopContext.Consumer, null, ({setPage, i18n}) => e(
-      'a',
+      'button',
       {
+        id: 'back-button',
         className: 'btn-tall blue round-border',
         onClick: () => {
           setPage(props.page, pageArgs);

@@ -1,118 +1,12 @@
-<head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</head>
+import {
+  e,
+  GuyraGetData,
+  rootUrl,
+  thei18n,
+  theUserdata
+  LoadingPage,
+} from './Common.js';
 
-<div class="calendar-wrapper">
-  <div id="calendar"></div>
-  <div id="schedule"></div>
-</div>
-
-<style media="screen">
-
-body {
-  background: #f5f5f5;
-}
-
-.calendar-wrapper {
-  display: flex;
-}
-
-.calendar,
-#schedule {
-  display: inline-flex;
-  flex-direction: column;
-  font-family: sans-serif;
-}
-
-.month,
-#schedule {
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  background: #fff;
-  border-radius: .5rem;
-  box-shadow: 0px 6px 12px 0px #0000000d;
-}
-
-.calendar > div,
-#schedule > div {
-  padding: 2rem;
-}
-
-.month-row {
-  display: flex;
-  margin-bottom: 1rem;
-}
-
-.month-row:first-of-type {
-    justify-content: end;
-}
-
-.day {
-  margin-right: .5rem;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  padding: .5rem;
-  border-radius: 50%;
-  box-shadow: 0px 1px 3px 0px #00000010;
-  cursor: pointer;
-  transition: all 0.05s cubic-bezier(0, 0, 0, 1);
-  color: #646464;
-  border: .1rem #ebebeb solid;
-  border-bottom: .25rem #ebebeb solid;
-  font-weight: 700;
-}
-
-.day:hover {
-  background: #f7f7f7;
-  box-shadow: 0px 3px 12px 0px #00000033;
-}
-
-.daySchedule {
-  display: flex;
-  padding: .5rem;
-  background: #fff;
-  margin-bottom: 1rem;
-  border-radius: .25rem;
-  border: .1rem #ebebeb solid;
-  border-bottom: .25rem #ebebeb solid;
-}
-
-.daySchedule:hover {
-  background: #f5f5f5;
-  border: .1rem #dfdfdf solid;
-  border-bottom: .25rem #dfdfdf solid;
-  cursor: pointer;
-}
-
-.appointment {
-  margin-left: 1rem;
-}
-
-@keyframes pop {
-  from {
-    transform: scale(0.75);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.pop-animation.animate {
-  animation: pop 0.35s;
-}
-</style>
-
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-
-<script>
-let e = React.createElement;
 const now = new Date();
 
 function ConstructMonth(month, year) {
@@ -217,8 +111,23 @@ class RenderDay extends React.Component {
   constructor(props) {
     super(props);
 
+    // Temp sample calendar:
+    // var userCalendar = {
+    //   "Mon Oct 18 2021": {
+    //     "08:00": 'some shit',
+    //     "14:15": 'some other shite',
+    //     "22:59": 'fucken sleep'
+    //   }
+    // }
+
+    if (this.props.diary) {
+    this.props.diary = {}; }
+
+    if (this.props.diary.calendar) {
+    this.props.diary.calendar = {}; }
+
     this.state = {
-      calendar: userCalendar
+      calendar: this.props.diary.calendar,
     }
 
     this.state.theDay = this.buildDay();
@@ -307,63 +216,79 @@ class RenderDay extends React.Component {
 
 }
 
-function RenderCalendar(props) {
-  var out = [];
-  var currentMonth = now.getMonth();
-  var currentYear = now.getFullYear();
-  var nextYear = currentYear + 1;
+class RenderCalendar extends React.Component {
+  constructor(props) {
+    super(props);
 
-  var theMonths = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
+    this.view = [];
+    var currentMonth = now.getMonth();
+    var currentYear = now.getFullYear();
+    var nextYear = currentYear + 1;
 
-  if ( (now.getMonth() + props.range) > 12) {
-    var monthsInTheNextYear = ( (now.getMonth() + props.range) - 12 );
-    var monthsInCurrentYear = monthsInTheNextYear - props.range;
-    monthsInCurrentYear = monthsInCurrentYear - monthsInCurrentYear * 2;
-  }
+    var theMonths = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
 
-  for (var i = 0; i < props.range; i++) {
-
-    var theYear = currentYear;
-    var theMonth = currentMonth + i;
-
-    if (i + 1 > (monthsInCurrentYear)) {
-      theYear = nextYear;
-      theMonth = (i - monthsInCurrentYear);
+    if ( (now.getMonth() + props.range) > 12) {
+      var monthsInTheNextYear = ( (now.getMonth() + props.range) - 12 );
+      var monthsInCurrentYear = monthsInTheNextYear - props.range;
+      monthsInCurrentYear = monthsInCurrentYear - monthsInCurrentYear * 2;
     }
 
-    out.push(RenderMonth(theMonths[theMonth], theYear));
+    for (var i = 0; i < props.range; i++) {
+
+      var theYear = currentYear;
+      var theMonth = currentMonth + i;
+
+      if (i + 1 > (monthsInCurrentYear)) {
+        theYear = nextYear;
+        theMonth = (i - monthsInCurrentYear);
+      }
+
+      this.view.push(RenderMonth(theMonths[theMonth], theYear));
+
+    }
+
+    this.state = {
+      view: e(LoadingPage),
+      userdata: {},
+      i18n: {}
+    };
+
+  }
+
+  componentWillMount() {
+
+    var dataPromise = GuyraGetData();
+
+    dataPromise.then(res => {
+
+      user_gamedata = res.userdata.gamedata.raw;
+
+      this.setState({
+        view: this.view,
+        userdata: res.userdata,
+        i18n: res.i18n
+      });
+
+    });
 
   }
 
   return e(
     'div',
     { className: 'calendar pop-animation animate' },
-    out
+    this.state.view
   );
 }
-
-var userCalendar = {
-  "Mon Oct 18 2021": {
-    "08:00": 'some shit',
-    "14:15": 'some other shite',
-    "22:59": 'fucken sleep'
-  }
-}
-
-window.onload = function() {
-  ReactDOM.render(e(RenderCalendar, {range: 3}), document.getElementById('calendar'));
-}
-</script>
