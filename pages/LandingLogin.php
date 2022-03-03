@@ -22,9 +22,7 @@ img.page-icon.large { width: calc(5vw + 5rem); }
        <div class="row row-cols-auto align-items-center justify-content-around cover-card p-5 bg-white">
 
          <div class="col-md text-center">
-           <video class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url . '/assets/img/icons.webm'; ?>">
-             <img class="page-icon large" alt="Guyra" src="<?php echo GetImageCache('icons/language.png', 128); ?>">
-           </video>
+           <video width="120" height="120" class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm"></video>
          </div>
 
          <div class="col-md text-left">

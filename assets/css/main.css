@@ -205,6 +205,7 @@ h4 {
 
 .text-blue, .text-primary { color: var(--guyra-blue) !important; }
 .text-purple, .text-secondary { color: var(--guyra-purple) !important; }
+.text-purple-darker { color: var(--guyra-purple-darker) !important; }
 .text-green { color: var(--guyra-green); }
 .text-red { color: var(--guyra-red); }
 .text-black { color: var(--guyra-black) !important; }
@@ -227,6 +228,13 @@ h4 {
 }
 
 .capitalize { text-transform: capitalize; }
+
+.text-marked {
+  background-image: url('%template_url/assets/img/marker.png');
+  background-repeat: no-repeat;
+	background-size: contain;
+  background-position: bottom;
+}
 
 .bg-primary { background-color: var(--guyra-blue) !important; }
 .bg-secondary { background-color: var(--guyra-purple) !important; }

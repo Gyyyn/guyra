@@ -77,7 +77,7 @@ function RenderAccountDropdown($args=[]) {
       </li>
       <li>
         <a class="dropdown-item" href="<?php echo $gi18n['profile_link']; ?>">
-          <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/clipboard.png', 64); ?>">
+          <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/sliders.png', 64); ?>">
           <?php echo $gi18n['profile'] ?>
         </a>
       </li>

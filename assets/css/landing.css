@@ -22,17 +22,21 @@
 
 @media (min-width: 980px) {
 
+	.cover {
+		padding-top: 5rem;
+	}
+
   .prices-container {
     flex-direction: row;
   }
 
   .prices {
     margin: 0;
-  	width: calc(9rem + 15vw);
+  	width: calc(6rem + 10vw);
   }
 
   .prices.primary {
-  	width: calc(9rem + 16vw);
+  	width: calc(7rem + 13vw);
   }
 
   .prices.primary.business {
@@ -95,7 +99,7 @@
   min-height: calc(100vh - var(--guyra-navbar-size));
   background-color: var(--guyra-blue);
 	background-repeat: repeat;
-	background-size: cover, auto;
+	background-size: cover, contain;
   background-image: url('%template_url/assets/img/hero.svg'), url('%template_url/assets/img/bg.png');
   background-position: 0, 0;
   display: flex;
@@ -122,12 +126,4 @@
   box-shadow: var(--guyra-box-shadow-bigger);
   padding: 0;
   margin: 0;
-}
-
-@media (min-width: 992px) {
-
-  .cover {
-    margin-top: var(--guyra-navbar-size);
-  }
-
 }
