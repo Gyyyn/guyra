@@ -12,7 +12,6 @@ global $is_logged_in;
 global $gi18n;
 
 include_once $template_dir . '/components/ProfilePicture.php';
-include_once $template_dir . '/components/Notepad.php';
 include_once $template_dir . '/components/Header.php';
 include_once $template_dir . '/functions/Assets.php';
 
@@ -249,5 +248,3 @@ ob_end_clean(); ?>
   <?php endif; ?>
 
 </header>
-
-<?php Guyra_notepad(); ?>

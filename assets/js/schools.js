@@ -586,43 +586,6 @@ class DiaryProper extends React.Component {
 
 }
 
-function NeedNewDiary(props) {
-
-  var now = GetStandardDate();
-
-  var diaryToSet = {
-    "dayAssigned": "",
-    "scheduled": [],
-    "entries": [],
-    "payments": []
-
-  }
-
-  return e(DiaryContext.Consumer, null, ({i18n}) => e(
-    'div',
-    {
-      className: "d-flex flex-column align-items-center justify-content-center border-1 more-rounded pop-animation animate"
-    },
-    e('p', null, i18n.no_diary),
-    e(
-      'div',
-      {},
-      e(DiaryContext.Consumer, null, ({setPage, setDiary, i18n, diaryOptions}) => e(
-        'button',
-        {
-          className: "btn-tall green me-2",
-          onClick: () => {
-            setDiary(diaryToSet);
-            setPage(e(DiaryProper, { diaryOptions: diaryOptions }));
-          }
-        },
-        i18n.yes
-      ))
-    )
-  ));
-
-}
-
 function PaymentAreaInfo(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
@@ -1006,9 +969,11 @@ class Diary extends React.Component {
 
     } else {
 
+      if (!this.props.diary) {
+      this.props.diary = {}; }
+
       if (this.props.diary.payments == undefined) {
-        this.props.diary.payments = [];
-      }
+      this.props.diary.payments = []; }
 
     }
 
@@ -1017,13 +982,9 @@ class Diary extends React.Component {
       diary: this.props.diary
     });
 
-    if (Object.keys(this.props.diary).length === 0) {
-      this.setPage(e(NeedNewDiary));
-    } else {
-      this.setPage(
-        e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
-      );
-    }
+    this.setPage(
+      e(DiaryContext.Consumer, null, ({diaryOptions}) => e(DiaryProper, { diaryOptions: diaryOptions }))
+    );
 
   }
 
@@ -1280,9 +1241,11 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
 
     this.theReplies = [];
 
+    if (!this.props.diary) {
+    this.props.diary = {}; }
+
     if (this.props.diary.user_comments) {
-      this.theReplies = this.props.diary.user_comments;
-    }
+    this.theReplies = this.props.diary.user_comments; }
 
   }
 
@@ -1311,11 +1274,13 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
   constructor(props) {
     super(props);
 
+    if (!this.props.diary) {
+    this.props.diary = {}; }
+
     this.theUserpage = this.props.diary.userpage;
 
     if (!this.theUserpage) {
-      this.theUserpage = thei18n.no_userpage;
-    }
+    this.theUserpage = thei18n.no_userpage; }
 
     this.state = {
       view: [
@@ -1674,7 +1639,7 @@ class GroupAdminHome extends React.Component {
     super(props);
 
     this.state = {
-      userdata: {},
+      topbar: null,
       user_list: {},
       page: e(LoadingPage),
       setPage: this.setPage,
@@ -1694,7 +1659,8 @@ class GroupAdminHome extends React.Component {
 
         this.setState({
           page: e(GroupAdminHome_AdminPanel),
-          user_list: res
+          user_list: res,
+          topbar: e(Study_Topbar, { userdata: theUserdata })
         });
 
       });
@@ -1713,7 +1679,7 @@ class GroupAdminHome extends React.Component {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
       'main',
       {},
-      e(Study_Topbar, { userdata: theUserdata }),
+      this.state.topbar,
       e(
         'div',
         { className: 'home-wrapper' },

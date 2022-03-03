@@ -1520,12 +1520,12 @@ function WhoAmI_openPayments(props) {
       items.push(
         e(AccountContext.Consumer, null, ({setPage, i18n}) => e(
           'div',
-          { className: 'card trans mb-3 me-3 ' + itemCardClass },
+          { className: 'card trans mb-2 me-2 ' + itemCardClass },
           e(
             'span',
             { className: 'd-flex justify-content-between align-items-baseline mb-2' },
-            e('span', { className: 'fw-bold text-x' }, i18n.bill),
-            e('span', { className: 'fw-bold me-1' }, i18n.value + ': R$' + item.value ),
+            e('span', { className: 'fw-bold text-n' }, i18n.bill),
+            e('span', { className: 'fw-bold text-s me-1' }, i18n.value + ': R$' + item.value ),
           ),
           e(
             'span',
@@ -1533,11 +1533,11 @@ function WhoAmI_openPayments(props) {
             e(
               'span',
               { className: 'me-1' },
-              i18n.due_date + ': '
+              i18n.expiration_ab + ': '
             ),
             e(
               'span',
-              { className: 'text-white ' + itemBadgeClass },
+              { className: 'text-white text-ss ' + itemBadgeClass },
               item.due
             )
           ),

@@ -567,6 +567,7 @@ input:checked + .slider:before {
 	.squeeze { max-width: calc(40vw + 25rem); margin: 0 auto; }
 	.squeeze-big { max-width: 75vw; margin: 0 auto; }
   .squeeze-small { max-width: calc(20vw + 25rem); margin: 0 auto; }
+  .rounded-box { padding: calc(2vw + 1rem) calc(2vw + 2rem); }
 
   main {
     margin-top: calc(var(--guyra-navbar-size) * 1.75) !important;
@@ -578,6 +579,7 @@ input:checked + .slider:before {
 	.squeeze { max-width: unset; margin: 0 auto; }
 	.squeeze-big { max-width: unset; margin: 0 auto; }
   .squeeze-small { max-width: unset; margin: 0 1rem; }
+  .rounded-box { padding: calc(2vw + 1rem) calc(1vw + .5rem); }
 
   main {
     margin-top: 3rem !important;
@@ -681,15 +683,9 @@ a:hover {
 
 .rounded-box {
   background: var(--guyra-white);
-  /* padding: calc(2vw + .25rem); */
-  padding: calc(2vw + 1rem) calc(2vw + 2rem);
   border-radius: var(--guyra-border-radius-bigger);
   margin-bottom: 3rem;
   box-shadow: var(--guyra-box-shadow);
-}
-
-.rounded-box-padded {
-  padding: calc(3vw + .25rem);
 }
 
 progress.progress {
