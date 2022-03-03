@@ -1,6 +1,5 @@
 <?php
 
-global $wp;
 global $template_dir;
 global $template_url;
 global $site_api_url;
@@ -15,7 +14,12 @@ include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/Header.php';
 include_once $template_dir . '/functions/Assets.php';
 
+$where_am_i = CaptureRequest(function($r) {
+  return $r;
+});
+
 $body_class[0] = 'logged_out';
+$home_icon = 'icons/exercises/house.png';
 
 if ($is_logged_in) {
 
@@ -23,13 +27,8 @@ if ($is_logged_in) {
   $body_class[0] = 'logged_in';
   $home_icon = 'icons/learning.png';
 
-} else {
-
-  $home_icon = 'icons/exercises/house.png';
-
 }
 
-$where_am_i = $wp->request;
 $highlight_class = 'purple';
 $page_Title = $gi18n['company_name'];
 
@@ -41,11 +40,6 @@ if ($where_am_i == '') {
   if (!$is_logged_in)
   $page_Title = $gi18n['homepage'];
 
-
-} elseif ($where_am_i == 'category/blog') {
-
-  $body_class[] = 'blog';
-  $page_Title = $gi18n['blog'] . ' ' . $gi18n['company_name'];
 
 } elseif ($where_am_i == 'account') {
 
@@ -78,18 +72,9 @@ if ($where_am_i == '') {
 
 <title><?php echo ucfirst($page_Title); ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">
-
-<?php // We don't want anything echoed here, but we want wp_head to do it's thing.
-ob_start();
-wp_head();
-ob_end_clean(); ?>
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
 <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
 <link rel="manifest" href="/GuyraManifest.json">
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/campton_black.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/komikask-webfont.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/komikask-webfont.woff" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>

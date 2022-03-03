@@ -9,7 +9,7 @@ Guyra_Safeguard_File();
 function guyra_output_json($message, $exit=false) {
 
   header("Content-Type: application/json");
-  
+
   echo json_encode($message);
 
   if ($exit)
@@ -293,16 +293,15 @@ function guyra_log_error_todb($object) {
 
 function guyra_log_error($dump, $type='general') {
 
-  global $wp;
-
   $object = [
-    'log_ver' => '0.0.1',
+    'log_ver' => '0.0.2',
     'type' => $type,
-    'location' => $wp->request,
+    'location' => $_SERVER['REQUEST_URI'],
     'dump' => print_r($dump, true)
   ];
 
   guyra_log_error_todb(json_encode($object));
+  guyra_log_to_file(json_encode($object));
 
 }
 

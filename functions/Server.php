@@ -39,3 +39,47 @@ function Guyra_Safeguard_File() {
   }
 
 }
+
+// Handles a variety of errors.
+function HandleServerError($err, $res_code=500) {
+
+	http_response_code($res_code);
+
+	if ($err['message']) {
+		echo $err['message'];
+	} else {
+		echo "Something went wrong.";
+	}
+
+	exit;
+
+}
+
+// Captures the current requested URL.
+function CaptureRequest($handleRequest) {
+
+	$scriptName = 'index.php';
+	$requestURI = $_SERVER['REQUEST_URI'];
+	$requestBaseURL = explode($scriptName, $_SERVER['PHP_SELF']);
+
+	if (!is_array($requestBaseURL) && ($requestBaseURL[1] !== $scriptName)) {
+		HandleServerError([
+			'message' => 'The server is badly configured.'
+		]);
+	}
+
+	$requestBaseURL = $requestBaseURL[0];
+
+	$request = explode($requestBaseURL, $requestURI);
+
+	if (!is_array($request) && ($request[0] !== $requestBaseURL)) {
+		HandleServerError([
+			'message' => 'This route is invalid'
+		], 404);
+	}
+
+	$request = $request[1];
+
+ 	return $handleRequest($request);
+
+}

@@ -10,9 +10,8 @@ function ForceHTTPS() {
 add_action('init', 'ForceHTTPS');
 
 // Define the app version.
-if (!defined('GUYRA_VERSION')) {
-	define('GUYRA_VERSION', '0.2.1');
-}
+if (!defined('GUYRA_VERSION'))
+define('GUYRA_VERSION', '0.2.2');
 
 // Setup some globals.
 $secondsForA = [
@@ -290,7 +289,7 @@ function custom_die_handler( $message, $title="", $args = array() ) {
 	echo "Algum erro grave occoreu. Já coletamos informações sobre o erro. Se alguem pedir, de o seguinte codigo: ";
 	echo time();
 	echo "<hr />";
-	echo date('Y-m-d H:i:s');
+	echo date('Y-m-d H:i:s') . ', running Guyra ver. ' . GUYRA_VERSION;
   echo '</body></html>';
 	guyra_log_error(json_encode([$title, $message, $args['response']]));
   exit;

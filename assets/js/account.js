@@ -624,7 +624,7 @@ class AccountPayment extends React.Component {
           e(
             'div',
             { className: 'd-flex flex-row justify-content-between align-items-center' },
-            e('h3', {}, i18n.payment_processor_warning[0]),
+            e('h2', {}, i18n.payment_processor_warning[0]),
             e('img', {
               alt: thei18n.payment,
               src: thei18n.api_link + '?get_image=icons/lock.png&size=64'
@@ -693,15 +693,13 @@ class AccountPayment extends React.Component {
           'div',
           { className: 'col-md-7 col-lg-8 mt-0 mb-5 mb-md-3' },
           topWarnings,
-          e(AccountPayment_paymentForm),
-          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' }),
           e(
             'div',
             { className: 'dialog-box info mt-3' },
             e(
               'div',
               { className: 'd-flex flex-row justify-content-between align-items-center' },
-              e('h2', {}, thei18n.subscription_donations[0]),
+              e('h2', {}, thei18n.subscription_donations[0] + '!'),
               e('img', {
                 alt: thei18n.payment,
                 src: thei18n.api_link + '?get_image=icons/charity.png&size=64'
@@ -716,7 +714,9 @@ class AccountPayment extends React.Component {
                 e('a', { href: thei18n.home_link + '/faq#donations' }, thei18n.here.toLowerCase())
               ),
             )
-          )
+          ),
+          e(AccountPayment_paymentForm),
+          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' }),
         ),
       ),
     );
@@ -1488,10 +1488,7 @@ function WhoAmI_openPayments_paymentItem(props) {
               )
             ),
           ),
-          e('div', { className: 'd-inline mb-2' },
-            e('span', {}, i18n.payment_message),
-          ),
-          e('div', { className: 'text-ss mb-2' }, i18n.payment_message_cont)
+          e('span', {}, i18n.payment_message),
         )
       )
     )
