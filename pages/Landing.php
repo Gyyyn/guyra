@@ -41,7 +41,7 @@ get_header(null, ['css' => 'landing.css']);
         <p><?php echo $gi18n['_landing']['explain4'] ?></p>
 
         <div class="mt-5 w-100">
-          <a class="blue btn-lg btn-tall d-block text-center" href="#jump-prices"><?php echo $gi18n['button_want']; ?></a>
+          <a class="green btn-lg btn-tall d-block text-center" href="#jump-prices"><?php echo $gi18n['button_want']; ?></a>
         </div>
 
       </div>

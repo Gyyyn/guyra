@@ -107,7 +107,7 @@
 }
 
 .cover {
-  min-height: calc(100vh - var(--guyra-navbar-size));
+  min-height: 100vh;
   background-color: var(--guyra-blue);
 	background-repeat: repeat;
 	background-size: cover, contain;
