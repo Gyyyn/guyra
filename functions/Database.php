@@ -22,7 +22,7 @@ function GetStandardDate() {
 }
 
 function guyra_log_to_file($object='something happened') {
-  $object = GetStandardDate() . ': ' . $object . '\\r\\n';
+  $object = GetStandardDate() . ': ' . $object . "\r\n";
   file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
 }
 

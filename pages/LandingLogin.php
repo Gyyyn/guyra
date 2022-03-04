@@ -19,21 +19,13 @@ img.page-icon.large { width: calc(5vw + 5rem); }
 
    <div class="cover">
      <div class="cover-container container pt-3">
-       <div class="row row-cols-auto align-items-center justify-content-around cover-card p-5 bg-white">
+       <div class="row align-items-center justify-content-around cover-card p-5 bg-white">
 
-         <div class="col-md text-center">
-           <video width="120" height="120" class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm"></video>
-         </div>
-
-         <div class="col-md text-left">
+         <div class="">
            <h1 class="text-center"><?php echo $gi18n['button_alreadyregistered'] ?></h1>
            <p class="text-center py-3">
              <a href="<?php echo $gi18n['account_link']; ?>" class="btn-tall btn-lg blue text-larger"><?php echo $gi18n['button_login'] ?></a>
            </p>
-           <hr class="thick" />
-           <div class="text-small">
-             <p class="text-muted">Ainda não é aluno? Nós estamos em uma fase de testes fechada, mas você pode <a href="mailto:hello@guyra.me">entrar em contato</a> para entrar na lista de espera.</p>
-           </div>
          </div>
 
        </div>

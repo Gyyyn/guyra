@@ -10,7 +10,7 @@ get_header(null, ['css' => 'landing.css']);
  ?>
 
 <div class="cover">
-  <div class="cover-container container">
+  <div class="cover-container">
 
     <div class="row row-cols-auto align-items-start cover-card">
 
@@ -40,8 +40,8 @@ get_header(null, ['css' => 'landing.css']);
         <h2 class="text-blue"><?php echo $gi18n['_landing']['title4'] ?></h2>
         <p><?php echo $gi18n['_landing']['explain4'] ?></p>
 
-        <div class="mt-5">
-          <a class="btn-tall btn-lg blue" href="#jump-prices"><?php echo $gi18n['button_letsgo']; ?></a>
+        <div class="mt-5 w-100">
+          <a class="blue btn-lg btn-tall d-block text-center" href="#jump-prices"><?php echo $gi18n['button_want']; ?></a>
         </div>
 
       </div>
@@ -71,7 +71,9 @@ get_header(null, ['css' => 'landing.css']);
    </div>
   </div>
 
-  <hr class="thick squeeze my-5">
+  <div class="d-flex justify-content-center py-3">
+    <img src="<?php echo GetImageCache('img/learning.png', 256); ?>">
+  </div>
 
   <div class="row feature squeeze">
    <div class="col px-md-5 align-self-center">
@@ -87,9 +89,7 @@ get_header(null, ['css' => 'landing.css']);
    </div>
   </div>
 
-  <hr class="thick squeeze my-5">
-
-  <div id="jump-prices" class="split-bg bg-dark py-5"><div class="squeeze-big">
+  <div id="jump-prices" class="split-bg bg-dark py-5"><div class="squeeze-small">
 
    <div class="row prices-container with-animation mb-3 text-center" data-aos="fade-up">
      <div class="col-md prices lite">
@@ -106,7 +106,7 @@ get_header(null, ['css' => 'landing.css']);
              <li><span><?php echo $gi18n['prices_features']['feature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              <li><span><?php echo $gi18n['prices_features']['feature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
            </ul>
-           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
+           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
          </div>
        </div>
      </div>
@@ -124,7 +124,7 @@ get_header(null, ['css' => 'landing.css']);
              <li><span><?php echo $gi18n['prices_features']['feature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              <li><span><?php echo $gi18n['prices_features']['feature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
            </ul>
-           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want']; ?></a>
+           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
          </div>
        </div>
      </div>
@@ -150,8 +150,6 @@ get_header(null, ['css' => 'landing.css']);
    </div>
   </div>
 
-  <hr class="thick squeeze my-5">
-
   <div class="row feature squeeze">
    <div class="col px-md-5 align-self-center">
      <div class="p-1 p-md-5">
@@ -166,7 +164,9 @@ get_header(null, ['css' => 'landing.css']);
    </div>
   </div>
 
-  <hr class="thick squeeze my-5">
+  <div class="d-flex justify-content-center py-3">
+    <img src="<?php echo GetImageCache('img/online-class.png', 256); ?>">
+  </div>
 
   <div class="row feature squeeze">
    <div class="col order-md-2 px-md-5 align-self-center">
@@ -184,20 +184,22 @@ get_header(null, ['css' => 'landing.css']);
 
   <div class="bg-dark split-bg py-5"><div class="row feature squeeze">
 
-    <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
-      <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo GetImageCache('icons/target.png', 64); ?>">
-      <h2 class="text-primary my-5"><?php echo $gi18n['activities'] ?></h2>
+    <div class="row course-showcase text-dark cover-card p-5 mt-3 position-relative" data-aos="fade-up">
+      <img class="page-icon m-5 position-absolute top-0 end-0" src="<?php echo GetImageCache('icons/target.png', 128); ?>">
+      <h2 class="text-primary mt-3 mb-5"><?php echo $gi18n['activities'] ?></h2>
       <div class="col">
         <p><?php echo $gi18n['_landing']['showcase_activities'] ?></p>
       </div>
-      <div class="col-md-6">
-
+      <div class="col-md-6 d-flex justify-content-center">
+        <div class="card trans">
+          <img alt="screenshot" src="<?php echo GetImageCache('img/practice_ss.png', ['x' => 320, 'y' => 180]); ?>">
+        </div>
       </div>
     </div>
 
-    <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
-     <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo GetImageCache('icons/online-learning.png', 64); ?>">
-     <h2 class="text-primary my-5"><?php echo $gi18n['courses'] ?></h2>
+    <div class="row course-showcase text-dark cover-card p-5 mt-3 position-relative" data-aos="fade-up">
+     <img class="page-icon m-5 position-absolute top-0 end-0" src="<?php echo GetImageCache('icons/online-learning.png', 128); ?>">
+     <h2 class="text-primary mt-3 mb-5"><?php echo $gi18n['courses'] ?></h2>
      <div class="col">
        <p><?php echo $gi18n['_landing']['showcase_courses'] ?></p>
      </div>
@@ -207,18 +209,32 @@ get_header(null, ['css' => 'landing.css']);
      </div>
     </div>
 
-    <div class="row course-showcase text-dark cover-card p-5 mt-5 position-relative" data-aos="fade-up">
-     <img class="page-icon m-5 position-absolute top-0 end-0" alt="quicktips" src="<?php echo GetImageCache('icons/layers.png', 64); ?>">
-     <h2 class="text-primary my-5"><?php echo $gi18n['ultilities'] ?></h2>
+    <div class="row course-showcase text-dark cover-card p-5 mt-3 position-relative" data-aos="fade-up">
+     <img class="page-icon m-5 position-absolute top-0 end-0" src="<?php echo GetImageCache('icons/layers.png', 128); ?>">
+     <h2 class="text-primary mt-3 mb-5"><?php echo $gi18n['ultilities'] ?></h2>
      <div class="col">
        <p><?php echo $gi18n['_landing']['showcase_ultilities'] ?></p>
      </div>
-     <div class="col-md-6">
-
+     <div class="col-md-6 d-flex justify-content-center">
+       <div class="card trans">
+         <img alt="screenshot" src="<?php echo GetImageCache('img/dictionary_ss.png', ['x' => 320, 'y' => 180]); ?>">
+       </div>
      </div>
     </div>
 
   </div></div>
+
+  <div class="d-flex flex-column feature squeeze">
+   <div class="px-md-5 align-self-center">
+     <div class="p-1 p-md-5">
+       <h1 class="text-super text-marked" data-aos="fade" data-aos-delay="20">Ainda com dúvidas?</h2>
+       <div class="explain my-3" data-aos="fade" data-aos-delay="300">Não tem por que! Faça sua conta e aprenda por 30 dias sem pagar nada, zero compromisso.</div>
+     </div>
+   </div>
+   <div class="d-flex justify-content-center mb-5">
+     <a class="blue btn-lg btn-tall" href="<?php echo $gi18n['register_link'] ?>"><?php echo $gi18n['register']; ?></a>
+   </div>
+  </div>
 
 </div>
 

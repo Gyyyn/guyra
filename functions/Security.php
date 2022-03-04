@@ -72,3 +72,59 @@ function Guyra_IsLoggedIn($args=[]) {
   return true;
 
 }
+
+function Guyra_GenNonce($args=[]) {
+
+  global $current_user_id;
+
+  if (!$args)
+  return false;
+
+  if (!$args['user'])
+  $args['user'] = $current_user_id;
+
+  if (!$args['id'])
+  $args['id'] = 'generic';
+
+  session_start();
+
+  $bytes = bin2hex(random_bytes(16));
+  $_SESSION[$args['user']][$args['id']] = $bytes;
+
+  session_write_close();
+
+  return $bytes;
+
+}
+
+function Guyra_CheckNonce($args=[]) {
+
+  global $current_user_id;
+
+  // Check we have all the data we expect.
+  if (!$args)
+  return false;
+
+  if (!$args['nonce'])
+  return false;
+
+  if (!$args['user'])
+  $args['user'] = $current_user_id;
+
+  if (!$args['id'])
+  $args['id'] = 'generic';
+
+  session_start();
+
+  // If nonce is invalid quit here.
+  if ($_SESSION[$args['user']][$args['id']] != $nonce)
+  return false;
+
+  // Otherwise unset it and return true.
+  unset($_SESSION[$args['user']][$args['id']]);
+
+  session_write_close();
+
+  return true;
+
+}

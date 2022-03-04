@@ -71,19 +71,19 @@ function RenderAccountDropdown($args=[]) {
     <ul class="dropdown-menu account-controls pop-animation animate fast">
       <li>
         <a class="dropdown-item" href="<?php echo $gi18n['account_link']; ?>">
-          <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
+          <img class="page-icon tiny me-1" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
           <?php echo $gi18n['button_myaccount'] ?>
         </a>
       </li>
       <li>
         <a class="dropdown-item" href="<?php echo $gi18n['profile_link']; ?>">
-          <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/sliders.png', 64); ?>">
-          <?php echo $gi18n['profile'] ?>
+          <img class="page-icon tiny me-1" src="<?php echo GetImageCache('icons/sliders.png', 64); ?>">
+          <?php echo $gi18n['configs'] ?>
         </a>
       </li>
       <li>
         <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item" href="<?php echo $gi18n['logout_link']; ?>">
-          <img class="page-icon tiny me-1" alt="sair" src="<?php echo GetImageCache('icons/logout.png', 64); ?>">
+          <img class="page-icon tiny me-1" src="<?php echo GetImageCache('icons/logout.png', 64); ?>">
           <?php echo $gi18n['logout'] ?>
         </a>
       </li>

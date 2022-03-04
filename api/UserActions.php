@@ -5,6 +5,7 @@ global $template_url;
 global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
+global $current_user_object;
 global $current_user_notifications;
 global $current_user_inventory;
 global $site_url;
@@ -27,6 +28,7 @@ include_once $template_dir . '/functions/Game.php';
 include_once $template_dir . '/functions/User.php';
 include_once $template_dir . '/functions/Assets.php';
 include_once $template_dir . '/functions/Payment.php';
+include_once $template_dir . '/functions/Security.php';
 include_once $template_dir . '/components/Icons.php';
 
 include_once $template_dir . '/api/UserActions/Roadmap.php';
@@ -79,20 +81,21 @@ if ($_GET['teacher_code']) {
 // those relating to nonce confirmation of actions.
 if ($_GET['update_userdata']) {
 
-  global $current_user_data;
-  global $current_user_object;
-
   $data = json_decode(file_get_contents('php://input'), true);
   $nonce = $_GET['nonce'];
   $user = $current_user_id;
-
-  session_start();
 
   // If any action requires nonce we can do them first, then
   // the json output will exit and nothing else will run.
   if ($nonce) {
 
-    if ($_GET['action'] == 'confirm_mail' && $_SESSION['confirm_mail'][$current_user_id] == $nonce)
+    $nonce_pass = Guyra_CheckNonce([
+      'user' => $current_user_id,
+      'id' => 'confirm_mail',
+      'nonce' => $nonce
+    ]);
+
+    if ($_GET['action'] == 'confirm_mail' && $nonce_pass)
     $current_user_data['mail_confirmed'] = 'true';
 
     // TODO: Handle nonce fail.
@@ -137,8 +140,10 @@ if ($_GET['update_userdata']) {
       guyra_update_user($user, ['user_login' => $userNewMail]);
 
       $current_user_data['mail_confirmed'] = 'false';
-      $bytes = bin2hex(random_bytes(16));
-      $_SESSION['confirm_mail'][$user] = $bytes;
+      $bytes = Guyra_GenNonce([
+        'user' => $current_user_id,
+        'id' => 'confirm_mail'
+      ]);
 
       $link = $site_api_url . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
 

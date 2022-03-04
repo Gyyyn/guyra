@@ -63,10 +63,23 @@ if ($_GET['register']) {
   ], JSON_UNESCAPED_UNICODE));
 
   guyra_update_user_meta($user, 'user_pass', password_hash($data['user_password'], PASSWORD_DEFAULT));
-
   PushNotification($gi18n['notification_welcome'], $user);
 
   Guyra_Login_User($creds, false);
+
+  $bytes = Guyra_GenNonce([
+    'user' => $user,
+    'id' => 'confirm_mail'
+  ]);
+
+  $link = $site_api_url . '?update_userdata=1&user=' . $user . '&action=confirm_mail&nonce=' . $bytes;
+
+  $string_replacements = [
+    $link,
+    $link
+  ];
+
+  $mail = Guyra_mail('welcome.html', $gi18n['notification_welcome']['title'], $data['user_email'], $string_replacements);
 
 }
 

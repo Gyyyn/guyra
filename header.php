@@ -187,26 +187,26 @@ if ($where_am_i == '') {
     <div class="d-flex w-100 justify-content-evenly">
 
       <a class="btn-tall page-icon small home-link" href="<?php echo $gi18n['home_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache($home_icon, 64); ?>">
+        <img src="<?php echo GetImageCache($home_icon, 64); ?>">
         <span><?php echo $gi18n['lessons'] ?></span>
       </a>
 
       <?php if ($current_user_subscription_valid): ?>
 
       <a class="btn-tall green page-icon small practice-link" href="<?php echo $gi18n['practice_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache('icons/target.png', 64); ?>">
+        <img src="<?php echo GetImageCache('icons/target.png', 64); ?>">
         <span><?php echo $gi18n['practice'] ?></span>
       </a>
 
       <a class="btn-tall page-icon small courses-link" href="<?php echo $gi18n['courses_link'] ?>">
-        <img alt="home" src="<?php echo GetImageCache('icons/online-learning.png', 64); ?>">
+        <img src="<?php echo GetImageCache('icons/online-learning.png', 64); ?>">
         <span><?php echo $gi18n['courses'] ?></span>
       </a>
 
       <?php endif; ?>
 
       <a class="btn-tall page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
-        <img alt="account" src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
+        <img src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
         <span><?php echo $gi18n['profile'] ?></span>
       </a>
 

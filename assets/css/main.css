@@ -214,6 +214,7 @@ h4 {
 .text-grey-darker { color: var(--guyra-grey-darker); }
 .text-grey-darkest { color: var(--guyra-grey-darkest); }
 
+.text-super { font-size: var(--guyra-fonts-textsize-super) !important; }
 .text-xxx, .text-largest { font-size: var(--guyra-fonts-textsize-xxx) !important; }
 .text-xx, .text-larger { font-size: var(--guyra-fonts-textsize-xx) !important; }
 .text-x, large, .text-large { font-size: var(--guyra-fonts-textsize-x) !important; }
