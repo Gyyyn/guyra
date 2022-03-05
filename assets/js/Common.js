@@ -1040,3 +1040,29 @@ export function dragElement(theElement, clickFunction) {
   }
 
 }
+
+export class GoogleAd extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    }, 5000)
+  }
+
+  render() {
+    return e(
+      'ins',
+      {
+        className: "adsbygoogle",
+        "style": { display: 'block', minWidth: "300px", },
+        "data-ad-client": "ca-pub-7198773595231701",
+        "data-ad-slot":"2771213975",
+        "data-ad-format": "auto",
+        "data-full-width-responsive": "true",
+      }
+    );
+  }
+}

@@ -5,6 +5,7 @@ import {
   rootUrl,
   thei18n,
   LoadingPage,
+  GoogleAd,
   randomNumber
 } from '%template_url/assets/js/Common.js';
 
@@ -1078,6 +1079,11 @@ function LevelChooser(props) {
           }
         )
       })),
+      e(
+        'div',
+        { className: 'd-block' },
+        e(GoogleAd)
+      ),
     )
   )
 }
@@ -1397,6 +1403,11 @@ class ExerciseDone extends React.Component {
         e(returnToLevelMapButton)
       )
     )),
+    e(
+      'div',
+      { className: 'd-block' },
+      e(GoogleAd)
+    ),
     this.state.review
     ];
   }

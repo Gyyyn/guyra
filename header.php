@@ -20,12 +20,18 @@ $where_am_i = CaptureRequest(function($r) {
 
 $body_class[0] = 'logged_out';
 $home_icon = 'icons/exercises/house.png';
+$home_label = $gi18n['homepage'];
+$account_label = $gi18n['login'];
+$account_button_style = "width: unset;";
 
 if ($is_logged_in) {
 
   $profile_picture = Guyra_get_profile_picture($current_user_id, 'navbar-profile');
   $body_class[0] = 'logged_in';
   $home_icon = 'icons/learning.png';
+  $home_label = $gi18n['lessons'];
+  $account_label = $gi18n['account'];
+  $account_button_style = '';
 
 }
 
@@ -188,7 +194,7 @@ if ($where_am_i == '') {
 
       <a class="btn-tall page-icon small home-link" href="<?php echo $gi18n['home_link'] ?>">
         <img src="<?php echo GetImageCache($home_icon, 64); ?>">
-        <span><?php echo $gi18n['lessons'] ?></span>
+        <span><?php echo $home_label; ?></span>
       </a>
 
       <?php if ($current_user_subscription_valid): ?>
@@ -205,9 +211,9 @@ if ($where_am_i == '') {
 
       <?php endif; ?>
 
-      <a class="btn-tall page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
+      <a style="<?php echo $account_button_style ?>" class="btn-tall page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
         <img src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
-        <span><?php echo $gi18n['profile'] ?></span>
+        <span><?php echo $account_label ?></span>
       </a>
 
     </div>

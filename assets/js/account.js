@@ -2038,6 +2038,11 @@ class LoginForm extends React.Component {
       { className: 'form-control p-5' },
       e(
         'div',
+        { className: 'dialog-box' },
+        'Alguns usuários podem encontrar problemas para logar após a ultima atualização. Se estiver tendo problemas por favor use o botão Esqueci minha senha para criar uma nova senha para login.'
+      ),
+      e(
+        'div',
         { className: 'mb-3'},
         e('h2', { className: 'text-primary'}, i18n.login)
       ),
