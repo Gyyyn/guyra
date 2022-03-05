@@ -1,5 +1,6 @@
 import {
   e,
+  GoogleAd,
   GuyraGetData,
   rootUrl,
   thei18n,
@@ -495,6 +496,10 @@ class Dictionary extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      ad: null,
+    }
+
   }
 
   componentDidMount() {
@@ -512,6 +517,11 @@ class Dictionary extends React.Component {
   }
 
   conceptFetch(submittedWord) {
+
+    // Load in an ad while people wait.
+    this.setState({
+      ad: e(GoogleAd)
+    });
 
     var dictionarySubmit = document.getElementById('dictionary-submit');
     var dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
@@ -856,6 +866,7 @@ class Dictionary extends React.Component {
           null
         )),
         e('div', { id: 'the-images', className: 'the-images d-flex flex-row my-5 pop-animation' }, null),
+        this.state.ad,
         e('div', { id: 'the-definition-content', className: 'text-small justfade-animation' })
       ),
       e(

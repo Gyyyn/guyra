@@ -1288,6 +1288,9 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
 
     this.theUserpage = this.props.diary.userpage;
 
+    if (this.props.listingType == 'group') {
+    this.theUserpage = this.props.diary.diaries[this.props.listingName].userpage; }
+
     if (!this.theUserpage) {
     this.theUserpage = thei18n.no_userpage; }
 

@@ -1047,9 +1047,7 @@ export class GoogleAd extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    }, 5000)
+    (adsbygoogle = window.adsbygoogle || []).push({});
   }
 
   render() {

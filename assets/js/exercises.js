@@ -1433,6 +1433,10 @@ export class Exercises extends React.Component {
     this.disallowCandyOn = [];
     this.userAnswered = '';
     this.currentUnit = '';
+    this.challengeTracker = JSON.parse(window.localStorage.getItem('challenge'));
+
+    if (!this.challengeTracker) {
+    this.challengeTracker = {} }
 
     this.buttonClassGreen = 'btn-tall green';
     this.buttonClassBlack = 'btn-tall black text-center';
@@ -1473,7 +1477,7 @@ export class Exercises extends React.Component {
       ClearWord: this.ClearWord,
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
-      challengeTracker: JSON.parse(window.localStorage.getItem('challenge')),
+      challengeTracker: this.challengeTracker,
       renderTopbar: true
     }
 
@@ -1583,14 +1587,12 @@ export class Exercises extends React.Component {
 
   setNewActivity = () => {
 
-    document.getElementById('current-question').classList.add('d-none');
-    window.scrollTo(0, 0);
-
     this.setState({
       avatarURL: getRandomAvatar(),
       candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
       candyButtonClass: 'btn-tall purple',
-      disallowCandy: false
+      disallowCandy: false,
+      page: e(LoadingPage)
     });
 
     if(this.questionsAlreadyAnswered.length >= this.exerciseLength) {
@@ -1670,6 +1672,9 @@ export class Exercises extends React.Component {
           this.exerciseEndSound.play();
         }
 
+        // Make sure we quit this function.
+        return;
+
       } else {
 
         this.currentQuestion = this.needToRetry.shift();
@@ -1715,17 +1720,12 @@ export class Exercises extends React.Component {
     });
 
     // Finally set the values we are going to use.
-    this.setState({
-      values: this.loadActivityByType(disallowCandyNow)
-    });
-
-    // Play an animation when the exercise is ready.
     setTimeout(() => {
-      var currQuestion = document.getElementById('current-question');
-      if (currQuestion) {
-        currQuestion.classList.remove('d-none')
-      }
-    }, 200);
+      this.setState({
+        values: this.loadActivityByType(disallowCandyNow),
+        page: e(CurrentQuestion)
+      });
+    }, 150);
 
   };
 
