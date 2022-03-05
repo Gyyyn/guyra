@@ -199,15 +199,19 @@ if ($_GET['get_user_data']) {
   $theData['gamedata'] = GetUserRanking($current_user_id);
   $theData['gamedata']['raw'] = $current_user_gamedata;
 
-  $theData['user_diary'] = guyra_get_user_meta($current_user_id, 'diary', true)['meta_value'];
-  $theData['user_diary'] = json_decode($theData['user_diary']);
-
+  $theData['user_diary'] = $current_user_diary;
   $theData['payments'] = $current_user_payments;
   $theData['notifications'] = $current_user_notifications;
   $theData['inventory'] = $current_user_inventory;
 
   if ($is_GroupAdmin || $is_admin) {
     $theData['user_code'] = Guyra_hash($current_user_id);
+  }
+
+  // If user is in a group then set their diary to be the groups's.
+  if ($current_user_data['studygroup']) {
+    $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
+    $theData['user_diary'] = $teachers_diary['diaries'][$current_user_data['studygroup']];
   }
 
   // Unset some sensitive data;
@@ -265,6 +269,11 @@ if ($_GET['post_reply']) {
 
     $diary = &$current_user_diary;
     $notify = $current_user_data['teacherid'];
+
+    if ($current_user_data['studygroup']) {
+      $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
+      $diary = $teachers_diary['diaries'][$current_user_data['studygroup']];
+    }
 
   } else {
     $diary = guyra_get_user_data($user, 'diary');

@@ -46,6 +46,7 @@ if (clearNotificationsButton) {
 function updateBackButton() {
 
   var mobileHeaderBackButton = document.getElementById('mobile-header-back');
+  var backButtonInPage = document.getElementById('back-button');
 
   if (mobileHeaderBackButton || backButtonInPage) {
 

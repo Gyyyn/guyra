@@ -11,7 +11,7 @@ add_action('init', 'ForceHTTPS');
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.2.2');
+define('GUYRA_VERSION', '0.2.3');
 
 // Setup some globals.
 $secondsForA = [
@@ -291,7 +291,7 @@ function custom_die_handler( $message, $title="", $args = array() ) {
 	echo "<hr />";
 	echo date('Y-m-d H:i:s') . ', running Guyra ver. ' . GUYRA_VERSION;
   echo '</body></html>';
-	guyra_log_error(json_encode([$title, $message, $args['response']]));
+	guyra_log_to_file([$title, $message, $args['response']]);
   exit;
 }
 // Intermediate function is necessary to customize wp_die

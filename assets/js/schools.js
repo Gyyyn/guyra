@@ -338,6 +338,9 @@ class DiaryPaginatedEntries extends React.Component {
   render() {
     return e(DiaryContext.Consumer, null, ({diary}) => {
 
+      if (!diary) {
+      diary = {} }
+
       if (!diary.payments) {
       diary.payments = {} }
 
@@ -393,6 +396,9 @@ class DiaryPaginatedEntries extends React.Component {
 function DiaryEntries(props) {
 
   return e(DiaryContext.Consumer, null, ({diary}) => {
+
+    if (!diary) {
+    diary = {} }
 
     var theEntries = diary.entries;
 
@@ -856,6 +862,9 @@ class Diary extends React.Component {
 
   AddEntry = (entry) => {
     var x = this.state.diary;
+
+    if (!Array.isArray(x.entries)) {
+    x.entries = [] }
 
     x.entries.push(entry);
 
@@ -1328,18 +1337,33 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       editButtonOnclick: null
     });
 
-    this.props.diary.userpage = this.easyMDE.value();
-    this.theUserpage = this.props.diary.userpage;
+    var theLink = rootUrl + 'api?action=update_diary&user=' + this.props.userId;
+    var dataToPost = {};
+
+    if (this.props.listingType == 'group') {
+
+      theLink = theLink + '&isGroup=' + this.props.listingName;
+      this.props.diary.diaries[this.props.listingName].userpage = this.easyMDE.value();
+      dataToPost = this.props.diary.diaries[this.props.listingName];
+
+    } else {
+
+      this.props.diary.userpage = this.easyMDE.value();
+      dataToPost = this.props.diary;
+
+    }
+
+    this.theUserpage = this.easyMDE.value();
 
     fetch(
-      rootUrl + 'api?action=update_diary&user=' + this.props.userId,
+      theLink,
       {
         method: "POST",
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.props.diary)
+        body: JSON.stringify(dataToPost)
       }
     ).then(res => res.json())
     .then(res => {
@@ -1462,7 +1486,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       userpage: e(GroupAdminHome_AdminPanel_UserpageView, {
         diary: this.state.diary,
         username: this.listingName,
-        userId: this.listingDiaryUserId
+        userId: this.listingDiaryUserId,
+        listingType: this.listingType,
+        listingName: this.listingName,
       }),
       diary: e(Diary, {
         diaryId: this.listingDiaryUserId,

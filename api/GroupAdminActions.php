@@ -4,6 +4,7 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $current_user_data;
+global $current_user_diary;
 global $current_user_gamedata;
 global $site_url;
 global $is_admin;
@@ -57,8 +58,24 @@ if ($_GET['cleargroup'])
 guyra_update_user_data($user, ['studygroup' => null]);
 
 // Update a user's diary.
-if ($_GET['action'] == 'update_diary')
-guyra_update_user_meta($user, 'diary', file_get_contents('php://input'));
+if ($_GET['action'] == 'update_diary') {
+
+  $theData = json_decode(file_get_contents('php://input'), true);
+
+  $user_diary = $current_user_diary;
+
+  if ($user != $current_user_id)
+  $user_diary = guyra_get_user_data($user, 'diary');
+
+  if ($_GET['isGroup']) {
+    $user_diary['diaries'][$_GET['isGroup']] = $theData;
+  } else {
+    $user_diary = $theData;
+  }
+
+  guyra_update_user_meta($user, 'diary', json_encode($user_diary));
+
+}
 
 // Get a list of actionable users.
 if ($_GET['action'] == 'fetch_users')
