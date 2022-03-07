@@ -303,7 +303,8 @@
       "Tá difícil se animar? Começa devagar, faz só um pouquinho.",
       "Sabia que temos um app? Veja como instalar <a class=\"btn-sm btn-tall blue\" href=\"%site_url/faq/#install-instructions\">aqui</a>",
       "Sabe aquele ícone no canto da sua tela? É um bloco de notas! Ele salva o que você escreve nele até quando muda de página então pode usar pra fazer suas anotações e suas lições! 🗒️🗒️",
-      "Quer trocar sua foto? Escolha um pacote de avatares na <a class=\"btn-sm btn-tall blue\" href=\"%site_url/shop\">Loja!</a>"
+      "Quer trocar sua foto? Escolha um pacote de avatares na <a class=\"btn-sm btn-tall blue\" href=\"%site_url/shop\">loja!</a>",
+      "Se quiser aumentar seu vocabulário experimente um pacote de cartas de memória. Você pode pegar um lá na <a class=\"btn-sm btn-tall blue\" href=\"%site_url/shop\">loja!</a>."
    ],
    "whats_for_today":"O que vamos fazer hoje?",
    "daily_challenges":"Desafios diários",

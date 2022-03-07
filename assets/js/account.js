@@ -2067,6 +2067,7 @@ class LoginForm extends React.Component {
           e(
             'button',
             {
+              id: 'button-login',
               className: 'btn-tall blue w-100 my-3',
               type: 'submit',
               onClick: (e) => {
@@ -2145,6 +2146,24 @@ class LoginForm extends React.Component {
 class Login extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+
+    document.onkeydown = (event) => {
+
+      var buttonLogin = document.getElementById('button-login');
+
+      if (buttonLogin && (event.key === 'Enter')) {
+        buttonLogin.click()
+      }
+      
+    }
+
+  }
+
+  componentWillUnmount() {
+    document.onkeydown = null;
   }
 
   render() {

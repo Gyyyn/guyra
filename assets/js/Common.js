@@ -1047,7 +1047,13 @@ export class GoogleAd extends React.Component {
   }
 
   componentDidMount() {
-    (adsbygoogle = window.adsbygoogle || []).push({});
+
+    try {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error("Couldn't render Google Ads: " + e);
+    }
+
   }
 
   render() {
