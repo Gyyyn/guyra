@@ -517,7 +517,7 @@ function DiaryControls(props) {
             var stringConcat = [
               entry.date,
               thei18n._diary.status[entry.status],
-              entry.comment
+              "\"" + entry.comment + "\""
             ];
 
             exportString = exportString + stringConcat.join(',') + '\n';

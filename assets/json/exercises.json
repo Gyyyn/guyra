@@ -61,6 +61,32 @@
 
   },
 
+  "unit1b": {
+
+    "CompleteThePhrase": [
+      ["He is using a T-shirt", "using", "usando"],
+      ["He is using a T-shirt", "T-shirt", "camiseta"],
+      ["He is using a black T-shirt", "blac", "preta"],
+      ["She has a skirt.", "has", "tem"],
+      ["She has a skirt.", "skirt", "saia"],
+      ["She has a purple skirt.", "purpl", "roxa"],
+      ["I'm wearing red shoes.", "wearing", "usando"],
+      ["I'm wearing red shoes.", "shoes", "sapatos"],
+      ["I'm wearing red shoes.", "red", "vermelhos"],
+      ["He is wearing a grey suit!", "suit", "terno"],
+      ["He is wearing a grey suit!", "gre", "cinza"],
+      ["We are all wearing black.", "all", "todos"],
+      ["We are all wearing white sweaters.", "hite", "branco"],
+      ["We are all wearing white sweaters.", "sweaters", "moletom"]
+    ],
+
+    "WhatYouHear": [
+      ["He is using a black shirt and a scarf."],
+      ["She has a purple dress and a white blouse."]
+    ]
+
+  },
+
   "unit2": {
 
     "CompleteThePhrase": [
@@ -773,6 +799,34 @@
       ["We saw a cool movie and then we went to a restaurant."],
       ["We went swimming and then walked on the beach."],
       ["Have you finished for the day already? I didn't do any work!"]
+    ]
+
+  },
+
+  "unit14b": {
+
+    "CompleteThePhrase": [
+      ["I found this cool store yesterday.", "found", "achei"],
+      ["I couldn't find it.", "couldn't", "não consegui"],
+      ["They couldn't find it.", "find", "achar"],
+      ["I thought it was a nice idea.", "thought", "pensei"],
+      ["I thought it was a nice idea.", "was", "foi"],
+      ["He swam a lot during the summer.", "swam", "nadou"],
+      ["I played a lot of soccer.", "played", "joguei"],
+      ["I tried to warn you!", "tried", "tentei"],
+      ["I tried to warn you!", "to warn", "avisar"],
+      ["I wanted to go too!", "wanted", "queria"],
+      ["We made a nice dinner.", "made", "fizemos"],
+      ["She studied a lot for the entrance exams.", "studied", "estudou"],
+      ["He used all of the money!", "used", "usou"]
+    ],
+
+    "WhatYouHear": [
+      ["I played soccer and swam in the summer. It was nice!"],
+      ["I couldn't find it but I found something else."],
+      ["The store I like wasn't open so I went to another one."],
+      ["He wanted to go with us but there was no space."],
+      ["She studied math in university, now she is a teacher there!"]
     ]
 
   },

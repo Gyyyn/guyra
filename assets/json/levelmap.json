@@ -8,6 +8,14 @@
         "bg": "#e4f7c3",
         "difficulty": 0.05
       },
+      "unit1b":{
+        "id": "unit1b",
+        "name": "Roupas",
+        "description": "Roupas e simple present.",
+        "image": "exercises/hawaiian-shirt.png",
+        "bg": "#ffe3e5",
+        "difficulty": 0.05
+      },
       "unit2": {
         "id": "unit2",
         "name": "Coisas",
@@ -121,6 +129,14 @@
         "image": "exercises/script.png",
         "bg": "#d1ffe6",
         "difficulty": 0.18
+      },
+      "unit14b": {
+        "id": "unit14b",
+        "name": "Relatos",
+        "description": "Simple past afirmações.",
+        "image": "exercises/dialog2.png",
+        "bg": "#d1ffe6",
+        "difficulty": 0.19
       }
     },
     "level6": {

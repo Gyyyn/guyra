@@ -47,10 +47,20 @@ if ($_GET['log_exercise_data']) {
     $levels_gained = 5;
   }
 
-  Guyra_increase_user_level($current_user_id, $levels_gained);
   PushNotification($gi18n['notification_exercise_levelup']);
 
-  guyra_update_user_data($current_user_id, ['completed_units' => json_encode($completed_units), 'elo' => $theData['elo']], null, 'gamedata');
+  $newdata = Guyra_increase_user_level(0, $levels_gained, true);
+
+  $newdata['completed_units'] = json_encode($completed_units);
+  $newdata['elo'] = $theData['elo'];
+
+  guyra_update_user_data(
+    $current_user_id,
+    $newdata,
+    null,
+    'gamedata'
+  );
+
   guyra_log_to_db($current_user_id, $theDataJSON);
 
 }
