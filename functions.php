@@ -11,7 +11,7 @@ add_action('init', 'ForceHTTPS');
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.2.31');
+define('GUYRA_VERSION', '0.2.32');
 
 // Setup some globals.
 $secondsForA = [
