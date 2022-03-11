@@ -1320,7 +1320,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
     setTimeout(() => {
       this.easyMDE = new EasyMDE({
         element: document.getElementById('userpage-edit'),
-        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.username },
+        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.userId },
         toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"],
         uploadImage: true,
         initialValue: this.theUserpage,

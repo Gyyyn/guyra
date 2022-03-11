@@ -19,7 +19,7 @@ function UserLoginUpdateStreakStatus($user_id) {
   $now = time();
 
   if ($user_id == $current_user_id) {
-    $gamedata = $current_user_gamedata;
+    $gamedata = &$current_user_gamedata;
   } else {
     $gamedata = guyra_get_user_data($user_id, 'gamedata');
   }

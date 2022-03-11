@@ -57,7 +57,6 @@ include_once $template_dir . '/functions/Assets.php';
 <?php endif; ?>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script async type="module" src="<?php echo GetMinifiedAsset('js', 'Common.js'); ?>"></script>
 <?php if ($args['js']): ?>
 <script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>

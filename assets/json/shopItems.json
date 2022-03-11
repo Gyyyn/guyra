@@ -246,6 +246,24 @@
     }
   },
 
+  "flashcards_time_expressions": {
+    "price": "5",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_time_expressions": {}
+    }
+  },
+
+  "flashcards_nouns_clothes1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_nouns_clothes1": {}
+    }
+  },
+
   "flashcards_people1": {
     "price": "15",
     "type": "flashcards",

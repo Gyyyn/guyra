@@ -679,7 +679,7 @@ export function RoundedBoxHeading(props) {
   );
 }
 
-export function setCookie(cname, cvalue, exdays) {
+export function setCookie(cname, cvalue, exdays=7) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires="+ d.toUTCString();
@@ -1051,7 +1051,7 @@ export class GoogleAd extends React.Component {
     try {
       (adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
-      console.error("Couldn't render Google Ads: " + e);
+      console.error("Guyra: Couldn't render Google Ads, " + e);
     }
 
   }

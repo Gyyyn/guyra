@@ -1423,7 +1423,6 @@ export class Exercises extends React.Component {
     this.version = '0.0.3';
 
     this.ExerciseObject = [];
-    this.exerciseLength = 0;
     this.currentQuestion = 0;
     this.currentExercise = {};
     this.currentExerciseType = '';
@@ -1595,7 +1594,7 @@ export class Exercises extends React.Component {
       page: e(LoadingPage)
     });
 
-    if(this.questionsAlreadyAnswered.length >= this.exerciseLength) {
+    if(this.questionsAlreadyAnswered.length >= this.ExerciseObject.length) {
 
       if (this.needToRetry.length == 0) {
 
@@ -1684,7 +1683,7 @@ export class Exercises extends React.Component {
     } else {
 
       while(this.questionsAlreadyAnswered.includes(this.currentQuestion)) {
-        this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
+        this.currentQuestion = randomNumber(0, this.ExerciseObject.length - 1);
       }
 
     }
@@ -1921,6 +1920,9 @@ export class Exercises extends React.Component {
       }
     );
 
+    // Remove this question from this session.
+    this.ExerciseObject.splice(this.currentQuestion, 1);
+
   }
 
   // Warning: This method requires that all information about the
@@ -1994,7 +1996,6 @@ export class Exercises extends React.Component {
     });
 
     this.ExerciseObject = object;
-    this.exerciseLength = this.ExerciseObject.length;
 
     this.setState({
       allTheWords: allTheWords,
@@ -2032,7 +2033,6 @@ export class Exercises extends React.Component {
 
   reset = () => {
     this.ExerciseObject = [];
-    this.exerciseLength = 0;
     this.currentQuestion = 0;
     this.score = 100;
     this.questionsAlreadyAnswered = [];

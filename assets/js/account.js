@@ -1267,6 +1267,60 @@ function AccountOptions_slider(props) {
   );
 }
 
+function AccountOptions_privacyDetails_Switch(props) {
+
+  return e(AccountContext.Consumer, null, ({userdata}) => {
+
+    // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
+    if (typeof userdata.privacy === 'string') {
+      userdata.privacy = JSON.parse(userdata.privacy);
+    } else if (!userdata.privacy) {
+      userdata.privacy = {};
+    }
+
+    // Freak out if we didn't get an object here.
+    if (typeof userdata.privacy !== 'object') {
+      console.error('Guyra: Privacy meta is not object.');
+      return false;
+    }
+
+    var checked = true;
+
+    if (userdata.privacy[props.option] != undefined) {
+    checked = userdata.privacy[props.option]; }
+
+    return e(AccountOptions_slider, { dom_id: 'privacy_' + props.option, checked: checked, value: props.desc, onClick: () => {
+
+      checked = !checked;
+
+      var dataToPost = {
+        fields: ['privacy']
+      };
+
+      userdata.privacy[props.option] = checked;
+      dataToPost.privacy = userdata.privacy;
+
+      fetch(
+        thei18n.api_link + '?update_userdata=1',
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataToPost)
+        }
+      );
+
+      var checkbox = document.getElementById('privacy_' + props.option);
+      checkbox.checked = checked;
+
+    }});
+
+  });
+
+}
+
 function AccountOptions_privacyDetails(props) {
   return e(
     'div',
@@ -1277,58 +1331,10 @@ function AccountOptions_privacyDetails(props) {
       e(
         'h3',
         { className: 'text-blue' },
-        'Privacidade'
+        'Privacidade',
       ),
-      e(AccountContext.Consumer, null, ({userdata}) => {
-
-        // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
-        if (typeof userdata.privacy === 'string') {
-          userdata.privacy = JSON.parse(userdata.privacy);
-        } else if (!userdata.privacy) {
-          userdata.privacy = {};
-        }
-
-        // Freak out if we didn't get an object here.
-        if (typeof userdata.privacy !== 'object') {
-          console.error('Guyra: Privacy meta is not object.');
-          return false;
-        }
-
-        var rankingInfoPublic = true;
-
-        if (userdata.privacy.ranking_info_public != undefined) {
-          rankingInfoPublic = userdata.privacy.ranking_info_public;
-        }
-
-        return e(AccountOptions_slider, { dom_id: 'privacy_ranking_info_public', checked: rankingInfoPublic, value: 'Aparecer publicamente nos rankings.', onClick: () => {
-
-          rankingInfoPublic = !rankingInfoPublic;
-
-          var dataToPost = {
-            fields: ['privacy']
-          };
-
-          userdata.privacy.ranking_info_public = rankingInfoPublic;
-          dataToPost.privacy = userdata.privacy;
-
-          fetch(
-            thei18n.api_link + '?update_userdata=1',
-            {
-              method: "POST",
-              headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(dataToPost)
-            }
-          );
-
-          var checkbox = document.getElementById('privacy_ranking_info_public');
-          checkbox.checked = rankingInfoPublic;
-
-        }});
-
-      })
+      e(AccountOptions_privacyDetails_Switch, { option: 'ranking_info_public', desc: thei18n.privacy_public_ranking }),
+      e(AccountOptions_privacyDetails_Switch, { option: 'marketing_enabled', desc: thei18n.privacy_marketing }),
     )
   );
 }
@@ -1344,6 +1350,11 @@ function AccountOptions(props) {
       e(Account_BackButton, { page: e(AccountWrapper) })
     ),
     e(AccountOptions_profileDetails),
+    e(
+      'div',
+      { className: 'd-flex justify-content-center mt-5' },
+      e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=img/digital-marketing.png&size=128' })
+    )
   );
 
 }
@@ -2157,7 +2168,7 @@ class Login extends React.Component {
       if (buttonLogin && (event.key === 'Enter')) {
         buttonLogin.click()
       }
-      
+
     }
 
   }
