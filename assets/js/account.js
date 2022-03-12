@@ -773,45 +773,53 @@ function AccountOptions_changePassword(props) {
             var loadingBefore = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-            var password = document.getElementById('profile-new-password').value;
-            var passwordConfirm = document.getElementById('profile-new-password-again').value;
-
-            if ( (password === passwordConfirm && password != '')) {
-
-              if (password.length >= 8) {
-                dataToPost = {
-                  fields: ['user_pass'],
-                  user_pass: password
-                };
-
-                fetch(
-                   i18n.api_link + '?update_userdata=1',
-                  {
-                    method: "POST",
-                    headers: {
-                      'Accept': 'application/json, text/plain, */*',
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToPost)
-                  }
-                ).then(res => res.json())
-                .then(json => {
-                  if (json != 'true') {
-                    setMessageBox(i18n[json]);
-                  }
-                });
-
-              } else {
-                setMessageBox(i18n.password_too_small);
-              }
-
-            } else {
-              setMessageBox(i18n.nonmatch_fields);
-            }
-
             setTimeout(() => {
               e.target.innerHTML = loadingBefore;
             }, 500);
+
+            var password = document.getElementById('profile-new-password').value;
+            var passwordConfirm = document.getElementById('profile-new-password-again').value;
+
+            // Check some data.
+
+            if ( (password !== passwordConfirm && password != '')) {
+              setMessageBox(i18n.nonmatch_fields);
+              return;
+            }
+
+            if (password.length < 8) {
+              setMessageBox(i18n.password_too_small);
+              return;
+            }
+
+            // If we got here things are ready for posting.
+
+            dataToPost = {
+              fields: ['user_pass'],
+              user_pass: password
+            };
+
+            fetch(
+               i18n.api_link + '?update_userdata=1',
+              {
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToPost)
+              }
+            ).then(res => res.json())
+            .then(json => {
+
+              if (json != 'true') {
+                setMessageBox(i18n[json]);
+                return;
+              }
+
+              setMessageBox(i18n.changed_password_success);
+
+            });
 
           }
         },
@@ -2049,8 +2057,9 @@ class LoginForm extends React.Component {
       { className: 'form-control p-5' },
       e(
         'div',
-        { className: 'dialog-box' },
-        'Alguns usuários podem encontrar problemas para logar após a ultima atualização. Se estiver tendo problemas por favor use o botão Esqueci minha senha para criar uma nova senha para login.'
+        { className: 'dialog-box overpop-animation animate' },
+        'Alguns usuários podem encontrar problemas para logar após a ultima atualização.',
+        e('b', {}, 'Se estiver tendo problemas por favor use o botão "Perdi minha senha!" para criar uma nova senha para login.')
       ),
       e(
         'div',

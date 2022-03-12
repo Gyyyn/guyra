@@ -309,6 +309,9 @@ function guyra_update_user_data($user_id, $data_key, $data='', $datatype='userda
 
   $user_data = guyra_get_user_data($user_id, $datatype);
 
+  if (!$user_data)
+  $user_data = [];
+
   if (is_array($data_key)) {
 
     $data_keys = array_keys($data_key);

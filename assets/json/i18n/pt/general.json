@@ -328,6 +328,7 @@
    "profile_details_picture":"Seu Avatar",
    "reset_password":"Criar nova senha",
    "change_password":"Trocar senha",
+   "changed_password_success":"Senha trocada com sucesso!",
    "forgot_password":"Perdi minha senha!",
    "forgot_password_email_title":"Perdeu acesso a sua conta no Guyrá?",
    "forgot_password_email_explain":"Se você perdeu sua senha do Guyrá e está tentando acessar sua conta, clique no link abaixo. Se você não reconhece esse pedido entre em contato com a gente pra gente ver o que tá acontecendo.",

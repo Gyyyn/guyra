@@ -24,7 +24,9 @@
     { "front": "to talk", "back": "conversar" },
     { "front": "to discuss", "back": "discutir" },
     { "front": "to thank", "back": "agradecer" },
-    { "front": "to apologize", "back": "se desculpar" }
+    { "front": "to apologize", "back": "se desculpar" },
+    { "front": "to swim", "back": "nadar" },
+    { "front": "to play", "back": "jogar, brincar, tocar" }
   ],
 
   "flashcards_nouns_introduction": [
@@ -213,6 +215,10 @@
     { "front": "programmer", "back": "programador(a)" },
     { "front": "architect", "back": "arquiteta(o)" },
     { "front": "researcher", "back": "presquisadora(o)" }
+  ],
+
+  "flashcards_verbs2": [
+    { "front": "", "back": "" }
   ]
 
 }

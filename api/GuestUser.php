@@ -102,13 +102,17 @@ if ($_GET['login']) {
 
 if ($_GET['lost_password']) {
 
-  session_start();
-
   $nonce = $_GET['nonce'];
 
   if ($nonce) {
 
-    if ($_SESSION['lost_password'][$user] == $nonce) {
+    $nonce_pass = Guyra_CheckNonce([
+      'user' => $user,
+      'id' => 'lost_password',
+      'nonce' => $nonce
+    ]);
+
+    if ($nonce_pass) {
 
       $new_password = bin2hex(random_bytes(8));
       $user_data = guyra_get_user_object($user);
@@ -122,18 +126,14 @@ if ($_GET['lost_password']) {
       ];
 
       Guyra_Login_User($creds);
-
-      unset($_SESSION['lost_password'][$user]);
       unset($new_password);
-
       Guyra_Redirect($gi18n['password_edit_link']);
 
       exit;
 
     } else {
 
-      unset($_SESSION['lost_password'][$user]);
-      guyra_output_json('false', true);
+      GuyraDisplayErrorPage('Erro!', 'Este link é inválido. Certifique que está usando o mesmo navegador e dispositivo para fazer esta ação!');
 
     }
 
@@ -144,8 +144,10 @@ if ($_GET['lost_password']) {
 
     if ($userdata) {
 
-      $bytes = bin2hex(random_bytes(16));
-      $_SESSION['lost_password'][$user] = $bytes;
+      $bytes = Guyra_GenNonce([
+        'user' => $current_user_id,
+        'id' => 'lost_password'
+      ]);
 
       $link = $site_api_url . '?lost_password=1&user=' . $user . '&nonce=' . $bytes;
 

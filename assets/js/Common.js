@@ -187,6 +187,9 @@ export class RenderReplies extends React.Component {
       diaryId: this.props.diaryId,
     };
 
+    if (this.props.listingType == 'group') {
+    dataToPost.groupName = this.props.listingName; }
+
     fetch(
        thei18n.api_link + '?post_reply=1',
       {

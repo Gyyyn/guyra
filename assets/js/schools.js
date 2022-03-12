@@ -1248,13 +1248,17 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
   constructor(props) {
     super(props);
 
-    this.theReplies = [];
-
     if (!this.props.diary) {
     this.props.diary = {}; }
 
     if (this.props.diary.user_comments) {
     this.theReplies = this.props.diary.user_comments; }
+
+    if (this.props.listingType == 'group') {
+    this.theReplies = this.props.diary.diaries[this.props.listingName].user_comments; }
+
+    if (!this.theReplies) {
+    this.theReplies = []; }
 
   }
 
@@ -1269,6 +1273,8 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
       return e(RenderReplies, {
         reply: reply,
         replyId: i,
+        listingType: this.props.listingType,
+        listingName: this.props.listingName,
         diaryId: this.props.diaryId,
         wrapperClass: 'bg-white more-rounded p-3 mt-2',
         maxAge: this.props.maxAge
@@ -1289,7 +1295,13 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
     this.theUserpage = this.props.diary.userpage;
 
     if (this.props.listingType == 'group') {
-    this.theUserpage = this.props.diary.diaries[this.props.listingName].userpage; }
+
+      if (!this.props.diary.diaries[this.props.listingName]) {
+      this.props.diary.diaries[this.props.listingName] = {}; }
+
+      this.theUserpage = this.props.diary.diaries[this.props.listingName].userpage;
+
+    }
 
     if (!this.theUserpage) {
     this.theUserpage = thei18n.no_userpage; }
@@ -1300,6 +1312,8 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
         e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
           diary: this.props.diary,
           diaryId: this.props.userId,
+          listingType: this.props.listingType,
+          listingName: this.props.listingName,
           maxAge: 7
         }),
       ],
@@ -1502,7 +1516,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       }),
       replies: e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
         diary: this.state.diary,
-        diaryId: this.listingDiaryUserId
+        diaryId: this.listingDiaryUserId,
+        listingType: this.listingType,
+        listingName: this.listingName,
       }),
       controls: e(GroupAdminHome_AdminPanel_ControlsView, {
         listingType: this.listingType,

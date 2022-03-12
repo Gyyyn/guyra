@@ -95,12 +95,14 @@ if ($_GET['update_userdata']) {
       'nonce' => $nonce
     ]);
 
-    if ($_GET['action'] == 'confirm_mail' && $nonce_pass)
-    $current_user_data['mail_confirmed'] = 'true';
+    if ($_GET['action'] == 'confirm_mail' && $nonce_pass) {
+      $redirect = $gi18n['account_link'];
+      $current_user_data['mail_confirmed'] = 'true';
+    } else {
 
-    // TODO: Handle nonce fail.
+      GuyraDisplayErrorPage('Erro!', 'Este link é inválido. Certifique que está usando o mesmo navegador e dispositivo para fazer esta ação!');
 
-    $redirect = $gi18n['account_link'];
+    }
 
   }
 
@@ -248,7 +250,17 @@ if ($_GET['get_identicon']) {
 if ($_GET['post_reply']) {
 
   $thePost = json_decode(file_get_contents('php://input'), true);
+  $replyTo = $thePost['replyTo'];
   $notify = false;
+
+  // Set the diary we are replying to.
+  $user = (int) $thePost['diaryId'];
+
+  if (!isset($thePost['diaryId']))
+  $user = $current_user_id;
+
+  // diary_owner_id is used later to save the data.
+  $diary_owner_id = $user;
 
   // Validations
   if (!$thePost['comment'])
@@ -260,29 +272,50 @@ if ($_GET['post_reply']) {
   if (isset($thePost['diaryId']) && ($thePost['diaryId'] != $current_user_id) && (!$is_GroupAdmin || !$is_admin))
   guyra_output_json('action not allowed', true);
 
-  $user = (int) $thePost['diaryId'];
-
-  if (!isset($thePost['diaryId']))
-  $user = $current_user_id;
-
+  // If user is replying to it's own diary we allow more actions.
   if ($user == $current_user_id) {
 
     $diary = &$current_user_diary;
     $notify = $current_user_data['teacherid'];
 
+
+    // If user has a group their diary will be stored in their teacher's data.
     if ($current_user_data['studygroup']) {
+
+      // We use diary_group_name to recombine data later.
+      $diary_group_name = $current_user_data['studygroup'];
+      $diary_owner_id = $current_user_data['teacherid'];
+
+      // We use teachers_diary to check if we need to recombine data later.
       $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
+
+      if (!is_array($teachers_diary))
+      $teachers_diary = [];
+
       $diary = $teachers_diary['diaries'][$current_user_data['studygroup']];
+
     }
 
-  } else {
-    $diary = guyra_get_user_data($user, 'diary');
-  }
+  } else { $diary = guyra_get_user_data($user, 'diary'); }
+
+  // If after all of this we came up empty, we need to create new sections.
+  if (!is_array($diary))
+  $diary = [];
 
   if (!is_array($diary['user_comments']))
   $diary['user_comments'] = [];
 
-  $replyTo = $thePost['replyTo'];
+  // Check if we are sending messages inside a group.
+  if (isset($thePost['groupName']) && ($is_GroupAdmin || $is_admin)) {
+
+    // We use teachers_diary to check if we need to recombine data later.
+    $teachers_diary = $diary;
+    $diary = $diary['diaries'][$thePost['groupName']];
+
+    // We use diary_group_name to recombine data later.
+    $diary_group_name = $thePost['groupName'];
+
+  }
 
   $commentData = [
     'date' => GetStandardDate(),
@@ -292,6 +325,7 @@ if ($_GET['post_reply']) {
     'comment' => nl2br($thePost['comment'])
   ];
 
+  // If reply to is set we are replying.
   if (isset($thePost['replyTo'])) {
 
     if (!is_array($diary['user_comments'][$replyTo]['replies']))
@@ -303,7 +337,16 @@ if ($_GET['post_reply']) {
     $diary['user_comments'][] = $commentData;
   }
 
-  guyra_update_user_data($user, ['user_comments' => $diary['user_comments']], null, 'diary');
+  // Join everything together for uploading.
+  if (isset($teachers_diary)) {
+    $new_diary = $teachers_diary;
+    $new_diary['diaries'][$diary_group_name] = $diary;
+  } else {
+    $new_diary = $diary;
+  }
+
+  // Save everything.
+  guyra_update_user_data($diary_owner_id, $new_diary, null, 'diary');
 
   Guyra_increase_user_level($current_user_id, 2);
 
