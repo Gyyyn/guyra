@@ -145,7 +145,7 @@ if ($_GET['lost_password']) {
     if ($userdata) {
 
       $bytes = Guyra_GenNonce([
-        'user' => $current_user_id,
+        'user' => $user,
         'id' => 'lost_password'
       ]);
 

@@ -93,6 +93,7 @@ function guyra_handle_query_error($error='') {
   if (preg_match("/(doesn't exist)/", $error)) {
     guyra_database_create_db();
   } else {
+    guyra_log_to_file(json_encode($error));
     guyra_output_json('query error', true);
   }
 }

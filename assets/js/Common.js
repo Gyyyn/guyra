@@ -14,6 +14,63 @@ function LoadingIcon(props) {
   );
 }
 
+class LoadingProgress extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: 0,
+    }
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+
+      var increaseAmount = 5;
+
+      if (this.state.value > 50) {
+      increaseAmount = 2; }
+
+      if (this.state.value > 75) {
+      increaseAmount = 1; }
+
+      if (this.state.value >= 100) {
+        this.setState({
+          value: 60,
+        });
+      }
+
+      this.setState({
+        value: this.state.value + increaseAmount,
+      });
+
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      value: 100
+    });
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex justify-content-center' },
+      e(
+        'progress',
+        {
+          className: 'progress w-50',
+          max: 100,
+          min: 0,
+          value: this.state.value
+        }
+      )
+    );
+  }
+
+}
+
 export class LoadingPage extends React.Component {
   constructor() {
    super();
@@ -25,13 +82,9 @@ export class LoadingPage extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
+        message: e(LoadingProgress)
       });
-    }, 5000);
+    }, 2500);
   }
 
   render() {
@@ -204,7 +257,7 @@ export class RenderReplies extends React.Component {
     .then(json => {
 
       if (json != 'true') {
-        console.error('Comment post error');
+        console.error('Guyra: Comment post error, ' + json);
         return;
       }
 
