@@ -69,3 +69,17 @@ function updateBackButton() {
 }
 
 document.addEventListener('scroll', updateBackButton);
+
+window.onerror = function errHandle(errorMsg, url, lineNumber) {
+
+  // Big placebo here.
+  setTimeout(() => {
+    alert('Houve um erro! O site vai tentar concerta-lo, se isso não der certo entre em contato com a gente.');
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+
+  }, 1000);
+
+}

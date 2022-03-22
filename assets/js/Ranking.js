@@ -64,7 +64,7 @@ function Ranking_Wrapper(props) {
             {
               className: 'page-icon ' + rankingSize + ' avatar bg-grey p-1',
               alt: list_item.user_ranking.ranking,
-              src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + list_item.user_ranking.ranking + '.png'
+              src: thei18n.assets_link + 'icons/exercises/ranks/' + list_item.user_ranking.ranking + '.png'
             },
           )),
         )

@@ -22,8 +22,11 @@ function GetStandardDate() {
 }
 
 function guyra_log_to_file($object='something happened') {
+
+  global $template_dir;
   $object = GetStandardDate() . ': ' . $object . "\r\n";
-  file_put_contents(get_template_directory() . '/log.txt', $object, FILE_APPEND);
+
+  file_put_contents($template_dir . '/log.txt', $object, FILE_APPEND);
 }
 
 function Guyra_GetDBConnection($args=[]) {
@@ -33,7 +36,10 @@ function Guyra_GetDBConnection($args=[]) {
 
   if ($db->connect_error) {
 
-    guyra_output_json('connection error' . $db->connect_error, true);
+    HandleServerError([
+      'message' => 'Database error!',
+      'err' => $db->connect_error
+    ], 500);
 
   }
 

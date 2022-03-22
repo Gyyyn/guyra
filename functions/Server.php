@@ -34,10 +34,6 @@ function Guyra_Safeguard_File() {
     exit;
   }
 
-  if ($_SERVER['REQUEST_URI'] == '/wp-content/themes/guyra/functions.php') {
-    exit;
-  }
-
 }
 
 // Handles a variety of errors.
@@ -45,11 +41,12 @@ function HandleServerError($err, $res_code=500) {
 
 	http_response_code($res_code);
 
-	if ($err['message']) {
-		echo $err['message'];
-	} else {
-		echo "Something went wrong.";
-	}
+  $message = "Something went wrong.";
+
+	if ($err['message'])
+	$message = $err['message'];
+
+  GuyraDisplayErrorPage($res_code, $message);
 
 	exit;
 

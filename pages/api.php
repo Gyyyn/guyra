@@ -8,42 +8,38 @@ global $current_user_gamedata;
 global $site_url;
 global $is_admin;
 global $redirect;
-
-if ($_GET['disable_cache'] != 'true') {
-  nocache_headers();
-  error_reporting(0);
-}
+global $is_logged_in;
 
 $redirect = false;
 
 // If user isn't logged in he only has a few options.
 if (!$is_logged_in) {
-  include $template_dir . '/api/GuestUser.php';
+  include $template_dir . '/functions/api/GuestUser.php';
   guyra_output_json('true', true);
 }
 
-include $template_dir . '/api/Shop.php';
-include $template_dir . '/api/Reference.php';
+include $template_dir . '/functions/api/Shop.php';
+include $template_dir . '/functions/api/Reference.php';
 
 // Case where user is site admin.
 if ($is_admin) {
 
-  include $template_dir . '/api/SuperAdminActions.php';
+  include $template_dir . '/functions/api/SuperAdminActions.php';
 
 }
 
 // Case where user is a group admin.
 if ($is_admin || $current_user_data['role'] == "teacher") {
 
-  include $template_dir . '/api/GroupAdminActions.php';
+  include $template_dir . '/functions/api/GroupAdminActions.php';
 
 }
 
 // Logged in user actions.
-include $template_dir . '/api/UserActions.php';
+include $template_dir . '/functions/api/UserActions.php';
 
 // Game API
-include $template_dir . '/api/Exercises.php';
+include $template_dir . '/functions/api/Exercises.php';
 
 // If we have no redirect then we assume things went right.
 if (!$_POST['redirect'] && !$_GET['redirect'] && !$redirect)

@@ -6,6 +6,16 @@ global $site_url;
 global $is_logged_in;
 global $site_api_url;
 global $gLang;
+global $gi18n;
+
+function FetchBrowserLangs() {
+
+	$header = explode(';', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+	$accepted_langs = explode(',', $header[0]);
+
+	return $accepted_langs;
+
+}
 
 $i18n_links = [
 	'guyra_version' => GUYRA_VERSION,
@@ -33,8 +43,9 @@ $i18n_links = [
 	'schools_footer_link' => $site_url . '/work-with-us',
 	'thanks_footer_link' => $site_url . '/thanks',
 	'admin_link' => $admin_url,
-	'guyra_admin_link' => $site_url . '/?page=admin',
+	'guyra_admin_link' => $site_url . '/SuperAdminControlPanel',
 	'template_link' => $template_url,
+	'assets_link' => $template_url . '/assets/',
 	'js_link' => $template_url . '/assets/js/',
 	'css_link' => $template_url . '/assets/css/',
 	'audio_link' => $template_url . '/assets/audio/',

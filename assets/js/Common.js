@@ -9,7 +9,7 @@ function LoadingIcon(props) {
   return e(
     'img',
     {
-      src: rootUrl.concat('wp-content/themes/guyra/assets/img/loading.svg')
+      src: thei18n.assets_link + 'img/loading.svg'
     }
   );
 }
@@ -251,6 +251,12 @@ export class RenderReplies extends React.Component {
 
     var reply = this.props.reply;
     var theAttachment = null;
+
+    if (!reply) {
+    reply = {} }
+
+    if (!reply.comment) {
+    reply.comment = '' }
 
     // setup files
     if (reply.attachment) {
@@ -740,6 +746,9 @@ export function GuyraParseDate(date) {
 
   // Assumes a standard MySQL date.
   // d-m-Y H:i:s or Y-m-d H:i:s
+
+  if (!date) {
+  date = GetStandardDate() }
 
   var splittings = date.split('-');
   splittings[2] = splittings[2].split(' ');

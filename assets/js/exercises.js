@@ -61,32 +61,6 @@ function RemovePunctuation(word, options={}) {
   return word.replace(regex,'');
 }
 
-function getRandomAvatar() {
-  var rand = randomNumber(1, 4);
-  switch (rand) {
-    case 1:
-      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/boy.png')
-    break;
-
-    case 2:
-      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/man.png')
-    break;
-
-    case 3:
-      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/girl.png')
-    break;
-
-    case 4:
-      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
-    break;
-
-    default:
-      return rootUrl.concat('wp-content/themes/guyra/assets/icons/avatars/woman.png')
-    break;
-
-  }
-}
-
 function getEquivalentAnswersFor(answer) {
 
   // This is bad. But it is temporary
@@ -1572,8 +1546,37 @@ export class Exercises extends React.Component {
 
   setNewActivity = () => {
 
+<<<<<<< Updated upstream
     document.getElementById('current-question').classList.add('d-none');
     window.scrollTo(0, 0);
+=======
+    let getRandomAvatar = () => {
+
+      switch (randomNumber(1, 4)) {
+        case 1:
+          return thei18n.assets_link + 'icons/avatars/boy.png';
+        break;
+
+        case 2:
+          return thei18n.assets_link + 'icons/avatars/man.png';
+        break;
+
+        case 3:
+          return thei18n.assets_link + 'icons/avatars/girl.png';
+        break;
+
+        case 4:
+          return thei18n.assets_link + 'icons/avatars/woman.png';
+        break;
+
+        default:
+          return thei18n.assets_link + 'icons/avatars/woman.png';
+        break;
+
+      }
+
+    }
+>>>>>>> Stashed changes
 
     this.setState({
       avatarURL: getRandomAvatar(),

@@ -1726,7 +1726,7 @@ function AccountInfo_ranking(props) {
           {
             className: 'page-icon medium avatar bg-grey p-2',
             alt: userdata.gamedata['ranking'],
-            src: rootUrl + 'wp-content/themes/guyra/assets/icons/exercises/ranks/' + userdata.gamedata['ranking'] + '.png'
+            src: thei18n.assets_link + 'icons/exercises/ranks/' + userdata.gamedata['ranking'] + '.png'
           },
         )
       ),

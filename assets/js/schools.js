@@ -1443,7 +1443,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e('span', { className: 'ms-1' }, this.representativeUser.userdata.last_name),
       ];
 
-      this.avatar = e('img', { className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
+      this.avatar = e('img', { loading: 'lazy', className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
 
     }
 

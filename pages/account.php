@@ -2,8 +2,6 @@
 
 global $is_logged_in;
 
-nocache_headers();
-
 get_header(null, ['css' => 'account.css']);
 ?>
 

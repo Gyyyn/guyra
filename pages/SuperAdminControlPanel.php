@@ -81,28 +81,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <h4 class="mt-5">Site:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-    <a class="btn btn-primary" href="<?php echo $gi18n['guyra_admin_link']; ?>&exercise_log=10">See LogDB</a>
-
-    <hr />
-
-    <h5>Edit page:</h5>
-
-    <select name="page-dropdown"
-     onchange='document.location.href=this.options[this.selectedIndex].value;'>
-     <option value="">
-    <?php echo esc_attr( __( 'Select page' ) ); ?></option>
-     <?php
-      $pages = get_pages();
-      foreach ( $pages as $page ) {
-        $option = '<option value="' . get_edit_post_link($page->ID) . '">Edit: ';
-        $option .= $page->post_title;
-        $option .= '</option>';
-        echo $option;
-      }
-     ?>
-    </select>
-
-    <hr />
+    <a class="btn btn-primary" href="<?php echo $gi18n['guyra_admin_link']; ?>?exercise_log=10">See LogDB</a>
 
     <h5>Change a site option:</h5>
 
@@ -260,7 +239,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <?php else: ?>
 
   <div class="admin-forms border rounded p-3 m-0">
-    <a href="<?php echo $gi18n['guyra_admin_link'] . '&load_all_users=1' ?>" class="btn btn-primary my-3">Load all users</a>
+    <a href="<?php echo $gi18n['guyra_admin_link'] . '?load_all_users=1' ?>" class="btn btn-primary my-3">Load all users</a>
   </div>
 
 </div>
@@ -272,7 +251,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <h4 class="mt-4">Extras:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-  <a href="<?php echo $gi18n['admin_link'] ?>" class="btn btn-sm btn-primary">Wordpress admin</a>
   <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create DBs</a>
   <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_page=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
   <a href="<?php echo $site_api_url . '?delete_cache=assets&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Asset Cache</a>

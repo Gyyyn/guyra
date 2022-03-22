@@ -497,6 +497,7 @@
    "error invalid plan":"O plano escolhido é inválido",
    "comment_error":"Erro ao enviar comentário",
    "deck error": "Houve um erro ao processar este pacote. Tente de novo mais tarde.",
+   "invalid deck":"Este deck é inválido!",
    "payments closed": "Pagamentos não estão disponíveis no momento",
    "payments_status_404":"Houve um erro nos servidores do processador. Tente de novo mais tarde.",
    "payments_status_401":"Este cartão foi recusado. Por favor tente outro.",
