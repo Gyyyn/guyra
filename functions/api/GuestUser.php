@@ -31,7 +31,6 @@ if ($_GET['register']) {
   $data = json_decode(file_get_contents('php://input'), true);
 
   $captchaOk = verifyGoogleCaptcha($data['captcha']);
-  $captchaOk = true;
 
   if (!$captchaOk) {
     guyra_output_json('captcha_error', true);
