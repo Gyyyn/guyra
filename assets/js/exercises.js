@@ -5,6 +5,7 @@ import {
   rootUrl,
   thei18n,
   LoadingPage,
+  GoogleAd,
   randomNumber
 } from '%template_url/assets/js/Common.js';
 
@@ -1052,6 +1053,11 @@ function LevelChooser(props) {
           }
         )
       })),
+      e(
+        'div',
+        { className: 'd-block' },
+        e(GoogleAd)
+      ),
     )
   )
 }
@@ -1371,6 +1377,11 @@ class ExerciseDone extends React.Component {
         e(returnToLevelMapButton)
       )
     )),
+    e(
+      'div',
+      { className: 'd-block' },
+      e(GoogleAd)
+    ),
     this.state.review
     ];
   }
@@ -1386,7 +1397,6 @@ export class Exercises extends React.Component {
     this.version = '0.0.3';
 
     this.ExerciseObject = [];
-    this.exerciseLength = 0;
     this.currentQuestion = 0;
     this.currentExercise = {};
     this.currentExerciseType = '';
@@ -1396,6 +1406,10 @@ export class Exercises extends React.Component {
     this.disallowCandyOn = [];
     this.userAnswered = '';
     this.currentUnit = '';
+    this.challengeTracker = JSON.parse(window.localStorage.getItem('challenge'));
+
+    if (!this.challengeTracker) {
+    this.challengeTracker = {} }
 
     this.buttonClassGreen = 'btn-tall green';
     this.buttonClassBlack = 'btn-tall black text-center';
@@ -1436,7 +1450,7 @@ export class Exercises extends React.Component {
       ClearWord: this.ClearWord,
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
-      challengeTracker: JSON.parse(window.localStorage.getItem('challenge')),
+      challengeTracker: this.challengeTracker,
       renderTopbar: true
     }
 
@@ -1546,46 +1560,22 @@ export class Exercises extends React.Component {
 
   setNewActivity = () => {
 
-<<<<<<< Updated upstream
-    document.getElementById('current-question').classList.add('d-none');
-    window.scrollTo(0, 0);
-=======
-    let getRandomAvatar = () => {
-
-      switch (randomNumber(1, 4)) {
-        case 1:
-          return thei18n.assets_link + 'icons/avatars/boy.png';
-        break;
-
-        case 2:
-          return thei18n.assets_link + 'icons/avatars/man.png';
-        break;
-
-        case 3:
-          return thei18n.assets_link + 'icons/avatars/girl.png';
-        break;
-
-        case 4:
-          return thei18n.assets_link + 'icons/avatars/woman.png';
-        break;
-
-        default:
-          return thei18n.assets_link + 'icons/avatars/woman.png';
-        break;
-
-      }
-
-    }
->>>>>>> Stashed changes
+    let avatars = [
+      thei18n.assets_link + 'icons/avatars/boy.png',
+      thei18n.assets_link + 'icons/avatars/man.png',
+      thei18n.assets_link + 'icons/avatars/girl.png',
+      thei18n.assets_link + 'icons/avatars/woman.png'
+    ];
 
     this.setState({
-      avatarURL: getRandomAvatar(),
+      avatarURL: avatars[randomNumber(0, 3)],
       candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
       candyButtonClass: 'btn-tall purple',
-      disallowCandy: false
+      disallowCandy: false,
+      page: e(LoadingPage)
     });
 
-    if(this.questionsAlreadyAnswered.length >= this.exerciseLength) {
+    if(this.questionsAlreadyAnswered.length >= this.ExerciseObject.length) {
 
       if (this.needToRetry.length == 0) {
 
@@ -1662,6 +1652,9 @@ export class Exercises extends React.Component {
           this.exerciseEndSound.play();
         }
 
+        // Make sure we quit this function.
+        return;
+
       } else {
 
         this.currentQuestion = this.needToRetry.shift();
@@ -1671,7 +1664,7 @@ export class Exercises extends React.Component {
     } else {
 
       while(this.questionsAlreadyAnswered.includes(this.currentQuestion)) {
-        this.currentQuestion = randomNumber(0, this.exerciseLength - 1);
+        this.currentQuestion = randomNumber(0, this.ExerciseObject.length - 1);
       }
 
     }
@@ -1707,17 +1700,12 @@ export class Exercises extends React.Component {
     });
 
     // Finally set the values we are going to use.
-    this.setState({
-      values: this.loadActivityByType(disallowCandyNow)
-    });
-
-    // Play an animation when the exercise is ready.
     setTimeout(() => {
-      var currQuestion = document.getElementById('current-question');
-      if (currQuestion) {
-        currQuestion.classList.remove('d-none')
-      }
-    }, 200);
+      this.setState({
+        values: this.loadActivityByType(disallowCandyNow),
+        page: e(CurrentQuestion)
+      });
+    }, 150);
 
   };
 
@@ -1913,6 +1901,9 @@ export class Exercises extends React.Component {
       }
     );
 
+    // Remove this question from this session.
+    this.ExerciseObject.splice(this.currentQuestion, 1);
+
   }
 
   // Warning: This method requires that all information about the
@@ -1986,7 +1977,6 @@ export class Exercises extends React.Component {
     });
 
     this.ExerciseObject = object;
-    this.exerciseLength = this.ExerciseObject.length;
 
     this.setState({
       allTheWords: allTheWords,
@@ -2024,7 +2014,6 @@ export class Exercises extends React.Component {
 
   reset = () => {
     this.ExerciseObject = [];
-    this.exerciseLength = 0;
     this.currentQuestion = 0;
     this.score = 100;
     this.questionsAlreadyAnswered = [];

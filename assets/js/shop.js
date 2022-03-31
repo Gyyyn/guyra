@@ -1,5 +1,6 @@
 import {
   e,
+  RoundedBoxHeading,
   GuyraGetData,
   rootUrl,
   thei18n,
@@ -179,13 +180,13 @@ class Shop_Item extends React.Component {
 
     return e(ShopContext.Consumer, null, ({i18n, setPage}) => e(
       'div',
-      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass, style: { maxWidth: 'calc(12rem + 8vw)' } },
+      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass, style: { maxWidth: '32%' } },
       e(
         'div',
         { className: 'd-flex flex-row' },
         e(
           'div',
-          { className: 'order-last ms-3' },
+          { className: 'order-last' },
           e('img', { className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
         ),
         e(
@@ -238,10 +239,11 @@ class Shop_ItemList extends React.Component {
     return e(
       'div',
       { className: 'd-flex flex-column' },
-      e('h3', {}, thei18n.categories),
+      e('h2', {}, thei18n.items),
       e(
         'div',
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
+        e('h3', { className: 'me-3' }, thei18n.categories + ': '),
         e('button', { className: 'btn-tall blue mb-3 me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
         e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
         e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
@@ -249,7 +251,7 @@ class Shop_ItemList extends React.Component {
       ),
       e(
         'div',
-        { className: 'shop-item-list d-flex flex-wrap justify-content-around mt-5' },
+        { className: 'shop-item-list d-flex flex-wrap justify-content-around' },
         Object.values(this.props.shopObject).map((item, i) => {
 
           var theItem = item;
@@ -300,53 +302,6 @@ class Shop_ItemList extends React.Component {
   }
 }
 
-function Shop_Header(props) {
-  return e(ShopContext.Consumer, null, ({i18n, userdata}) => {
-
-    var gamedata = userdata.gamedata;
-
-    if (!gamedata) {
-      gamedata = { level: '...' };
-    }
-
-    return e(
-      'div',
-      { className: 'd-flex flex-column mb-3' },
-      e(
-        'div',
-        { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
-        e(
-          'div',
-          { className: 'welcome' },
-          e('h1', { className: 'text-blue' }, i18n.shop),
-        ),
-        e(
-          'span',
-          { className: 'page-icon' },
-          e(
-            'img',
-            {
-              alt: i18n.shop,
-              src: i18n.api_link + '?get_image=icons/exercises/shop.png&size=128'
-            }
-          )
-        )
-      ),
-      e(
-        'div',
-        { className: 'balance d-flex flex-column' },
-        e('h3', { className: 'text-blue' }, i18n.yours + ' ' + i18n.points),
-        e(
-          'div',
-          { className: 'd-flex flex-row text-n' },
-          e('span', { className: 'me-1' }, i18n.levels + ': '),
-          e('span', { className: 'fw-bold' }, gamedata.level)
-        ),
-      ),
-    );
-  });
-}
-
 function Shop_yourItems(props) {
 
   return e(ShopContext.Consumer, null, ({userdata, i18n}) => {
@@ -358,7 +313,17 @@ function Shop_yourItems(props) {
     return e(
       'div',
       { className: 'd-flex flex-column mb-3' },
-      e('h3', {}, i18n.your_items),
+      e('h2', {}, thei18n.inventory),
+      e(
+        'div',
+        { className: 'balance d-flex flex-column' },
+        e(
+          'div',
+          { className: 'd-flex flex-row text-n mb-2' },
+          e('span', { className: 'me-1' }, i18n.levels + ': '),
+          e('span', { className: 'fw-bold' }, theUserdata.gamedata.level)
+        ),
+      ),
       e(
         'div',
         { className: 'dialog-box d-flex flex-wrap align-items-center justify-content-start' },
@@ -381,7 +346,7 @@ function Shop_wrapper(props) {
     e(ShopContext.Consumer, null, ({shopObject}) => e(
       'div',
       { className: 'shop-wrapper justfade-animation animate' },
-      e(Shop_Header),
+      e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
       e(Shop_yourItems),
       e(Shop_ItemList, { shopObject: shopObject })
     ))

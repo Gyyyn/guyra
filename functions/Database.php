@@ -99,6 +99,7 @@ function guyra_handle_query_error($error='') {
   if (preg_match("/(doesn't exist)/", $error)) {
     guyra_database_create_db();
   } else {
+    guyra_log_to_file(json_encode($error));
     guyra_output_json('query error', true);
   }
 }
@@ -314,6 +315,9 @@ function guyra_log_error($dump, $type='general') {
 function guyra_update_user_data($user_id, $data_key, $data='', $datatype='userdata') {
 
   $user_data = guyra_get_user_data($user_id, $datatype);
+
+  if (!$user_data)
+  $user_data = [];
 
   if (is_array($data_key)) {
 

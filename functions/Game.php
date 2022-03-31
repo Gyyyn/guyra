@@ -2,7 +2,7 @@
 
 Guyra_Safeguard_File();
 
-function Guyra_increase_user_level($user=0, $amount=1) {
+function Guyra_increase_user_level($user=0, $amount=1, $noUpdate=false) {
 
   global $current_user_id;
 
@@ -23,10 +23,14 @@ function Guyra_increase_user_level($user=0, $amount=1) {
   // Increase current level balance, total levels and the levels for the current daily challenge.
   $gamedata['level'] += $amount;
   $gamedata['level_total'] += $amount;
-  $gamedata['challenges']['daily']['levels_completed'] += 1;
+  $gamedata['challenges']['daily']['levels_completed'] += $amount;
 
   // Send the data back for saving.
+
+  if (!$noUpdate)
   guyra_update_user_data($user, $gamedata, '', 'gamedata');
+
+  return $gamedata;
 
 }
 

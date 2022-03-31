@@ -89,7 +89,7 @@ function Guyra_GenNonce($args=[]) {
   session_start();
 
   $bytes = bin2hex(random_bytes(16));
-  $_SESSION[$args['user']][$args['id']] = $bytes;
+  $_SESSION[$args['user'] . '_' . $args['id']] = $bytes;
 
   session_write_close();
 
@@ -116,12 +116,11 @@ function Guyra_CheckNonce($args=[]) {
 
   session_start();
 
-  // If nonce is invalid quit here.
-  if ($_SESSION[$args['user']][$args['id']] != $nonce)
+  if ($_SESSION[$args['user'] . '_' . $args['id']] != $args['nonce'])
   return false;
 
   // Otherwise unset it and return true.
-  unset($_SESSION[$args['user']][$args['id']]);
+  unset($_SESSION[$args['user'] . '_' . $args['id']]);
 
   session_write_close();
 

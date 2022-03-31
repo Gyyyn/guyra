@@ -106,7 +106,7 @@ get_header(null, ['css' => 'landing.css']);
              <li><span><?php echo $gi18n['prices_features']['feature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              <li><span><?php echo $gi18n['prices_features']['feature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
            </ul>
-           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
+           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="landing-buy-button w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
          </div>
        </div>
      </div>
@@ -124,7 +124,7 @@ get_header(null, ['css' => 'landing.css']);
              <li><span><?php echo $gi18n['prices_features']['feature_exercises']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
              <li><span><?php echo $gi18n['prices_features']['feature_pictionary']; ?></span> <span><i class="bi bi-check-lg text-green"></i></span></li>
            </ul>
-           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
+           <a href="<?php echo $gi18n['register_link']; ?>" type="button" class="landing-buy-button w-100 btn-tall"><?php echo $gi18n['button_want_this']; ?></a>
          </div>
        </div>
      </div>
@@ -241,4 +241,4 @@ get_header(null, ['css' => 'landing.css']);
 <hr class="thick squeeze my-5">
 
 <?php
-get_footer(null, ['aos' => true]);
+get_footer(null, ['aos' => true, 'js' => 'Landing.js']);

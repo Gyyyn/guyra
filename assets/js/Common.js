@@ -14,6 +14,63 @@ function LoadingIcon(props) {
   );
 }
 
+class LoadingProgress extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: 0,
+    }
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+
+      var increaseAmount = 5;
+
+      if (this.state.value > 50) {
+      increaseAmount = 2; }
+
+      if (this.state.value > 75) {
+      increaseAmount = 1; }
+
+      if (this.state.value >= 100) {
+        this.setState({
+          value: 60,
+        });
+      }
+
+      this.setState({
+        value: this.state.value + increaseAmount,
+      });
+
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      value: 100
+    });
+  }
+
+  render() {
+    return e(
+      'div',
+      { className: 'd-flex justify-content-center' },
+      e(
+        'progress',
+        {
+          className: 'progress w-50',
+          max: 100,
+          min: 0,
+          value: this.state.value
+        }
+      )
+    );
+  }
+
+}
+
 export class LoadingPage extends React.Component {
   constructor() {
    super();
@@ -25,13 +82,9 @@ export class LoadingPage extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        message: e(
-          'div',
-          { className: 'd-flex justify-content-center justfade-animation animate' },
-          '💭💭'
-        )
+        message: e(LoadingProgress)
       });
-    }, 5000);
+    }, 2500);
   }
 
   render() {
@@ -187,6 +240,9 @@ export class RenderReplies extends React.Component {
       diaryId: this.props.diaryId,
     };
 
+    if (this.props.listingType == 'group') {
+    dataToPost.groupName = this.props.listingName; }
+
     fetch(
        thei18n.api_link + '?post_reply=1',
       {
@@ -201,7 +257,7 @@ export class RenderReplies extends React.Component {
     .then(json => {
 
       if (json != 'true') {
-        console.error('Comment post error');
+        console.error('Guyra: Comment post error, ' + json);
         return;
       }
 
@@ -685,7 +741,7 @@ export function RoundedBoxHeading(props) {
   );
 }
 
-export function setCookie(cname, cvalue, exdays) {
+export function setCookie(cname, cvalue, exdays=7) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires="+ d.toUTCString();
@@ -1048,4 +1104,34 @@ export function dragElement(theElement, clickFunction) {
 
   }
 
+}
+
+export class GoogleAd extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+
+    try {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error("Guyra: Couldn't render Google Ads, " + e);
+    }
+
+  }
+
+  render() {
+    return e(
+      'ins',
+      {
+        className: "adsbygoogle",
+        "style": { display: 'block', minWidth: "300px", },
+        "data-ad-client": "ca-pub-7198773595231701",
+        "data-ad-slot":"2771213975",
+        "data-ad-format": "auto",
+        "data-full-width-responsive": "true",
+      }
+    );
+  }
 }

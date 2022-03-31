@@ -104,6 +104,18 @@
       "description_full": "Substantivos de nivel básico."
     },
 
+    "flashcards_time_expressions": {
+      "name": "Deck de cartas: Tempo 1",
+      "description": "Inclui palavras sobre expressões de tempo.",
+      "description_full": "Palavras variadas."
+    },
+
+    "flashcards_nouns_clothes1": {
+      "name": "Deck de cartas: Roupas 1",
+      "description": "Inclui sobre roupas e vetimentas.",
+      "description_full": "Palavras variadas."
+    },
+
     "flashcards_people1": {
       "name": "Deck de cartas: Pessoas 1",
       "description": "Inclui palavras para descrever pessoas.",
@@ -265,6 +277,14 @@
 
     "flashcards_nouns_places1": {
       "name": "Deck de cartas: Lugares 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+    "flashcards_time_expressions": {
+      "name": "Deck de cartas: Tempo 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+    "flashcards_nouns_clothes1": {
+      "name": "Deck de cartas: Roupas 1",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     },
 

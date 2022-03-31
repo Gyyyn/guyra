@@ -80,3 +80,31 @@ function CaptureRequest($handleRequest) {
  	return $handleRequest($request);
 
 }
+
+// Outpus a programmable error page.
+function GuyraDisplayErrorPage($title, $message) {
+
+  global $template_dir;
+  global $gLang;
+  global $gi18n;
+
+  $string_replacements = [
+    $title,
+    $message,
+    $gi18n['home_link'],
+    $gi18n['homepage']
+  ];
+
+  $template_link = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/error.html';
+  $message = vsprintf(file_get_contents($template_link), $string_replacements);
+
+  if (!$message) {
+    guyra_log_to_file(json_encode($string_replacements));
+    guyra_output_json('error');
+  }
+
+  echo $message;
+
+  exit;
+
+}

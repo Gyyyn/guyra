@@ -55,14 +55,22 @@ function updateBackButton() {
       mobileHeaderBackButton.onclick = null;
     }
 
-    mobileHeaderBackButton.onclick = (e) => {
+    try {
 
-      if (document.getElementById('back-button')) {
-        document.getElementById('back-button').click();
-        return;
+      mobileHeaderBackButton.onclick = (e) => {
+
+        if (document.getElementById('back-button')) {
+          document.getElementById('back-button').click();
+          return;
+        }
+
+        window.location.href = window.location.origin;
       }
 
-      window.location.href = window.location.origin;
+    } catch (e) {
+
+      // We don't have to do anything here, it's ok.
+
     }
 
   }

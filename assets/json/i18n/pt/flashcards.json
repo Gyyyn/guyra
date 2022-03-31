@@ -24,7 +24,9 @@
     { "front": "to talk", "back": "conversar" },
     { "front": "to discuss", "back": "discutir" },
     { "front": "to thank", "back": "agradecer" },
-    { "front": "to apologize", "back": "se desculpar" }
+    { "front": "to apologize", "back": "se desculpar" },
+    { "front": "to swim", "back": "nadar" },
+    { "front": "to play", "back": "jogar, brincar, tocar" }
   ],
 
   "flashcards_nouns_introduction": [
@@ -120,6 +122,34 @@
     { "front": "hair salon", "back": "cabelereiro" }
   ],
 
+  "flashcards_time_expressions": [
+    { "front": "today", "back": "hoje" },
+    { "front": "yesterday", "back": "ontem" },
+    { "front": "tomorrow", "back": "amanhã" },
+    { "front": "week", "back": "semana" },
+    { "front": "month", "back": "mês" },
+    { "front": "day", "back": "dia" },
+    { "front": "year", "back": "ano" },
+    { "front": "hour", "back": "hora" },
+    { "front": "next time", "back": "próxima vez" },
+    { "front": "next", "back": "próxima(o)" },
+    { "front": "last", "back": "última(o)" },
+    { "front": "soon", "back": "em breve" },
+    { "front": "before", "back": "antes" },
+    { "front": "after", "back": "depois" },
+    { "front": "a long time", "back": "muito tempo" },
+    { "front": "a short time", "back": "pouco tempo" },
+    { "front": "Monday", "back": "segunda-feira" },
+    { "front": "Friday", "back": "sexta-feira" },
+    { "front": "Wednesday", "back": "quarta-feira" },
+    { "front": "Thursday", "back": "quinta-feira" },
+    { "front": "Tuesday", "back": "terça-feira" },
+    { "front": "Sunday", "back": "domingo" },
+    { "front": "Saturday", "back": "sábado" },
+    { "front": "as soon as possible", "back": "o quanto antes" },
+    { "front": "before long", "back": "brevemente" }
+  ],
+
   "flashcards_nouns_clothes1": [
     { "front": "T-shirt", "back": "camiseta" },
     { "front": "shirt", "back": "camisa" },
@@ -185,6 +215,6 @@
     { "front": "programmer", "back": "programador(a)" },
     { "front": "architect", "back": "arquiteta(o)" },
     { "front": "researcher", "back": "presquisadora(o)" }
-  ]
+  ],
 
 }

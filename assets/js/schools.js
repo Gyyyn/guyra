@@ -338,6 +338,9 @@ class DiaryPaginatedEntries extends React.Component {
   render() {
     return e(DiaryContext.Consumer, null, ({diary}) => {
 
+      if (!diary) {
+      diary = {} }
+
       if (!diary.payments) {
       diary.payments = {} }
 
@@ -393,6 +396,9 @@ class DiaryPaginatedEntries extends React.Component {
 function DiaryEntries(props) {
 
   return e(DiaryContext.Consumer, null, ({diary}) => {
+
+    if (!diary) {
+    diary = {} }
 
     var theEntries = diary.entries;
 
@@ -511,7 +517,7 @@ function DiaryControls(props) {
             var stringConcat = [
               entry.date,
               thei18n._diary.status[entry.status],
-              entry.comment
+              "\"" + entry.comment + "\""
             ];
 
             exportString = exportString + stringConcat.join(',') + '\n';
@@ -856,6 +862,9 @@ class Diary extends React.Component {
 
   AddEntry = (entry) => {
     var x = this.state.diary;
+
+    if (!Array.isArray(x.entries)) {
+    x.entries = [] }
 
     x.entries.push(entry);
 
@@ -1239,13 +1248,17 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
   constructor(props) {
     super(props);
 
-    this.theReplies = [];
-
     if (!this.props.diary) {
     this.props.diary = {}; }
 
     if (this.props.diary.user_comments) {
     this.theReplies = this.props.diary.user_comments; }
+
+    if (this.props.listingType == 'group') {
+    this.theReplies = this.props.diary.diaries[this.props.listingName].user_comments; }
+
+    if (!this.theReplies) {
+    this.theReplies = []; }
 
   }
 
@@ -1260,6 +1273,8 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
       return e(RenderReplies, {
         reply: reply,
         replyId: i,
+        listingType: this.props.listingType,
+        listingName: this.props.listingName,
         diaryId: this.props.diaryId,
         wrapperClass: 'bg-white more-rounded p-3 mt-2',
         maxAge: this.props.maxAge
@@ -1279,6 +1294,15 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
 
     this.theUserpage = this.props.diary.userpage;
 
+    if (this.props.listingType == 'group') {
+
+      if (!this.props.diary.diaries[this.props.listingName]) {
+      this.props.diary.diaries[this.props.listingName] = {}; }
+
+      this.theUserpage = this.props.diary.diaries[this.props.listingName].userpage;
+
+    }
+
     if (!this.theUserpage) {
     this.theUserpage = thei18n.no_userpage; }
 
@@ -1288,6 +1312,8 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
         e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
           diary: this.props.diary,
           diaryId: this.props.userId,
+          listingType: this.props.listingType,
+          listingName: this.props.listingName,
           maxAge: 7
         }),
       ],
@@ -1308,7 +1334,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
     setTimeout(() => {
       this.easyMDE = new EasyMDE({
         element: document.getElementById('userpage-edit'),
-        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.username },
+        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.userId },
         toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"],
         uploadImage: true,
         initialValue: this.theUserpage,
@@ -1328,18 +1354,33 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       editButtonOnclick: null
     });
 
-    this.props.diary.userpage = this.easyMDE.value();
-    this.theUserpage = this.props.diary.userpage;
+    var theLink = rootUrl + 'api?action=update_diary&user=' + this.props.userId;
+    var dataToPost = {};
+
+    if (this.props.listingType == 'group') {
+
+      theLink = theLink + '&isGroup=' + this.props.listingName;
+      this.props.diary.diaries[this.props.listingName].userpage = this.easyMDE.value();
+      dataToPost = this.props.diary.diaries[this.props.listingName];
+
+    } else {
+
+      this.props.diary.userpage = this.easyMDE.value();
+      dataToPost = this.props.diary;
+
+    }
+
+    this.theUserpage = this.easyMDE.value();
 
     fetch(
-      rootUrl + 'api?action=update_diary&user=' + this.props.userId,
+      theLink,
       {
         method: "POST",
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.props.diary)
+        body: JSON.stringify(dataToPost)
       }
     ).then(res => res.json())
     .then(res => {
@@ -1462,7 +1503,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       userpage: e(GroupAdminHome_AdminPanel_UserpageView, {
         diary: this.state.diary,
         username: this.listingName,
-        userId: this.listingDiaryUserId
+        userId: this.listingDiaryUserId,
+        listingType: this.listingType,
+        listingName: this.listingName,
       }),
       diary: e(Diary, {
         diaryId: this.listingDiaryUserId,
@@ -1473,7 +1516,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       }),
       replies: e(GroupAdminHome_AdminPanel_UserpageView_Replies, {
         diary: this.state.diary,
-        diaryId: this.listingDiaryUserId
+        diaryId: this.listingDiaryUserId,
+        listingType: this.listingType,
+        listingName: this.listingName,
       }),
       controls: e(GroupAdminHome_AdminPanel_ControlsView, {
         listingType: this.listingType,

@@ -134,6 +134,7 @@
         "unit12",
         "unit13",
         "unit14",
+        "unit14b",
         "unit15",
         "unit16",
         "unit17",
@@ -242,6 +243,24 @@
     "image": "icons/card.png",
     "items": {
       "flashcards_nouns_places1": {}
+    }
+  },
+
+  "flashcards_time_expressions": {
+    "price": "5",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_time_expressions": {}
+    }
+  },
+
+  "flashcards_nouns_clothes1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_nouns_clothes1": {}
     }
   },
 

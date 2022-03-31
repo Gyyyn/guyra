@@ -773,45 +773,53 @@ function AccountOptions_changePassword(props) {
             var loadingBefore = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-            var password = document.getElementById('profile-new-password').value;
-            var passwordConfirm = document.getElementById('profile-new-password-again').value;
-
-            if ( (password === passwordConfirm && password != '')) {
-
-              if (password.length >= 8) {
-                dataToPost = {
-                  fields: ['user_pass'],
-                  user_pass: password
-                };
-
-                fetch(
-                   i18n.api_link + '?update_userdata=1',
-                  {
-                    method: "POST",
-                    headers: {
-                      'Accept': 'application/json, text/plain, */*',
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToPost)
-                  }
-                ).then(res => res.json())
-                .then(json => {
-                  if (json != 'true') {
-                    setMessageBox(i18n[json]);
-                  }
-                });
-
-              } else {
-                setMessageBox(i18n.password_too_small);
-              }
-
-            } else {
-              setMessageBox(i18n.nonmatch_fields);
-            }
-
             setTimeout(() => {
               e.target.innerHTML = loadingBefore;
             }, 500);
+
+            var password = document.getElementById('profile-new-password').value;
+            var passwordConfirm = document.getElementById('profile-new-password-again').value;
+
+            // Check some data.
+
+            if ( (password !== passwordConfirm && password != '')) {
+              setMessageBox(i18n.nonmatch_fields);
+              return;
+            }
+
+            if (password.length < 8) {
+              setMessageBox(i18n.password_too_small);
+              return;
+            }
+
+            // If we got here things are ready for posting.
+
+            dataToPost = {
+              fields: ['user_pass'],
+              user_pass: password
+            };
+
+            fetch(
+               i18n.api_link + '?update_userdata=1',
+              {
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToPost)
+              }
+            ).then(res => res.json())
+            .then(json => {
+
+              if (json != 'true') {
+                setMessageBox(i18n[json]);
+                return;
+              }
+
+              setMessageBox(i18n.changed_password_success);
+
+            });
 
           }
         },
@@ -1267,6 +1275,60 @@ function AccountOptions_slider(props) {
   );
 }
 
+function AccountOptions_privacyDetails_Switch(props) {
+
+  return e(AccountContext.Consumer, null, ({userdata}) => {
+
+    // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
+    if (typeof userdata.privacy === 'string') {
+      userdata.privacy = JSON.parse(userdata.privacy);
+    } else if (!userdata.privacy) {
+      userdata.privacy = {};
+    }
+
+    // Freak out if we didn't get an object here.
+    if (typeof userdata.privacy !== 'object') {
+      console.error('Guyra: Privacy meta is not object.');
+      return false;
+    }
+
+    var checked = true;
+
+    if (userdata.privacy[props.option] != undefined) {
+    checked = userdata.privacy[props.option]; }
+
+    return e(AccountOptions_slider, { dom_id: 'privacy_' + props.option, checked: checked, value: props.desc, onClick: () => {
+
+      checked = !checked;
+
+      var dataToPost = {
+        fields: ['privacy']
+      };
+
+      userdata.privacy[props.option] = checked;
+      dataToPost.privacy = userdata.privacy;
+
+      fetch(
+        thei18n.api_link + '?update_userdata=1',
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataToPost)
+        }
+      );
+
+      var checkbox = document.getElementById('privacy_' + props.option);
+      checkbox.checked = checked;
+
+    }});
+
+  });
+
+}
+
 function AccountOptions_privacyDetails(props) {
   return e(
     'div',
@@ -1277,58 +1339,10 @@ function AccountOptions_privacyDetails(props) {
       e(
         'h3',
         { className: 'text-blue' },
-        'Privacidade'
+        'Privacidade',
       ),
-      e(AccountContext.Consumer, null, ({userdata}) => {
-
-        // By default users appear publicly on the rankings, so we treat an empty privacy meta as true here.
-        if (typeof userdata.privacy === 'string') {
-          userdata.privacy = JSON.parse(userdata.privacy);
-        } else if (!userdata.privacy) {
-          userdata.privacy = {};
-        }
-
-        // Freak out if we didn't get an object here.
-        if (typeof userdata.privacy !== 'object') {
-          console.error('Guyra: Privacy meta is not object.');
-          return false;
-        }
-
-        var rankingInfoPublic = true;
-
-        if (userdata.privacy.ranking_info_public != undefined) {
-          rankingInfoPublic = userdata.privacy.ranking_info_public;
-        }
-
-        return e(AccountOptions_slider, { dom_id: 'privacy_ranking_info_public', checked: rankingInfoPublic, value: 'Aparecer publicamente nos rankings.', onClick: () => {
-
-          rankingInfoPublic = !rankingInfoPublic;
-
-          var dataToPost = {
-            fields: ['privacy']
-          };
-
-          userdata.privacy.ranking_info_public = rankingInfoPublic;
-          dataToPost.privacy = userdata.privacy;
-
-          fetch(
-            thei18n.api_link + '?update_userdata=1',
-            {
-              method: "POST",
-              headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(dataToPost)
-            }
-          );
-
-          var checkbox = document.getElementById('privacy_ranking_info_public');
-          checkbox.checked = rankingInfoPublic;
-
-        }});
-
-      })
+      e(AccountOptions_privacyDetails_Switch, { option: 'ranking_info_public', desc: thei18n.privacy_public_ranking }),
+      e(AccountOptions_privacyDetails_Switch, { option: 'marketing_enabled', desc: thei18n.privacy_marketing }),
     )
   );
 }
@@ -1344,6 +1358,11 @@ function AccountOptions(props) {
       e(Account_BackButton, { page: e(AccountWrapper) })
     ),
     e(AccountOptions_profileDetails),
+    e(
+      'div',
+      { className: 'd-flex justify-content-center mt-5' },
+      e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=img/digital-marketing.png&size=128' })
+    )
   );
 
 }
@@ -2038,6 +2057,12 @@ class LoginForm extends React.Component {
       { className: 'form-control p-5' },
       e(
         'div',
+        { className: 'dialog-box overpop-animation animate' },
+        'Alguns usuários podem encontrar problemas para logar após a ultima atualização.',
+        e('b', {}, 'Se estiver tendo problemas por favor use o botão "Perdi minha senha!" para criar uma nova senha para login.')
+      ),
+      e(
+        'div',
         { className: 'mb-3'},
         e('h2', { className: 'text-primary'}, i18n.login)
       ),
@@ -2062,6 +2087,7 @@ class LoginForm extends React.Component {
           e(
             'button',
             {
+              id: 'button-login',
               className: 'btn-tall blue w-100 my-3',
               type: 'submit',
               onClick: (e) => {
@@ -2140,6 +2166,24 @@ class LoginForm extends React.Component {
 class Login extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+
+    document.onkeydown = (event) => {
+
+      var buttonLogin = document.getElementById('button-login');
+
+      if (buttonLogin && (event.key === 'Enter')) {
+        buttonLogin.click()
+      }
+
+    }
+
+  }
+
+  componentWillUnmount() {
+    document.onkeydown = null;
   }
 
   render() {
