@@ -126,6 +126,7 @@
     { "front": "today", "back": "hoje" },
     { "front": "yesterday", "back": "ontem" },
     { "front": "tomorrow", "back": "amanhã" },
+    { "front": "every day", "back": "todo dia" },
     { "front": "week", "back": "semana" },
     { "front": "month", "back": "mês" },
     { "front": "day", "back": "dia" },
@@ -148,6 +149,24 @@
     { "front": "Saturday", "back": "sábado" },
     { "front": "as soon as possible", "back": "o quanto antes" },
     { "front": "before long", "back": "brevemente" }
+  ],
+
+  "flashcards_time_adverbs": [
+    { "front": "sometimes", "back": "as vezes" },
+    { "front": "always", "back": "sempre" },
+    { "front": "never", "back": "nunca" },
+    { "front": "rarely", "back": "raramente" },
+    { "front": "usually", "back": "geralmente" },
+    { "front": "constantly", "back": "constantemente" },
+    { "front": "weekly", "back": "semanalmente" },
+    { "front": "monthly", "back": "mensalmente" },
+    { "front": "once in a while", "back": "de vez em quando" },
+    { "front": "occasionally", "back": "ocasionalmente" },
+    { "front": "periodically", "back": "periodicamente" },
+    { "front": "regularly", "back": "regularmente" },
+    { "front": "daily", "back": "diariamente" },
+    { "front": "frequently", "back": "frequentemente" },
+    { "front": "nightly", "back": "todas as noites" }
   ],
 
   "flashcards_nouns_clothes1": [
@@ -214,7 +233,7 @@
     { "front": "engineer", "back": "engenheiro(a)" },
     { "front": "programmer", "back": "programador(a)" },
     { "front": "architect", "back": "arquiteta(o)" },
-    { "front": "researcher", "back": "presquisadora(o)" }
-  ],
+    { "front": "researcher", "back": "pesquisadora(o)" }
+  ]
 
 }

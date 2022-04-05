@@ -85,6 +85,8 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
   setTimeout(() => {
     alert('Houve um erro! O site vai tentar concerta-lo, se isso não der certo entre em contato com a gente.');
 
+    console.error(errorMsg, lineNumber);
+
     setTimeout(() => {
       window.location.reload();
     }, 500);

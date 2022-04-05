@@ -35,9 +35,7 @@ class LoadingProgress extends React.Component {
       increaseAmount = 1; }
 
       if (this.state.value >= 100) {
-        this.setState({
-          value: 60,
-        });
+        window.location.reload();
       }
 
       this.setState({
@@ -1133,5 +1131,70 @@ export class GoogleAd extends React.Component {
         "data-full-width-responsive": "true",
       }
     );
+  }
+}
+
+export class PaymentItem extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.itemDue = GuyraParseDate(this.props.due);
+    this.now = new Date();
+    this.itemBadgeClass = 'badge bg-success';
+    this.itemColor = 'green';
+    this.itemCardClass = this.itemColor;
+
+    if (this.itemDue < this.now) {
+      this.itemBadgeClass = 'badge bg-danger';
+      this.itemColor = 'red';
+      this.itemCardClass = this.itemColor + ' attention-call-animation animate';
+    }
+
+  }
+
+  render() {
+
+    if (this.props.onlyPastDue && this.itemDue > this.now) {
+    return null; }
+
+    return e(
+      'div',
+      { className: 'card trans mb-2 me-2 ' + this.itemCardClass },
+      e(
+        'span',
+        { className: 'd-flex justify-content-between align-items-baseline mb-2' },
+        e('span', { className: 'fw-bold text-n' }, thei18n.bill),
+        e('span', { className: 'fw-bold text-s me-1' }, thei18n.value + ': R$' + this.props.value ),
+      ),
+      e(
+        'span',
+        { className: 'badge bg-white mb-2'},
+        e(
+          'span',
+          { className: 'me-1' },
+          thei18n.expiration_ab + ': '
+        ),
+        e(
+          'span',
+          { className: 'text-white text-ss ' + this.itemBadgeClass },
+          this.props.due
+        )
+      ),
+      e(
+        'span',
+        { className: 'mt-2' },
+        e(
+          'button',
+          {
+            className: "w-100 btn-tall btn-sm " + this.itemColor,
+            onClick: () => {
+              this.props.onClick();
+            }
+          },
+          thei18n.pay
+        )
+      )
+    );
+
   }
 }

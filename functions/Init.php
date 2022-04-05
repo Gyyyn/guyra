@@ -202,9 +202,10 @@ if ($current_user_diary['payments'] && is_array($current_user_diary)) {
 	$latest_item = $secondtolast_item;
 
 	$latest_item_due_unix = strtotime($latest_item['due']);
+	$payment_grace_period = $latest_item_due_unix + ($secondsForA['day'] * 40) > time();
 
 	// Allow if the latest oked payment is less than a month ago.
-	if ( $latest_item['status'] == 'ok' && ( ($latest_item_due_unix + $secondsForA['month']) > time() ) ) {
+	if ( $latest_item['status'] == 'ok' && $payment_grace_period ) {
 		$current_user_subscription_valid = true;
 	}
 

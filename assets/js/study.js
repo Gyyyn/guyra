@@ -8,6 +8,7 @@ import {
   theUserdata,
   LoadingPage,
   Guyra_InventoryItem,
+  PaymentItem,
   randomNumber,
   RoundedBoxHeading,
   RenderReplies,
@@ -230,6 +231,30 @@ function UserHome_WelcomeCard(props) {
 
     var TrialDaysLeft = 30 - userdata.payments['days_left'];
     var streak_info = JSON.parse(userdata.gamedata.raw.streak_info);
+    var WelcomeNoPlanWarning_OpenPayments = [];
+
+    // TODO: Move this and account.js's version to Common.js
+    if (theUserdata && theUserdata.user_diary && theUserdata.user_diary.payments) {
+      theUserdata.user_diary.payments.forEach((item) => {
+
+
+        if (item.status == 'pending') {
+
+          WelcomeNoPlanWarning_OpenPayments.push(
+            e(PaymentItem, {
+              due: item.due,
+              value: item.value,
+              onlyPastDue: true,
+              onClick: () => {
+                window.location.href = thei18n.account_link;
+              }
+            })
+          );
+
+        }
+
+      });
+    }
 
     var WelcomeTrialCountdown = e(
       'div',
@@ -241,6 +266,7 @@ function UserHome_WelcomeCard(props) {
     var WelcomeNoPlanWarning = e(
       'div',
       { className: 'dialog-box' },
+      e('h2', { className: 'text-blue' }, thei18n.access_expired),
       e('span', { className: 'fw-bold' }, thei18n.no_subscription_found[0] + ' ' + thei18n.no_subscription_found[1]),
       e(
         'ul',
@@ -251,7 +277,31 @@ function UserHome_WelcomeCard(props) {
         e('li', {}, thei18n.no_subscription_found[5]),
         e('li', {}, thei18n.no_subscription_found[6]),
       ),
-      e('span', {}, thei18n.no_subscription_found[6])
+      e('span', { className: 'mx-auto fw-bold'}, thei18n.no_subscription_found[7]),
+      e(
+        'div',
+        { className: 'row mt-3 align-items-center' },
+        e(
+          'div',
+          { className: 'col' },
+          e(
+            'button',
+            {
+              className: 'btn-tall green d-block mt-3 mx-auto attention-call-animation animate',
+              onClick: () => {
+                window.location.href = thei18n.purchase_link;
+              }
+            },
+            e('i', { className: 'bi bi-cart-check me-2' }),
+            e('span', {}, thei18n.manage_your_plan)
+          ),
+        ),
+        e(
+          'div',
+          { className: 'col border-start' },
+          WelcomeNoPlanWarning_OpenPayments
+        )
+      )
     );
 
     var WelcomeGreeting_Button = (props) => {
@@ -378,9 +428,9 @@ function UserHome_WelcomeCard(props) {
 
     if (!userdata.user_subscription_valid) {
       theList.push(WelcomeNoPlanWarning);
+    } else {
+      theList.push(WelcomeGreeting);
     }
-
-    theList.push(WelcomeGreeting);
 
     return [
       e(RoundedBoxHeading, { icon: 'icons/waving-hand.png', value: thei18n.hello + ' ' + userdata.first_name }),

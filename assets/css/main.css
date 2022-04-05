@@ -799,6 +799,12 @@ progress.progress[value]::-moz-progress-bar {
   overflow-x: clip;
 }
 
+.userpage a {
+  background: var(--guyra-blue-lightest);
+  color: var(--guyra-blue-darkest);
+  padding: 2px 4px;
+}
+
 .userpage img {
   display: block;
   max-width: 100%;

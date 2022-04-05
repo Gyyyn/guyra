@@ -321,6 +321,21 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
   let extraWordsAmount = 3;
   let theWord = '';
 
+  let easymodeWords = [];
+
+  phraseSplit.forEach((item, i) => {
+    if (i % 2 == 0) {
+
+      var newValue = item;
+      var newValueNext = phraseSplit[i + 1];
+
+      if (newValueNext) {
+      newValue = newValue + ' ' + newValueNext; }
+
+      easymodeWords.push(newValue);
+    }
+  });
+
   for (var i = 0; i < theHintLength; i++) {
     theHint = theHint + ' ' + phraseSplit[i];
   }
@@ -365,6 +380,7 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
 
   return {
     translation: theExercise['translation'],
+    easymode: shuffleArray(easymodeWords),
     0: phraseSplit[0] + '...',
     1: shuffleArray(phraseSplit),
     2: phrase,
@@ -501,11 +517,17 @@ class AnswersPhraseBuilder extends React.Component {
 
         e('div', {className: 'exercise-answers-wordbank'},
 
-          e(ExerciseContext.Consumer, null, ({values, AddWord, phraseBuilderPhrase}) => {
+          e(ExerciseContext.Consumer, null, ({values, AddWord, phraseBuilderPhrase, isEasyMode}) => {
 
             var phraseBuilderWordsAmount = {};
+            var phrasebuilderWords = values[1];
 
-            values[1].forEach((item, i) => {
+            // If on easy mode join in some words together.
+            if (isEasyMode) {
+              phrasebuilderWords = values.easymode;
+            }
+
+            phrasebuilderWords.forEach((item, i) => {
 
               if (phraseBuilderWordsAmount[item] === undefined) {
                 phraseBuilderWordsAmount[item] = {};
@@ -517,12 +539,12 @@ class AnswersPhraseBuilder extends React.Component {
 
             });
 
-            return values[1].map(x => {
+            return phrasebuilderWords.map(x => {
 
               var extraClass = 'animate';
               var disableIt = false;
               var ocrrInBuiltPhrase = findIndices(phraseBuilderPhrase, x);
-              var ocrrInOptions = findIndices(values[1], x);
+              var ocrrInOptions = findIndices(phrasebuilderWords, x);
               var theButtonValue = x;
 
               if (ocrrInBuiltPhrase.length == ocrrInOptions.length) {
@@ -1198,12 +1220,12 @@ function controlAreaButtons(props) {
         target: "explain-modal",
         text: window.HTMLReactParser(i18n.explain_exercises),
         buttonclasses: "btn-tall blue me-2",
-        button: e('i', { className: 'bi bi-question-lg' }),
+        button: e('i', { className: 'bi bi-info-lg' }),
         title: i18n.help
       }
     ),
     e(
-      'a',
+      'button',
       {
         onClick: () => {
 
@@ -1394,7 +1416,7 @@ export class Exercises extends React.Component {
   constructor(props) {
     super(props);
 
-    this.version = '0.0.3';
+    this.version = '0.0.4';
 
     this.ExerciseObject = [];
     this.currentQuestion = 0;
@@ -1451,7 +1473,8 @@ export class Exercises extends React.Component {
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
       challengeTracker: this.challengeTracker,
-      renderTopbar: true
+      renderTopbar: true,
+      isEasyMode: false
     }
 
     this.state = this.initialState;
@@ -1529,28 +1552,30 @@ export class Exercises extends React.Component {
 
   switchAnswerType = () => {
 
-    if (!this.state.disallowCandy) {
+    if (this.state.disallowCandy) {
+    return; }
+
+    if (this.currentExerciseType == 'WhatYouHear') {
+      this.setState({
+        isEasyMode: !this.state.isEasyMode
+      });
+    }
+
+    if (this.currentExerciseType == 'CompleteThePhrase') {
 
       if (this.state.answerType != AnswersTextArea) {
+
         this.setState({
           answerType: AnswersTextArea,
           checkAnswerButtonClass: this.buttonClassGreen
         });
+
       } else {
 
-        if (this.currentExerciseType == 'CompleteThePhrase') {
-          this.setState({
-            answerType: AnswersWordBank,
-            checkAnswerButtonClass: this.buttonClassDisabled
-          });
-        }
-
-        if (this.currentExerciseType == 'WhatYouHear') {
-          this.setState({
-            answerType: AnswersPhraseBuilder,
-            checkAnswerButtonClass: this.buttonClassDisabled
-          });
-        }
+        this.setState({
+          answerType: AnswersWordBank,
+          checkAnswerButtonClass: this.buttonClassDisabled
+        });
 
       }
 
@@ -1560,7 +1585,7 @@ export class Exercises extends React.Component {
 
   setNewActivity = () => {
 
-    let avatars = [
+    this.avatars = [
       thei18n.assets_link + 'icons/avatars/boy.png',
       thei18n.assets_link + 'icons/avatars/man.png',
       thei18n.assets_link + 'icons/avatars/girl.png',
@@ -1568,8 +1593,8 @@ export class Exercises extends React.Component {
     ];
 
     this.setState({
-      avatarURL: avatars[randomNumber(0, 3)],
-      candyButton: e('i', { className: "bi bi-chat-square-dots-fill" }),
+      avatarURL: this.avatars[randomNumber(0, 3)],
+      candyButton: e('i', { className: "bi bi-balloon-fill" }),
       candyButtonClass: 'btn-tall purple',
       disallowCandy: false,
       page: e(LoadingPage)

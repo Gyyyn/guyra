@@ -95,7 +95,7 @@ function GuyraDisplayErrorPage($title, $message) {
     $gi18n['homepage']
   ];
 
-  $template_link = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/error.html';
+  $template_link = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/error.html';
   $message = vsprintf(file_get_contents($template_link), $string_replacements);
 
   if (!$message) {

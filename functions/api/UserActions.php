@@ -6,6 +6,7 @@ global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
 global $current_user_object;
+global $current_user_diary;
 global $current_user_notifications;
 global $current_user_inventory;
 global $site_url;

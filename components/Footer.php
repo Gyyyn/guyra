@@ -39,12 +39,10 @@ include_once $template_dir . '/functions/Assets.php';
   </p>
 </footer>
 
-<?php if ($args['react']): ?>
 <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script async src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
-<?php endif; ?>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>

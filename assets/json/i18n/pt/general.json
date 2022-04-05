@@ -19,6 +19,8 @@
    "see_more":"Ver mais",
    "welcome":"Bem vinde",
    "welcome_back":"Bem vinde de volta",
+   "faq":"Perguntas",
+   "faq_help_lead":"Ainda não resolveu seu problema? Entre em contato com a gente.",
    "download":"Baixar",
    "image":"Imagem",
    "images":"Imagens",
@@ -195,6 +197,7 @@
      "1% da sua mensalidade na Guyrá e direcionada a doações para organizações sem fins lucrativos!",
      "Veja a lista de organizações que ajudamos clicando"
    ],
+   "access_expired":"Seu acesso expirou! :(",
    "no_subscription_found": [
      "Parece que você não um plano ativo!",
      "Sem uma assinatura você:",

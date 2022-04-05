@@ -117,6 +117,28 @@
 
 }
 
+@keyframes shake {
+  1%, 9% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  2%, 8% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  3%, 5%, 7% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  4%, 6% {
+    transform: translate3d(4px, 0, 0);
+  }
+
+  10%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 /* Pops */
 .pop-animation.animate {
   animation: pop 0.35s;
@@ -159,6 +181,11 @@
 .itemAdd-animation {
   opacity: 0;
   animation: itemAdd 1s;
+}
+
+.attention-call-animation {
+  animation: shake 5s;
+  animation-iteration-count: infinite;
 }
 
 /* Common */

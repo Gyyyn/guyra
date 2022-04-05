@@ -7,6 +7,7 @@ import {
   Guyra_InventoryItem,
   GuyraParseDate,
   RoundedBoxHeading,
+  PaymentItem,
   validatePhoneNumber,
   createTooltip
 } from '%template_url/assets/js/Common.js';
@@ -107,7 +108,7 @@ function AccountPayment_paymentForm(props) {
         'div',
         { className: 'col-md-6' },
         e('label', {}, i18n.card.holder),
-        e('input', { type: 'text', name: 'cardholderName', id: 'form-checkout__cardholderName'})
+        e('input', { className: 'bs form-control', type: 'text', name: 'cardholderName', id: 'form-checkout__cardholderName'})
       ),
 
       e(
@@ -128,7 +129,7 @@ function AccountPayment_paymentForm(props) {
         'div',
         { className: 'col-md-6 position-relative' },
         e('label', {}, i18n.card.number),
-        e('input', { type: 'text', name: 'cardNumber', id: 'form-checkout__cardNumber'}),
+        e('input', { className: 'bs form-control', type: 'text', name: 'cardNumber', id: 'form-checkout__cardNumber'}),
         e(
           'span',
           { id: 'card-flag', className: 'bottom-0 end-0 pe-1 position-absolute translate-middle' },
@@ -151,6 +152,7 @@ function AccountPayment_paymentForm(props) {
             {
               type: 'text',
               name: 'cardExpirationMonth',
+              className: 'bs form-control',
               id: 'form-checkout__cardExpirationMonth'
             }
           ),
@@ -164,6 +166,7 @@ function AccountPayment_paymentForm(props) {
             {
               type: 'text',
               name: 'cardExpirationYear',
+              className: 'bs form-control',
               id: 'form-checkout__cardExpirationYear'
             }
           ),
@@ -174,7 +177,7 @@ function AccountPayment_paymentForm(props) {
         'div',
         { className: 'col-md-6' },
         e('label', {}, i18n.card.sec_code),
-        e('input', { type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
+        e('input', { className: 'bs form-control', type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
       ),
 
       e('h3', { className: 'mt-3 mb-1' }, i18n.identification),
@@ -183,7 +186,7 @@ function AccountPayment_paymentForm(props) {
         'div',
         { className: 'col-md-12' },
         e('label', {}, i18n.email),
-        e('input', { type: 'text', name: 'cardholderEmail', id: 'form-checkout__cardholderEmail'})
+        e('input', { className: 'bs form-control', type: 'text', name: 'cardholderEmail', id: 'form-checkout__cardholderEmail'})
       ),
 
       e(
@@ -194,7 +197,7 @@ function AccountPayment_paymentForm(props) {
           'span',
           { className: 'd-flex flex-row' },
           e('select', { className: 'me-3 w-25', name: 'identificationType', id: 'form-checkout__identificationType'}),
-          e('input', { type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
+          e('input', { className: 'bs form-control', type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
         ),
       ),
 
@@ -503,11 +506,57 @@ class AccountPayment extends React.Component {
             // console.log('Installments available: ', installments)
         },
         onCardTokenReceived: (error, token) => {
-            if (error) return console.warn('Token handling error: ', error)
-            // console.log('Token available: ', token)
+
+          if (error) {
+
+            error.forEach((item) => {
+
+              // 205: cardNumber empty
+              if (item.code == 205) {
+                document.getElementById('form-checkout__cardNumber').classList.add('is-invalid');
+              }
+
+              // 208: cardExpirationMonth empty
+              if (item.code == 208) {
+                document.getElementById('form-checkout__cardExpirationMonth').classList.add('is-invalid');
+              }
+
+              // 209: cardExpirationYear empty
+              if (item.code == 209) {
+                document.getElementById('form-checkout__cardExpirationYear').classList.add('is-invalid');
+              }
+
+              // 214: identificationNumber empty
+              if (item.code == 214) {
+                document.getElementById('form-checkout__identificationNumber').classList.add('is-invalid');
+              }
+
+              // 221: cardholderName empty
+              if (item.code == 221) {
+                document.getElementById('form-checkout__cardholderName').classList.add('is-invalid');
+              }
+
+              // 221: securityCode empty
+              if (item.code == 224) {
+                document.getElementById('form-checkout__securityCode').classList.add('is-invalid');
+              }
+
+            });
+
+          }
+
         },
         onSubmit: event => {
           event.preventDefault();
+
+          // Remove any invalid checks
+          // TODO: improve this
+          document.getElementById('form-checkout__cardNumber').classList.remove('is-invalid');
+          document.getElementById('form-checkout__cardExpirationMonth').classList.remove('is-invalid');
+          document.getElementById('form-checkout__cardExpirationYear').classList.remove('is-invalid');
+          document.getElementById('form-checkout__cardholderName').classList.remove('is-invalid');
+          document.getElementById('form-checkout__securityCode').classList.remove('is-invalid');
+          document.getElementById('form-checkout__identificationNumber').classList.remove('is-invalid');
 
           var submitButton = document.getElementById('purchase-submit');
           var before = submitButton.innerHTML;
@@ -1521,58 +1570,16 @@ function WhoAmI_openPayments(props) {
   if (props.openPayments != null) {
     props.openPayments.forEach((item) => {
 
-      var itemDue = GuyraParseDate(item.due);
-      var now = new Date();
-      var itemBadgeClass = 'badge bg-success';
-      var itemColor = 'green';
-      var itemCardClass = itemColor;
-
-      if (itemDue < now) {
-        itemBadgeClass = 'badge bg-danger';
-        itemColor = 'red';
-        itemCardClass = itemColor + ' overpop-animation animate';
-      }
-
       items.push(
-        e(AccountContext.Consumer, null, ({setPage, i18n}) => e(
-          'div',
-          { className: 'card trans mb-2 me-2 ' + itemCardClass },
-          e(
-            'span',
-            { className: 'd-flex justify-content-between align-items-baseline mb-2' },
-            e('span', { className: 'fw-bold text-n' }, i18n.bill),
-            e('span', { className: 'fw-bold text-s me-1' }, i18n.value + ': R$' + item.value ),
-          ),
-          e(
-            'span',
-            { className: 'badge bg-white mb-2'},
-            e(
-              'span',
-              { className: 'me-1' },
-              i18n.expiration_ab + ': '
-            ),
-            e(
-              'span',
-              { className: 'text-white text-ss ' + itemBadgeClass },
-              item.due
-            )
-          ),
-          e(
-            'span',
-            { className: 'mt-2' },
-            e(
-              'button',
-              {
-                className: "w-100 btn-tall btn-sm " + itemColor,
-                onClick: () => {
-                  setPage(e(WhoAmI_openPayments_paymentItem, { item: item }))
-                }
-              },
-              i18n.pay
-            )
-          )
-        ))
+        e(AccountContext.Consumer, null, ({setPage}) => e(PaymentItem, {
+          due: item.due,
+          value: item.value,
+          onClick: () => {
+            setPage(e(WhoAmI_openPayments_paymentItem, { item: item }))
+          }
+        }))
       );
+
     });
 
   }
@@ -1657,7 +1664,7 @@ function WhoAmI_buttonGroup(props) {
       e(
         WhoAmI_buttonGroup_button,
         {
-          href: i18n.help_link,
+          href: i18n.faq_link,
           img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
           value: i18n.help
         }
@@ -1683,16 +1690,11 @@ function WhoAmI_buttonGroup(props) {
 function WhoAmI(props) {
   return e(AccountContext.Consumer, null, ({userdata}) => {
 
-    var openPayments = null;
+    var openPayments = [];
 
     if (userdata.user_diary && userdata.user_diary.payments) {
       userdata.user_diary.payments.forEach((item) => {
         if (item.status == 'pending') {
-
-          if (openPayments === null) {
-            openPayments = [];
-          }
-
           openPayments.push(item);
         }
       });
@@ -2055,12 +2057,6 @@ class LoginForm extends React.Component {
     return e(AccountContext.Consumer, null, ({i18n}) => e(
       'div',
       { className: 'form-control p-5' },
-      e(
-        'div',
-        { className: 'dialog-box overpop-animation animate' },
-        'Alguns usuários podem encontrar problemas para logar após a ultima atualização.',
-        e('b', {}, 'Se estiver tendo problemas por favor use o botão "Perdi minha senha!" para criar uma nova senha para login.')
-      ),
       e(
         'div',
         { className: 'mb-3'},

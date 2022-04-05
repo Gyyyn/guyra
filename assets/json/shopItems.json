@@ -255,6 +255,15 @@
     }
   },
 
+  "flashcards_time_adverbs": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_time_adverbs": {}
+    }
+  },
+
   "flashcards_nouns_clothes1": {
     "price": "10",
     "type": "flashcards",

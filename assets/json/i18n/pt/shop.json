@@ -110,6 +110,12 @@
       "description_full": "Palavras variadas."
     },
 
+    "flashcards_time_adverbs": {
+      "name": "Deck de cartas: Tempo 2",
+      "description": "Inclui palavras sobre expressões de tempo.",
+      "description_full": "Palavras variadas."
+    },
+
     "flashcards_nouns_clothes1": {
       "name": "Deck de cartas: Roupas 1",
       "description": "Inclui sobre roupas e vetimentas.",
@@ -281,6 +287,10 @@
     },
     "flashcards_time_expressions": {
       "name": "Deck de cartas: Tempo 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+    "flashcards_time_adverbs": {
+      "name": "Deck de cartas: Tempo 2",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     },
     "flashcards_nouns_clothes1": {
