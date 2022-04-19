@@ -2,7 +2,6 @@ import {
   e,
   RoundedBoxHeading,
   GuyraGetData,
-  rootUrl,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -104,7 +103,7 @@ class Shop_ItemView extends React.Component {
                   }
 
                   fetch(
-                    rootUrl + 'api?shop_transaction=1',
+                    thei18n.api_link + '?shop_transaction=1',
                     {
                       method: "POST",
                       headers: {
@@ -373,7 +372,7 @@ class Shop extends React.Component {
 
     dataPromise.then(res => {
 
-      fetch(rootUrl + 'api?fetch_shop_items=1')
+      fetch(thei18n.api_link + '?fetch_shop_items=1')
       .then(res => res.json())
       .then(res => {
 

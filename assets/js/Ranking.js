@@ -1,7 +1,6 @@
 import {
   e,
   GuyraGetData,
-  rootUrl,
   thei18n,
   RoundedBoxHeading,
   LoadingPage
@@ -94,17 +93,17 @@ class Reference extends React.Component {
 
       this.setState({
         i18n: res.i18n,
-      })
+      });
 
-    });
+      fetch(thei18n.api_link + '?get_ranking_page=1')
+      .then(res => res.json())
+      .then(json => {
 
-    fetch(rootUrl + 'api?get_ranking_page=1')
-    .then(res => res.json())
-    .then(json => {
+        this.setState({
+          ranking_list: json,
+          page: e(Ranking_Wrapper)
+        });
 
-      this.setState({
-        ranking_list: json,
-        page: e(Ranking_Wrapper)
       });
 
     });

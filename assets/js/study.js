@@ -3,7 +3,6 @@ import {
   MD5,
   GuyraGetData,
   Study_Topbar,
-  rootUrl,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -305,9 +304,13 @@ function UserHome_WelcomeCard(props) {
     );
 
     var WelcomeGreeting_Button = (props) => {
+
+      if (!props.color) {
+      props.color = 'blue'; }
+
       return e(
         'button',
-        { className: 'btn-tall btn-v btn-sm blue me-2 mb-2',
+        { className: 'btn-tall btn-v btn-sm me-2 mb-2 ' + props.color,
         onClick: () => {
             props.onClick();
           } },
@@ -337,7 +340,21 @@ function UserHome_WelcomeCard(props) {
       );
     }
 
-    WelcomeGreeting_buttons.push(
+    // Add the buttons.
+    WelcomeGreeting_buttons = WelcomeGreeting_buttons.concat([
+      e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            window.location.href = thei18n.practice_link;
+          },
+          value: [
+            e('i', { className: 'bi bi-bullseye' }),
+            thei18n.practice
+          ],
+          color: 'green'
+        },
+      ),
       e(HomeContext.Consumer, null, ({addCard}) => e(
         WelcomeGreeting_Button,
         {
@@ -351,10 +368,7 @@ function UserHome_WelcomeCard(props) {
             thei18n.flashcards
           ]
         },
-      ))
-    );
-
-    WelcomeGreeting_buttons.push(
+      )),
       e(HomeContext.Consumer, null, ({addCard}) => e(
         WelcomeGreeting_Button,
         {
@@ -368,8 +382,8 @@ function UserHome_WelcomeCard(props) {
             thei18n.roadmap
           ]
         },
-      ))
-    );
+      )),
+    ]);
 
     var WelcomeGreeting = e(
       'div',
@@ -498,7 +512,14 @@ class UserHome extends React.Component {
         element: e(
           Study_Topbar,
           {
-            home_link: { onClick: null, classExtra: 'active' },
+            home_link: {
+              onClick: () => {
+                this.setState({
+                  cards: this.defaultCards
+                });
+              },
+              classExtra: 'active'
+            },
             meeting_link: { onClick: () => { this.setMeeting(true); } }
           }
         )

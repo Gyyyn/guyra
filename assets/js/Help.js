@@ -1,7 +1,6 @@
 import {
   e,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage,
 } from '%template_url/assets/js/Common.js';
@@ -76,7 +75,7 @@ function Help_Main_Form(props) {
           {
             id: 'help-message',
             className: 'form-control bs p-3',
-            placeholder: thei18n.your_message_here.toLowerCase(),
+            placeholder: thei18n.your_message_here,
             onChange: removeInvalidFunction
           },
         ),

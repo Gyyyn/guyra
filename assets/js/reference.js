@@ -2,7 +2,6 @@ import {
   e,
   GoogleAd,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage,
   checkForTranslatables
@@ -850,7 +849,7 @@ class Dictionary extends React.Component {
         e(
           'div',
           { className: 'd-flex flex-row align-items-center justify-content-center mt-1 mb-5' },
-          e('input', { autocapitalize: "off", id: "dictionary-word", className: "form-control w-75 me-3", type: "text", placeholder: i18n.write_word_here }),
+          e('input', { autocapitalize: "off", autofocus: "true", id: "dictionary-word", className: "form-control w-75 me-3", type: "text", placeholder: i18n.write_word_here }),
           e('button', { className: 'btn-tall blue', id: 'dictionary-submit', onClick: () => { this.conceptFetch(this.getInputWord()); } }, e('i', { className: 'bi bi-search' }))
         )
       ),
@@ -978,7 +977,7 @@ class Reference extends React.Component {
 
     if (!this.state.phrasalsObject) {
 
-      fetch(rootUrl + 'api?fetch_phrasals_object=1')
+      fetch(thei18n.api_link + '?fetch_phrasals_object=1')
       .then(res => res.json())
       .then(res => {
 
@@ -998,7 +997,7 @@ class Reference extends React.Component {
 
     if (!this.state.irregularsObject) {
 
-      fetch(rootUrl + 'api?fetch_irregulars_object=1')
+      fetch(thei18n.api_link + '?fetch_irregulars_object=1')
       .then(res => res.json())
       .then(res => {
 

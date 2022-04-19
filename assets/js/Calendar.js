@@ -1,7 +1,6 @@
 import {
   e,
   GuyraGetData,
-  rootUrl,
   thei18n,
   theUserdata
   LoadingPage,

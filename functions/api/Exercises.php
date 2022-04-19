@@ -229,9 +229,8 @@ if ($_GET['json']):
       $ex = $json[$unit][$type][$rnd];
 
       // Get an audio link for audio questions
-      if ($type == 'WhatYouHear') {
-        $ex[] = GetTTSAudioFor($ex[0]);
-      }
+      if ($type == 'WhatYouHear')
+      $ex[] = GetTTSAudioFor($ex[0]);
 
       // Get a translation
       $ex['translation'] = GetCloudTranslationFor($ex[0]);

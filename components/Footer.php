@@ -26,7 +26,7 @@ include_once $template_dir . '/functions/Assets.php';
 <footer class="d-none d-md-flex flex-column my-3 text-grey-darker text-sss justify-content-center align-items-center">
   <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="<?php echo $gi18n['help_link'] ?>"><?php echo $gi18n['help'] ?></a></li>
+      <li class="breadcrumb-item"><a href="<?php echo $gi18n['faq_link'] ?>"><?php echo $gi18n['help'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
       <li class="breadcrumb-item"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>

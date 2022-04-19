@@ -2,7 +2,6 @@ import {
   e,
   Study_Topbar,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage,
   GoogleAd,
@@ -22,10 +21,9 @@ function shuffleArray(a) {
 
 function synthSpeak(phrase, rate=1) {
   var synth = window.speechSynthesis;
-  var voicelist = synth.getVoices();
   var voices = [];
 
-  voicelist.forEach((item, i) => {
+  synth.getVoices().forEach((item, i) => {
     if (item.lang == 'en-US' || item.lang == 'en-GB') {
       voices.push(item);
     }
@@ -38,6 +36,7 @@ function synthSpeak(phrase, rate=1) {
     uttern.rate = rate;
     synth.speak(uttern);
   }
+
 }
 
 function findIndices(haystack, needle) {
@@ -827,23 +826,48 @@ class CurrentQuestion extends React.Component {
   }
 }
 
-function hintAreaHint(props) {
+class HintAreaHint extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return e(ExerciseContext.Consumer, null, ({values, i18n}) => e(
-    'div',
-    {},
-    i18n.hint,
-    e(
+    this.revealHintButton = e(
       'button',
       {
         className: 'btn-tall btn-sm blue',
         onClick: (e) => {
-          e.target.outerHTML = values[3];
+          this.setState({
+            hintValue: this.props.hint
+          });
         }
       },
-       i18n.click_to_reveal
-    )
-  ));
+      thei18n.click_to_reveal
+    );
+
+    this.hintValue = this.revealHintButton;
+
+    if (this.props.disallowCandy && this.props.currentExerciseType != 'WhatYouHear') {
+    this.hintValue = this.props.hint }
+
+    this.state = {
+      hintValue: this.hintValue,
+    }
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'text-n' },
+      thei18n.hint + ": ",
+      e(
+        'span',
+        { className: 'fw-bold' },
+        this.state.hintValue
+      )
+    );
+
+  }
 
 }
 
@@ -1257,8 +1281,37 @@ function controlArea(props) {
 function hintAreaInfo(props) {
   return e(
     'div',
-    {className: 'exercise-hints info'},
-    e('span', {className: 'exercise-hints-hint'}, e(hintAreaHint))
+    { className: 'exercise-hints info' },
+    e(ExerciseContext.Consumer, null, ({values, disallowCandy, currentExerciseType, currentQuestion, wrongMembers}) => {
+
+      var answeredWrongPreviouslyHint = null;
+
+      wrongMembers.forEach((wrongItem, i) => {
+        if (wrongItem.question == currentQuestion) {
+
+          answeredWrongPreviouslyHint = e(
+            'span',
+            {},
+            thei18n.you_had_answered + ': ',
+            e('b', {}, wrongItem.answered)
+          );
+
+        }
+      });
+
+      return [
+        e(
+          HintAreaHint,
+          {
+            hint: values[3],
+            disallowCandy: disallowCandy,
+            currentExerciseType: currentExerciseType
+          }
+        ),
+        answeredWrongPreviouslyHint
+      ];
+
+    })
   );
 }
 
@@ -1421,7 +1474,6 @@ export class Exercises extends React.Component {
     this.ExerciseObject = [];
     this.currentQuestion = 0;
     this.currentExercise = {};
-    this.currentExerciseType = '';
     this.score = 100;
     this.questionsAlreadyAnswered = [];
     this.needToRetry = [];
@@ -1441,6 +1493,7 @@ export class Exercises extends React.Component {
       values: [[],[],[]],
       currentQuestion: 0,
       currentExercise: {},
+      currentExerciseType: '',
       setExerciseObject: this.setExerciseObject,
       alreadyAnswered: false,
       answeredCorrect: false,
@@ -1474,7 +1527,8 @@ export class Exercises extends React.Component {
       reportAnswer: this.reportAnswer,
       challengeTracker: this.challengeTracker,
       renderTopbar: true,
-      isEasyMode: false
+      isEasyMode: false,
+      wrongMembers: []
     }
 
     this.state = this.initialState;
@@ -1501,44 +1555,44 @@ export class Exercises extends React.Component {
         topbar: e(Study_Topbar, { userdata: this.state.userdata, practice_link: { onClick: null, classExtra: 'active' } })
       });
 
-    });
+      fetch(thei18n.api_link + '?json=levelmap')
+      .then(res => res.json())
+      .then(json => {
+        this.initialState.levelMap = json.levelmap;
+        var hash = window.location.hash;
+        hash = hash.slice(1);
+        var loadHashUnit = false;
 
-    fetch(rootUrl + 'api?json=levelmap')
-    .then(res => res.json())
-    .then(json => {
-      this.initialState.levelMap = json.levelmap;
-      var hash = window.location.hash;
-      hash = hash.slice(1);
-      var loadHashUnit = false;
+        Object.values(json.levelmap).forEach((level, i) => {
 
-      Object.values(json.levelmap).forEach((level, i) => {
+          var theLevelKey = Object.keys(json.levelmap)[i];
 
-        var theLevelKey = Object.keys(json.levelmap)[i];
-
-        Object.values(level).forEach((unit, i) => {
-          if (unit.id == hash) {
-            loadHashUnit = {unit: hash, level: theLevelKey};
-          }
+          Object.values(level).forEach((unit, i) => {
+            if (unit.id == hash) {
+              loadHashUnit = {unit: hash, level: theLevelKey};
+            }
+          });
         });
-      });
 
-      this.setState({
-        levelMap: json.levelmap
-      });
-
-      if (loadHashUnit) {
-        this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
-      } else {
         this.setState({
-          page: e(LevelChooser)
+          levelMap: json.levelmap
         });
-      }
 
-      this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.ogg');
-      this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.ogg');
-      this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.ogg');
-      this.correctHitSound = new Audio(thei18n.audio_link + 'hit.ogg');
-      this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.ogg');
+        if (loadHashUnit) {
+          this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
+        } else {
+          this.setState({
+            page: e(LevelChooser)
+          });
+        }
+
+        this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.ogg');
+        this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.ogg');
+        this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.ogg');
+        this.correctHitSound = new Audio(thei18n.audio_link + 'hit.ogg');
+        this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.ogg');
+
+      });
 
     });
 
@@ -1555,13 +1609,13 @@ export class Exercises extends React.Component {
     if (this.state.disallowCandy) {
     return; }
 
-    if (this.currentExerciseType == 'WhatYouHear') {
+    if (this.state.currentExerciseType == 'WhatYouHear') {
       this.setState({
         isEasyMode: !this.state.isEasyMode
       });
     }
 
-    if (this.currentExerciseType == 'CompleteThePhrase') {
+    if (this.state.currentExerciseType == 'CompleteThePhrase') {
 
       if (this.state.answerType != AnswersTextArea) {
 
@@ -1597,6 +1651,7 @@ export class Exercises extends React.Component {
       candyButton: e('i', { className: "bi bi-balloon-fill" }),
       candyButtonClass: 'btn-tall purple',
       disallowCandy: false,
+      isEasyMode: false,
       page: e(LoadingPage)
     });
 
@@ -1655,7 +1710,7 @@ export class Exercises extends React.Component {
         }
 
         fetch(
-          rootUrl + 'api?log_exercise_data=1',
+          thei18n.api_link + 'api?log_exercise_data=1',
           {
             method: "POST",
             headers: {
@@ -1813,6 +1868,19 @@ export class Exercises extends React.Component {
           this.needToRetry.push(this.currentQuestion);
         }
 
+        // Remind the user that he messed it up last time.
+        var wrongMembers = this.state.wrongMembers;
+
+        wrongMembers.push({
+          question: this.currentQuestion,
+          answered: answer
+        });
+
+        this.setState({
+          wrongMembers: wrongMembers
+        });
+
+        // For audio questions calculate the percentage correct.
         if (this.state.questionType == QuestionAudio) {
 
           var correctWords = [];
@@ -1935,18 +2003,18 @@ export class Exercises extends React.Component {
   // current exercise already be set.
   loadActivityByType(disallowCandy) {
 
-    this.currentExerciseType = this.ExerciseObject[this.currentQuestion][0];
     var theExercise = this.ExerciseObject[this.currentQuestion];
 
     this.setState({
       currentExercise: theExercise,
+      currentExerciseType: this.ExerciseObject[this.currentQuestion][0],
       checkAnswerButtonClass: this.buttonClassGreen
     });
 
     // Determine which answer type to use.
     var useAnswerType = AnswersWordBank;
 
-    if (this.currentExerciseType == 'CompleteThePhrase') {
+    if (this.state.currentExerciseType == 'CompleteThePhrase') {
 
       if (disallowCandy) {
         useAnswerType = AnswersTextArea;
@@ -1961,7 +2029,7 @@ export class Exercises extends React.Component {
 
     }
 
-    if (this.currentExerciseType == 'WhatYouHear') {
+    if (this.state.currentExerciseType == 'WhatYouHear') {
 
       var useExtraWords = true;
       useAnswerType = AnswersPhraseBuilder
@@ -2031,7 +2099,7 @@ export class Exercises extends React.Component {
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
     this.currentUnit = id;
 
-    fetch(rootUrl + 'api?json=exercise&unit=' + id)
+    fetch(thei18n.api_link + '?json=exercise&unit=' + id)
     .then(res => res.json())
     .then(json => this.setExerciseObject(json));
 

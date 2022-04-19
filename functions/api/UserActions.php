@@ -507,7 +507,8 @@ if ($_GET['cancel_membership']) {
   curl_close($cancel_ch);
 
   $paymentData = [
-    'processor_data' => $response,
+    'processor_data' => $current_user_payments['processor_data'],
+    'cancellation' => $response,
     'processor_id' => 'MP',
     'status' => 'cancelled',
     'payed_for' => 'free'

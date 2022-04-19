@@ -2,7 +2,6 @@ import {
   e,
   Study_Topbar,
   GuyraGetData,
-  rootUrl,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -916,7 +915,7 @@ class Diary extends React.Component {
     }
 
     fetch(
-      rootUrl + 'api?action=update_diary&user=' + this.props.diaryId,
+      theIndex.api_link + '?action=update_diary&user=' + this.props.diaryId,
       {
         method: "POST",
         headers: {
@@ -1354,7 +1353,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       editButtonOnclick: null
     });
 
-    var theLink = rootUrl + 'api?action=update_diary&user=' + this.props.userId;
+    var theLink = thei18n.api_link + '?action=update_diary&user=' + this.props.userId;
     var dataToPost = {};
 
     if (this.props.listingType == 'group') {
@@ -1698,9 +1697,14 @@ class GroupAdminHome extends React.Component {
 
     dataPromise.then(res => {
 
-      fetch(rootUrl + 'api?action=fetch_users')
+      fetch(thei18n.api_link + '?action=fetch_users')
       .then(res => res.json())
       .then(res => {
+
+        if (typeof res !== 'object') {
+          window.location.href = thei18n.home_link;
+          return;
+        }
 
         this.setState({
           page: e(GroupAdminHome_AdminPanel),

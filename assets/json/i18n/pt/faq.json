@@ -12,17 +12,32 @@
 
   {
     "title": "O Guyrá tem app?",
-    "content": "Ainda não temos um aplicativo na App Store ou Play Store, mas você pode usar o nosso site como um aplicativo! Procure por um botão escrito <b>\"Adicionar a Tela de Início\"</b> no iOS ou <b>\"Instalar app\"</b> no Google Chrome."
+    "content": "Ainda não temos um aplicativo na App Store ou Play Store, mas você pode usar o nosso site como um aplicativo! <br><br> Procure por um botão escrito \"<b>Adicionar a Tela de Início</b>\" no iOS ou \"<b>Instalar app</b>\" no Google Chrome."
   },
 
   {
     "title": "Quais instituições o Guyrá ajuda com doações?",
-    "content": "As seguintes instituições recebem quando você paga sua mensalidade pelo site: <b>Médicos sem Fronteira</b>, <b>Instituto Ayrton Senna</b>, <b>UNICEF</b>. E estamos sempre adicionando novas instituições nessa lista!"
+    "content": "As seguintes instituições recebem quando você paga sua mensalidade pelo site, e estamos sempre adicionando novas instituições nessa lista: <br><br> <ol><li>Médicos sem Fronteiras</li><li>Instituto Ayrton Senna</li><li>UNICEF</li></ol>"
   },
 
   {
     "title": "Eu posso repor minha aula particular?",
     "content": "Nós não garantimos a reposição de nenhuma aula que foi desmarcada com menos de 24 horas de antecedência, cheque a disponibilidade do seu professor!"
+  },
+
+  {
+    "title": "O que acontece se meu pagamento atrasar ou não acontecer?",
+    "content": "Você imediatamente perde acesso ao site até que o pagamento seja feito, então tente não atrasar! <br><br> Se você paga nosso plano Premium e tem um professor particular você ainda consigara acessar suas aulas, mas na próxima fatura sera cobrada uma taxa de <b>1.5%</b> ao dia para cada dia atrasado."
+  },
+
+  {
+    "title": "Se eu para de usar minha conta vou perder meu progresso ou items?",
+    "content": "Não! Você pode parar e voltar quando quiser. Até mesmo se quiser parar de pagar um de nossos planos, sua conta vai estar bem aqui te esperando do jeito que você a deixou."
+  },
+
+  {
+    "title": "Como deletar/cancelar minha conta?",
+    "content": "Poxa, que pena! Lembre-se que você não precisa deletar sua conta inteira pra parar de pagar o serviço. E se quiser parar de receber comunicações nossas você pode achar essas opções nas configurações da sua conta. <br><br> Vale também lembrar que nós cuidamos bem dos seus dados, e nunca compartilhamos com ninguém informações pessoais. <br><br> Se ainda sim quiser deletar sua conta e todas suas informações, abra um ticket na página de ajuda abaixo."
   }
 
 ]

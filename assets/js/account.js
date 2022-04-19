@@ -1,7 +1,6 @@
 import {
   e,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage,
   Guyra_InventoryItem,
@@ -91,6 +90,9 @@ function Account_dialogBox(props) {
 }
 
 function AccountPayment_paymentForm(props) {
+
+  var matchNum = new RegExp("[123456789]");
+
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'form',
     {
@@ -145,7 +147,7 @@ function AccountPayment_paymentForm(props) {
         { className: 'col-md-6 d-flex' },
         e(
           'span',
-          { className: 'me-3' },
+          { className: '' },
           e('label', {}, i18n.expiration),
           e(
             'input',
@@ -153,10 +155,19 @@ function AccountPayment_paymentForm(props) {
               type: 'text',
               name: 'cardExpirationMonth',
               className: 'bs form-control',
-              id: 'form-checkout__cardExpirationMonth'
+              id: 'form-checkout__cardExpirationMonth',
+              onChange: (event) => {
+
+                if (event.target.value.length == 2) {
+                  document.getElementById('form-checkout__cardExpirationYear').focus();
+                  return;
+                }
+
+              }
             }
           ),
         ),
+        e('span', { className: 'align-self-end mx-3' }, '/'),
         e(
           'span',
           {},
@@ -167,7 +178,15 @@ function AccountPayment_paymentForm(props) {
               type: 'text',
               name: 'cardExpirationYear',
               className: 'bs form-control',
-              id: 'form-checkout__cardExpirationYear'
+              id: 'form-checkout__cardExpirationYear',
+              onChange: (event) => {
+
+                if (event.target.value.length == 2) {
+                  document.getElementById('form-checkout__securityCode').focus();
+                  return;
+                }
+
+              }
             }
           ),
         )
@@ -301,7 +320,7 @@ function AccountPayment_cancelPlan(props) {
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'slideleft-animation animate' },
+    { className: 'justfade-animation animate' },
     e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountPayment) })),
     e(
       'div',
@@ -366,7 +385,8 @@ function AccountPayment_cancelPlan(props) {
             })
           }
         },
-        i18n.cancel_membership
+        thei18n.cancel_membership,
+        e('i', { className: 'ms-1 bi-heartbreak' })
       )
     )
 
@@ -375,39 +395,53 @@ function AccountPayment_cancelPlan(props) {
 
 function AccountPayment_yourPlan(props) {
 
-  return e(AccountContext.Consumer, null, ({i18n, setPage}) => e(
+  var cardinfo = null;
+
+  if (props.values.payed_for != 'free') {
+    cardinfo = e(
+      'span',
+      { className: 'd-flex flex-row'},
+      e('span', { className: 'me-1' }, thei18n['issuer_' + props.values.processor_data.payment_method_id]),
+      e('span', {}, thei18n.card_ending_in + ': ' + props.values.processor_data.card_data.digits)
+    );
+  }
+
+  return e(
     'div',
     { className: 'dialog-box d-flex flex-row justify-content-between' },
     e(
       'div',
       { className: 'align-self-start' },
-      e('h3', {}, i18n.your_plan),
+      e('h3', {}, thei18n.your_plan),
       e(
         'div',
         { className: 'd-flex flex-column'},
-        e('span', { className: 'fw-bold' }, i18n.prices_features[props.values.payed_for].title),
-        e(
-          'span',
-          { className: 'd-flex flex-row'},
-          e('span', { className: 'me-1' }, i18n['issuer_' + props.values.processor_data.payment_method_id]),
-          e('span', {}, i18n.card_ending_in + ': ' + props.values.processor_data.card_data.digits))
+        e('span', { className: 'fw-bold' }, thei18n.prices_features[props.values.payed_for].title),
+        cardinfo
       ),
     ),
-    e(
-      'div',
-      { className: 'align-self-end' },
-      e(
-        'button',
-        {
-          className: 'btn-tall btn-sm trans',
-          onClick: () => {
-            setPage(e(AccountPayment_cancelPlan));
-          }
-        },
-        i18n.cancel_membership
-      )
-    )
-  ));
+    e(AccountContext.Consumer, null, ({setPage}) => {
+
+      if (props.values.payed_for == 'free') {
+      return null; }
+
+      return e(
+        'div',
+        { className: 'align-self-end' },
+        e(
+          'button',
+          {
+            className: 'btn-tall btn-sm trans',
+            onClick: () => {
+              setPage(e(AccountPayment_cancelPlan));
+            }
+          },
+          thei18n.cancel_membership
+        )
+      );
+
+    }),
+  );
 }
 
 class AccountPayment extends React.Component {
@@ -430,7 +464,13 @@ class AccountPayment extends React.Component {
   }
 
   componentDidMount() {
-    const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
+
+    // Test Key
+    const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
+
+    // Real Key
+    // const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
+
     this.cardForm = mp.cardForm({
       amount: "1",
       autoMount: true,
@@ -712,7 +752,7 @@ class AccountPayment extends React.Component {
     return e(
       'div',
       {
-        className: 'slideleft-animation animate account-payment'
+        className: 'justfade-animation animate account-payment'
       },
       e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountOptions) })),
       e(AccountContext.Consumer, null, ({i18n}) => e(
@@ -776,7 +816,7 @@ class AccountPayment extends React.Component {
 function AccountOptions_changePassword(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'profile-change-password slideleft-animation animate row' },
+    { className: 'profile-change-password justfade-animation animate row' },
     e('h1', { className: 'text-blue mb-4' }, i18n.change_password),
     e(
       'div',
@@ -1400,7 +1440,7 @@ function AccountOptions(props) {
 
   return e(
     'div',
-    { className: 'slideleft-animation animate' },
+    { className: 'justfade-animation animate' },
     e(
       'div',
       { className: 'd-flex w-100 my-3' },
@@ -1467,7 +1507,7 @@ function WhoAmI_openPayments_paymentItem(props) {
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'payments-pay slideleft-animation animate' },
+    { className: 'payments-pay justfade-animation animate' },
     e(Account_BackButton, { page: e(AccountWrapper) }),
     e(
       'div',

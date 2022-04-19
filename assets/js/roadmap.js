@@ -1,7 +1,6 @@
 import {
   e,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage
 } from './Common.js';
@@ -304,7 +303,7 @@ export class Roadmap extends React.Component {
 
     });
 
-    fetch(rootUrl + 'api?get_roadmap=1')
+    fetch(thei18n.api_link + '?get_roadmap=1')
     .then(res => res.json())
     .then(json => {
 

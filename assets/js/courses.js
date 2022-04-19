@@ -2,7 +2,6 @@ import {
   e,
   Study_Topbar,
   GuyraGetData,
-  rootUrl,
   thei18n,
   LoadingPage
 } from '%template_url/assets/js/Common.js';
@@ -60,11 +59,11 @@ class YoutubeEmbed extends React.Component {
       if (percentDone > 75) {
 
         // A watched video means +1 level.
-        fetch(rootUrl + 'api?update_level=1');
+        fetch(thei18n.api_link + '?update_level=1');
 
         // Push a notification
         fetch(
-          rootUrl + 'api?push_notification=1',
+          thei18n.api_link + '?push_notification=1',
           {
             method: "POST",
             headers: {
@@ -238,6 +237,24 @@ function CourseVideo(props) {
       e(nextVideoButton, nextVideoProps)
     )
   }
+
+  // Update the watch history
+  var member = window.localStorage.getItem('guyra_members');
+
+  if (typeof member === 'string') {
+  member = JSON.parse(member); }
+
+  if (!member.watch_history) {
+  member.watch_history = [] }
+
+  member.watch_history.push({
+    videoId: props.video.resourceId.videoId,
+    title: props.video.title,
+    description: props.video.description,
+    thumbnails: props.video.thumbnails
+  });
+
+  window.localStorage.setItem('guyra_members', JSON.stringify(member));
 
   return e(
     'div',

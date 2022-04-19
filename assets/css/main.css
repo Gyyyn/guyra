@@ -409,7 +409,7 @@ input:checked + .slider:before {
 
 .navbar.fixed-bottom {
   height: unset;
-  margin-bottom: calc(var(--sab) + .5rem);
+  margin-bottom: calc(var(--sab) / 2);
 }
 
 .navbar.fixed-bottom .btn-tall {

@@ -699,7 +699,7 @@ export function Guyra_InventoryItem(props) {
           var before = e.target.innerHTML;
           e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-          fetch(rootUrl + 'api?use_item=' + props.name)
+          fetch(thei18n.api_link + '?use_item=' + props.name)
           .then(res => res.json())
           .then(res => {
 
@@ -1116,6 +1116,16 @@ export class GoogleAd extends React.Component {
     } catch (e) {
       console.error("Guyra: Couldn't render Google Ads, " + e);
     }
+
+    setTimeout(() => {
+
+      var adIns = document.querySelector('ins.adsbygoogle');
+
+      if (adIns.dataset.adStatus == 'unfilled') {
+        adIns.remove();
+      }
+
+    }, 5000);
 
   }
 

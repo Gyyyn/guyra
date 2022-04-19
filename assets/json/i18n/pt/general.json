@@ -238,14 +238,20 @@
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "150R$",
-       "value": "150"
+       "price": "140R$",
+       "value": "140"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",
        "subtitle": "Seu sistema de gestão escolar.",
        "price": "<small>A partir de</small> 200R$",
        "value": "200"
+     },
+     "free": {
+       "title": "Guyrá Free",
+       "subtitle": ".",
+       "price": "0R$",
+       "value": "0"
      },
      "feature_courses_access":"Acesso as vídeo aulas.",
      "feature_whatsapp_questions":"Tire suas duvidas por WhatsApp.",
@@ -296,6 +302,7 @@
       "Que tal <a class=\"btn-sm btn-tall blue\" href=\"%site_url/courses\">ver um video</a>?",
       "Coloca uma música pra ouvir! 🎶🎵",
       "Não esquece da lição! 😉",
+      "Tá sem tempo? Não tem problema, um exercício leva menos de 5 minutos!",
       "Todo mundo pode aprender uma nova lingua, não importa a idade. Se alguém te disse ao contrario estava mentindo!",
       "<span class=\"translatable\" data-translation=\"A noite é mais escura antes do amanhecer.\">The night is darkest before the dawn.</span>",
       "<span class=\"translatable\" data-translation=\"Toda núvem tem um forro de prata. (Tudo tem um lado positivo)\">Every cloud has a silver lining.</span>",
@@ -360,8 +367,8 @@
    "returntomap":"Voltar ao Mapa",
    "continue":"Continuar",
    "review":"Revisar",
-   "hint":"Dica: ",
-   "hint_audio_exercise":"Digite o que foi dito no audio.",
+   "hint":"Dica",
+   "you_had_answered":"Você tinha respondido",
    "click_to_reveal":"Clique para revelar...",
    "execises_report_error_explain":"Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar esta resposta a nossa base de dados.",
    "give_up":"Desistir",

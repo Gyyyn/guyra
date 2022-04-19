@@ -43,6 +43,30 @@ if (clearNotificationsButton) {
 
 // Header
 // TODO: Move this to header.js
+function historyBack() {
+
+  try {
+
+    mobileHeaderBackButton.onclick = (e) => {
+
+      if (document.getElementById('back-button')) {
+        document.getElementById('back-button').click();
+        return;
+      }
+
+      window.location.href = window.location.origin;
+    }
+
+    return true;
+
+  } catch (e) {
+
+    return false;
+
+  }
+
+}
+
 function updateBackButton() {
 
   var mobileHeaderBackButton = document.getElementById('mobile-header-back');
@@ -55,23 +79,7 @@ function updateBackButton() {
       mobileHeaderBackButton.onclick = null;
     }
 
-    try {
-
-      mobileHeaderBackButton.onclick = (e) => {
-
-        if (document.getElementById('back-button')) {
-          document.getElementById('back-button').click();
-          return;
-        }
-
-        window.location.href = window.location.origin;
-      }
-
-    } catch (e) {
-
-      // We don't have to do anything here, it's ok.
-
-    }
+    historyBack();
 
   }
 

@@ -15,11 +15,9 @@ use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
 use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 use Google\Cloud\Translate\TranslateClient;
 
-$credentials = json_decode($gSettings['google_cloud'], true);
-$googleApiKey = $gSettings['google_api'];
-
 // TTS Functions
 function GetVoiceName() {
+
   $possibleVoices = [
     'en-US-Wavenet-I',
     'en-US-Wavenet-F',
@@ -34,13 +32,16 @@ function GetVoiceName() {
   $voiceChosen = random_int(0, sizeof($possibleVoices) - 1);
 
   return $possibleVoices[$voiceChosen];
+  
 }
 
 function GetTTSAudioFor($audioText) {
 
   global $template_dir;
   global $template_url;
-  global $credentials;
+  global $gSettings;
+
+  $credentials = json_decode($gSettings['google_cloud'], true);
 
   $ext = '.mp3';
   $audioCacheLocation = '/cache/audio/exercises/';
@@ -82,7 +83,9 @@ function GetCloudTranslationFor($stringToTranslate) {
 
   global $template_dir;
   global $template_url;
-  global $googleApiKey;
+  global $gSettings;
+
+  $googleApiKey = $gSettings['google_api'];
 
   $ext = '.json';
   $translationCacheLocation = '/cache/translations';

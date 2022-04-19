@@ -192,6 +192,29 @@ $is_tester = ($current_user_data['role'] == 'tester');
 if ($current_user_payments['status'] == 'approved')
 $current_user_subscription_valid = true;
 
+include_once $template_dir . '/functions/Payment.php';
+
+// If payment was determined valid we need to check it every once in a while.
+if ($current_user_subscription_valid) {
+
+	$last_subscription_check = $current_user_payments['last_check'];
+	$now = time();
+
+	if (($last_subscription_check + $secondsForA['month']) < $now) {
+
+		$subscription_check = CheckSubscription();
+
+		if (!$subscription_check) {
+			$current_user_subscription_valid = false;
+			$current_user_payments['status'] == 'cancelled';
+		}
+
+		guyra_update_user_data($current_user_id, 'last_check', $now, 'payment');
+
+	}
+
+}
+
 // Allow payment through direct payment
 if ($current_user_diary['payments'] && is_array($current_user_diary)) {
 
