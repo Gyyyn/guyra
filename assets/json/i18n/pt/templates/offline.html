@@ -1,103 +1,40 @@
-<!DOCTYPE html>
-<html lang="pt-BR" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Guyrá</title>
-    <style media="screen">
-      html, body {
-        border: unset;
-        box-shadow: unset;
-        margin: 0;
-        padding: 0;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        font-size: calc(0.85rem + 0.45vw);
-        font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
-      }
-
-      button {
-        font-size: calc(0.85rem + 0.45vw);
-        font-weight: bold;
-        border: 0;
-        border-bottom: rgb(2 144 191) .25rem solid;
-        background-color: #00BFFF;
-        color: #ffffff;
-        text-decoration: none;
-        padding: .5rem 1rem;
-        border-radius: calc(calc(0.2rem + .05vw) * 5);
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="main">
-      <div>
-        <p>Você está offline!</p>
-        <p>Quer tentar <button type="button" name="button" onclick="location.reload()">recarregar a página?</button></p>
-      </div>
-      <svg style="max-width: 10vw" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 700 700" enable-background="new 0 0 700 700" xml:space="preserve">
-<g id="Layer_4">
-	<g>
-		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="268.0624" y1="248.1334" x2="470.1464" y2="340.8157">
-			<stop offset="0.2873" style="stop-color:#00B6FF"/>
-			<stop offset="0.3763" style="stop-color:#00B4FC"/>
-			<stop offset="0.4521" style="stop-color:#00ACF1"/>
-			<stop offset="0.523" style="stop-color:#00A0E0"/>
-			<stop offset="0.5911" style="stop-color:#008EC7"/>
-			<stop offset="0.657" style="stop-color:#0077A7"/>
-			<stop offset="0.7213" style="stop-color:#005B7F"/>
-			<stop offset="0.7844" style="stop-color:#003A51"/>
-			<stop offset="0.845" style="stop-color:#00141C"/>
-			<stop offset="0.8744" style="stop-color:#000000"/>
-		</linearGradient>
-		<path fill="url(#SVGID_1_)" d="M432.65,274.89c-2.24-3.64-1.77-5.47-5.89-6.07C322.67,253.68,259.42,174.6,243.77,150.9    c-2.79-4.23-7.55-6.37-12.45-5.6c-4.98,0.79-8.94,4.4-10.33,9.42c-6.52,23.6-17.69,66.03,5.9,133.95c0.45,1.3,1.44,2.35,2.7,2.9    c65.72,22.74,111.08,25.91,167.93,5.64c4.96-2.52,9.65,3.91,5.7,7.82c-39.45,39.07-101.19,27.28-151.18,13.34    c-5.32-1.48-8.77,5.75-4.12,8.74c0.26,0.17,0.51,0.3,0.74,0.39c34.57,12.98,65.11,19.48,91.35,19.48    c19.1,0,35.94-3.45,50.39-10.34c28.36-13.54,39.56-36.51,43.72-48.99C435.54,283.36,435,278.71,432.65,274.89z"/>
-		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="235.4543" y1="158.7238" x2="235.4553" y2="158.7238">
-			<stop offset="0" style="stop-color:#00B6FF"/>
-			<stop offset="0.1277" style="stop-color:#009CDA"/>
-			<stop offset="0.5464" style="stop-color:#004966"/>
-			<stop offset="0.8346" style="stop-color:#00141D"/>
-			<stop offset="0.9673" style="stop-color:#000000"/>
-			<stop offset="0.972" style="stop-color:#100324"/>
-			<stop offset="0.9859" style="stop-color:#3F0B8A"/>
-			<stop offset="0.9955" style="stop-color:#5C10CA"/>
-			<stop offset="1" style="stop-color:#6712E3"/>
-		</linearGradient>
-		<polygon fill="url(#SVGID_2_)" points="235.46,158.72 235.46,158.72 235.45,158.73   "/>
-	</g>
-</g>
-<g id="Layer_3">
-	<g>
-		<g>
-			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="87.4494" y1="357.0247" x2="644.4553" y2="357.0247">
-				<stop offset="0" style="stop-color:#00EBFF"/>
-				<stop offset="0.1081" style="stop-color:#0CD1FC"/>
-				<stop offset="0.5494" style="stop-color:#3D6BEF"/>
-				<stop offset="0.856" style="stop-color:#5B2BE6"/>
-				<stop offset="1" style="stop-color:#6712E3"/>
-			</linearGradient>
-			<path display="none" fill="url(#SVGID_3_)" d="M624.27,290.32l20.18-6.06l-36.92-18.35l0.25-4.91c0.01-0.2,0.88-21.3-8.43-43.23     c-12.12-28.58-35.3-45.3-68.9-49.72c-64.75-8.51-80.85,42.65-88.07,93.8c-0.44,3.11-0.82,5.8-1.21,8.06l-0.08,0.46l-0.14,0.45     c-9.99,32.77-29.71,55.2-58.61,66.67c-85.92,34.1-229.78-39.35-278.47-66.72c6.62,33.42,29.93,126.81,91.15,183.6l6.73,6.24     l-7.46,5.35c-28.36,20.34-76.24,54.99-106.84,77.16l99.43-21.2l1.85,0.56c0.5,0.15,51.06,15.25,114.34,21.63     c57.77,5.83,138.31,5.41,193.93-29.67c44.43-28.03,75.2-69.11,91.43-122.11c12.21-39.85,11.14-71.85,11.13-72.17l-0.21-5.56     l42.17-14.55L624.27,290.32z"/>
-			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="122.591" y1="174.0791" x2="546.6269" y2="621.9985">
-				<stop offset="6.592621e-03" style="stop-color:#00EBFF"/>
-				<stop offset="0.1214" style="stop-color:#02DDFB"/>
-				<stop offset="0.3395" style="stop-color:#06B7F1"/>
-				<stop offset="0.343" style="stop-color:#06B6F1"/>
-				<stop offset="0.4397" style="stop-color:#09B3F0"/>
-				<stop offset="0.5195" style="stop-color:#11A9EE"/>
-				<stop offset="0.5932" style="stop-color:#1F97EA"/>
-				<stop offset="0.6633" style="stop-color:#327FE5"/>
-				<stop offset="0.7302" style="stop-color:#4B60DE"/>
-				<stop offset="0.791" style="stop-color:#673DD6"/>
-			</linearGradient>
-			<path fill="url(#SVGID_4_)" d="M684.74,287.54l-61.88-30.76c-0.05-0.03-0.09-0.08-0.09-0.13c-0.23-8.36-1.7-25.81-9.39-44.19     c-9.81-23.48-31.83-52.82-80.99-59.27c-37.91-4.98-66.25,7.6-84.21,37.4c-14.23,23.59-18.26,52.13-20.67,69.18     c-0.39,2.76-0.73,5.18-1.06,7.14c0,0.01,0,0.02-0.01,0.02c-8.75,28.32-24.99,46.85-49.65,56.64     c-35.03,13.9-85.68,9.46-150.54-13.2c-53.01-18.52-100.58-44.38-118.91-54.84c-3.71-2.12-8.27-2.45-12.08-0.52     c-5.27,2.66-8.04,8.57-6.96,14.36c3.11,16.77,10.57,50.43,25.53,87.42c16.93,41.85,38.52,76.16,64.26,102.12     c0.07,0.07,0.06,0.18-0.02,0.24c-45.97,33.04-127.29,92.03-128.15,92.66l-16.88,12.25c-2.69,1.96-0.8,6.2,2.45,5.51l150.7-32.13     c0.03-0.01,0.05-0.01,0.07,0c9.97,2.88,56.54,15.69,114.99,21.61c38.11,3.86,73.27,3.94,104.51,0.23     c39.49-4.69,72.86-15.49,99.2-32.11c59.44-37.49,86.07-91.9,97.94-130.95c9.86-32.44,11.46-59.48,11.64-70.87     c0-0.07,0.04-0.12,0.11-0.14l62.89-21.68c0.13-0.04,0.14-0.22,0.03-0.29l-14.99-8.46c-0.12-0.07-0.1-0.25,0.03-0.29l22.07-6.63     C684.85,287.79,684.87,287.6,684.74,287.54z M565.65,275.93c-8.3,3.52-12.66-23.87,7.12-25.05c9.89,0,15.69,11.34,10.68,20.9     C579.63,279.1,575.27,270,565.65,275.93z"/>
-		</g>
-	</g>
-</g>
-</svg>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap-reboot.min.css" crossorigin="anonymous">
+<style media="screen">
+  body {
+    background-color: #eee;
+  }
+  .main {
+    max-width: 600px;
+    background-color: #fff;
+    box-shadow: 0 15px 1rem 3px rgba(0, 0, 0, 17%%);
+    border-radius: 16px;
+    margin: 12px auto;
+  }
+  .main .content {
+    padding: 16px;
+  }
+  .footer {
+    margin-top: 16px;
+    font-size: 10px;
+  }
+  .button {
+    border: 0;
+    padding: 14px 26px;
+    border-radius: 24px;
+    background-color: var(--bs-blue);
+    color: var(--bs-white);
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+  <div class="main" style="padding: 2.5rem;">
+    <div>
+      <h1>Você está offline!</h1>
+      <p>Quer tentar <button class="button" type="button" name="button" onclick="location.reload()">recarregar a página?</button></p>
     </div>
-  </body>
+  </div>
+</body>
 </html>

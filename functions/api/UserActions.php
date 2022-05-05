@@ -198,6 +198,7 @@ if ($_GET['get_user_data']) {
   $theData['id'] = $current_user_id;
   $theData['user_email'] = $current_user_object['user_login'];
   $theData['user_subscription_valid'] = $current_user_subscription_valid;
+  $theData['profile_picture_url'] = Guyra_get_profile_picture($current_user_id, null, true);
 
   $theData['gamedata'] = GetUserRanking($current_user_id);
   $theData['gamedata']['raw'] = $current_user_gamedata;

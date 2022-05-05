@@ -41,52 +41,6 @@ if ($_GET['change_option']) {
 
 }
 
-// Manually create all of the pages the site uses.
-if ($_GET['create_page'] == "all") {
-
-  $posts = [
-    'Account',
-    'Api',
-    'Courses',
-    'Help',
-    'Practice',
-    'Ranking',
-    'Reference',
-    'Shop',
-    'Work-With-Us',
-    'Privacy Policy',
-    'Terms',
-    'Thanks',
-    'FAQ',
-    'News'
-  ];
-
-  $post_data = array(
-    'post_title'    => '',
-    'post_content'  => '',
-    'post_status'   => 'publish',
-    'post_type'     => 'page',
-    'post_author'   => 1,
-    'page_template' => null
-  );
-
-  foreach ($posts as $post) {
-
-    if (is_array($post)) {
-      $post_title = $post[0];
-      $post_data['post_content'] = $post[1];
-    } else {
-      $post_title = $post;
-    }
-
-    $post_data['post_title'] = $post_title;
-
-    (!is_object(get_page_by_title($post_title))) ? wp_insert_post($post_data) : null;
-
-  }
-
-}
-
 // Delete a cache folder.
 if ($_GET['delete_cache']) {
 

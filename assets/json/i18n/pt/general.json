@@ -105,6 +105,7 @@
    "optional":"Opcional",
    "register":"Crie sua conta",
    "login":"Acesse sua conta",
+   "last_login":"Último login",
    "zip":"CEP",
    "pix":"PIX",
    "load":"Carregar",
@@ -171,6 +172,7 @@
    "phone":"Celular",
    "buy":"Comprar",
    "buy_for":"Comprar por",
+   "buy_more_units":"Comprar mais unidades",
    "streak":"Ofensiva",
    "current":"Atual",
    "biggest":"Maior",
@@ -378,7 +380,7 @@
    "verb":"Verbo",
    "pronoun":"Pronome",
    "reference_irregulars":"Verbos Irregulares",
-   "reference_grammar":"Tempo Gramatical",
+   "reference_grammar":"Conjugador",
    "reference_phrasals":"Verbos Compostos",
    "write_word_here":"Escreva a palavra aqui...",
    "cc_warning":" \t<p>Definições disponíveis sobre os termos <a class=\"text-muted\" href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.pt_BR\">Creative Commons Attribution-ShareAlike License</a> \te são adaptados da <a class=\"text-muted\" href=\"https://wiktionary.org/\">Wiktionary</a></p> \t<p>Imagens usam dados da <a class=\"text-muted\" href=\"https://www.wikidata.org/\">Wikidata</a>.</p>",
@@ -489,8 +491,8 @@
       "contents":"Você agora é parte de nosso recanto. Que bom ter você por aqui!"
    },
    "notification_item_added":{
-      "title":"O item que você adquiriu está no seu inventário.",
-      "contents":""
+      "title":"Compra feita!",
+      "contents":"O item que você adquiriu está no seu inventário."
    },
    "notification_user_posted":{
       "title":"%user postou uma resposta!",

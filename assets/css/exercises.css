@@ -72,11 +72,6 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
     border-radius: var(--guyra-border-radius);
 }
 
-.exercise-answers,
-.exercise-answers textarea {
-  min-height: 150px;
-}
-
 .exercise-answers-wordbank {
   display: flex;
   justify-content: center;

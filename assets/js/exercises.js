@@ -995,11 +995,26 @@ function LevelChooser(props) {
       e(
         'div',
         { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
-        e(
+        e(ExerciseContext.Consumer, null, ({gamedata}) => e(
           'div',
           {},
-          e(ExerciseContext.Consumer, null, ({i18n}) => e('h3', {}, 'Welcome back!'))
-        ),
+          e('h3', {},  thei18n.welcome_back + '!'),
+          e(
+            'span',
+            {},
+            e('span', { className: 'me-2'}, thei18n.levels + ':'),
+            e('span', { className: 'fw-bold me-3' }, gamedata.level),
+            e(
+              'button',
+              {
+                onClick: () => { window.location.href = thei18n.shop_link },
+                className: 'btn-tall btn-sm green'
+              },
+              e('span', { className: 'me-2' }, thei18n.buy_more_units),
+              e('span',{}, e('i', {className: 'bi bi-shop'}))
+            )
+          )
+        )),
         e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
           'div',
           { className: 'd-flex flex-row'},
@@ -1871,14 +1886,18 @@ export class Exercises extends React.Component {
         // Remind the user that he messed it up last time.
         var wrongMembers = this.state.wrongMembers;
 
-        wrongMembers.push({
-          question: this.currentQuestion,
-          answered: answer
-        });
+        if (answer) {
 
-        this.setState({
-          wrongMembers: wrongMembers
-        });
+          wrongMembers.push({
+            question: this.currentQuestion,
+            answered: answer
+          });
+
+          this.setState({
+            wrongMembers: wrongMembers
+          });
+
+        }
 
         // For audio questions calculate the percentage correct.
         if (this.state.questionType == QuestionAudio) {

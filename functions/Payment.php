@@ -76,8 +76,6 @@ function CheckSubscription($user_id=0) {
     $MP_search_results = CheckMPSubscriptionByPayerId($processor_data['payer_id']);
     $MP_search_results = json_decode($MP_search_results, true);
 
-    echo "<pre>";
-
     // Check if we have results.
     if ($MP_search_results && is_array($MP_search_results['results'])) {
 
@@ -92,6 +90,11 @@ function CheckSubscription($user_id=0) {
 
     }
 
+  }
+
+  // Case for Paypal (USA/Can Market)
+  if ($user_payments['processor_id'] == 'PP') {
+    // TODO: this
   }
 
   return $active;

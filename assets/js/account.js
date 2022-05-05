@@ -1,5 +1,6 @@
 import {
   e,
+  Slider,
   GuyraGetData,
   thei18n,
   LoadingPage,
@@ -1257,7 +1258,7 @@ function AccountOptions_accountDetails(props) {
               allowed = true;
             }
 
-            return e(AccountOptions_slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
+            return e(Slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
 
               var checkbox = document.getElementById('notifications-checkbox');
 
@@ -1338,32 +1339,6 @@ function AccountOptions_accountDetails(props) {
   ));
 }
 
-function AccountOptions_slider(props) {
-  return e(
-    'div',
-    { className: 'd-flex flex-row' },
-    e(
-      'label',
-      {
-        className: 'switch',
-        onClick: (e) => {
-
-          e.preventDefault()
-          props.onClick();
-
-        }
-      },
-      e('input', { id: props.dom_id, type: 'checkbox', className: 'd-none', checked: props.checked }),
-      e('span', { className: 'slider' })
-    ),
-    e(
-      'p',
-      { className: 'ms-5' },
-      props.value
-    ),
-  );
-}
-
 function AccountOptions_privacyDetails_Switch(props) {
 
   return e(AccountContext.Consumer, null, ({userdata}) => {
@@ -1386,7 +1361,7 @@ function AccountOptions_privacyDetails_Switch(props) {
     if (userdata.privacy[props.option] != undefined) {
     checked = userdata.privacy[props.option]; }
 
-    return e(AccountOptions_slider, { dom_id: 'privacy_' + props.option, checked: checked, value: props.desc, onClick: () => {
+    return e(Slider, { dom_id: 'privacy_' + props.option, checked: checked, value: props.desc, onClick: () => {
 
       checked = !checked;
 

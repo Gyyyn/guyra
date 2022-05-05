@@ -420,6 +420,8 @@ input:checked + .slider:before {
   font-size: var(--guyra-fonts-textsize-ss);
   padding: 0.25rem 0.75rem;
   width: calc(45px + 5vw);
+  flex-grow: 1;
+  margin: .5rem;
 }
 
 .navbar.fixed-bottom .btn-tall span {
@@ -518,6 +520,7 @@ input:checked + .slider:before {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: calc(var(--guyra-navbar-size) * 0.3);
 }
 
 .notepad-element { z-index: 1081; }
@@ -579,7 +582,7 @@ input:checked + .slider:before {
   .rounded-box { padding: calc(2vw + 1rem) calc(2vw + 2rem); }
 
   main {
-    margin-top: calc(var(--guyra-navbar-size) * 1.75) !important;
+    margin-top: calc(var(--guyra-navbar-size) * 1.5) !important;
     margin-bottom: 5rem !important;
   }
 }

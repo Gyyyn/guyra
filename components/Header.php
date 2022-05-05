@@ -207,77 +207,73 @@ if ($where_am_i == '') {
 <body class="guyra <?php echo implode(' ', $body_class); ?>">
 <noscript><?php echo $gi18n['noscript']; ?></noscript>
 <header>
-  <nav id="guyra-navbar" class="navbar navbar-expand-lg d-none d-lg-flex navbar-light fixed-top">
+  <nav id="guyra-navbar" class="navbar navbar-expand-lg d-none d-lg-flex navbar-light fixed-top px-4">
 
-    <div class="container-fluid">
+    <div class="navbar-brand d-flex me-3">
+      <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
+        <span class="navbar-center-title">
+          <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo $gi18n['title_img']; ?>" />
+        </span>
+      </a>
+    </div>
 
-      <div class="navbar-brand d-flex me-3">
-        <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
-          <span class="navbar-center-title">
-            <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo $gi18n['title_img']; ?>" />
-          </span>
-        </a>
-      </div>
+    <div class="justify-content-between collapse navbar-collapse" id="navbarCollapse">
 
-      <div class="justify-content-between collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav">
 
-        <ul class="navbar-nav">
+        <?php if (!$is_logged_in): ?>
 
-          <?php if (!$is_logged_in): ?>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['homepage']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['homepage']; ?></a>
-          </li>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-info"><?php echo $gi18n['info']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-info"><?php echo $gi18n['info']; ?></a>
-          </li>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-prices"><?php echo $gi18n['prices']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['home_link']; ?>#jump-prices"><?php echo $gi18n['prices']; ?></a>
-          </li>
+        <?php else: ?>
 
-          <?php else: ?>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm purple" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm purple" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
-          </li>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['shop_link']; ?>"><?php echo $gi18n['shop']; ?></a>
-          </li>
+        <li class="nav-item me-2">
+          <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['ranking_link']; ?>"><?php echo $gi18n['ranking']; ?></a>
+        </li>
 
-          <li class="nav-item me-2">
-            <a class="btn-tall btn-sm blue" href="<?php echo $gi18n['ranking_link']; ?>"><?php echo $gi18n['ranking']; ?></a>
-          </li>
+        <?php endif; ?>
 
-          <?php endif; ?>
+      </ul>
 
-        </ul>
+      <ul class="navbar-nav justify-content-end nav-rightside">
 
-        <ul class="navbar-nav justify-content-end nav-rightside">
+        <?php if(!$is_logged_in):  ?>
 
-          <?php if(!$is_logged_in):  ?>
+        <li class="nav-item">
+          <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
+        </li>
 
-          <li class="nav-item">
-            <a class="btn-tall btn-sm green" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?></a>
-          </li>
+        <?php else: ?>
 
-          <?php else: ?>
+        <li class="nav-item me-2">
+          <?php RenderNotificationsDropdown(['offset' => '-200,-20']); ?>
+        </li>
 
-          <li class="nav-item me-2">
-            <?php RenderNotificationsDropdown(['offset' => '-200,-20']); ?>
-          </li>
+        <li class="nav-item profile-item">
+          <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'offset' => '-150,-20']); ?>
+        </li>
 
-          <li class="nav-item profile-item">
-            <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'offset' => '-150,-20']); ?>
-          </li>
+        <?php endif; ?>
 
-          <?php endif; ?>
-
-        </ul>
-      </div>
-
+      </ul>
     </div>
 
   </nav>

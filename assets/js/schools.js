@@ -915,7 +915,7 @@ class Diary extends React.Component {
     }
 
     fetch(
-      theIndex.api_link + '?action=update_diary&user=' + this.props.diaryId,
+      thei18n.api_link + '?action=update_diary&user=' + this.props.diaryId,
       {
         method: "POST",
         headers: {
@@ -928,9 +928,18 @@ class Diary extends React.Component {
   }
 
   openPayments = () => {
+
+    if (this.state.paymentArea) {
+
+      this.setState({paymentArea: null});
+      return;
+
+    }
+
     this.setState({
       paymentArea: e(PaymentArea)
-    })
+    });
+
   }
 
   addPaymentEntry = (entry) => {
@@ -1428,6 +1437,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   constructor(props) {
     super(props);
 
+    this.userInfo = null;
+
     // If we got a group listing we show othat instead.
     if (!this.props.user && this.props.group) {
 
@@ -1483,7 +1494,29 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e('span', { className: 'ms-1' }, this.representativeUser.userdata.last_name),
       ];
 
+      if (this.representativeUser.gamedata.streak_info) {
+        this.userStreakInfo = JSON.parse(this.representativeUser.gamedata.streak_info);
+      }
+
+      this.lastLogin = 'Never';
+
+      if (this.userStreakInfo && this.userStreakInfo.last_logged_activity) {
+        this.lastLogin = new Date(this.userStreakInfo.last_logged_activity * 1000);
+        this.lastLogin = this.lastLogin.toLocaleDateString();
+      }
+
       this.avatar = e('img', { loading: 'lazy', className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
+      this.userInfo = e(
+        'span',
+        { className: 'text-ss fw-bold text-grey-darkest mx-2' },
+        '(',
+        thei18n.level + ': ',
+        this.representativeUser.gamedata.level,
+        ' / ',
+        thei18n.last_login + ': ',
+        this.lastLogin,
+        ')'
+      );
 
     }
 
@@ -1575,6 +1608,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
             { className: 'text-font-title user-name' },
             this.state.listingTitle
           ),
+          this.userInfo,
         ),
         e(
           'span',
@@ -1617,6 +1651,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
         e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: thei18n.schools }),
       ),
       e(GroupAdminHomeContext.Consumer, null, ({user_list}) => {
+
+        if (Object.values(user_list).length == 0) {
+          return e('div', { className: 'my-3 text-x'}, 'You have no students!');
+        }
 
         var groupeds = {};
 
@@ -1701,10 +1739,8 @@ class GroupAdminHome extends React.Component {
       .then(res => res.json())
       .then(res => {
 
-        if (typeof res !== 'object') {
-          window.location.href = thei18n.home_link;
-          return;
-        }
+        if (!res) {
+        res = {}; }
 
         this.setState({
           page: e(GroupAdminHome_AdminPanel),

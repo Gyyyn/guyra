@@ -430,7 +430,7 @@ export class Topbar extends React.Component {
 
     return e(
       'div',
-      { className: 'topbar mb-5 d-none d-md-flex' },
+      { className: 'topbar d-none d-md-flex' },
       this.state.buttonList
     );
 
@@ -532,6 +532,32 @@ export function Study_Topbar(props) {
 
   return e(Topbar, { buttonList: buttonList });
 
+}
+
+export function Slider(props) {
+  return e(
+    'div',
+    { className: 'd-flex flex-row' },
+    e(
+      'label',
+      {
+        className: 'switch',
+        onClick: (e) => {
+
+          e.preventDefault()
+          props.onClick();
+
+        }
+      },
+      e('input', { id: props.dom_id, type: 'checkbox', className: 'd-none', checked: props.checked }),
+      e('span', { className: 'slider' })
+    ),
+    e(
+      'p',
+      { className: 'ms-5' },
+      props.value
+    ),
+  );
 }
 
 export function guyraGetI18n(args={}) {

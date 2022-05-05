@@ -38,7 +38,7 @@ if (count($user_is_users) > 1) {
 }
 
 // In case someone gets here and shouldn't.
-if (!$canDoActionsHere)
+if ($user && !$canDoActionsHere)
 guyra_output_json('false', true);
 
 // Manually assign a user to a group.

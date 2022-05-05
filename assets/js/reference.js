@@ -1,5 +1,6 @@
 import {
   e,
+  Slider,
   GoogleAd,
   GuyraGetData,
   thei18n,
@@ -481,6 +482,23 @@ class GrammaticalTime extends React.Component {
             { className: 'dialog-box info p-3 more-rounded' },
             e('span', { className: 'me-2' }, i18n.verb),
             e('input', { id: 'verb-input', type: 'text', value: this.state.verb, onChange: (e) => { this.setValues({ verb: e.target.value }); } })
+          ),
+          e(
+            'span',
+            { className: 'dialog-box p-3 more-rounded d-flex flex-row justify-content-center' },
+            e('span', { className: 'me-3' }, 'Modo Praticar'),
+            e(Slider, {
+              checked: false,
+              dom_id: 'practice_slider',
+              value: '',
+              onClick: () => {
+
+                var slider = document.getElementById('practice_slider');
+
+                slider.checked = !practice_slider.checked;
+
+              }
+            }),
           )
         ),
         e(GrammaticalTime_ListingSection, { GrammarTitle: 'Simple', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
@@ -920,7 +938,7 @@ function Reference_Topbar_button(props) {
 function Reference_Topbar(props) {
   return e(ReferenceContext.Consumer, null, ({setPage, i18n}) => e(
     'div',
-    { className: 'topbar mb-5' },
+    { className: 'topbar' },
     e(Reference_Topbar_button, {
       linkId: 'dictionary',
       pageLink: e(Dictionary),
