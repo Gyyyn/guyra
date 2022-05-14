@@ -15,7 +15,7 @@ import {
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
 
-function setMessageBox(message) {
+function setMessageBox(message, timeout=true) {
   var messageBox = document.getElementById('message');
   var isShowing = true;
 
@@ -34,10 +34,12 @@ function setMessageBox(message) {
     messageBox.classList.remove('d-none');
   }, 250)
 
-  setTimeout(() => {
-    messageBox.innerHTML = '';
-    messageBox.classList.add('d-none');
-  }, 5000)
+  if (timeout) {
+    setTimeout(() => {
+      messageBox.innerHTML = '';
+      messageBox.classList.add('d-none');
+    }, 5000);
+  }
 
 }
 
@@ -325,7 +327,7 @@ function AccountPayment_cancelPlan(props) {
     e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountPayment) })),
     e(
       'div',
-      { className: 'd-flex flex-column justify-content-center dialog-box my-5 p-3' },
+      { className: 'd-flex flex-column justify-content-center dialog-box my-5 p-3', id: "cancel-membership-step1" },
       e('h2', { className: 'text-blue'}, i18n.cancel_membership),
       e(
         'span',
@@ -350,7 +352,8 @@ function AccountPayment_cancelPlan(props) {
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
             setTimeout(() => {
-              document.querySelector('div#cancel-membership').classList.remove('d-none');
+              document.querySelector('div#cancel-membership-step1').classList.add('d-none');
+              document.querySelector('div#cancel-membership-step2').classList.remove('d-none');
               e.target.innerHTML = before;
             }, 3000);
 
@@ -361,17 +364,44 @@ function AccountPayment_cancelPlan(props) {
     ),
     e(
       'div',
-      { id: 'cancel-membership', className: 'd-none animate my-3' },
+      { id: 'cancel-membership-step2', className: 'd-none justfade-animation animate my-3' },
+      e(
+        'div',
+        { className: 'mb-5' },
+        e('h3', { className: 'text-blue' }, thei18n.cancel_membership_cancelreason),
+        e(
+          'select',
+          { name: 'cancel-reason', id: 'cancel-reason', className: 'form-select form-select-lg mb-3' },
+          e('option', { value: 'generic' }, '---'),
+          e('option', { value: 'too_expensive' }, thei18n.cancel_membership_too_expensive),
+          e('option', { value: 'unused' }, thei18n.cancel_membership_unused),
+          e('option', { value: 'bad_experience' }, thei18n.cancel_membership_bad_experience),
+          e('option', { value: 'better_place' }, thei18n.cancel_membership_better_place),
+        ),
+      ),
       e(
         'button',
         {
-          className: 'btn-tall red',
+          className: 'btn-tall green me-3',
+          onClick: () => {
+            window.location.href = thei18n.home_link;
+          } 
+        },
+        e('i', { className: 'me-2 bi-heart-fill' }),
+        thei18n.cancel_membership_changedmymind
+      ),
+      e(
+        'button',
+        {
+          className: 'btn-tall',
           onClick: (e) => {
 
             var before = e.target.innerHTML;
             e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-            fetch(i18n.api_link + '?cancel_membership=1')
+            var cancelReason = document.getElementById('cancel-reason').value;
+
+            fetch(i18n.api_link + '?cancel_membership=1&cancel_reason=' + cancelReason)
             .then(res => res.json())
             .then(res => {
               if (typeof res === 'string') {
@@ -386,8 +416,8 @@ function AccountPayment_cancelPlan(props) {
             })
           }
         },
+        e('i', { className: 'me-2 bi-heartbreak' }),
         thei18n.cancel_membership,
-        e('i', { className: 'ms-1 bi-heartbreak' })
       )
     )
 
@@ -1631,45 +1661,12 @@ function WhoAmI_buttonGroup(props) {
     e(
       'div',
       { className: 'col-sm d-flex flex-row flex-wrap align-items-center justify-content-center' },
-      e(
-        WhoAmI_buttonGroup_button,
-        {
-          href: i18n.home_link,
-          buttonColor: 'blue',
-          img_src: i18n.api_link + '?get_image=icons/learning.png&size=32',
-          value: i18n.study
-        }
-      ),
-      e(
-        WhoAmI_buttonGroup_button,
-        {
-          href: i18n.practice_link,
-          buttonColor: 'green',
-          img_src: i18n.api_link + '?get_image=icons/target.png&size=32',
-          value: i18n.practice
-        }
-      ),
-      e(
-        WhoAmI_buttonGroup_button,
-        {
-          href: i18n.courses_link,
-          img_src: i18n.api_link + '?get_image=icons/online-learning.png&size=32',
-          value: i18n.courses
-        }
-      ),
-      e(
-        WhoAmI_buttonGroup_button,
-        {
-          href: i18n.ranking_link,
-          img_src: i18n.api_link + '?get_image=icons/podium.png&size=32',
-          value: i18n.ranking
-        }
-      ),
       e(AccountContext.Consumer, null, ({setPage}) => e(
         WhoAmI_buttonGroup_button,
         {
           img_src: i18n.api_link + '?get_image=icons/sliders.png&size=32',
           value: i18n.configs,
+          buttonColor: 'green',
           onClick: () => {
             setPage(e(AccountOptions));
             window.location.hash = '#options';
@@ -1679,25 +1676,19 @@ function WhoAmI_buttonGroup(props) {
       e(
         WhoAmI_buttonGroup_button,
         {
-          href: i18n.faq_link,
-          img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
-          value: i18n.help
+          href: i18n.ranking_link,
+          img_src: i18n.api_link + '?get_image=icons/podium.png&size=32',
+          value: i18n.ranking
         }
       ),
       e(
         WhoAmI_buttonGroup_button,
         {
-          img_src: i18n.api_link + '?get_image=icons/logout.png&size=32',
-          value: i18n.logout,
-          buttonColor: 'red d-inline d-xl-none',
-          onClick: () => {
-            if (window.confirm(i18n.logout_confirm)) {
-              window.location = i18n.logout_link;
-            }
-          },
+          href: i18n.faq_link,
+          img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
+          value: i18n.help
         }
       ),
-
     )
   ));
 }
@@ -1967,7 +1958,7 @@ function Register(props) {
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'row mb-3 justfade-animation animate' },
+    { className: 'row mb-3 justfade-animation animate g-0' },
     e(
       'div',
       { className: 'col-5 d-none d-md-flex' },
@@ -1983,7 +1974,7 @@ function Register(props) {
     e(
       'div',
       { className: 'col-md p-5' },
-      e(Account_BackButton, { page: e(Login) }),
+      e('h1', { className: 'text-blue' }, thei18n.welcome + "!"),
       e(
         'div',
         { className: 'form-control mt-3 pop-animation animate'},
@@ -2030,7 +2021,7 @@ function Register(props) {
           ),
           e(
             'span',
-            { className: 'justify-content-end d-flex w-50' },
+            { className: 'justify-content-end d-flex' },
             ContinueButton
           ),
         ),
@@ -2045,6 +2036,8 @@ class LoginForm extends React.Component {
     super(props);
 
     this.emailField = '';
+    this.headerValue = thei18n.login;
+    this.membered = false;
 
     var member = window.localStorage.getItem('guyra_members');
 
@@ -2054,9 +2047,30 @@ class LoginForm extends React.Component {
 
     if (member && member.user_email) {
       this.emailField = member.user_email;
+      this.headerValue = thei18n.welcome + ' ' + member.user_name + '!';
+      this.membered = true;
     }
 
     this.onChangeEmail = (event) => {
+
+      if (this.membered) {
+
+        document.getElementById('header-welcome').classList.add('justfadeout-animation', 'animate');
+
+        setTimeout(() => {
+          
+          this.setState({
+            headerValue: thei18n.login
+          });
+  
+          this.membered = false;
+
+          document.getElementById('header-welcome').classList.remove('justfadeout-animation', 'animate');
+          
+        }, 300);
+
+      }
+
       this.setState({
         emailField: event.target.value
       });
@@ -2064,6 +2078,7 @@ class LoginForm extends React.Component {
 
     this.state = {
       emailField: this.emailField,
+      headerValue: this.headerValue
     }
 
   }
@@ -2075,7 +2090,7 @@ class LoginForm extends React.Component {
       e(
         'div',
         { className: 'mb-3'},
-        e('h2', { className: 'text-primary'}, i18n.login)
+        e('h2', { className: 'text-primary', id: 'header-welcome' }, this.state.headerValue)
       ),
       e(
         'div',
@@ -2084,12 +2099,90 @@ class LoginForm extends React.Component {
         e('label', { for: 'profile-email' }, i18n.email),
       ),
       e(
+        'button',
+        {
+          className: 'btn-tall green w-100',
+          onClick: () => {
+
+            var theEmail = document.getElementById('profile-email').value;
+
+            if (theEmail == '') {
+              setMessageBox(i18n['login empty']);
+              return;
+            }
+
+            fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1&passwordless=1')
+            .then(res => res.json()).then(json => {
+
+              if (json != 'true') {
+                console.error(json);
+                setMessageBox(i18n[json]);
+                return;
+              }
+
+              var mailSentMessage = thei18n.forgot_password_email_sent;
+              var mailProvider = theEmail.split('@')[1];
+
+              var quickMailLink = '<a class="btn-tall btn-sm ms-2" href="%s">Abrir %d</a>'
+
+              // Quick links for known mail providers.
+              if (mailProvider == 'gmail.com') {
+                quickMailLink = quickMailLink.replace('%s', 'https://mail.google.com/');
+                quickMailLink = quickMailLink.replace('%d', 'Gmail');
+
+                mailSentMessage = mailSentMessage + quickMailLink;
+              }
+
+              if (mailProvider == 'live.com' || mailProvider == 'outlook.com') {
+                quickMailLink = quickMailLink.replace('%s', 'https://outlook.live.com/');
+                quickMailLink = quickMailLink.replace('%d', 'Outlook');
+
+                mailSentMessage = mailSentMessage + quickMailLink;
+              }
+
+              if (mailProvider == 'yahoo.com') {
+                quickMailLink = quickMailLink.replace('%s', 'https://login.yahoo.com/');
+                quickMailLink = quickMailLink.replace('%d', 'Yahoo');
+
+                mailSentMessage = mailSentMessage + quickMailLink;
+              }
+
+              setMessageBox(mailSentMessage, false);
+
+            });
+
+          }
+        },
+        'Autenticar com email',
+        e('i', { className: 'bi bi-shield-lock ms-2' }),
+      ),
+      e(
         'div',
-        { className: 'align-items-center d-flex flex-row mb-3'},
+        { className: 'divider my-3 text-font-title text-grey-darker' },
+        thei18n.or,
+      ),
+      e(
+        'div',
+        {
+          className: 'align-items-center d-flex flex-row mb-3 opacity-50',
+          id: 'loginform-password-auth',
+          onClick: (event) => {
+            document.getElementById('loginform-password-auth').classList.remove('opacity-50');
+          }
+        },
         e(
           'span',
-          { className: 'form-floating me-3 w-100' },
-          e('input', { id: 'profile-password', name: 'user_password', type: "password", className: "input-password form-control", placeholder: 'Ex.: 12345678' }),
+          { className: 'form-floating me-3 flex-grow-1' },
+          e(
+            'input',
+            {
+              id: 'profile-password',
+              name: 'user_password',
+              type: "password",
+              className: "input-password form-control",
+              placeholder: '.'
+            }
+            ),
           e('label', { for: 'profile-password' }, i18n.password),
         ),
         e(
@@ -2138,36 +2231,11 @@ class LoginForm extends React.Component {
 
               }
             },
-            i18n.button_login
+            thei18n.button_login,
+            e('i', { className: 'bi bi-box-arrow-in-right ms-2' }),
           )
         )
       ),
-      e(AccountContext.Consumer, null, ({setPage}) => e(
-        'div',
-        { className: 'd-flex flex-row align-items-center my-5' },
-        e(
-         'button',
-           {
-             className: 'btn-tall w-50 me-3',
-             onClick: () => {
-               setPage(e(LostPassword));
-               window.location.hash = '#lostpassword';
-             }
-           },
-           i18n.forgot_password
-         ),
-         e(
-          'button',
-          {
-            className: 'btn-tall green w-50',
-            onClick: () => {
-              setPage(e(Register));
-              window.location.hash = '#register';
-            }
-          },
-          i18n.register
-        )
-      )),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
     ));
   }
@@ -2198,9 +2266,9 @@ class Login extends React.Component {
   }
 
   render() {
-    return e(AccountContext.Consumer, null, ({i18n}) => e(
+    return e(
       'div',
-      { className: 'row mb-3 justfade-animation animate' },
+      { className: 'row mb-3 justfade-animation animate g-0' },
       e(
         'div',
         { className: 'col-5 d-none d-md-flex' },
@@ -2208,8 +2276,8 @@ class Login extends React.Component {
           'img',
           {
             className: 'left-side-image',
-            alt: i18n.button_login,
-            src: i18n.template_link + '/assets/img/Welcome.png'
+            alt: thei18n.button_login,
+            src: thei18n.template_link + '/assets/img/Welcome.png'
           }
         )
       ),
@@ -2218,7 +2286,7 @@ class Login extends React.Component {
         { className: 'col-md' },
         e(LoginForm)
       )
-    ));
+    );
   };
 
 }
@@ -2272,22 +2340,25 @@ function LostPassword(props) {
               onClick: () => {
 
                 var theEmail = document.getElementById('profile-email').value;
-
-                if (theEmail != '') {
-                  fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
-                  .then(res => res.json())
-                  .then(json => {
-                    if (json == 'true') {
-                      setMessageBox(i18n.forgot_password_email_sent);
-                    } else {
-                      console.error(json);
-                      setMessageBox(i18n[json]);
-                    }
-                  });
-                } else {
+    
+                if (theEmail == '') {
                   setMessageBox(i18n['login empty']);
+                  return;
                 }
-
+    
+                fetch(i18n.api_link + '?user=' + theEmail + '&lost_password=1')
+                .then(res => res.json()).then(json => {
+    
+                  if (json != 'true') {
+                    console.error(json);
+                    setMessageBox(i18n[json]);
+                    return;
+                  }
+    
+                  setMessageBox(i18n.forgot_password_email_sent);
+    
+                });
+    
               }
             },
             i18n.reset_password

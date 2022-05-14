@@ -47,15 +47,12 @@ function historyBack() {
 
   try {
 
-    mobileHeaderBackButton.onclick = (e) => {
-
-      if (document.getElementById('back-button')) {
-        document.getElementById('back-button').click();
-        return;
-      }
-
-      window.location.href = window.location.origin;
+    if (document.getElementById('back-button')) {
+      document.getElementById('back-button').click();
+      return;
     }
+
+    window.location.href = window.location.origin;
 
     return true;
 
@@ -74,17 +71,18 @@ function updateBackButton() {
 
   if (mobileHeaderBackButton || backButtonInPage) {
 
+    mobileHeaderBackButton.onclick = historyBack;
+
     if (window.location.pathname == '/' && !backButtonInPage) {
       mobileHeaderBackButton.classList.add('opacity-0');
       mobileHeaderBackButton.onclick = null;
     }
 
-    historyBack();
-
   }
 
 }
 
+updateBackButton();
 document.addEventListener('scroll', updateBackButton);
 
 window.onerror = function errHandle(errorMsg, url, lineNumber) {
@@ -101,4 +99,10 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
 
   }, 1000);
 
+}
+
+// Catch and handle common errors
+
+if (!window.HTMLReactParser) {
+  window.location.reload();
 }

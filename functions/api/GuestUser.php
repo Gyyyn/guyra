@@ -127,7 +127,12 @@ if ($_GET['lost_password']) {
 
       Guyra_Login_User($creds);
       unset($new_password);
-      Guyra_Redirect($gi18n['password_edit_link']);
+
+      if ($_GET['passwordless']) {
+        Guyra_Redirect($gi18n['home_link']);
+      } else {
+        Guyra_Redirect($gi18n['password_edit_link']);
+      }
 
       exit;
 
@@ -151,14 +156,25 @@ if ($_GET['lost_password']) {
 
       $link = $site_api_url . '?lost_password=1&user=' . $user . '&nonce=' . $bytes;
 
+      $email_title = $gi18n['_mail']['forgot_password']['title'];
+      $email_content = $gi18n['_mail']['forgot_password']['content'];
+      $mail_template = 'lost_password.html';
+
+      if ($_GET['passwordless']) {
+        $email_title = $gi18n['_mail']['passwordless_auth']['title'];
+        $email_content = $gi18n['_mail']['passwordless_auth']['content'];
+        $mail_template = 'passwordless_auth.html';
+        $link = $link . '&passwordless=1';
+      }
+
       $string_replacements = [
-        $gi18n['forgot_password_email_title'],
-        $gi18n['forgot_password_email_explain'],
+        $email_title,
+        $email_content,
         $link,
         $link
       ];
 
-      $mail = Guyra_mail('lost_password.html', $gi18n['forgot_password_email_title'], $userdata['user_login'], $string_replacements);
+      $mail = Guyra_mail($mail_template, $email_title, $userdata['user_login'], $string_replacements);
 
       if ($mail['error'])
       guyra_output_json($mail['error'], true);

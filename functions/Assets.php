@@ -37,7 +37,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
   // Create a cache for a file that's not found
   // In a dev enviroment we aren't going to minify anything.
-  if (!$object || $gSettings['dev_env']) {
+  if (!$object || $gSettings['dev_env'] == 1) {
 
     $object = file_get_contents($realObject);
 

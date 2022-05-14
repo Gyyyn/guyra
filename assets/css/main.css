@@ -1,5 +1,5 @@
 :root {
-  --guyra-blue: #0cbaf5;
+  --guyra-blue: #4bb8dd;
   --guyra-blue-darker: rgb(2 144 191);
   --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
@@ -52,10 +52,10 @@
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
-  --guyra-fonts-textsize-n: calc(0.75rem + 0.25vw);
-  --guyra-fonts-textsize-x: calc(0.95rem + 0.85vw);
-  --guyra-fonts-textsize-xx: calc(1.5rem + 0.95vw);
-  --guyra-fonts-textsize-xxx: calc(2rem + 1.05vw);
+  --guyra-fonts-textsize-n: calc(0.75rem + 0.3vw);
+  --guyra-fonts-textsize-x: calc(0.95rem + 0.8vw);
+  --guyra-fonts-textsize-xx: calc(1.5rem + 0.9vw);
+  --guyra-fonts-textsize-xxx: calc(2rem + 1vw);
   --guyra-fonts-textsize-super: calc(2.5rem + 2.2vw);
 
   --guyra-navbar-size: 3.5rem;
@@ -816,3 +816,24 @@ progress.progress[value]::-moz-progress-bar {
 .grecaptcha-badge { display: none; }
 
 i.bi { pointer-events: none; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.divider::after,
+.divider::before {
+  content: "";
+  border: 1px solid var(--guyra-grey);
+  flex: 1;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 0.25em;
+}

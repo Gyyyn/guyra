@@ -520,7 +520,6 @@ class UserHome extends React.Component {
               },
               classExtra: 'active'
             },
-            meeting_link: { onClick: () => { this.setMeeting(true); } }
           }
         )
       },

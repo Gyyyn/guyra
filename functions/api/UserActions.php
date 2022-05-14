@@ -371,7 +371,20 @@ if ($_GET['post_attachment']) {
 }
 
 if ($_GET['redirect_meeting']) {
-  Guyra_Redirect($current_user_data['user_meetinglink']);
+
+  $teacher_id = (int) $current_user_data['teacherid'];
+
+  if ($teacher_id) {
+
+    $teachers_data = guyra_get_user_data($teacher_id);
+    $meeting_link = $teachers_data['user_meetinglink'];
+
+  } else {
+    $meeting_link = $current_user_data['user_meetinglink'];
+  }
+
+  Guyra_Redirect($meeting_link);
+
 }
 
 if ($_GET['get_image']) {
@@ -512,7 +525,8 @@ if ($_GET['cancel_membership']) {
     'cancellation' => $response,
     'processor_id' => 'MP',
     'status' => 'cancelled',
-    'payed_for' => 'free'
+    'payed_for' => 'free',
+    'cancel_quiz' => [ 'reason' => $_GET['cancel_reason'] ]
   ];
 
   PushNotification($gi18n['notification_plan_cancelled']);

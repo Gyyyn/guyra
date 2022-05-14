@@ -14,6 +14,7 @@ export class PersistentMeeting extends React.Component {
     super(props);
 
     this.thisElementId = 'persistent-meeting';
+    this.meetingLink = thei18n.api_link + '?redirect_meeting=1';
 
     this.defaultHeight = '60vh';
     this.defaultWidth = '40vw';
@@ -29,7 +30,7 @@ export class PersistentMeeting extends React.Component {
         {
           className: 'meeting-proper w-100 h-100',
           title: props.title,
-          src: props.src,
+          src: props.src
         }
       );
     }
@@ -51,7 +52,7 @@ export class PersistentMeeting extends React.Component {
         view: e(
           this.meetingIframe,
           {
-            src: thei18n.api_link + '?redirect_meeting=1',
+            src: this.meetingLink,
             title: thei18n.meeting,
           }
         )
@@ -136,6 +137,16 @@ export class PersistentMeeting extends React.Component {
             e('button', { className: 'btn text-danger', onClick: () => { this.close(); } }, e('i', { className: 'bi bi-x-lg'})),
             e('button', { className: 'btn text-warning', onClick: () => { this.fullscreen(); } }, e('i', { className: 'bi bi-arrows-fullscreen'})),
             e('button', { className: 'btn text-success cursor', id: this.thisElementId + '-header', style: { cursor: 'move' } }, e('i', { className: 'bi bi-arrows-move'})),
+            e(
+              'button', 
+              {
+                className: 'btn',
+                onClick: () => {
+                  window.open(this.meetingLink, '_blank').focus();
+                } 
+              },
+              'Abrir em nova aba', e('i', { className: 'bi bi-box-arrow-up-right ms-2'})
+            ),
           ),
           e(
             'span',

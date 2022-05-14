@@ -844,9 +844,19 @@ class HintAreaHint extends React.Component {
     );
 
     this.hintValue = this.revealHintButton;
+    this.autoShowHint = false;
 
     if (this.props.disallowCandy && this.props.currentExerciseType != 'WhatYouHear') {
-    this.hintValue = this.props.hint }
+      this.autoShowHint = true;
+    }
+
+    if (this.props.isNeedToRetry) {
+      this.autoShowHint = true;
+    }
+
+    if (this.autoShowHint) {
+      this.hintValue = this.props.hint 
+    }
 
     this.state = {
       hintValue: this.hintValue,
@@ -1300,9 +1310,12 @@ function hintAreaInfo(props) {
     e(ExerciseContext.Consumer, null, ({values, disallowCandy, currentExerciseType, currentQuestion, wrongMembers}) => {
 
       var answeredWrongPreviouslyHint = null;
+      var isNeedToRetry = false;
 
       wrongMembers.forEach((wrongItem, i) => {
         if (wrongItem.question == currentQuestion) {
+
+          isNeedToRetry = true;
 
           answeredWrongPreviouslyHint = e(
             'span',
@@ -1320,6 +1333,7 @@ function hintAreaInfo(props) {
           {
             hint: values[3],
             disallowCandy: disallowCandy,
+            isNeedToRetry: isNeedToRetry,
             currentExerciseType: currentExerciseType
           }
         ),

@@ -505,8 +505,8 @@ export function Study_Topbar(props) {
           window.location.href = thei18n.reference_link;
         },
         classExtra: (props.reference_link) ? props.reference_link.classExtra : null,
-        value: thei18n.ultilities,
-        image: 'icons/layers.png'
+        value: thei18n.dictionary,
+        image: 'icons/dictionary.png'
       },
     );
   }
@@ -521,7 +521,7 @@ export function Study_Topbar(props) {
             return;
           }
 
-          window.location.href = thei18n.api_link + '?redirect_meeting=1';
+          window.open(thei18n.api_link + '?redirect_meeting=1', '_blank').focus();
         },
         classExtra: (props.meeting_link) ? props.meeting_link.classExtra : null,
         value: thei18n.meeting,
@@ -1233,4 +1233,16 @@ export class PaymentItem extends React.Component {
     );
 
   }
+}
+
+// Force https protocol on HTML input elements' onChange.
+export function onChangeForceHTTPS(event) {
+
+  var isHttps = (event.target.value.split('https://')[0] == '') ? true : false;
+  var isHttp = (event.target.value.split('http://')[0] == '') ? true : false;
+
+  if (!isHttp && !isHttps && event.nativeEvent.data) {
+    event.target.value = 'https://' + event.target.value;
+  }
+
 }

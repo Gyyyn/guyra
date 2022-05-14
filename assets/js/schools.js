@@ -7,7 +7,8 @@ import {
   LoadingPage,
   RoundedBoxHeading,
   RenderReplies,
-  GetStandardDate
+  GetStandardDate,
+  onChangeForceHTTPS
 } from '%template_url/assets/js/Common.js';
 
 const GroupAdminHomeContext = React.createContext();
@@ -1057,18 +1058,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         e(
           'input', {
             id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3',
-            onChange: (event) => {
-
-              // Force https protocol start.
-
-              var isHttps = (event.target.value.split('https://')[0] == '') ? true : false;
-              var isHttp = (event.target.value.split('http://')[0] == '') ? true : false;
-
-              if (!isHttp && !isHttps && event.nativeEvent.data) {
-                event.target.value = 'https://' + event.target.value;
-              }
-
-            }
+            onChange: onChangeForceHTTPS
           }
         ),
         e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
@@ -1653,7 +1643,16 @@ class GroupAdminHome_AdminPanel extends React.Component {
       e(GroupAdminHomeContext.Consumer, null, ({user_list}) => {
 
         if (Object.values(user_list).length == 0) {
-          return e('div', { className: 'my-3 text-x'}, 'You have no students!');
+          return e(
+            'div',
+            { className: 'd-flex flex-column justify-content-center align-items-center my-3' },
+            e(
+              'span',
+              { className: 'd-inline m-auto' },
+              e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=icons/no-results.png&size=128' })
+            ),
+            e('h2', { className: 'text-grey' }, thei18n.no_users_found),
+          );
         }
 
         var groupeds = {};
@@ -1661,7 +1660,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         return e(
           'div',
           { className: 'd-flex flex-column mb-3' },
-          e('h3', { className: 'mb-3' }, thei18n.your_students),
+          e('h3', { className: 'text-grey-darker mb-2' }, thei18n.your_students),
           Object.values(user_list).map((user) => {
 
             if (user.userdata.studygroup) {
@@ -1686,30 +1685,118 @@ class GroupAdminHome_AdminPanel extends React.Component {
       }),
       e(
         'div',
-        { className: 'your-code' },
-        e('h3', { className: 'mb-3' }, thei18n.your_code),
+        { className: 'controls row' },
+        e('h2', { className: 'text-grey-darker mb-2' }, thei18n.controls),
         e(
           'div',
-          { className: 'dialog-box d-inline' },
-          e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
+          { className: 'col-md-auto' },
+          e('h3', { className: 'mb-3' }, thei18n.your_code),
           e(
-            'button',
-            {
-              className: 'btn-tall btn-sm green',
-              onClick: (event) => {
+            'div',
+            { className: 'dialog-box d-inline' },
+            e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm green',
+                onClick: (event) => {
 
-                var before = event.target.innerHTML;
+                  var before = event.target.innerHTML;
 
-                this.copyCode();
+                  this.copyCode();
 
-                event.target.innerHTML = '<i class="bi bi-clipboard-check-fill"></i>'
-                setTimeout(() => { event.target.innerHTML = before; }, 2000)
+                  event.target.innerHTML = '<i class="bi bi-clipboard-check-fill"></i>'
+                  setTimeout(() => { event.target.innerHTML = before; }, 2000)
 
-              }
-            },
-            e('i', { className: 'bi bi-clipboard' })
-          )
+                }
+              },
+              e('i', { className: 'bi bi-clipboard' })
+            )
+          ),
         ),
+        e(
+          'div',
+          { className: 'col-md-auto' },
+          e('h3', { className: 'mb-3' }, thei18n.meeting_link),
+          e(
+            'span',
+            { className: 'd-flex flex-row' },
+            e(
+              'span',
+              { className: 'position-relative' },
+              e(
+                'input', {
+                  id: 'teacher-meeting-link', type: 'text', placeholder: theUserdata.user_meetinglink, className: 'form-control me-3',
+                  onChange: onChangeForceHTTPS
+                }
+              ),
+              e(
+                'span',
+                { className: 'position-absolute top-0 end-0' },
+                e(
+                  'button',
+                  {
+                    className: 'btn',
+                    onClick: () => {
+                      window.open(theUserdata.user_meetinglink, '_blank').focus();
+                    }
+                  },
+                  e('i', { className: 'bi bi-box-arrow-up-right' })
+                ),
+              )
+            ),
+            e(
+              'button', 
+              {
+                className: 'btn-tall green ms-2',
+                id: 'meeting-link-add-button',
+                onClick: () => {
+
+                  var theValue = document.getElementById('teacher-meeting-link').value;
+
+                  if (!theValue) {
+                  return; }
+
+                  var button = document.getElementById('meeting-link-add-button');
+                  var buttonBefore = button.innerHTML;
+                  button.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+                  var dataToPost = {
+                    fields: ['user_meetinglink'],
+                    user_meetinglink: theValue
+                  };
+      
+                  fetch(
+                    thei18n.api_link + '?update_userdata=1',
+                    {
+                      method: "POST",
+                      headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(dataToPost)
+                    }
+                  ).then(res => res.json()).then(json => {
+      
+                    if (json != 'true') {
+                      button.innerHTML = '<i class="bi bi-x"></i>';
+                    }
+      
+                    button.innerHTML = '<i class="bi bi-check-all"></i>';
+                    
+                    setTimeout(() => {
+                      button.innerHTML = buttonBefore;
+                    }, 3000);
+      
+                  });
+
+                }
+              },
+              e('i', {className: 'bi bi-check'})
+            ),
+          ),
+          e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
+        )
       )
     );
   }

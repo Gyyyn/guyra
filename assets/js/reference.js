@@ -485,8 +485,13 @@ class GrammaticalTime extends React.Component {
           ),
           e(
             'span',
-            { className: 'dialog-box p-3 more-rounded d-flex flex-row justify-content-center' },
-            e('span', { className: 'me-3' }, 'Modo Praticar'),
+            { className: 'dialog-box p-3 more-rounded d-flex flex-row justify-content-center position-relative' },
+            e(
+              'span',
+              { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' },
+              thei18n.soon
+            ),
+            e('span', { className: 'me-3' }, thei18n.practice_mode),
             e(Slider, {
               checked: false,
               dom_id: 'practice_slider',
