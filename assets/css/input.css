@@ -9,13 +9,6 @@
 	color: var(--guyra-white);
 }
 
-.btn:not(.bs),
-{
-	box-shadow: unset;
-	border: unset;
-	outline: unset;
-}
-
 .btn:focus:not(.bs) {
 	outline: unset;
 	box-shadow: unset;
@@ -30,6 +23,16 @@
 
 .study-menu .menu-title {
   margin-left: .25rem;
+}
+
+.btn-mobile-header {
+  color: var(--guyra-white);
+  box-shadow: var(--guyra-box-shadow-smaller);
+  border: 1px solid var(--guyra-blue-lighter);
+}
+
+.btn-mobile-header:hover {
+  box-shadow: var(--guyra-box-shadow-material);
 }
 
 .btn-tall,

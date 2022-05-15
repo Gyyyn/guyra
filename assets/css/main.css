@@ -40,6 +40,7 @@
   --guyra-blacker: #3a3a3a;
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
+  --guyra-box-shadow-smaller: 0 0 .5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
   --guyra-box-shadow-material: 0 15px 1rem 3px rgba(0, 0, 0, 17%);
   --guyra-box-shadow-outline: 0 0 0 1rem rgba(255, 255, 255, .33);

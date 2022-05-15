@@ -320,10 +320,10 @@ if ($where_am_i == '') {
       </span>
     </div>
     <div class="d-flex flex-row justify-content-evenly w-100 mt-2 mb-1">
-      <a class="btn shop-link fw-bold text-white btn-outline-light shadow" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/exercises/shop.png', 64); ?>"></a>
-      <a class="btn reference-link fw-bold text-white btn-outline-light shadow" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/dictionary.png', 64); ?>"></a>
-      <a class="btn meeting-link fw-bold text-white btn-outline-light shadow" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/video-camera.png', 64); ?>"></a>
-      <span class="position-relative"><?php RenderNotificationsDropdown(['buttonClass' => 'btn text-white btn-outline-light shadow p-1 px-3 pt-2']); ?></span>
+      <a class="btn shop-link btn-mobile-header" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/exercises/shop.png', 64); ?>"></a>
+      <a class="btn reference-link btn-mobile-header" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/dictionary.png', 64); ?>"></a>
+      <a class="btn meeting-link btn-mobile-header" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/video-camera.png', 64); ?>"></a>
+      <span class="position-relative"><?php RenderNotificationsDropdown(['buttonClass' => 'btn btn-mobile-header p-1 px-3 pt-2']); ?></span>
     </div>
   </div>
   <?php endif; ?>
