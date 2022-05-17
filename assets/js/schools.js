@@ -441,8 +441,12 @@ function DiarySubmit(props) {
           placeholder: i18n.comment + '...',
           className: "form-control w-100",
           id: "newentry-comment",
-          onChange: (event) => {
-            console.log(event);
+          onKeyDown: (event) => {
+            
+            if (event.key == 'Enter') {
+              document.getElementById('add-entry-button').click();
+            }
+
           }
         }
       )
@@ -453,6 +457,7 @@ function DiarySubmit(props) {
       e(DiaryContext.Consumer, null, ({AddEntry, i18n}) => e(
         'button',
         {
+          id: 'add-entry-button',
           className: "btn-tall btn-sm blue add-entry-button",
           onClick: () => {
             var entryComment = document.getElementById('newentry-comment');

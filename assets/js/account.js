@@ -9,7 +9,8 @@ import {
   RoundedBoxHeading,
   PaymentItem,
   validatePhoneNumber,
-  createTooltip
+  createTooltip,
+  randomNumber
 } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
@@ -973,6 +974,18 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
       this.setState(tempState);
     }
 
+    this.MailConfirmedCheck = null;
+
+    if (this.props.userdata.mail_confirmed) {
+
+      this.MailConfirmedCheck = e(
+        'span',
+        { className: 'position-absolute top-25 end-0 p-3 pe-4' },
+        e('i', { className: 'bi bi-check-lg text-green text-x' })
+      );
+
+    }
+
     this.state = {
       "user_email": this.props.userdata.user_email,
       "first_name": this.props.userdata.first_name,
@@ -980,6 +993,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
       "user_phone": this.props.userdata.user_phone,
       modified: [],
     };
+
   }
 
   render() {
@@ -990,7 +1004,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
         { className: 'd-flex flex-row mb-3'},
         e(
           'div',
-          { className: 'd-flex flex-column w-50 pe-3 form-floating' },
+          { className: 'd-flex flex-column w-50 pe-3 form-floating position-relative' },
           e(
             'input',
             {
@@ -1003,6 +1017,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
             }
           ),
           e('label', { for: 'profile-email' }, thei18n.email),
+          this.MailConfirmedCheck
         ),
         e(
           'div',
@@ -1146,15 +1161,10 @@ function AccountOptions_profileDetails(props) {
     { className: 'row' },
     e(
       'div',
-      { className: 'profile-picture-fields d-flex flex-column col-md-3' },
-      e(
-        'h3',
-        { className: 'text-blue mb-3' },
-        i18n.profile_details_picture
-      ),
+      { className: 'd-none d-md-flex profile-picture-fields flex-column col-md-3' },
       e(
         'div',
-        { className: 'text-center mx-auto mb-5' },
+        { className: 'text-center mx-auto' },
         e(
           'div',
           { className: 'page-icon position-relative' },
@@ -1162,11 +1172,53 @@ function AccountOptions_profileDetails(props) {
             'img',
             {
               id: 'profile-picture',
-              className: 'profile-preview avatar page-icon medium',
-              alt: i18n.profile_details_picture,
-              src: userdata.profile_picture_url
+              className: 'profile-preview avatar page-icon medium my-3',
+              alt: thei18n.profile_details_picture,
+              src: userdata.profile_picture_url,
+              style: {
+                boxShadow: 'var(--guyra-box-shadow-outline-onwhite)'
+              }
             }
           ),
+        ),
+        e(
+          'div',
+          { className: 'text-font-title text-x fw-bold' },
+          userdata.first_name + ' ' + userdata.last_name
+        ),
+        e(
+          'div',
+          { className: 'text-s mb-3' },
+          e(AccountContext.Consumer, null, ({userdata}) => {
+
+            var planName = 'free';
+
+            if (userdata.payments) {
+              
+              planName = userdata.payments.payed_for;
+
+            }
+
+            return e(
+              'div',
+              { className: 'my-3' },
+              thei18n.your_plan + ': ',
+              e('span', { className: 'badge bg-primary ms-1' }, thei18n.prices_features[planName].title)
+            )
+
+          }),
+          e(AccountContext.Consumer, null, ({setPage}) => e(
+            'button',
+            {
+              className: 'btn-tall btn-sm green',
+              onClick: () => {
+                setPage(e(AccountPayment));
+                window.location.hash = '#payment';
+              }
+            },
+            thei18n.manage_your_plan,
+            e('i', { className: 'bi bi-credit-card-fill ms-2' }),
+          ))
         )
       )
     ),
@@ -1176,7 +1228,7 @@ function AccountOptions_profileDetails(props) {
       e(
         'h3',
         { className: 'text-blue mb-3' },
-        i18n.update_profile
+        thei18n.profile_details
       ),
       e(
         'div',
@@ -1229,36 +1281,6 @@ function AccountOptions_accountDetails(props) {
   return e(AccountContext.Consumer, null, ({i18n, userdata, setPage}) => e(
     'div',
     { className: 'profile-details'},
-    e(
-      'div',
-      { className: 'mb-5 w-100' },
-      e(
-        'h3',
-        { className: 'text-blue' },
-        i18n.your_plan
-      ),
-      e(
-        'div',
-        { className: 'row dialog-box mb-3' },
-        e(
-          'div',
-          { className: 'text-small d-flex flex-column align-items-start' },
-          e(
-            'a',
-            {
-              href: i18n.purchase_link,
-              className: 'btn-tall blue mt-1',
-              onClick: () => {
-                setPage(e(AccountPayment));
-                window.location.hash = '#payment';
-              }
-            },
-            i18n.manage_your_plan,
-            e('i', { className: 'bi bi-credit-card-fill ms-1' }),
-          )
-        )
-      )
-    ),
     e(
       'div',
       { className: 'mb-5 w-100' },
@@ -1468,6 +1490,8 @@ function WhoAmI_welcome(props) {
     // Safari cries if we use dashes for dates
     var dateRegisteredSince = GuyraParseDate(userdata.user_registered);
 
+    var randomHello = thei18n['_hellos'][randomNumber(0, thei18n['_hellos'].length - 1)];
+
     return e(
       'div',
       { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
@@ -1475,9 +1499,9 @@ function WhoAmI_welcome(props) {
         'div',
         { className: 'welcome' },
         e(
-          'h2',
+          'h1',
           { className: 'text-blue' },
-          'Welcome, ' + userdata.first_name + '!'
+          randomHello.replace('%s', userdata.first_name)
         ),
         e(
           'p',
@@ -1629,7 +1653,14 @@ function WhoAmI_openPayments(props) {
 
   }
 
-  return items;
+  return [
+    e(
+      'h2',
+      { className: 'text-blue' },
+      thei18n.bills
+    ),
+    items
+  ];
 
 }
 
@@ -1657,10 +1688,10 @@ function WhoAmI_buttonGroup_button(props) {
 function WhoAmI_buttonGroup(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'row buttons justify-content-between my-5'},
+    { className: 'row buttons my-3'},
     e(
       'div',
-      { className: 'col-sm d-flex flex-row flex-wrap align-items-center justify-content-center' },
+      { className: 'col-sm d-flex flex-row flex-wrap align-items-center justify-content-start' },
       e(AccountContext.Consumer, null, ({setPage}) => e(
         WhoAmI_buttonGroup_button,
         {
@@ -1710,8 +1741,8 @@ function WhoAmI(props) {
       'div',
       {},
       e(WhoAmI_welcome),
-      e(WhoAmI_openPayments, {openPayments: openPayments}),
       e(WhoAmI_buttonGroup),
+      e(WhoAmI_openPayments, {openPayments: openPayments}),
     );
   });
 }
@@ -1793,74 +1824,50 @@ function AccountInfo_Inventory(props) {
 }
 
 function AccountInfo(props) {
-  return e(AccountContext.Consumer, null, ({userdata, i18n}) => e(
+  return e(
     'div',
-    { className: 'row my-3 overflow-x-visible' },
+    { className: 'row my-5 overflow-x-visible' },
+    e('h2', { className: 'text-blue' }, thei18n.inventory),
     e(
       'div',
-      { className: 'col-md card py-5 mx-0 mb-5 flex-column align-items-center' },
-      e(
-        'span',
-        { className: 'position-relative' },
-        e(
-          'img',
-          {
-            className: 'avatar page-icon medium border-outline mb-5',
-            alt: '',
-            src: userdata.profile_picture_url
-          }
-        ),
-      ),
-      e(
-        'span',
-        { className: 'position-relative' },
-        e(
-          'h3',
-          { className: 'text-white' },
-          userdata.first_name + ' ' + userdata.last_name
-        )
-      )
-    ),
-    e(
-      'div',
-      { className: 'col-md d-flex flex-column mx-md-3' },
-      e('h2', { className: 'text-blue' }, i18n.inventory),
-      e(
-        'div',
-        { className: 'account-inventory-preview d-flex flex-row flex-wrap align-items-center justify-content-center' },
-        e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
+      { className: 'account-inventory-preview position-relative d-flex flex-row flex-wrap align-items-center justify-content-center dialog-box' },
+      e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
 
-          var theInventory = userdata.inventory;
+        var theInventory = userdata.inventory;
 
-          if (theInventory.length == 0) {
-            return e('span', { className: 'text-muted' }, i18n.inventory_empty);
-          } else {
-            return theInventory.map((item, i) => {
+        if (theInventory.length == 0) {
+          return e('span', { className: '' }, i18n.inventory_empty);
+        } else {
+          return theInventory.map((item, i) => {
 
-              if (i < 3) {
-                return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
-              }
+            if (i < 4) {
+              return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+            }
 
-              if (i == 3) {
-                return e(
+            if (i == 4) {
+              return e(
+                'span',
+                { className: 'position-absolute bottom-0 end-0 p-3' },
+                e(
                   'button',
                   {
-                    className: 'btn-tall green',
+                    className: 'btn-tall btn-sm green',
                     onClick: () => {
                       setPage(e(AccountInfo_Inventory));
                     }
                   },
-                  i18n.see_more
-                );
-              }
+                  thei18n.see_more,
+                  e('i', { className: 'bi bi-box-arrow-up-right ms-2' })
+                )
+              );
+            }
 
-            });
-          }
+          });
+        }
 
-        }),
-      )
+      }),
     )
-  ));
+  );
 }
 
 function AccountWrapper(props) {
