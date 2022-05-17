@@ -29,11 +29,18 @@ if ($_GET['get_user_data']) {
 if ($_GET['register']) {
 
   $data = json_decode(file_get_contents('php://input'), true);
-
   $captchaOk = verifyGoogleCaptcha($data['captcha']);
 
-  if (!$captchaOk) {
-    guyra_output_json('captcha_error', true);
+  // Run some checks.
+  if (!$captchaOk)
+  guyra_output_json('captcha_error', true);
+
+  if (!$data['user_email'])
+  guyra_output_json('login empty', true);
+
+  // Since we allow email auth login a user can register without a password.
+  if (!$data['user_password']) {
+    $data['user_password'] = bin2hex(random_bytes(8));
   }
 
   // All is ok, let's generate a user id and populate the data.

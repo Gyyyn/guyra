@@ -440,7 +440,10 @@ function DiarySubmit(props) {
         {
           placeholder: i18n.comment + '...',
           className: "form-control w-100",
-          id: "newentry-comment"
+          id: "newentry-comment",
+          onChange: (event) => {
+            console.log(event);
+          }
         }
       )
     ),
@@ -1689,7 +1692,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         e('h2', { className: 'text-grey-darker mb-2' }, thei18n.controls),
         e(
           'div',
-          { className: 'col-md-auto' },
+          { className: 'col-auto mb-3' },
           e('h3', { className: 'mb-3' }, thei18n.your_code),
           e(
             'div',
@@ -1716,7 +1719,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-md-auto' },
+          { className: 'col-auto mb-3' },
           e('h3', { className: 'mb-3' }, thei18n.meeting_link),
           e(
             'span',
@@ -1736,7 +1739,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 e(
                   'button',
                   {
-                    className: 'btn',
+                    className: 'btn bg-grey text-s',
                     onClick: () => {
                       window.open(theUserdata.user_meetinglink, '_blank').focus();
                     }

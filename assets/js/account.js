@@ -1875,6 +1875,77 @@ function AccountWrapper(props) {
 
 }
 
+class AppearingInput_Checkbox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.Checkbox = e(
+      'div',
+      { className: 'form-check mb-2' },
+      e(
+        'input',
+        {
+          className: 'form-check-input w-auto me-2',
+          type: 'checkbox',
+          id: this.props.name + '_checkbox',
+          onChange: this.CheckChange,
+          value: '',
+          role: 'switch'
+        }
+      ),
+      e(
+        'label',
+        { for: this.props.name + '_checkbox', className: 'form-check-label' },
+        this.props.checkbox_label
+      )
+    )
+
+    this.Input = e(
+      'div',
+      { className: 'form-floating justfade-animation animate'},
+      e('input', { id: this.props.name, name: this.props.name, type: this.props.type, className: "form-control", placeholder: "." }),
+      e('label', { for: this.props.name }, this.props.label),
+    );
+
+    this.state = {
+      view: this.Checkbox,
+      checked: false, 
+    };
+
+  }
+
+  CheckChange = () => {
+
+    if (!this.state.checked) {
+
+      this.setState({
+        view: [this.Checkbox, this.Input],
+        checked: true
+      });
+
+      return;
+
+    }
+
+    this.setState({
+      view: this.Checkbox,
+      checked: false,
+    });
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'appearing-input mb-3' },
+      this.state.view
+    );
+
+  }
+    
+}
+
 function Register(props) {
 
   var ContinueButton = e(
@@ -1893,20 +1964,24 @@ function Register(props) {
         grecaptcha.ready(function() {
           grecaptcha.execute('6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt', {action: 'submit'}).then(function(token) {
 
+            var user_password = document.getElementById('profile-password');
+
             dataToPost = {
               user_email: document.getElementById('profile-email').value,
-              user_password: document.getElementById('profile-password').value,
               user_firstname: document.getElementById('profile-firstname').value,
               user_lastname: document.getElementById('profile-lastname').value,
               captcha: token
             };
 
-            var user_code = document.getElementById('profile-code').value;
+            // If user set a password we add it to the data.
+            if (user_password) {
+              dataToPost.user_password = user_password.value;
+            }
+
+            var user_code = document.getElementById('profile-code');
 
             if (
               dataToPost.user_email == '' ||
-              dataToPost.user_password == '' ||
-              dataToPost.user_phone == '' ||
               dataToPost.user_firstname == '' ||
               dataToPost.user_lastname == ''
             ) {
@@ -1930,8 +2005,8 @@ function Register(props) {
 
               if (json == 'true') {
 
-                if (user_code != '') {
-                  fetch(thei18n.api_link + '?teacher_code=' + user_code)
+                if (user_code) {
+                  fetch(thei18n.api_link + '?teacher_code=' + user_code.value)
                 }
 
                 setTimeout(() => {
@@ -1953,7 +2028,7 @@ function Register(props) {
       }
     },
     thei18n.continue,
-    e('i', { className: 'bi bi-arrow-right ms-1' }),
+    e('i', { className: 'bi bi-arrow-right ms-2' }),
   );
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
@@ -2001,29 +2076,27 @@ function Register(props) {
           e('label', { for: 'profile-email' }, i18n.email),
         ),
         e(
-          'div',
-          { className: 'mb-3'},
-          e(
-            'span',
-            { className: 'form-floating' },
-            e('input', { id: 'profile-password', name: 'user_password', type: "password", className: "input-password form-control", placeholder: 'Ex.: 12345678' }),
-            e('label', { for: 'profile-password' }, i18n.password),
-          )
+          AppearingInput_Checkbox,
+          {
+            name: 'profile-password',
+            type: 'password',
+            label: thei18n.password,
+            checkbox_label: 'Usar senha'
+          }
+        ),
+        e(
+          AppearingInput_Checkbox,
+          {
+            name: 'profile-code',
+            type: 'text',
+            label: thei18n.teacher_code,
+            checkbox_label: 'Tenho um código de convite'
+          }
         ),
         e(
           'div',
-          { className: 'align-items-center d-flex flex-row mb-3'},
-          e(
-            'span',
-            { className: 'me-3 form-floating flex-grow-1' },
-            e('input', { id: 'profile-code', name: 'user_code', type: "text", className: "input-code form-control", placeholder: 'Ex.: 0000000000' }),
-            e('label', { for: 'profile-code' }, i18n.teacher_code, e('span', { className: 'ms-2 text-grey-darkest' }, '(' + i18n.optional + ')')),
-          ),
-          e(
-            'span',
-            { className: 'justify-content-end d-flex' },
-            ContinueButton
-          ),
+          { className: 'my-4'},
+          ContinueButton
         ),
       ),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })

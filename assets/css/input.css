@@ -351,3 +351,7 @@ img.left-side-image {
   border-bottom-color: var(--guyra-red-lighter);
   color: var(--guyra-red-darkest);
 }
+
+.form-check-input[type=checkbox] {
+  padding: var(--guyra-fonts-textsize-sss);
+}
