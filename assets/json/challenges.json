@@ -1,0 +1,11 @@
+{
+    "challenge_streak_sevendays": {
+        "type": "streak",
+        "goal": "7",
+        "limiter": {
+            "type": "time",
+            "amount": "604800"
+        },
+        "reward": "10"
+    }
+}

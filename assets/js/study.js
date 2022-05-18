@@ -217,6 +217,15 @@ function UserHome_LessonCard(props) {
       'div',
       { className: 'userpage' },
       e(RoundedBoxHeading, { icon: 'icons/light.png', value: thei18n.lessons }),
+      e(
+        'div',
+        { className: 'dialog-box' },
+        e(
+          'button',
+          { className: 'btn-tall green' },
+          'Help!'
+        )
+      ),
       window.HTMLReactParser(marked.parse(theUserpage)),
     );
   });
@@ -391,13 +400,13 @@ function UserHome_WelcomeCard(props) {
       e(
         'div',
         { className: 'dialog-box greeting' },
-        e('h2', { className: 'mb-2' }, thei18n.whats_for_today),
+        e('h2', { className: 'mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
         e('div', {}, window.HTMLReactParser(randomGreeting)),
       ),
       e(
         'div',
         { className: 'dialog-box' },
-        e('h3', { className: 'mb-2' }, thei18n.lessons),
+        e('h3', { className: 'mb-2' }, thei18n.activities),
         e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
       ),
       e(
@@ -426,10 +435,31 @@ function UserHome_WelcomeCard(props) {
           e(
             'div',
             { className: 'card trans mb-2 me-2' },
-            e('h4', { className: 'mb-2' }, thei18n.level),
-            e('div', { className: 'd-flex align-items-center' }, userdata.gamedata.raw.challenges.daily.levels_completed + '/' + userdata.gamedata.raw.challenges.daily.levels),
+            e('h4', { className: 'mb-2' }, thei18n.levels),
+            e(
+              'div',
+              { className: 'd-flex align-items-center' },
+              userdata.gamedata.raw.challenges.daily.levels_completed + '/' +
+              userdata.gamedata.raw.challenges.daily.levels + ' ' +
+              thei18n.today
+            ),
             e('progress', { className: 'progress', id: 'daily-challenge', max: userdata.gamedata.raw.challenges.daily.levels, value: userdata.gamedata.raw.challenges.daily.levels_completed}),
           ),
+          e(
+            'div',
+            {
+              className: 'card trans blue cursor-pointer mb-2 me-2',
+              onClick: () => {
+                window.location.href = thei18n.shop_link;
+              }
+            },
+            e('h4', { className: 'cursor-pointer mb-2' }, thei18n.see_more),
+            e(
+              'div',
+              { className: 'd-flex align-items-center justify-content-center' },
+              e('i', { className: 'bi bi-box-arrow-up-right pt-3' })
+            ),
+          )
         ),
       ),
     );
@@ -447,7 +477,6 @@ function UserHome_WelcomeCard(props) {
     }
 
     return [
-      e(RoundedBoxHeading, { icon: 'icons/waving-hand.png', value: thei18n.hello + ' ' + userdata.first_name }),
       theList
     ];
 

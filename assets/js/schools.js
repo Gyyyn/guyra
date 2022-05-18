@@ -506,7 +506,7 @@ function DiaryControls(props) {
       className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-5'
     },
     paymentsButton,
-    e(DiaryContext.Consumer, null, ({diary, name, i18n}) => e(
+    e(DiaryContext.Consumer, null, ({diary, name}) => e(
       'button',
       {
         className: 'btn-tall green me-2',
@@ -545,7 +545,7 @@ function DiaryControls(props) {
         }
       },
       e('i', { className: 'bi bi-file-earmark-spreadsheet me-1' }),
-      'Export',
+      thei18n.export,
     )),
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',

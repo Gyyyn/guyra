@@ -247,6 +247,7 @@ class Shop_ItemList extends React.Component {
         e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
         e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
         e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'challenge' }) } }, thei18n.challenges),
       ),
       e(
         'div',

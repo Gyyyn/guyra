@@ -498,10 +498,10 @@ class AccountPayment extends React.Component {
   componentDidMount() {
 
     // Test Key
-    const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
+    // const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
 
     // Real Key
-    // const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
+    const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
 
     this.cardForm = mp.cardForm({
       amount: "1",
@@ -998,7 +998,9 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
 
   render() {
 
-    return [
+    return e(
+      'div',
+      { className: 'dialog-box blue' },
       e(
         'div',
         { className: 'd-flex flex-row mb-3'},
@@ -1083,10 +1085,10 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
               setPage(e(AccountOptions_changePassword));
               window.location.hash = '#changepassword';
             },
-            className: 'btn-tall'
+            className: 'btn-tall blue'
           },
           thei18n.change_password,
-          e('i', { className: 'bi bi-arrow-repeat ms-1' }),
+          e('i', { className: 'bi bi-box-arrow-in-right ms-1' }),
         )),
         e(
           'button',
@@ -1149,7 +1151,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
         ),
       ),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' }),
-    ];
+    );
 
   }
 }
@@ -1161,7 +1163,7 @@ function AccountOptions_profileDetails(props) {
     { className: 'row' },
     e(
       'div',
-      { className: 'd-none d-md-flex profile-picture-fields flex-column col-md-3' },
+      { className: 'd-flex profile-picture-fields flex-column col-md-3' },
       e(
         'div',
         { className: 'text-center mx-auto' },
@@ -1235,7 +1237,7 @@ function AccountOptions_profileDetails(props) {
         { className: 'd-flex flex-column' },
         e(
           'div',
-          { className: 'form-control mb-5' },
+          { className: 'form-control' },
           e(AccountContext.Consumer, null, ({userdata}) => {
             if (userdata.mail_confirmed != 'true') {
               return e(
@@ -1278,27 +1280,27 @@ function AccountOptions_profileDetails(props) {
 }
 
 function AccountOptions_accountDetails(props) {
-  return e(AccountContext.Consumer, null, ({i18n, userdata, setPage}) => e(
+  return  e(
     'div',
     { className: 'profile-details'},
     e(
       'div',
-      { className: 'mb-5 w-100' },
+      { className: 'profile-notifications' },
       e(
         'h3',
         { className: 'text-blue' },
-        i18n.notifications
+        thei18n.notifications
       ),
       e(
         'div',
-        { className: 'd-flex flex-row' },
-        e(AccountContext.Consumer, null, ({i18n}) => {
+        { className: 'd-flex flex-row dialog-box' },
+        e(() => {
 
           if (!("Notification" in window)) {
             return e(
               'p',
               { className: 'me-3' },
-              i18n.notifications_not_supported
+              thei18n.notifications_not_supported
             );
           }
 
@@ -1310,7 +1312,7 @@ function AccountOptions_accountDetails(props) {
               allowed = true;
             }
 
-            return e(Slider, { dom_id: 'notifications-checkbox', checked: allowed, value: i18n.notifications_enable, onClick: () => {
+            return e(Slider, { dom_id: 'notifications-checkbox', checked: allowed, value: thei18n.notifications_enable, onClick: () => {
 
               var checkbox = document.getElementById('notifications-checkbox');
 
@@ -1328,67 +1330,71 @@ function AccountOptions_accountDetails(props) {
 
           }
 
-        })
+        }),
       )
     ),
     e(
       'div',
-      { className: 'mb-5 text-small w-100' },
+      { className: 'profile-code' },
       e(
         'h3',
         { className: 'text-blue' },
-        i18n.teacher_code
-      ),
-      e(
-        'p',
-        {},
-        i18n.teacher_code_explain
+        thei18n.teacher_code
       ),
       e(
         'div',
-        { className: 'form-control' },
+        { className: 'dialog-box' },
+        e(
+          'p',
+          {},
+          thei18n.teacher_code_explain
+        ),
         e(
           'div',
-          { className: 'd-flex flex-row' },
+          { className: 'form-control' },
           e(
-            'input',
-            {
-              type: "text",
-              className: "flex-grow-1 me-3",
-              id: 'teacher-code-input',
-              name: "teacher_code"
-            }
-          ),
-          e(
-            'button',
-            {
-              className: "btn-tall green w-25",
-              onClick: (e) => {
-
-                var loadingBefore = e.target.innerHTML;
-                e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-                var theCode = document.getElementById('teacher-code-input');
-
-                if (theCode.value != '') {
-                  fetch(i18n.api_link + '?teacher_code=' + theCode.value);
-                  setTimeout(() => { theCode.value = '' }, 150);
-                }
-
-                setTimeout(() => {
-                  e.target.innerHTML = loadingBefore;
-                }, 500)
-
+            'div',
+            { className: 'd-flex flex-row' },
+            e(
+              'input',
+              {
+                type: "text",
+                className: "flex-grow-1 me-3",
+                id: 'teacher-code-input',
+                name: "teacher_code"
               }
-            },
-            i18n.apply,
-            e('i', { className: 'bi bi-arrow-return-left ms-1' }),
+            ),
+            e(
+              'button',
+              {
+                className: "btn-tall green w-25",
+                onClick: (e) => {
+  
+                  var loadingBefore = e.target.innerHTML;
+                  e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+  
+                  var theCode = document.getElementById('teacher-code-input');
+  
+                  if (theCode.value != '') {
+                    fetch(thei18n.api_link + '?teacher_code=' + theCode.value);
+                    setTimeout(() => { theCode.value = '' }, 150);
+                  }
+  
+                  setTimeout(() => {
+                    e.target.innerHTML = loadingBefore;
+                  }, 500)
+  
+                }
+              },
+              thei18n.apply,
+              e('i', { className: 'bi bi-arrow-return-left ms-1' }),
+            )
           )
-        )
+      )
       )
     ),
     e(AccountOptions_privacyDetails),
-  ));
+  );
 }
 
 function AccountOptions_privacyDetails_Switch(props) {
@@ -1448,15 +1454,15 @@ function AccountOptions_privacyDetails_Switch(props) {
 function AccountOptions_privacyDetails(props) {
   return e(
     'div',
-    { className: 'row' },
+    { className: 'profile-privacy' },
+    e(
+      'h3',
+      { className: 'text-blue' },
+      'Privacidade',
+    ),
     e(
       'div',
-      { className: 'd-flex flex-column' },
-      e(
-        'h3',
-        { className: 'text-blue' },
-        'Privacidade',
-      ),
+      { className: 'dialog-box' },
       e(AccountOptions_privacyDetails_Switch, { option: 'ranking_info_public', desc: thei18n.privacy_public_ranking }),
       e(AccountOptions_privacyDetails_Switch, { option: 'marketing_enabled', desc: thei18n.privacy_marketing }),
     )

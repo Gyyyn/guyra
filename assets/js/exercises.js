@@ -1010,8 +1010,8 @@ function LevelChooser(props) {
           {},
           e('h3', {},  thei18n.welcome_back + '!'),
           e(
-            'span',
-            {},
+            'div',
+            { className: 'mb-2'},
             e('span', { className: 'me-2'}, thei18n.levels + ':'),
             e('span', { className: 'fw-bold me-3' }, gamedata.level),
             e(

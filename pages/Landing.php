@@ -23,19 +23,12 @@ get_header(null, ['css' => 'landing.css']);
          <div class="col-md d-flex align-items-center justify-content-around">
            <video width="120" height="120" class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm"></video>
          </div>
+         <p class="text-n pt-5"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>
         </div>
-
-        <h2><?php echo $gi18n['_landing']['title1'] ?></h2>
-        <p><?php echo $gi18n['_landing']['explain1'] ?></p>
-        <h2><?php echo $gi18n['_landing']['title2'] ?></h2>
-        <p><?php echo $gi18n['_landing']['explain2'] ?></p>
 
       </div>
 
       <div class="col-md p-5 more-rounded right" data-aos="fade">
-
-        <h2><?php echo $gi18n['_landing']['title3'] ?></h2>
-        <p><?php echo $gi18n['_landing']['explain3'] ?></p>
 
         <h2 class="text-blue"><?php echo $gi18n['_landing']['title4'] ?></h2>
         <p><?php echo $gi18n['_landing']['explain4'] ?></p>
@@ -61,7 +54,8 @@ get_header(null, ['css' => 'landing.css']);
    <div class="col order-md-2 px-md-5 align-self-center">
      <div class="p-1 p-md-5">
        <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['_landing']['feature_title1'] ?></h2>
-       <div class="explain" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['feature_explain1'] ?></div>
+       <div class="explain mb-3" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['explain2'] ?></div>
+       <div class="explain" data-aos="fade" data-aos-delay="400"><?php echo $gi18n['_landing']['feature_explain1'] ?></div>
      </div>
    </div>
    <div class="col-md-3 order-md-1 d-flex justify-content-center">
@@ -140,7 +134,8 @@ get_header(null, ['css' => 'landing.css']);
    <div class="col order-md-2 px-md-5 align-self-center">
      <div class="p-1 p-md-5">
        <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['_landing']['feature_title3'] ?></h2>
-       <div class="explain" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['feature_explain3'] ?></div>
+       <div class="explain mb-3" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['feature_explain3'] ?></div>
+       <div class="explain" data-aos="fade" data-aos-delay="400"><?php echo $gi18n['_landing']['explain1'] ?></div>
      </div>
    </div>
    <div class="col-md-3 order-md-1 d-flex justify-content-center">
@@ -154,7 +149,8 @@ get_header(null, ['css' => 'landing.css']);
    <div class="col px-md-5 align-self-center">
      <div class="p-1 p-md-5">
        <h2 class="text-primary" data-aos="fade" data-aos-delay="200"><?php echo $gi18n['_landing']['feature_title4'] ?></h2>
-       <div class="explain" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['feature_explain4'] ?></div>
+       <div class="explain mb-3" data-aos="fade" data-aos-delay="300"><?php echo $gi18n['_landing']['feature_explain4'] ?></div>
+       <div class="explain" data-aos="fade" data-aos-delay="400"><?php echo $gi18n['_landing']['explain3'] ?></div>
      </div>
    </div>
    <div class="col-md-3 d-flex justify-content-center">

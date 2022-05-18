@@ -340,6 +340,14 @@ img.left-side-image {
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
 }
 
+.dialog-box input.form-control:not(.bs),
+.dialog-box .form-control input
+{
+  border: 1px solid var(--guyra-grey-darker);
+  box-shadow: var(--guyra-box-shadow-smaller);
+  background-color: var(--guyra-white);
+}
+
 .dialog-box.info {
   background: var(--guyra-blue-lightest);
   border-bottom-color: var(--guyra-blue-lighter);

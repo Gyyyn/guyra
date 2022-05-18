@@ -123,3 +123,31 @@ function GetUserRanking($user=1, $gamedata=false) {
   ];
 
 }
+
+function FetchChallengeList() {
+
+  global $template_dir;
+
+  $return = json_decode(file_get_contents($template_dir . '/assets/json/challenges.json'), true);
+
+  return $return;
+
+}
+
+function AddGameChallenge($data) {
+
+  $gamedata = guyra_get_user_data($user_id, 'gamedata');
+
+  $challengeNames = array_keys($data);
+  
+  foreach ($challengeNames as $challengeId) {
+
+    // TODO: Allow multiple of the same challenge maybe?
+    
+    $gamedata['challenges'][$challengeId] = $data[$challengeId];
+
+  }
+
+  PushNotification($gi18n['notification_challenge_added']);
+
+}

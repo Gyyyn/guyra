@@ -57,6 +57,9 @@ if ($_GET['use_item']) {
   if ($item_sploded[0] == 'avatar')
   GuyraShop_SetShopAvatar($item);
 
+  if ($item_sploded[0] == 'challenge')
+  AddGameChallenge($item);
+
   guyra_output_json('true', true);
 
 }
