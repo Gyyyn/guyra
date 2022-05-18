@@ -219,16 +219,26 @@ class Shop_ItemList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.catSearch = '';
+
+    if (window.location.hash) {
+      this.catSearch = window.location.hash.split('#')[1];
+    }
+
     this.state = {
       search: '',
-      catSearch: ''
+      catSearch: this.catSearch
     }
   }
 
   setCatSearch(cat) {
+
+    window.location.hash = cat;
+
     this.setState({
       catSearch: cat
     });
+
   }
 
   render() {
@@ -243,11 +253,11 @@ class Shop_ItemList extends React.Component {
         'div',
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
         e('h3', { className: 'me-3' }, thei18n.categories + ': '),
-        e('button', { className: 'btn-tall blue mb-3 me-3', onClick: () => { this.setState({ catSearch: '' }) } }, thei18n.everything),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'profile' }) } }, thei18n.avatars),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'flashcards' }) } }, thei18n.flashcards),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'progress' }) } }, thei18n.progress_packs),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setState({ catSearch: 'challenge' }) } }, thei18n.challenges),
+        e('button', { className: 'btn-tall blue mb-3 me-3', onClick: () => { this.setCatSearch('') } }, thei18n.everything),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('profile') } }, thei18n.avatars),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('flashcards') } }, thei18n.flashcards),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('progress') } }, thei18n.progress_packs),
+        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('challenge') } }, thei18n.challenges),
       ),
       e(
         'div',
@@ -312,7 +322,7 @@ function Shop_yourItems(props) {
 
     return e(
       'div',
-      { className: 'd-flex flex-column mb-3' },
+      { className: 'd-flex flex-column overpop-animation animate mb-3' },
       e('h2', {}, thei18n.inventory),
       e(
         'div',
@@ -341,16 +351,58 @@ function Shop_yourItems(props) {
 
 }
 
-function Shop_wrapper(props) {
-  return [
-    e(ShopContext.Consumer, null, ({shopObject}) => e(
-      'div',
-      { className: 'shop-wrapper justfade-animation animate' },
-      e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
-      e(Shop_yourItems),
-      e(Shop_ItemList, { shopObject: shopObject })
-    ))
-  ];
+class Shop_wrapper extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inventoryListing: null,
+      inventoryOpen: false,
+      inventoryButton: thei18n.open
+    }
+  }
+
+  toggleInventory() {
+
+    if(this.state.inventoryOpen) {
+      this.setState({
+        inventoryListing: null,
+        inventoryOpen: false,
+        inventoryButton: thei18n.open
+      });
+      return;
+    }
+
+    this.setState({
+      inventoryListing: e(Shop_yourItems),
+      inventoryOpen: true,
+      inventoryButton: thei18n.close
+    });
+  }
+  
+  render() {
+    return [
+      e(ShopContext.Consumer, null, ({shopObject}) => e(
+        'div',
+        { className: 'shop-wrapper justfade-animation animate' },
+        e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
+        e(
+          'button',
+          {
+            className: 'btn-tall btn-sm green mb-3',
+            onClick: () => {
+              this.toggleInventory();
+            }
+          },
+          this.state.inventoryButton + ' ' + thei18n.inventory,
+          e('i', { className: 'bi bi-box ms-2' })
+        ),
+        this.state.inventoryListing,
+        e(Shop_ItemList, { shopObject: shopObject })
+      ))
+    ];
+  }
+
 }
 
 class Shop extends React.Component {

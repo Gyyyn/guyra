@@ -1195,7 +1195,7 @@ function AccountOptions_profileDetails(props) {
 
             var planName = 'free';
 
-            if (userdata.payments) {
+            if (userdata.payments && userdata.payments.payed_for) {
               
               planName = userdata.payments.payed_for;
 
@@ -1527,7 +1527,7 @@ function WhoAmI_welcome(props) {
           'img',
           {
             alt: 'learning',
-            src: i18n.api_link + '?get_image=icons/profile.png'
+            src: thei18n.api_link + '?get_image=icons/profile.png&size=128'
           }
         )
       )

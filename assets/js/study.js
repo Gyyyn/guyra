@@ -450,7 +450,7 @@ function UserHome_WelcomeCard(props) {
             {
               className: 'card trans blue cursor-pointer mb-2 me-2',
               onClick: () => {
-                window.location.href = thei18n.shop_link;
+                window.location.href = thei18n.shop_link + '#challenge';
               }
             },
             e('h4', { className: 'cursor-pointer mb-2' }, thei18n.see_more),

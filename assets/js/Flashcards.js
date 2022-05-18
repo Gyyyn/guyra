@@ -399,7 +399,7 @@ function Flashcards_YourItems(props) {
     e(
       'button',
       {
-        onClick: () => { window.location.href = thei18n.shop_link },
+        onClick: () => { window.location.href = thei18n.shop_link + '#flashcards' },
         className: 'btn-tall green mx-auto mt-3'
       },
       e('span', { className: 'me-2' }, thei18n.go_to_shop),
