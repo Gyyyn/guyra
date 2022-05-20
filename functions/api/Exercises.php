@@ -75,7 +75,7 @@ if ($_GET['get_ranking_page']) {
 
     $user_elo = $user['gamedata']['elo'];
 
-    if ($user_elo > 1) {
+    if ($user_elo > 0 || true) {
       $users_by_elo[$user['id']]['elo'] = $user_elo;
       $users_by_elo[$user['id']]['id'] = $user['id'];
     }
@@ -99,6 +99,7 @@ if ($_GET['get_ranking_page']) {
 
     $user = [
       'first_name' => $user_first_name,
+      'avatar' => $user_data['userdata']['profile_picture_url'],
       'user_ranking' => $user_elo_info,
       'user_private' => $user_private
     ];
@@ -138,6 +139,8 @@ if ($_GET['update_flashcards']) {
 
 }
 
+// TODO: Rename this something more descriptive of it's function.
+// Currently this works to get json for exercise.js
 if ($_GET['json']):
 
   $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
@@ -176,7 +179,7 @@ if ($_GET['json']):
 
     $item = explode('_', $inventory_item);
 
-    if ($item[0] = 'progress' && $availableProgressPacks[$inventory_item]) {
+    if ($item[0] == 'progress' && $availableProgressPacks[$inventory_item]) {
 
       foreach ($availableProgressPacks[$inventory_item]['items'] as $progress_pack_units) {
         foreach ($progress_pack_units as $progress_pack_unit) {
@@ -248,12 +251,24 @@ if ($_GET['json']):
   if($unit) {
 
     // If it wasn't the levelmap that was requested, pass on a unit
+    // Units currently consist of:
+    //
+    // * 5 CompleteThePhrase exercises.
+    // * 1 WhatYouHear exercises.
+    // * 2 Translate exercises.
+    //
+    // But this is due for a change to a more dynamic system, so
+    // TODO: refactor this
+
     if (is_array($masterJSON[$unit]['CompleteThePhrase'])) {
       $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 5, $masterJSON));
     }
 
     if (is_array($masterJSON[$unit]['WhatYouHear'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 2, $masterJSON));
+      $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $masterJSON));
+    }
+    if (is_array($masterJSON[$unit]['Translate'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $masterJSON));
     }
 
   }

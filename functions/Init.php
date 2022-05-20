@@ -188,6 +188,7 @@ $is_admin = Guyra_Is_Admin();
 $is_GroupAdmin = ($current_user_data['role'] == 'teacher' || $current_user_data['role'] == 'schooladmin');
 $is_tester = ($current_user_data['role'] == 'tester');
 
+// Allow admins to debug errors
 if ($is_admin && $_GET['show_errors'])
 error_reporting(E_ALL);
 

@@ -23,8 +23,8 @@ var deleteNotificationButtons = document.querySelectorAll('.delete-notification-
 var clearNotificationsButton = document.getElementById('clear-notification-button');
 
 if (deleteNotificationButtons) {
-  deleteNotificationButtons.forEach((button, i) => {
-    button.onclick = (e) => {
+  deleteNotificationButtons.forEach((button) => {
+    button.onclick = () => {
       fetch(window.location.origin + '/api?pop_notification=1&index=' + button.dataset.index);
       button.parentElement.parentElement.remove();
     }
@@ -32,9 +32,9 @@ if (deleteNotificationButtons) {
 }
 
 if (clearNotificationsButton) {
-  clearNotificationsButton.onclick = (e) => {
+  clearNotificationsButton.onclick = () => {
     fetch(window.location.origin + '/api?clear_notifications=1');
-    document.querySelectorAll('.notifications.notification-item').forEach((item, i) => {
+    document.querySelectorAll('.notifications.notification-item').forEach((item) => {
       item.remove();
     });
 

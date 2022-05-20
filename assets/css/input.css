@@ -81,7 +81,6 @@
 	border-bottom-width: calc(var(--guyra-border-size) * 1.5);
 }
 
-.btn-tall.btn-lg { padding: 1rem 1.75rem; }
 .btn-tall.btn-lg:active:not(.disabled) { top: calc(var(--guyra-border-size) * 1.5); }
 
 .btn-tall.btn-v {
@@ -204,7 +203,7 @@
   border-color: var(--guyra-grey-darker);
   border-width: 2px;
   border-bottom-width: var(--guyra-border-width);
-  margin: 0 .25rem .5rem .25rem;
+  margin: 0 .25rem .5rem;
 }
 
 .topbar-button:hover {

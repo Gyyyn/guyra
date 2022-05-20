@@ -178,7 +178,7 @@ body {
   background-color: #e5eaee;
 }
 
-h1 { font-size: var(--guyra-fonts-textsize-xxx); }
+h1 { font-size: var(--guyra-fonts-textsize-xxx); font-weight: 900; }
 h2 { font-size: var(--guyra-fonts-textsize-xx); }
 h3 { font-size: var(--guyra-fonts-textsize-x); }
 h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .15rem); }
@@ -190,15 +190,6 @@ h1, h2, h3, h4 {
   font-weight: 800;
   letter-spacing: -.05rem;
 	cursor: default;
-}
-
-h1 {
-  font-weight: 900;
-}
-
-h4 {
-  font-weight: 700;
-  letter-spacing: unset;
 }
 
 .text-font-title { font-family: var(--guyra-fonts-title); }
