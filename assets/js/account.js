@@ -2325,15 +2325,21 @@ class LoginForm extends React.Component {
       e(
         'div',
         { className: 'google-signin d-none' },
-        e('div', { className: 'g-signin2', "data-onsuccess": () => {
-
-          var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
-        } }),
+        e('div', {
+          id: "g_id_onload",
+          "data-client_id": "842271615210-j9onvv84egfhsk2596m9o63ab8nskdm7.apps.googleusercontent.com",
+          "data-login_uri": "https://guyra.me/api?oauth=1&provider=google",
+          "data-auto_prompt": "false"
+        }),
+        e('div', {
+          className:"g_id_signin",
+          "data-type": "standard",
+          "data-size": "large",
+          "data-theme": "outline",
+          "data-text": "sign_in_with",
+          "data-shape": "rectangular",
+          "data-logo_alignment": "left",
+        }),
       ),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
     ));

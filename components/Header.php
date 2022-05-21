@@ -169,7 +169,6 @@ if ($where_am_i == '') {
 <meta name="theme-color" content="#06b6f1"/>
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta name="google-signin-client_id" content="842271615210-j9onvv84egfhsk2596m9o63ab8nskdm7.apps.googleusercontent.com">
 
 <title><?php echo ucfirst($page_Title); ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">

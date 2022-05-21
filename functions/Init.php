@@ -24,7 +24,7 @@ error_reporting(0);
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.3.2');
+define('GUYRA_VERSION', '0.3.3');
 
 // Setup some globals.
 $secondsForA = [

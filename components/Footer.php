@@ -47,7 +47,7 @@ include_once $template_dir . '/functions/Assets.php';
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
 <?php if ($args['GoogleOAuth']): ?>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <?php endif; ?>
 <?php if ($args['easymde']): ?>
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
