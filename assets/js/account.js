@@ -1394,6 +1394,25 @@ function AccountOptions_accountDetails(props) {
       )
     ),
     e(AccountOptions_privacyDetails),
+    e(
+      'div',
+      { className: 'thirdparty-oauth-connect' },
+      e(
+        'h3',
+        { className: 'text-blue' },
+        thei18n.social_login
+      ),
+      e(
+        'div',
+        { className: 'dialog-box' },
+        e(OAuthButtons),
+        e(
+          'div',
+          { className: ' text-ss text-grey-darker mt-2' },
+          thei18n.social_login_warning
+        )
+      )
+    )
   );
 }
 
@@ -2242,6 +2261,7 @@ class LoginForm extends React.Component {
         'Autenticar com email',
         e('i', { className: 'bi bi-shield-lock ms-2' }),
       ),
+      e(OAuthButtons),
       e(
         'div',
         { className: 'divider my-3 text-font-title text-grey-darker' },
@@ -2322,29 +2342,63 @@ class LoginForm extends React.Component {
           )
         )
       ),
+      e('div', { id: 'message-oauth', className: 'd-none mt-2 dialog-box info pop-animation animate' }, thei18n.oauth_user_notfound),
+      e('div', { id: 'message', className: 'd-none mt-2 dialog-box info pop-animation animate' })
+    ));
+  }
+
+}
+
+class OAuthButtons extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.GoogleLoginFunction = 'GoogleOAuth';
+    this.FacebookLoginFunction = 'FBOAuth';
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'd-none row oauth-signin g-2 my-2' },
       e(
         'div',
-        { className: 'google-signin d-none' },
+        { className: 'google-signin col-auto' },
         e('div', {
           id: "g_id_onload",
           "data-client_id": "842271615210-j9onvv84egfhsk2596m9o63ab8nskdm7.apps.googleusercontent.com",
-          "data-login_uri": "https://guyra.me/api?oauth=1&provider=google",
-          "data-auto_prompt": "false"
+          "data-auto_prompt": "false",
+          "data-callback": this.GoogleLoginFunction,
         }),
         e('div', {
           className:"g_id_signin",
           "data-type": "standard",
           "data-size": "large",
           "data-theme": "outline",
-          "data-text": "sign_in_with",
+          "data-text": "$ {button.text}",
           "data-shape": "rectangular",
           "data-logo_alignment": "left",
         }),
       ),
-      e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
-    ));
-  }
+      e(
+        'div',
+        { className: 'fb-signin col-auto' },
+        e('div', {
+          className: "fb-login-button",
+          "data-width": "",
+          "data-size": "large",
+          "data-button-type": "login_with",
+          "data-layout": "default",
+          "data-auto-logout-link": "false",
+          "data-use-continue-as": "true",
+          "data-onlogin": this.FacebookLoginFunction
+        })
+      ),
+    );
 
+  }
 }
 
 class Login extends React.Component {

@@ -5,12 +5,10 @@ get_header();
 
 <main class="squeeze">
 
-  <div class="rounded-box">
+  <div class="rounded-box p-0">
 
-    <?php // TODO: Move this to internal pages ?>
-
-    <iframe style="height: 75vh" class="w-100 overflow-hidden"
-    src="https://docs.google.com/document/d/e/2PACX-1vSC_0kQCABJukM8M2JIQtNJVusKEZ2eoRNg8knOiWibRaiDahAq_AghZA1mdWJjvOr5q4SZBjgIa7vo/pub?embedded=true"></iframe>
+    <iframe style="height: 75vh" class="more-rounded w-100 overflow-hidden"
+    src="https://onedrive.live.com/embed?resid=6DA10FFC38528C1%2139034&amp;authkey=%21AIZVV6apgtXM04Q&amp;em=2&amp;wdEmbedCode=0&amp;wdPrint=0" frameborder="0"></iframe>
 
   </div>
 

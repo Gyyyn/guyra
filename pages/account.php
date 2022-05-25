@@ -15,5 +15,5 @@ get_footer(null, [
   'js' => 'account.js',
   'MercadoPago' => true,
   'recaptcha' => $getRecaptcha,
-  'GoogleOAuth' => true
+  'OAuth' => true
 ]);

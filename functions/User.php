@@ -2,16 +2,18 @@
 
 Guyra_Safeguard_File();
 
-function Guyra_Login_User($creds) {
+function Guyra_Login_User($creds, $nopass=false) {
 
   global $current_user_id;
   global $current_user_object;
   global $secondsForA;
 
-  if (!$creds['user_login'])
+  $oauth_pass = false;
+
+  if (!$creds['user_login'] && !$creds['oauth_provider'])
   return ['error' => 'login empty'];
 
-  if (!$creds['user_password'])
+  if (!$creds['user_password'] && !$nopass)
   return ['error' => 'password empty'];
 
   $attempted_login = guyra_get_user_object(null, $creds['user_login']);
@@ -20,10 +22,27 @@ function Guyra_Login_User($creds) {
   if (!$attempted_login)
   return ['error' => 'user_not_found'];
 
-  if (!$attempted_login_password)
+  if (!$attempted_login_password && !$nopass)
   return ['error' => 'user_no_password'];
 
-  if (password_verify($creds['user_password'], $attempted_login_password)) {
+  // If we are trying an OAuth login, we need to check some things.
+  if ($creds['oauth_provider']) {
+
+    $attempted_login_flags = json_decode($attempted_login['flags'], true);
+
+    if ($attempted_login_flags[$creds['oauth_provider'] . '_oauth'] == $creds['oauth_id'])
+    $oauth_pass = true;
+
+    if ($creds['user_login'] == $attempted_login['user_login'])
+    $oauth_pass = true;
+
+    // If the checks failed we freak out.
+    if (!$oauth_pass)
+    return ['error' => 'oauth_user_notfound'];
+
+  }
+
+  if (password_verify($creds['user_password'], $attempted_login_password) || $nopass) {
 
     // Auth passed, set all the globals.
     $current_user_id = (int) $attempted_login['user_id'];

@@ -121,6 +121,8 @@
    "optional":"Opcional",
    "register":"Crie sua conta",
    "login":"Acesse sua conta",
+   "social_login":"Login com rede social",
+   "social_login_warning":"Quando você conecta sua conta de outros serviços nós temos acesso a algumas informações compartilhadas por você nesse serviço. Pra saber exatamente o que temos acesso cheque nossa FAQ.",
    "last_login":"Último login",
    "zip":"CEP",
    "pix":"PIX",
@@ -553,5 +555,6 @@
    "payments_status_400":"Formulário com erros. Por favor verifique as informações.",
    "item not in inventory":"Este item não está em seu inventário",
    "no credit":"Você não tem pontos o suficiente para esta trasação.",
+   "oauth_user_notfound": "Não conseguimos te autenticar com essa conta. Talvez você ainda não tenha associado sua conta Guyrá com esse serviço ainda?",
    "ie_unsupported_warning":"Internet Explorer não é suportado. Por favor atualize seu navegador."
 }

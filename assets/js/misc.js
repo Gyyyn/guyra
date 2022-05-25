@@ -1,3 +1,12 @@
+// Get the i18n if we have any.
+var localStorageI18n = window.localStorage.getItem('guyra_i18n');
+var thei18n = { home_link: window.location.origin, api_link: window.location.origin + '/api' };
+
+if (typeof localStorageI18n === 'string') {
+  localStorageI18n = JSON.parse(localStorageI18n);
+  thei18n = localStorageI18n.i18n;
+}
+
 // Logout button
 var logoutButton = document.getElementById('logout-button');
 if (logoutButton) {
@@ -25,7 +34,7 @@ var clearNotificationsButton = document.getElementById('clear-notification-butto
 if (deleteNotificationButtons) {
   deleteNotificationButtons.forEach((button) => {
     button.onclick = () => {
-      fetch(window.location.origin + '/api?pop_notification=1&index=' + button.dataset.index);
+      fetch(thei18n.api_link + '?pop_notification=1&index=' + button.dataset.index);
       button.parentElement.parentElement.remove();
     }
   });
@@ -33,7 +42,7 @@ if (deleteNotificationButtons) {
 
 if (clearNotificationsButton) {
   clearNotificationsButton.onclick = () => {
-    fetch(window.location.origin + '/api?clear_notifications=1');
+    fetch(thei18n.api_link + '?clear_notifications=1');
     document.querySelectorAll('.notifications.notification-item').forEach((item) => {
       item.remove();
     });
@@ -102,7 +111,93 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
 }
 
 // Catch and handle common errors
-
 if (!window.HTMLReactParser) {
   window.location.reload();
+}
+
+// OAuth handlers
+
+function _setMessageBox(id, timeout=true) {
+  var messageBox = document.getElementById(id);
+  var isShowing = true;
+
+  messageBox.classList.forEach((item) => {
+    if (item == 'd-none') {
+      var isShowing = false;
+    }
+  });
+
+  if (isShowing) {
+    messageBox.classList.add('d-none');
+  }
+
+  setTimeout(() => {
+    // messageBox.innerHTML = message;
+    messageBox.classList.remove('d-none');
+  }, 250)
+
+  if (timeout) {
+    setTimeout(() => {
+      // messageBox.innerHTML = '';
+      messageBox.classList.add('d-none');
+    }, 5000);
+  }
+
+}
+
+function SendOAuthPayload(data) {
+
+  var emailField = document.getElementById('profile-email');
+
+  if (!data.payload.email && emailField) {
+    data.payload.email = emailField.value;
+  }
+  
+  fetch(thei18n.api_link + '?oauth_login=1',
+  {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => res.json()).then(res => {
+
+    if (res == 'authorized') {
+      window.location.href = thei18n.home_link;
+      return;
+    }
+
+    if (res == 'true') {
+      return true;
+    }
+
+    _setMessageBox('message-oauth');
+
+  });
+
+}
+
+function FBOAuth() {
+  FB.getLoginStatus(function() {
+    
+    FB.api('/me?fields=id,name,email', function(response) {
+
+      SendOAuthPayload({
+        provider: 'fb',
+        payload: response
+      });
+
+    });
+    
+  });
+}
+
+function GoogleOAuth(payload) {
+  
+  SendOAuthPayload({
+    provider: 'google',
+    payload: payload
+  });
+  
 }

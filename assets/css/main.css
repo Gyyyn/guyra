@@ -360,7 +360,7 @@ ol li::marker {
   width: 1.25rem;
   background-color: var(--guyra-white);
   transition: var(--guyra-transition);
-  box-shadow: 0 0 0 0.25rem var(--guyra-blue);
+  box-shadow: 0 0 0 0.25rem var(--guyra-blue-lightest);
   border-radius: var(--guyra-border-radius);
 }
 

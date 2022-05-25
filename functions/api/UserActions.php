@@ -618,3 +618,34 @@ if ($_GET['send_help_form']) {
   guyra_output_json('true', true);
 
 }
+
+
+if ($_GET['oauth_login']) {
+  
+  // Yes, we provide two api calls for this, one for logged out users,
+  // and another one here. Here we connect users' social media accounts
+  // so they can login again through them, and in the GuestUsers call,
+  // we check if that connection is valid.
+
+  $data = json_decode(file_get_contents('php://input'), true);
+  $id = false;
+  $provider = $data['provider'];
+
+  if ($provider == 'fb')
+  $id = $data['payload']['id'];
+
+  if ($provider == 'google') {
+
+    require_once $template_dir . '/vendor/autoload.php';
+
+    $client = new Google_Client(['client_id' => $data['payload']['clientId']]);
+    $payload = $client->verifyIdToken($data['payload']['credential']);
+
+    $id = $payload['sub'];
+  }
+
+  guyra_update_user($current_user_id, ['flags' => [
+    $provider . '_oauth' => $id
+  ]]);
+
+}

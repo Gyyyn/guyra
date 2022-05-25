@@ -471,7 +471,12 @@ function guyra_update_user($user_id, array $values) {
   foreach ($data_keys as $key) {
 
     if ($key == 'flags' && is_array($values[$key])) {
+
+      // For the flags setting we need to decode the original flags first and then merge in the new ones.
+
+      $values[$key] = array_merge(json_decode($user_values[$key], true), $values[$key]);
       $values[$key] = json_encode($values[$key], JSON_UNESCAPED_UNICODE);
+
     }
 
     $user_values[$key] = $values[$key];

@@ -4,6 +4,7 @@ global $template_dir;
 global $template_url;
 global $current_user_id;
 global $gi18n;
+global $gLang;
 global $args;
 
 include_once $template_dir . '/functions/Assets.php';
@@ -46,8 +47,26 @@ include_once $template_dir . '/functions/Assets.php';
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
-<?php if ($args['GoogleOAuth']): ?>
+<?php if ($args['OAuth']): ?>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '965989684114472',
+      cookie: true,
+      xfbml: true,
+      version: 'v13.0'
+    });
+    FB.AppEvents.logPageView();   
+  };
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/<?php echo $gLang[0] . '_' . $gLang[1]; ?>/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 <?php endif; ?>
 <?php if ($args['easymde']): ?>
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">

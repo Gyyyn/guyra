@@ -195,3 +195,46 @@ if ($_GET['lost_password']) {
   }
 
 }
+
+if ($_GET['oauth_login']) {
+
+  // Also see: UsersActions.php/oauth_login api call.
+
+  $data = json_decode(file_get_contents('php://input'), true);
+  $provider = $data['provider'];
+  $authed_email = false;
+  $authed_id = null;
+  
+  if ($provider == 'google') {
+
+    require_once $template_dir . '/vendor/autoload.php';
+
+    $client = new Google_Client(['client_id' => $data['payload']['clientId']]);
+    $payload = $client->verifyIdToken($data['payload']['credential']);
+
+    $authed_email = $payload['email'];
+    $authed_id = $payload['sub'];
+
+  }
+
+  if ($provider == 'fb') {
+
+    $authed_email = $data['payload']['email'];
+    $authed_id = $data['payload']['id'];
+
+  }
+
+  $login = Guyra_Login_User([
+    'user_login' => $authed_email,
+    'oauth_provider' => $provider,
+    'oauth_id' => $authed_id
+  ], true);
+
+  if ($login['error']) {
+    guyra_log_to_file($login['error']);
+    guyra_output_json($user['error'], true);
+  }
+
+  guyra_output_json('authorized', true);
+
+}

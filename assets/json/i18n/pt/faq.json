@@ -36,6 +36,11 @@
   },
 
   {
+    "title": "Se eu conectar minha conta do Facebook/Google, vocês conseguem ver minhas informações pessoais?",
+    "content": "Não, a não ser que você permita. Quando você conectar sua conta vai ver exatamente o que vai ser compartilhado. <br><br> Para mais informações sobre o que pode ser acessado por terceiros na sua conta do Google ou Facebook você pode procurar por informações de privacidade e retenção de dados no site de cada um."
+  },
+
+  {
     "title": "Como deletar/cancelar minha conta?",
     "content": "Poxa, que pena! Lembre-se que você não precisa deletar sua conta inteira pra parar de pagar o serviço. E se quiser parar de receber comunicações nossas você pode achar essas opções nas configurações da sua conta. <br><br> Vale também lembrar que nós cuidamos bem dos seus dados, e nunca compartilhamos com ninguém informações pessoais. <br><br> Se ainda sim quiser deletar sua conta e todas suas informações, abra um ticket na página de ajuda abaixo."
   }
