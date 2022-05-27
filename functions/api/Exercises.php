@@ -42,7 +42,7 @@ if ($_GET['log_exercise_data']) {
   $current_user_gamedata['completed_units'] = $completed_units;
   $current_user_gamedata['elo'] = $theData['elo'];
 
-  $levels_gained = 3;
+  $levels_gained = 2;
 
   if ($theData['score'] == 100) {
     $levels_gained = 5;
@@ -253,7 +253,7 @@ if ($_GET['json']):
     // If it wasn't the levelmap that was requested, pass on a unit
     // Units currently consist of:
     //
-    // * 5 CompleteThePhrase exercises.
+    // * 3 CompleteThePhrase exercises.
     // * 1 WhatYouHear exercises.
     // * 2 Translate exercises.
     //
@@ -261,12 +261,13 @@ if ($_GET['json']):
     // TODO: refactor this
 
     if (is_array($masterJSON[$unit]['CompleteThePhrase'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 5, $masterJSON));
+      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 3, $masterJSON));
     }
 
     if (is_array($masterJSON[$unit]['WhatYouHear'])) {
       $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $masterJSON));
     }
+
     if (is_array($masterJSON[$unit]['Translate'])) {
       $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $masterJSON));
     }

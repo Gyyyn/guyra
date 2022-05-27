@@ -33,9 +33,6 @@ function Guyra_Login_User($creds, $nopass=false) {
     if ($attempted_login_flags[$creds['oauth_provider'] . '_oauth'] == $creds['oauth_id'])
     $oauth_pass = true;
 
-    if ($creds['user_login'] == $attempted_login['user_login'])
-    $oauth_pass = true;
-
     // If the checks failed we freak out.
     if (!$oauth_pass)
     return ['error' => 'oauth_user_notfound'];

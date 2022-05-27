@@ -167,7 +167,7 @@ class Help_Main extends React.Component {
     super(props);
 
     this.state = {
-      helpForm: null;
+      helpForm: null
     };
 
     this.wp_redirect_warning = e(

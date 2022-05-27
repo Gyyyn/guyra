@@ -6,6 +6,7 @@ global $site_url;
 global $site_api_url;
 global $is_logged_in;
 global $gi18n;
+global $current_user_id;
 
 Guyra_Safeguard_File();
 
@@ -30,13 +31,26 @@ if ($_GET['register']) {
 
   $data = json_decode(file_get_contents('php://input'), true);
   $captchaOk = verifyGoogleCaptcha($data['captcha']);
+  $guyra_generated_private_mail = false;
 
   // Run some checks.
   if (!$captchaOk)
   guyra_output_json('captcha_error', true);
 
-  if (!$data['user_email'])
-  guyra_output_json('login empty', true);
+  if (!$data['user_email']) {
+
+    if ($_GET['oauth']) {
+
+      $data['user_email'] = $data['user_firstname'] . $data['user_lastname'] . bin2hex(random_bytes(2)) . '@guyra.me';
+      $guyra_generated_private_mail = true;
+
+    } else {
+
+      guyra_output_json('login empty', true);
+
+    }
+
+  }
 
   // Since we allow email auth login a user can register without a password.
   if (!$data['user_password']) {
@@ -47,16 +61,15 @@ if ($_GET['register']) {
   $user = guyra_create_user($data['user_email']);
 
   // Stop if anything went wrong.
-  if ($user['error']) {
-    guyra_output_json($user['error'], true);
-  }
+  if ($user['error'])
+  guyra_output_json($user['error'], true);
 
   $creds = [
     'user_login'    => $data['user_email'],
     'user_password' => $data['user_password']
   ];
 
-  guyra_update_user_meta($user, 'userdata', json_encode([
+  $user_meta = [
     'user_email' => $data['user_email'],
     'mail_confirmed' => 'false',
     'profile_picture_url' => '',
@@ -67,8 +80,12 @@ if ($_GET['register']) {
     'teacherid' => '',
     'studygroup' => '',
     'user_meetinglink' => ''
-  ], JSON_UNESCAPED_UNICODE));
+  ];
 
+  if ($guyra_generated_private_mail)
+  $user_meta['guyra_private_mail'] = true;
+
+  guyra_update_user_meta($user, 'userdata', json_encode($user_meta, JSON_UNESCAPED_UNICODE));
   guyra_update_user_meta($user, 'user_pass', password_hash($data['user_password'], PASSWORD_DEFAULT));
   PushNotification($gi18n['notification_welcome'], $user);
 
@@ -87,6 +104,25 @@ if ($_GET['register']) {
   ];
 
   $mail = Guyra_mail('welcome.html', $gi18n['notification_welcome']['title'], $data['user_email'], $string_replacements);
+
+  if ($_GET['oauth']) {
+
+    $provider = $data['provider'];
+    $id = null;
+
+    if ($provider == 'fb')
+    $id = $data['payload']['id'];
+
+    if ($provider == 'google')
+    $id = $data['payload']['sub'];
+
+    guyra_update_user($current_user_id, ['flags' => [
+      $provider . '_oauth' => $id
+    ]]);
+
+    guyra_output_json('authorized', true);
+
+  }
 
 }
 

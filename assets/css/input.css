@@ -37,12 +37,12 @@
 
 .btn-tall,
 .topbar-button {
-  padding: .5rem 1.25rem;
+  padding: .6rem 1.4rem;
   border-radius: var(--guyra-border-radius-bigger) !important;
   cursor: pointer;
 }
 
-.btn-tall:active:not(.disabled),
+.btn-tall:active:not(.disabled, .btn-sm),
 .topbar-button:active:not(.disabled) {
   border-bottom-width: 1px !important;
   position: relative;
@@ -60,20 +60,19 @@
 }
 
 .btn-tall:hover {
-  padding: .5rem 1.25rem;
   background: var(--guyra-grey-dark);
   border-bottom-color: var(--guyra-grey-darker);
   cursor: pointer;
 }
 
-.btn-tall.btn-sm {
-  padding: .35rem .75rem;
+.btn-tall.btn-sm,
+.btn-tall.btn-sm:hover {
+  padding: .4rem .9rem;
   font-size: var(--guyra-fonts-textsize-s);
-	border-bottom-width: calc(var(--guyra-border-size) * 0.75);
+	border-width: 1px;
+  border-bottom-width: 2px;
+  border-color: #ccc9;
 }
-
-.btn-tall.btn-sm:hover { padding: .35rem .75rem; }
-.btn-tall.btn-sm:active:not(.disabled) { top: calc(var(--guyra-border-size) * 0.75); }
 
 .btn-tall.btn-lg {
   padding: 1rem 1.75rem;

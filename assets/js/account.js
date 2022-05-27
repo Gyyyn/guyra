@@ -1085,15 +1085,14 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
               setPage(e(AccountOptions_changePassword));
               window.location.hash = '#changepassword';
             },
-            className: 'btn-tall blue'
+            className: 'btn-tall btn-sm blue'
           },
           thei18n.change_password,
-          e('i', { className: 'bi bi-box-arrow-in-right ms-1' }),
         )),
         e(
           'button',
           {
-            className: 'btn-tall green',
+            className: 'btn-tall btn-sm green',
             onClick: (e) => {
 
               var loadingBefore = e.target.innerHTML;
@@ -1147,7 +1146,6 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
             }
           },
           thei18n.save,
-          e('i', { className: 'bi bi-save ms-1' }),
         ),
       ),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' }),
@@ -1163,7 +1161,7 @@ function AccountOptions_profileDetails(props) {
     { className: 'row' },
     e(
       'div',
-      { className: 'd-flex profile-picture-fields flex-column col-md-3' },
+      { className: 'd-flex profile-picture-fields flex-column col-md-3 g-0' },
       e(
         'div',
         { className: 'text-center mx-auto' },
@@ -1239,7 +1237,8 @@ function AccountOptions_profileDetails(props) {
           'div',
           { className: 'form-control' },
           e(AccountContext.Consumer, null, ({userdata}) => {
-            if (userdata.mail_confirmed != 'true') {
+
+            if (userdata.mail_confirmed != 'true' && !userdata.guyra_private_mail) {
               return e(
                 'div',
                 { className: 'dialog-box info' },
@@ -1269,6 +1268,16 @@ function AccountOptions_profileDetails(props) {
                 )
               );
             }
+
+            if (userdata.guyra_private_mail) {
+              return e(
+                'div',
+                { className: 'dialog-box info' },
+                thei18n.account_no_email_warning
+              )
+            }
+
+            return null;
           }),
           e(AccountOptions_profileDetails_updateDetails, { userdata: userdata }),
         ),
@@ -1351,7 +1360,7 @@ function AccountOptions_accountDetails(props) {
         ),
         e(
           'div',
-          { className: 'form-control' },
+          { className: 'teacher-code' },
           e(
             'div',
             { className: 'd-flex flex-row' },
@@ -1359,7 +1368,7 @@ function AccountOptions_accountDetails(props) {
               'input',
               {
                 type: "text",
-                className: "flex-grow-1 me-3",
+                className: "flex-grow-1 form-control me-3 w-auto",
                 id: 'teacher-code-input',
                 name: "teacher_code"
               }
@@ -1387,7 +1396,7 @@ function AccountOptions_accountDetails(props) {
                 }
               },
               thei18n.apply,
-              e('i', { className: 'bi bi-arrow-return-left ms-1' }),
+              e('i', { className: 'bi bi-arrow-return-left ms-2' }),
             )
           )
       )
@@ -1408,7 +1417,7 @@ function AccountOptions_accountDetails(props) {
         e(OAuthButtons),
         e(
           'div',
-          { className: ' text-ss text-grey-darker mt-2' },
+          { className: ' text-ss text-grey-darker mt-3' },
           thei18n.social_login_warning
         )
       )
@@ -1677,6 +1686,9 @@ function WhoAmI_openPayments(props) {
     });
 
   }
+
+  if (items.length == 0) {
+  return null; }
 
   return [
     e(
@@ -1993,68 +2005,69 @@ function Register(props) {
         previousHTML = e.target.innerHTML;
         e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
 
-        grecaptcha.ready(function() {
-          grecaptcha.execute('6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt', {action: 'submit'}).then(function(token) {
+        GetCaptchaAndDo((token) => {
 
-            var user_password = document.getElementById('profile-password');
+          var user_password = document.getElementById('profile-password');
+          var user_name = document.getElementById('profile-name');
+          user_name = user_name.value.split(' ');
+          var first_name = user_name.shift();
+          var last_name = user_name.join(' ');
 
-            dataToPost = {
-              user_email: document.getElementById('profile-email').value,
-              user_firstname: document.getElementById('profile-firstname').value,
-              user_lastname: document.getElementById('profile-lastname').value,
-              captcha: token
-            };
+          dataToPost = {
+            user_email: document.getElementById('profile-email').value,
+            user_firstname: first_name,
+            user_lastname: last_name,
+            captcha: token
+          };
 
-            // If user set a password we add it to the data.
-            if (user_password) {
-              dataToPost.user_password = user_password.value;
+          // If user set a password we add it to the data.
+          if (user_password) {
+            dataToPost.user_password = user_password.value;
+          }
+
+          var user_code = document.getElementById('profile-code');
+
+          if (
+            dataToPost.user_email == '' ||
+            dataToPost.user_firstname == '' ||
+            dataToPost.user_lastname == ''
+          ) {
+            setMessageBox(thei18n.missing_fields);
+            e.target.innerHTML = previousHTML;
+            return;
+          }
+
+          fetch(
+            thei18n.api_link + '?register=1',
+            {
+              method: "POST",
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(dataToPost)
             }
+          )
+          .then(res => res.json())
+          .then(json => {
 
-            var user_code = document.getElementById('profile-code');
+            if (json == 'true') {
 
-            if (
-              dataToPost.user_email == '' ||
-              dataToPost.user_firstname == '' ||
-              dataToPost.user_lastname == ''
-            ) {
-              setMessageBox(thei18n.missing_fields);
-              e.target.innerHTML = previousHTML;
+              if (user_code) {
+                fetch(thei18n.api_link + '?teacher_code=' + user_code.value)
+              }
+
+              setTimeout(() => {
+                window.location = thei18n.home_link
+              }, 500);
+
             } else {
-
-            fetch(
-              thei18n.api_link + '?register=1',
-              {
-                method: "POST",
-                headers: {
-                  'Accept': 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataToPost)
-              }
-            )
-            .then(res => res.json())
-            .then(json => {
-
-              if (json == 'true') {
-
-                if (user_code) {
-                  fetch(thei18n.api_link + '?teacher_code=' + user_code.value)
-                }
-
-                setTimeout(() => {
-                  window.location = thei18n.home_link
-                }, 500);
-
-              } else {
-                setMessageBox(thei18n[json]);
-                e.target.innerHTML = previousHTML;
-              }
-
-            });
-
+              setMessageBox(thei18n[json]);
+              e.target.innerHTML = previousHTML;
             }
 
           });
+          
         });
 
       }
@@ -2081,25 +2094,21 @@ function Register(props) {
     e(
       'div',
       { className: 'col-md p-5' },
-      e('h1', { className: 'text-blue' }, thei18n.welcome + "!"),
+      e('h1', { className: 'text-blue mb-3' }, thei18n.welcome + "!"),
+      e(OAuthButtons),
+      e(
+        'div',
+        { className: 'divider my-3 text-font-title text-grey-darker' },
+        thei18n.or,
+      ),
       e(
         'div',
         { className: 'form-control mt-3 pop-animation animate'},
         e(
           'div',
-          { className: 'd-flex flex-row mb-3'},
-          e(
-            'div',
-            { className: 'form-floating d-flex flex-column w-50 me-3' },
-            e('input', { id: 'profile-firstname', name: 'user_first_name', type: "email", className: "input-firstname form-control", placeholder: 'John' }),
-            e('label', { for: 'profile-firstname' }, i18n.firstname),
-          ),
-          e(
-            'div',
-            { className: 'form-floating d-flex flex-column w-50' },
-            e('input', { id: 'profile-lastname', name: 'user_last_name', type: "email", className: "input-lastname form-control", placeholder: 'Doe' }),
-            e('label', { for: 'profile-lastname' }, i18n.lastname),
-          )
+          { className: 'form-floating mb-3' },
+          e('input', { id: 'profile-name', name: 'user_name', type: "text", className: "input-name form-control", placeholder: 'John' }),
+          e('label', { for: 'profile-name' }, i18n.firstname),
         ),
         e(
           'div',
@@ -2113,7 +2122,7 @@ function Register(props) {
             name: 'profile-password',
             type: 'password',
             label: thei18n.password,
-            checkbox_label: 'Usar senha'
+            checkbox_label: thei18n.use_password
           }
         ),
         e(
@@ -2122,7 +2131,7 @@ function Register(props) {
             name: 'profile-code',
             type: 'text',
             label: thei18n.teacher_code,
-            checkbox_label: 'Tenho um código de convite'
+            checkbox_label: thei18n.use_invite_code
           }
         ),
         e(
@@ -2131,7 +2140,8 @@ function Register(props) {
           ContinueButton
         ),
       ),
-      e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' })
+      e('div', { id: 'message-oauth', className: 'd-none mt-2 dialog-box info pop-animation animate' }, thei18n.oauth_user_notfound),
+      e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate' }),
     )
   ));
 }
@@ -2152,7 +2162,7 @@ class LoginForm extends React.Component {
 
     if (member && member.user_email) {
       this.emailField = member.user_email;
-      this.headerValue = thei18n.welcome + ' ' + member.user_name + '!';
+      this.headerValue = thei18n.welcome_back + ' ' + member.user_name + '!';
       this.membered = true;
     }
 
@@ -2258,10 +2268,14 @@ class LoginForm extends React.Component {
 
           }
         },
-        'Autenticar com email',
+        thei18n.email_auth_login,
         e('i', { className: 'bi bi-shield-lock ms-2' }),
       ),
-      e(OAuthButtons),
+      e(
+        'div',
+        { className: 'my-3'},
+        e(OAuthButtons),
+      ),
       e(
         'div',
         { className: 'divider my-3 text-font-title text-grey-darker' },
@@ -2272,7 +2286,7 @@ class LoginForm extends React.Component {
         {
           className: 'align-items-center d-flex flex-row mb-3 opacity-50',
           id: 'loginform-password-auth',
-          onClick: (event) => {
+          onClick: () => {
             document.getElementById('loginform-password-auth').classList.remove('opacity-50');
           }
         },
@@ -2362,7 +2376,7 @@ class OAuthButtons extends React.Component {
 
     return e(
       'div',
-      { className: 'd-none row oauth-signin g-2 my-2' },
+      { className: 'row oauth-signin g-2' },
       e(
         'div',
         { className: 'google-signin col-auto' },
@@ -2377,7 +2391,7 @@ class OAuthButtons extends React.Component {
           "data-type": "standard",
           "data-size": "large",
           "data-theme": "outline",
-          "data-text": "$ {button.text}",
+          "data-text": "${button.text}",
           "data-shape": "rectangular",
           "data-logo_alignment": "left",
         }),

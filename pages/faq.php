@@ -38,11 +38,11 @@ get_header();
       ?>
     </div>
 
-    <div class="dialog-box mt-5">
+    <div class="align-items-center d-flex flex-column mt-3">
 
       <div class="mb-3"><?php echo $gi18n['faq_help_lead'] ?></div>
 
-      <a class="btn-tall blue" href="<?php echo $gi18n['help_link'] ?>"><?php echo $gi18n['help'] ?></a>
+      <a class="btn-tall blue px-5" href="<?php echo $gi18n['help_link'] ?>"><?php echo $gi18n['help_form'] ?><i class="bi bi-chat-heart-fill ms-3"></i></a>
 
     </div>
 

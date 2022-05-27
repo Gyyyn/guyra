@@ -15,7 +15,7 @@ function Irregulars_WordListing_wordRow(props) {
   var rowExtraClass = '';
 
   if (props.inset) {
-    rowExtraClass = ' mt-1 ms-3'
+    rowExtraClass = ' mt-1 ms-5 text-ss'
   }
 
   return e(

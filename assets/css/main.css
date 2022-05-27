@@ -61,9 +61,9 @@
 
   --guyra-navbar-size: 3.5rem;
   --guyra-line-height-blog: 3rem;
-  --guyra-border-radius: calc(.25rem - 1px);
+  --guyra-border-radius: calc(.35rem - 1px);
   --guyra-border-radius-bigger: calc(var(--guyra-border-radius) * 5);
-  --guyra-border-size: calc(0.25rem + .05vw);
+  --guyra-border-size: calc(0.15rem + .05vw);
   --guyra-transition: all 0.15s cubic-bezier(1, 0, 0, 1);
 
   --sat: env(safe-area-inset-top);
@@ -444,7 +444,7 @@ input:checked + .slider:before {
   border-radius: var(--guyra-border-radius-bigger);
   color: var(--guyra-black);
   background-color: var(--guyra-white);
-  border: .25rem solid var(--guyra-grey);
+  border: 1px solid var(--guyra-grey);
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
 }
 

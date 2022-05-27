@@ -493,7 +493,7 @@ function DiaryControls(props) {
         className: 'btn-tall blue me-2',
         onClick: () => { openPayments(); }
       },
-      e('i', { className: "bi bi-wallet2 me-1" }),
+      e('i', { className: "bi bi-wallet2 me-2" }),
       i18n.payment
     ))
   } else {
@@ -544,7 +544,7 @@ function DiaryControls(props) {
 
         }
       },
-      e('i', { className: 'bi bi-file-earmark-spreadsheet me-1' }),
+      e('i', { className: 'bi bi-file-earmark-spreadsheet me-2' }),
       thei18n.export,
     )),
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
@@ -559,7 +559,7 @@ function DiaryControls(props) {
           setTimeout(() => { e.target.innerHTML = before; }, 1000)
         }
       },
-      e('i', { className: "bi bi-save me-1"}),
+      e('i', { className: "bi bi-save me-2"}),
       i18n.save
     ))
   );

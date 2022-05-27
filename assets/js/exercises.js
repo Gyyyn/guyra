@@ -3,6 +3,7 @@ import {
   Study_Topbar,
   GuyraGetData,
   thei18n,
+  theUserdata,
   LoadingPage,
   GoogleAd,
   randomNumber
@@ -895,8 +896,8 @@ class ReviewAnswers extends React.Component {
           'div',
           {className: "answers-review-card ".concat(x[3])},
           e('div', {className: "answers-review-question"}, x[0]),
-          e('div', {className: "answers-review-correct"}, "Resposta certa: ".concat(x[1])),
-          e('div', {className: "answers-review-answer"}, "Sua resposta: ".concat(x[2]))
+          e('div', {className: "answers-review-correct"}, thei18n.correctanswer + ": " + x[1]),
+          e('div', {className: "answers-review-answer"}, thei18n.you_had_answered + ": " + x[2])
         )
       })),
       e(returnToLevelMapButton)
@@ -930,7 +931,7 @@ function BuyMoreUnits(props) {
       e(
         'button',
         {
-          onClick: () => { window.location.href = i18n.shop_link },
+          onClick: () => { window.location.href = i18n.shop_link + '#progress' },
           className: 'btn-tall green mx-auto'
         },
         e('span', { className: 'me-2' }, i18n.go_to_shop),
@@ -1008,16 +1009,15 @@ function LevelChooser(props) {
         e(ExerciseContext.Consumer, null, ({gamedata}) => e(
           'div',
           {},
-          e('h3', {},  thei18n.welcome_back + '!'),
           e(
             'div',
             { className: 'mb-2'},
-            e('span', { className: 'me-2'}, thei18n.levels + ':'),
-            e('span', { className: 'fw-bold me-3' }, gamedata.level),
+            e('span', { className: 'me-2'}, thei18n.levels + ':', 
+            e('span', { className: 'ms-1 fw-bold' }, parseInt(theUserdata.gamedata.level))),
             e(
               'button',
               {
-                onClick: () => { window.location.href = thei18n.shop_link },
+                onClick: () => { window.location.href = thei18n.shop_link + '#progress' },
                 className: 'btn-tall btn-sm green'
               },
               e('span', { className: 'me-2' }, thei18n.buy_more_units),

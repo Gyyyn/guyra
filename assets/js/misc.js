@@ -145,34 +145,65 @@ function _setMessageBox(id, timeout=true) {
 
 }
 
+function GetCaptchaAndDo(action) {
+
+  return new Promise((resolve) => {
+
+    grecaptcha.ready(function() { grecaptcha.execute('6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt', {action: 'submit'}).then(function(token) {
+      resolve(action(token));
+    })});
+
+  });
+}
+
 function SendOAuthPayload(data) {
 
   var emailField = document.getElementById('profile-email');
+  var theApiLink = thei18n.api_link + '?oauth_login=1';
 
   if (!data.payload.email && emailField) {
     data.payload.email = emailField.value;
   }
-  
-  fetch(thei18n.api_link + '?oauth_login=1',
-  {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(res => res.json()).then(res => {
 
-    if (res == 'authorized') {
-      window.location.href = thei18n.home_link;
-      return;
-    }
+  if (window.location.hash == '#register') {
 
-    if (res == 'true') {
-      return true;
-    }
+    theApiLink = thei18n.api_link + '?register=1&oauth=1';
+    data.user_email = data.payload.email;
 
-    _setMessageBox('message-oauth');
+    var theName = data.payload.name;
+    theName = theName.split(' ');
+
+    data.user_firstname = theName.shift();
+    data.user_lastname = theName.join(' ');
+
+  }
+
+  GetCaptchaAndDo((token) => {
+
+    data.captcha = token;
+
+    fetch(theApiLink,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(res => res.json()).then(res => {
+    
+        if (res == 'authorized') {
+          window.location.href = thei18n.home_link;
+          return;
+        }
+    
+        if (res == 'true') {
+          return true;
+        }
+    
+        _setMessageBox('message-oauth');
+    
+      });
 
   });
 

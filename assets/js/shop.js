@@ -252,12 +252,11 @@ class Shop_ItemList extends React.Component {
       e(
         'div',
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
-        e('h3', { className: 'me-3' }, thei18n.categories + ': '),
-        e('button', { className: 'btn-tall blue mb-3 me-3', onClick: () => { this.setCatSearch('') } }, thei18n.everything),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('profile') } }, thei18n.avatars),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('flashcards') } }, thei18n.flashcards),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('progress') } }, thei18n.progress_packs),
-        e('button', { className: 'btn-tall mb-3 me-3', onClick: () => { this.setCatSearch('challenge') } }, thei18n.challenges),
+        e('button', { className: 'btn-tall blue mb-3 me-2', onClick: () => { this.setCatSearch('') } }, thei18n.everything),
+        e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('progress') } }, thei18n.units),
+        e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('flashcards') } }, thei18n.flashcards),
+        e('button', { className: 'btn-tall mb-3 me-2', onClick: () => { this.setCatSearch('challenge') } }, thei18n.challenges),
+        e('button', { className: 'btn-tall mb-3 me-2', onClick: () => { this.setCatSearch('profile') } }, thei18n.avatars),
       ),
       e(
         'div',
