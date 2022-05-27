@@ -20,7 +20,7 @@ include_once $template_dir . '/functions/Assets.php';
 <div class="position-fixed bottom-0 end-0 notepad-element">
   <div class="position-absolute opacity-0 pop-animation animate" id="notepad">
     <div id="notepad-header" class="position-absolute top-0 end-0 p-3" style="cursor: move;"><i class="bi bi-arrows-move"></i></div>
-    <textarea id="notepad-text" class="text-small" value=""></textarea>
+    <textarea id="notepad-text" class="text-n" value=""></textarea>
   </div>
 </div>
 
