@@ -3,6 +3,7 @@ import {
   Slider,
   GuyraGetData,
   thei18n,
+  theUserdata,
   LoadingPage,
   Guyra_InventoryItem,
   GuyraParseDate,
@@ -1785,7 +1786,14 @@ function WhoAmI(props) {
 }
 
 function AccountInfo_ranking(props) {
-  return e(AccountContext.Consumer, null, ({userdata, i18n}) => e(
+
+  var level = 0;
+
+  if(theUserdata.gamedata['level_total']) {
+    level = theUserdata.gamedata['level_total'];
+  }
+
+  return e(
     'div',
     { className: 'row my-3 text-small' },
     e(
@@ -1794,15 +1802,28 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue' },
-        i18n.level + ': ' + userdata.gamedata['level']
+        thei18n.coins + ': ',
+        e('img', { className: 'page-icon tiny me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' }),
+        theUserdata.gamedata['level']
       ),
-      e('p', {}, i18n.level_explain),
+      e('p', {}, thei18n.coins_explain),
       e(
         'p',
         {},
-        e('a', { href: i18n.practice_link }, i18n.practice_more),
+        e('a', { href: thei18n.faq_link + '#earn_points' }, thei18n.coins_questions)
+      ),
+      e(
+        'h2',
+        { className: 'text-blue' },
+        thei18n.level + ': ' + level
+      ),
+      e('p', {}, thei18n.level_explain),
+      e(
+        'p',
+        {},
+        e('a', { href: thei18n.practice_link }, thei18n.practice_more),
         e('span', {}, ' | '),
-        e('a', { href: i18n.level_question_link }, i18n.level_question)
+        e('a', { href: thei18n.faq_link + '#earn_points' }, thei18n.level_question)
       )
     ),
     e(
@@ -1811,7 +1832,7 @@ function AccountInfo_ranking(props) {
       e(
         'h2',
         { className: 'text-blue capitalize' },
-        i18n.ranking + ': ' + userdata.gamedata['ranking_name']
+        thei18n.ranking + ': ' + theUserdata.gamedata['ranking_name']
       ),
       e(
         'div',
@@ -1820,19 +1841,19 @@ function AccountInfo_ranking(props) {
           'img',
           {
             className: 'page-icon medium avatar bg-grey p-2',
-            alt: userdata.gamedata['ranking'],
-            src: thei18n.assets_link + 'icons/exercises/ranks/' + userdata.gamedata['ranking'] + '.png'
+            alt: theUserdata.gamedata['ranking'],
+            src: thei18n.assets_link + 'icons/exercises/ranks/' + theUserdata.gamedata['ranking'] + '.png'
           },
         )
       ),
       e(
         'div',
         { className: 'dialog-box'},
-        window.HTMLReactParser(i18n.ranking_explain),
-        e('a', { href: i18n.ranking_question_link }, i18n.ranking_question)
+        window.HTMLReactParser(thei18n.ranking_explain),
+        e('a', { href: thei18n.ranking_question_link }, thei18n.ranking_question)
       )
     )
-  ));
+  );
 }
 
 function AccountInfo_Inventory(props) {

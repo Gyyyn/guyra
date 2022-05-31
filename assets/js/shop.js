@@ -56,99 +56,114 @@ class Shop_ItemView extends React.Component {
         afterPurchaseBalance = 0;
       }
 
+      var buyButton = e(
+        'button',
+        {
+          className: 'btn-tall green',
+          onClick: (ev) => {
+  
+            var before = ev.target.innerHTML;
+            ev.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+  
+            var dataToPost = {
+              amount: this.props.price,
+              items: Object.keys(this.props.items)
+            }
+  
+            fetch(
+              thei18n.api_link + '?shop_transaction=1',
+              {
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToPost)
+              }
+            ).then(res => res.json())
+            .then(res => {
+              if (res == 'true') {
+  
+                // This doesn't update the balance and inventory for realsies, only for the current session.
+                userdata.gamedata.level = afterPurchaseBalance;
+                userdata.inventory = Object.keys(this.props.items).concat(userdata.inventory);
+  
+                // Drop the user back to the main page.
+                ev.target.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                document.getElementById('item-listing-icon').classList.add('itemAdd-animation', 'animate');
+  
+                // Force userdata update.
+                window.localStorage.removeItem('guyra_userdata');
+  
+                setTimeout(() => {
+                  setPage(e(Shop_wrapper));
+                }, 1300);
+  
+              } else {
+  
+                // Something went wrong.
+                ev.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+                ev.target.onclick = null;
+                ev.target.classList.add('disabled');
+                alert(i18n.something_went_wrong);
+                window.location.reload();
+  
+              }
+  
+            });
+  
+          }
+        },
+        i18n.buy,
+        e('i', { className: 'bi bi-bag-fill ms-2' })
+      );
+
       return e(
         'div',
-        { className: 'shop-item-wrapper justfade-animation animate' },
+        { className: 'shop-item-wrapper justfade-animation animate row' },
         e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze-big' } }),
         e(
           'div',
-          { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
+          { className: 'col-md-5 mt-3' },
           e(
             'div',
-            { className: 'welcome' },
-            e('h1', { className: 'mt-3' }, i18n._shop[this.props.id].name),
-          ),
-          e('img', { id: 'item-listing-icon', className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
-        ),
-        e(
-          'div',
-          { className: 'shop-item-description d-flex flex-column' },
-          e('h4', { className: 'mb-3' }, i18n._shop[this.props.id].description),
-          e(
-            'span',
-            { className: 'text-n d-flex flex-column'},
-            e('span', {}, i18n.price + ': ', e('span', { className: 'fw-bold' }, this.props.price + ' ' + i18n.levels)),
-            e('span', {}, i18n.balance_after_purchase + ': ' + afterPurchaseBalance + ' ' + i18n.levels)
-          ),
-        ),
-        e(
-          'div',
-          { className: 'shop-item-details d-flex flex-column mt-3' },
-          e('div', { className: 'dialog-box mb-3' }, i18n._shop[this.props.id].description_full),
-          e(
-            'div',
-            { className: 'my-3' },
+            { className: 'icon-title mb-3 d-flex flex-md-column justify-content-between align-items-center' },
             e(
-              'button',
-              {
-                className: 'btn-tall green w-100',
-                onClick: (ev) => {
-
-                  var before = ev.target.innerHTML;
-                  ev.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-                  var dataToPost = {
-                    amount: this.props.price,
-                    items: Object.keys(this.props.items)
-                  }
-
-                  fetch(
-                    thei18n.api_link + '?shop_transaction=1',
-                    {
-                      method: "POST",
-                      headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(dataToPost)
-                    }
-                  ).then(res => res.json())
-                  .then(res => {
-                    if (res == 'true') {
-
-                      // This doesn't update the balance and inventory for realsies, only for the current session.
-                      userdata.gamedata.level = afterPurchaseBalance;
-                      userdata.inventory = Object.keys(this.props.items).concat(userdata.inventory);
-
-                      // Drop the user back to the main page.
-                      ev.target.innerHTML = '<i class="bi bi-lock-fill"></i>';
-                      document.getElementById('item-listing-icon').classList.add('itemAdd-animation', 'animate');
-
-                      // Force userdata update.
-                      window.localStorage.removeItem('guyra_userdata');
-
-                      setTimeout(() => {
-                        setPage(e(Shop_wrapper));
-                      }, 1300);
-
-                    } else {
-
-                      // Something went wrong.
-                      ev.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
-                      ev.target.onclick = null;
-                      ev.target.classList.add('disabled');
-                      alert(i18n.something_went_wrong);
-                      window.location.reload();
-
-                    }
-
-                  });
-
-                }
-              },
-              i18n.buy_for + ' ' + this.props.price + ' ' + i18n.levels,
-              e('i', { className: 'bi bi-bag-fill ms-2' })
-            )
+              'div',
+              { className: 'welcome' },
+              e('h2', { className: '' }, i18n._shop[this.props.id].name),
+            ),
+            e('img', { id: 'item-listing-icon', className: 'page-icon', src: i18n.api_link + '?get_image=' + this.props.image + '&size=128' })
+          ),
+        ),
+        e(
+          'div',
+          { className: 'col-md' },
+          e(
+            'div',
+            { className: 'shop-item-description d-flex flex-column' },
+            e('h4', { className: 'mb-3' }, i18n._shop[this.props.id].description),
+            e(
+              'span',
+              { className: 'text-n d-flex flex-row justify-content-between'},
+              e(
+                'span', { className: 'text-x' },
+                e('img', { className: 'page-icon tiny me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' }),
+                e('span', { className: 'fw-bold me-2' }, this.props.price),
+              ),
+              e(
+                'span', { className: 'text-s mt-3' },
+                i18n.balance_after_purchase + ': ',
+                e('img', { className: 'page-icon tinier me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' }),
+                afterPurchaseBalance
+              )
+            ),
+          ),
+          e(
+            'div',
+            { className: 'shop-item-details d-flex flex-column mt-3' },
+            e('div', { className: 'dialog-box mb-3' }, i18n._shop[this.props.id].description_full),
+            buyButton
           )
         )
       );
@@ -321,29 +336,14 @@ function Shop_yourItems(props) {
 
     return e(
       'div',
-      { className: 'd-flex flex-column overpop-animation animate mb-3' },
-      e('h2', {}, thei18n.inventory),
-      e(
-        'div',
-        { className: 'balance d-flex flex-column' },
-        e(
-          'div',
-          { className: 'd-flex flex-row text-n mb-2' },
-          e('span', { className: 'me-1' }, i18n.levels + ': '),
-          e('span', { className: 'fw-bold' }, theUserdata.gamedata.level)
-        ),
-      ),
-      e(
-        'div',
-        { className: 'dialog-box d-flex flex-wrap align-items-center justify-content-start' },
-        userdata.inventory.map((item, i) => {
-          if (i <= 3) {
-            return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
-          } else if (i == 4) {
-            return e('button', { className: 'btn-tall green', onClick: () => { window.location.href = i18n.account_link } }, i18n.see_more);
-          }
-        })
-      )
+      { className: 'd-flex flex-wrap align-items-center justify-content-start overpop-animation animate mt-3' },
+      userdata.inventory.map((item, i) => {
+        if (i <= 3) {
+          return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+        } else if (i == 4) {
+          return e('button', { className: 'btn-tall green', onClick: () => { window.location.href = i18n.account_link } }, i18n.see_more);
+        }
+      })
     );
 
   });
@@ -394,17 +394,44 @@ class Shop_wrapper extends React.Component {
         { className: 'shop-wrapper justfade-animation animate' },
         e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
         e(
-          'button',
-          {
-            className: 'btn-tall btn-sm green mb-3 ' + inventoryButtonExtraClass,
-            onClick: () => {
-              this.toggleInventory();
-            }
-          },
-          this.state.inventoryButton + ' ' + thei18n.inventory,
-          e('i', { className: 'bi bi-box ms-2' })
+          'div',
+          { className: 'dialog-box' },
+          e(
+            'div',
+            { className: 'justify-content-between d-flex' },
+            e(
+              'span',
+              {},
+              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
+            ),
+            e(
+              'span',
+              { className: 'ms-2' },
+              e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm green ' + inventoryButtonExtraClass,
+                  onClick: () => {
+                    this.toggleInventory();
+                  }
+                },
+                this.state.inventoryButton + ' ' + thei18n.inventory,
+                e('i', { className: 'bi bi-box ms-2' })
+              ),
+              e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm green ms-2',
+                  onClick: () => { window.location.href = thei18n.faq_link + '#earn_points'} 
+                },
+                thei18n.get_more_coins,
+                e('img', { className: 'page-icon tinier ms-2', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' })
+              )
+            )
+          ),
+          this.state.inventoryListing
         ),
-        this.state.inventoryListing,
         e(Shop_ItemList, { shopObject: shopObject })
       ))
     ];

@@ -60,7 +60,7 @@ function DiaryInfo(props) {
     'div',
     { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row justfade-animation animate' },
     e('span', { className: 'col-3' }, i18n.date),
-    e('span', { className: 'col-1' }, i18n.status),
+    e('span', { className: 'col-2' }, i18n.status),
     e('span', { className: 'col' }, i18n.comment)
   ));
 }
@@ -192,7 +192,7 @@ class DiaryEntry extends React.Component {
     return e(
       'div',
       {
-        className: 'diary-entry row g-3 justfade-animation animate',
+        className: 'diary-entry row g-3 fade-animation animate',
         key: 'diary-entry-' + this.props.id
       },
       e(
@@ -216,7 +216,7 @@ class DiaryEntry extends React.Component {
         return e(
         'span',
         {
-          className: 'status badge ' + statusClass + ' col-1 d-flex text-smaller align-items-center justify-content-center',
+          className: 'status badge ' + statusClass + ' col-2',
           onClick: () => {
             if (this.props.entry.status == 'finished') {
               EditEntry(this.props.id, 'status', 'absent');
@@ -350,8 +350,12 @@ class DiaryPaginatedEntries extends React.Component {
       return this.state.entries.map((i) => {
 
         var returnElement = [];
+        var includePaginationButtons = false;
 
         if (this.props.mode == 'payment') {
+
+          if (diary.payments.length > this.entriesPerPage) {
+          includePaginationButtons = true; }
 
           var theEntry = diary.payments[diary.payments.length + i];
 
@@ -367,6 +371,9 @@ class DiaryPaginatedEntries extends React.Component {
 
         } else {
 
+          if (diary.entries.length > this.entriesPerPage) {
+          includePaginationButtons = true; }
+
           var theEntry = diary.entries[diary.entries.length + i];
 
           if (theEntry != undefined) {
@@ -379,7 +386,7 @@ class DiaryPaginatedEntries extends React.Component {
             returnElement.push(e(DiarySubmit));
           }
 
-          if (i === this.currentMinIndex) {
+          if (i === this.currentMinIndex && includePaginationButtons) {
             returnElement.push(this.paginationButtons);
           }
 
@@ -408,7 +415,7 @@ function DiaryEntries(props) {
     return e(
       'div',
       {
-        className: 'diary-entries px-2'
+        className: 'diary-entries'
       },
       e(DiaryPaginatedEntries, { entries: Object.values(theEntries) })
     );
@@ -424,13 +431,6 @@ function DiarySubmit(props) {
       'span',
       { className: 'col-3 text-grey-darker text-end'},
       GetStandardDate().split(' ')[0]
-    ),
-    e(
-      'span',
-      {
-        className: 'status badge bg-success col-1 d-flex text-smaller align-items-center justify-content-center',
-      },
-      'new'
     ),
     e(
       'span',
@@ -656,7 +656,7 @@ class PaymentAreaEntry extends React.Component {
       { className: 'col position-relative' },
       e(
         'span',
-        { className: 'badge bg-primary' },
+        { className: 'badge bg-primary ms-2' },
         diary.payments[this.props.index].due
       ),
       e(
@@ -700,7 +700,7 @@ class PaymentAreaEntry extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary}) => e(
       'div',
       {
-        className: 'diary-entry row g-3 justfade-animation animate'
+        className: 'diary-entry row g-0 fade-animation animate'
       },
       e(
         'span',
@@ -756,19 +756,12 @@ class PaymentArea extends React.Component {
         },
         e(
           'span',
-          { className: 'col-2 d-flex flex-row position-relative' },
+          { className: 'col-3 d-flex flex-row position-relative' },
           e(
             'input',
             { id: 'the-payment-value', className: 'form-control w-100', type: 'number', placeholder: 'Ex.: 100' }
           ),
           e('span', { for: 'the-payment-value', className: 'end-0 me-3 position-absolute top-50 translate-middle' }, 'R$'),
-        ),
-        e(
-          'span',
-          {
-            className: 'status badge bg-green col-2 d-flex text-smaller align-items-center justify-content-center',
-          },
-          'new'
         ),
         e(
           'span',
@@ -1509,6 +1502,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         { className: 'text-ss fw-bold text-grey-darkest mx-2' },
         '(',
         thei18n.level + ': ',
+        this.representativeUser.gamedata.level_total,
+        ' / ',
+        thei18n.coins + ': ',
         this.representativeUser.gamedata.level,
         ' / ',
         thei18n.last_login + ': ',
@@ -1613,7 +1609,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
           e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
           e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
-          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-ul'})),
+          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
           e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
         ),
       ),

@@ -284,6 +284,12 @@ page-icon.tiny > img {
   height: auto;
 }
 
+img.page-icon.tinier,
+page-icon.tinier > img {
+  max-width: 18px;
+  height: auto;
+}
+
 *.disabled {
   filter: saturate(0);
 }

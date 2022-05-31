@@ -92,10 +92,9 @@ function CheckSubscription($user_id=0) {
 
   }
 
-  // Case for Paypal (USA/Can Market)
-  if ($user_payments['processor_id'] == 'PP') {
-    // TODO: this
-  }
+  // Case for Paypal (NA/EU Market)
+  // if ($user_payments['processor_id'] == 'PP') {
+  // }
 
   return $active;
 

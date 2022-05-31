@@ -9,6 +9,8 @@ import {
   randomNumber
 } from '%template_url/assets/js/Common.js';
 
+const { useEffect } = React;
+
 function shuffleArray(a) {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
@@ -999,21 +1001,23 @@ function LevelChooserLevel(props) {
 
 function LevelChooser(props) {
 
-  return (
+  return [
     e(
       'div',
       { className: 'exercise-level-chooser' },
       e(
         'div',
         { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
-        e(ExerciseContext.Consumer, null, ({gamedata}) => e(
+        e(
           'div',
           {},
           e(
             'div',
             { className: 'mb-2'},
-            e('span', { className: 'me-2'}, thei18n.levels + ':', 
-            e('span', { className: 'ms-1 fw-bold' }, parseInt(theUserdata.gamedata.level))),
+            e('span', { className: 'me-3'},
+              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
+            ),
             e(
               'button',
               {
@@ -1024,7 +1028,7 @@ function LevelChooser(props) {
               e('span',{}, e('i', {className: 'bi bi-shop'}))
             )
           )
-        )),
+        ),
         e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
           'div',
           { className: 'd-flex flex-row'},
@@ -1130,7 +1134,7 @@ function LevelChooser(props) {
         e(GoogleAd)
       ),
     )
-  )
+  ]
 }
 
 /*
@@ -1454,16 +1458,33 @@ class ExerciseDone extends React.Component {
     }
 
     return [
-    e(ExerciseContext.Consumer, null, ({i18n, setPage, score, answers}) => e(
+    e(ExerciseContext.Consumer, null, ({i18n, setPage, answers}) => e(
       'div',
       {
         className: 'exercise-hints correct justfade-animation animate'
       },
       e('div', {className: 'd-flex align-items-center'},
-        e('h3', {className: 'exercise-hints-hint me-2'}, i18n.goodjob),
-        e('span', {className: 'exercise-hints-hint fw-bold me-2'}, i18n.yourscore.concat(score)),
-        e('span', {className: 'exercise-hints-hint me-2'}, 'Nível +' + levelsGained),
-        e('span', {className: 'exercise-hints-hint me-2'}, 'Elo ' + this.props.eloChange.toString()),
+        e('span', {className: 'exercise-hints-hint fw-bold text-x me-2'}, e(() => {
+
+          var scoreText = '😁';
+
+          if (this.props.score < 100) {
+            scoreText = '😄';
+          }
+
+          if (this.props.score < 60) {
+            scoreText = '😐';
+          }
+
+          if (this.props.score < 30) {
+            scoreText = '😭';
+          }
+
+          scoreText = scoreText + ' ' + this.props.score;
+
+          return thei18n.goodjob + ' ' + scoreText + '%';
+          
+        })),
       ),
       e('div', {className: 'd-flex align-items-center'},
         e(
@@ -1478,7 +1499,19 @@ class ExerciseDone extends React.Component {
           },
           i18n.review
         ),
-        e(returnToLevelMapButton)
+        e(
+          'button',
+          {
+            className: 'btn-tall blue',
+            onClick: () => {
+              setPage(e(Rewards, {
+                level: levelsGained,
+                elo: this.props.eloChange.toString()
+              }));
+            }
+          },
+          thei18n.get_rewards
+        )
       )
     )),
     e(
@@ -1489,6 +1522,111 @@ class ExerciseDone extends React.Component {
     this.state.review
     ];
   }
+
+}
+
+class Rewards extends React.Component {
+  constructor(props) {
+    super(props);
+
+    var getRewardsButton = e(
+      'button',
+      {
+        className: 'btn-tall green mt-5',
+        onClick: () => {
+
+          document.getElementById('chest-view').classList.add('animate', 'justfadeout-animation');
+
+          setTimeout(() => {
+            this.setState({
+              view: this.rewardsView,
+            });  
+          }, '500');
+
+        }
+      },
+      thei18n.get_rewards
+    );
+
+    this.chestView = e(
+      'div',
+      { className: 'd-flex flex-column align-items-center justify-content-center position-relative', id: 'chest-view' },
+      e('img', { className: 'page-icon large', src: thei18n.api_link + '?get_image=icons/treasure-chest.png&size=256' }),
+      e(
+        'span',
+        { className: 'position-absolute start-50 top-50 translate-middle' },
+        getRewardsButton
+      )
+    );
+
+    this.rewardsViewListing = (props) => {
+
+      useEffect(() => {
+
+        var timeout = 100;
+
+        if (props.timeout) {
+        timeout = props.timeout }
+        
+        setTimeout(() => {
+
+          var listing = document.getElementById(props.title + '-rewards-listing');
+          
+          listing.classList.remove('opacity-0');
+          listing.classList.add('slideleft-animation', 'animate');
+          
+        }, timeout);
+
+      });
+
+      return e(
+        'div',
+        { className: 'd-inline-block me-3 text-x dialog-box opacity-0', id: props.title + '-rewards-listing' },
+        e('span', { className: 'me-2' }, props.title),
+        props.value,
+      );
+
+    };
+
+    this.rewardsView = e(
+      'div',
+      { className: ''},
+      e(this.rewardsViewListing, {
+        title: e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+        value: this.props.level,
+        timeout: 150
+      }),
+      e(this.rewardsViewListing, {
+        title: 'Niveis: ',
+        value: this.props.level,
+        timeout: 300
+      }),
+      e(this.rewardsViewListing, {
+        title: 'Elo: ',
+        value: '+' + (this.props.elo * 100) + '%',
+        timeout: 500
+      }),
+      e(
+        'div',
+        { className: 'mt-3' },
+        e(returnToLevelMapButton)
+      )
+    )
+
+    this.state = {
+      view: this.chestView
+    }
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'text-center' },
+      this.state.view
+    );
+  }
+
 
 }
 

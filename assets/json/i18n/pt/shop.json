@@ -132,6 +132,12 @@
       "name": "Deck de cartas: Trabalho 1",
       "description": "Inclui palavras sobre trabalho.",
       "description_full": "Palavras de nivel básico."
+    },
+
+    "flashcards_food1": {
+      "name": "Deck de cartas: Alimentos 1",
+      "description": "Inclui palavras sobre comida.",
+      "description_full": "Palavras de nivel básico."
     }
 
   },
@@ -305,6 +311,11 @@
 
     "flashcards_jobs1": {
       "name": "Deck de cartas: Trabalho 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_food1": {
+      "name": "Deck de cartas: Alimentos 1",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     }
 

@@ -234,6 +234,31 @@
     { "front": "programmer", "back": "programador(a)" },
     { "front": "architect", "back": "arquiteta(o)" },
     { "front": "researcher", "back": "pesquisadora(o)" }
+  ],
+
+  "flashcards_food1": [
+    { "front": "meat", "back": "carne" },
+    { "front": "chicken", "back": "frango" },
+    { "front": "vegetarian", "back": "vegetariano" },
+    { "front": "salad", "back": "salada" },
+    { "front": "dressing", "back": "molho/tempero" },
+    { "front": "topping", "back": "cobertura" },
+    { "front": "pork", "back": "carne de porco" },
+    { "front": "mango", "back": "manga" },
+    { "front": "strawberry", "back": "morango" },
+    { "front": "lettuce", "back": "alface" },
+    { "front": "wheat", "back": "trigo" },
+    { "front": "bread", "back": "pão" },
+    { "front": "corn", "back": "milho" },
+    { "front": "shrimp", "back": "camarão" },
+    { "front": "fish", "back": "peixe" },
+    { "front": "rice", "back": "arroz" },
+    { "front": "beans", "back": "feijão" },
+    { "front": "cheese", "back": "queijo" },
+    { "front": "potato", "back": "batata" },
+    { "front": "tomato", "back": "tomate" },
+    { "front": "butter", "back": "manteiga" },
+    { "front": "pasta", "back": "macarrão" }
   ]
 
 }

@@ -289,6 +289,15 @@
     "items": {
       "flashcards_jobs1": {}
     }
+  },
+
+  "flashcards_food1": {
+    "price": "15",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_food1": {}
+    }
   }
 
 }

@@ -31,7 +31,6 @@ function DecideStartingPage() {
 
 // Both of these functions include a null first var, this is for
 // backwards compatability with the WP functions they were originally.
-// TODO: replace these
 function get_header($null=null, $_args=[]) {
 
   global $template_dir;

@@ -123,7 +123,7 @@ function _setMessageBox(id, timeout=true) {
 
   messageBox.classList.forEach((item) => {
     if (item == 'd-none') {
-      var isShowing = false;
+      isShowing = false;
     }
   });
 

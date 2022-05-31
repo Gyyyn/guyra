@@ -58,7 +58,7 @@ function Ranking_Wrapper(props) {
             list_item.first_name
           ),
           e('span', { className: 'me-3'}, e('i', { className: "bi bi-award-fill me-1" }), e('span', { className: 'fw-bold capitalize' }, list_item.user_ranking.ranking_name)),
-          e('span', { className: 'me-3' }, e('i', { className: "bi bi-bar-chart-fill me-1" }), e('span', {}, list_item.user_ranking.level)),
+          e('span', { className: 'me-3' }, e('i', { className: "bi bi-bar-chart-fill me-1" }), e('span', {}, list_item.user_ranking.level_total)),
         ),
         e(
           'div',

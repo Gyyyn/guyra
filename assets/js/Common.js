@@ -1141,17 +1141,13 @@ export class GoogleAd extends React.Component {
       (adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
       console.error("Guyra: Couldn't render Google Ads, " + e);
-    }
-
-    setTimeout(() => {
 
       var adIns = document.querySelector('ins.adsbygoogle');
 
       if (adIns.dataset.adStatus == 'unfilled') {
         adIns.remove();
       }
-
-    }, 5000);
+    }
 
   }
 
