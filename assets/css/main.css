@@ -5,16 +5,16 @@
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
   --guyra-blue-lightest: rgba(157, 219, 239, 1);
 
-  --guyra-purple: #7a63d5;
-  --guyra-purple-lighter: rgb(184 160 245);
+  --guyra-purple: #6c5ac7;
+  --guyra-purple-lighter: rgb(184, 161, 240);
   --guyra-purple-darker: rgb(80 33 202);
-  --guyra-purple-darkest: rgb(50 29 103);
+  --guyra-purple-darkest: rgb(81, 52, 156);
 
-  --guyra-green: #a9f13b;
-  --guyra-green-lighter: rgba(199, 255, 112, 1);
-  --guyra-green-lightest: rgba(219, 255, 164, 1);
-  --guyra-green-darker: rgba(121, 200, 0, 1);
-  --guyra-green-darkest: rgba(93, 154, 0, 1);
+  --guyra-green: #5EEB87;
+  --guyra-green-lighter: #7bf79e;
+  --guyra-green-lightest: #a5fdbe;
+  --guyra-green-darker: #41cc68;
+  --guyra-green-darkest: #1db448;
 
   --guyra-red: rgba(255, 35, 0, 1);
   --guyra-red-lighter: rgba(255, 131, 112, 1);

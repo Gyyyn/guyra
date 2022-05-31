@@ -179,7 +179,7 @@ class Shop_Item extends React.Component {
 
     return e(ShopContext.Consumer, null, ({i18n, setPage}) => e(
       'div',
-      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass, style: { maxWidth: '32%' } },
+      { className: 'shop-item card trans thin p-3 position-relative mb-2 me-2' + cardExtraClass },
       e(
         'div',
         { className: 'd-flex flex-row' },
@@ -359,6 +359,7 @@ class Shop_wrapper extends React.Component {
       inventoryOpen: false,
       inventoryButton: thei18n.open
     }
+
   }
 
   toggleInventory() {
@@ -380,6 +381,13 @@ class Shop_wrapper extends React.Component {
   }
   
   render() {
+
+    var inventoryButtonExtraClass = '';
+
+    if (theUserdata.inventory.length == 0) {
+      inventoryButtonExtraClass = 'd-none';
+    }
+
     return [
       e(ShopContext.Consumer, null, ({shopObject}) => e(
         'div',
@@ -388,7 +396,7 @@ class Shop_wrapper extends React.Component {
         e(
           'button',
           {
-            className: 'btn-tall btn-sm green mb-3',
+            className: 'btn-tall btn-sm green mb-3 ' + inventoryButtonExtraClass,
             onClick: () => {
               this.toggleInventory();
             }

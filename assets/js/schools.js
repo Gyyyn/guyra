@@ -1613,8 +1613,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
           e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
           e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
-          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'me-1 bi bi-list-ul'}), thei18n.replies),
-          e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'me-1 bi bi-toggles'}), thei18n.controls),
+          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-ul'})),
+          e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
         ),
       ),
       this.state.currentView

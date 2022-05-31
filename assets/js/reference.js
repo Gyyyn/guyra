@@ -231,12 +231,25 @@ function GrammaticalTime_ListingSection(props) {
   if (!thePronoun) { thePronoun = ''; }
 
   // Consonat + Vowel endings
-  if ( matchCons.test(theVerb[theVerb.length - 3]) && matchVowel.test(theVerb[theVerb.length - 2]) && matchCons.test(theVerb[theVerb.length - 1]) ) {
-    if (theVerb[theVerb.length - 1] != "x" && theVerb[theVerb.length - 1] != "y" && theVerb[theVerb.length - 1] != "w") {
+  if (
+    matchCons.test(theVerb[theVerb.length - 3]) &&
+    matchVowel.test(theVerb[theVerb.length - 2]) &&
+    matchCons.test(theVerb[theVerb.length - 1]) 
+  ) {
+
+    if (
+      theVerb[theVerb.length - 1] != "x" &&
+      theVerb[theVerb.length - 1] != "y" &&
+      theVerb[theVerb.length - 1] != "w" &&
+      theVerb[theVerb.length - 1] != "n"
+    ) {
+
       if (theVerb !== '') {
         theVerbModBase = theVerb.concat(theVerb[theVerb.length - 1]);
       }
+
     }
+
   }
 
   var theVerbEssed = theVerb;

@@ -1,3 +1,15 @@
 .shop-item .shop-item-details {
   max-width: 15rem;
 }
+
+.shop-item {
+  max-width: 47%;
+}
+
+@media (min-width: 768px) {
+
+  .shop-item {
+    max-width: 32%;
+  }
+
+}

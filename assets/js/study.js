@@ -11,7 +11,8 @@ import {
   randomNumber,
   RoundedBoxHeading,
   RenderReplies,
-  checkForTranslatables
+  checkForTranslatables,
+  GuyraParseDate
 } from '%template_url/assets/js/Common.js';
 import { Roadmap } from '%template_url/assets/js/roadmap.js';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js';
@@ -219,7 +220,7 @@ function UserHome_LessonCard(props) {
       e(RoundedBoxHeading, { icon: 'icons/light.png', value: thei18n.lessons }),
       e(
         'div',
-        { className: 'dialog-box' },
+        { className: 'dialog-box d-none' },
         e(
           'button',
           { className: 'btn-tall green' },
@@ -394,6 +395,74 @@ function UserHome_WelcomeCard(props) {
       )),
     ]);
 
+    var openPaymentsGreeting = (props) => {
+
+      if (!theUserdata || !theUserdata.user_diary || !theUserdata.user_diary.payments) {
+        return null;
+      }
+
+      var thePayments = [];
+
+      theUserdata.user_diary.payments.forEach((item) => {
+
+        var due = GuyraParseDate(item.due);
+        var now = new Date();
+
+        if (item.status == 'pending') {
+
+          var message = thei18n.bill_to_expire.replace('%v', item.value).replace('%d', due.toLocaleDateString());
+          var cardColor = 'blue';
+
+          if (due < now) {
+            message = thei18n.bill_expired.replace('%v', item.value);
+            cardColor = 'red';
+          }
+
+          thePayments.push(
+            e(
+              'div',
+              {
+                className: 'card px-2 trans col-md-5 me-2 mb-2 ' + cardColor,
+              },
+              e(
+                'div',
+                { className: 'col' },
+                e('i', { className: 'bi bi-info-circle-fill text-xx px-2'} ),
+              ),
+              e(
+                'div',
+                { className: 'col' },
+                message,
+                e(
+                  'div',
+                  { className: 'mt-2' },
+                  e(
+                    'button',
+                    {
+                      onClick: () => {
+                        window.location.href = thei18n.account_link;
+                      },
+                      className: 'btn-tall btn-sm green'
+                    },
+                    thei18n.see_bill
+                  )
+                )
+              )
+            )
+          );
+
+        }
+
+      });
+
+      return e(
+        'div',
+        { className: 'row g-0 mt-3' },
+        thePayments
+      );
+
+    }
+
     var WelcomeGreeting = e(
       'div',
       { className: 'welcome-greeting' },
@@ -402,6 +471,7 @@ function UserHome_WelcomeCard(props) {
         { className: 'dialog-box greeting' },
         e('h2', { className: 'mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
         e('div', {}, window.HTMLReactParser(randomGreeting)),
+        e(openPaymentsGreeting)
       ),
       e(
         'div',

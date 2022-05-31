@@ -1213,7 +1213,7 @@ export class PaymentItem extends React.Component {
         e(
           'span',
           { className: 'text-white text-ss ' + this.itemBadgeClass },
-          this.props.due
+          this.itemDue.toLocaleDateString()
         )
       ),
       e(
