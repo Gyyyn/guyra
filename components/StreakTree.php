@@ -69,6 +69,7 @@ function UserLoginUpdateStreakStatus($user_id) {
         $streak_info['last_logged_activity'] = $now;
 
         $gamedata['level'] += 1;
+        $gamedata['level_total'] += 1;
         $gamedata['challenges']['daily']['levels_completed'] += 1;
         PushNotification($notification_message);
 

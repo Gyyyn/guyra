@@ -1787,11 +1787,10 @@ function WhoAmI(props) {
 
 function AccountInfo_ranking(props) {
 
-  var level = 0;
+  var level = theUserdata.gamedata.raw.level_total;
 
-  if(theUserdata.gamedata['level_total']) {
-    level = theUserdata.gamedata['level_total'];
-  }
+  if(!level) {
+  level = 0; }
 
   return e(
     'div',

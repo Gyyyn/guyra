@@ -208,7 +208,7 @@ class Shop_Item extends React.Component {
           { className: 'd-flex flex-column shop-item-details' },
           e('h4', {}, i18n._shop[this.props.id].name),
           e('span', {}, i18n._shop[this.props.id].description),
-          e('span', { className: 'my-1 fw-bold text-n'}, this.props.price, e('span', { className: 'ms-1' }, i18n.levels)),
+          e('span', { className: 'my-1 fw-bold text-n'}, this.props.price, e('span', { className: 'ms-1' }, thei18n.coins)),
           e(
             'button',
             { className: 'btn-tall btn-sm green d-inline mt-3' + buyButtonExtraClass,
@@ -407,11 +407,11 @@ class Shop_wrapper extends React.Component {
             ),
             e(
               'span',
-              { className: 'ms-2' },
+              { className: 'text-end ms-2' },
               e(
                 'button',
                 {
-                  className: 'btn-tall btn-sm green ' + inventoryButtonExtraClass,
+                  className: 'btn-tall btn-sm green mb-2 mb-md-0 ' + inventoryButtonExtraClass,
                   onClick: () => {
                     this.toggleInventory();
                   }

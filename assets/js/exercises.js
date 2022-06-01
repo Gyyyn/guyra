@@ -1877,7 +1877,7 @@ export class Exercises extends React.Component {
         }
 
         fetch(
-          thei18n.api_link + 'api?log_exercise_data=1',
+          thei18n.api_link + '?log_exercise_data=1',
           {
             method: "POST",
             headers: {
@@ -1886,7 +1886,11 @@ export class Exercises extends React.Component {
             },
             body: JSON.stringify(dataToPost)
           }
-        );
+        ).then(res => res.json()).then(res => {
+          if (res != 'true') {
+            console.error('log exercise data failed');
+          }
+        });
 
         // Put user in the final page
         this.setState({

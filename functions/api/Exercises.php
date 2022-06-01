@@ -34,23 +34,21 @@ if ($_GET['log_exercise_data']) {
   $theData = json_decode($theDataJSON, true);
   $completed_units = $current_user_gamedata['completed_units'];
 
-  if (!is_array($completed_units)) {
-    $completed_units = [];
-  }
+  if (!is_array($completed_units))
+  $completed_units = [];
 
   $completed_units[] = $theData['unit'];
   $current_user_gamedata['completed_units'] = $completed_units;
   $current_user_gamedata['elo'] = $theData['elo'];
 
-  $levels_gained = 2;
+  $levels_gained = 1;
 
-  if ($theData['score'] == 100) {
-    $levels_gained = 5;
-  }
+  if ($theData['score'] == 100)
+  $levels_gained = 3;
 
   PushNotification($gi18n['notification_exercise_levelup']);
 
-  $newdata = Guyra_increase_user_level(0, $levels_gained, true);
+  $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
 
   $newdata['completed_units'] = json_encode($completed_units);
   $newdata['elo'] = $theData['elo'];

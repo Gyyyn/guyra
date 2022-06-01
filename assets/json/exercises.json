@@ -56,7 +56,10 @@
       ["We are students. Carla is from Argentina."],
       ["I'm from Miami, he is from Los Angeles."],
       ["Nice to meet you. I am Josh."],
-      ["I'm from Rio, my friend is from Los Angeles."]
+      ["I'm from Rio, my friend is from Los Angeles."],
+      ["Good morning, how are you doing?"],
+      ["Are you from here?"],
+      ["Where are you from?"]
     ]
 
   },
