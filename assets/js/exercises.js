@@ -1722,7 +1722,7 @@ export class Exercises extends React.Component {
         topbar: e(Study_Topbar, { userdata: this.state.userdata, practice_link: { onClick: null, classExtra: 'active' } })
       });
 
-      fetch(thei18n.api_link + '?json=levelmap')
+      fetch(thei18n.api_link + '?get_exercises=levelmap')
       .then(res => res.json())
       .then(json => {
         this.initialState.levelMap = json.levelmap;
@@ -2274,7 +2274,7 @@ export class Exercises extends React.Component {
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
     this.currentUnit = id;
 
-    fetch(thei18n.api_link + '?json=exercise&unit=' + id)
+    fetch(thei18n.api_link + '?get_exercises=exercise&unit=' + id)
     .then(res => res.json())
     .then(json => this.setExerciseObject(json));
 

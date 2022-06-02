@@ -137,12 +137,17 @@ if ($_GET['update_flashcards']) {
 
 }
 
-// TODO: Rename this something more descriptive of it's function.
-// Currently this works to get json for exercise.js
-if ($_GET['json']):
+if ($_GET['get_exercises']):
 
-  $masterJSON = json_decode(file_get_contents($template_dir . '/assets/json/exercises.json'), true);
-  $levelMap = json_decode(file_get_contents($template_dir . '/assets/json/levelmap.json'), true);
+  $exercisesJSONPath = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/exercises.json';
+  $exercisesJSON = json_decode(file_get_contents($exercisesJSONPath), true);
+
+  $levelMapPath = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/levelmap.json';
+  $levelMap = json_decode(file_get_contents($levelMapPath), true);
+
+  if (!$exercisesJSON || !$levelMap)
+  guyra_output_json('error_json_notfound');
+  
   $responseJSON = [];
   $unit = $_GET['unit'];
 
@@ -258,21 +263,21 @@ if ($_GET['json']):
     // But this is due for a change to a more dynamic system, so
     // TODO: refactor this
 
-    if (is_array($masterJSON[$unit]['CompleteThePhrase'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 3, $masterJSON));
+    if (is_array($exercisesJSON[$unit]['CompleteThePhrase'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 3, $exercisesJSON));
     }
 
-    if (is_array($masterJSON[$unit]['WhatYouHear'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $masterJSON));
+    if (is_array($exercisesJSON[$unit]['WhatYouHear'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $exercisesJSON));
     }
 
-    if (is_array($masterJSON[$unit]['Translate'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $masterJSON));
+    if (is_array($exercisesJSON[$unit]['Translate'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $exercisesJSON));
     }
 
   }
 
-  if ($_GET['json'] == 'levelmap') {
+  if ($_GET['get_exercises'] == 'levelmap') {
 
     foreach ($levelMap as &$level) {
       foreach ($level as &$unit) {

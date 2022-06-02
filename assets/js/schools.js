@@ -1641,7 +1641,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
       { className: 'squeeze-big schools rounded-box' },
       e(
         'div',
-        { className: 'mb-3' },
+        { className: 'mb-3 d-none' },
         e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: thei18n.schools }),
       ),
       e(GroupAdminHomeContext.Consumer, null, ({user_list}) => {

@@ -232,3 +232,17 @@ function GoogleOAuth(payload) {
   });
   
 }
+
+// Allow notepad disabling
+
+var localOptions = window.localStorage.getItem('guyra_options');
+
+if (typeof localOptions === 'string') {
+  localOptions = JSON.parse(localOptions); 
+} else {
+  localOptions = {}
+}
+
+if (localOptions.notepad_enabled != undefined && localOptions.notepad_enabled != true) {
+  document.getElementById('notepad-toggle').classList.add('d-none');
+}

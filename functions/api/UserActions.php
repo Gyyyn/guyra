@@ -14,6 +14,7 @@ global $site_api_url;
 global $is_logged_in;
 global $gi18n;
 global $gSettings;
+global $gLang;
 global $current_user_payments;
 global $current_user_subscription_valid;
 global $is_admin;
@@ -576,7 +577,8 @@ if ($_GET['get_courses']) {
     return $r;
   }
 
-  $coursesArray = json_decode(file_get_contents($template_dir . '/assets/json/courses.json'), true);
+  $coursesJSON = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/courses.json';
+  $coursesArray = json_decode(file_get_contents($coursesJSON), true);
 
   foreach ($coursesArray as &$current) {
     $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));
@@ -589,8 +591,17 @@ if ($_GET['get_courses']) {
 
 if ($_GET['translate']) {
 
+  $to = 'en';
+  $from = $gLang[0] . '-' . $gLang[1];
+
+  if ($_GET['to'])
+  $to = $_GET['to'];
+
+  if ($_GET['from'])
+  $from = $_GET['from'];
+
   $translation = $_GET['translate'];
-  $output = GetCloudTranslationFor($translation);
+  $output = GetCloudTranslationFor($translation, $to, $from);
 
   if ($output)
   guyra_output_json($output, true);

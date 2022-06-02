@@ -79,17 +79,14 @@ function GetTTSAudioFor($audioText) {
   return $audioPathURL;
 }
 
-function GetCloudTranslationFor($stringToTranslate) {
+function GetCloudTranslationFor($stringToTranslate, $targetLanguage='pt-BR', $sourceLanguage='en') {
 
   global $template_dir;
   global $template_url;
   global $gSettings;
 
-  $googleApiKey = $gSettings['google_api'];
-
-  $ext = '.json';
   $translationCacheLocation = '/cache/translations';
-  $translationCacheFile = $translationCacheLocation . '/GoogleCloudTranslate' . $ext;
+  $translationCacheFile = $translationCacheLocation . '/GoogleCloudTranslate.json';
 
   // Check if the directory already exists.
   if(!is_dir($template_dir . $translationCacheLocation)) {
@@ -108,14 +105,15 @@ function GetCloudTranslationFor($stringToTranslate) {
   // Only get a cloud translation if we don't have a cached translation available
   if (!isset($translations[$stringToTranslate])) {
 
-    $targetLanguage = 'pt-BR';
-
     $model = 'base';  // "base" for standard edition, "nmt" for premium
     $translate = new TranslateClient();
+
     $result = $translate->translate($stringToTranslate, [
         'target' => $targetLanguage,
+        'source' => $sourceLanguage,
         'model' => $model,
-        'key' => $googleApiKey
+        'key' => $gSettings['google_api'],
+        'format' => 'text'
     ]);
 
     $translations[$stringToTranslate] = $result['text'];

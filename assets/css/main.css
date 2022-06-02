@@ -581,7 +581,6 @@ input:checked + .slider:before {
 
   main {
     margin-top: calc(var(--guyra-navbar-size) * 1.5) !important;
-    margin-bottom: 5rem !important;
   }
 }
 
@@ -598,7 +597,7 @@ input:checked + .slider:before {
 
   .logged_in main {
     margin-top: 7rem !important;
-    margin-bottom: 5rem !important;
+    margin-bottom: 20rem !important;
   }
 }
 

@@ -708,7 +708,7 @@ export function Guyra_InventoryItem(props) {
 
   return e(
     'div',
-    { className: 'card trans flex-grow-1 me-3 mb-3', style: { minWidth: '10rem' } },
+    { className: 'card trans flex-grow-0 ms-3 mb-3', style: { minWidth: '10rem' } },
     e('h4', { className: 'text-n' }, props.title),
     imagePreview,
     e(

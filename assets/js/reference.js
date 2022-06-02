@@ -487,24 +487,50 @@ class GrammaticalTime extends React.Component {
           e(
             'span',
             { className: 'dialog-box info p-3 more-rounded' },
-            e('span', { className: 'me-2' }, i18n.pronoun),
-            e('input', { id: 'pronoun-input', type: 'text', value: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
+            e('div', { className: 'fw-bold me-2' }, i18n.pronoun),
+            e('input', { id: 'pronoun-input', className: 'w-25', type: 'text', value: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
           ),
           e(
             'span',
             { className: 'dialog-box info p-3 more-rounded' },
-            e('span', { className: 'me-2' }, i18n.verb),
-            e('input', { id: 'verb-input', type: 'text', value: this.state.verb, onChange: (e) => { this.setValues({ verb: e.target.value }); } })
+            e('div', { className: 'fw-bold me-2' }, i18n.verb),
+            e('input', { id: 'verb-input', className: 'w-50', type: 'text', value: this.state.verb, onChange: (e) => { this.setValues({ verb: e.target.value }); } }),
+            e(
+              'span',
+              { className: 'ms-3'},
+              e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm',
+                  onClick: () => {
+
+                    var input = document.getElementById('verb-input');
+
+                    fetch(thei18n.api_link + '?translate=' + input.value + '&to=en').then(res => res.json()).then(res => {
+
+                      var theWord = res;
+                      input.value = theWord;
+
+                      this.setValues({ verb: theWord })
+
+                    });
+
+                  }
+                },
+                'Traduzir',
+                e('i', { className: 'bi bi-translate ms-2' })
+              )
+            )
           ),
           e(
             'span',
-            { className: 'dialog-box p-3 more-rounded d-flex flex-row justify-content-center position-relative' },
+            { className: 'dialog-box p-3 more-rounded position-relative' },
             e(
               'span',
               { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' },
               thei18n.soon
             ),
-            e('span', { className: 'me-3' }, thei18n.practice_mode),
+            e('div', { className: 'fw-bold mb-2 me-3' }, thei18n.practice_mode),
             e(Slider, {
               checked: false,
               dom_id: 'practice_slider',
@@ -608,11 +634,9 @@ class Dictionary extends React.Component {
     } else {
 
     // Get a translation for this.
-    fetch(thei18n.api_link + '?translate=' + TheWord)
-    .then(res => res.json())
-    .then(res => {
+    fetch(thei18n.api_link + '?translate=' + TheWord + '&from=en&to=pt-BR')
+    .then(res => res.text()).then(res => {
 
-      // TODO: Optimize this.
       var translatables = document.querySelectorAll('.translatable + .gtooltip');
 
       translatables.forEach((item) => {

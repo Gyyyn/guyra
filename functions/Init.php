@@ -24,7 +24,7 @@ error_reporting(0);
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.3.8');
+define('GUYRA_VERSION', '0.3.9');
 
 // Setup some globals.
 $secondsForA = [
@@ -102,10 +102,6 @@ if ($gSettings['site_closed'] && !$is_admin) {
 	echo "</body>";
 	exit;
 }
-
-// Allow a language override.
-if ($_GET['lang'])
-$gLang = explode('-', $_GET['lang']);
 
 include_once $template_dir . '/components/i18n.php';
 

@@ -208,7 +208,12 @@ class Shop_Item extends React.Component {
           { className: 'd-flex flex-column shop-item-details' },
           e('h4', {}, i18n._shop[this.props.id].name),
           e('span', {}, i18n._shop[this.props.id].description),
-          e('span', { className: 'my-1 fw-bold text-n'}, this.props.price, e('span', { className: 'ms-1' }, thei18n.coins)),
+          e(
+            'span',
+            { className: 'my-1 fw-bold text-n'},
+            e('img', { className: 'page-icon tinier me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' }),
+            this.props.price,
+          ),
           e(
             'button',
             { className: 'btn-tall btn-sm green d-inline mt-3' + buyButtonExtraClass,

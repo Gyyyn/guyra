@@ -1289,6 +1289,57 @@ function AccountOptions_profileDetails(props) {
 
 }
 
+function AccountOptions_GeneralOptions(props) {
+
+  var getOptionsObject = () => {
+
+    var localOptions = window.localStorage.getItem('guyra_options');
+
+    if (typeof localOptions === 'string') {
+    localOptions = JSON.parse(localOptions); }
+
+    if (!localOptions) {
+    localOptions = {}; }
+
+    return localOptions;
+
+  }
+
+  var localOptions = getOptionsObject();
+
+  if(localOptions.notepad_enabled == undefined) {
+    localOptions.notepad_enabled = true;
+  }
+  
+  return [
+    e('h3', { className: 'text-blue' }, 'Geral'),
+    e(
+      'div',
+      { className: 'dialog-box' },
+      e(
+        Slider,
+        {
+          dom_id: 'notepad-checkbox',
+          checked: localOptions.notepad_enabled,
+          value: 'Habilitar bloco de notas',
+          onClick: () => {
+
+            localOptions = getOptionsObject();
+
+            var checkbox = document.getElementById('notepad-checkbox');
+            checkbox.checked = !checkbox.checked;
+
+            localOptions.notepad_enabled = checkbox.checked;
+
+            window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+
+          }
+        }
+      )
+    )
+  ];
+}
+
 function AccountOptions_accountDetails(props) {
   return  e(
     'div',
@@ -1404,6 +1455,7 @@ function AccountOptions_accountDetails(props) {
       )
     ),
     e(AccountOptions_privacyDetails),
+    e(AccountOptions_GeneralOptions),
     e(
       'div',
       { className: 'thirdparty-oauth-connect' },
@@ -1802,7 +1854,7 @@ function AccountInfo_ranking(props) {
         'h2',
         { className: 'text-blue' },
         thei18n.coins + ': ',
-        e('img', { className: 'page-icon tiny me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' }),
+        e('img', { className: 'page-icon tiny me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=64' }),
         theUserdata.gamedata['level']
       ),
       e('p', {}, thei18n.coins_explain),
@@ -1863,7 +1915,7 @@ function AccountInfo_Inventory(props) {
     e(Account_BackButton, { page: e(AccountWrapper) }),
     e(
       'div',
-      { className: 'd-flex flex-row justify-content-around flex-wrap py-3' },
+      { className: 'd-flex flex-row justify-content-between flex-wrap py-3' },
       e(AccountContext.Consumer, null, ({userdata, i18n}) => {
 
         var theInventory = userdata.inventory;
