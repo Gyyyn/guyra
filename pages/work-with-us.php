@@ -5,8 +5,7 @@ global $template_url;
 global $site_url;
 global $gi18n;
 
-get_header(null, ['css' => 'landing.css']);
-?>
+GetComponent('Header', ['css' => 'landing.css']); ?>
 
  <div class="cover bg-dark">
    <div class="cover-container container pt-3">
@@ -119,5 +118,4 @@ get_header(null, ['css' => 'landing.css']);
 
  </div>
 
- <?php
- get_footer(null, ['aos' => true]);
+<?php GetComponent('Footer', ['aos' => true]);

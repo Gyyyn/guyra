@@ -24,7 +24,7 @@ error_reporting(0);
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.3.9');
+define('GUYRA_VERSION', '0.3.10');
 
 // Setup some globals.
 $secondsForA = [
@@ -112,10 +112,6 @@ if ($is_logged_in) {
 
 	// Set up user object for authentication.
 	$current_user_object = build_user_object($current_user_id);
-
-	// if ($current_user_object['flags']['wp_migrated_user']) {
-	// 	// TODO: Create user ID migration.
-	// }
 
 	// Set up user data.
 	$current_user_data = guyra_get_user_data($current_user_id);

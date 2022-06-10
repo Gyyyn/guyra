@@ -283,26 +283,26 @@ if ($where_am_i == '') {
 
     <div class="d-flex w-100 justify-content-evenly">
 
-      <a class="btn-tall page-icon small home-link" href="<?php echo $gi18n['home_link'] ?>">
+      <a class="btn-tall animate fast page-icon small home-link" href="<?php echo $gi18n['home_link'] ?>">
         <img src="<?php echo GetImageCache($home_icon, 64); ?>">
         <span><?php echo $home_label; ?></span>
       </a>
 
       <?php if ($current_user_subscription_valid): ?>
 
-      <a class="btn-tall green page-icon small practice-link" href="<?php echo $gi18n['practice_link'] ?>">
+      <a class="btn-tall animate fast green page-icon small practice-link" href="<?php echo $gi18n['practice_link'] ?>">
         <img src="<?php echo GetImageCache('icons/target.png', 64); ?>">
         <span><?php echo $gi18n['practice'] ?></span>
       </a>
 
-      <a class="btn-tall page-icon small courses-link" href="<?php echo $gi18n['courses_link'] ?>">
+      <a class="btn-tall animate fast page-icon small courses-link" href="<?php echo $gi18n['courses_link'] ?>">
         <img src="<?php echo GetImageCache('icons/online-learning.png', 64); ?>">
         <span><?php echo $gi18n['courses'] ?></span>
       </a>
 
       <?php endif; ?>
 
-      <a style="<?php echo $account_button_style ?>" class="btn-tall page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
+      <a style="<?php echo $account_button_style ?>" class="btn-tall animate fast page-icon small profile-link" href="<?php echo $gi18n['account_link']; ?>">
         <img src="<?php echo GetImageCache('icons/profile.png', 64); ?>">
         <span><?php echo $account_label ?></span>
       </a>
@@ -320,7 +320,7 @@ if ($where_am_i == '') {
         <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'name_button' => false, 'offset' => '0,-20']); ?>
       </span>
     </div>
-    <div class="d-flex flex-row justify-content-evenly w-100 mt-2 mb-1">
+    <div class="d-flex flex-row justify-content-evenly w-100 mt-2">
       <a class="btn shop-link btn-mobile-header" href="<?php echo $gi18n['shop_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/exercises/shop.png', 64); ?>"></a>
       <a class="btn reference-link btn-mobile-header" href="<?php echo $gi18n['reference_link']; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/dictionary.png', 64); ?>"></a>
       <a class="btn meeting-link btn-mobile-header" href="<?php echo $gi18n['api_link'] . '?redirect_meeting=1'; ?>"><img alt="home" width="24" height="24" src="<?php echo GetImageCache('icons/video-camera.png', 64); ?>"></a>

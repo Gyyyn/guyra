@@ -174,7 +174,7 @@ function GuyraHandleFileUpload() {
 
     // check MIME
     $finfo = new finfo(FILEINFO_MIME_TYPE);
-    if (false === $ext = array_search(
+    if (false === array_search(
         $finfo->file($theFile['tmp_name']),
         array(
             'jpg' => 'image/jpeg',

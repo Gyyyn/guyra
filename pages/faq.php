@@ -5,8 +5,7 @@ global $gLang;
 
 $faqItems = json_decode(file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/faq.json'), true);
 
-get_header();
-?>
+GetComponent('Header'); ?>
 
 <main class="squeeze">
 
@@ -50,5 +49,4 @@ get_header();
 
 </main>
 
-<?php
-get_footer();
+<?php GetComponent('Footer');

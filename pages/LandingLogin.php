@@ -2,9 +2,7 @@
 
 global $gi18n;
 
-get_header(null, ['css' => 'landing.css']);
-
-?>
+GetComponent('Header', ['css' => 'landing.css']); ?>
 
 <div class="cover">
   <div class="cover-container pt-3">
@@ -19,5 +17,4 @@ get_header(null, ['css' => 'landing.css']);
   </div>
 </div>
 
-<?php
-get_footer();
+<?php GetComponent('Footer');

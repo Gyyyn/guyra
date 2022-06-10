@@ -2,13 +2,12 @@
 
 Guyra_Safeguard_Access(['paid_users' => true]);
 
-get_header();
-?>
+GetComponent('Header'); ?>
 
 <main>
 
   <div id="ranking-container"></div>
 
 </main>
-<?php
-get_footer(null, ['js' => 'Ranking.js', 'react' => true]);
+
+<?php GetComponent('Footer', ['js' => 'Ranking.js', 'react' => true]);

@@ -27,12 +27,21 @@
 
 .btn-mobile-header {
   color: var(--guyra-white);
-  box-shadow: var(--guyra-box-shadow-smaller);
-  border: 1px solid var(--guyra-blue-lighter);
+  /* box-shadow: var(--guyra-box-shadow-smaller); */
+  border-bottom: 2px solid var(--guyra-white);
+  border-radius: 0;
 }
 
 .btn-mobile-header:hover {
   box-shadow: var(--guyra-box-shadow-material);
+}
+
+.btn-mobile-header:active {
+  transform: scale(1.1);
+}
+
+.btn-mobile-header.active {
+  border-bottom-color: var(--guyra-green);
 }
 
 .btn-tall,

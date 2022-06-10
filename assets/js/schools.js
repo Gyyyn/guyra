@@ -426,7 +426,7 @@ function DiaryEntries(props) {
 function DiarySubmit(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'align-items-center animate bg-white diary-new-entry justfade-animation m-0 mt-3 more-rounded p-2 row' },
+    { className: 'align-items-center animate diary-new-entry justfade-animation m-0 mt-3 p-2 row' },
     e(
       'span',
       { className: 'col-3 text-grey-darker text-end'},
@@ -490,11 +490,11 @@ function DiaryControls(props) {
     var paymentsButton = e(DiaryContext.Consumer, null, ({openPayments, i18n}) => e(
       'button',
       {
-        className: 'btn-tall blue me-2',
+        className: 'btn-tall btn-sm blue me-2',
         onClick: () => { openPayments(); }
       },
       e('i', { className: "bi bi-wallet2 me-2" }),
-      i18n.payment
+      i18n.payments
     ))
   } else {
     var paymentsButton = e('i', {className: 'd-none'});
@@ -503,13 +503,13 @@ function DiaryControls(props) {
   return e(
     'div',
     {
-      className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-5'
+      className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-2'
     },
     paymentsButton,
     e(DiaryContext.Consumer, null, ({diary, name}) => e(
       'button',
       {
-        className: 'btn-tall green me-2',
+        className: 'btn-tall btn-sm me-2',
         onClick: () => {
 
           var exportString = [
@@ -550,7 +550,7 @@ function DiaryControls(props) {
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
       {
-        className: 'btn-tall green',
+        className: 'btn-tall btn-sm green',
         id: 'save-button',
         onClick: (e) => {
           saveDiary();
@@ -1558,7 +1558,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     this.setState({
       currentView: e(
         'div',
-        { className: 'justfade-animation animate page-view mt-3 position-relative'},
+        { className: 'justfade-animation animate page-view my-3 position-relative'},
         e(
           'span',
           { className: 'close-button position-absolute top-0 end-0', style: { zIndex: 1 } },
@@ -1583,7 +1583,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   }
 
   render() {
-    return e(
+    return [
+    e(
       'div',
       { className: 'd-flex flex-column mb-2 dialog-box', id: 'user_' + this.listingName },
       e(
@@ -1613,8 +1614,10 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
         ),
       ),
-      this.state.currentView
-    );
+    ),
+    this.state.currentView
+    ];
+
   }
 }
 
@@ -1664,7 +1667,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         return e(
           'div',
           { className: 'd-flex flex-column mb-3' },
-          e('h3', { className: 'text-grey-darker mb-2' }, thei18n.your_students),
+          e('h2', { className: 'text-grey-darker mb-2' }, thei18n.your_students),
           Object.values(user_list).map((user) => {
 
             if (user.userdata.studygroup) {

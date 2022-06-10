@@ -2,8 +2,7 @@
 
 Guyra_Safeguard_Access();
 
-get_header();
-?>
+GetComponent('Header'); ?>
 
 <main id="intro-content" class="site-main page squeeze">
 
@@ -15,5 +14,4 @@ get_header();
 
 </main>
 
-<?php
-get_footer(null, ['js' => 'Help.js', 'react' => true]);
+<?php GetComponent('Footer', ['js' => 'Help.js', 'react' => true]);

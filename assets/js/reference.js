@@ -218,6 +218,14 @@ function GrammaticalTime_ListingSection_item(props) {
 function GrammaticalTime_ListingSection(props) {
 
   var theVerb = props.verb;
+  var twoParts = false;
+  var theVerbSplit = theVerb.split(' ');
+
+  if (theVerbSplit.length > 1) {
+    twoParts = true;
+    theVerb = theVerbSplit[0];
+  }
+
   var theVerbModBase = theVerb;
   var thePronoun = props.pronoun;
 
@@ -292,7 +300,7 @@ function GrammaticalTime_ListingSection(props) {
       theSubmeanings = item.submeanings;
     }
 
-    if (item.word.present == props.verb) {
+    if (item.word.present == theVerb) {
 
       if (Array.isArray(item.word.past)) {
         theVerbPast = item.word.past[0];
@@ -316,7 +324,7 @@ function GrammaticalTime_ListingSection(props) {
     }
 
     theSubmeanings.forEach((item, i) => {
-      if (item[0] == props.verb) {
+      if (item[0] == theVerb) {
 
         if (Array.isArray(item[1])) {
           theVerbPast = item[1][0];
@@ -364,6 +372,13 @@ function GrammaticalTime_ListingSection(props) {
 
     } else {
       theVerbEssed = theVerb;
+    }
+
+    // Rejoin the second part if it exists.
+    if (twoParts) {
+      theVerbEssed = theVerbEssed + ' ' + theVerbSplit[1];
+      theVerbPast = theVerbPast + ' ' + theVerbSplit[1];
+      theVerb = theVerb + ' ' + theVerbSplit[1];
     }
 
     items = [

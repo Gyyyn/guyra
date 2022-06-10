@@ -1,10 +1,5 @@
-<?php
-
-get_header(null, ['css' => 'schools.css']);
-
-?>
+<?php GetComponent('Header', ['css' => 'schools.css']); ?>
 
 <div id="groupadmin-home"></div>
 
-<?php
-get_footer(null, ['react' => true, 'easymde' => true, 'js' => 'schools.js']);
+<?php GetComponent('Footer', ['react' => true, 'easymde' => true, 'js' => 'schools.js']);

@@ -1022,7 +1022,7 @@ function LevelChooser(props) {
               'button',
               {
                 onClick: () => { window.location.href = thei18n.shop_link + '#progress' },
-                className: 'btn-tall btn-sm green'
+                className: 'btn-tall green'
               },
               e('span', { className: 'me-2' }, thei18n.buy_more_units),
               e('span',{}, e('i', {className: 'bi bi-shop'}))

@@ -2,10 +2,8 @@
 
 Guyra_Safeguard_Access(['paid_users' => true]);
 
-get_header(null, ['css' => 'reference.css']);
-?>
+GetComponent('Header', ['css' => 'reference.css']); ?>
 
 <div id="reference-container"></div>
 
-<?php
-get_footer(null, ['js' => 'reference.js', 'react' => true]);
+<?php GetComponent('Footer', ['js' => 'reference.js', 'react' => true]);

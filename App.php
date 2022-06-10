@@ -29,27 +29,20 @@ function DecideStartingPage() {
 
 }
 
-// Both of these functions include a null first var, this is for
-// backwards compatability with the WP functions they were originally.
-function get_header($null=null, $_args=[]) {
-
+function GetComponent($component, $_args=[]) {
+  
   global $template_dir;
   global $args;
 
-  $args = $_args;
+  $component_file = $template_dir . '/components/' . $component . '.php';
 
-  include_once $template_dir . '/components/Header.php';
+  if (file_exists($component_file)) {
 
-}
+    $args = $_args;
 
-function get_footer($null=null, $_args=[]) {
+    include_once $component_file;
 
-  global $template_dir;
-  global $args;
-
-  $args = $_args;
-
-  include_once $template_dir . '/components/Footer.php';
+  }
 
 }
 

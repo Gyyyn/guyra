@@ -6,8 +6,7 @@ global $gi18n;
 
 include_once $template_dir . '/functions/Assets.php';
 
-get_header(null, ['css' => 'landing.css']);
- ?>
+GetComponent('Header', ['css' => 'landing.css']); ?>
 
 <div class="cover">
   <div class="cover-container">
@@ -236,5 +235,4 @@ get_header(null, ['css' => 'landing.css']);
 
 <hr class="thick squeeze my-5">
 
-<?php
-get_footer(null, ['aos' => true, 'js' => 'Landing.js']);
+<?php GetComponent('Footer', ['aos' => true, 'js' => 'Landing.js']);

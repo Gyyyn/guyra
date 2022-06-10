@@ -1,7 +1,6 @@
 <?php
 
-get_header();
-?>
+GetComponent('Header'); ?>
 
 <main class="squeeze">
 
@@ -14,5 +13,4 @@ get_header();
 
 </main>
 
-<?php
-get_footer();
+<?php GetComponent('Footer');

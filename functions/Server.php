@@ -46,6 +46,8 @@ function HandleServerError($err, $res_code=500) {
 	if ($err['message'])
 	$message = $err['message'];
 
+  guyra_log_to_file($err['err']);
+
   GuyraDisplayErrorPage($res_code, $message);
 
 	exit;

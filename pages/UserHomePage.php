@@ -2,9 +2,8 @@
 
 Guyra_Safeguard_Access();
 
-get_header();
+GetComponent('Header'); ?>
 
-?>
 <div id="user-home"></div>
-<?php
-get_footer(null, ['js' => 'study.js', 'easymde' => true, 'react' => true]);
+
+<?php GetComponent('Footer', ['js' => 'study.js', 'easymde' => true, 'react' => true]);

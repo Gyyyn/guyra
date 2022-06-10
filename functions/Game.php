@@ -141,8 +141,6 @@ function AddGameChallenge($data) {
   $challengeNames = array_keys($data);
   
   foreach ($challengeNames as $challengeId) {
-
-    // TODO: Allow multiple of the same challenge maybe?
     
     $gamedata['challenges'][$challengeId] = $data[$challengeId];
 

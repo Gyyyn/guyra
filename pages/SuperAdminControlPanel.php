@@ -13,9 +13,7 @@ exit;
 
 include_once $template_dir . '/functions/Assets.php';
 
-get_header(null, ['css' => 'admin.css']);
-
-?>
+GetComponent('Header', ['css' => 'admin.css']); ?>
 
 <main class="page squeeze" id="admin"><div class="page-squeeze rounded-box">
 
@@ -264,5 +262,4 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
 </main></div>
 
-<?php
-get_footer();
+<?php GetComponent('Footer');
