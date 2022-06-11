@@ -342,7 +342,7 @@ function UserHome_WelcomeCard(props) {
               ], 2);
             },
             value: [
-              e('i', { className: 'bi bi-book' }),
+              e('img', { src: thei18n.api_link + '?get_image=icons/light.png&size=32' }),
               thei18n.homework
             ]
           },
@@ -359,7 +359,7 @@ function UserHome_WelcomeCard(props) {
             window.location.href = thei18n.practice_link;
           },
           value: [
-            e('i', { className: 'bi bi-bullseye' }),
+            e('img', { src: thei18n.api_link + '?get_image=icons/target.png&size=32' }),
             thei18n.practice
           ],
           color: 'green'
@@ -374,7 +374,7 @@ function UserHome_WelcomeCard(props) {
             ], 2);
           },
           value: [
-            e('i', { className: 'bi bi-card-heading' }),
+            e('img', { src: thei18n.api_link + '?get_image=icons/card.png&size=32' }),
             thei18n.flashcards
           ]
         },
@@ -388,7 +388,7 @@ function UserHome_WelcomeCard(props) {
             ], 2);
           },
           value: [
-            e('i', { className: 'bi bi-map' }),
+            e('img', { src: thei18n.api_link + '?get_image=icons/hill.png&size=32' }),
             thei18n.roadmap
           ]
         },

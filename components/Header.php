@@ -55,6 +55,7 @@ function RenderAccountDropdown($args=[]) {
 
   global $current_user_data;
   global $gi18n;
+  global $is_admin;
 
   $nameButtonClass = 'btn-tall btn-sm text-small text-primary me-2';
 
@@ -81,6 +82,14 @@ function RenderAccountDropdown($args=[]) {
           <?php echo $gi18n['configs'] ?>
         </a>
       </li>
+      <?php if ($is_admin): ?>
+      <li>
+        <a class="dropdown-item" href="<?php echo $gi18n['guyra_admin_link']; ?>">
+        <i class="bi bi-layers-half me-2 text-x"></i>
+        Admin Panel
+        </a>
+      </li>
+      <?php endif; ?>
       <li>
         <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item" href="<?php echo $gi18n['logout_link']; ?>">
           <img class="page-icon tiny me-1" src="<?php echo GetImageCache('icons/logout.png', 64); ?>">

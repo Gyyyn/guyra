@@ -221,9 +221,16 @@ function GrammaticalTime_ListingSection(props) {
   var twoParts = false;
   var theVerbSplit = theVerb.split(' ');
 
+  if (theVerbSplit[0] == 'to') {
+    theVerbSplit.shift();
+    theVerb = theVerbSplit[0];
+  }
+
   if (theVerbSplit.length > 1) {
+
     twoParts = true;
     theVerb = theVerbSplit[0];
+
   }
 
   var theVerbModBase = theVerb;
@@ -342,6 +349,14 @@ function GrammaticalTime_ListingSection(props) {
     });
 
   });
+
+  // Unlisted Irregulars
+
+  if (theVerb == 'lie') {
+    theVerbModBase = 'ly';
+  }
+
+  // Pronouns
 
   if(thePronoun == "he" || thePronoun == "she" || thePronoun == "it") {
     theAuxBe = "is";
