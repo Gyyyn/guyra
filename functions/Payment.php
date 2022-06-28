@@ -99,3 +99,48 @@ function CheckSubscription($user_id=0) {
   return $active;
 
 }
+
+
+function IsSubscriptionValid($user_id, $data=false) {
+
+  global $secondsForA;
+
+  if (is_array($data)) {
+    
+    $user_payments = $data['payment'];
+    $user_diary = $data['diary'];
+
+  } else {
+    
+    $user_payments = guyra_get_user_data($user_id, 'payment');
+    $user_diary = guyra_get_user_data($user_id, 'diary');
+
+  }
+
+  $return = false;
+
+  // Allow payed users to access the site.
+  if ($user_payments['status'] == 'approved')
+  $return = true;
+  
+  // Allow payment through direct payment
+  if (is_array($user_diary) && $user_diary['payments']) {
+
+    $latest_item = end($user_diary['payments']);
+    $secondtolast_item = prev($user_diary['payments']);
+
+    if ($latest_item['status'] != 'ok' && $secondtolast_item['status'] == 'ok')
+    $latest_item = $secondtolast_item;
+
+    $latest_item_due_unix = strtotime($latest_item['due']);
+    $payment_grace_period = $latest_item_due_unix + ($secondsForA['day'] * 40) > time();
+
+    // Allow if the latest oked payment is less than a month ago.
+    if ( $latest_item['status'] == 'ok' && $payment_grace_period )
+    $return = true;
+
+  }
+
+  return $return;
+
+}

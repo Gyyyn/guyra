@@ -1014,12 +1014,6 @@ class Diary extends React.Component {
       e(
         DiaryContext.Provider,
         {value: this.state},
-        e(
-          'h2',
-          { className: 'mb-3' },
-          this.state.i18n.diary_for + ' ',
-          e('span', { className: 'badge bg-primary rounded' }, this.state.name)
-        ),
         this.state.page
       )
     );
@@ -1437,6 +1431,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingName = this.props.groupName;
       this.listingGrouptag = this.props.groupName;
       this.listingDiaryUserId = theUserdata.id;
+      this.listingSubscriptionValid = true;
 
       // Assign a user as the user for this listing.
       // It doesn't matter what user we choose since all actions will apply to
@@ -1477,6 +1472,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingGrouptag = this.representativeUser.userdata.studygroup;
       this.listingDiaryUserId = this.representativeUser.id;
       this.listingUserId = this.representativeUser.id;
+      this.listingSubscriptionValid = this.representativeUser.user_subscription_valid;
 
       this.groupUsers = null;
 
@@ -1583,10 +1579,17 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   }
 
   render() {
+
+    var dialogBoxExtraClass = '';
+
+    if (!this.listingSubscriptionValid) {
+      dialogBoxExtraClass = ' border-danger border-top';
+    }
+
     return [
     e(
       'div',
-      { className: 'd-flex flex-column mb-2 dialog-box', id: 'user_' + this.listingName },
+      { className: 'd-flex flex-column mb-2 dialog-box' + dialogBoxExtraClass, id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'control-area d-flex flex-column flex-md-row justify-content-between align-items-center' },

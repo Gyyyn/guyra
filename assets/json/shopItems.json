@@ -2,9 +2,46 @@
 
   "jackpot": {
     "price": "5",
+    "avatar_pride": {
+      "location": "icons/avatars/pride.png"
+    },
     "image": "icons/jackpot-machine.png",
     "items": {"jackpot": {}},
     "pin": true
+  },
+
+  "profile_pride": {
+    "price": "1",
+    "image": "icons/rainbow.png",
+    "items": {
+      "avatar_pride": {
+        "location": "icons/avatars/pride.png"
+      },
+      "avatar_cake": {
+        "location": "icons/avatars/cake.png"
+      },
+      "avatar_cottoncandy": {
+        "location": "icons/avatars/cottoncandy.png"
+      },
+      "avatar_cupcake": {
+        "location": "icons/avatars/cupcake.png"
+      },
+      "avatar_sandwich": {
+        "location": "icons/avatars/sandwich.png"
+      },
+      "avatar_mint": {
+        "location": "icons/avatars/mint.png"
+      },
+      "avatar_strawberry": {
+        "location": "icons/avatars/strawberry.png"
+      },
+      "avatar_sunset": {
+        "location": "icons/avatars/sunset.png"
+      },
+      "avatar_milkshake": {
+        "location": "icons/avatars/milkshake.png"
+      }
+    }
   },
 
   "profile_pack1": {

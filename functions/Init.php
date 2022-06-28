@@ -184,11 +184,28 @@ $is_tester = ($current_user_data['role'] == 'tester');
 if ($is_admin && $_GET['show_errors'])
 error_reporting(E_ALL);
 
-// Allow payed users to access the site.
-if ($current_user_payments['status'] == 'approved')
-$current_user_subscription_valid = true;
-
 include_once $template_dir . '/functions/Payment.php';
+
+$current_user_subscription_valid = IsSubscriptionValid($current_user_id);
+
+// Handle trial accounts and non-payed access.
+if (!$current_user_subscription_valid) {
+    $date_user_registered = strtotime($current_user_data['user_registered']);
+    $now = time();
+
+    // Users newer than a month old are considered trial users.
+    if (($date_user_registered + $secondsForA['month']) > $now) {
+      $current_user_subscription_valid = true;
+      $current_user_payments['status'] = 'trial';
+      $current_user_payments['days_left'] = ($now - $date_user_registered) / $secondsForA['day'];
+      $current_user_payments['days_left'] = round($current_user_payments['days_left']);
+    }
+
+    // Remove the need for admins and testers to adquire a subscription.
+    if ($is_admin || $is_GroupAdmin || $is_tester)
+    $current_user_subscription_valid = true;
+
+  }
 
 // If payment was determined valid we need to check it every once in a while.
 if ($current_user_subscription_valid) {
@@ -208,44 +225,6 @@ if ($current_user_subscription_valid) {
 		guyra_update_user_data($current_user_id, 'last_check', $now, 'payment');
 
 	}
-
-}
-
-// Allow payment through direct payment
-if ($current_user_diary['payments'] && is_array($current_user_diary)) {
-
-	$latest_item = end($current_user_diary['payments']);
-	$secondtolast_item = prev($current_user_diary['payments']);
-
-	if ($latest_item['status'] != 'ok' && $secondtolast_item['status'] == 'ok')
-	$latest_item = $secondtolast_item;
-
-	$latest_item_due_unix = strtotime($latest_item['due']);
-	$payment_grace_period = $latest_item_due_unix + ($secondsForA['day'] * 40) > time();
-
-	// Allow if the latest oked payment is less than a month ago.
-	if ( $latest_item['status'] == 'ok' && $payment_grace_period ) {
-		$current_user_subscription_valid = true;
-	}
-
-}
-
-// Handle trial accounts and non-payed access.
-if (!$current_user_subscription_valid) {
-	$date_user_registered = strtotime($current_user_data['user_registered']);
-	$now = time();
-
-	// Users newer than a month old are considered trial users.
-	if (($date_user_registered + $secondsForA['month']) > $now) {
-		$current_user_subscription_valid = true;
-		$current_user_payments['status'] = 'trial';
-		$current_user_payments['days_left'] = ($now - $date_user_registered) / $secondsForA['day'];
-		$current_user_payments['days_left'] = round($current_user_payments['days_left']);
-	}
-
-	// Remove the need for admins and testers to adquire a subscription.
-	if ($is_admin || $is_GroupAdmin || $is_tester)
-	$current_user_subscription_valid = true;
 
 }
 

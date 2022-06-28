@@ -221,8 +221,7 @@ if ($where_am_i == '') {
     <div class="navbar-brand d-flex me-3">
       <a class="text-decoration-none" href="<?php echo $gi18n['home_link'] ?>">
         <span class="navbar-center-title">
-          <?php /* <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo $gi18n['title_img']; ?>" /> */ ?>
-          <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo GetImageCache('img/birdlogo_ver1.6-logotext-rainbow.png', ['x' => 55, 'y' => 15]); ?>" />
+          <img class="mb-1" alt="Guyra" width="55" height="15" src="<?php echo $gi18n['title_img']; ?>" />
         </span>
       </a>
     </div>
@@ -248,7 +247,7 @@ if ($where_am_i == '') {
         <?php else: ?>
 
         <li class="nav-item me-2">
-          <a class="btn-tall btn-sm purple" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
+          <a class="btn-tall btn-sm green" href="<?php echo $gi18n['home_link']; ?>"><?php echo $gi18n['study']; ?></a>
         </li>
 
         <li class="nav-item me-2">
@@ -288,6 +287,7 @@ if ($where_am_i == '') {
 
   </nav>
 
+  <?php if ($is_logged_in): ?>
   <nav class="navbar navbar-light fixed-bottom d-block d-lg-none">
 
     <div class="d-flex w-100 justify-content-evenly">
@@ -320,11 +320,10 @@ if ($where_am_i == '') {
 
   </nav>
 
-  <?php if ($is_logged_in): ?>
   <div class="mobile-top-header d-flex flex-column d-lg-none justify-content-center align-items-center w-100 text-s fw-bold position-fixed top-0 start-0 pb-0">
     <div class="d-flex flex-row justify-content-center align-items-center">
       <span class="position-absolute start-0"><button class="btn text-white" type="button" name="button" id="mobile-header-back"><i class="bi bi-chevron-left"></i></button></span>
-      <span class="capitalize"><?php echo ucfirst($page_Title) ?>🌈</span>
+      <span class="capitalize"><?php echo ucfirst($page_Title) ?></span>
       <span class="page-icon tiny position-absolute end-0">
         <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'name_button' => false, 'offset' => '0,-20']); ?>
       </span>

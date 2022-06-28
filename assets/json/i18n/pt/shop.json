@@ -44,6 +44,12 @@
       "description_full": "Inclui 5 avatares temáticos de Cyberpunk."
     },
 
+    "profile_pride": {
+      "name": "Pacote de perfil: Pride",
+      "description": "Rainbow all the time.",
+      "description_full": "Não é só em Junho."
+    },
+
     "progress_pack1": {
       "name": "Pacote de progressão 1",
       "description": "Destrave novos exercícios!",
@@ -270,6 +276,43 @@
     "avatar_cyberpunk5": {
       "name": "Avatar: Gato Cyberpunk",
       "preview": "%site_url/api/?get_image=icons/avatars/cyberpunk5.png&size=64"
+    },
+
+    "avatar_pride": {
+      "name": "Avatar: Pride",
+      "preview": "%site_url/api/?get_image=icons/avatars/pride.png&size=64"
+    },
+    "avatar_cake": {
+      "name": "Avatar: Cake",
+      "preview": "%site_url/api/?get_image=icons/avatars/cake.png&size=64"
+    },
+    "avatar_cottoncandy": {
+      "name": "Avatar: Cotton Candy",
+      "preview": "%site_url/api/?get_image=icons/avatars/cottoncandy.png&size=64"
+    },
+    "avatar_cupcake": {
+      "name": "Avatar: Cupcake",
+      "preview": "%site_url/api/?get_image=icons/avatars/cupcake.png&size=64"
+    },
+    "avatar_sandwich": {
+      "name": "Avatar: Sandwich",
+      "preview": "%site_url/api/?get_image=icons/avatars/sandwich.png&size=64"
+    },
+    "avatar_mint": {
+      "name": "Avatar: Mint",
+      "preview": "%site_url/api/?get_image=icons/avatars/mint.png&size=64"
+    },
+    "avatar_strawberry": {
+      "name": "Avatar: Strawberry",
+      "preview": "%site_url/api/?get_image=icons/avatars/strawberry.png&size=64"
+    },
+    "avatar_sunset": {
+      "name": "Avatar: Sunset",
+      "preview": "%site_url/api/?get_image=icons/avatars/sunset.png&size=64"
+    },
+    "avatar_milkshake": {
+      "name": "Avatar: Milkshake",
+      "preview": "%site_url/api/?get_image=icons/avatars/milkshake.png&size=64"
     },
 
     "flashcards_verbs1": {

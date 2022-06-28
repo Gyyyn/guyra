@@ -11,6 +11,8 @@ global $is_admin;
 
 Guyra_Safeguard_File();
 
+include_once $template_dir . '/functions/Payment.php';
+
 $user = $_GET['user'];
 $allowedUsers = [];
 $users = guyra_get_users(['teacherid' => $current_user_id]);
@@ -78,5 +80,23 @@ if ($_GET['action'] == 'update_diary') {
 }
 
 // Get a list of actionable users.
-if ($_GET['action'] == 'fetch_users')
-guyra_output_json($users, true);
+if ($_GET['action'] == 'fetch_users') {
+
+  $theUsers = $users;
+
+  foreach ($theUsers as $theUser) {
+
+    // Clean sensitive info.
+    unset($theUsers[$theUser['id']]['user_pass']);
+
+    // Check for subscription validity.
+    $theUsers[$theUser['id']]['user_subscription_valid'] = IsSubscriptionValid($theUser['id'], [
+      'payment' => $theUser['payment'],
+      'diary' => $theUser['diary']
+    ]);
+
+  }
+
+  guyra_output_json($theUsers, true);
+
+}

@@ -462,6 +462,13 @@ input:checked + .slider:before {
   min-width: 10rem !important;
 }
 
+@media (max-width: 992px) {
+  .dropdown-menu.account-controls {
+    width: 95vw;
+    transform: translate(-8px, 16px) !important;
+  }
+}
+
 .dropdown-menu.notifications {
   min-width: calc(19rem + 5vw) !important;
 }

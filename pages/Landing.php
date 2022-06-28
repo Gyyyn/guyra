@@ -16,18 +16,26 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
       <div class="col-md p-5 bg-white more-rounded left">
 
         <div class="row mb-5">
-         <div class="col-md mb-5 mb-md-0 d-flex align-items-center justify-content-around">
-           <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
-         </div>
-         <div class="col-md d-flex align-items-center justify-content-around">
-           <video width="120" height="120" class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm"></video>
-         </div>
-         <p class="text-n pt-5"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>
+          <div class="col-md mb-5 mb-md-0 d-flex align-items-center justify-content-around">
+            <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
+          </div>
+          <div class="col-md d-flex align-items-center justify-content-around">
+            <video width="120" height="120" class="page-icon large" autoplay playsinline muted loop style="pointer-events: none;" src="<?php echo $template_url; ?>/assets/img/icons.webm"></video>
+          </div>
+
+          <p class="text-n pt-5 d-none d-md-block"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>
+
+          <div class="d-block d-md-none mt-3">
+
+            <a class="btn-tall btn-lg blue d-block text-center" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?><i class="bi bi-box-arrow-in-right ms-2"></i></a>
+            <a class="btn-tall btn-lg green mt-3 d-block text-center" href="#jump-info"><?php echo $gi18n['button_meet'] ?><i class="bi bi-door-open ms-2"></i></a>
+
+          </div>
         </div>
 
       </div>
 
-      <div class="col-md p-5 more-rounded right" data-aos="fade">
+      <div class="col-md p-5 more-rounded right d-none d-md-block" data-aos="fade">
 
         <h2 class="text-blue"><?php echo $gi18n['_landing']['title4'] ?></h2>
         <p><?php echo $gi18n['_landing']['explain4'] ?></p>
@@ -232,7 +240,5 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
   </div>
 
 </div>
-
-<hr class="thick squeeze my-5">
 
 <?php GetComponent('Footer', ['aos' => true, 'js' => 'Landing.js']);
