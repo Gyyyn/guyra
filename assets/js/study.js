@@ -654,7 +654,7 @@ class UserHome extends React.Component {
     if (typeof localOptions === 'string') {
     localOptions = JSON.parse(localOptions); }
 
-    if (localOptions.redirect_to_payment) {
+    if (localOptions && localOptions.redirect_to_payment) {
 
       localOptions.redirect_to_payment = false;
 
