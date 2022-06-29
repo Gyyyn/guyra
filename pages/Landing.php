@@ -27,8 +27,9 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
           <div class="d-block d-md-none mt-5">
 
+            <h2 class="welcome-greeting mb-3 d-none"></h2>
             <a class="btn-tall btn-lg blue d-block text-center" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?><i class="bi bi-box-arrow-in-right ms-2"></i></a>
-            <a class="btn-tall btn-lg green mt-3 d-block text-center" href="#jump-info"><?php echo $gi18n['button_meet'] ?><i class="bi bi-door-open ms-2"></i></a>
+            <a class="btn-tall btn-lg green mt-3 d-block text-center button-meet" href="#jump-info"><?php echo $gi18n['button_meet'] ?><i class="bi bi-door-open ms-2"></i></a>
 
           </div>
         </div>
@@ -234,7 +235,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 </div>
 
 <script>
-
+  
   var buyButtons = document.querySelectorAll('a.landing-buy-button');
 
   buyButtons.forEach(element => {
@@ -254,6 +255,19 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
     }
   });
+
+  var member = window.localStorage.getItem('guyra_members');
+
+  if (typeof member === 'string') {
+  member = JSON.parse(member); }
+
+  if (member && member.user_name) {
+    document.querySelector('.button-meet').remove();
+
+    var greeting = document.querySelector('.welcome-greeting');
+    greeting.classList.remove('d-none');
+    greeting.innerHTML = 'Olá ' + member.user_name + '!';
+  }
 
 </script>
 

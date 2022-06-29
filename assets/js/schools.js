@@ -1583,7 +1583,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     var dialogBoxExtraClass = '';
 
     if (!this.listingSubscriptionValid) {
-      dialogBoxExtraClass = ' border-danger border-top';
+      dialogBoxExtraClass = ' text-danger';
     }
 
     return [
