@@ -15,7 +15,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
       <div class="col-md p-5 bg-white more-rounded left">
 
-        <div class="row mb-5">
+        <div class="row">
           <div class="col-md mb-5 mb-md-0 d-flex align-items-center justify-content-around">
             <img alt="Guyra" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
           </div>
@@ -25,7 +25,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
           <p class="text-n pt-5 d-none d-md-block"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>
 
-          <div class="d-block d-md-none mt-3">
+          <div class="d-block d-md-none mt-5">
 
             <a class="btn-tall btn-lg blue d-block text-center" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?><i class="bi bi-box-arrow-in-right ms-2"></i></a>
             <a class="btn-tall btn-lg green mt-3 d-block text-center" href="#jump-info"><?php echo $gi18n['button_meet'] ?><i class="bi bi-door-open ms-2"></i></a>
@@ -70,10 +70,6 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
        <img alt="phone" src="<?php echo GetImageCache('icons/phone.png', 256); ?>">
      </div>
    </div>
-  </div>
-
-  <div class="d-flex justify-content-center py-3">
-    <img src="<?php echo GetImageCache('img/learning.png', 256); ?>">
   </div>
 
   <div class="row feature squeeze">
@@ -167,10 +163,6 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
    </div>
   </div>
 
-  <div class="d-flex justify-content-center py-3">
-    <img src="<?php echo GetImageCache('img/online-class.png', 256); ?>">
-  </div>
-
   <div class="row feature squeeze">
    <div class="col order-md-2 px-md-5 align-self-center">
      <div class="p-1 p-md-5">
@@ -240,5 +232,29 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
   </div>
 
 </div>
+
+<script>
+
+  var buyButtons = document.querySelectorAll('a.landing-buy-button');
+
+  buyButtons.forEach(element => {
+    element.onclick = function () {
+
+      var localOptions = window.localStorage.getItem('guyra_options');
+
+      if (typeof localOptions === 'string') {
+      localOptions = JSON.parse(localOptions); }
+
+      if (!localOptions) {
+      localOptions = {}; }
+
+      localOptions.redirect_to_payment = true;
+
+      window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+
+    }
+  });
+
+</script>
 
 <?php GetComponent('Footer', ['aos' => true, 'js' => 'Landing.js']);

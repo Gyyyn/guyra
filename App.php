@@ -22,10 +22,7 @@ function DecideStartingPage() {
 
   }
 
-  if ($gSettings['landing_open'] == true)
   return $template_dir . '/pages/Landing.php';
-
-  return $template_dir . '/pages/LandingLogin.php';
 
 }
 

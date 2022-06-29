@@ -649,6 +649,20 @@ class UserHome extends React.Component {
 
     });
 
+    var localOptions = window.localStorage.getItem('guyra_options');
+
+    if (typeof localOptions === 'string') {
+    localOptions = JSON.parse(localOptions); }
+
+    if (localOptions.redirect_to_payment) {
+
+      localOptions.redirect_to_payment = false;
+
+      window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+      window.location.href = thei18n.purchase_link; 
+
+    }
+
   }
 
   setPage = (page, args) => {

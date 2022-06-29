@@ -234,7 +234,6 @@ function GoogleOAuth(payload) {
 }
 
 // Allow notepad disabling
-
 var localOptions = window.localStorage.getItem('guyra_options');
 
 if (typeof localOptions === 'string') {

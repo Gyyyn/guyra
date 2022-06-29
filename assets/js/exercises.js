@@ -1504,10 +1504,12 @@ class ExerciseDone extends React.Component {
           {
             className: 'btn-tall blue',
             onClick: () => {
+
               setPage(e(Rewards, {
                 level: levelsGained,
                 elo: this.props.eloChange.toString()
               }));
+
             }
           },
           thei18n.get_rewards
@@ -1538,9 +1540,15 @@ class Rewards extends React.Component {
           document.getElementById('chest-view').classList.add('animate', 'justfadeout-animation');
 
           setTimeout(() => {
+
+            var openSound = new Audio(thei18n.audio_link + 'open.ogg');
+
+            openSound.play();
+
             this.setState({
               view: this.rewardsView,
-            });  
+            });
+            
           }, '500');
 
         }
