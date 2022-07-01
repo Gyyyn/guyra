@@ -61,6 +61,20 @@ function RemovePunctuation(word, options={}) {
     var regex = new RegExp("[.,!?]",'g');
   }
 
+  if (!options.keepAccented) {
+    var theEs = new RegExp("[éèê]",'g');
+    var theAs = new RegExp("[áàãâ]",'g');
+    var theIs = new RegExp("[íìî]",'g');
+    var theUs = new RegExp("[úùû]",'g');
+    var theOs = new RegExp("[óòõô]",'g');
+
+    word = word.replace(theEs,'e');
+    word = word.replace(theAs,'a');
+    word = word.replace(theIs,'i');
+    word = word.replace(theUs,'u');
+    word = word.replace(theOs,'o');
+  }
+
   return word.replace(regex,'');
 }
 
@@ -392,6 +406,28 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
   };
 }
 
+function activityTranslate(theExercise, options={}) {
+  
+  return {
+    translation: theExercise['translation'],
+    0: theExercise[1],
+    1: [],
+    2: theExercise[2]
+  };
+
+}
+
+function activityMultipleChoice(theExercise, options={}) {
+  
+  return {
+    translation: theExercise['translation'],
+    0: theExercise[1],
+    1: theExercise[2],
+    2: theExercise[3]
+  };
+
+}
+
 /*
 * --- Exercises in action */
 
@@ -416,7 +452,7 @@ function AnswerButtonProper(props) {
   return e(
     'a',
     {
-      className: 'btn-tall trans' + ' ' + props.extraClass,
+      className: 'btn-tall trans ' + props.extraClass,
       onClick: theOnclick
     },
     value
@@ -433,7 +469,8 @@ class AnswerButton extends React.Component {
       AnswerButtonProper,
       {
         onClick: () => { CheckAnswer(this.props.value) },
-        value: this.props.value
+        value: this.props.value,
+        style: this.style, 
       }
     ));
   }
@@ -446,7 +483,7 @@ class AnswersWordBank extends React.Component {
 
   render() {
     return (
-      e('div', {className: 'exercise-answers-wordbank'},
+      e('div', {className: 'exercise-answers-wordbank d-flex'},
           e(ExerciseContext.Consumer, null, ({values}) => values[1].map(x => {
           return e(AnswerButton, {key: x, value: x, correctAnswer: values[2]}) } )
         )
@@ -620,6 +657,28 @@ class AnswersTextArea extends React.Component {
   }
 }
 
+class AnswersChoices extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    
+    return e(ExerciseContext.Consumer, null, ({values, CheckAnswer, alreadyAnswered, setNewActivity}) => {
+
+      return e('div', {className: 'exercise-answers-wordbank d-flex flex-column'},
+        values[1].map(choice => {
+        
+          return e(AnswerButton, { key: choice, value: choice, correctAnswer: values[2], style: 'list' });
+    
+        })
+      );
+
+    });
+
+  }
+}
+
 function QuestionDialog(props) {
 
   var theQuestion;
@@ -654,6 +713,33 @@ function QuestionDialog(props) {
             className: "exercise-dialog"
           },
           theQuestion
+        )
+      )
+    )
+  )
+}
+
+function QuestionTranslate(props) {
+
+  var theQuestion = props.values[0];
+
+  return (
+    e('div',
+      {
+        className: "exercise-question d-flex flex-row justify-content-center align-items-end"
+      },
+      e(
+        'div',
+        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end overpop-animation animate" },
+        e(
+          'div',
+          {
+            className: "exercise-dialog"
+          },
+          e('i', { className: 'bi bi-translate text-xx me-2', alt: thei18n.translation }),
+          e('i', { className: 'text-grey-darkest'}, theQuestion),
+          e('span', { className: 'ms-1 me-3' }, ':'),
+          e('span', { className: 'theTranslation'}, '?')
         )
       )
     )
@@ -819,7 +905,7 @@ class CurrentQuestion extends React.Component {
         e(
           'div',
           {
-            className: "d-flex exercise-answers my-3"
+            className: "exercise-answers my-3"
           },
           e(answerType, {answers: values[1], correctAnswer: values[2]}),
         ),
@@ -1225,6 +1311,7 @@ class BootstrapModal extends React.Component {
 */
 
 function returnToLevelMapButton(props) {
+
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
     'a',
     {
@@ -1234,16 +1321,24 @@ function returnToLevelMapButton(props) {
         reset();
         setPage(e(LevelChooser));
         window.location.hash = '';
+
+        // Re-add UI.
+        document.querySelector('footer').classList.add('d-md-flex');
+        document.querySelector('#guyra-navbar').classList.add('d-lg-flex');
+        document.querySelector('.mobile-top-header').classList.remove('d-none');
+        document.querySelector('.navbar.fixed-bottom').classList.remove('d-none');
+        document.querySelector('main').classList.remove('mt-0', 'mb-0');
       }
     },
     e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
     e('span', { className: 'd-none d-md-inline' }, i18n.returntomap)
   ));
+
 }
 
 function checkAnswerButton(props) {
   return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass, answerType}) => {
-    if (answerType != AnswersWordBank) {
+    if (answerType != AnswersWordBank && answerType != AnswersChoices) {
       return e(
         'a',
         {
@@ -2020,6 +2115,13 @@ export class Exercises extends React.Component {
           hintArea: e(hintAreaCorrectAnswer)
         });
 
+        // Mark the translation if the UI asks for it.
+        var translationRequests = document.querySelectorAll('.theTranslation');
+
+        translationRequests.forEach(translationRequest => {
+          translationRequest.innerHTML = correct;
+        });
+
         // Make users retry answers with candy without the help
         if ((this.state.answerType == AnswersWordBank) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
           this.needToRetry.push(this.currentQuestion);
@@ -2033,6 +2135,19 @@ export class Exercises extends React.Component {
         }
 
         this.correctHitSound.play();
+
+        // Remove wrong members
+        var wrongMembers = this.state.wrongMembers;
+
+        wrongMembers.forEach((wrong, i) => {
+          if (wrong.question == this.currentQuestion) {
+            wrongMembers.splice(i, 1);
+          }
+        });
+
+        this.setState({
+          wrongMembers: wrongMembers
+        });
 
         // TODO: Move this to a prerecorded audio
         if (this.state.questionType != QuestionAudio) {
@@ -2230,6 +2345,32 @@ export class Exercises extends React.Component {
 
     }
 
+    if (this.state.currentExerciseType == 'Translate') {
+
+      useAnswerType = AnswersTextArea;
+
+      this.setState({
+        questionType: QuestionTranslate,
+        answerType: useAnswerType
+      });
+
+      return activityTranslate(theExercise);
+
+    }
+
+    if (this.state.currentExerciseType == 'MultipleChoice') {
+
+      useAnswerType = AnswersChoices;
+
+      this.setState({
+        questionType: QuestionDialog,
+        answerType: useAnswerType
+      });
+
+      return activityMultipleChoice(theExercise);
+
+    }
+
   }
 
   setExerciseObject = (object) => {
@@ -2274,10 +2415,18 @@ export class Exercises extends React.Component {
   }
 
   loadExerciseJSON = (level, id) => {
+
     this.setState({
       page: e(LoadingPage),
       renderTopbar: false,
     });
+
+    // Remove UI.
+    document.querySelector('footer').classList.remove('d-md-flex');
+    document.querySelector('#guyra-navbar').classList.remove('d-lg-flex');
+    document.querySelector('.mobile-top-header').classList.add('d-none');
+    document.querySelector('.navbar.fixed-bottom').classList.add('d-none');
+    document.querySelector('main').classList.add('mt-0', 'mb-0');
 
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
     this.currentUnit = id;
@@ -2315,7 +2464,7 @@ export class Exercises extends React.Component {
         { className: 'page-squeeze' },
         topbar,
       ),
-      e('div', { className: 'bg-white' },
+      e('div', { className: 'exercise-fullscreen' },
         e(
           'div',
           { className: 'exercise-squeeze' },

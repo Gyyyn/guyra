@@ -60,6 +60,23 @@
       ["Good morning, how are you doing?"],
       ["Are you from here?"],
       ["Where are you from?"]
+    ],
+
+    "Translate": [
+      ["is", "é"],
+      ["are", "são"],
+      ["meet", "conhecer"],
+      ["I", "eu"],
+      ["She", "ela"],
+      ["He", "ele"],
+      ["They", "eles"],
+      ["We", "nós"]
+    ],
+
+    "MultipleChoice": [
+      ["Where are you from?", ["No, I'm not.", "Brazil.", "Nice to meet you too!"], "Brazil."],
+      ["Nice to meet you!", ["I'm Chris.", "Not me.", "Nice to meet you too!"], "Nice to meet you too!"],
+      ["What's your name?", ["I'm Chris", "No, She's not.", "Cool!"], "I'm Chris."]
     ]
 
   },

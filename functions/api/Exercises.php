@@ -259,6 +259,7 @@ if ($_GET['get_exercises']):
     // * 3 CompleteThePhrase exercises.
     // * 1 WhatYouHear exercises.
     // * 2 Translate exercises.
+    // * 1 MultipleChoice exercise
     //
     // But this is due for a change to a more dynamic system, so
     // TODO: refactor this
@@ -273,6 +274,10 @@ if ($_GET['get_exercises']):
 
     if (is_array($exercisesJSON[$unit]['Translate'])) {
       $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $exercisesJSON));
+    }
+
+    if (is_array($exercisesJSON[$unit]['MultipleChoice'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('MultipleChoice', $unit, 1, $exercisesJSON));
     }
 
   }

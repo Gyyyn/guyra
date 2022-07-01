@@ -1,12 +1,23 @@
 .exercise-squeeze {
   margin: auto;
   padding: 1rem .25rem;
+  flex-grow: 1;
 }
 
 @media (min-width: 992px) {
   .exercise-squeeze {
     max-width: 60rem;
   }
+}
+
+.exercise-fullscreen {
+  min-height: 100vh;
+  min-width: 95vw;
+  background-color: var(--guyra-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
 }
 
 .exercise-dialog {
