@@ -169,6 +169,11 @@ function getEquivalentAnswersFor(answer) {
     case "wake up":
       return ["get up", "wake up"];
     break;
+
+    case "as vezes":
+    case "de vez em quando":
+      return ["as vezes", "de vez em quando"];
+    break;
   }
 }
 

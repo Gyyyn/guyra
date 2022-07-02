@@ -324,9 +324,17 @@
       ["sleeping", "tarde"],
       ["studying", "tarde"],
       ["later", "mais tarde"],
-      ["late", "tarde"],
-      ["late", "tarde"],
-      ["late", "tarde"]
+      ["going", "indo"],
+      ["doing", "fazendo"],
+      ["watching", "assistindo"]
+    ],
+
+    "MultipleChoice": [
+      ["Where are you going?", ["To the library.", "Yes, with my friend."], "To the library."],
+      ["What are they doing?", ["They're not.", "Yes, they're.", "I don't know."], "I don't know."],
+      ["When are you having dinner?", ["In a few minutes.", "Never.", "Yesterday"], "In a few minutes."],
+      ["Are you playing games today?", ["Not today.", "No, sorry."], "Not today."],
+      ["Is she coming with us?", ["Not today.", "Yes, they are", "Yes, she's my friend."], "Not today."]
     ]
 
   },
@@ -382,6 +390,22 @@
       ["She sometimes goes to the gym."],
       ["I always sleep early on weekdays."],
       ["I always work from 9 to 5, my job is pretty nice."]
+    ],
+
+    "Translate": [
+      ["always", "sempre"],
+      ["sometimes", "as vezes"],
+      ["never", "nunca"],
+      ["weekend", "fim de semana"],
+      ["gym", "academia"]
+    ],
+
+    "MultipleChoice": [
+      ["Do you go to the gym?", ["Sometimes.", "I like to.", "Yes, I am."], "Sometimes."],
+      ["Do you have a car?", ["No, I take the bus.", "Yes, always."], "No, I take the bus."],
+      ["I never...", ["...use public transportation.", "...eat."], "...use public transportation."],
+      ["I work...", ["...in the morning", "...after I sleep"], "...in the morning"],
+      ["I never...", ["...sleep.", "...sleep late."], "...sleep late."]
     ]
 
   },
