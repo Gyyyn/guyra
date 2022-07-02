@@ -22,10 +22,6 @@ if($_SERVER["HTTPS"] != "on") {
 // Force disable error reporting.
 error_reporting(0);
 
-// Define the app version.
-if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.3.12');
-
 // Setup some globals.
 $secondsForA = [
 	'year' => 31536000,

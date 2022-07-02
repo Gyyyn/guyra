@@ -1,30 +1,11 @@
 <?php
 
+// Define the app version.
+if (!defined('GUYRA_VERSION'))
+define('GUYRA_VERSION', '0.3.13');
+
+// Initialize the App enviroment
 include_once './functions/Init.php';
-
-function DecideStartingPage() {
-
-  global $template_dir;
-  global $is_logged_in;
-  global $is_admin;
-  global $current_user_data;
-  global $gSettings;
-
-  if($is_logged_in) {
-
-    if ($is_admin && $_GET['page'] == 'admin')
-    return $template_dir . '/pages/SuperAdminControlPanel.php';
-
-    if ($current_user_data['role'] == 'teacher')
-    return $template_dir . '/pages/GroupAdminControlPanel.php';
-
-    return $template_dir . '/pages/UserHomePage.php';
-
-  }
-
-  return $template_dir . '/pages/Landing.php';
-
-}
 
 function GetComponent($component, $_args=[]) {
   
@@ -47,10 +28,27 @@ function GetComponent($component, $_args=[]) {
 CaptureRequest(function($r) {
 
   global $template_dir;
+  global $is_logged_in;
+  global $is_admin;
+  global $current_user_data;
+  global $gSettings;
 
-  $home = DecideStartingPage();
-  $page = $home;
+  // First set up some default pages.
+  $page = $template_dir . '/pages/Landing.php';
 
+  if($is_logged_in) {
+
+    $page = $template_dir . '/pages/UserHomePage.php';
+
+    if ($current_user_data['role'] == 'teacher')
+    $page = $template_dir . '/pages/GroupAdminControlPanel.php';
+
+    if ($is_admin && $_GET['page'] == 'admin')
+    $page = $template_dir . '/pages/SuperAdminControlPanel.php';
+
+  }
+
+  // $r is the requested URL, if it's empty we are on root.
   if ($r) {
 
     $checkForGetVars = explode('?', $r);
@@ -71,6 +69,7 @@ CaptureRequest(function($r) {
 
   }
 
+  // If the requested page exists load it, otherwise 404.
   if (file_exists($page)) {
     include_once $page;
   } else {

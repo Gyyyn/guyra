@@ -29,7 +29,7 @@ if ('serviceWorker' in navigator) {
 
 // Notifications
 var deleteNotificationButtons = document.querySelectorAll('.delete-notification-button');
-var clearNotificationsButton = document.getElementById('clear-notification-button');
+var clearNotificationsButton = document.querySelector('#clear-notification-button');
 
 if (deleteNotificationButtons) {
   deleteNotificationButtons.forEach((button) => {

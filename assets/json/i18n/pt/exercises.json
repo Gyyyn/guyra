@@ -76,7 +76,9 @@
     "MultipleChoice": [
       ["Where are you from?", ["No, I'm not.", "Brazil.", "Nice to meet you too!"], "Brazil."],
       ["Nice to meet you!", ["I'm Chris.", "Not me.", "Nice to meet you too!"], "Nice to meet you too!"],
-      ["What's your name?", ["I'm Chris", "No, She's not.", "Cool!"], "I'm Chris."]
+      ["What's your name?", ["I'm Chris", "No, She's not.", "Cool!"], "I'm Chris."],
+      ["Are you a student?", ["Yes, I love it!", "No, I'm a teacher.", "Yes, it's great."]],
+      ["Are they from London?", ["No, I'm not.", "Yes, they are.", "They are from the U.K."], "Yes, they are."]
     ]
 
   },
@@ -102,7 +104,24 @@
 
     "WhatYouHear": [
       ["He is using a black shirt and a scarf."],
-      ["She has a purple dress and a white blouse."]
+      ["She has a purple dress and a white blouse."],
+      ["I'm wearing all black."]
+    ],
+
+    "Translate": [
+      ["wearing", "usando"],
+      ["sweater", "moletom"],
+      ["skirt", "saia"],
+      ["using", "usando"],
+      ["shoes", "sapatos"],
+      ["T-shirt", "camiseta"],
+      ["shirt", "camisa"]
+    ],
+
+    "MultipleChoice": [
+      ["What are you wearing?", ["It's blue", "A skirt."], "A skirt"],
+      ["Do you like this color?", ["No, I don't", "Yes, it's orange"], "No, I don't"],
+      ["Is your shirt blue?", ["Yes, it is!", "No, It's blue.", "I like it."], "Yes, it is!"]
     ]
 
   },
@@ -161,7 +180,8 @@
       ["Can you help me?", "me", "(eu)"],
       ["Can you help her?", "her", "(ela)"],
       ["Can you help him?", "him", "(ele)"],
-      ["Can you help them?", "them", "(elas)"]
+      ["Can you help them?", "them", "(elas)"],
+      ["Is that free?", "free", "grátis"]
     ],
 
     "WhatYouHear": [
@@ -170,6 +190,24 @@
       ["Are those your glasses or are they mine?"],
       ["Does he have a phone with him? What's his phone number?"],
       ["Where do you go to school, you have a nice uniform."]
+    ],
+
+    "Translate": [
+      ["phone", "telefone"],
+      ["their", "deles"],
+      ["help", "ajuda"],
+      ["close", "perto"],
+      ["live", "mora"],
+      ["work", "trabalha"],
+      ["free", "grátis"]
+    ],
+
+    "MultipleChoice": [
+      ["Can you help me?", ["If it isn't a problem.", "Not at all.", "Yes, give me a minute."], "Yes, give me a minute."],
+      ["Is this your phone?", ["It shouldn't be.", "In my bag.", "Yes, it is, thank you!"], "Yes, it is, thank you!"],
+      ["Where is the coffee?", ["Not that.", "In the kitchen.", "Yes, I can."], "In the kitchen."],
+      ["Where do you work?", ["At home.", "I don't.", "It's fine."], "At home."],
+      ["Are those free?", ["Yes, I am.", "I have one.", "No, they aren't."], "No, they aren't."]
     ]
 
   },
@@ -277,6 +315,18 @@
       ["I am playing games today, do you want to play with me?"],
       ["He works at a restaurant but he doesn't like it."],
       ["She's having breakfast early today!"]
+    ],
+
+    "Translate": [
+      ["late", "tarde"],
+      ["early", "tarde"],
+      ["having", "tarde"],
+      ["sleeping", "tarde"],
+      ["studying", "tarde"],
+      ["later", "mais tarde"],
+      ["late", "tarde"],
+      ["late", "tarde"],
+      ["late", "tarde"]
     ]
 
   },

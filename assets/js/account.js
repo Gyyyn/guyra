@@ -11,7 +11,8 @@ import {
   PaymentItem,
   validatePhoneNumber,
   createTooltip,
-  randomNumber
+  randomNumber,
+  calculateOverdueFees
 } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
@@ -1620,6 +1621,28 @@ function WhoAmI_welcome(props) {
 function WhoAmI_openPayments_paymentItem(props) {
 
   var itemDue = GuyraParseDate(props.item.due);
+  var itemValue = parseInt(props.item.value);
+  let now = new Date();
+  var overdueExtra = false;
+  var overdueInset = null;
+
+  if (itemDue < now) {
+
+    overdueExtra = calculateOverdueFees(props.item.value, itemDue);
+    itemValue = itemValue + overdueExtra;
+
+    overdueInset = e(
+      'span',
+      { className: 'text-s ms-2 text-grey-darker' },
+      '(',
+      'R$' + props.item.value,
+      ' + ',
+      'R$' + overdueExtra + ' ',
+      thei18n.overdue_fees.toLowerCase(),
+      ')'
+    );
+    
+  }
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
@@ -1630,7 +1653,7 @@ function WhoAmI_openPayments_paymentItem(props) {
       { className: 'payment-item row mt-3' },
       e(
         'div',
-        { className: 'qr-code col-auto' },
+        { className: 'qr-code col-auto d-none d-md-flex' },
         e(
           'div',
           { className: 'card trans blue mb-3' },
@@ -1656,7 +1679,7 @@ function WhoAmI_openPayments_paymentItem(props) {
           e(
             'img',
             {
-              className: 'page-icon large',
+              className: 'page-icon large more-rounded',
               alt: 'QR Code',
               src: i18n.api_link + '?get_image=img/qrcode.jpg&size=256'
             }
@@ -1675,13 +1698,14 @@ function WhoAmI_openPayments_paymentItem(props) {
             { className: 'd-inline mb-2' },
             e(
               'div',
-              { className: 'badge bg-white me-2 mb-2' },
+              { className: 'badge bg-white me-2 mb-2 text-n' },
               e('span', {}, i18n.value + ': '),
-              e('span', { className: 'fw-bold ms-1'}, 'R$' + props.item.value)
+              e('span', { className: 'fw-bold ms-1'}, 'R$' + itemValue),
+              overdueInset
             ),
             e(
               'div',
-              { className: 'badge bg-white me-2 mb-2' },
+              { className: 'badge bg-white me-2 mb-2 text-n' },
               e('span', {}, i18n.due_date + ': '),
               e('span', {}, itemDue.toLocaleDateString())
             ),

@@ -1175,11 +1175,17 @@ export class PaymentItem extends React.Component {
     this.itemBadgeClass = 'badge bg-success';
     this.itemColor = 'green';
     this.itemCardClass = this.itemColor;
+    this.overdue = false;
+    this.itemValue = parseInt(this.props.value);
 
     if (this.itemDue < this.now) {
       this.itemBadgeClass = 'badge bg-danger';
       this.itemColor = 'red';
       this.itemCardClass = this.itemColor + ' attention-call-animation animate';
+      this.overdue = true;
+
+      this.overdueExtra = calculateOverdueFees(this.props.value, this.itemDue);
+      this.itemValue = this.itemValue + this.overdueExtra;
     }
 
   }
@@ -1196,7 +1202,7 @@ export class PaymentItem extends React.Component {
         'span',
         { className: 'd-flex justify-content-between align-items-baseline mb-2' },
         e('span', { className: 'fw-bold text-n' }, thei18n.bill),
-        e('span', { className: 'fw-bold text-s me-1' }, thei18n.value + ': R$' + this.props.value ),
+        e('span', { className: 'fw-bold text-s me-1' }, thei18n.value + ': R$' + this.itemValue ),
       ),
       e(
         'span',
@@ -1229,6 +1235,19 @@ export class PaymentItem extends React.Component {
     );
 
   }
+}
+
+export function calculateOverdueFees(value, itemDue) {
+
+  let overdueRate = 0.05;
+  let now = new Date();
+  let difference = now.getTime() - itemDue.getTime();
+  let overdueDays = Math.ceil(difference / (1000 * 3600 * 24));
+  var overdueExtra = value * (overdueDays * (overdueRate / 30));
+  overdueExtra = Math.ceil(overdueExtra);
+  
+  return overdueExtra; 
+  
 }
 
 // Force https protocol on HTML input elements' onChange.
