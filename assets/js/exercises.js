@@ -517,7 +517,7 @@ class AnswersPhraseBuilder extends React.Component {
               id: 'phrase-builder',
               'data-phrase': phraseBuilderPhrase.join(' ')
             },
-            phraseBuilderPhrase.map((item) => {
+            phraseBuilderPhrase.map((item, i) => {
 
               return (
                 e(ExerciseContext.Consumer, null, ({SpliceWord}) => e(
@@ -526,7 +526,7 @@ class AnswersPhraseBuilder extends React.Component {
                     className: 'btn-tall btn-sm trans flex-grow-0',
                     key: item,
                     onClick: () => {
-                      SpliceWord(item);
+                      SpliceWord(item, i);
                     }
                   },
                   item
@@ -2087,11 +2087,19 @@ export class Exercises extends React.Component {
     });
   }
 
-  SpliceWord = (word) => {
+  SpliceWord = (word, index=0) => {
+
     var thePhrase = this.state.phraseBuilderPhrase;
-    var splicedHalf = thePhrase.splice(thePhrase.indexOf(word));
+
+    if (!index) {
+      index = thePhrase.indexOf(word);
+    }
+
+    var splicedHalf = thePhrase.splice(index);
+
     splicedHalf.shift();
     thePhrase = thePhrase.concat(splicedHalf);
+    
     this.setState({
       phraseBuilderPhrase: thePhrase
     });

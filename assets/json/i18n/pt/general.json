@@ -88,7 +88,7 @@
    "payment_message":"Use a imagem ao lado ou o a chave PIX para efetuar seu pagamento. Não esquece de confirmar as informações antes de finalizar o pagamento!",
    "payments_available":"Você tem pagamentos em aberto!",
    "overdue": "Atrasado",
-   "overdue_fees": "Juros",
+   "overdue_fees": "Juros de atraso",
    "bill":"Fatura",
    "bills":"Faturas",
    "see_bill": "Ver fatura",

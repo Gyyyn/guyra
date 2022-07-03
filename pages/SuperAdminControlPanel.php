@@ -86,7 +86,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
     <div class="mb-4 alert alert-info" role="alert">
       <p>Currently working options are (* indicates potentially critical functionality):</p>
       <ul>
-        <li>landing_open - site has landing page or just login.</li>
         <li>dev_env - series of actions: 1. forces always refresh cache for js, css.</li>
         <li>google_api* - google api key used for: cloud translate, youtube api.</li>
         <li>google_cloud* - google cloud credentials json used for: cloud tts.</li>
@@ -249,12 +248,12 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <h4 class="mt-4">Extras:</h4>
   <div class="admin-forms border rounded p-3 m-0">
 
-  <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create DBs</a>
-  <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_page=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Create Site Pages</a>
-  <a href="<?php echo $site_api_url . '?delete_cache=assets&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Asset Cache</a>
-  <a href="<?php echo $site_api_url . '?delete_cache=translations&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Translations Cache</a>
-  <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Delete Audio Cache</a>
-  <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary">Refresh PWA</a>
+  <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Create DBs</a>
+  <a href="<?php echo $site_api_url . '?delete_cache=assets&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Asset Cache</a>
+  <a href="<?php echo $site_api_url . '?delete_cache=assets&limiter=js&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Asset Cache (Only JS)</a>
+  <a href="<?php echo $site_api_url . '?delete_cache=translations&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Translations Cache</a>
+  <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Audio Cache</a>
+  <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Refresh PWA</a>
 
   </div>
 

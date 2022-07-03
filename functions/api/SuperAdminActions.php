@@ -45,7 +45,7 @@ if ($_GET['change_option']) {
 if ($_GET['delete_cache']) {
 
   include_once $template_dir . '/functions/Assets.php';
-  delete_cache($_GET['delete_cache']);
+  delete_cache($_GET['delete_cache'], $_GET['limiter']);
 
 }
 

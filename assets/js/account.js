@@ -1633,12 +1633,22 @@ function WhoAmI_openPayments_paymentItem(props) {
 
     overdueInset = e(
       'span',
-      { className: 'text-s ms-2 text-grey-darker' },
+      { className: 'text-s ms-2 text-grey-darkest' },
       '(',
       'R$' + props.item.value,
       ' + ',
       'R$' + overdueExtra + ' ',
       thei18n.overdue_fees.toLowerCase(),
+      e(
+        'button',
+        {
+          className: 'btn',
+          onClick: () => {
+            window.location.href = thei18n.faq_link + '#late_payment';
+          }
+        },
+        e('i', { className: 'bi bi-question-circle text-blue-darker' })
+      ),
       ')'
     );
     
@@ -1673,7 +1683,7 @@ function WhoAmI_openPayments_paymentItem(props) {
 
                 }
               },
-              e('i', { className: 'bi bi-question-circle ms-1' })
+              e('i', { className: 'bi bi-question-circle ms-1 text-blue-darker' })
             )
           ),
           e(
@@ -1712,7 +1722,7 @@ function WhoAmI_openPayments_paymentItem(props) {
             e(
               'div',
               { className: 'badge bg-primary text-white me-2 mb-2' },
-              e('span', {}, 'PIX/CNPJ: '),
+              e('span', {}, 'PIX: '),
               e('span', {}, i18n.company_cnpj),
               e(
                 'button',

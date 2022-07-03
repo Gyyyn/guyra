@@ -322,7 +322,7 @@ if ($where_am_i == '') {
 
   <div class="mobile-top-header d-flex flex-column d-lg-none justify-content-center align-items-center w-100 text-s fw-bold position-fixed top-0 start-0 pb-0">
     <div class="d-flex flex-row justify-content-center align-items-center">
-      <span class="position-absolute start-0"><button class="btn text-white" type="button" name="button" id="mobile-header-back"><i class="bi bi-chevron-left"></i></button></span>
+      <span class="position-absolute start-0"><button class="btn text-blue" type="button" name="button" id="mobile-header-back"><i class="bi bi-chevron-left"></i></button></span>
       <span class="capitalize"><?php echo ucfirst($page_Title) ?></span>
       <span class="page-icon tiny position-absolute end-0">
         <?php RenderAccountDropdown(['profile_picture' => $profile_picture, 'name_button' => false, 'offset' => '0,-20']); ?>

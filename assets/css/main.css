@@ -466,6 +466,9 @@ input:checked + .slider:before {
   .dropdown-menu.account-controls {
     width: 95vw;
     transform: translate(-8px, 16px) !important;
+    top: 0;
+    right: 0;
+    inset: 0 0 auto auto !important;
   }
 }
 
@@ -514,9 +517,10 @@ input:checked + .slider:before {
 
 .mobile-top-header {
   padding: 0.75rem 0;
-  background-color: var(--guyra-blue);
-  color: var(--guyra-white);
+  background-color: var(--guyra-white);
+  color: var(--guyra-blue);
   z-index: 1080;
+  box-shadow: var(--guyra-box-shadow-bigger);
 }
 
 .mobile-top-header .avatar {
@@ -607,7 +611,7 @@ input:checked + .slider:before {
   }
 
   .logged_in main {
-    margin-top: 7rem;
+    margin-top: 6rem;
     margin-bottom: 20rem;
   }
 }

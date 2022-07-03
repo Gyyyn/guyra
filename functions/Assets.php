@@ -106,28 +106,53 @@ function GetImageCache($asset, $size=null, $type='png', $compression=80, $full_i
 }
 
 // Very dangerous function, keep away from children.
-function delete_directory($dirname) {
+function delete_directory($dirname, $limiter=false) {
+
   if (is_dir($dirname))
-    $dir_handle = opendir($dirname);
+  $dir_handle = opendir($dirname);
+  
   if (!$dir_handle)
-    return false;
-  while($file = readdir($dir_handle)) {
+  return false;
+
+  while(false !== ($file = readdir($dir_handle))) {
+
     if ($file != "." && $file != "..") {
-      if (!is_dir($dirname."/".$file))
+
+      // Probably we won't have files with dots in the name here, but still something
+      // to keep in mind.
+      if ($limiter) {
+
+        $file_sploded = explode('.', $file);
+
+        if ($file_sploded[1] == $limiter)
         unlink($dirname."/".$file);
-      else
+
+      }  else {
+
+        if (is_dir($dirname."/".$file))
         delete_directory($dirname.'/'.$file);
+        else
+        unlink($dirname."/".$file);
+        
+      }
+
     }
+
   }
+
   closedir($dir_handle);
   rmdir($dirname);
+
   return true;
+
 }
 
-function delete_cache($cacheName) {
+function delete_cache($cacheName, $limiter=false) {
+
   global $template_dir;
   $cache = $template_dir . '/cache/' . $cacheName;
-  return guyra_output_json(delete_directory($cache), true);
+
+  return delete_directory($cache, $limiter);
 }
 
 function GuyraHandleFileUpload() {

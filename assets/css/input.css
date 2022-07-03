@@ -26,9 +26,9 @@
 }
 
 .btn-mobile-header {
-  color: var(--guyra-white);
+  color: var(--guyra-blue);
   /* box-shadow: var(--guyra-box-shadow-smaller); */
-  border-bottom: 2px solid var(--guyra-white);
+  border-bottom: 2px solid var(--guyra-blue);
   border-radius: 0;
 }
 
@@ -101,10 +101,11 @@
 .btn-tall.blue,
 .btn-tall.active,
 .home a.home-link,
-.practice a.practice-link,
-.reference a.reference-link,
-.courses a.courses-link,
-.profile a.profile-link
+.practice .practice-link,
+.reference .reference-link,
+.shop .shop-link,
+.courses .courses-link,
+.profile .profile-link
 {
   border-bottom-color: var(--guyra-blue-darker);
   background-color: var(--guyra-blue);

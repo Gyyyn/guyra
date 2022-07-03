@@ -18,15 +18,14 @@ GetComponent('Header'); ?>
 
       foreach ($faqItems as $faqItem) {
 
-        $itemId = md5($faqItem['title']);
         ?>
-        <div class="accordion-item">
+        <div class="accordion-item" id="<?php echo $faqItem['tag'] ?>">
           <h2 class="accordion-header">
-            <button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo $itemId; ?>">
+            <button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo $faqItem['tag']; ?>">
               <?php echo $faqItem['title']; ?>
             </button>
           </h2>
-          <div id="collapse-<?php echo $itemId; ?>" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+          <div id="collapse-<?php echo $faqItem['tag']; ?>" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
             <div class="accordion-body">
               <?php echo $faqItem['content']; ?>
             </div>
@@ -49,4 +48,4 @@ GetComponent('Header'); ?>
 
 </main>
 
-<?php GetComponent('Footer');
+<?php GetComponent('Footer', ['js' => 'faq.js']);

@@ -1201,8 +1201,7 @@ export class PaymentItem extends React.Component {
       e(
         'span',
         { className: 'd-flex justify-content-between align-items-baseline mb-2' },
-        e('span', { className: 'fw-bold text-n' }, thei18n.bill),
-        e('span', { className: 'fw-bold text-s me-1' }, thei18n.value + ': R$' + this.itemValue ),
+        e('span', { className: 'fw-bold text-n' }, 'R$' + this.itemValue),
       ),
       e(
         'span',
@@ -1239,7 +1238,7 @@ export class PaymentItem extends React.Component {
 
 export function calculateOverdueFees(value, itemDue) {
 
-  let overdueRate = 0.05;
+  let overdueRate = 0.035;
   let now = new Date();
   let difference = now.getTime() - itemDue.getTime();
   let overdueDays = Math.ceil(difference / (1000 * 3600 * 24));
