@@ -250,6 +250,17 @@ if ($_GET['get_identicon']) {
 
 }
 
+if ($_GET['get_news']) {
+  
+  $news_file = $template_dir . '/cache/news.' . $gLang[0] . '.txt';
+
+  if (file_exists($news_file))
+  guyra_output_json(file_get_contents($news_file), true);
+  else
+  guyra_output_json(false, true);
+
+}
+
 if ($_GET['post_reply']) {
 
   $thePost = json_decode(file_get_contents('php://input'), true);

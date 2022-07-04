@@ -5,7 +5,8 @@ import {
   GuyraGetData,
   thei18n,
   LoadingPage,
-  checkForTranslatables
+  checkForTranslatables,
+  MD5
 } from '%template_url/assets/js/Common.js';
 
 const ReferenceContext = React.createContext();
@@ -15,7 +16,7 @@ function Irregulars_WordListing_wordRow(props) {
   var rowExtraClass = '';
 
   if (props.inset) {
-    rowExtraClass = ' mt-1 ms-5 text-ss'
+    rowExtraClass = ' mt-1 ms-3'
   }
 
   return e(
@@ -74,13 +75,56 @@ class Irregulars_WordListing extends React.Component {
 
     }
 
+    var expandButton = null;
+    var collapseId = 'collapse-wordrow-' + this.props.index;
+
+    if (this.submeanings.length > 0) {
+
+      var expandButtonId = collapseId + '-button';
+
+      expandButton = e(
+        'button',
+        {
+          className: 'btn position-absolute top-0 end-0',
+          id: expandButtonId,
+          onClick: () => {
+            
+            var collapsedE = document.querySelector('#' + collapseId);
+            var expandButtonE = document.querySelector('#' + expandButtonId);
+
+            if (collapsedE.classList.contains('show')) {
+
+              collapsedE.classList.remove('show');
+              expandButtonE.innerHTML = '<i class="bi bi-chevron-down"></i>';
+
+            } else {
+
+              collapsedE.classList.add('show');
+              expandButtonE.innerHTML = '<i class="bi bi-chevron-up"></i>';
+
+            }
+
+          }
+        },
+        e('i', { className: 'bi bi-chevron-down' })
+      );
+    }
+
     return e(
       'div',
-      { className: 'd-flex flex-column word-list py-2 text-n' + rowExtraClass },
+      { className: 'd-flex flex-column word-list position-relative pb-1 text-n' + rowExtraClass },
+      expandButton,
       e(Irregulars_WordListing_wordRow, { wordlist: Object.values(this.props.word.word) }),
-      this.submeanings.map(word => {
-        return e(Irregulars_WordListing_wordRow, { wordlist: word, inset: true });
-      })
+      e(
+        'div',
+        {
+          className: 'collapse justfade-animation animate',
+          id: collapseId
+        },
+        this.submeanings.map(word => {
+          return e(Irregulars_WordListing_wordRow, { wordlist: word, inset: true });
+        })
+      )
     );
   }
 
@@ -120,8 +164,8 @@ class Irregulars_wrapper extends React.Component {
           }
         )
       )),
-      e(ReferenceContext.Consumer, null, ({irregularsObject}) => irregularsObject.map(word => {
-        return e(Irregulars_WordListing, { word: word, search: this.state.search });
+      e(ReferenceContext.Consumer, null, ({irregularsObject}) => irregularsObject.map((word, i) => {
+        return e(Irregulars_WordListing, { word: word, search: this.state.search, index: i });
       }))
     );
   }

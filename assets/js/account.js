@@ -1228,16 +1228,67 @@ function AccountOptions_profileDetails(props) {
       'div',
       { className: 'col-md' },
       e(
-        'h3',
-        { className: 'text-blue mb-3' },
-        thei18n.profile_details
-      ),
-      e(
         'div',
         { className: 'd-flex flex-column' },
         e(
           'div',
+          { className: 'profile-learning d-none' },
+          e(
+            'div',
+            { className: 'dialog-box' },
+            e(
+              'h3',
+              { className: 'text-blue mb-3' },
+              'Aprendendo'
+            ),
+            e(
+              'div',
+              { className: 'card trans align-items-center blue me-2 cursor-pointer' },
+              e(
+                'img',
+                {
+                  className: 'page-icon small',
+                  src: ''
+                }
+              ),
+              e('h4', {}, 'Inglês')
+            ),
+            e(
+              'div',
+              { className: 'card trans align-items-center disabled me-2 cursor-pointer' },
+              e(
+                'img',
+                {
+                  className: 'page-icon small',
+                  src: ''
+                }
+              ),
+              e('h4', {}, 'Espanhol')
+            ),
+            e('hr'),
+            e('h3', { className: 'text-blue' }, 'Usando'),
+            e(
+              'div',
+              { className: '' },
+              e(
+                'button',
+                {
+                  className: 'btn-tall blue'
+                },
+                e('img', { className: 'page-icon tiny me-2', src: '' }),
+                'Português'
+              )
+            ),
+          )
+        ),
+        e(
+          'div',
           { className: 'form-control' },
+          e(
+            'h3',
+            { className: 'text-blue mb-3' },
+            thei18n.profile_details
+          ),
           e(AccountContext.Consumer, null, ({userdata}) => {
 
             if (userdata.mail_confirmed != 'true' && !userdata.guyra_private_mail) {

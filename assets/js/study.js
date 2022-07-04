@@ -203,6 +203,94 @@ class UserHome_ReplyCard extends React.Component {
 
 }
 
+class WelcomeGreeting_News extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      news: null
+    };
+    
+  }
+
+  close = () => {
+
+    var localOptions = window.localStorage.getItem('guyra_options');
+
+    if (typeof localOptions === 'string') {
+    localOptions = JSON.parse(localOptions); }
+
+    if (!localOptions) {
+      localOptions = {
+        news: {}
+      };
+    }
+
+    if (!localOptions.news) {
+      localOptions.news = {};
+    }
+
+    localOptions.news[this.state.md5] = {
+      closed: true
+    }
+
+    window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+    
+    this.setState({
+      news: null
+    });
+
+  }
+
+  componentWillMount() {
+
+    fetch(thei18n.api_link + '?get_news=1').then(res => res.json())
+    .then(json => {
+
+      var newsMD5d = MD5(json);
+
+      var localOptions = window.localStorage.getItem('guyra_options');
+      localOptions = JSON.parse(localOptions);
+
+      if (localOptions && localOptions.news && localOptions.news[newsMD5d] && localOptions.news[newsMD5d].closed) {
+      return; }
+
+      if (json) {
+
+        var newsE = e(
+          'div',
+          { className: 'dialog-box greeting overpop-animation animate position-relative' },
+          e('h2', { className: 'mb-2' }, thei18n.whatsnew),
+          e(
+            'button',
+            {
+              className: 'btn position-absolute top-0 end-0 m-3',
+              onClick: () => {
+                this.close();
+              }
+            },
+            e('i', { className: 'bi bi-x-lg' })
+          ),
+          window.HTMLReactParser(marked.parse(json))
+        );
+
+        this.setState({
+          news: newsE,
+          md5: newsMD5d
+        });
+        
+      }
+
+    });
+
+  }
+
+  render() {
+    return this.state.news;
+  }
+
+}
+
 function UserHome_LessonCard(props) {
   return e(HomeContext.Consumer, null, ({userdata}) => {
 
@@ -236,7 +324,7 @@ function UserHome_WelcomeCard(props) {
 
   var randomGreeting = thei18n.greetings[randomNumber(0 , thei18n.greetings.length - 1)];
 
-  return e(HomeContext.Consumer, null, ({userdata, addCard}) => {
+  return e(HomeContext.Consumer, null, ({userdata}) => {
 
     var TrialDaysLeft = 30 - userdata.payments['days_left'];
     var streak_info = JSON.parse(userdata.gamedata.raw.streak_info);
@@ -466,6 +554,7 @@ function UserHome_WelcomeCard(props) {
     var WelcomeGreeting = e(
       'div',
       { className: 'welcome-greeting' },
+      e(WelcomeGreeting_News),
       e(
         'div',
         { className: 'dialog-box greeting' },
