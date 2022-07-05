@@ -12,6 +12,9 @@ global $is_logged_in;
 
 $redirect = false;
 
+// First include some actions for all users.
+include $template_dir . '/functions/api/Common.php';
+
 // If user isn't logged in he only has a few options.
 if (!$is_logged_in) {
   include $template_dir . '/functions/api/GuestUser.php';

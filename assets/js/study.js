@@ -6,7 +6,6 @@ import {
   thei18n,
   theUserdata,
   LoadingPage,
-  Guyra_InventoryItem,
   PaymentItem,
   randomNumber,
   RoundedBoxHeading,
@@ -564,7 +563,7 @@ function UserHome_WelcomeCard(props) {
       ),
       e(
         'div',
-        { className: 'dialog-box' },
+        { className: 'dialog-box', id: 'activities' },
         e('h3', { className: 'mb-2' }, thei18n.activities),
         e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
       ),
@@ -779,7 +778,13 @@ class UserHome extends React.Component {
       cards: cards
     });
 
+    // Now we remove some unescessary information, since the user has chosen an activity
     var closeables = document.querySelectorAll('.greeting');
+    var activitiesE = document.querySelector('#activities');
+
+    if (activitiesE.classList.contains('dialog-box')) {
+      activitiesE.classList.remove('dialog-box')
+    }
 
     closeables.forEach((closeable) => {
       closeable.classList.add('justfadeout-animation', 'animate', 'fast');
@@ -789,7 +794,6 @@ class UserHome extends React.Component {
         closeable.classList.remove('justfadeout-animation', 'animate', 'fast');
       }, 100)
     });
-
 
   }
 

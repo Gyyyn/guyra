@@ -53,9 +53,10 @@
 
 .btn-tall:active:not(.disabled, .btn-sm),
 .topbar-button:active:not(.disabled) {
-  border-bottom-width: 1px !important;
+  border-bottom-width: 1px!important;
   position: relative;
   top: var(--guyra-border-size);
+  border-top: 2px solid var(--guyra-white);
 }
 
 .btn-tall {
@@ -63,14 +64,14 @@
   font-size: var(--guyra-fonts-textsize-n);
   font-weight: bold;
   border: 0;
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
-  background: var(--guyra-grey);
+  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-darker);
+  background: var(--guyra-grey-dark);
   text-decoration: none;
 }
 
 .btn-tall:hover {
-  background: var(--guyra-grey-dark);
-  border-bottom-color: var(--guyra-grey-darker);
+  background: var(--guyra-grey-darker);
+  border-bottom-color: var(--guyra-grey-darkest);
   cursor: pointer;
 }
 
@@ -210,13 +211,13 @@
   font-weight: bold;
   color: var(--guyra-black);
   border-color: var(--guyra-grey-darker);
-  border-width: 2px;
   border-bottom-width: var(--guyra-border-width);
+  background: var(--guyra-grey-dark);
   margin: 0 .25rem .5rem;
 }
 
 .topbar-button:hover {
-	color: var(--guyra-grey-darker);
+	color: var(--guyra-grey-darkest);
 }
 
 .topbar-button.active {
@@ -345,7 +346,8 @@ img.left-side-image {
   padding: 1rem;
   border-radius: var(--guyra-border-radius-bigger);
   background: var(--guyra-grey);
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
+  border: 1px solid var(--guyra-grey-dark);
+  border-bottom-width: var(--guyra-border-size);
 }
 
 .dialog-box input.form-control:not(.bs),

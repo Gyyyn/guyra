@@ -399,28 +399,6 @@ if ($_GET['redirect_meeting']) {
 
 }
 
-if ($_GET['get_image']) {
-
-  if ($_GET['size']) {
-
-    $sizeArray = json_decode($_GET['size']);
-
-    if (is_array($sizeArray)) {
-      $size['x'] = $sizeArray[0];
-      $size['y'] = $sizeArray[1];
-    } else {
-      $size = (int) $_GET['size'];
-    }
-  } else {
-    $size = 64;
-  }
-
-  $r = GetImageCache($_GET['get_image'], $size, 'png', 80, true);
-
-  header ('Content-Type: image/png');
-  echo $r; exit;
-}
-
 if ($_GET['proccess_payment']) {
 
   // Only allow payment processing if the setting is enabled.

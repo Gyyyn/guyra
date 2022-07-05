@@ -333,7 +333,7 @@ class Shop_ItemList extends React.Component {
 
 function Shop_yourItems(props) {
 
-  return e(ShopContext.Consumer, null, ({userdata, i18n}) => {
+  return e(ShopContext.Consumer, null, ({userdata}) => {
 
     if (!userdata.inventory || userdata.inventory.length == 0) {
       return null;
@@ -344,9 +344,16 @@ function Shop_yourItems(props) {
       { className: 'd-flex flex-wrap align-items-center justify-content-start overpop-animation animate mt-3' },
       userdata.inventory.map((item, i) => {
         if (i <= 3) {
-          return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
+          return e(Guyra_InventoryItem, { name: item, title: thei18n._items[item].name, preview: thei18n._items[item].preview });
         } else if (i == 4) {
-          return e('button', { className: 'btn-tall green', onClick: () => { window.location.href = i18n.account_link } }, i18n.see_more);
+          return e(
+            'button',
+            {
+              className: 'btn-tall green',
+              onClick: () => { window.location.href = thei18n.account_link + '#inventory' }
+            },
+            thei18n.see_more
+          );
         }
       })
     );

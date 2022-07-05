@@ -32,9 +32,9 @@
   --guyra-black-transparent-gradient: linear-gradient(180deg, var(--guyra-black) 0%, rgba(255, 255, 255, 0) 100%);
 
   --guyra-white: #ffffff;
-  --guyra-grey: #e7e7e7;
-  --guyra-grey-dark: #dadada;
-  --guyra-grey-darker: #bfbfbf;
+  --guyra-grey: #f7f7f7;
+  --guyra-grey-dark: #ebebeb;
+  --guyra-grey-darker: #dbdbdb;
   --guyra-grey-darkest: #797979;
   --guyra-black: #5a5a5a;
   --guyra-blacker: #3a3a3a;

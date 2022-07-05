@@ -1027,7 +1027,6 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     this.cardsClasses = 'card trans thin blue d-flex flex-column p-3 me-3 mb-3';
 
     this.state = {
-      user_meetinglink: this.props.userData.userdata.user_meetinglink,
       cards: [],
     };
 
@@ -1043,24 +1042,6 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       ),
     );
 
-    this.linkCard = e(
-      'div',
-      { className: this.cardsClasses, style: { minHeight: 'unset' } },
-      e('h4', {}, thei18n.meeting_link),
-      e(
-        'span',
-        { className: 'd-flex flex-row' },
-        e(
-          'input', {
-            id: 'meeting-link', type: 'text', placeholder: 'https://...', className: 'bs form-control me-3',
-            onChange: onChangeForceHTTPS
-          }
-        ),
-        e('button', { className: 'btn-tall green', onClick: this.addMeetingLink }, e('i', {className: 'bi bi-plus-lg'}))
-      ),
-      e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, this.state.user_meetinglink)
-    );
-
     this.userArchiveStudentCard = e(
       'div',
       { className: this.cardsClasses, style: { minHeight: 'unset' } },
@@ -1072,9 +1053,6 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         e('button', { className: 'btn-tall btn-sm', onClick: this.archiveStudent },  e('i', {className: 'bi bi-archive me-3'}), thei18n.archive_student)
       ),
     );
-
-
-    this.state.cards.push(this.linkCard);
 
     if (this.props.listingType == 'user') {
       this.state.cards.push(this.userAddToGroupCard, this.userArchiveStudentCard);
@@ -1164,30 +1142,6 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       if (theButton) {
         theButton.remove();
       }
-
-    });
-
-  }
-
-  addMeetingLink = () => {
-
-    var theMeetingLink = document.getElementById('meeting-link');
-
-    if (!this.validateForm(theMeetingLink)) {
-      return;
-    }
-
-    fetch(thei18n.api_link + '?user=' + this.props.userId + '&meetinglink=' + theMeetingLink.value)
-    .then(res => res.json()).then(res => {
-
-      if (res != 'true') {
-        console.error('Update failed.');
-        return;
-      }
-
-      this.setState({
-        user_meetinglink: theMeetingLink.value,
-      });
 
     });
 

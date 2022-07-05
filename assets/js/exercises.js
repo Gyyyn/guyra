@@ -6,7 +6,8 @@ import {
   theUserdata,
   LoadingPage,
   GoogleAd,
-  randomNumber
+  randomNumber,
+  vibrate
 } from '%template_url/assets/js/Common.js';
 
 const { useEffect } = React;
@@ -473,7 +474,10 @@ class AnswerButton extends React.Component {
     return e(ExerciseContext.Consumer, null, ({CheckAnswer}) => e(
       AnswerButtonProper,
       {
-        onClick: () => { CheckAnswer(this.props.value) },
+        onClick: () => {
+          vibrate(30);
+          CheckAnswer(this.props.value);
+        },
         value: this.props.value,
         style: this.style, 
       }
@@ -906,7 +910,6 @@ class CurrentQuestion extends React.Component {
           ),
         ),
         e(questionType, {values: values, avatarURL: avatarURL}),
-        hintArea,
         e(
           'div',
           {
@@ -914,6 +917,7 @@ class CurrentQuestion extends React.Component {
           },
           e(answerType, {answers: values[1], correctAnswer: values[2]}),
         ),
+        hintArea,
         e(controlArea)
       )
     )
@@ -1101,14 +1105,14 @@ function LevelChooser(props) {
         { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
         e(
           'div',
-          {},
+          { className: 'd-flex flex-row align-items-center mb-2' },
+          e('span', { className: 'me-3'},
+            e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+            e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
+          ),
           e(
             'div',
-            { className: 'mb-2'},
-            e('span', { className: 'me-3'},
-              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
-              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
-            ),
+            { className: 'buy-more-units' },
             e(
               'button',
               {
@@ -1117,8 +1121,8 @@ function LevelChooser(props) {
               },
               e('span', { className: 'me-2' }, thei18n.buy_more_units),
               e('span',{}, e('i', {className: 'bi bi-shop'}))
-            )
-          )
+            ),
+          ),
         ),
         e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
           'div',
@@ -2075,13 +2079,19 @@ export class Exercises extends React.Component {
 
   AddWord = (word) => {
     var thePhrase = this.state.phraseBuilderPhrase;
-    thePhrase.push(word)
+    thePhrase.push(word);
+
+    vibrate(30);
+
     this.setState({
       phraseBuilderPhrase: thePhrase
     });
   }
 
   ClearWord = () => {
+
+    vibrate(30);
+
     this.setState({
       phraseBuilderPhrase: []
     });
@@ -2099,6 +2109,8 @@ export class Exercises extends React.Component {
 
     splicedHalf.shift();
     thePhrase = thePhrase.concat(splicedHalf);
+
+    vibrate(30);
     
     this.setState({
       phraseBuilderPhrase: thePhrase
@@ -2278,7 +2290,7 @@ export class Exercises extends React.Component {
   checkAnswerWithButton = () => {
 
     var answers = this.getAnswerFromFields();
-
+    vibrate(30);
     this.CheckAnswer(answers);
 
   }

@@ -2735,6 +2735,10 @@ class Account extends React.Component {
       decision = e(AccountOptions_changePassword);
     }
 
+    if (window.location.hash == '#inventory') {
+      decision = e(AccountInfo_Inventory);
+    }
+
     if (!is_logged_in) {
       decision = e(Login);
     }

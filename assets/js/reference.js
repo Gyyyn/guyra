@@ -150,20 +150,21 @@ class Irregulars_wrapper extends React.Component {
     return e(
       'div',
       { className: 'd-flex flex-column fade-animation animate' },
-      e(ReferenceContext.Consumer, null, ({i18n}) => e(
+      e(
         'div',
         { className: 'dialog-box mb-3' },
-        i18n.search + ': ',
+        thei18n.search,
         e(
           'input',
           {
             onChange: (e) => {
               this.setSearch(e.target.value);
             },
+            className: 'form-control',
             value: this.state.search
           }
         )
-      )),
+      ),
       e(ReferenceContext.Consumer, null, ({irregularsObject}) => irregularsObject.map((word, i) => {
         return e(Irregulars_WordListing, { word: word, search: this.state.search, index: i });
       }))
@@ -211,20 +212,21 @@ class Phrasals_wrapper extends React.Component {
     return e(
       'div',
       { className: 'fade-animation animate' },
-      e(ReferenceContext.Consumer, null, ({i18n}) => e(
+      e(
         'div',
         { className: 'dialog-box mb-3' },
-        i18n.search + ': ',
+        thei18n.search,
         e(
           'input',
           {
             onChange: (e) => {
               this.setSearch(e.target.value);
             },
+            className: 'form-control',
             value: this.state.search
           }
         )
-      )),
+      ),
       e(ReferenceContext.Consumer, null, ({phrasalsObject}) => e(
         'div',
         { className: 'phrasals word-list' },
@@ -254,7 +256,8 @@ function GrammaticalTime_ListingSection_item(props) {
     e('span', { className: 'col-md-7 fw-bold text-black' },
       e('span', { className: 'pronoun me-1' }, thePronoun),
       e('span', { className: 'aux me-1' + auxRowExtraClass }, props.RowAux),
-      e('span', { className: 'verb me-1' }, props.RowVerb)
+      e('span', { className: 'verb me-1' }, props.RowVerb),
+      '...'
     )
   );
 }
@@ -654,9 +657,9 @@ class Dictionary extends React.Component {
   conceptFetch(submittedWord) {
 
     // Load in an ad while people wait.
-    this.setState({
-      ad: e(GoogleAd)
-    });
+    // this.setState({
+    //   ad: e(GoogleAd)
+    // });
 
     var dictionarySubmit = document.getElementById('dictionary-submit');
     var dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
@@ -936,8 +939,13 @@ class Dictionary extends React.Component {
               }
 
               theHTML = theHTML + output;
+              theHTML = theHTML + '</div>';
 
-              theHTML = theHTML + '</div>'
+              var cc_warning = document.querySelector('.cc-warning');
+
+              if (cc_warning.classList.contains('d-none')) {
+                cc_warning.classList.remove('d-none');
+              }
 
             });
 
@@ -982,9 +990,18 @@ class Dictionary extends React.Component {
         ),
         e(
           'div',
-          { className: 'd-flex flex-row align-items-center justify-content-center mt-1 mb-5' },
+          { className: 'd-flex flex-row justify-content-center mb-5' },
           e('input', { autocapitalize: "off", autofocus: "true", id: "dictionary-word", className: "form-control w-75 me-3", type: "text", placeholder: i18n.write_word_here }),
-          e('button', { className: 'btn-tall blue', id: 'dictionary-submit', onClick: () => { this.conceptFetch(this.getInputWord()); } }, e('i', { className: 'bi bi-search' }))
+          e(
+            'button',
+            {
+              className: 'btn-tall blue',
+              id: 'dictionary-submit',
+              onClick: () => { this.conceptFetch(this.getInputWord()); } 
+            },
+            e('i', { className: 'bi bi-search me-2' }),
+            thei18n.search,
+          )
         )
       ),
       e(
@@ -1004,7 +1021,7 @@ class Dictionary extends React.Component {
       ),
       e(
         'div',
-        { className: 'cc-warning border-top text-smaller text-muted pt-1 mt-3 text-center' },
+        { className: 'cc-warning text-ss text-muted text-center d-none' },
         window.HTMLReactParser(thei18n.cc_warning)
       )
     ]);

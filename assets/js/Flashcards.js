@@ -3,7 +3,8 @@ import {
   GuyraGetData,
   thei18n,
   LoadingPage,
-  MD5
+  MD5,
+  vibrate
 } from './Common.js';
 
 var user_gamedata = {};
@@ -57,6 +58,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
     theCard.classList.add('flip-animation', 'animate');
 
     this.flipSound.play();
+    vibrate(30);
 
     setTimeout(() => {
 
@@ -213,7 +215,10 @@ class Flashcards_Exercise extends React.Component {
 
     // Cards that are "very hard" get tried again.
     if (type == 'v_hard') {
+      vibrate([30, 30, 30]);
       this.props.deck.push(this.state.currentCard);
+    } else {
+      vibrate(30);
     }
 
     // No floats messing up code later please.

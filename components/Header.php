@@ -89,6 +89,12 @@ function RenderAccountDropdown($args=[]) {
         Admin Panel
         </a>
       </li>
+      <li>
+        <a class="dropdown-item" href="<?php echo $gi18n['home_link'] . '/UserHomePage'; ?>">
+        <i class="bi bi-house-heart me-2 text-x"></i>
+        UserHomePage
+        </a>
+      </li>
       <?php endif; ?>
       <li>
         <a id="logout-button" data-confirm="<?php echo $gi18n['logout_confirm'] ?>" class="dropdown-item" href="<?php echo $gi18n['logout_link']; ?>">

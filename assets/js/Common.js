@@ -1260,3 +1260,15 @@ export function onChangeForceHTTPS(event) {
   }
 
 }
+
+export function vibrate(ms) {
+  const canVibrate = ('vibrate' in navigator);
+
+  if (canVibrate) {
+    window.navigator.vibrate(ms);
+    return true;
+  } else {
+    return false;
+  }
+
+}
