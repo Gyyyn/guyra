@@ -649,3 +649,34 @@ if ($_GET['oauth_login']) {
   ]]);
 
 }
+
+if ($_GET['gen_pix']) {
+
+  $thePost = json_decode(file_get_contents('php://input'), true);
+
+  if (!$thePost || !$thePost['value'] || !$thePost['user'])
+  guyra_output_json('post error', true);
+
+  require_once 'vendor/autoload.php';
+
+  MercadoPago\SDK::setAccessToken($gSettings['mp_access_token']);
+
+  $payment = new MercadoPago\Payment();
+  $payment->transaction_amount = $thePost['value'];
+  $payment->description = $gi18n['prices_features']['premium']['title'];
+  $payment->payment_method_id = "pix";
+  $payment->payer = array(
+      "email" => $thePost['user']['user_email'],
+      "first_name" => $thePost['user']['first_name'],
+      "last_name" => $thePost['user']['last_name'],
+      "identification" => array(
+          "type" => "CPF",
+          "number" => $thePost['user']['doc_id']
+      ),
+    );
+
+  $payment->save();
+
+  guyra_output_json($payment, true);
+
+}

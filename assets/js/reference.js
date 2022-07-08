@@ -239,27 +239,88 @@ class Phrasals_wrapper extends React.Component {
 
 }
 
+class GrammaticalTime_ListingSection_item_practice extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.normalClass = 'border-0 shadow-sm rounded me-2';
+    this.correctClass = this.normalClass + ' bg-green';
+
+    this.state = {
+      className: this.normalClass,
+      value: ''
+    }
+  }
+
+  checkCorrect(value) {
+
+    if (value == this.state.value) {
+      return;
+    }
+
+    var newState = {
+      value: value,
+      className: this.normalClass
+    };
+
+    if (value == this.props.correct) {
+      newState.className = this.correctClass;
+    }
+
+    this.setState(newState);
+
+  }
+
+  render() {
+
+    return e(
+      'input',
+      {
+        className: this.state.className,
+        type: 'text',
+        value: this.state.value,
+        onChange: (event) => {
+
+          this.checkCorrect(event.target.value);
+
+        }
+      }
+    )
+  }
+
+}
+
 function GrammaticalTime_ListingSection_item(props) {
 
   // Upper case pronouns.
   var thePronoun = props.RowPronoun.charAt(0).toUpperCase() + props.RowPronoun.slice(1);
+  var theRowAux = props.RowAux;
+  var theRowVerb = props.RowVerb;
   var auxRowExtraClass = '';
 
   if (!props.RowAux) {
     auxRowExtraClass = ' d-none';
   }
 
-  return e(
-    'li',
-    { className: 'list-group-item d-flex' },
-    e('span', { className: 'col-md-3 text-end text-grey-darkest me-2' }, props.RowTitle + ': '),
-    e('span', { className: 'col-md-7 fw-bold text-black' },
-      e('span', { className: 'pronoun me-1' }, thePronoun),
-      e('span', { className: 'aux me-1' + auxRowExtraClass }, props.RowAux),
-      e('span', { className: 'verb me-1' }, props.RowVerb),
-      '...'
-    )
-  );
+  return e(ReferenceContext.Consumer, null, ({practice_mode}) => {
+
+    if (practice_mode) {
+      theRowVerb = e(GrammaticalTime_ListingSection_item_practice, { correct: theRowVerb });
+    }
+
+    return e(
+      'li',
+      { className: 'list-group-item d-flex' },
+      e('span', { className: 'col-md-3 text-end text-grey-darkest me-2' }, props.RowTitle + ': '),
+      e('span', { className: 'col-md-7 fw-bold text-black' },
+        e('span', { className: 'pronoun me-1' }, thePronoun),
+        e('span', { className: 'aux me-1' + auxRowExtraClass }, theRowAux),
+        e('span', { className: 'verb' }, theRowVerb),
+        '...'
+      )
+    );
+
+  });
 }
 
 function GrammaticalTime_ListingSection(props) {
@@ -594,7 +655,7 @@ class GrammaticalTime extends React.Component {
 
                   }
                 },
-                'Traduzir',
+                thei18n.translate,
                 e('i', { className: 'bi bi-translate ms-2' })
               )
             )
@@ -602,24 +663,17 @@ class GrammaticalTime extends React.Component {
           e(
             'span',
             { className: 'dialog-box p-3 more-rounded position-relative' },
-            e(
-              'span',
-              { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' },
-              thei18n.soon
-            ),
             e('div', { className: 'fw-bold mb-2 me-3' }, thei18n.practice_mode),
-            e(Slider, {
-              checked: false,
+            e(ReferenceContext.Consumer, null, ({setPracticeMode, practice_mode}) => e(Slider, {
+              checked: practice_mode,
               dom_id: 'practice_slider',
-              value: '',
+              value: null,
               onClick: () => {
 
-                var slider = document.getElementById('practice_slider');
-
-                slider.checked = !practice_slider.checked;
+                setPracticeMode(!practice_mode);
 
               }
-            }),
+            })),
           )
         ),
         e(GrammaticalTime_ListingSection, { GrammarTitle: 'Simple', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
@@ -1110,6 +1164,8 @@ class Reference extends React.Component {
       i18n: {},
       phrasalsObject: window.localStorage.getItem('phrasalsObject'),
       irregularsObject: window.localStorage.getItem('irregularsObject'),
+      practice_mode: false,
+      setPracticeMode: this.setPracticeMode
     };
 
   }
@@ -1193,6 +1249,12 @@ class Reference extends React.Component {
 
     this.setState({
       page: page
+    });
+  }
+
+  setPracticeMode = (checked) => {
+    this.setState({
+      practice_mode: checked
     });
   }
 

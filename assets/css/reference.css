@@ -1,4 +1,4 @@
-.grammar-reference input {
+.grammar-reference .dialog-box input {
   background: var(--guyra-blue-darkest);
   border: 1px var(--guyra-blue) solid;
   color: var(--guyra-white);

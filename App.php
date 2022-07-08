@@ -25,13 +25,16 @@ function GetComponent($component, $_args=[]) {
 }
 
 // Capture request and pass to handler.
-CaptureRequest(function($r) {
+CaptureRequest(function($r, $_nests) {
 
   global $template_dir;
   global $is_logged_in;
   global $is_admin;
   global $current_user_data;
   global $gSettings;
+  global $nests;
+
+  $nests = $_nests;
 
   // First set up some default pages.
   $page = $template_dir . '/pages/Landing.php';

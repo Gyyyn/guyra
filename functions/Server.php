@@ -77,9 +77,7 @@ function CaptureRequest($handleRequest) {
 		], 404);
 	}
 
-	$request = $request[1];
-
- 	return $handleRequest($request);
+ 	return $handleRequest($request[1], $request);
 
 }
 

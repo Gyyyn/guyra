@@ -990,9 +990,9 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
 
     this.state = {
       "user_email": this.props.userdata.user_email,
-      "first_name": this.props.userdata.first_name,
-      "last_name": this.props.userdata.last_name,
+      "first_name": this.props.userdata.first_name + ' ' + this.props.userdata.last_name,
       "user_phone": this.props.userdata.user_phone,
+      "doc_id": this.props.userdata.doc_id,
       modified: [],
     };
 
@@ -1066,15 +1066,15 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
           e(
             'input',
             {
-              id: 'last_name',
+              id: 'doc_id',
               type: "text",
-              className: "input-last-name form-control",
-              placeholder: this.props.userdata.last_name,
-              value: this.state['last_name'],
+              className: "input-doc-id form-control",
+              placeholder: '.',
+              value: this.state['doc_id'],
               onChange: this.onChangeField
             }
           ),
-          e('label', { for: 'profile-last-name' }, thei18n.lastname),
+          e('label', { for: 'doc_id' }, thei18n.document_id),
         ),
       ),
       e(
@@ -1105,6 +1105,10 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
               this.state.modified.forEach((item) => {
                 dataToPost[item] = this.state[item];
               });
+
+              dataToPost.last_name = dataToPost.first_name.split(' ');
+              dataToPost.first_name = dataToPost.last_name.shift();
+              dataToPost.last_name = dataToPost.last_name.join(' ');
 
               var tryingToChangeEmail = dataToPost.user_email != undefined;
 
@@ -1624,7 +1628,7 @@ function AccountOptions(props) {
 
 function WhoAmI_welcome(props) {
 
-  return e(AccountContext.Consumer, null, ({setPage, userdata, i18n}) => {
+  return e(AccountContext.Consumer, null, ({userdata, i18n}) => {
 
     // Safari cries if we use dashes for dates
     var dateRegisteredSince = GuyraParseDate(userdata.user_registered);
@@ -1667,6 +1671,51 @@ function WhoAmI_welcome(props) {
     );
   });
 
+}
+
+class WhoAmI_openPayments_qrCode extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.loadingIcon = e(
+      'div',
+      { className: 'spinner-grow', role: 'status' },
+      e('span', { className: 'visually-hidden'}, thei18n.loading)
+    );
+
+    this.state = {
+      theCode: this.loadingIcon
+    };
+
+  }
+
+  componentWillMount() {
+
+    var base64Encoded = '%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';
+
+    this.theCode = e(
+      'img',
+      {
+        className: 'page-icon large more-rounded',
+        alt: 'QR Code',
+        src: 'data:image/jpeg;base64,' + base64Encoded
+      }
+    );
+
+    this.setState({
+      theCode: this.theCode
+    });
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'align-items-center d-flex generated-qr-code h-100 justify-content-center w-100' },
+      this.state.theCode
+    );
+  }
 }
 
 function WhoAmI_openPayments_paymentItem(props) {
@@ -1737,14 +1786,7 @@ function WhoAmI_openPayments_paymentItem(props) {
               e('i', { className: 'bi bi-question-circle ms-1 text-blue-darker' })
             )
           ),
-          e(
-            'img',
-            {
-              className: 'page-icon large more-rounded',
-              alt: 'QR Code',
-              src: i18n.api_link + '?get_image=img/qrcode.jpg&size=256'
-            }
-          ),
+          e(WhoAmI_openPayments_qrCode)
         ),
       ),
       e(

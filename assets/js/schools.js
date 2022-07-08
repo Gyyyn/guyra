@@ -1760,6 +1760,21 @@ class GroupAdminHome_AdminPanel extends React.Component {
             ),
           ),
           e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
+        ),
+        e(
+          'div',
+          { className: 'col-auto' },
+          e('h3', { className: 'mb-3' }, 'Perfil'),
+          e(
+            'button',
+            {
+              className: 'btn-tall blue',
+              onClick: () => {
+                window.location.href = thei18n.home_link + '/user/' + theUserdata.id
+              }
+            },
+            'Abrir perfil publico (*)'
+          )
         )
       )
     );

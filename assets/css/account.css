@@ -14,3 +14,77 @@
     z-index: 1050;
   }
 }
+
+.month-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.month-row:first-of-type {
+  justify-content: end;
+}
+
+.month-row:last-of-type {
+  justify-content: start;
+}
+
+.day {
+  width: 44px;
+  height: 40px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  border-radius: var(--guyra-border-radius);
+  padding: 5px;
+}
+
+.day.active {
+  border-color: var(--guyra-blue);
+  color: var(--guyra-blue);
+}
+
+.day:hover {
+  border: 1px solid var(--guyra-grey-darker);
+}
+
+.month, .schedule {
+  border: 1px solid var(--guyra-grey-darker);
+  padding: 1rem;
+  border-radius: var(--guyra-border-radius-bigger);
+  box-shadow: var(--guyra-box-shadow-smaller);
+}
+
+#schedule {
+  position: relative;
+}
+
+.schedule {
+  min-width: 20rem;
+  position: absolute;
+  top: -50%;
+  background-color: var(--guyra-white);
+  box-shadow: var(--guyra-box-shadow-material);
+}
+
+@media (max-width: 767px) {
+  .schedule {
+    right: 100%;
+  }
+}
+
+.daySchedule {
+  padding: .15rem .3rem;
+  border: 1px solid transparent;
+  border-radius: var(--guyra-border-radius);
+  border-bottom-width: var(--guyra-border-width);
+  margin-bottom: 0.2rem;
+  cursor: pointer;
+}
+
+.daySchedule:hover {
+  border-color: var(--guyra-grey-darker);
+}

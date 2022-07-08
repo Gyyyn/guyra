@@ -2,95 +2,14 @@ import {
   e,
   GuyraGetData,
   thei18n,
-  LoadingPage
+  LoadingPage,
+  PopUp
 } from './Common.js';
 
 const RoadmapContext = React.createContext();
 
 class Roadmap_Popup extends React.Component {
   constructor(props) {
-    super(props);
-
-    this.bodyElement = this.props.bodyElement;
-
-    if (this.props.bodyElement === undefined) {
-      this.bodyElement = '...';
-    }
-
-    this.popup = e(
-      'div',
-      {
-        className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center mt-5',
-        id: 'popup',
-        style: {
-          zIndex: 1055,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          overflowY: 'auto'
-        }
-      },
-      e(
-        'div',
-        {
-          className: 'rounded-box pop-animation animate my-5',
-          style: {
-            maxWidth: 700 + 'px'
-          }
-        },
-        e(
-          'div',
-          {
-            class:"modal-header p-0",
-          },
-          e(
-            'h2',
-            {},
-            this.props.title
-          ),
-          e(
-            'a',
-            {
-              type: "button",
-              className: "btn-tall btn-sm red",
-              "aria-label": "close",
-              onClick: () => {
-                this.close();
-              }
-            },
-            e('i', { className: "bi bi-x-lg" })
-          )
-        ),
-        e(
-          'div',
-          { className: 'modal-body p-0 mt-3' },
-          window.HTMLReactParser(this.bodyElement)
-        )
-      )
-    );
-
-    this.state = {
-      popup: null
-    };
-
-  }
-
-  open() {
-
-    this.setState({
-      popup: this.popup
-    });
-
-    document.querySelector('body').classList.add('overflow-hidden');
-
-  }
-
-  close() {
-
-    document.querySelector('body').classList.remove('overflow-hidden');
-
-    this.setState({
-      popup: null
-    });
-
   }
 
   setchallengeTracker() {
@@ -120,20 +39,20 @@ class Roadmap_Popup extends React.Component {
   }
 
   render() {
-    return [
-      e(
-        'div',
-        {
-          onClick: () => {
-            this.open();
-            this.setchallengeTracker();
-            this.setRoadmapReturnCookie();
-          }
-        },
-        this.props.buttonElement
-      ),
-      this.state.popup
-    ];
+    return e(
+      'div',
+      {
+        onClick: () => {
+          this.setchallengeTracker();
+          this.setRoadmapReturnCookie();
+        }
+      },
+      e(PopUp, {
+        buttonElement: this.props.buttonElement,
+        bodyElement: this.props.bodyElement,
+        title: this.props.title,
+      })
+    );
   }
 }
 

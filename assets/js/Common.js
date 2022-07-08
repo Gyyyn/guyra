@@ -753,6 +753,15 @@ export function randomNumber(min, max) {
 }
 
 export function RoundedBoxHeading(props) {
+
+  var theIcon;
+
+  if (!props.directURL) {
+    theIcon = thei18n.api_link + '?get_image=' + props.icon + '&size=128';
+  } else {
+    theIcon = props.icon;
+  }
+
   return e(
     'div',
     { className: 'icon-title mb-3 d-flex justify-content-between align-items-center' },
@@ -760,9 +769,10 @@ export function RoundedBoxHeading(props) {
     e(
       'span',
       { className: 'page-icon' },
-      e('img', { alt: props.value, src: thei18n.api_link + '?get_image=' + props.icon + '&size=128' }),
+      e('img', { alt: props.value, src: theIcon }),
     ),
   );
+
 }
 
 export function setCookie(cname, cvalue, exdays=7) {
@@ -1271,4 +1281,106 @@ export function vibrate(ms) {
     return false;
   }
 
+}
+
+export class PopUp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.bodyElement = this.props.bodyElement;
+
+    if (this.props.bodyElement === undefined) {
+      this.bodyElement = e(LoadingPage);
+    }
+
+    this.popup = e(
+      'div',
+      {
+        className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center mt-5',
+        id: 'popup',
+        style: {
+          zIndex: 1055,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          overflowY: 'auto'
+        }
+      },
+      e(
+        'div',
+        {
+          className: 'rounded-box pop-animation animate my-5',
+          style: {
+            maxWidth: 700 + 'px'
+          }
+        },
+        e(
+          'div',
+          {
+            class:"modal-header p-0",
+          },
+          e(
+            'h2',
+            {},
+            this.props.title
+          ),
+          e(
+            'button',
+            {
+              type: "button",
+              className: "btn-tall btn-sm red close",
+              "aria-label": "close",
+              onClick: () => {
+                this.close();
+              }
+            },
+            e('i', { className: "bi bi-x-lg" })
+          )
+        ),
+        e(
+          'div',
+          { className: 'modal-body p-0 mt-3' },
+          this.bodyElement
+        )
+      )
+    );
+
+    this.state = {
+      popup: null
+    };
+
+  }
+
+  open() {
+
+    this.setState({
+      popup: this.popup
+    });
+
+    document.querySelector('body').classList.add('overflow-hidden');
+
+  }
+
+  close() {
+
+    document.querySelector('body').classList.remove('overflow-hidden');
+
+    this.setState({
+      popup: null
+    });
+
+  }
+
+  render() {
+    return [
+      e(
+        'div',
+        {
+          onClick: () => {
+            this.open();
+          }
+        },
+        this.props.buttonElement
+      ),
+      this.state.popup
+    ];
+  }
 }

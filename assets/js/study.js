@@ -195,7 +195,7 @@ class UserHome_ReplyCard extends React.Component {
             )
           ),
           e('button', { className: 'btn-tall blue w-50', onClick: (event) => { this.submit(event) } }, thei18n.send, e('i', { className: 'bi bi-send-plus ms-3' })),
-        )
+        ),
       ),
     );
   }
