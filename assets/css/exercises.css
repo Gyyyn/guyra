@@ -140,7 +140,7 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
 
 .exercise-level-chooser .section {
   display: flex;
-  margin-bottom: calc(1rem + .5vw);
+  margin-bottom: 3rem;
   justify-content: center;
 }
 
@@ -153,11 +153,12 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
   border: .15rem transparent solid;
   border-bottom: .35rem transparent solid;
   background: transparent;
-  padding: calc(.25rem + 1.2vw);
-  margin: 0 calc(.15rem + 0.5vw);
-  font-size: var(--guyra-fonts-textsize-n);
+  padding: calc(.35rem + 1.2vw);
+  margin: 0 calc(.45rem + 1.5vw);
+  font-size: var(--guyra-fonts-textsize-s);
   transition: var(--guyra-transition);
   font-weight: bold;
+  min-width: 4.5rem;
 }
 
 .exercise-level-chooser .section .btn:active:not(.disabled) {
@@ -196,7 +197,7 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
 }
 
 .exercise-icon > img {
-  max-width: calc(1rem + 1.5vw);
+  max-width: calc(1.5rem + 1.5vw);
   margin-right: calc(.1rem + .1vw);
   transition: var(--guyra-transition);
 }

@@ -650,6 +650,7 @@ class AnswersTextArea extends React.Component {
       'textarea',
       {
         id: "exercise-answer-textarea",
+        className: 'mb-0',
         onKeyDown: (i) => {
           let t = document.getElementById("exercise-answer-textarea");
           if (i.keyCode === 13) {
@@ -767,6 +768,10 @@ class QuestionAudioButton extends React.Component {
 
     this.audioSlowCounter = 0;
 
+  }
+
+  componentDidMount() {
+    this.theAudio.play();
   }
 
   render() {
@@ -893,7 +898,7 @@ class CurrentQuestion extends React.Component {
   }
 
   render() {
-    return e(ExerciseContext.Consumer, null, ({values, hintArea, controlArea, answerType, avatarURL, questionType}) => e(
+    return e(ExerciseContext.Consumer, null, ({values, hintArea, answerType, avatarURL, questionType, explainer}) => e(
         'div',
         {
           id: 'current-question',
@@ -902,7 +907,12 @@ class CurrentQuestion extends React.Component {
         e(
           'div',
           { className: 'row align-items-center mb-3' },
-          e('div', { className: 'col' },
+          e('div', { className: 'col align-items-center col d-flex' },
+            e(
+              'span',
+              { className: 'text-x fw-bold me-2' },
+              explainer
+            ),
             e(ProgressBar),
           ),
           e('div', { className: 'col-auto' },
@@ -918,7 +928,6 @@ class CurrentQuestion extends React.Component {
           e(answerType, {answers: values[1], correctAnswer: values[2]}),
         ),
         hintArea,
-        e(controlArea)
       )
     )
   }
@@ -964,16 +973,41 @@ class HintAreaHint extends React.Component {
 
   render() {
 
-    return e(
-      'div',
-      { className: 'text-n' },
-      thei18n.hint + ": ",
+    return [
       e(
-        'span',
-        { className: 'fw-bold' },
-        this.state.hintValue
+        'div',
+        { className: '' },
+        thei18n.hint + ": ",
+        e(
+          'span',
+          { className: 'fw-bold' },
+          this.state.hintValue
+        ),
+      ),
+      e(
+        'div',
+        {},
+        e(ExerciseContext.Consumer, null, ({switchAnswerType, candyButton, disallowCandy, candyButtonClass}) => e(
+          'button',
+          {
+            onClick: () => {
+    
+              if (!disallowCandy) {
+                switchAnswerType()
+              } else {
+                if (window.confirm(i18n.give_up + '?')) {
+                  checkAnswerWithButton()
+                }
+              }
+    
+            },
+            className: candyButtonClass + ' btn-sm me-2'
+          },
+          candyButton
+        )),
+        e(checkAnswerButton, { small: true })
       )
-    );
+    ];
 
   }
 
@@ -1346,12 +1380,19 @@ function returnToLevelMapButton(props) {
 }
 
 function checkAnswerButton(props) {
+
+  var buttonSize = '';
+
+  if (props.small) {
+    buttonSize = ' btn-sm';
+  }
+
   return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass, answerType}) => {
     if (answerType != AnswersWordBank && answerType != AnswersChoices) {
       return e(
         'a',
         {
-          className: checkAnswerButtonClass,
+          className: checkAnswerButtonClass + buttonSize,
           id: 'check-answer',
           onClick: () => { checkAnswerWithButton() }
         },
@@ -1364,51 +1405,6 @@ function checkAnswerButton(props) {
       );
     }
   });
-}
-
-function controlAreaButtons(props) {
-
-  return e(ExerciseContext.Consumer, null, ({i18n, switchAnswerType, candyButton, candyButtonClass, disallowCandy, checkAnswerWithButton}) => e(
-    'div',
-    { className: "d-flex" },
-    e(
-      BootstrapModal,
-      {
-        target: "explain-modal",
-        text: window.HTMLReactParser(i18n.explain_exercises),
-        buttonclasses: "btn-tall blue me-2",
-        button: e('i', { className: 'bi bi-info-lg' }),
-        title: i18n.help
-      }
-    ),
-    e(
-      'button',
-      {
-        onClick: () => {
-
-          if (!disallowCandy) {
-            switchAnswerType()
-          } else {
-            if (window.confirm(i18n.give_up + '?')) {
-              checkAnswerWithButton()
-            }
-          }
-
-        },
-        className: candyButtonClass
-      },
-      candyButton
-    )
-  ));
-}
-
-function controlArea(props) {
-  return e(
-    'div',
-    {className: 'control-area'},
-    e(checkAnswerButton),
-    e(controlAreaButtons)
-  );
 }
 
 function hintAreaInfo(props) {
@@ -1645,7 +1641,7 @@ class Rewards extends React.Component {
 
           setTimeout(() => {
 
-            var openSound = new Audio(thei18n.audio_link + 'open.ogg');
+            var openSound = new Audio(thei18n.audio_link + 'open.mp3');
 
             openSound.play();
 
@@ -1781,7 +1777,6 @@ export class Exercises extends React.Component {
       CheckAnswer: this.CheckAnswer,
       checkAnswerWithButton: this.checkAnswerWithButton,
       hintArea: e(hintAreaInfo),
-      controlArea: controlArea,
       page: e(LoadingPage),
       levelMap: {},
       loadExerciseJSON: this.loadExerciseJSON,
@@ -1807,7 +1802,8 @@ export class Exercises extends React.Component {
       challengeTracker: this.challengeTracker,
       renderTopbar: true,
       isEasyMode: false,
-      wrongMembers: []
+      wrongMembers: [],
+      explainer: null
     }
 
     this.state = this.initialState;
@@ -1865,11 +1861,11 @@ export class Exercises extends React.Component {
           });
         }
 
-        this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.ogg');
-        this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.ogg');
-        this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.ogg');
-        this.correctHitSound = new Audio(thei18n.audio_link + 'hit.ogg');
-        this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.ogg');
+        this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.mp3');
+        this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.mp3');
+        this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.mp3');
+        this.correctHitSound = new Audio(thei18n.audio_link + 'hit.mp3');
+        this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.mp3');
 
       });
 
@@ -2331,7 +2327,8 @@ export class Exercises extends React.Component {
     this.setState({
       currentExercise: theExercise,
       currentExerciseType: this.ExerciseObject[this.currentQuestion][0],
-      checkAnswerButtonClass: this.buttonClassGreen
+      checkAnswerButtonClass: this.buttonClassGreen,
+      explainer: thei18n._hints[this.state.currentExerciseType]
     });
 
     // Determine which answer type to use.
@@ -2345,7 +2342,7 @@ export class Exercises extends React.Component {
 
       this.setState({
         questionType: QuestionDialog,
-        answerType: useAnswerType
+        answerType: useAnswerType,
       });
 
       return activityCompleteThePhrase(theExercise, this.state.allTheWords, 5);
@@ -2359,7 +2356,7 @@ export class Exercises extends React.Component {
 
       this.setState({
         questionType: QuestionAudio,
-        answerType: useAnswerType
+        answerType: useAnswerType,
       });
 
       if (disallowCandy) {
@@ -2376,7 +2373,7 @@ export class Exercises extends React.Component {
 
       this.setState({
         questionType: QuestionTranslate,
-        answerType: useAnswerType
+        answerType: useAnswerType,
       });
 
       return activityTranslate(theExercise);
@@ -2389,7 +2386,7 @@ export class Exercises extends React.Component {
 
       this.setState({
         questionType: QuestionDialog,
-        answerType: useAnswerType
+        answerType: useAnswerType,
       });
 
       return activityMultipleChoice(theExercise);

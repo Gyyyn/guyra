@@ -46,7 +46,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
       view: this.props.front
     };
 
-    this.flipSound = new Audio(thei18n.audio_link + 'paperflip.ogg');
+    this.flipSound = new Audio(thei18n.audio_link + 'paperflip.mp3');
 
   }
 
@@ -126,10 +126,10 @@ class Flashcards_Exercise extends React.Component {
       userCanAnswer: true
     };
 
-    this.easySound = new Audio(thei18n.audio_link + 'easy.ogg');
-    this.normalSound = new Audio(thei18n.audio_link + 'normal.ogg');
-    this.hardSound = new Audio(thei18n.audio_link + 'hard.ogg');
-    this.vHardSound = new Audio(thei18n.audio_link + 'v_hard.ogg');
+    this.easySound = new Audio(thei18n.audio_link + 'easy.mp3');
+    this.normalSound = new Audio(thei18n.audio_link + 'normal.mp3');
+    this.hardSound = new Audio(thei18n.audio_link + 'hard.mp3');
+    this.vHardSound = new Audio(thei18n.audio_link + 'v_hard.mp3');
 
     this.sounds = {
       easy: this.easySound,

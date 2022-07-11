@@ -337,14 +337,7 @@ function AccountPayment_cancelPlan(props) {
         { className: 'd-inline m-auto' },
         e('img', { className: 'page-icon large', alt: i18n.upload, src: i18n.api_link + '?get_image=img/break-up.png&size=256' })
       ),
-      e('span', { className: 'text-n text-start py-3' }, i18n.cancel_membership_message + ' ' + i18n.no_subscription_found[1]),
-      e(
-        'ul',
-        { className: 'check-list mt-3' },
-        e('li', { className: 'x' }, i18n.no_subscription_found[2]),
-        e('li', { className: 'x' }, i18n.no_subscription_found[3]),
-        e('li', { className: 'x' }, i18n.no_subscription_found[4]),
-      ),
+      e('span', { className: 'text-n text-start py-3' }, i18n.cancel_membership_message),
       e(
         'button',
         {
@@ -2335,7 +2328,12 @@ function Register(props) {
         ),
         e(
           'div',
-          { className: 'my-4'},
+          { className: '' },
+          e(
+            'div',
+            { className: 'text-ss text-grey-darker my-3' },
+            thei18n.sign_up_warning
+          ),
           ContinueButton
         ),
       ),

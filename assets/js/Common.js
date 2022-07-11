@@ -1272,12 +1272,19 @@ export function onChangeForceHTTPS(event) {
 }
 
 export function vibrate(ms) {
+
   const canVibrate = ('vibrate' in navigator);
 
   if (canVibrate) {
     window.navigator.vibrate(ms);
     return true;
   } else {
+
+    if (thei18n.audio_link) {
+      var click = new Audio(thei18n.audio_link + 'click.mp3');
+      click.play();
+    }
+
     return false;
   }
 

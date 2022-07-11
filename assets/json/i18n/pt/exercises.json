@@ -1475,7 +1475,7 @@
   "unit31": {
 
     "CompleteThePhrase": [
-      ["I looked in the mirror to check my hair before going out.", "look in the mirror", "(olhei no espelho)"],
+      ["I looked in the mirror to check my hair before going out.", "looked in the mirror", "(olhei no espelho)"],
       ["I don't think I should go to bed yet.", "think I should", "(acho que eu deveria)"],
       ["I decided not to go to Australia.", "decided", "(decidi)"],
       ["I was surprised to get the job at the time.", "was surprised to", "(fiquei surpresa por)"],
