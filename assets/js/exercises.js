@@ -11,6 +11,7 @@ import {
 } from '%template_url/assets/js/Common.js';
 
 const { useEffect } = React;
+var fakeClick;
 
 function shuffleArray(a) {
   var j, x, i;
@@ -475,7 +476,7 @@ class AnswerButton extends React.Component {
       AnswerButtonProper,
       {
         onClick: () => {
-          vibrate(30);
+          vibrate(30, fakeClick);
           CheckAnswer(this.props.value);
         },
         value: this.props.value,
@@ -1830,6 +1831,8 @@ export class Exercises extends React.Component {
         topbar: e(Study_Topbar, { userdata: this.state.userdata, practice_link: { onClick: null, classExtra: 'active' } })
       });
 
+      fakeClick = new Audio(thei18n.audio_link + 'click.mp3');
+
       fetch(thei18n.api_link + '?get_exercises=levelmap')
       .then(res => res.json())
       .then(json => {
@@ -2077,7 +2080,7 @@ export class Exercises extends React.Component {
     var thePhrase = this.state.phraseBuilderPhrase;
     thePhrase.push(word);
 
-    vibrate(30);
+    vibrate(30, fakeClick);
 
     this.setState({
       phraseBuilderPhrase: thePhrase
@@ -2086,7 +2089,7 @@ export class Exercises extends React.Component {
 
   ClearWord = () => {
 
-    vibrate(30);
+    vibrate(30, fakeClick);
 
     this.setState({
       phraseBuilderPhrase: []
@@ -2106,7 +2109,7 @@ export class Exercises extends React.Component {
     splicedHalf.shift();
     thePhrase = thePhrase.concat(splicedHalf);
 
-    vibrate(30);
+    vibrate(30, fakeClick);
     
     this.setState({
       phraseBuilderPhrase: thePhrase
