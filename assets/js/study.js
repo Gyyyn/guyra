@@ -159,11 +159,22 @@ class UserHome_ReplyCard extends React.Component {
       e(
         'div',
         { className: 'dialog-box' },
-        e('div', { className: 'controls' },
+        e('textarea', { id: 'comment'}, null),
+        e(
+          'div',
+          { className: 'd-flex flex-row flex-wrap justify-content-center mt-3' },
+          e(
+            'label',
+            { className: 'me-2' },
+            e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png', onChange: (event) => { this.attachFile(event) } }),
+            e('a', { id: 'comment-file-button', className: 'btn btn-tall green' },
+              e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
+            )
+          ),
           e(
             'button',
             {
-              className: 'btn-tall btn-v green me-2 mb-2',
+              className: 'btn-tall green me-2',
               onClick: (event) => {
 
                 if (!this.easyMDE) {
@@ -178,23 +189,15 @@ class UserHome_ReplyCard extends React.Component {
 
               }
             },
-            e('i', { className: 'bi bi-clipboard' }),
-            thei18n.button_copy_notepad
+            e('i', { className: 'bi bi-clipboard me-2' }),
+            e('span', { className: 'text-s' }, thei18n.button_copy_notepad)
           ),
-        ),
-        e('textarea', { id: 'comment'}, null),
-        e(
-          'div',
-          { className: 'd-flex flex-row justify-content-center mt-3' },
           e(
-            'label',
-            { className: 'me-3 w-25' },
-            e('input', { className: 'd-none', type: 'file', id: 'comment-file', accept: 'image/jpeg,image/jpg,image/gif,image/png', onChange: (event) => { this.attachFile(event) } }),
-            e('a', { id: 'comment-file-button', className: 'btn btn-tall green' },
-              e('img', { className: 'page-icon tiny', alt: thei18n.upload, src: thei18n.api_link + '?get_image=icons/add-image.png&size=32' })
-            )
+            'button',
+            { className: 'btn-tall blue me-2 mt-2 mt-md-0 flex-grow-1', onClick: (event) => { this.submit(event) } },
+            e('i', { className: 'bi bi-send-plus me-2' }),
+            e('span', { className: 'text-s' }, thei18n.send),
           ),
-          e('button', { className: 'btn-tall blue w-50', onClick: (event) => { this.submit(event) } }, thei18n.send, e('i', { className: 'bi bi-send-plus ms-3' })),
         ),
       ),
     );
@@ -557,20 +560,20 @@ function UserHome_WelcomeCard(props) {
       e(
         'div',
         { className: 'dialog-box greeting' },
-        e('h2', { className: 'mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
+        e('h1', { className: 'text-blue mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
         e('div', {}, window.HTMLReactParser(randomGreeting)),
         e(openPaymentsGreeting)
       ),
       e(
         'div',
         { className: 'dialog-box', id: 'activities' },
-        e('h3', { className: 'mb-2' }, thei18n.activities),
+        e('h2', { className: 'mb-2' }, thei18n.activities),
         e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
       ),
       e(
         'div',
         { className: 'dialog-box greeting' },
-        e('h3', { className: 'mb-2' }, thei18n.daily_challenges),
+        e('h2', { className: 'mb-2' }, thei18n.daily_challenges),
         e(
           'div',
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },

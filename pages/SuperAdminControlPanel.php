@@ -7,6 +7,7 @@ global $site_url;
 global $site_api_url;
 global $is_admin;
 global $gi18n;
+global $gSettings;
 
 if (!$is_admin)
 exit;
@@ -83,7 +84,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
     <h5>Change a site option:</h5>
 
-    <div class="mb-4 alert alert-info" role="alert">
+    <div class="mb-4 alert alert-info" role="alert" onclick="document.getElementById('setts').classList.remove('d-none');">
       <p>Currently working options are (* indicates potentially critical functionality):</p>
       <ul>
         <li>dev_env - series of actions: 1. forces always refresh cache for js, css.</li>
@@ -95,8 +96,14 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
         <li>mp_premium_planid* - MercadoPado plan id for premium subscription.</li>
         <li>payments_open* - Allow payment processing API calls.</li>
         <li>site_closed - Disallow non-admins past the login process.</li>
+        <li>mp_public_key - MercadoPago public key.</li>
+        <li>mp_public_key_dev - MercadoPago public key in dev env.</li>
       </ul>
     </div>
+    
+    <pre id="setts" class="d-none">
+      <?php var_dump($gSettings) ?>
+    </pre>
 
     <form action="<?php echo $site_api_url . '?change_option=1'; ?>" method="POST">
         Option: <input type="text" name="change_option">
@@ -251,6 +258,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <a href="<?php echo $site_api_url . '?user=' . $current_user_id . '&create_db=all&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Create DBs</a>
   <a href="<?php echo $site_api_url . '?delete_cache=assets&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Asset Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=assets&limiter=js&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Asset Cache (Only JS)</a>
+  <a href="<?php echo $site_api_url . '?update_special_cache=1'; ?>" class="btn btn-sm btn-primary me-3 mb-3">Create Special Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=translations&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Translations Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Audio Cache</a>
   <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Refresh PWA</a>

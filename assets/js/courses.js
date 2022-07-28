@@ -303,7 +303,7 @@ function CourseChooserLevel(props) {
   return e(CoursesContext.Consumer, null, ({setPage}) => e(
     'div',
     {
-      className: 'card my-3 my-md-5 mx-auto mx-md-0',
+      className: 'card hoverable my-3 my-md-5 mx-auto mx-md-0',
       onClick: () => {
         setPage(
           e(CourseVideo,
@@ -418,7 +418,7 @@ function CourseListButton(props) {
   return e(CoursesContext.Consumer, null, ({setPage}) => e(
     'div',
     {
-      className: 'd-inline-flex align-items-center flex-row card p-3 m-3',
+      className: 'card hoverable d-inline-flex align-items-center flex-row p-3 m-3',
       onClick: () => {
 
         setPage(
@@ -496,15 +496,6 @@ class Courses extends React.Component {
 
     var dataPromise = GuyraGetData();
 
-    dataPromise.then(res => {
-
-      this.setState({
-        i18n: res.i18n,
-        userdata: res.userdata
-      });
-
-    });
-
     fetch(thei18n.api_link + '?get_courses=1')
     .then(res => res.json())
     .then(res => {
@@ -513,7 +504,15 @@ class Courses extends React.Component {
         coursesObject: res,
       });
 
-      this.setState({page: this.decideStartingPage()});
+      dataPromise.then(res => {
+
+        this.setState({
+          i18n: res.i18n,
+          userdata: res.userdata,
+          page: this.decideStartingPage()
+        });
+  
+      });
 
     });
   }

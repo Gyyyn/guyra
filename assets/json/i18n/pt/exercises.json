@@ -77,7 +77,7 @@
       ["Where are you from?", ["No, I'm not.", "Brazil.", "Nice to meet you too!"], "Brazil."],
       ["Nice to meet you!", ["I'm Chris.", "Not me.", "Nice to meet you too!"], "Nice to meet you too!"],
       ["What's your name?", ["I'm Chris", "No, She's not.", "Cool!"], "I'm Chris."],
-      ["Are you a student?", ["Yes, I love it!", "No, I'm a teacher.", "Yes, it's great."]],
+      ["Are you a student?", ["Yes, I love it!", "No, I'm a teacher.", "Yes, I'm great."], "No, I'm a teacher"],
       ["Are they from London?", ["No, I'm not.", "Yes, they are.", "They are from the U.K."], "Yes, they are."]
     ]
 
@@ -319,10 +319,10 @@
 
     "Translate": [
       ["late", "tarde"],
-      ["early", "tarde"],
-      ["having", "tarde"],
+      ["early", "cedo"],
+      ["having", "tomando"],
       ["sleeping", "tarde"],
-      ["studying", "tarde"],
+      ["studying", "estudando"],
       ["later", "mais tarde"],
       ["going", "indo"],
       ["doing", "fazendo"],
@@ -461,6 +461,25 @@
       ["Is there a bathroom here? I want to take a shower."],
       ["Where is the kitchen? We need to make dinner."],
       ["There are five houses in this neighborhood."]
+    ],
+
+    "Translate": [
+      ["kitchen", "cozinha"],
+      ["room", "cômodo"],
+      ["toilet", "banheiro"],
+      ["wash", "lavar"],
+      ["bedroom", "quarto"],
+      ["mirror", "espelho"],
+      ["neighborhood", "bairro"],
+      ["fridge", "geladeira"],
+      ["stove", "fogão"],
+      ["rug", "tapete"]
+    ],
+
+    "MultipleChoice": [
+      ["Where is the kitchen?", ["Down the corridor.", "In my bedroom."], "Down the corridor."],
+      ["How many houses are there?", ["It's one house.", "There are four."], "There are four."],
+      ["Is there a stove here?", ["Yes, are you going to cook?", "There are two stoves."], "Yes, are you going to cook?"]
     ]
 
   },
@@ -483,7 +502,7 @@
       ["My friend is a manager in a hotel.", "My friend is", "(Meu amigo é)"],
       ["My friend is a salesperson in a car shop.", "is a salesperson", "(é um vendedor)"],
       ["My friend is a doctor in a hospital.", "in a hospital", "(em um hospital)"],
-      ["My friend is a accountant in a office.", "friend is a", "(amigo é um)"],
+      ["My friend is an accountant in a office.", "friend is a", "(amigo é um)"],
       ["My mother works in an office.", "works", "(trabalha)"],
       ["My father works at home.", "works at", "(trabalha em)"],
       ["My sister works in a company.", "sister works", "(irmã trabalha)"],
@@ -516,6 +535,23 @@
       ["I'm a salesperson. I sell things in a store."],
       ["Where do you work nowadays?"],
       ["How do you like working as a programmer? Is it stressful?"]
+    ],
+    
+    "Translate": [
+      ["salesperson", "vendedor"],
+      ["photographer", "fotógrafo"],
+      ["job", "trabalho"],
+      ["work", "trabalhar"],
+      ["manager", "gerente"],
+      ["stressful", "estressante"]
+    ],
+
+    "MultipleChoice": [
+      ["Do you like your job?", ["No, I want to change it.", "I work as a clerk."], "No, I want to change it."],
+      ["Where do you work?", ["With my family.", "In a company."], "In a company."],
+      ["I work...", ["...at my family's shop.", "...stressful."], "...at my family's shop."],
+      ["My job is...", ["...every day.", "...stressful."], "...stressful."],
+      ["Working as a ... is dangerous!", ["firefighter", "programer", "designer"], "firefighter"]
     ]
 
   },
@@ -1710,7 +1746,7 @@
       ["Would you mind finishing it for me", "finishing it", "(terminar pra mim)"],
       ["I was wondering if you could help me move.", "I was wondering if", "(eu estava imaginando se)"],
       ["I was wondering if I could stay in your house this weekend?", "wondering if I could", "(pensando se eu poderia)"],
-      ["I was wondering if you could watch my pets for my while I'm on vacation.", "you could watch my pets", "(você poderia olhar meus pets)"],
+      ["I was wondering if you could watch my pets for a while I'm on vacation.", "you could watch my pets", "(você poderia olhar meus pets)"],
       ["I was wondering if you could lend me some money for today.", "you could lend", "(você poderia emprestar)"],
       ["You should return the favor.", "return the favor", "(retornar o favor)"],
       ["I owe you an apology for that.", "owe you", "(te devo)"],

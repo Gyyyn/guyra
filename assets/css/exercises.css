@@ -21,7 +21,7 @@
 }
 
 .exercise-dialog {
-	border: .35rem solid var(--guyra-grey-darkest);
+	border: .35rem solid var(--guyra-grey-darker);
 	border-radius: var(--guyra-border-radius-bigger);
 	padding: var(--guyra-fonts-textsize-n);
 	font-size: var(--guyra-fonts-textsize-x);
@@ -37,7 +37,7 @@
   height: 0;
   padding-right: var(--guyra-fonts-textsize-super);
   margin-right: .5rem;
-  border-bottom: var(--guyra-border-radius) solid var(--guyra-grey-darkest);
+  border-bottom: var(--guyra-border-radius) solid var(--guyra-grey-darker);
 }
 
 #exercise-container .exercise-squeeze .btn.btn-correct {
@@ -48,7 +48,7 @@
 .dialog-arrow {
   width: 0;
   height: 0;
-  border-right: var(--guyra-fonts-textsize-x) var(--guyra-grey-darkest) solid;
+  border-right: var(--guyra-fonts-textsize-x) var(--guyra-grey-darker) solid;
   border-top: 0 solid transparent;
   border-bottom: var(--guyra-fonts-textsize-x) solid transparent;
   margin-bottom: var(--guyra-fonts-textsize-x);
@@ -144,21 +144,29 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
   justify-content: center;
 }
 
+.exercise-level-chooser .section .button-wrapper {
+  transition: var(--guyra-transition);
+  cursor: pointer;
+}
+
 .exercise-level-chooser .section .btn {
   display: flex;
   flex-direction: column;
   flex-grow: 0;
-  border-radius: 50vw;
+  border-radius: 50%;
   color: var(--guyra-black);
   border: .15rem transparent solid;
   border-bottom: .35rem transparent solid;
   background: transparent;
-  padding: calc(.35rem + 1.2vw);
+  padding: calc(.1rem + 1vw);
   margin: 0 calc(.45rem + 1.5vw);
   font-size: var(--guyra-fonts-textsize-s);
-  transition: var(--guyra-transition);
   font-weight: bold;
   min-width: 4.5rem;
+  min-height: 4.5rem;
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .exercise-level-chooser .section .btn:active:not(.disabled) {
@@ -167,31 +175,31 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
   top: var(--guyra-border-size);
 }
 
-.exercise-level-chooser .section .btn:hover {
-  box-shadow: var(--guyra-box-shadow);
+.exercise-level-chooser .section .button-wrapper:hover .btn {
+  box-shadow: var(--guyra-box-shadow-material);
   transform: scale(1.1);
   text-shadow: 1px 1px 0 var(--guyra-white), 2px 2px 0 var(--guyra-white), 3px 3px 0 var(--guyra-white);
 }
 
-.exercise-level-chooser .section .btn:hover .exercise-icon img {
+.exercise-level-chooser .section .button-wrapper:hover .exercise-icon img {
   transform: scale(1.5) translateY(-.5rem);
   transition: var(--guyra-transition);
   position: relative;
 }
 
-.exercise-level-chooser .section .btn:hover .level-name {
+.exercise-level-chooser .section .button-wrapper:hover .level-name {
   transform: scale(1.25) translateY(.5rem);
 }
 
-.exercise-level-chooser .section .btn:first-of-type:hover .exercise-icon img {
+.exercise-level-chooser .section .button-wrapper:first-of-type:hover .exercise-icon img {
   transform: rotate(-5deg) scale(1.5) translateY(-.5rem);
 }
 
-.exercise-level-chooser .section .btn:last-of-type:hover .exercise-icon img {
+.exercise-level-chooser .section .button-wrapper:last-of-type:hover .exercise-icon img {
   transform: rotate(5deg) scale(1.5) translateY(-.5rem);
 }
 
-.exercise-level-chooser .section .btn:active .exercise-icon img {
+.exercise-level-chooser .section .button-wrapper:active .exercise-icon img {
   transform: scale(1) !important;
   transition: unset;
 }

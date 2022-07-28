@@ -41,6 +41,11 @@ function RenderNotificationsDropdown($args=[]) {
             </span>
             <h3><?php echo $item['title'] ?></h3>
             <span class="fw-normal text-n"><?php echo $item['contents'] ?></span>
+            <?php if ($item['actions']):
+              foreach ($item['actions'] as $action): ?>
+                <a class="btn-tall btn-sm blue text-center mt-2" onclick="fetch('<?php echo $action['link'] ?>')"><?php echo $action['value'] ?></a>
+              <?php endforeach;
+            endif; ?>
           </div>
           <?php $x += 1; ?>
         <?php endforeach; ?>
@@ -186,9 +191,9 @@ if ($where_am_i == '') {
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 <title><?php echo ucfirst($page_Title); ?></title>
-<link rel="icon" href="<?php echo GetImageCache('img/birdlogo_ver1.5.png', 32, 'png'); ?>" type="image/x-icon">
-<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="icon" href="<?php echo GetImageCache('img/maskable_icon.png', 32, 'png'); ?>" type="image/x-icon">
+<link href="<?php echo GetMinifiedAsset('css', 'bootstrap.css'); ?>" rel="stylesheet">
+<link href="<?php echo GetMinifiedAsset('css', 'bootstrap-icons.css'); ?>" rel="stylesheet">
 <link rel="manifest" href="/GuyraManifest.json">
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
 <link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>

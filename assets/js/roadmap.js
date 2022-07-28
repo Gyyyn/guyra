@@ -10,6 +10,7 @@ const RoadmapContext = React.createContext();
 
 class Roadmap_Popup extends React.Component {
   constructor(props) {
+    super(props);
   }
 
   setchallengeTracker() {

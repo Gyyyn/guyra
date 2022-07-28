@@ -156,7 +156,11 @@ class RenderDay_Hour extends React.Component {
         icons.push(e('i', { className: "bi bi-arrow-repeat me-2" }));
       }
 
-      icons.push(e('i', { className: "bi bi-pen" }));
+      if (theUser.is_self) {
+        icons.push(e('i', { className: "bi bi-pen" }));
+      } else {
+        icons.push(e('i', { className: "bi bi-box-arrow-in-down-left" }));        
+      }
 
       return e(
         'span',
@@ -198,19 +202,34 @@ class RenderDay_Hour extends React.Component {
         {
           className: 'btn-tall green mt-3',
           onClick: () => {
+
             var theValue = document.querySelector('#schedule-value').value;
-            
-            if (this.state.hasRecurring) {
-              this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, theValue);
+
+            if (theUser.is_self) {
+
+              if (this.state.hasRecurring) {
+                this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, theValue);
+              } else {
+                this.props.AddAppointment(this.props.day, this.props.hour, theValue)
+              }
+              
             } else {
-              this.props.AddAppointment(this.props.day, this.props.hour, theValue)
+
+              this.props.RequestAppointment(this.props.day, this.props.hour, this.state.hasRecurring);
+
             }
 
             document.querySelector("#popup .modal-header .close").click();
 
           }
         },
-        thei18n.save,
+        e(() => {
+          if (theUser.is_self) {
+            return thei18n.save;
+          } else {
+            return thei18n.button_request_time;
+          }
+        }),
         e('i', { className: "bi bi-save ms-2"}),
       )
     );
@@ -241,9 +260,6 @@ class RenderDay extends React.Component {
 
     if (!this.props.diary.calendar) {
     this.props.diary.calendar = {}; }
-
-    if (!this.props.diary.calendar.recurring) {
-    this.props.diary.calendar.recurring = {}; }
 
     this.state = {
       calendar: this.props.diary.calendar,
@@ -287,9 +303,11 @@ class RenderDay extends React.Component {
 
     var x = this.state.calendar;
 
-    if (x.recurring[time] == undefined) {
-      x.recurring[time] = {};
-    }
+    if (!x.recurring || Array.isArray(x.recurring)) {
+    x.recurring = new Object(); }
+
+    if (!x.recurring[time]) {
+    x.recurring[time] = {}; }
 
     x.recurring[time] = value;
 
@@ -305,29 +323,52 @@ class RenderDay extends React.Component {
 
   }
 
+  RequestAppointment = (date, time) => {
+
+    var dataToPost = {
+      date: date,
+      time: time
+    };
+
+    fetch(
+      thei18n.api_link + '?appointment=1&action=request&user=' + theUser.id,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToPost)
+      }
+    ).then(res => res.json()).then(res => {
+      
+    });
+    
+  }
+
   buildDay() {
 
     var theDay = [];
 
+    // This loop is every hour in the day.
     for (var i = 0; i <= 24; i++) {
       if (i >= this.props.activeHours[0] && i <= this.props.activeHours[1]) {
 
+        var dayInfo = this.props.day.split(' ');
         var theHour = (i < 10) ? '0' + i : i;
         var appointments = [];
         var hasRecurring = false;
 
-        if (this.state.calendar[this.props.day]) {
-          appointments = this.state.calendar[this.props.day];
-        }
-
-        var dayInfo = this.props.day.split(' ');
         var recurringApointment = this.state.calendar.recurring[dayInfo[0] + ' ' + theHour];
 
         if (recurringApointment) {
-
           appointments[theHour] = recurringApointment;
           hasRecurring = true;
+        }
 
+        // Normal appointments take precedent over recurrings.
+        if (this.state.calendar[this.props.day]) {
+          appointments = { ...this.state.calendar[this.props.day], ...appointments };
         }
 
         var theAppointment = '';
@@ -469,7 +510,25 @@ export class RenderCalendar extends React.Component {
 
   }
 
+  save = () => {
+    
+    fetch(
+      thei18n.api_link + '?action=update_diary&user=' + theUser.id,
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.props.diary)
+      }
+    );
+    
+  }
+
   render() {
+
+    // theUser.is_self = false;
 
     return e(CalendarContext.Provider, {value: this.state}, e(
       'div',
@@ -478,6 +537,23 @@ export class RenderCalendar extends React.Component {
         'div',
         { className: 'd-flex flex-column' },
         this.state.view,
+        e(() => {
+
+          if (theUser.is_self) {
+            return e(
+              'button',
+              {
+                type: 'button',
+                className: 'btn-tall green',
+                onClick: this.save
+              },
+              thei18n.save
+            );
+          }
+
+          return null;
+
+        }),
       ),
       e('div', { id: 'schedule' }, this.state.daySchedule)
     ));

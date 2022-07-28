@@ -689,8 +689,6 @@ export function Guyra_InventoryItem(props) {
 
   var imagePreview = e('img', { className: 'page-icon tiny mx-auto my-1', src: props.preview });
   var itemCategory = props.name.split('_')[0];
-  var useButtonExtraClass = '';
-  var useButton = thei18n.use;
 
   var disabledCats = [
     "progress",
@@ -701,9 +699,41 @@ export function Guyra_InventoryItem(props) {
     imagePreview = null;
   }
 
+  var useButton = e(
+    'button',
+    {
+      className: 'btn-tall btn-sm green',
+      "aria-label": thei18n.use,
+      onClick: (e) => {
+
+        if (disabledCats.indexOf(itemCategory) !== -1) {
+          return;
+        }
+
+        var before = e.target.innerHTML;
+        e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+
+        fetch(thei18n.api_link + '?use_item=' + props.name)
+        .then(res => res.json())
+        .then(res => {
+
+          if (res == 'true') {
+            e.target.innerHTML = before;
+          } else {
+            e.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+          }
+
+          window.location.reload();
+
+        });
+
+      }
+    },
+    thei18n.use
+  );
+
   if (disabledCats.indexOf(itemCategory) !== -1) {
-    useButtonExtraClass = ' disabled';
-    useButton = thei18n.cant_use;
+    useButton = null;
   }
 
   return e(
@@ -711,38 +741,7 @@ export function Guyra_InventoryItem(props) {
     { className: 'card trans flex-grow-0 ms-3 mb-3', style: { minWidth: '10rem' } },
     e('h4', { className: 'text-n' }, props.title),
     imagePreview,
-    e(
-      'button',
-      {
-        className: 'btn-tall btn-sm green' + useButtonExtraClass,
-        "aria-label": thei18n.use,
-        onClick: (e) => {
-
-          if (disabledCats.indexOf(itemCategory) !== -1) {
-            return;
-          }
-
-          var before = e.target.innerHTML;
-          e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-          fetch(thei18n.api_link + '?use_item=' + props.name)
-          .then(res => res.json())
-          .then(res => {
-
-            if (res == 'true') {
-              e.target.innerHTML = before;
-            } else {
-              e.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
-            }
-
-            window.location.reload();
-
-          });
-
-        }
-      },
-      useButton
-    )
+    useButton
   );
 }
 
@@ -1325,7 +1324,7 @@ export class PopUp extends React.Component {
           },
           e(
             'h2',
-            {},
+            { className: 'me-3' },
             this.props.title
           ),
           e(
@@ -1389,4 +1388,14 @@ export class PopUp extends React.Component {
       this.state.popup
     ];
   }
+}
+
+export function formataCPF(cpf){
+
+  // retira os caracteres indesejados...
+  cpf = cpf.replace(/[^\d]/g, "");
+  
+  //realizar a formatação...
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
 }

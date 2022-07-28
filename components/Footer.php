@@ -42,10 +42,10 @@ include_once $template_dir . '/functions/Assets.php';
   
 </footer>
 
-<script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script async src="https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js"></script>
-<script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" crossorigin="anonymous" type="text/javascript"></script>
+<script src="<?php echo GetMinifiedAsset('js', 'react.js'); ?>"></script>
+<script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>
+<script src="<?php echo GetMinifiedAsset('js', 'html-react-parser.js'); ?>"></script>
+<script async src="<?php echo GetMinifiedAsset('js', 'marked.js'); ?>"></script>
 <?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <?php endif; ?>
@@ -71,15 +71,15 @@ include_once $template_dir . '/functions/Assets.php';
 </script>
 <?php endif; ?>
 <?php if ($args['easymde']): ?>
-<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-<script async src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<link rel="stylesheet" href="<?php echo GetMinifiedAsset('css', 'easymde.css'); ?>">
+<script async src="<?php echo GetMinifiedAsset('js', 'easymde.js'); ?>"></script>
 <?php endif; ?>
 <?php if ($args['MercadoPago']): ?>
 <script async src="https://sdk.mercadopago.com/js/v2"></script>
 <script async src="https://www.mercadopago.com/v2/security.js" view="checkout" output="deviceId"></script>
 <?php endif; ?>
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script async src="<?php echo GetMinifiedAsset('js', 'popper.js'); ?>"></script>
+<script async src="<?php echo GetMinifiedAsset('js', 'bootstrap.js'); ?>"></script>
 <?php if ($args['js']): ?>
 <script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>

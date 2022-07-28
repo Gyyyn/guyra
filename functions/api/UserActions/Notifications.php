@@ -2,9 +2,11 @@
 
 Guyra_Safeguard_File();
 
-if ($_GET['push_notification']) {
+global $gi18n;
+global $current_user_id;
+global $current_user_data;
 
-  global $current_user_id;
+if ($_GET['push_notification']) {
 
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -19,8 +21,6 @@ if ($_GET['push_notification']) {
 
 if ($_GET['pop_notification']) {
 
-  global $current_user_id;
-
   $index = $_GET['index'];
 
   if (!$index)
@@ -34,10 +34,37 @@ if ($_GET['pop_notification']) {
 
 if ($_GET['clear_notifications']) {
 
-  global $current_user_id;
-
   ClearNotifications($current_user_id);
 
   guyra_output_json('true', true);
 
+}
+
+if ($_GET['appointment']) {
+
+  $mode = $_GET['action'];
+  $user = $_GET['user'];
+  $notification = $gi18n['notification_appointment_request'];
+  $current_user_name = $current_user_data['first_name'] . ' ' . $current_user_data['last_name'];
+  $data = json_decode(file_get_contents('php://input'), true);
+
+  $teacher_data = guyra_get_user_data($user);
+
+  // Make sure the user is actually a teacher.
+  if ($teacher_data['role'] != 'teacher')
+  guyra_output_json('post error', true);
+
+  $notification['actions'][0]['link'] = 
+    str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
+
+  $notification['title'] = str_replace('%user', $current_user_name, $notification['title']);
+
+  if ($mode == 'request')
+  PushNotification($notification, (int) $user);
+
+  if ($mode == 'accept')
+  PushNotification($gi18n['notification_appointment_accepted'], $user);
+
+  guyra_output_json('true', true);
+  
 }

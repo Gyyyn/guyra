@@ -82,6 +82,7 @@
 	border-width: 1px;
   border-bottom-width: 2px;
   border-color: #ccc9;
+  border-radius: calc(var(--guyra-border-radius-bigger) / 1.2)!important;
 }
 
 .btn-tall.btn-lg {
@@ -169,17 +170,17 @@
 }
 
 .btn-tall.trans {
-  color: var(--guyra-grey-darkest);
+  color: var(--guyra-black);
   background-color: transparent;
-  border: var(--guyra-grey-darkest) solid var(--guyra-border-size);
-  border-top-width: .15rem !important;
+  border: var(--guyra-grey-darker) solid var(--guyra-border-size);
+  border-top-width: .1rem !important;
   border-right-width: .15rem !important;
   border-left-width: .15rem !important;
 }
 
 .btn-tall.trans:hover {
 	background-color: transparent;
-  border-color: var(--guyra-black);
+  border-color: var(--guyra-grey-darkest);
   color: var(--guyra-black);
 }
 
@@ -190,6 +191,11 @@
 .btn-tall.trans.disabled {
   color: var(--guyra-grey-dark);
   border-color: var(--guyra-grey-dark);
+}
+
+.btn-tall.trans.green {
+  border-color: var(--guyra-green);
+  color: var(--guyra-green);
 }
 
 #exercise-container .exercise-answers .btn-tall {
@@ -368,6 +374,13 @@ img.left-side-image {
   background: var(--guyra-red-lightest);
   border-bottom-color: var(--guyra-red-lighter);
   color: var(--guyra-red-darkest);
+}
+
+.welcome-greeting .dialog-box {
+  border: unset;
+  background: unset;
+  padding: 0;
+  margin-bottom: 2rem;
 }
 
 .form-check-input[type=checkbox] {

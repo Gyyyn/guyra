@@ -96,11 +96,13 @@ document.addEventListener('scroll', updateBackButton);
 
 window.onerror = function errHandle(errorMsg, url, lineNumber) {
 
-  // Big placebo here.
   setTimeout(() => {
     alert('Houve um erro! O site vai tentar concerta-lo, se isso não der certo entre em contato com a gente.');
 
     console.error(errorMsg, lineNumber);
+
+    localStorage.removeItem('guyra_userdata');
+    localStorage.removeItem('guyra_i18n');
 
     setTimeout(() => {
       window.location.reload();
@@ -110,13 +112,7 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
 
 }
 
-// Catch and handle common errors
-if (!window.HTMLReactParser) {
-  window.location.reload();
-}
-
 // OAuth handlers
-
 function _setMessageBox(id, timeout=true) {
   var messageBox = document.getElementById(id);
   var isShowing = true;

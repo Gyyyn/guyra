@@ -12,7 +12,8 @@ import {
   validatePhoneNumber,
   createTooltip,
   randomNumber,
-  calculateOverdueFees
+  calculateOverdueFees,
+  formataCPF
 } from '%template_url/assets/js/Common.js';
 
 const AccountContext = React.createContext();
@@ -110,7 +111,7 @@ function AccountPayment_paymentForm(props) {
       'div',
       { className: 'row gy-3' },
 
-      e('h3', { className: 'mt-3 mb-1' }, i18n.payment),
+      e('h2', { className: 'mb-2' }, i18n.payment),
 
       e(
         'div',
@@ -205,7 +206,7 @@ function AccountPayment_paymentForm(props) {
         e('input', { className: 'bs form-control', type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
       ),
 
-      e('h3', { className: 'mt-3 mb-1' }, i18n.identification),
+      e('h3', { className: 'mb-2' }, i18n.identification),
 
       e(
         'div',
@@ -492,11 +493,11 @@ class AccountPayment extends React.Component {
 
   componentDidMount() {
 
-    // Test Key
-    // const mp = new MercadoPago('APP_USR-a79c8ed9-e425-4b1f-adfe-b8a93e4279fa');
+    const mp = new MercadoPago(thei18n.mp_public_key);
 
-    // Real Key
-    const mp = new MercadoPago('APP_USR-98420f06-c714-415e-a00a-e423acc3e2e3');
+    if (!mp) {
+      window.onerror();
+    }
 
     this.cardForm = mp.cardForm({
       amount: "1",
@@ -960,6 +961,10 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
         newValue = validatePhoneNumber(newValue);
       }
 
+      if (event.target.id == 'doc_id') {
+        newValue = formataCPF(newValue);
+      }
+
       tempState[event.target.id] = newValue;
 
       if (tempState.modified.indexOf(event.target.id) === -1) {
@@ -981,11 +986,15 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
 
     }
 
+    if (!this.props.userdata.doc_id) {
+      this.props.userdata.doc_id = '';
+    }
+
     this.state = {
       "user_email": this.props.userdata.user_email,
       "first_name": this.props.userdata.first_name + ' ' + this.props.userdata.last_name,
       "user_phone": this.props.userdata.user_phone,
-      "doc_id": this.props.userdata.doc_id,
+      "doc_id": formataCPF(this.props.userdata.doc_id),
       modified: [],
     };
 
@@ -1099,9 +1108,11 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
                 dataToPost[item] = this.state[item];
               });
 
-              dataToPost.last_name = dataToPost.first_name.split(' ');
-              dataToPost.first_name = dataToPost.last_name.shift();
-              dataToPost.last_name = dataToPost.last_name.join(' ');
+              if (dataToPost.first_name) {
+                dataToPost.last_name = dataToPost.first_name.split(' ');
+                dataToPost.first_name = dataToPost.last_name.shift();
+                dataToPost.last_name = dataToPost.last_name.join(' ');
+              }
 
               var tryingToChangeEmail = dataToPost.user_email != undefined;
 
@@ -1682,16 +1693,22 @@ class WhoAmI_openPayments_qrCode extends React.Component {
 
   }
 
-  componentWillMount() {
+  getQRCode() {
 
-    var base64Encoded = '%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';
+    var request = '%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';
+
+    return request;
+    
+  }
+
+  componentWillMount() {
 
     this.theCode = e(
       'img',
       {
         className: 'page-icon large more-rounded',
         alt: 'QR Code',
-        src: 'data:image/jpeg;base64,' + base64Encoded
+        src: 'data:image/jpeg;base64,' + this.getQRCode()
       }
     );
 
@@ -1808,8 +1825,8 @@ function WhoAmI_openPayments_paymentItem(props) {
             e(
               'div',
               { className: 'badge bg-primary text-white me-2 mb-2' },
-              e('span', {}, 'PIX: '),
-              e('span', {}, i18n.company_cnpj),
+              e('span', {}, thei18n.pix + ': '),
+              e('span', {}, '2966bc87-54bd-4334-87e8-e8b86f305f87'),
               e(
                 'button',
                 {

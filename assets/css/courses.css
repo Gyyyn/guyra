@@ -19,11 +19,6 @@
   cursor: pointer;
 }
 
-.courses-squeeze .card:hover {
-  box-shadow: 0 0 30px 5px rgb(0 190 255 / 50%);
-  transition: var(--guyra-transition)
-}
-
 @media (max-width: 767px) {
 
   .courses-list .card {

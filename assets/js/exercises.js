@@ -7,7 +7,8 @@ import {
   LoadingPage,
   GoogleAd,
   randomNumber,
-  vibrate
+  vibrate,
+  PopUp
 } from '%template_url/assets/js/Common.js';
 
 const { useEffect } = React;
@@ -24,26 +25,6 @@ function shuffleArray(a) {
   return a;
 }
 
-function synthSpeak(phrase, rate=1) {
-  var synth = window.speechSynthesis;
-  var voices = [];
-
-  synth.getVoices().forEach((item, i) => {
-    if (item.lang == 'en-US' || item.lang == 'en-GB') {
-      voices.push(item);
-    }
-  });
-
-  if (voices.length != 0) {
-    var n = randomNumber(0, voices.length - 1);
-    var uttern = new SpeechSynthesisUtterance(phrase);
-    uttern.voice = voices[n];
-    uttern.rate = rate;
-    synth.speak(uttern);
-  }
-
-}
-
 function findIndices(haystack, needle) {
   var indices = [];
   var idx = haystack.indexOf(needle);
@@ -56,6 +37,10 @@ function findIndices(haystack, needle) {
 }
 
 function RemovePunctuation(word, options={}) {
+
+  // Just in case.
+  if (!word) {
+  return; }
 
   if (options.includeApostrophe === true) {
     var regex = new RegExp("[.,!?']",'g');
@@ -202,6 +187,9 @@ function joinEquivalents(input) {
 }
 
 function isAnswerCorrect(correct, userInput) {
+
+  if (!userInput) {
+  return false; }
 
   // Normalize everything
   userInput = userInput.trimEnd();
@@ -403,6 +391,7 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
 
   return {
     translation: theExercise['translation'],
+    tts: theExercise['tts'],
     easymode: shuffleArray(easymodeWords),
     0: phraseSplit[0] + '...',
     1: shuffleArray(phraseSplit),
@@ -457,8 +446,9 @@ function AnswerButtonProper(props) {
   }
 
   return e(
-    'a',
+    'button',
     {
+      type: 'button',
       className: 'btn-tall trans ' + props.extraClass,
       onClick: theOnclick
     },
@@ -475,9 +465,13 @@ class AnswerButton extends React.Component {
     return e(ExerciseContext.Consumer, null, ({CheckAnswer}) => e(
       AnswerButtonProper,
       {
-        onClick: () => {
+        onClick: (event) => {
           vibrate(30, fakeClick);
-          CheckAnswer(this.props.value);
+          var answerCorrect = CheckAnswer(this.props.value);
+
+          if (answerCorrect) {
+            event.target.classList.add('green');
+          }
         },
         value: this.props.value,
         style: this.style, 
@@ -526,8 +520,9 @@ class AnswersPhraseBuilder extends React.Component {
 
               return (
                 e(ExerciseContext.Consumer, null, ({SpliceWord}) => e(
-                  'a',
+                  'button',
                   {
+                    type: 'button',
                     className: 'btn-tall btn-sm trans flex-grow-0',
                     key: item,
                     onClick: () => {
@@ -543,18 +538,11 @@ class AnswersPhraseBuilder extends React.Component {
 
           e(ExerciseContext.Consumer, null, ({ClearWord}) => e(
             'div',
-            { className: 'd-flex' },
+            { className: 'd-flex align-self-end' },
             e(
-              'a',
+              'button',
               {
-                className: 'btn-tall blue align-self-end flex-shrink-1 d-none',
-                onClick: () => { synthSpeak(phraseBuilderPhrase) }
-              },
-              e('i', { className: "bi bi-ear" })
-            ),
-            e(
-              'a',
-              {
+                type: 'button',
                 className: 'btn-tall red align-self-end flex-shrink-1',
                 onClick: () => { ClearWord() }
               },
@@ -716,7 +704,7 @@ function QuestionDialog(props) {
       ),
       e(
         'div',
-        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end overpop-animation animate" },
+        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end animate" },
         e('div', {className: "dialog-arrow"}),
         e(
           'div',
@@ -741,7 +729,7 @@ function QuestionTranslate(props) {
       },
       e(
         'div',
-        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end overpop-animation animate" },
+        { className: "exercise-wrapper d-flex flex-row justify-content-center align-items-end animate" },
         e(
           'div',
           {
@@ -790,8 +778,9 @@ class QuestionAudioButton extends React.Component {
           'div',
           { className: 'd-inline-flex align-items-baseline' },
           e(
-            'a',
+            'button',
             {
+              type: 'button',
               className: 'text-x btn-tall blue me-3',
               onClick: () => {
                 this.theAudio.play();
@@ -800,8 +789,9 @@ class QuestionAudioButton extends React.Component {
             e('i', { className: "bi bi-volume-up-fill" + audioButtonClassExtra })
           ),
           e(
-            'a',
+            'button',
             {
+              type: 'button',
               className: 'text-normal btn-tall me-3',
               onClick: () => {
 
@@ -903,7 +893,7 @@ class CurrentQuestion extends React.Component {
         'div',
         {
           id: 'current-question',
-          className: 'exercise pop-animation animate position-relative'
+          className: 'exercise slideleft-animation animate position-relative'
         },
         e(
           'div',
@@ -941,6 +931,7 @@ class HintAreaHint extends React.Component {
     this.revealHintButton = e(
       'button',
       {
+        type: 'button',
         className: 'btn-tall btn-sm blue',
         onClick: (e) => {
           this.setState({
@@ -984,28 +975,58 @@ class HintAreaHint extends React.Component {
           { className: 'fw-bold' },
           this.state.hintValue
         ),
+        e(
+          'span',
+          { className: 'ms-2' },
+          this.props.answeredWrongPreviouslyHint
+        ),
       ),
       e(
         'div',
-        {},
-        e(ExerciseContext.Consumer, null, ({switchAnswerType, candyButton, disallowCandy, candyButtonClass}) => e(
-          'button',
-          {
-            onClick: () => {
-    
-              if (!disallowCandy) {
-                switchAnswerType()
-              } else {
-                if (window.confirm(i18n.give_up + '?')) {
-                  checkAnswerWithButton()
-                }
-              }
-    
+        { className: 'd-flex' },
+        e(ExerciseContext.Consumer, null, ({switchAnswerType, disallowCandy}) => {
+
+          if (!disallowCandy) {
+            return e(
+              'button',
+              {
+                type: 'button',
+                onClick: () => { switchAnswerType() },
+                className: 'btn-tall blue btn-sm me-2'
+              },
+              e('i', { className: "bi bi-balloon-fill" })
+            );
+          }
+
+          var openModalElement = e(
+            'button',
+            {
+              type: 'button',
+              className: 'btn-tall black btn-sm me-2'
             },
-            className: candyButtonClass + ' btn-sm me-2'
-          },
-          candyButton
-        )),
+            e('i', { className: "bi bi-emoji-dizzy" })
+          );
+
+          var modalBodyElement = e(ExerciseContext.Consumer, null, ({checkAnswerWithButton}) => e(
+            'div',
+            {
+              type: 'button',
+              className: 'btn-tall red text-center',
+              onClick: () => { checkAnswerWithButton(); document.querySelector("#popup .modal-header .close").click(); },
+            },
+            thei18n.give_up
+          ));
+
+          return e(
+            PopUp,
+            {
+              title: thei18n.give_up + '?',
+              buttonElement: openModalElement,
+              bodyElement: modalBodyElement
+            }
+          );
+
+        }),
         e(checkAnswerButton, { small: true })
       )
     ];
@@ -1063,6 +1084,7 @@ function BuyMoreUnits(props) {
       e(
         'button',
         {
+          type: 'button',
           onClick: () => { window.location.href = i18n.shop_link + '#progress' },
           className: 'btn-tall green mx-auto'
         },
@@ -1081,36 +1103,40 @@ function LevelChooserButton(props) {
     buttonExtraClass = ' disabled';
   }
 
-  return (
-    e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage}) => e(
-      'a',
-      {
-        className: 'btn' + buttonExtraClass,
-        style: {backgroundColor: props.values.bg, pointerEvents: 'inherit'},
-        title: props.values.name + ' - ' + props.values.description,
-        onClick: () => {
-          if (props.values.disabled) {
-            setPage(e(BuyMoreUnits));
-          } else {
+  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage}) => {
+
+    return e(
+      'div',
+      { className: 'button-wrapper' },
+      e(
+        'button',
+        {
+          type: 'button',
+          className: 'btn' + buttonExtraClass,
+          style: { backgroundColor: props.values.bg, pointerEvents: 'inherit' },
+          title: props.values.name + ' - ' + props.values.description,
+          onClick: () => {
+
+            if (props.values.disabled) {
+              setPage(e(BuyMoreUnits));
+              return;
+            }
+
             loadExerciseJSON(props.level, props.values.id);
             window.location.hash = props.values.id;
+    
           }
-
-        }
-      },
-      e(ExerciseContext.Consumer, null, ({i18n}) => e(
-        'span',
-        {className: 'exercise-icon'},
+        },
         e(
-          'img',
-          {
-            src: props.values.image
-          }
-        )
-      )),
-      e('span', { className: 'level-name' }, props.values.name)
-    ))
-  )
+          'span',
+          { className: 'exercise-icon' },
+          e('img', { src: props.values.image }),
+        ),
+      ),
+      e('div', { className: 'level-name text-center fw-bold mt-1' }, props.values.name)
+    );
+
+  });
 }
 
 function LevelChooserLevel(props) {
@@ -1137,11 +1163,11 @@ function LevelChooser(props) {
       { className: 'exercise-level-chooser' },
       e(
         'div',
-        { className: 'dialog-box d-flex flex-column flex-md-row align-items-center justify-content-between mt-3' },
+        { className: 'dialog-box d-flex flex-row align-items-center' },
         e(
           'div',
-          { className: 'd-flex flex-row align-items-center mb-2' },
-          e('span', { className: 'me-3'},
+          { className: 'd-flex flex-row align-items-center' },
+          e('span', { className: 'me-2'},
             e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
             e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
           ),
@@ -1151,19 +1177,22 @@ function LevelChooser(props) {
             e(
               'button',
               {
+                type: 'button',
                 onClick: () => { window.location.href = thei18n.shop_link + '#progress' },
-                className: 'btn-tall green'
+                className: 'btn-tall blue me-2'
               },
-              e('span', { className: 'me-2' }, thei18n.buy_more_units),
-              e('span',{}, e('i', {className: 'bi bi-shop'}))
+              e('span', { className: 'd-none d-md-inline me-2' }, thei18n.buy_more_units),
+              e('span', {}, e('i', { className: 'bi bi-shop'}))
             ),
           ),
         ),
         e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
           'div',
-          { className: 'd-flex flex-row'},
+          { className: 'd-flex flex-row' },
           e('button',
-            { className: 'btn-tall blue',
+            { 
+              className: 'btn-tall blue me-2',
+              type: 'button',
               onClick: () => {
 
                 var unlockedMap = {};
@@ -1201,10 +1230,15 @@ function LevelChooser(props) {
                 loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
                 window.location.hash = randomUnit.id;
 
-              }},
-            thei18n.play_random),
+              }
+            },
+            e('span', { className: 'd-none d-md-inline me-2' }, thei18n.play_random),
+            e('i', { className: 'bi bi-shuffle' })
+          ),
           e('button',
-            { className: 'btn-tall green ms-3',
+            {
+              className: 'btn-tall green me-2',
+              type: 'button',
               onClick: () => {
 
                 var completed_units = gamedata.completed_units;
@@ -1244,8 +1278,11 @@ function LevelChooser(props) {
                 loadExerciseJSON(levelOfUnit, unitToLoad);
                 window.location.hash = unitToLoad;
 
-              }},
-            thei18n.review),
+              }
+            },
+            e('span', { className: 'd-none d-md-inline me-2' }, thei18n.review),
+            e('i', { className: 'bi bi-eyeglasses' })
+          ),
         )),
       ),
       e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
@@ -1268,97 +1305,15 @@ function LevelChooser(props) {
 }
 
 /*
-* -------- Misc Buttons & other reusable elements
-*/
-
-// Returns a bootstrap modal and the corresponding button trigger
-class BootstrapModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    // Hack to get the modal to work right
-    document.querySelector('body').append(document.getElementById(this.props.target));
-  }
-
-  render() {
-    return e(
-      'div',
-      null,
-      e(
-        'a',
-        {
-          type: "button",
-          className: this.props.buttonclasses,
-          title: this.props.title,
-          "data-bs-toggle": "modal",
-          "data-bs-target": '#'.concat(this.props.target)
-        },
-        this.props.button
-      ),
-      e(
-        'div',
-        {
-          class:"modal fade",
-          id: this.props.target,
-          tabindex: "-1",
-          "aria-hidden": "true"
-        },
-        e(
-          'div',
-          {
-            class:"modal-dialog modal-dialog-centered pop-animation animate",
-          },
-          e(
-            'div',
-            {
-              class:"modal-content",
-            },
-            e(
-              'div',
-              {
-                class:"modal-header",
-              },
-              e(
-                'h1',
-                {},
-                this.props.title
-              ),
-              e(
-                'a',
-                {
-                  type: "button",
-                  className: "btn-tall btn-sm red",
-                  "data-bs-dismiss": "modal",
-                  "aria-label": "close"
-                },
-                e('i', { className: "bi bi-x-lg" })
-              )
-            ),
-            e(
-              'div',
-              {
-                class:"modal-body",
-              },
-              this.props.text
-            )
-          )
-        )
-      )
-    )
-  }
-}
-
-/*
 * -------- App class
 */
 
 function returnToLevelMapButton(props) {
 
   return e(ExerciseContext.Consumer, null, ({i18n, setPage, reset}) => e(
-    'a',
+    'button',
     {
+      type: 'button',
       id: 'back-button',
       className: 'btn-tall blue',
       onClick: () => {
@@ -1388,30 +1343,29 @@ function checkAnswerButton(props) {
     buttonSize = ' btn-sm';
   }
 
-  return e(ExerciseContext.Consumer, null, ({i18n, checkAnswerWithButton, checkAnswerButtonClass, answerType}) => {
-    if (answerType != AnswersWordBank && answerType != AnswersChoices) {
-      return e(
-        'a',
-        {
-          className: checkAnswerButtonClass + buttonSize,
-          id: 'check-answer',
-          onClick: () => { checkAnswerWithButton() }
-        },
-        i18n.check
-      );
-    } else {
-      return e(
-        'span',
-        {}
-      );
-    }
+  return e(ExerciseContext.Consumer, null, ({checkAnswerWithButton, checkAnswerButtonClass, answerType}) => {
+
+    if (answerType == AnswersWordBank || answerType == AnswersChoices) {
+    return null; }
+
+    return e(
+      'button',
+      {
+        id: 'check-answer',
+        type: 'button',
+        className: checkAnswerButtonClass + buttonSize,
+        onClick: () => { checkAnswerWithButton() }
+      },
+      thei18n.check
+    );
+
   });
 }
 
 function hintAreaInfo(props) {
   return e(
     'div',
-    { className: 'exercise-hints info' },
+    { className: 'exercise-hints border-0' },
     e(ExerciseContext.Consumer, null, ({values, disallowCandy, currentExerciseType, currentQuestion, wrongMembers}) => {
 
       var answeredWrongPreviouslyHint = null;
@@ -1437,12 +1391,12 @@ function hintAreaInfo(props) {
           HintAreaHint,
           {
             hint: values[3],
+            answeredWrongPreviouslyHint: answeredWrongPreviouslyHint,
             disallowCandy: disallowCandy,
             isNeedToRetry: isNeedToRetry,
             currentExerciseType: currentExerciseType
           }
         ),
-        answeredWrongPreviouslyHint
       ];
 
     })
@@ -1462,8 +1416,9 @@ function hintAreaCorrectAnswer(props) {
       e('span', { className: ' ms-1 fst-italic' },  '"' + values['translation'] + '"')
     ),
     e(
-      'a',
+      'button',
       {
+        type: 'button',
         className: 'btn-tall btn-sm green',
         onClick: () => { setNewActivity() }
       },
@@ -1473,25 +1428,57 @@ function hintAreaCorrectAnswer(props) {
 }
 
 function reportAnswerButton() {
-  return e(ExerciseContext.Consumer, null, ({i18n, reportAnswer}) => e(
+
+  var reportButtonProper = e(ExerciseContext.Consumer, null, ({reportAnswer}) => e(
     'button',
     {
-      className: 'btn-tall btn-sm red me-1',
-      onClick: (e) => {
-        if (e.target.dataset.alreadyReported != 'true') {
+      type: 'button',
+      className: 'btn-tall red w-100 mt-3',
+      onClick: () => {
 
-          if (window.confirm(i18n.execises_report_error_explain)) {
-            reportAnswer();
-            e.target.innerHTML = '<i class="bi bi-check-lg"></i>';
-            e.target.classList.remove('red');
-            e.target.dataset.alreadyReported = 'true';
-          }
+        var reportButtonElement = document.querySelector('#report-button');
+
+        if (reportButtonElement.dataset.alreadyReported != 'true') {
+
+          reportAnswer();
+          reportButtonElement.innerHTML = '<i class="bi bi-check-lg"></i>';
+          reportButtonElement.classList.remove('red');
+          reportButtonElement.dataset.alreadyReported = 'true';
+
+          document.querySelector("#popup .modal-header .close").click();
 
         }
       },
     },
-    e('i', { className: 'bi bi-exclamation-lg' })
+    thei18n.report,
   ));
+
+  var reportButton = e(
+    'button',
+    {
+      id: 'report-button',
+      type: 'button',
+      className: 'btn-tall btn-sm red me-1',
+    },
+    e('i', { className: 'bi bi-exclamation' })
+  );
+
+  var modalBody = e(
+    'div',
+    { className: 'text-black d-flex flex-column' },
+    thei18n.execises_report_error_explain,
+    reportButtonProper
+  );
+
+  return e(
+    PopUp,
+    {
+      buttonElement: reportButton,
+      bodyElement: modalBody,
+      title: thei18n.report_error
+    }
+  );
+
 }
 
 function hintAreaWrongAnswer(props) {
@@ -1530,8 +1517,9 @@ function hintAreaWrongAnswer(props) {
       { className: 'd-flex flex-row align-items-center'},
       e(reportAnswerButton),
       e(
-        'a',
+        'button',
         {
+          type: 'button',
           className: 'btn-tall btn-sm green',
           onClick: () => { setNewActivity() }
         },
@@ -1589,8 +1577,9 @@ class ExerciseDone extends React.Component {
       ),
       e('div', {className: 'd-flex align-items-center'},
         e(
-          'a',
+          'button',
           {
+            type: 'button',
             className: 'btn-tall green me-1',
             onClick: () => {
               this.setState({
@@ -1603,12 +1592,13 @@ class ExerciseDone extends React.Component {
         e(
           'button',
           {
+            type: 'button',
             className: 'btn-tall blue',
             onClick: () => {
 
               setPage(e(Rewards, {
                 level: levelsGained,
-                elo: this.props.eloChange.toString()
+                elo: Math.floor(this.props.eloChange).toString()
               }));
 
             }
@@ -1635,6 +1625,7 @@ class Rewards extends React.Component {
     var getRewardsButton = e(
       'button',
       {
+        type: 'button',
         className: 'btn-tall green mt-5',
         onClick: () => {
 
@@ -1699,7 +1690,7 @@ class Rewards extends React.Component {
 
     this.rewardsView = e(
       'div',
-      { className: ''},
+      { className: '' },
       e(this.rewardsViewListing, {
         title: e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
         value: this.props.level,
@@ -1712,7 +1703,7 @@ class Rewards extends React.Component {
       }),
       e(this.rewardsViewListing, {
         title: 'Elo: ',
-        value: '+' + (this.props.elo * 100) + '%',
+        value: '+' + this.props.elo + '%',
         timeout: 500
       }),
       e(
@@ -1790,8 +1781,6 @@ export class Exercises extends React.Component {
       setPage: this.setPage,
       reset: this.reset,
       checkAnswerButtonClass: this.buttonClassGreen,
-      candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
-      candyButtonClass: 'btn-tall',
       disallowCandy: false,
       questionType: QuestionDialog,
       allTheWords: [],
@@ -1888,9 +1877,13 @@ export class Exercises extends React.Component {
     return; }
 
     if (this.state.currentExerciseType == 'WhatYouHear') {
+
+      this.ClearWord();
+
       this.setState({
         isEasyMode: !this.state.isEasyMode
       });
+
     }
 
     if (this.state.currentExerciseType == 'CompleteThePhrase') {
@@ -1926,8 +1919,6 @@ export class Exercises extends React.Component {
 
     this.setState({
       avatarURL: this.avatars[randomNumber(0, 3)],
-      candyButton: e('i', { className: "bi bi-balloon-fill" }),
-      candyButtonClass: 'btn-tall purple',
       disallowCandy: false,
       isEasyMode: false,
       page: e(LoadingPage)
@@ -1973,9 +1964,9 @@ export class Exercises extends React.Component {
         var newElo;
 
         if (userElo >= this.currentExerciseWeight) {
-          newElo = userElo - this.currentExerciseWeight;
+          newElo = userElo + (this.currentExerciseWeight * 25);
         } else {
-          newElo = userElo + this.currentExerciseWeight;
+          newElo = userElo + (this.currentExerciseWeight * 100);
         }
 
         var dataToPost = {
@@ -2049,8 +2040,6 @@ export class Exercises extends React.Component {
         disallowCandyNow = true;
 
         this.setState({
-          candyButton: e('i', { className: "bi bi-emoji-dizzy" }),
-          candyButtonClass: 'btn-tall black disabled',
           disallowCandy: disallowCandyNow,
         });
 
@@ -2077,14 +2066,16 @@ export class Exercises extends React.Component {
   }
 
   AddWord = (word) => {
+
+    this.playTTSWord(word);
+
     var thePhrase = this.state.phraseBuilderPhrase;
     thePhrase.push(word);
-
-    vibrate(30, fakeClick);
 
     this.setState({
       phraseBuilderPhrase: thePhrase
     });
+    
   }
 
   ClearWord = () => {
@@ -2094,6 +2085,7 @@ export class Exercises extends React.Component {
     this.setState({
       phraseBuilderPhrase: []
     });
+
   }
 
   SpliceWord = (word, index=0) => {
@@ -2134,6 +2126,19 @@ export class Exercises extends React.Component {
 
         answered = "correct";
 
+        if (this.state.currentExerciseType != 'WhatYouHear') {
+
+          this.playTTSWord(answer);
+          
+        } else {
+
+          var theAudio = new Audio(this.state.values[5]);
+
+          if (theAudio) {
+          theAudio.play(); }
+
+        }
+
         this.setState({
           answeredCorrect: true,
           hintArea: e(hintAreaCorrectAnswer)
@@ -2172,11 +2177,6 @@ export class Exercises extends React.Component {
         this.setState({
           wrongMembers: wrongMembers
         });
-
-        // TODO: Move this to a prerecorded audio
-        if (this.state.questionType != QuestionAudio) {
-          synthSpeak(this.state.values[4]);
-        }
 
       } else {
 
@@ -2265,6 +2265,12 @@ export class Exercises extends React.Component {
 
     }
 
+    if (answered == 'correct') {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   getAnswerFromFields() {
@@ -2326,12 +2332,13 @@ export class Exercises extends React.Component {
   loadActivityByType(disallowCandy) {
 
     var theExercise = this.ExerciseObject[this.currentQuestion];
+    var theExerciseType = this.ExerciseObject[this.currentQuestion][0];
 
     this.setState({
       currentExercise: theExercise,
-      currentExerciseType: this.ExerciseObject[this.currentQuestion][0],
+      currentExerciseType: theExerciseType,
       checkAnswerButtonClass: this.buttonClassGreen,
-      explainer: thei18n._hints[this.state.currentExerciseType]
+      explainer: thei18n._hints[theExerciseType]
     });
 
     // Determine which answer type to use.
@@ -2418,20 +2425,33 @@ export class Exercises extends React.Component {
 
     });
 
+    // Get TTS for all of the words.
+    fetch(
+      thei18n.api_link + '?getTTS=array',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(allTheWords)
+      }
+    ).then(res => res.json()).then(res => {
+
+      this.allTheWordsTTS = res;
+      
+    });
+
     this.ExerciseObject = object;
 
     this.setState({
       allTheWords: allTheWords,
       exerciseLength: this.ExerciseObject.length
-    })
+    });
 
     this.setState({
       page: e(CurrentQuestion)
-    })
-
-    // Trigger the synth once so he doesn't bug out and
-    // doesn't play the first time he is called.
-    synthSpeak(' ');
+    });
 
     this.setNewActivity();
 
@@ -2459,6 +2479,50 @@ export class Exercises extends React.Component {
     fetch(thei18n.api_link + '?get_exercises=exercise&unit=' + id)
     .then(res => res.json())
     .then(json => this.setExerciseObject(json));
+
+  }
+
+  playTTSWord = (word) => {
+
+    if (!word) {
+    return; }
+
+    var _playTTSWord = (word) => {
+
+      if (!this.allTheWordsTTS || !word) {
+      return; }
+      
+      var word_simplified = word.toLowerCase();
+      word_simplified = RemovePunctuation(word_simplified, { keepAccented: true, includeApostrophe: true });
+
+      var theAudio = this.allTheWordsTTS[word_simplified];
+
+      if (theAudio) {
+        theAudio = new Audio(theAudio);
+        theAudio.play();
+      }
+
+    }
+
+    var wordSplit = word.split(' ');
+
+    if (wordSplit.length > 1) {
+
+      wordSplit.forEach((word, i) => {
+
+        var timeout = i * 500;
+
+        setTimeout(() => {
+          _playTTSWord(word, timeout);
+        }, timeout);
+
+      });
+
+    } else {
+
+      _playTTSWord(word);
+
+    }
 
   }
 

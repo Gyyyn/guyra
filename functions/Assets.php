@@ -39,7 +39,22 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
   // In a dev enviroment we aren't going to minify anything.
   if (!$object || $gSettings['dev_env'] == 1) {
 
-    $object = file_get_contents($realObject);
+    $realObject = file_get_contents($realObject);
+
+    // We didn't find the object, stop here.
+    if (!$realObject) {
+
+      if ($inline) {
+        return $object;
+      } else {
+        return $theLink;
+      }
+
+      return;
+
+    }
+
+    $object = $realObject;
 
     // Replace URLs
     $object = str_replace("%template_url", $template_url, $object);
@@ -75,7 +90,7 @@ function GetImageCache($asset, $size=null, $type='png', $compression=80, $full_i
   }
 
   $realObject = $template_dir . '/assets/' . $asset;
-  $cachedObjectAppend = md5($asset . $size) . '.' . $type;
+  $cachedObjectAppend = md5($asset . $size . GUYRA_VERSION) . '.' . $type;
   $cachedObject = $assetsCacheLocation . $cachedObjectAppend;
 
   $object = file_get_contents($cachedObject);

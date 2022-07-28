@@ -76,9 +76,12 @@
    "new_password":"Sua nova senha",
    "new_password_again":"Sua nova senha de novo",
    "save":"Salvar",
+   "request": "Pedir",
    "remember_me":"Lembrar de mim",
    "meet":"Meet",
    "meeting":"Reunião",
+   "teacher":"Professor",
+   "teachers":"Professores",
    "you_chose":"Você escolheu",
    "qr_code":"Código QR",
    "pix_qr_code_explain":"Use o aplicativo do seu banco para ler este código com a chave PIX.",
@@ -262,6 +265,7 @@
    "button_back_roadmap":"Voltar ao mapa",
    "button_copy_notepad":"Copiar do bloco de notas",
    "button_meet":"Conhecer",
+   "button_request_time": "Pedir horário",
    "email_sent":"Enviado!",
    "email_sent_explain":"Um email com um link para criar uma nova senha foi enviado, mas talvez demore um pouco pra chegar até você. Espere pelo menos 10 minutos para tentar de novo.",
    "prices_features": {
@@ -562,6 +566,17 @@
    "notification_user_posted":{
       "title":"%user postou uma resposta!",
       "contents":"Corrija o quanto antes."
+   },
+   "notification_appointment_request": {
+      "title":"%user está pedindo um horário.",
+      "contents":"Clique aceitar abaixo para deixa-lo saber que você vai entrar em contato.",
+      "actions": [
+         {"link": "%site_url/api?appointment=1&action=accept&user=%user", "value": "Aceitar"}
+      ]
+   },
+   "notification_appointment_accepted": {
+      "title":"Seu pedido de horário for aceito!",
+      "contents":"Logo você vai receber um contato do professor."
    },
    "something_went_wrong":"Algo deu errado, tente de novo.",
    "post error":"Houve um erro no envio de informações, tente de novo",

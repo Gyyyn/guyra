@@ -680,3 +680,23 @@ if ($_GET['gen_pix']) {
   guyra_output_json($payment, true);
 
 }
+
+if ($_GET['getTTS']) {
+  
+  $data = json_decode(file_get_contents('php://input'), true);
+  $output = [];
+
+  foreach ($data as $word) {
+
+    $word = str_replace('.', '', $word);
+    $word = str_replace(',', '', $word);
+    $word = str_replace('!', '', $word);
+    $word = strtolower($word);
+
+    $output[$word] = GetTTSAudioFor($word);
+
+  }
+
+  guyra_output_json($output, true);
+
+}

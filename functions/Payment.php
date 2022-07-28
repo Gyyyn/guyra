@@ -37,10 +37,10 @@ function CreateMPcURLObject($args=[]) {
 
 }
 
-function CheckMPSubscriptionByPayerId($id) {
+function CheckMPSubscriptionById($id) {
 
   $ch = CreateMPcURLObject([
-    'url' => '/search?status=authorized&payerId=' . $id
+    'url' => '/search?status=authorized&id=' . $id
   ]);
 
   $response = curl_exec($ch);
@@ -67,13 +67,12 @@ function CheckSubscription($user_id=0) {
   }
 
   // Determine what payment method was used.
-
   // Case for MercadoPago (LATAM Market)
   if ($user_payments['processor_id'] == 'MP') {
 
     $processor_data = $user_payments['processor_data'];
 
-    $MP_search_results = CheckMPSubscriptionByPayerId($processor_data['payer_id']);
+    $MP_search_results = CheckMPSubscriptionById($processor_data['id']);
     $MP_search_results = json_decode($MP_search_results, true);
 
     // Check if we have results.
@@ -92,7 +91,7 @@ function CheckSubscription($user_id=0) {
 
   }
 
-  // Case for Paypal (NA/EU Market)
+  // Case for Paypal (NA/EU Market) SoonTM
   // if ($user_payments['processor_id'] == 'PP') {
   // }
 

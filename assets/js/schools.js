@@ -1429,10 +1429,12 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingSubscriptionValid = this.representativeUser.user_subscription_valid;
 
       this.groupUsers = null;
+      var truncatedLastName = this.representativeUser.userdata.last_name.split(' ').at(-1);
+      var fullName = this.representativeUser.userdata.first_name + ' ' + this.representativeUser.userdata.last_name;
 
       this.listingTitle = [
-        e('span', { className: 'fw-bold' }, this.representativeUser.userdata.first_name),
-        e('span', { className: 'ms-1' }, this.representativeUser.userdata.last_name),
+        e('span', { className: 'fw-bold', alt: fullName }, this.representativeUser.userdata.first_name),
+        e('span', { className: 'ms-1' }, truncatedLastName),
       ];
 
       if (this.representativeUser.gamedata.streak_info) {
@@ -1543,7 +1545,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     return [
     e(
       'div',
-      { className: 'd-flex flex-column mb-2 dialog-box' + dialogBoxExtraClass, id: 'user_' + this.listingName },
+      { className: 'd-flex flex-column mb-2 dialog-box p-2' + dialogBoxExtraClass, id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'control-area d-flex flex-column flex-md-row justify-content-between align-items-center' },
@@ -1615,7 +1617,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
               { className: 'd-inline m-auto' },
               e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=icons/no-results.png&size=128' })
             ),
-            e('h2', { className: 'text-grey' }, thei18n.no_users_found),
+            e('h2', {}, thei18n.no_users_found),
           );
         }
 
@@ -1624,7 +1626,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         return e(
           'div',
           { className: 'd-flex flex-column mb-3' },
-          e('h2', { className: 'text-grey-darker mb-2' }, thei18n.your_students),
+          e('h2', { className: 'mb-2' }, thei18n.your_students),
           Object.values(user_list).map((user) => {
 
             if (user.userdata.studygroup) {
@@ -1650,7 +1652,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
       e(
         'div',
         { className: 'controls row' },
-        e('h2', { className: 'text-grey-darker mb-2' }, thei18n.controls),
+        e('h2', { className: 'mb-2' }, thei18n.controls),
         e(
           'div',
           { className: 'col-auto mb-3' },

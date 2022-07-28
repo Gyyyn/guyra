@@ -7,6 +7,7 @@ global $is_logged_in;
 global $site_api_url;
 global $gLang;
 global $gi18n;
+global $gSettings;
 
 function FetchBrowserLangs() {
 
@@ -48,8 +49,12 @@ $i18n_links = [
 	'audio_link' => $template_url . '/assets/audio/',
 	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
 	'title_img' => $template_url . '/assets/img/guyra-title.svg',
-	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg'
+	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg',
+	'mp_public_key' => $gSettings['mp_public_key']
 ];
+
+if ($gSettings['dev_env'])
+$i18n_links['mp_public_key'] = $gSettings['mp_public_key_dev'];
 
 
 function Fetchi18n($args=[]) {

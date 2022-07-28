@@ -17,14 +17,6 @@
   background: transparent;
 }
 
-.primary .card {
-  background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
-}
-
-.primary.business .card {
-  background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
-}
-
 @media (min-width: 980px) {
 
 	.cover {
@@ -76,6 +68,22 @@
 	.cover-container {
 		max-width: 70vw;
 	}
+}
+
+.prices .card {
+  border-radius: var(--guyra-border-radius-bigger);
+  background: var(--guyra-blue-blue-darker-gradient);
+  color: var(--guyra-white);
+  border: 0;
+  box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
+}
+
+.prices.primary .card {
+  background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
+}
+
+.prices.primary.business .card {
+  background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
 }
 
 .prices.primary .card {
