@@ -6,7 +6,7 @@ import {
   theUserdata,
   LoadingPage,
   Guyra_InventoryItem
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const ShopContext = React.createContext();
 

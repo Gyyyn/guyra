@@ -9,7 +9,7 @@ import {
   randomNumber,
   vibrate,
   PopUp
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const { useEffect } = React;
 var fakeClick;

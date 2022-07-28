@@ -58,6 +58,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
 
     // Replace URLs
     $object = str_replace("%template_url", $template_url, $object);
+    $object = str_replace("%ver", GUYRA_VERSION, $object);
 
     if ($assetFolder == 'js' || $assetFolder == 'json') {
       $objectMinified = new Minify\JS($object);

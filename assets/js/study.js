@@ -12,10 +12,10 @@ import {
   RenderReplies,
   checkForTranslatables,
   GuyraParseDate
-} from '%template_url/assets/js/Common.js';
-import { Roadmap } from '%template_url/assets/js/roadmap.js';
-import { Flashcards } from '%template_url/assets/js/Flashcards.js';
-import { PersistentMeeting } from '%template_url/assets/js/Header.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
+import { Roadmap } from '%template_url/assets/js/roadmap.js?v=%ver';
+import { Flashcards } from '%template_url/assets/js/Flashcards.js?v=%ver';
+import { PersistentMeeting } from '%template_url/assets/js/Header.js?v=%ver';
 
 const HomeContext = React.createContext();
 

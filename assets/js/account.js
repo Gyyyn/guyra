@@ -14,7 +14,7 @@ import {
   randomNumber,
   calculateOverdueFees,
   formataCPF
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});

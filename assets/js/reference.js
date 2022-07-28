@@ -7,7 +7,7 @@ import {
   LoadingPage,
   checkForTranslatables,
   MD5
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const ReferenceContext = React.createContext();
 

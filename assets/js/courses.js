@@ -4,7 +4,7 @@ import {
   GuyraGetData,
   thei18n,
   LoadingPage
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 // Youtube Embed stuff
 var tag = document.createElement('script');

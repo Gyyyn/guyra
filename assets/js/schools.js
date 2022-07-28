@@ -9,7 +9,7 @@ import {
   RenderReplies,
   GetStandardDate,
   onChangeForceHTTPS
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();

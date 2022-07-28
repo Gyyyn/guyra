@@ -4,7 +4,7 @@ import {
   thei18n,
   RoundedBoxHeading,
   LoadingPage
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const RankingContext = React.createContext();
 

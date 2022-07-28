@@ -3,7 +3,7 @@ import {
   GuyraGetData,
   thei18n,
   LoadingPage,
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 const HelpContext = React.createContext();
 

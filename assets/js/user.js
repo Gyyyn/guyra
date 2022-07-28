@@ -6,11 +6,11 @@ import {
     LoadingPage,
     GuyraParseDate,
     RoundedBoxHeading,
-} from '%template_url/assets/js/Common.js';
+} from '%template_url/assets/js/Common.js?v=%ver';
 
 import {
     RenderCalendar
-} from '%template_url/assets/js/Calendar.js';
+} from '%template_url/assets/js/Calendar.js?v=%ver';
   
 const UserContext = React.createContext();
 
