@@ -50,7 +50,7 @@ class Roadmap_Popup extends React.Component {
       },
       e(PopUp, {
         buttonElement: this.props.buttonElement,
-        bodyElement: this.props.bodyElement,
+        bodyElement: window.HTMLReactParser(this.props.bodyElement),
         title: this.props.title,
       })
     );

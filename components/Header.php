@@ -155,7 +155,7 @@ $page_Title = $gi18n['company_name'];
 if ($where_am_i == '') {
 
   $body_class[] = 'home';
-  $page_Title = $gi18n['study'];
+  $page_Title = $gi18n['study'] . ' ' . $gi18n['at'] . ' ' . $gi18n['company_name'];
 
   if (!$is_logged_in)
   $page_Title = $gi18n['homepage'];

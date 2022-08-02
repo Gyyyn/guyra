@@ -1736,6 +1736,8 @@ function WhoAmI_openPayments_paymentItem(props) {
   var overdueExtra = false;
   var overdueInset = null;
 
+  var pix_code = '2966bc87-54bd-4334-87e8-e8b86f305f87';
+
   if (itemDue < now) {
 
     overdueExtra = calculateOverdueFees(props.item.value, itemDue);
@@ -1743,7 +1745,7 @@ function WhoAmI_openPayments_paymentItem(props) {
 
     overdueInset = e(
       'span',
-      { className: 'text-s ms-2 text-grey-darkest' },
+      { className: 'text-s text-grey-darkest' },
       '(',
       'R$' + props.item.value,
       ' + ',
@@ -1811,9 +1813,13 @@ function WhoAmI_openPayments_paymentItem(props) {
             { className: 'd-inline mb-2' },
             e(
               'div',
-              { className: 'badge bg-white me-2 mb-2 text-n' },
-              e('span', {}, i18n.value + ': '),
-              e('span', { className: 'fw-bold ms-1'}, 'R$' + itemValue),
+              { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap' },
+              e(
+                'span',
+                { className: 'me-2' },
+                e('span', {}, i18n.value + ': '),
+                e('span', { className: 'fw-bold ms-1'}, 'R$' + itemValue),
+              ),
               overdueInset
             ),
             e(
@@ -1824,9 +1830,9 @@ function WhoAmI_openPayments_paymentItem(props) {
             ),
             e(
               'div',
-              { className: 'badge bg-primary text-white me-2 mb-2' },
-              e('span', {}, thei18n.pix + ': '),
-              e('span', {}, '2966bc87-54bd-4334-87e8-e8b86f305f87'),
+              { className: 'badge bg-primary text-white me-2 mb-2 d-flex flex-row align-items-center' },
+              e('div', {}, thei18n.pix + ': '),
+              e('div', { style: { maxWidth: '40vw' }, className: 'overflow-hidden ms-2' }, pix_code),
               e(
                 'button',
                 {
@@ -1836,7 +1842,7 @@ function WhoAmI_openPayments_paymentItem(props) {
                     var before = event.target.innerHTML;
                     event.target.innerHTML = i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
 
-                    navigator.clipboard.writeText(i18n.company_cnpj);
+                    navigator.clipboard.writeText(pix_code);
 
                     setTimeout(() => {
                       event.target.innerHTML = before;
