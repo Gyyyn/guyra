@@ -580,32 +580,32 @@ class AccountPayment extends React.Component {
             error.forEach((item) => {
 
               // 205: cardNumber empty
-              if (item.code == 205) {
+              if (item.code == 205 || item.code == 'E301') {
                 document.getElementById('form-checkout__cardNumber').classList.add('is-invalid');
               }
 
               // 208: cardExpirationMonth empty
-              if (item.code == 208) {
+              if (item.code == 208 || item.code == 325) {
                 document.getElementById('form-checkout__cardExpirationMonth').classList.add('is-invalid');
               }
 
               // 209: cardExpirationYear empty
-              if (item.code == 209) {
+              if (item.code == 209 || item.code == 326) {
                 document.getElementById('form-checkout__cardExpirationYear').classList.add('is-invalid');
               }
 
               // 214: identificationNumber empty
-              if (item.code == 214) {
+              if (item.code == 214 || item.code == 324) {
                 document.getElementById('form-checkout__identificationNumber').classList.add('is-invalid');
               }
 
               // 221: cardholderName empty
-              if (item.code == 221) {
+              if (item.code == 221 || item.code == 316) {
                 document.getElementById('form-checkout__cardholderName').classList.add('is-invalid');
               }
 
               // 221: securityCode empty
-              if (item.code == 224) {
+              if (item.code == 224 || item.code == 'E203') {
                 document.getElementById('form-checkout__securityCode').classList.add('is-invalid');
               }
 
@@ -1109,6 +1109,9 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
               });
 
               if (dataToPost.first_name) {
+                
+                dataToPost.first_name = dataToPost.first_name.trim();
+
                 dataToPost.last_name = dataToPost.first_name.split(' ');
                 dataToPost.first_name = dataToPost.last_name.shift();
                 dataToPost.last_name = dataToPost.last_name.join(' ');
@@ -2230,8 +2233,8 @@ function Register(props) {
 
           dataToPost = {
             user_email: document.getElementById('profile-email').value,
-            user_firstname: first_name,
-            user_lastname: last_name,
+            user_firstname: first_name.trim(),
+            user_lastname: last_name.trim(),
             captcha: token
           };
 

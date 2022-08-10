@@ -403,7 +403,7 @@ input:checked + .slider:before {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  height: var(--guyra-navbar-size);
+  min-height: var(--guyra-navbar-size);
   box-shadow: var(--guyra-box-shadow);
   background: var(--guyra-white);
   border-radius: var(--guyra-border-radius-bigger);

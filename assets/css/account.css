@@ -1,3 +1,7 @@
+.account-plans-total {
+  min-height: unset;
+}
+
 @media (min-width: 768px) {
   .account-plans {
     position: -webkit-sticky;

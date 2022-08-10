@@ -178,6 +178,12 @@
   border-left-width: .15rem !important;
 }
 
+.navbar .btn-tall.trans {
+  border-color: transparent;
+  padding: .4rem .9rem;
+  transition: var(--guyra-transition);
+}
+
 .btn-tall.trans:hover {
 	background-color: transparent;
   border-color: var(--guyra-grey-darkest);

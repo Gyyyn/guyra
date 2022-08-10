@@ -159,3 +159,188 @@ export class PersistentMeeting extends React.Component {
     );
   }
 }
+
+function Header_buttonImage(props) {
+
+  var link = props.image;
+  var classN = 'page-icon tiny ';
+
+  if (!props.image_direct) {
+    link = thei18n.api_link + '?get_image=' + props.image + '&size=32';
+  }
+
+  if (props.invert_image) {
+    classN += 'ms-2';
+  } else { classN += 'me-2'; }
+
+  return e(
+    'span',
+    { className: 'menu-icon' },
+    e('img',
+      { className: classN, src: link }
+    )
+  );
+}
+
+function Header_Button(props) {
+
+  var imageE = null;
+  var buttonClassExtra = ' ';
+
+  if (props.classExtra !== undefined) {
+    buttonClassExtra = buttonClassExtra + props.classExtra;
+  }
+
+  if (props.image !== undefined) {
+    imageE = e(Header_buttonImage, { image: props.image, image_direct: props.image_direct, invert_image: props.invert_image });
+  }
+
+  var buttonProper = [
+    imageE,
+    e('span', { className: 'd-none d-md-inline' }, props.value)
+  ];
+
+  if (props.invert_image) {
+    buttonProper = buttonProper.concat(buttonProper.shift());
+  }
+
+  console.log(buttonProper);
+
+  return e(
+    'button',
+    { className: 'btn-tall trans' + buttonClassExtra, onClick: () => {
+      props.onClick();
+    }},
+    buttonProper
+  );
+
+}
+
+export class Header extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      branding: null
+    }
+
+  }
+
+  componentWillMount() {
+
+    var dataPromise = GuyraGetData();
+
+    dataPromise.then(res => {
+
+      this.branding = e(
+        'div',
+        { className: 'navbar-brand d-flex me-3' },
+        e(
+          'a', { className: 'text-decoration-none', href: thei18n.home_link },
+          e(
+            'span',
+            { className: 'navbar-center-title' },
+            e(
+              'img',
+              {
+                alt: thei18n.company_name,
+                width: 55,
+                height: 15,
+                className: 'mb-1',
+                src: thei18n.title_img
+              }
+            )
+          )
+        )
+      );
+
+      this.setState({
+        branding: null,
+        buttons: this.buildButtons(),
+        accountCenter: this.buildAccountCenter()
+      })
+
+    });
+
+  }
+
+  buildButtons() {
+
+    var buttons = [];
+
+    if (!theUserdata.is_logged_in) {
+      
+      buttons = [
+        e(Header_Button, { value: thei18n.homepage }),
+      ];
+
+    } else {
+
+      buttons = [
+        e(Header_Button, { value: thei18n.study, image: 'icons/learning.png' }),
+        e(Header_Button, { value: thei18n.practice, image: 'icons/target.png' }),
+        e(Header_Button, { value: thei18n.courses, image: 'icons/online-learning.png' }),
+        e(Header_Button, { value: thei18n.dictionary, image: 'icons/dictionary.png' }),
+      ];
+
+    }
+
+    return buttons;
+    
+  }
+
+  buildAccountCenter() {
+
+    var accountButtons = [];
+
+    if (!theUserdata.is_logged_in) {
+
+      accountButtons = [
+        e(Header_Button, { value: thei18n.button_login }),
+      ];
+
+    } else {
+
+      accountButtons = [
+        e(Header_Button, { value: thei18n.meeting, image: 'icons/video-camera.png' }),
+        e(Header_Button, { value: thei18n.shop, image: 'icons/exercises/shop.png' }),
+        e(Header_Button, { value: thei18n.ranking, image: 'icons/podium.png' }),
+        e(
+          'span',
+          {},
+          e(Header_Button, { value: e('i', { className: 'bi bi-bell-fill' }) }),
+          e(Header_Button, {
+            value: theUserdata.first_name,
+            image: theUserdata.profile_picture_url,
+            image_direct: true,
+            invert_image: true
+          }),
+        )
+      ];
+
+    }
+
+    return accountButtons;
+
+  }
+
+  render() {
+
+    return e(
+      'nav',
+      {
+        id: 'guyra-navbar',
+        className: 'navbar fixed-top'
+      },
+      this.state.branding,
+      e(
+        'div',
+        { className: 'd-flex flex-grow-1 justify-content-between' },
+        e('div', { className: 'header-buttons' }, this.state.buttons),
+        e('div', { className: 'header-account justify-content-end' }, this.state.accountCenter)
+      )
+    )
+
+  }
+
+}

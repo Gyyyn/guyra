@@ -1075,7 +1075,8 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
                 id: 'remove-from-group-' + user.id,
                 onClick: () => { this.removeFromGroup(user.id) }
               },
-              e('i', {className: 'bi bi-dash-lg me-1'}), user.userdata.first_name
+              e('i', {className: 'bi bi-dash-lg me-1'}),
+              user.userdata.first_name
             );
 
           }),
@@ -1400,7 +1401,13 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.props.group.forEach((user) => {
         this.groupUsers.push(user);
         this.groupUsersIds.push(user.id);
-        this.groupUsersNames.push(user.userdata.first_name);
+
+        if (!user.user_subscription_valid) {
+          this.groupUsersNames.push(user.userdata.first_name + '*');
+        } else {
+          this.groupUsersNames.push(user.userdata.first_name);
+        }
+
       });
 
       this.listingUserId = this.groupUsersIds.join(',');
@@ -1429,7 +1436,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingSubscriptionValid = this.representativeUser.user_subscription_valid;
 
       this.groupUsers = null;
-      var truncatedLastName = this.representativeUser.userdata.last_name.split(' ').at(-1);
+      var truncatedLastName = this.representativeUser.userdata.last_name.trim().split(' ').at(-1);
+
       var fullName = this.representativeUser.userdata.first_name + ' ' + this.representativeUser.userdata.last_name;
 
       this.listingTitle = [

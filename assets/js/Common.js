@@ -1250,9 +1250,9 @@ export function calculateOverdueFees(value, itemDue) {
   let overdueRate = 0.035;
   let now = new Date();
   let difference = now.getTime() - itemDue.getTime();
-  let overdueDays = Math.ceil(difference / (1000 * 3600 * 24));
+  let overdueDays = Math.round(difference / (1000 * 3600 * 24));
   var overdueExtra = value * (overdueDays * (overdueRate / 30));
-  overdueExtra = Math.ceil(overdueExtra);
+  overdueExtra = Math.round(overdueExtra);
   
   return overdueExtra; 
   

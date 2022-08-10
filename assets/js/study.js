@@ -15,7 +15,7 @@ import {
 } from '%template_url/assets/js/Common.js?v=%ver';
 import { Roadmap } from '%template_url/assets/js/roadmap.js?v=%ver';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js?v=%ver';
-import { PersistentMeeting } from '%template_url/assets/js/Header.js?v=%ver';
+import { PersistentMeeting, Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const HomeContext = React.createContext();
 
@@ -801,7 +801,8 @@ class UserHome extends React.Component {
   }
 
   render() {
-    return e(HomeContext.Provider, { value: this.state }, e(
+    return e(HomeContext.Provider, { value: this.state },
+    e(
       'main',
       {},
       this.state.meeting,
