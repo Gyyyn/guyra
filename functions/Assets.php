@@ -10,7 +10,7 @@ require_once $template_dir . '/vendor/autoload.php';
 use MatthiasMullie\Minify;
 use Intervention\Image\ImageManager;
 
-function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
+function GetMinifiedAsset($assetFolder, $assetFile, $inline=false, $raw=false) {
 
   if ($assetFolder != 'js' && $assetFolder != 'css' && $assetFolder != 'json') {
     return false;
@@ -50,7 +50,7 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
         return $theLink;
       }
 
-      return;
+      return false;
 
     }
 
@@ -60,14 +60,18 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false) {
     $object = str_replace("%template_url", $template_url, $object);
     $object = str_replace("%ver", GUYRA_VERSION, $object);
 
-    if ($assetFolder == 'js' || $assetFolder == 'json') {
-      $objectMinified = new Minify\JS($object);
-    } elseif ($assetFolder == 'css') {
-      $objectMinified = new Minify\CSS($object);
-    }
+    if (!$raw) {
 
-    $objectMinified->minify($cachedObject);
-    $object = file_get_contents($realObject);
+      if ($assetFolder == 'js') {
+        $objectMinified = new Minify\JS($object);
+      } elseif ($assetFolder == 'css') {
+        $objectMinified = new Minify\CSS($object);
+      }
+
+      $objectMinified->minify($cachedObject);
+      $object = file_get_contents($realObject);
+
+    }
 
   }
 

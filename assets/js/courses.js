@@ -1,10 +1,11 @@
 import {
   e,
-  Study_Topbar,
   GuyraGetData,
+  GuyraLocalStorage,
   thei18n,
   LoadingPage
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 // Youtube Embed stuff
 var tag = document.createElement('script');
@@ -75,7 +76,7 @@ class YoutubeEmbed extends React.Component {
         );
 
         // Check if we are completing any challenges.
-        var theTracker = JSON.parse(window.localStorage.getItem('challenge'));
+        var theTracker = GuyraLocalStorage('get', 'challenge');
 
         Object.values(theTracker).forEach((item, i) => {
 
@@ -94,7 +95,7 @@ class YoutubeEmbed extends React.Component {
               theTracker[challengeTrackerKeys[i]].completed.videos.push(theVideoId);
             }
 
-            window.localStorage.setItem('challenge', JSON.stringify(theTracker));
+            GuyraLocalStorage('set', 'challenge', theTracker);
 
           }
 
@@ -123,22 +124,6 @@ class YoutubeEmbed extends React.Component {
 
 function returnButton(props) {
 
-  var originCookie = window.localStorage.getItem('origin');
-
-  var returnButtonExtraButton = null;
-
-  if (originCookie == 'roadmap') {
-    returnButtonExtraButton = e(CoursesContext.Consumer, null, ({i18n}) => e(
-      'a',
-      {
-        className: 'btn-tall blue round-border ms-3',
-        href: i18n.home_link
-      },
-      e('i', { className: 'bi bi-arrow-90deg-up' }),
-      e('span', { className: 'ms-1' }, i18n.button_back_roadmap)
-    ));
-  }
-
   return e(
     'div',
     {},
@@ -158,7 +143,6 @@ function returnButton(props) {
       e('i', { className: 'bi bi-arrow-90deg-left' }),
       e('span', { className: 'ms-1' }, i18n.back)
     )),
-    returnButtonExtraButton
   );
 
 }
@@ -239,10 +223,7 @@ function CourseVideo(props) {
   }
 
   // Update the watch history
-  var member = window.localStorage.getItem('guyra_members');
-
-  if (typeof member === 'string') {
-  member = JSON.parse(member); }
+  var member = GuyraLocalStorage('get', 'guyra_members');
 
   if (!member.watch_history) {
   member.watch_history = [] }
@@ -254,7 +235,7 @@ function CourseVideo(props) {
     thumbnails: props.video.thumbnails
   });
 
-  window.localStorage.setItem('guyra_members', JSON.stringify(member));
+  GuyraLocalStorage('set', 'guyra_members', member);
 
   return e(
     'div',
@@ -487,7 +468,7 @@ class Courses extends React.Component {
     this.state = {
       page: e(LoadingPage),
       coursesObject: {},
-      setPage: this.setPage
+      setPage: this.setPage,
     };
 
   }
@@ -496,25 +477,17 @@ class Courses extends React.Component {
 
     var dataPromise = GuyraGetData();
 
-    fetch(thei18n.api_link + '?get_courses=1')
-    .then(res => res.json())
-    .then(res => {
+    dataPromise.then(res => {
 
       this.setState({
-        coursesObject: res,
-      });
-
-      dataPromise.then(res => {
-
-        this.setState({
-          i18n: res.i18n,
-          userdata: res.userdata,
-          page: this.decideStartingPage()
-        });
-  
+        i18n: res.i18n,
+        userdata: res.userdata,
+        coursesObject: res.courses,
+        page: this.decideStartingPage(),
       });
 
     });
+
   }
 
   decideStartingPage() {
@@ -577,7 +550,7 @@ class Courses extends React.Component {
 
   setPage = (page) => {
     this.setState({
-      page: page
+      page: page,
     });
     window.scrollTo(0, 0);
   }
@@ -586,11 +559,7 @@ class Courses extends React.Component {
     return e(
       'main',
       { className: 'squeeze' },
-      e(
-        'div',
-        { className: 'page-squeeze' },
-        e(Study_Topbar, { userdata: this.state.userdata, courses_link: { onClick: null, classExtra: 'active' } }),
-      ),
+      e(Header),
       e('div', { className: 'courses-squeeze rounded-box p-0' },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)
       )

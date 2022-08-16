@@ -4,6 +4,7 @@ import {
   thei18n,
   LoadingPage,
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const HelpContext = React.createContext();
 
@@ -272,7 +273,10 @@ class Help extends React.Component {
   }
 
   render() {
-    return e(HelpContext.Provider, { value: this.state }, this.state.page);
+    return e(HelpContext.Provider, { value: this.state },
+      e(Header),
+      this.state.page
+    );
   };
 }
 

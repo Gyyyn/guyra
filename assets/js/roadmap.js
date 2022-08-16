@@ -15,7 +15,7 @@ class Roadmap_Popup extends React.Component {
 
   setchallengeTracker() {
 
-    var challengeTracker = JSON.parse(window.localStorage.getItem('challenge'));
+    var challengeTracker = GuyraLocalStorage('get', 'challenge');
 
     if (challengeTracker == null) {
       challengeTracker = {};
@@ -166,7 +166,7 @@ export class Roadmap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.challengeTracker = JSON.parse(window.localStorage.getItem('challenge'));
+    this.challengeTracker = GuyraLocalStorage('get', 'challenge');
 
     this.state = {
       page: e(LoadingPage),

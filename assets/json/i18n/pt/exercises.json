@@ -2,8 +2,20 @@
 
   "unit1": {
 
-    "CompleteThePhrase": [
+    "CompleteThePhraseBuilder": [
+      ["Are you from Brazil?", ["you", "Brazil?"]],
+      ["Are you from America?", ["Are", "from"]],
+      ["Are they from France?", ["they", "from"]],
+      ["How are you doing?", ["are", "you"]],
+      ["How are you today?", ["you", "today?"]],
+      ["Are you doing well?", ["Are", "well?"]],
+      ["She is really tall!", ["is", "tall!"]],
+      ["He is not friendly.", ["not", "friendly."]],
+      ["She is a little late.", ["is", "little"]],
+      ["We are students here.", ["We", "students"]]
+    ],
 
+    "CompleteThePhrase": [
       ["I am John.", "am", "(sou)"],
       ["He is John.", "is", "(é)"],
       ["We are friends.", "are", "(somos)"],
@@ -127,6 +139,14 @@
   },
 
   "unit2": {
+
+    "CompleteThePhraseBuilder": [
+      ["What's in your backpack?", ["in", "backpack?"]],
+      ["Is this your phone?", ["this", "phone?"]],
+      ["This isn't my phone.", ["isn't","my"]],
+      ["Do you have a backpack?", ["you", "have"]],
+      ["Do you have a backpack?", ["Do", "backpack?"]]
+    ],
 
     "CompleteThePhrase": [
       ["What's in your bag?", "in your", "(na sua)"],
@@ -265,6 +285,15 @@
   },
 
   "unit4": {
+
+    "CompleteThePhraseBuilder": [
+      ["I am working today", ["am", "working"]],
+      ["Are you studying math?", ["studying", "math?"]],
+      ["Where are you going now?", ["Where", "going"]],
+      ["What are you going to do later?", ["you", "going"]],
+      ["She is having dinner.", ["is", "having"]],
+      ["They aren't coming with us.", ["coming", "with"]]
+    ],
 
     "CompleteThePhrase": [
       ["I am working today.", "am work", "(estou trabalhando)"],
@@ -1832,6 +1861,14 @@
       ["When I got to the café my friends were already eating. No one waited for me!"],
       ["A police chase was happening this morning on the avenue I was driving through."],
       ["Some scientists were doing research on this very topic but they didn't find anything conclusive."]
+    ]
+
+  },
+
+  "unit43": {
+
+    "CompleteThePhraseBuilder": [
+      
     ]
 
   }

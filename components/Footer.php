@@ -11,19 +11,6 @@ include_once $template_dir . '/functions/Assets.php';
 
 ?>
 
-<div class="position-fixed bottom-0 end-0 notepad-element overflow-x-visible">
-  <a class="btn-tall blue opacity-0 round-border position-absolute" id="notepad-toggle" aria-label="<?php echo $gi18n['notepad'] ?>">
-    <img class="page-icon tiny" alt="notes" width="32" height="32" src="<?php echo GetImageCache('icons/notes.png', 64); ?>">
-  </a>
-</div>
-
-<div class="position-fixed bottom-0 end-0 notepad-element">
-  <div class="position-absolute opacity-0 pop-animation animate" id="notepad">
-    <div id="notepad-header" class="position-absolute top-0 end-0 p-3" style="cursor: move;"><i class="bi bi-arrows-move"></i></div>
-    <textarea id="notepad-text" class="text-n" value=""></textarea>
-  </div>
-</div>
-
 <footer class="my-5 d-none d-md-flex flex-column text-grey-darker text-s justify-content-center align-items-center">
   <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
@@ -83,7 +70,6 @@ include_once $template_dir . '/functions/Assets.php';
 <?php if ($args['js']): ?>
 <script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
 <?php endif; ?>
-<script async type="module" src="<?php echo GetMinifiedAsset('js', 'notepad.js'); ?>"></script>
 <?php if ($args['aos']): ?>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>

@@ -116,6 +116,37 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
 </div>
 
+<div class="admin-section">
+
+  <h4 class="mt-4">Set News:</h4>
+  
+  <div class="admin-forms border rounded p-3 m-0">
+
+    <div><textarea name="setnews" id="setnews" cols="50" rows="5"></textarea></div>
+
+    <button class="btn btn-primary" onclick="
+
+      var newsText = document.getElementById('setnews');
+
+      fetch('<?php echo $gi18n['api_link'] ?>?set_news=1',
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lang: 'pt', value: newsText.value})
+      })
+
+      newsText.value = 'ok';
+      setTimeout(() => { newsText.value = ''; }, 1000)
+
+    ">Set news file</button>
+
+  </div>
+
+</div>
+
 
 <div class="admin-section">
 

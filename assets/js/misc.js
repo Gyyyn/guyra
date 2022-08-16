@@ -27,29 +27,6 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/GuyraPWA.js');
 }
 
-// Notifications
-var deleteNotificationButtons = document.querySelectorAll('.delete-notification-button');
-var clearNotificationsButton = document.querySelector('#clear-notification-button');
-
-if (deleteNotificationButtons) {
-  deleteNotificationButtons.forEach((button) => {
-    button.onclick = () => {
-      fetch(thei18n.api_link + '?pop_notification=1&index=' + button.dataset.index);
-      button.parentElement.parentElement.remove();
-    }
-  });
-}
-
-if (clearNotificationsButton) {
-  clearNotificationsButton.onclick = () => {
-    fetch(thei18n.api_link + '?clear_notifications=1');
-    document.querySelectorAll('.notifications.notification-item').forEach((item) => {
-      item.remove();
-    });
-
-  }
-}
-
 // Header
 // TODO: Move this to header.js
 function historyBack() {
@@ -227,17 +204,4 @@ function GoogleOAuth(payload) {
     payload: payload
   });
   
-}
-
-// Allow notepad disabling
-var localOptions = window.localStorage.getItem('guyra_options');
-
-if (typeof localOptions === 'string') {
-  localOptions = JSON.parse(localOptions); 
-} else {
-  localOptions = {}
-}
-
-if (localOptions.notepad_enabled != undefined && localOptions.notepad_enabled != true) {
-  document.getElementById('notepad-toggle').classList.add('d-none');
 }

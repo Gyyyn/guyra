@@ -19,10 +19,6 @@
 
 @media (min-width: 980px) {
 
-	.cover {
-		padding-top: 5rem;
-	}
-
   .prices-container {
     flex-direction: row;
   }

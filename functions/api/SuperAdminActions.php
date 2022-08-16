@@ -101,3 +101,17 @@ if ($_GET['update_special_cache']) {
   }
 
 }
+
+if ($_GET['set_news']) {
+  
+  $thePost = json_decode(file_get_contents('php://input'), true);
+  $lang = $thePost['lang'];
+
+  if (!$lang)
+  $lang = 'pt';
+
+  $news_file = $template_dir . '/cache/news.' . $lang . '.txt';
+
+  file_put_contents($news_file, $thePost['value']);
+
+}

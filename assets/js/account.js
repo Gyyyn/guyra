@@ -7,6 +7,7 @@ import {
   LoadingPage,
   Guyra_InventoryItem,
   GuyraParseDate,
+  GuyraLocalStorage,
   RoundedBoxHeading,
   PaymentItem,
   validatePhoneNumber,
@@ -15,6 +16,7 @@ import {
   calculateOverdueFees,
   formataCPF
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -1354,21 +1356,7 @@ function AccountOptions_profileDetails(props) {
 
 function AccountOptions_GeneralOptions(props) {
 
-  var getOptionsObject = () => {
-
-    var localOptions = window.localStorage.getItem('guyra_options');
-
-    if (typeof localOptions === 'string') {
-    localOptions = JSON.parse(localOptions); }
-
-    if (!localOptions) {
-    localOptions = {}; }
-
-    return localOptions;
-
-  }
-
-  var localOptions = getOptionsObject();
+  var localOptions = GuyraLocalStorage('get', 'guyra_options');
 
   if(localOptions.notepad_enabled == undefined) {
     localOptions.notepad_enabled = true;
@@ -1387,14 +1375,14 @@ function AccountOptions_GeneralOptions(props) {
           value: 'Habilitar bloco de notas',
           onClick: () => {
 
-            localOptions = getOptionsObject();
+            localOptions = GuyraLocalStorage('get', 'guyra_options');
 
             var checkbox = document.getElementById('notepad-checkbox');
             checkbox.checked = !checkbox.checked;
 
             localOptions.notepad_enabled = checkbox.checked;
 
-            window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+            GuyraLocalStorage('set', 'guyra_options', localOptions);
 
           }
         }
@@ -2377,11 +2365,7 @@ class LoginForm extends React.Component {
     this.headerValue = thei18n.login;
     this.membered = false;
 
-    var member = window.localStorage.getItem('guyra_members');
-
-    if (typeof member === 'string') {
-      member = JSON.parse(member);
-    }
+    var member = GuyraLocalStorage('get', 'guyra_members');
 
     if (member && member.user_email) {
       this.emailField = member.user_email;
@@ -2856,6 +2840,7 @@ class Account extends React.Component {
     return e(
       'main',
       { className: 'squeeze' },
+      e(Header),
       e(
         'div',
         { className: wrapperClass },

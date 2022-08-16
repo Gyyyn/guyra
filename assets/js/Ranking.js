@@ -5,6 +5,7 @@ import {
   RoundedBoxHeading,
   LoadingPage
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const RankingContext = React.createContext();
 
@@ -125,6 +126,7 @@ class Reference extends React.Component {
     return e(RankingContext.Provider, { value: this.state }, e(
       'div',
       { className: 'ranking-wrapper squeeze-big mt-0'},
+      e(Header),
       e(
         'div',
         { className: 'rounded-box' },

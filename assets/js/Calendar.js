@@ -528,8 +528,6 @@ export class RenderCalendar extends React.Component {
 
   render() {
 
-    // theUser.is_self = false;
-
     return e(CalendarContext.Provider, {value: this.state}, e(
       'div',
       { className: 'calendar justfade-animation animate d-flex flex-row' },

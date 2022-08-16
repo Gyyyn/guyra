@@ -8,6 +8,7 @@ global $current_user_gamedata;
 global $site_url;
 global $site_api_url;
 global $is_logged_in;
+global $gLang;
 
 Guyra_Safeguard_File();
 
@@ -15,12 +16,12 @@ include_once $template_dir . '/functions/Assets.php';
 
 if ($_GET['fetch_irregulars_object']) {
   header("Content-Type: application/json");
-  echo GetMinifiedAsset('json', 'irregularVerbs.json', true);
+  echo GetMinifiedAsset('json', 'irregularVerbs.json', true, true);
   exit;
 }
 
 if ($_GET['fetch_phrasals_object']) {
   header("Content-Type: application/json");
-  echo GetMinifiedAsset('json', 'phrasalVerbs.json', true);
+  echo GetMinifiedAsset('json', 'phrasalVerbs.json', true, true);
   exit;
 }

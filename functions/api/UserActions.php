@@ -33,9 +33,6 @@ include_once $template_dir . '/functions/Payment.php';
 include_once $template_dir . '/functions/Security.php';
 include_once $template_dir . '/components/Icons.php';
 
-include_once $template_dir . '/functions/api/UserActions/Roadmap.php';
-include_once $template_dir . '/functions/api/UserActions/Notifications.php';
-
 $user = $_GET['user'];
 $auth_token = $_SERVER['HTTP_GUYRA_AUTH'];
 
@@ -53,6 +50,10 @@ if (!$is_logged_in) {
   }
 
 }
+
+include_once $template_dir . '/functions/api/UserActions/Roadmap.php';
+include_once $template_dir . '/functions/api/UserActions/Notifications.php';
+include_once $template_dir . '/functions/api/UserActions/Reference.php';
 
 if ($_GET['i18n'] == "full")
 guyra_output_json($gi18n, true);

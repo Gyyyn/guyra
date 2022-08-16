@@ -1,7 +1,7 @@
 import {
   e,
-  Study_Topbar,
   GuyraGetData,
+  GuyraLocalStorage,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -10,6 +10,7 @@ import {
   vibrate,
   PopUp
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const { useEffect } = React;
 var fakeClick;
@@ -261,8 +262,17 @@ function isAnswerCorrect(correct, userInput) {
 
 }
 
-/*
-* --- Activity handlers */
+/* --- Activity handlers --- */
+
+// All these functions must return an object where:
+// translation: the translation
+// 0: string used for question
+// 1: answer options
+// 2: point of interest, used to check answers
+// 3: hint (optional)
+// 4: the entire correct phrase
+//
+// They aren't more self descriptive for backwards compatibility.
 
 function activityCompleteThePhrase(theExercise, _allTheWords, numOfOptions) {
 
@@ -393,7 +403,7 @@ function activityWhatYouHear(theExercise, options={}, _allTheWords) {
     translation: theExercise['translation'],
     tts: theExercise['tts'],
     easymode: shuffleArray(easymodeWords),
-    0: phraseSplit[0] + '...',
+    0: phraseSplit[0],
     1: shuffleArray(phraseSplit),
     2: phrase,
     3: theHint,
@@ -408,7 +418,9 @@ function activityTranslate(theExercise, options={}) {
     translation: theExercise['translation'],
     0: theExercise[1],
     1: [],
-    2: theExercise[2]
+    2: theExercise[2],
+    3: '',
+    4: theExercise[2]
   };
 
 }
@@ -419,13 +431,36 @@ function activityMultipleChoice(theExercise, options={}) {
     translation: theExercise['translation'],
     0: theExercise[1],
     1: theExercise[2],
-    2: theExercise[3]
+    2: theExercise[3],
+    3: '',
+    4: theExercise[2]
   };
 
 }
 
-/*
-* --- Exercises in action */
+function activityCompleteThePhraseBuilder(theExercise, options={}) {
+
+  var theQuestion = theExercise[1];
+
+  theExercise[2].forEach(word => {
+    
+    var regex = new RegExp(word,'g');
+
+    theQuestion = theQuestion.replace(regex,'____');
+
+  });
+  
+  return {
+    translation: theExercise['translation'],
+    order: theExercise[2],
+    0: theQuestion,
+    1: shuffleArray(Array.from(theExercise[2])),
+    2: theExercise[1],
+    3: '',
+    4: theExercise[1]
+  };
+
+}
 
 function AnswerButtonProper(props) {
 
@@ -593,15 +628,12 @@ class AnswersPhraseBuilder extends React.Component {
                 if (ocrrInOptions.length > 1) {
                   theButtonValue = e('span', {}, theButtonValue, e('span', { className: 'ms-1 text-grey-darker' }, '(x' + theOcrrAmountLeft + ')'));
                 }
+                
               }
 
-              if (phraseBuilderWordsAmount[x].current  >= 1) {
-
-                return e('span', {}, null);
-
-              } else {
-
-                phraseBuilderWordsAmount[x].current += 1;
+              if (phraseBuilderWordsAmount[x].current  >= 1) { return null; }
+              
+              phraseBuilderWordsAmount[x].current += 1;
 
                 return e(
                   AnswerButtonProper,
@@ -613,8 +645,6 @@ class AnswersPhraseBuilder extends React.Component {
                     onClick: () => { AddWord(x) }
                   }
                 );
-
-              }
 
             });
 
@@ -634,12 +664,17 @@ class AnswersTextArea extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    document.getElementById('exercise-answer-textarea').focus();
+  }
+
   render() {
     return e(ExerciseContext.Consumer, null, ({CheckAnswer, alreadyAnswered, setNewActivity}) => e(
       'textarea',
       {
         id: "exercise-answer-textarea",
         className: 'mb-0',
+        autofocus: true,
         onKeyDown: (i) => {
           let t = document.getElementById("exercise-answer-textarea");
           if (i.keyCode === 13) {
@@ -683,7 +718,7 @@ function QuestionDialog(props) {
   var theQuestion;
 
   if (typeof props.values[0] === 'string') {
-    theQuestion = props.values[0].replace('____','<span class="blank-space"></span>');
+    theQuestion = props.values[0].replaceAll('____','<span class="blank-space"></span>');
     theQuestion = window.HTMLReactParser(theQuestion);
   } else {
     theQuestion = props.values[0];
@@ -840,7 +875,7 @@ function QuestionAudio(props) {
           className: "exercise-dialog"
         },
         e(QuestionAudioButton, { phrase: props.values[4], link: props.values[5] }),
-        e('span', null, props.values[0])
+        e('span', null, props.values[0] + '...')
       )
     )
   )
@@ -929,17 +964,16 @@ class HintAreaHint extends React.Component {
     super(props);
 
     this.revealHintButton = e(
-      'button',
+      'span',
       {
-        type: 'button',
-        className: 'btn-tall btn-sm blue',
+        id: 'hint-reveal',
         onClick: (e) => {
           this.setState({
             hintValue: this.props.hint
           });
         }
       },
-      thei18n.click_to_reveal
+      '...'
     );
 
     this.hintValue = this.revealHintButton;
@@ -965,36 +999,58 @@ class HintAreaHint extends React.Component {
 
   render() {
 
-    return [
+    var hintProper = e(
+      'div',
+      { className: '' },
+      thei18n.hint + ": ",
       e(
-        'div',
-        { className: '' },
-        thei18n.hint + ": ",
-        e(
-          'span',
-          { className: 'fw-bold' },
-          this.state.hintValue
-        ),
-        e(
-          'span',
-          { className: 'ms-2' },
-          this.props.answeredWrongPreviouslyHint
-        ),
+        'span',
+        { className: 'fw-bold' },
+        this.state.hintValue
       ),
+      e(
+        'span',
+        { className: 'ms-2' },
+        this.props.answeredWrongPreviouslyHint
+      ),
+    );
+
+    if (!this.props.hint) {
+      hintProper = e('div', {}, null);
+    }
+
+    return [
+      hintProper,
       e(
         'div',
         { className: 'd-flex' },
-        e(ExerciseContext.Consumer, null, ({switchAnswerType, disallowCandy}) => {
+        e(ExerciseContext.Consumer, null, ({currentExerciseType, switchAnswerType, disallowCandy}) => {
 
           if (!disallowCandy) {
             return e(
               'button',
               {
                 type: 'button',
-                onClick: () => { switchAnswerType() },
+                onClick: (event) => {
+
+                  if (currentExerciseType == 'CompleteThePhrase') {
+
+                    var hintElement = document.getElementById('hint-reveal');
+
+                    if (hintElement) {
+                      hintElement.click();
+                      event.target.classList.add('d-none');
+                    }
+                    
+                  } else {
+                    switchAnswerType();
+                  }
+
+                },
                 className: 'btn-tall blue btn-sm me-2'
               },
-              e('i', { className: "bi bi-balloon-fill" })
+              thei18n.help,
+              e('i', { className: "bi bi-balloon-fill ms-2" }),
             );
           }
 
@@ -1004,7 +1060,8 @@ class HintAreaHint extends React.Component {
               type: 'button',
               className: 'btn-tall black btn-sm me-2'
             },
-            e('i', { className: "bi bi-emoji-dizzy" })
+            thei18n.i_dont_know,
+            e('i', { className: "bi bi-emoji-dizzy ms-2" }),
           );
 
           var modalBodyElement = e(ExerciseContext.Consumer, null, ({checkAnswerWithButton}) => e(
@@ -1045,13 +1102,15 @@ class ReviewAnswers extends React.Component {
       'div',
       {className: "fade-animation animate"},
       e('div', {className: "answers-review"}, this.props.answers.map((x) => {
+
         return e(
           'div',
           {className: "answers-review-card ".concat(x[3])},
           e('div', {className: "answers-review-question"}, x[0]),
           e('div', {className: "answers-review-correct"}, thei18n.correctanswer + ": " + x[1]),
           e('div', {className: "answers-review-answer"}, thei18n.you_had_answered + ": " + x[2])
-        )
+        );
+
       })),
       e(returnToLevelMapButton)
     )
@@ -1157,151 +1216,26 @@ function LevelChooserLevel(props) {
 
 function LevelChooser(props) {
 
-  return [
+  return e(
+    'div',
+    { className: 'exercise-level-chooser' },
+    e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
+      return e(
+        LevelChooserLevel,
+        {
+          items: levelMap[level],
+          level: level,
+          key: level
+        }
+      )
+    })),
     e(
       'div',
-      { className: 'exercise-level-chooser' },
-      e(
-        'div',
-        { className: 'dialog-box d-flex flex-row align-items-center' },
-        e(
-          'div',
-          { className: 'd-flex flex-row align-items-center' },
-          e('span', { className: 'me-2'},
-            e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
-            e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
-          ),
-          e(
-            'div',
-            { className: 'buy-more-units' },
-            e(
-              'button',
-              {
-                type: 'button',
-                onClick: () => { window.location.href = thei18n.shop_link + '#progress' },
-                className: 'btn-tall blue me-2'
-              },
-              e('span', { className: 'd-none d-md-inline me-2' }, thei18n.buy_more_units),
-              e('span', {}, e('i', { className: 'bi bi-shop'}))
-            ),
-          ),
-        ),
-        e(ExerciseContext.Consumer, null, ({gamedata, levelMap, loadExerciseJSON}) => e(
-          'div',
-          { className: 'd-flex flex-row' },
-          e('button',
-            { 
-              className: 'btn-tall blue me-2',
-              type: 'button',
-              onClick: () => {
-
-                var unlockedMap = {};
-                var levelMapKeys = Object.keys(levelMap);
-
-                Object.values(levelMap).forEach((item, i) => {
-
-                  var thisLevel = levelMapKeys[i];
-                  var unitsKeys = Object.keys(item);
-
-                  Object.values(item).forEach((item, i) => {
-
-                    if (!item.disabled) {
-
-                      if (!unlockedMap[thisLevel]) {
-                        unlockedMap[thisLevel] = {};
-                      }
-
-                      unlockedMap[thisLevel][unitsKeys[i]] = item;
-
-                    }
-
-                  });
-
-
-                });
-
-                levelMapKeys = Object.keys(unlockedMap);
-                var randomLevelIndex = randomNumber(0, levelMapKeys.length - 1);
-                var randomLevel = unlockedMap[levelMapKeys[randomLevelIndex]];
-                var randomLevelKeys = Object.keys(randomLevel);
-                var randomUnitIndex = randomNumber(0, randomLevelKeys.length - 1);
-                var randomUnit = randomLevel[randomLevelKeys[randomUnitIndex]];
-
-                loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
-                window.location.hash = randomUnit.id;
-
-              }
-            },
-            e('span', { className: 'd-none d-md-inline me-2' }, thei18n.play_random),
-            e('i', { className: 'bi bi-shuffle' })
-          ),
-          e('button',
-            {
-              className: 'btn-tall green me-2',
-              type: 'button',
-              onClick: () => {
-
-                var completed_units = gamedata.completed_units;
-                var unitToLoad;
-
-                if (completed_units != undefined && !Array.isArray(completed_units)) {
-                  completed_units = JSON.parse(completed_units);
-                } else {
-                  completed_units = [];
-                }
-
-                if (completed_units.length > 0) {
-                  var randomUnitIndex = randomNumber(0, completed_units.length - 1);
-                  unitToLoad = completed_units[randomUnitIndex];
-                } else {
-                  unitToLoad = 'unit1';
-                }
-
-                var levelOfUnit;
-                var levelMapKeys = Object.keys(levelMap);
-                Object.values(levelMap).forEach((item, i) => {
-
-                  var levelOfUnitIndex = false;
-
-                  Object.values(item).forEach((item) => {
-                    if (item.id == unitToLoad) {
-                      levelOfUnitIndex = true;
-                    }
-                  });
-
-                  if (levelOfUnitIndex) {
-                    levelOfUnit = levelMapKeys[i];
-                  }
-
-                });
-
-                loadExerciseJSON(levelOfUnit, unitToLoad);
-                window.location.hash = unitToLoad;
-
-              }
-            },
-            e('span', { className: 'd-none d-md-inline me-2' }, thei18n.review),
-            e('i', { className: 'bi bi-eyeglasses' })
-          ),
-        )),
-      ),
-      e(ExerciseContext.Consumer, null, ({levelMap}) => Object.keys(levelMap).map( (level) => {
-        return e(
-          LevelChooserLevel,
-          {
-            items: levelMap[level],
-            level: level,
-            key: level
-          }
-        )
-      })),
-      e(
-        'div',
-        { className: 'd-block' },
-        e(GoogleAd)
-      ),
-    )
-  ]
+      { className: 'd-block' },
+      e(GoogleAd)
+    ),
+  );
+  
 }
 
 /*
@@ -1323,9 +1257,7 @@ function returnToLevelMapButton(props) {
 
         // Re-add UI.
         document.querySelector('footer').classList.add('d-md-flex');
-        document.querySelector('#guyra-navbar').classList.add('d-lg-flex');
-        document.querySelector('.mobile-top-header').classList.remove('d-none');
-        document.querySelector('.navbar.fixed-bottom').classList.remove('d-none');
+        document.querySelector('#guyra-navbar').classList.remove('d-none');
         document.querySelector('main').classList.remove('mt-0', 'mb-0');
       }
     },
@@ -1356,7 +1288,8 @@ function checkAnswerButton(props) {
         className: checkAnswerButtonClass + buttonSize,
         onClick: () => { checkAnswerWithButton() }
       },
-      thei18n.check
+      thei18n.check,
+      e('i', { className: 'bi bi-check-lg ms-2' })
     );
 
   });
@@ -1736,7 +1669,7 @@ export class Exercises extends React.Component {
   constructor(props) {
     super(props);
 
-    this.version = '0.0.4';
+    this.version = '0.0.5';
 
     this.ExerciseObject = [];
     this.currentQuestion = 0;
@@ -1747,7 +1680,7 @@ export class Exercises extends React.Component {
     this.disallowCandyOn = [];
     this.userAnswered = '';
     this.currentUnit = '';
-    this.challengeTracker = JSON.parse(window.localStorage.getItem('challenge'));
+    this.challengeTracker = GuyraLocalStorage('get', 'challenge');
 
     if (!this.challengeTracker) {
     this.challengeTracker = {} }
@@ -1790,7 +1723,6 @@ export class Exercises extends React.Component {
       SpliceWord: this.SpliceWord,
       reportAnswer: this.reportAnswer,
       challengeTracker: this.challengeTracker,
-      renderTopbar: true,
       isEasyMode: false,
       wrongMembers: [],
       explainer: null
@@ -1810,56 +1742,48 @@ export class Exercises extends React.Component {
       this.gamedata = res.userdata.gamedata.raw;
 
       this.i18n = res.i18n;
+      this.levelmap = res.levelmap.levelmap;
       this.initialState.i18n = this.i18n;
+      this.initialState.levelMap = this.levelmap;
+
+      fakeClick = new Audio(thei18n.audio_link + 'click.mp3');
+
+      var hash = window.location.hash;
+      hash = hash.slice(1);
+      var loadHashUnit = false;
 
       this.setState({
         i18n: this.i18n,
         userdata: res.userdata,
         usermeta: this.usermeta,
         gamedata: this.gamedata,
-        topbar: e(Study_Topbar, { userdata: this.state.userdata, practice_link: { onClick: null, classExtra: 'active' } })
+        levelMap: this.levelmap,
       });
 
-      fakeClick = new Audio(thei18n.audio_link + 'click.mp3');
+      Object.values(this.levelmap).forEach((level, i) => {
 
-      fetch(thei18n.api_link + '?get_exercises=levelmap')
-      .then(res => res.json())
-      .then(json => {
-        this.initialState.levelMap = json.levelmap;
-        var hash = window.location.hash;
-        hash = hash.slice(1);
-        var loadHashUnit = false;
+        var theLevelKey = Object.keys(this.levelmap)[i];
 
-        Object.values(json.levelmap).forEach((level, i) => {
-
-          var theLevelKey = Object.keys(json.levelmap)[i];
-
-          Object.values(level).forEach((unit, i) => {
-            if (unit.id == hash) {
-              loadHashUnit = {unit: hash, level: theLevelKey};
-            }
-          });
+        Object.values(level).forEach((unit, i) => {
+          if (unit.id == hash) {
+            loadHashUnit = {unit: hash, level: theLevelKey};
+          }
         });
+      });
 
+      if (loadHashUnit) {
+        this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
+      } else {
         this.setState({
-          levelMap: json.levelmap
+          page: e(LevelChooser)
         });
+      }
 
-        if (loadHashUnit) {
-          this.loadExerciseJSON(loadHashUnit.level, loadHashUnit.unit);
-        } else {
-          this.setState({
-            page: e(LevelChooser)
-          });
-        }
-
-        this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.mp3');
-        this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.mp3');
-        this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.mp3');
-        this.correctHitSound = new Audio(thei18n.audio_link + 'hit.mp3');
-        this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.mp3');
-
-      });
+      this.exerciseStartSound = new Audio(thei18n.audio_link + 'start.mp3');
+      this.exerciseEndSound = new Audio(thei18n.audio_link + 'end.mp3');
+      this.exerciseEndPerfectSound = new Audio(thei18n.audio_link + 'perfect.mp3');
+      this.correctHitSound = new Audio(thei18n.audio_link + 'hit.mp3');
+      this.wrongHitSound = new Audio(thei18n.audio_link + 'miss.mp3');
 
     });
 
@@ -1921,6 +1845,7 @@ export class Exercises extends React.Component {
       avatarURL: this.avatars[randomNumber(0, 3)],
       disallowCandy: false,
       isEasyMode: false,
+      phraseBuilderPhrase: [],
       page: e(LoadingPage)
     });
 
@@ -1935,6 +1860,9 @@ export class Exercises extends React.Component {
 
           var thisUnitChallengeCompleted = false;
           var challengeTrackerKeys = Object.keys(theTracker);
+
+          if (!item.challenges) {
+          return; }
 
           item.challenges.exercises.forEach((item) => {
             if (item == this.currentUnit) {
@@ -1952,7 +1880,7 @@ export class Exercises extends React.Component {
               challengeTracker: theTracker
             });
 
-            window.localStorage.setItem('challenge', JSON.stringify(theTracker));
+            GuyraLocalStorage('set', 'challenge', theTracker);
 
           }
 
@@ -1964,9 +1892,9 @@ export class Exercises extends React.Component {
         var newElo;
 
         if (userElo >= this.currentExerciseWeight) {
-          newElo = userElo + (this.currentExerciseWeight * 25);
+          newElo = userElo + (this.currentExerciseWeight * 50);
         } else {
-          newElo = userElo + (this.currentExerciseWeight * 100);
+          newElo = userElo + (this.currentExerciseWeight * 125);
         }
 
         var dataToPost = {
@@ -2048,7 +1976,7 @@ export class Exercises extends React.Component {
         this.disallowCandyOn.splice(indexOfThisItem, 1);
       }
 
-    });
+    })/
 
     // Finally set the values we are going to use.
     setTimeout(() => {
@@ -2067,10 +1995,51 @@ export class Exercises extends React.Component {
 
   AddWord = (word) => {
 
-    this.playTTSWord(word);
-
     var thePhrase = this.state.phraseBuilderPhrase;
-    thePhrase.push(word);
+
+    // To understand what's going on here it might be useful to check out
+    // the activity handler.
+    if (this.state.currentExerciseType == 'CompleteThePhraseBuilder') {
+
+      var answerSplit = this.state.values[2].split(' ');
+      var correctWord = answerSplit[this.state.phraseBuilderPhrase.length];
+      var answeredWord = word;
+
+      if (answeredWord != correctWord) {
+        this.CheckAnswer('');
+      } else {
+
+        var theValues = this.state.values;
+        var nextWord = theValues['order'][theValues['order'].indexOf(word) + 1];
+
+        if (!nextWord) {
+
+          var restOfPhrase = theValues[2].split(word)[1].trim().split(' ');
+
+          thePhrase.push(word);
+          
+          if (restOfPhrase != false) {
+            thePhrase = thePhrase.concat(restOfPhrase);
+          }
+          
+          this.setState({
+            phraseBuilderPhrase: thePhrase
+          });
+
+          return  this.CheckAnswer(thePhrase.join(' '));
+          
+        }
+
+        var phraseBuilderNewPhrase = theValues[2].split(nextWord)[0];
+        thePhrase = phraseBuilderNewPhrase.trim().split(' ');
+
+      }
+      
+    } else {
+      thePhrase.push(word);
+    }
+
+    this.playTTSWord(word);
 
     this.setState({
       phraseBuilderPhrase: thePhrase
@@ -2114,156 +2083,153 @@ export class Exercises extends React.Component {
     let correct = this.state.values[2];
     this.userAnswered = answer;
     this.questionsAlreadyAnswered.push(this.currentQuestion);
-    this.setState({
-      phraseBuilderPhrase: []
-    });
 
     // Check if answer was already given
-    if(this.state.alreadyAnswered == false) {
+    if(this.state.alreadyAnswered) {
+    return; }
 
-      // Check the answer
-      if(isAnswerCorrect(correct, answer)) {
+    // Check the answer
+    if(isAnswerCorrect(correct, answer)) {
 
-        answered = "correct";
+      answered = "correct";
 
-        if (this.state.currentExerciseType != 'WhatYouHear') {
+      if (this.state.currentExerciseType != 'WhatYouHear') {
 
-          this.playTTSWord(answer);
-          
-        } else {
+        this.playTTSWord(answer);
+        
+      } else {
 
-          var theAudio = new Audio(this.state.values[5]);
+        var theAudio = new Audio(this.state.values[5]);
 
-          if (theAudio) {
-          theAudio.play(); }
+        if (theAudio) {
+        theAudio.play(); }
 
+      }
+
+      this.setState({
+        answeredCorrect: true,
+        hintArea: e(hintAreaCorrectAnswer)
+      });
+
+      // Make users retry answers with candy without the help
+      if ((this.state.answerType == AnswersWordBank) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
+        this.needToRetry.push(this.currentQuestion);
+        this.disallowCandyOn.push(this.currentQuestion);
+      }
+
+      // Correct answers to audio questions makes them come back as word builder questions
+      if ((this.state.questionType == QuestionAudio) && (this.needToRetry.indexOf(this.currentQuestion) === -1) && (this.state.disallowCandy === false)) {
+        this.needToRetry.push(this.currentQuestion);
+        this.disallowCandyOn.push(this.currentQuestion);
+      }
+
+      this.correctHitSound.play();
+
+      // Remove wrong members
+      var wrongMembers = this.state.wrongMembers;
+
+      wrongMembers.forEach((wrong, i) => {
+        if (wrong.question == this.currentQuestion) {
+          wrongMembers.splice(i, 1);
         }
+      });
 
-        this.setState({
-          answeredCorrect: true,
-          hintArea: e(hintAreaCorrectAnswer)
-        });
+      this.setState({
+        wrongMembers: wrongMembers
+      });
 
-        // Mark the translation if the UI asks for it.
-        var translationRequests = document.querySelectorAll('.theTranslation');
+    } else {
 
-        translationRequests.forEach(translationRequest => {
-          translationRequest.innerHTML = correct;
-        });
+      // If answer was wrong push exercise num to retry list,
+      // reset state and apply score function
+      if (this.needToRetry.indexOf(this.currentQuestion) === -1) {
+        this.needToRetry.push(this.currentQuestion);
+      }
 
-        // Make users retry answers with candy without the help
-        if ((this.state.answerType == AnswersWordBank) && (this.needToRetry.indexOf(this.currentQuestion) === -1)) {
-          this.needToRetry.push(this.currentQuestion);
-          this.disallowCandyOn.push(this.currentQuestion);
-        }
+      // Remind the user that he messed it up last time.
+      var wrongMembers = this.state.wrongMembers;
 
-        // Correct answers to audio questions makes them come back as word builder questions
-        if ((this.state.questionType == QuestionAudio) && (this.needToRetry.indexOf(this.currentQuestion) === -1) && (this.state.disallowCandy === false)) {
-          this.needToRetry.push(this.currentQuestion);
-          this.disallowCandyOn.push(this.currentQuestion);
-        }
+      if (answer) {
 
-        this.correctHitSound.play();
-
-        // Remove wrong members
-        var wrongMembers = this.state.wrongMembers;
-
-        wrongMembers.forEach((wrong, i) => {
-          if (wrong.question == this.currentQuestion) {
-            wrongMembers.splice(i, 1);
-          }
+        wrongMembers.push({
+          question: this.currentQuestion,
+          answered: answer
         });
 
         this.setState({
           wrongMembers: wrongMembers
         });
 
-      } else {
+      }
 
-        // If answer was wrong push exercise num to retry list,
-        // reset state and apply score function
-        if (this.needToRetry.indexOf(this.currentQuestion) === -1) {
-          this.needToRetry.push(this.currentQuestion);
-        }
+      // For audio questions calculate the percentage correct.
+      if (this.state.questionType == QuestionAudio) {
 
-        // Remind the user that he messed it up last time.
-        var wrongMembers = this.state.wrongMembers;
+        var correctWords = [];
+        var correctAnswersArray = correct.split(' ');
+        var lookAheadwasCorrect = false;
+        var currentIsCorrect = false;
 
-        if (answer) {
+        answer.split(' ').forEach((item, i) => {
 
-          wrongMembers.push({
-            question: this.currentQuestion,
-            answered: answer
-          });
+          currentIsCorrect = false;
 
-          this.setState({
-            wrongMembers: wrongMembers
-          });
-
-        }
-
-        // For audio questions calculate the percentage correct.
-        if (this.state.questionType == QuestionAudio) {
-
-          var correctWords = [];
-          var correctAnswersArray = correct.split(' ');
-          var lookAheadwasCorrect = false;
-          var currentIsCorrect = false;
-
-          answer.split(' ').forEach((item, i) => {
-
-            currentIsCorrect = false;
-
-            if (item == correctAnswersArray[i]) {
-              correctWords.push(item);
-              currentIsCorrect = true;
-            }
-
-            if (item == correctAnswersArray[i + 1]) {
-              lookAheadwasCorrect = true;
-
-              if ( (!currentIsCorrect) && (lookAheadwasCorrect) ) {
-                correctWords.push(answer[i - 1]);
-              }
-            } else {
-              lookAheadwasCorrect = false;
-            }
-
-
-          });
-
-          if (correctWords[0] != '') {
-            var correctPercentage = Math.trunc(correctWords.length / correctAnswersArray.length * 100);
-          } else {
-            var correctPercentage = 0;
+          if (item == correctAnswersArray[i]) {
+            correctWords.push(item);
+            currentIsCorrect = true;
           }
 
-        }
+          if (item == correctAnswersArray[i + 1]) {
+            lookAheadwasCorrect = true;
 
-        this.setState({
-          answeredCorrect: false,
-          hintArea: e(hintAreaWrongAnswer, {correctPercentage: correctPercentage, correctWords: correctWords})
+            if ( (!currentIsCorrect) && (lookAheadwasCorrect) ) {
+              correctWords.push(answer[i - 1]);
+            }
+          } else {
+            lookAheadwasCorrect = false;
+          }
+
+
         });
 
-        this.scoreFunction('wrong', 1)
+        if (correctWords[0] != '') {
+          var correctPercentage = Math.trunc(correctWords.length / correctAnswersArray.length * 100);
+        } else {
+          var correctPercentage = 0;
+        }
 
-        this.wrongHitSound.play();
       }
 
       this.setState({
-        score: this.score,
-        alreadyAnswered: true,
-        checkAnswerButtonClass: this.buttonClassDisabled
+        answeredCorrect: false,
+        hintArea: e(hintAreaWrongAnswer, {correctPercentage: correctPercentage, correctWords: correctWords})
       });
 
-      this.state.answers.push([this.state.values[0], this.state.values[4], answer, answered]);
+      this.scoreFunction('wrong', 1)
 
-      // Resets answer field
-      if (this.state.answerType == AnswersTextArea) {
-        document.getElementById("exercise-answer-textarea").value = "";
-      }
-
+      this.wrongHitSound.play();
     }
+
+    // Mark the translation if the UI asks for it.
+    var translationRequests = document.querySelectorAll('.theTranslation');
+
+    translationRequests.forEach(translationRequest => {
+      translationRequest.innerHTML = correct;
+    });
+
+    this.setState({
+      score: this.score,
+      alreadyAnswered: true,
+      checkAnswerButtonClass: this.buttonClassDisabled
+    });
+
+    this.state.answers.push([this.state.values[0], this.state.values[4], answer, answered]);
+
+    // Resets answer field
+    if (this.state.answerType == AnswersTextArea) {
+      document.getElementById("exercise-answer-textarea").value = "";
+    }
+
 
     if (answered == 'correct') {
       return true;
@@ -2333,6 +2299,7 @@ export class Exercises extends React.Component {
 
     var theExercise = this.ExerciseObject[this.currentQuestion];
     var theExerciseType = this.ExerciseObject[this.currentQuestion][0];
+    var theValues;
 
     this.setState({
       currentExercise: theExercise,
@@ -2355,25 +2322,26 @@ export class Exercises extends React.Component {
         answerType: useAnswerType,
       });
 
-      return activityCompleteThePhrase(theExercise, this.state.allTheWords, 5);
+      var numOfOptions = randomNumber(3,4);
+
+      return activityCompleteThePhrase(theExercise, this.state.allTheWords, numOfOptions);
 
     }
 
     if (this.state.currentExerciseType == 'WhatYouHear') {
 
-      var useExtraWords = true;
-      useAnswerType = AnswersPhraseBuilder
+      var useExtraWords = !disallowCandy;
+      useAnswerType = AnswersPhraseBuilder;
+
+      theValues = activityWhatYouHear(theExercise, {useExtraWords: useExtraWords}, this.state.allTheWords);
 
       this.setState({
         questionType: QuestionAudio,
         answerType: useAnswerType,
+        phraseBuilderPhrase: [theValues[0]]
       });
 
-      if (disallowCandy) {
-        useExtraWords = false;
-      }
-
-      return activityWhatYouHear(theExercise, {useExtraWords: useExtraWords}, this.state.allTheWords);
+      return theValues;
 
     }
 
@@ -2384,6 +2352,7 @@ export class Exercises extends React.Component {
       this.setState({
         questionType: QuestionTranslate,
         answerType: useAnswerType,
+        disallowCandy: true,
       });
 
       return activityTranslate(theExercise);
@@ -2397,9 +2366,35 @@ export class Exercises extends React.Component {
       this.setState({
         questionType: QuestionDialog,
         answerType: useAnswerType,
+        disallowCandy: true,
       });
 
       return activityMultipleChoice(theExercise);
+
+    }
+
+    if (this.state.currentExerciseType == 'CompleteThePhraseBuilder') {
+
+      theValues = activityCompleteThePhraseBuilder(theExercise);
+
+      // This crazy thing gets the start of the phrase we are building.
+      // Example: 'I like bread so much.' has removed the words 'bread' and
+      // 'much'. so theValues['order'] has an array of ['bread', 'much'].
+      // and you can probably deduce the rest.
+      var phraseBuilderPhraseStart = theValues[2].split(theValues['order'][0])[0];
+      phraseBuilderPhraseStart = phraseBuilderPhraseStart.trim().split(' ');
+
+      if (!phraseBuilderPhraseStart[0]) {
+        phraseBuilderPhraseStart = []
+      }
+
+      this.setState({
+        questionType: QuestionDialog,
+        answerType: AnswersPhraseBuilder,
+        phraseBuilderPhrase: phraseBuilderPhraseStart 
+      });
+
+      return theValues;
 
     }
 
@@ -2463,14 +2458,11 @@ export class Exercises extends React.Component {
 
     this.setState({
       page: e(LoadingPage),
-      renderTopbar: false,
     });
 
     // Remove UI.
     document.querySelector('footer').classList.remove('d-md-flex');
-    document.querySelector('#guyra-navbar').classList.remove('d-lg-flex');
-    document.querySelector('.mobile-top-header').classList.add('d-none');
-    document.querySelector('.navbar.fixed-bottom').classList.add('d-none');
+    document.querySelector('#guyra-navbar').classList.add('d-none');
     document.querySelector('main').classList.add('mt-0', 'mb-0');
 
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
@@ -2539,20 +2531,10 @@ export class Exercises extends React.Component {
 
   render() {
 
-    var topbar = this.state.topbar;
-
-    if (!this.state.renderTopbar) {
-      topbar = null;
-    }
-
     return e(
       'main',
       { className: '' },
-      e(
-        'div',
-        { className: 'page-squeeze' },
-        topbar,
-      ),
+      e(Header),
       e('div', { className: 'exercise-fullscreen' },
         e(
           'div',

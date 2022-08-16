@@ -6,8 +6,8 @@ import {
   thei18n,
   LoadingPage,
   checkForTranslatables,
-  MD5
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const ReferenceContext = React.createContext();
 
@@ -1180,49 +1180,47 @@ class Reference extends React.Component {
         i18n: res.i18n,
       });
 
+      if (!this.state.phrasalsObject) {
+
+        fetch(thei18n.api_link + '?fetch_phrasals_object=1')
+        .then(res => res.json()).then(res => {
+  
+          window.localStorage.setItem('phrasalsObject', JSON.stringify(res));
+  
+          this.setState({
+            phrasalsObject: res
+          });
+  
+        });
+  
+      } else {
+        this.setState({
+          phrasalsObject: JSON.parse(this.state.phrasalsObject)
+        });
+      }
+  
+      if (!this.state.irregularsObject) {
+  
+        fetch(thei18n.api_link + '?fetch_irregulars_object=1')
+        .then(res => res.json()).then(res => {
+  
+          this.setState({
+            irregularsObject: res
+          });
+  
+          window.localStorage.setItem('irregularsObject', JSON.stringify(res));
+  
+        });
+  
+      } else {
+        this.setState({
+          irregularsObject: JSON.parse(this.state.irregularsObject),
+          topBar: e(Reference_Topbar),
+          page: this.decideStartingPage()
+        });
+      }
+
     });
-
-    if (!this.state.phrasalsObject) {
-
-      fetch(thei18n.api_link + '?fetch_phrasals_object=1')
-      .then(res => res.json())
-      .then(res => {
-
-        window.localStorage.setItem('phrasalsObject', JSON.stringify(res));
-
-        this.setState({
-          phrasalsObject: res
-        });
-
-      });
-
-    } else {
-      this.setState({
-        phrasalsObject: JSON.parse(this.state.phrasalsObject)
-      });
-    }
-
-    if (!this.state.irregularsObject) {
-
-      fetch(thei18n.api_link + '?fetch_irregulars_object=1')
-      .then(res => res.json())
-      .then(res => {
-
-        this.setState({
-          irregularsObject: res
-        });
-
-        window.localStorage.setItem('irregularsObject', JSON.stringify(res));
-
-      });
-
-    } else {
-      this.setState({
-        irregularsObject: JSON.parse(this.state.irregularsObject),
-        topBar: e(Reference_Topbar),
-        page: this.decideStartingPage()
-      });
-    }
 
   }
 
@@ -1262,6 +1260,7 @@ class Reference extends React.Component {
     return e(ReferenceContext.Provider, { value: this.state },  e(
       'main',
       { className: '' },
+      e(Header),
       e(
         'div',
         { className: 'page-squeeze' },

@@ -7,6 +7,7 @@ import {
   LoadingPage,
   Guyra_InventoryItem
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const ShopContext = React.createContext();
 
@@ -515,6 +516,7 @@ class Shop extends React.Component {
     return e(
       'div',
       { className: 'shop-squeeze ' + this.state.squeezeType },
+      e(Header),
       e(
         'div',
         { className: 'rounded-box justfade-animation animate' },

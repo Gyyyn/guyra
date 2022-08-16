@@ -2,9 +2,10 @@ import {
   e,
   MD5,
   GuyraGetData,
-  Study_Topbar,
+  GuyraLocalStorage,
   thei18n,
   theUserdata,
+  theLevelMap,
   LoadingPage,
   PaymentItem,
   randomNumber,
@@ -13,7 +14,6 @@ import {
   checkForTranslatables,
   GuyraParseDate
 } from '%template_url/assets/js/Common.js?v=%ver';
-import { Roadmap } from '%template_url/assets/js/roadmap.js?v=%ver';
 import { Flashcards } from '%template_url/assets/js/Flashcards.js?v=%ver';
 import { PersistentMeeting, Header } from '%template_url/assets/js/Header.js?v=%ver';
 
@@ -103,7 +103,6 @@ class UserHome_ReplyCard extends React.Component {
     .then(json => {
 
       if (json != 'true') {
-        console.log(json);
         console.error('Comment post error');
         return;
       }
@@ -175,17 +174,12 @@ class UserHome_ReplyCard extends React.Component {
             'button',
             {
               className: 'btn-tall green me-2',
-              onClick: (event) => {
+              onClick: () => {
 
                 if (!this.easyMDE) {
                 return; }
 
-                var before = event.target.innerHTML;
-
-                this.easyMDE.value(localStorage.getItem('notepad'));
-
-                event.target.innerHTML = thei18n.button_copy_notepad + '<i class="bi bi-clipboard-check-fill"></i>'
-                setTimeout(() => { event.target.innerHTML = before; }, 2000)
+                this.easyMDE.value(GuyraLocalStorage('get', 'notepad').value);
 
               }
             },
@@ -217,16 +211,7 @@ class WelcomeGreeting_News extends React.Component {
 
   close = () => {
 
-    var localOptions = window.localStorage.getItem('guyra_options');
-
-    if (typeof localOptions === 'string') {
-    localOptions = JSON.parse(localOptions); }
-
-    if (!localOptions) {
-      localOptions = {
-        news: {}
-      };
-    }
+    var localOptions = GuyraLocalStorage('get', 'guyra_options');
 
     if (!localOptions.news) {
       localOptions.news = {};
@@ -250,10 +235,7 @@ class WelcomeGreeting_News extends React.Component {
     .then(json => {
 
       var newsMD5d = MD5(json);
-
-      var localOptions = window.localStorage.getItem('guyra_options');
-      localOptions = JSON.parse(localOptions);
-
+      var localOptions = GuyraLocalStorage('get', 'guyra_options');
       if (localOptions && localOptions.news && localOptions.news[newsMD5d] && localOptions.news[newsMD5d].closed) {
       return; }
 
@@ -434,7 +416,8 @@ function UserHome_WelcomeCard(props) {
             value: [
               e('img', { src: thei18n.api_link + '?get_image=icons/light.png&size=32' }),
               thei18n.homework
-            ]
+            ],
+            color: 'green'
           },
         ))
       );
@@ -445,14 +428,96 @@ function UserHome_WelcomeCard(props) {
       e(
         WelcomeGreeting_Button,
         {
-          onClick: () => {
-            window.location.href = thei18n.practice_link;
-          },
           value: [
-            e('img', { src: thei18n.api_link + '?get_image=icons/target.png&size=32' }),
-            thei18n.practice
+            e('img', { src: thei18n.api_link + '?get_image=icons/gift-box.png&size=32' }),
+            thei18n.study_something
           ],
-          color: 'green'
+          onClick: () => {
+  
+            var unlockedMap = {};
+            var levelMapKeys = Object.keys(theLevelMap);
+
+            Object.values(theLevelMap).forEach((item, i) => {
+
+              var thisLevel = levelMapKeys[i];
+              var unitsKeys = Object.keys(item);
+
+              Object.values(item).forEach((item, i) => {
+
+                if (!item.disabled) {
+
+                  if (!unlockedMap[thisLevel]) {
+                    unlockedMap[thisLevel] = {};
+                  }
+
+                  unlockedMap[thisLevel][unitsKeys[i]] = item;
+
+                }
+
+              });
+
+
+            });
+
+            levelMapKeys = Object.keys(unlockedMap);
+            var randomLevelIndex = randomNumber(0, levelMapKeys.length - 1);
+            var randomLevel = unlockedMap[levelMapKeys[randomLevelIndex]];
+            var randomLevelKeys = Object.keys(randomLevel);
+            var randomUnitIndex = randomNumber(0, randomLevelKeys.length - 1);
+            var randomUnit = randomLevel[randomLevelKeys[randomUnitIndex]];
+
+            // loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
+            window.location.href = thei18n.practice_link + '#' + randomUnit.id;
+
+          }
+        },
+      ),
+      e(
+        WelcomeGreeting_Button,
+        {
+          value: [
+            e('img', { src: thei18n.api_link + '?get_image=icons/rating.png&size=32' }),
+            thei18n.review
+          ],
+          onClick: () => {
+  
+            var completed_units = theUserdata.gamedata.completed_units;
+            var unitToLoad;
+
+            if (completed_units != undefined && !Array.isArray(completed_units)) {
+              completed_units = JSON.parse(completed_units);
+            } else {
+              completed_units = [];
+            }
+
+            if (completed_units.length > 0) {
+              var randomUnitIndex = randomNumber(0, completed_units.length - 1);
+              unitToLoad = completed_units[randomUnitIndex];
+            } else {
+              unitToLoad = 'unit1';
+            }
+
+            var levelOfUnit;
+            var levelMapKeys = Object.keys(theLevelMap);
+            Object.values(theLevelMap).forEach((item, i) => {
+
+              var levelOfUnitIndex = false;
+
+              Object.values(item).forEach((item) => {
+                if (item.id == unitToLoad) {
+                  levelOfUnitIndex = true;
+                }
+              });
+
+              if (levelOfUnitIndex) {
+                levelOfUnit = levelMapKeys[i];
+              }
+
+            });
+
+            window.location.href = thei18n.practice_link + '#' + unitToLoad;
+
+          }
         },
       ),
       e(HomeContext.Consumer, null, ({addCard}) => e(
@@ -466,21 +531,7 @@ function UserHome_WelcomeCard(props) {
           value: [
             e('img', { src: thei18n.api_link + '?get_image=icons/card.png&size=32' }),
             thei18n.flashcards
-          ]
-        },
-      )),
-      e(HomeContext.Consumer, null, ({addCard}) => e(
-        WelcomeGreeting_Button,
-        {
-          onClick: () => {
-            addCard([
-              { id: 'map', element: e(Roadmap) }
-            ], 2);
-          },
-          value: [
-            e('img', { src: thei18n.api_link + '?get_image=icons/hill.png&size=32' }),
-            thei18n.roadmap
-          ]
+          ],
         },
       )),
     ]);
@@ -568,6 +619,18 @@ function UserHome_WelcomeCard(props) {
         'div',
         { className: 'dialog-box', id: 'activities' },
         e('h2', { className: 'mb-2' }, thei18n.activities),
+        e(
+          'div',
+          { className: 'my-2 d-flex flex-row align-items-center' },
+          e(
+            'div',
+            { className: 'd-flex flex-row align-items-center' },
+            e('span', { className: 'me-2'},
+              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
+            ),
+          ),
+        ),
         e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
       ),
       e(
@@ -577,6 +640,28 @@ function UserHome_WelcomeCard(props) {
         e(
           'div',
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
+          e(
+            'div',
+            { className: 'card trans mb-2 me-2' },
+            e(
+              'h4',
+              { className: 'mb-0' },
+              thei18n.ranking
+            ),
+            e(
+              'div',
+              { className: 'd-flex flex-column align-items-center justify-content-center' },
+              e(
+                'img',
+                {
+                  className: 'page-icon small',
+                  alt: theUserdata.gamedata['ranking'],
+                  src: thei18n.assets_link + 'icons/exercises/ranks/' + theUserdata.gamedata['ranking'] + '.png'
+                },
+              ),
+              e('span', { className: 'text-ss fw-bold capitalize'}, theUserdata.gamedata['ranking_name'])
+            ),
+          ),
           e(
             'div',
             { className: 'card trans mb-2 me-2' },
@@ -661,7 +746,7 @@ class UserHome_CardsRenderer extends React.Component {
        return theCards.map((card) => {
 
          if (!card.class) {
-           card.class = 'rounded-box position-relative fade-animation animate';
+           card.class = 'rounded-box position-relative justfade-animation animate';
          }
 
          return e(
@@ -696,23 +781,6 @@ class UserHome extends React.Component {
     }
 
     this.defaultCards = [
-      {
-        id: 'topbar',
-        class: 'userhome-topbar d-flex justify-content-center',
-        element: e(
-          Study_Topbar,
-          {
-            home_link: {
-              onClick: () => {
-                this.setState({
-                  cards: this.defaultCards
-                });
-              },
-              classExtra: 'active'
-            },
-          }
-        )
-      },
       { id: 'welcome', element: e(UserHome_WelcomeCard) }
     ];
 
@@ -740,16 +808,13 @@ class UserHome extends React.Component {
 
     });
 
-    var localOptions = window.localStorage.getItem('guyra_options');
-
-    if (typeof localOptions === 'string') {
-    localOptions = JSON.parse(localOptions); }
+    var localOptions = GuyraLocalStorage('get', 'guyra_options');
 
     if (localOptions && localOptions.redirect_to_payment) {
 
       localOptions.redirect_to_payment = false;
 
-      window.localStorage.setItem('guyra_options', JSON.stringify(localOptions));
+      GuyraLocalStorage('set', 'guyra_options', localOptions);
       window.location.href = thei18n.purchase_link; 
 
     }
@@ -802,6 +867,7 @@ class UserHome extends React.Component {
 
   render() {
     return e(HomeContext.Provider, { value: this.state },
+    e(Header),
     e(
       'main',
       {},

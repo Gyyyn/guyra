@@ -7,10 +7,8 @@ import {
     GuyraParseDate,
     RoundedBoxHeading,
 } from '%template_url/assets/js/Common.js?v=%ver';
-
-import {
-    RenderCalendar
-} from '%template_url/assets/js/Calendar.js?v=%ver';
+import { RenderCalendar } from '%template_url/assets/js/Calendar.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
   
 const UserContext = React.createContext();
 
@@ -102,6 +100,7 @@ class User extends React.Component {
         return e(
             'main',
             { className: 'squeeze' },
+            e(Header),
             e(
                 'div',
                 { className: 'user-squeeze page-squeeze rounded-box' },

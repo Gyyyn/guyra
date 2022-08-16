@@ -25,7 +25,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
           <p class="text-n pt-5 d-none d-md-block"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>
 
-          <div class="d-block d-md-none mt-5">
+          <div class="d-block mt-5">
 
             <h2 class="welcome-greeting mb-3 d-none"></h2>
             <a class="btn-tall btn-lg blue d-block text-center" href="<?php echo $gi18n['account_link']; ?>"><?php echo $gi18n['button_login'] ?><i class="bi bi-box-arrow-in-right ms-2"></i></a>
@@ -38,12 +38,14 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
       <div class="col-md p-5 more-rounded right d-none d-md-block" data-aos="fade">
 
+      <h2 class="text-blue"><?php echo $gi18n['_landing']['title1'] ?></h2>
+        <p><?php echo $gi18n['_landing']['explain1'] ?></p>
+
+      <h2 class="text-blue"><?php echo $gi18n['_landing']['title2'] ?></h2>
+        <p><?php echo $gi18n['_landing']['explain2'] ?></p>
+
         <h2 class="text-blue"><?php echo $gi18n['_landing']['title4'] ?></h2>
         <p><?php echo $gi18n['_landing']['explain4'] ?></p>
-
-        <div class="mt-5 w-100">
-          <a class="green btn-lg btn-tall d-block text-center" href="#jump-prices"><?php echo $gi18n['button_want']; ?></a>
-        </div>
 
       </div>
 

@@ -9,6 +9,7 @@ global $site_url;
 global $is_logged_in;
 global $gi18n;
 global $gLang;
+global $secondsForA;
 
 Guyra_Safeguard_File();
 
@@ -51,7 +52,18 @@ if ($_GET['log_exercise_data']) {
   $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
 
   $newdata['completed_units'] = json_encode($completed_units);
-  $newdata['elo'] = $theData['elo'];
+  
+  // Elo validity
+  if ($newdata['elo_validity'] < time()) {
+    
+    $newdata['elo'] = 0;
+    $newdata['elo_validity'] = time() + $secondsForA['week'];
+
+  } else {
+
+    $newdata['elo'] = $theData['elo'];
+ 
+  }
 
   guyra_update_user_data(
     $current_user_id,
@@ -260,6 +272,7 @@ if ($_GET['get_exercises']):
     // * 1 WhatYouHear exercises.
     // * 2 Translate exercises.
     // * 1 MultipleChoice exercise
+    // * 3 CompleteThePhraseBuilder exercises
     //
     // But this is due for a change to a more dynamic system, so
     // TODO: refactor this
@@ -278,6 +291,10 @@ if ($_GET['get_exercises']):
 
     if (is_array($exercisesJSON[$unit]['MultipleChoice'])) {
       $responseJSON = array_merge($responseJSON, GetTheExercises('MultipleChoice', $unit, 1, $exercisesJSON));
+    }
+
+    if (is_array($exercisesJSON[$unit]['CompleteThePhraseBuilder'])) {
+      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhraseBuilder', $unit, 3, $exercisesJSON));
     }
 
   }

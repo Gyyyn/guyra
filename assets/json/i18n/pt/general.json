@@ -107,6 +107,7 @@
    "activities":"Atividades",
    "homework":"Lição de casa",
    "study":"Estudar",
+   "study_something":"Estudar algo",
    "UserHomePage":"Página inicial do aluno",
    "reference":"Referência",
    "ultilities":"Ultilidades",
@@ -431,10 +432,12 @@
    "click_to_reveal":"Clique para revelar...",
    "execises_report_error_explain":"Se você achar que a resposta que você deu deveria ser considerada correta clique no botão abaixo e vamos ver se podemos adicionar esta resposta a nossa base de dados.",
    "give_up":"Desistir",
+   "i_dont_know": "Não sei",
    "_hints": {
       "WhatYouHear": "Escute: ",
       "Translate": "Traduza: ",
       "CompleteThePhrase": "Complete: ",
+      "CompleteThePhraseBuilder": "Complete: ",
       "MultipleChoice": "Escolha: "
    },
    "correct_percentage":"Você acertou",

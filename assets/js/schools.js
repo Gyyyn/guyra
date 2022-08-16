@@ -1,7 +1,7 @@
 import {
   e,
-  Study_Topbar,
   GuyraGetData,
+  GuyraLocalStorage,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -10,6 +10,7 @@ import {
   GetStandardDate,
   onChangeForceHTTPS
 } from '%template_url/assets/js/Common.js?v=%ver';
+import { Header } from '%template_url/assets/js/Header.js?v=%ver';
 
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
@@ -1797,7 +1798,6 @@ class GroupAdminHome extends React.Component {
     super(props);
 
     this.state = {
-      topbar: null,
       user_list: {},
       page: e(LoadingPage),
       setPage: this.setPage,
@@ -1821,7 +1821,6 @@ class GroupAdminHome extends React.Component {
         this.setState({
           page: e(GroupAdminHome_AdminPanel),
           user_list: res,
-          topbar: e(Study_Topbar, { userdata: theUserdata })
         });
 
       });
@@ -1840,7 +1839,7 @@ class GroupAdminHome extends React.Component {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
       'main',
       {},
-      this.state.topbar,
+      e(Header),
       e(
         'div',
         { className: 'home-wrapper' },
