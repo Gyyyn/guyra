@@ -118,7 +118,7 @@ class Irregulars_WordListing extends React.Component {
       e(
         'div',
         {
-          className: 'collapse justfade-animation animate',
+          className: 'collapse',
           id: collapseId
         },
         this.submeanings.map(word => {
@@ -149,7 +149,7 @@ class Irregulars_wrapper extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-column fade-animation animate' },
+      { className: 'd-flex flex-column' },
       e(
         'div',
         { className: 'dialog-box mb-3' },
@@ -211,7 +211,7 @@ class Phrasals_wrapper extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'fade-animation animate' },
+      { className: '' },
       e(
         'div',
         { className: 'dialog-box mb-3' },
@@ -617,7 +617,7 @@ class GrammaticalTime extends React.Component {
   render() {
     return e(ReferenceContext.Consumer, null, ({i18n, irregularsObject}) => e(
       'div',
-      { className: 'grammar-reference fade-animation animate' },
+      { className: 'grammar-reference' },
       [
         e(
           'div',
@@ -765,21 +765,26 @@ class Dictionary extends React.Component {
     } else {
 
     // Get a translation for this.
-    fetch(thei18n.api_link + '?translate=' + TheWord + '&from=en&to=pt-BR')
-    .then(res => res.text()).then(res => {
 
-      var translatables = document.querySelectorAll('.translatable + .gtooltip');
+    GetCaptchaAndDo((token) => {
 
-      translatables.forEach((item) => {
-        item.remove();
+      fetch(thei18n.api_link + '?translate=' + TheWord + '&from=en&to=pt-BR&token=' + token)
+      .then(res => res.text()).then(res => {
+
+        var translatables = document.querySelectorAll('.translatable + .gtooltip');
+
+        translatables.forEach((item) => {
+          item.remove();
+        });
+
+        TheWordElement.classList.add('translatable');
+        TheWordElement.dataset['translation'] = res;
+
+        if (checkForTranslatables) {
+          checkForTranslatables();
+        }
+
       });
-
-      TheWordElement.classList.add('translatable');
-      TheWordElement.dataset['translation'] = res;
-
-      if (checkForTranslatables) {
-        checkForTranslatables();
-      }
 
     });
 
@@ -802,8 +807,6 @@ class Dictionary extends React.Component {
             doc = json.parse;
 
             if (json.error != undefined) {
-
-              console.log(json.error.info);
 
               var upperCaseRegex = new RegExp('[A-Z]+');
 
@@ -1033,7 +1036,7 @@ class Dictionary extends React.Component {
     return e(ReferenceContext.Consumer, null, ({i18n}) => [
       e(
         'div',
-        { className: 'the-header fade-animation animate' },
+        { className: 'the-header' },
         e('h1', { className: 'text-primary text-center mb-3' },
           e(
             'div',
@@ -1071,7 +1074,7 @@ class Dictionary extends React.Component {
         )),
         e('div', { id: 'the-images', className: 'the-images d-flex flex-row my-5 pop-animation' }, null),
         this.state.ad,
-        e('div', { id: 'the-definition-content', className: 'text-small justfade-animation' })
+        e('div', { id: 'the-definition-content', className: 'text-small' })
       ),
       e(
         'div',
@@ -1087,7 +1090,7 @@ function Reference_Topbar_buttonImage(props) {
     'span',
     { className: 'menu-icon me-1' },
     e('img',
-      { className: 'page-icon tiny', src: i18n.api_link + '?get_image=' + props.image + '&size=32' }
+      { className: 'page-icon tinier', src: i18n.api_link + '?get_image=' + props.image + '&size=32' }
     )
   ));
 }
@@ -1110,7 +1113,7 @@ function Reference_Topbar_button(props) {
 
     return e(
       'button',
-      { className: 'topbar-button btn ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
+      { className: 'topbar-button btn-tall ' + props.linkId + '-link' + buttonClassExtra, onClick: () => {
         setPage(props.pageLink, { pageId: props.linkId });
         if (props.onClick) {
           props.onClick();
@@ -1172,9 +1175,7 @@ class Reference extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.setState({
         i18n: res.i18n,
@@ -1261,15 +1262,11 @@ class Reference extends React.Component {
       'main',
       { className: '' },
       e(Header),
-      e(
-        'div',
-        { className: 'page-squeeze' },
-        this.state.topBar,
-      ),
       e('div', { className: 'reference-squeeze squeeze' },
         e(
           'div',
-          { className: 'rounded-box justfade-animation animate' },
+          { className: 'rounded-box pt-2' },
+          this.state.topBar,
           this.state.page
         )
       )

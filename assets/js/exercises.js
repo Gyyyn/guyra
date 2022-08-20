@@ -1345,7 +1345,8 @@ function hintAreaCorrectAnswer(props) {
     e(
       'span',
       { className: 'exercise-hints-hint justfade-animation animate' },
-      i18n.goodjob + ' ' + i18n.meaning + ': ',
+      i18n.goodjob + ' 👍 ',
+      e('span', { className: 'fw-bold' }, i18n.meaning + ': '),
       e('span', { className: ' ms-1 fst-italic' },  '"' + values['translation'] + '"')
     ),
     e(
@@ -1416,21 +1417,19 @@ function reportAnswerButton() {
 
 function hintAreaWrongAnswer(props) {
 
-  var returnHint = (i18n) => {
+  var theHint = [e('span', {}, thei18n.wronganswer + ' 👎 ')];
 
-    var r = '';
-
-    if (props.correctPercentage != undefined) {
-      r = i18n.wronganswer + ' ' + i18n.correct_percentage + ': ' + props.correctPercentage + '%';
-    } else {
-      r = i18n.wronganswer;
-    }
-
-    return r;
-
+  if (props.correctPercentage != undefined) {
+    theHint.push(
+      e(
+        'span',
+        { className: 'fw-bold' },
+        thei18n.correct_percentage + ': ' + props.correctPercentage + '%'
+      )
+    )
   }
 
-  return e(ExerciseContext.Consumer, null, ({i18n, setNewActivity}) => e(
+  return e(ExerciseContext.Consumer, null, ({setNewActivity}) => e(
     'div',
     {
       className: 'exercise-hints wrong'
@@ -1440,10 +1439,7 @@ function hintAreaWrongAnswer(props) {
       {
         className: 'exercise-hints-hint'
       },
-      returnHint({
-        wronganswer: i18n.wronganswer,
-        correct_percentage: i18n.correct_percentage
-      })
+      theHint
     ),
     e(
       'div',
@@ -1456,7 +1452,7 @@ function hintAreaWrongAnswer(props) {
           className: 'btn-tall btn-sm green',
           onClick: () => { setNewActivity() }
         },
-        i18n.continue
+        thei18n.continue
       )
     )
   ));
@@ -1734,9 +1730,7 @@ export class Exercises extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.usermeta = res.userdata.gamedata;
       this.gamedata = res.userdata.gamedata.raw;

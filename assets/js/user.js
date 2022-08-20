@@ -80,9 +80,7 @@ class User extends React.Component {
 
     componentWillMount() {
 
-        var dataPromise = GuyraGetData();
-
-        dataPromise.then(res => {
+        GuyraGetData().then(res => {
 
             this.setState({
                 page: e(User_Profile),
@@ -96,6 +94,8 @@ class User extends React.Component {
     }
 
     render() {
+
+        theUser.is_self = false;
 
         return e(
             'main',

@@ -581,6 +581,11 @@ if ($_GET['get_courses']) {
 
 if ($_GET['translate']) {
 
+  $captchaOk = verifyGoogleCaptcha($_GET['token']);
+
+  if (!$captchaOk)
+  guyra_output_json('post error', true);
+
   $to = 'en';
   $from = $gLang[0] . '-' . $gLang[1];
 

@@ -41,10 +41,9 @@ if ($_GET['get_image']) {
         $size = 64;
     }
 
-    $r = GetImageCache($_GET['get_image'], $size, 'png', 80, true);
+    $r = GetImageCache($_GET['get_image'], $size, 'png', 80);
 
-    header ('Content-Type: image/png');
-    echo $r; exit;
+    Guyra_Redirect($r);
 
 }
 

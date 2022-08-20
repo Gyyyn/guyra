@@ -797,9 +797,7 @@ class UserHome extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.setState({
         page: e(UserHome_CardsRenderer),

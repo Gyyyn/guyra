@@ -468,9 +468,7 @@ class Shop extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData({ force: true });
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       fetch(thei18n.api_link + '?fetch_shop_items=1')
       .then(res => res.json())

@@ -56,16 +56,6 @@ function WeekdayList(props) {
 
 }
 
-function DiaryInfo(props) {
-  return e(DiaryContext.Consumer, null, ({i18n}) => e(
-    'div',
-    { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row justfade-animation animate' },
-    e('span', { className: 'col-3' }, i18n.date),
-    e('span', { className: 'col-2' }, i18n.status),
-    e('span', { className: 'col' }, i18n.comment)
-  ));
-}
-
 function DiaryEditButton(props) {
   return e(DiaryContext.Consumer, null, ({EditEntry, changePaymentEntry, i18n}) => e(
     'button',
@@ -580,7 +570,6 @@ class DiaryProper extends React.Component {
       this.diaryWrapper = e(
         'div',
         {},
-        e(DiaryInfo),
         e(DiaryEntries),
       );
     }
@@ -1209,6 +1198,8 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
     if (!this.theReplies) {
     this.theReplies = []; }
 
+    this.theReplies.reverse();
+
   }
 
   render() {
@@ -1283,7 +1274,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
     setTimeout(() => {
       this.easyMDE = new EasyMDE({
         element: document.getElementById('userpage-edit'),
-        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.userId },
+        autosave: { enabled: true, uniqueId: 'UserPageEditBox_' + this.props.listingName +  + this.props.userId },
         toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"],
         uploadImage: true,
         initialValue: this.theUserpage,
@@ -1475,6 +1466,12 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
 
     }
 
+    if (!this.diary) {
+    this.diary = {} }
+
+    if (!this.diary.diaries) {
+    this.diary.diaries = {} }
+
     this.state = {
       userdata: this.representativeUser.userdata,
       diary: this.diary,
@@ -1576,10 +1573,10 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e(
           'span',
           { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
-          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
-          e('button', { className: 'btn-tall btn-sm blue me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
-          e('button', { className: 'btn-tall btn-sm purple me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
-          e('button', { className: 'btn-tall btn-sm purple', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
+          e('button', { className: 'btn me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
+          e('button', { className: 'btn me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
+          e('button', { className: 'btn me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
+          e('button', { className: 'btn', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
         ),
       ),
     ),
@@ -1775,7 +1772,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         e(
           'div',
           { className: 'col-auto' },
-          e('h3', { className: 'mb-3' }, 'Perfil'),
+          e('h3', { className: 'mb-3' }, thei18n.profile),
           e(
             'button',
             {
@@ -1784,7 +1781,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 window.location.href = thei18n.home_link + '/user/' + theUserdata.id
               }
             },
-            'Abrir perfil publico (*)'
+            thei18n.public_profile,
+            e('i', { className: "bi bi-box-arrow-up-right ms-2" })
           )
         )
       )
@@ -1807,9 +1805,7 @@ class GroupAdminHome extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       fetch(thei18n.api_link + '?action=fetch_users')
       .then(res => res.json())

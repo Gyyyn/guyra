@@ -100,8 +100,9 @@
    "subscribe":"Escolha um plano!",
    "subscription":"Assinatura",
    "profile":"Perfil",
-   "logout":"Sair",
-   "logout_confirm":"Tem certeza que deseja sair?",
+   "public_profile":"Perfil público",
+   "logout":"Encerrar sessão",
+   "logout_confirm":"Tem certeza que deseja encerrar sessão?",
    "practice":"Praticar",
    "practice_mode":"Modo Praticar",
    "activities":"Atividades",
@@ -572,8 +573,9 @@
       "contents":"Corrija o quanto antes."
    },
    "notification_appointment_request": {
+      "is_recurring": "É um pedido para aula recorrente.",
       "title":"%user está pedindo um horário.",
-      "contents":"Clique aceitar abaixo para deixa-lo saber que você vai entrar em contato.",
+      "contents":"Elx quer %day as %hourh.",
       "actions": [
          {"link": "%site_url/api?appointment=1&action=accept&user=%user", "value": "Aceitar"}
       ]

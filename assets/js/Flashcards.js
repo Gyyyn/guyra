@@ -500,9 +500,7 @@ export class Flashcards extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       user_gamedata = res.userdata.gamedata.raw;
 

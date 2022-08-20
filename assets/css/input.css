@@ -29,15 +29,7 @@
   color: var(--guyra-grey-darkest);
 }
 
-.btn-tall,
-.topbar-button {
-  padding: .5rem 1.2rem;
-  border-radius: var(--guyra-border-radius-bigger) !important;
-  cursor: pointer;
-}
-
-.btn-tall:active:not(.disabled, .btn-sm),
-.topbar-button:active:not(.disabled) {
+.btn-tall:active:not(.disabled, .btn-sm) {
   border-bottom-width: 1px!important;
   position: relative;
   top: var(--guyra-border-size);
@@ -45,8 +37,13 @@
 }
 
 .btn-tall {
+  padding: .5rem 1.2rem;
+  border-radius: var(--guyra-border-radius-bigger) !important;
+  cursor: pointer;
   color: var(--guyra-blue);
-  font-size: var(--guyra-fonts-textsize-n);
+  font-size: var(--guyra-fonts-textsize-s);
+  letter-spacing: .6px;
+  text-transform: uppercase;
   font-weight: bold;
   border: 0;
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-darker);
@@ -63,11 +60,11 @@
 .btn-tall.btn-sm,
 .btn-tall.btn-sm:hover {
   padding: .4rem .9rem;
-  font-size: var(--guyra-fonts-textsize-s);
+  font-size: var(--guyra-fonts-textsize-ss);
 	border-width: 1px;
   border-bottom-width: 2px;
   border-color: #ccc9;
-  border-radius: calc(var(--guyra-border-radius-bigger) / 1.2)!important;
+  border-radius: calc(var(--guyra-border-radius-bigger) / 1.4)!important;
 }
 
 .btn-tall.btn-lg {
@@ -86,26 +83,14 @@
 }
 
 .btn-tall.blue,
-.btn-tall.active,
-.home a.home-link,
-.practice .practice-link,
-.reference .reference-link,
-.shop .shop-link,
-.courses .courses-link,
-.profile .profile-link
-{
+.btn-tall.active {
   border-bottom-color: var(--guyra-blue-darker);
   background-color: var(--guyra-blue);
   color: var(--guyra-white);
 }
 
 .btn-tall.blue:hover,
-.btn-tall.active:hover,
-.home a.home-link:hover,
-.practice a.practice-link:hover,
-.reference a.reference-link:hover,
-.courses a.courses-link:hover
-{
+.btn-tall.active:hover {
   background: var(--guyra-blue-darker);
   border-bottom-color: var(--guyra-blue-darkest);
 }
@@ -166,7 +151,6 @@
 .navbar .btn-tall.trans {
   border-color: transparent;
   padding: .4rem .9rem;
-  transition: var(--guyra-transition);
 }
 
 .btn-tall.trans:hover {
@@ -176,7 +160,8 @@
 }
 
 .btn-tall.trans:active {
-  border-bottom: var(--guyra-grey-darkest) solid var(--guyra-border-size) !important;
+  border-bottom: var(--guyra-grey-darkest) solid 1px !important;
+  transition: none !important;
 }
 
 .btn-tall.trans.disabled {
@@ -187,6 +172,16 @@
 .btn-tall.trans.green {
   border-color: var(--guyra-green);
   color: var(--guyra-green);
+}
+
+.btn-tall.trans.active {
+  border-color: var(--guyra-blue);
+  color: var(--guyra-blue);
+}
+
+.btn-tall.trans.active:hover {
+  color: var(--guyra-blue-darker);
+  border-color: var(--guyra-blue-darker);
 }
 
 #exercise-container .exercise-answers .btn-tall {
@@ -202,24 +197,6 @@
 
 .btn-close {
   border: 1px solid transparent;
-}
-
-.topbar-button {
-  font-weight: bold;
-  color: var(--guyra-black);
-  border-color: var(--guyra-grey-darker);
-  border-bottom-width: var(--guyra-border-width);
-  background: var(--guyra-grey-dark);
-  margin: 0 .25rem .5rem;
-}
-
-.topbar-button:hover {
-	color: var(--guyra-grey-darkest);
-}
-
-.topbar-button.active {
-  border-color: var(--guyra-blue);
-  color: var(--guyra-blue);
 }
 
 /*

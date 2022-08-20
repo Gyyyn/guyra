@@ -253,9 +253,7 @@ class Help extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.setState({
         i18n: res.i18n,

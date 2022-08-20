@@ -2,6 +2,7 @@ import {
   e,
   GuyraGetData,
   GuyraLocalStorage,
+  GuyraGetImage,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -43,9 +44,7 @@ export class PersistentMeeting extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.setState({
         view: e(
@@ -162,25 +161,25 @@ export class PersistentMeeting extends React.Component {
 function Header_buttonImage(props) {
 
   var link = props.image;
-  var classN = 'page-icon tiny';
+  var className = 'page-icon tiny';
 
   if (!props.image_direct) {
-    link = thei18n.api_link + '?get_image=' + props.image + '&size=32';
+    link = GuyraGetImage(props.image, { size: 32 });
   }
 
   if (props.invert_image) {
-    classN += ' ms-2';
-  } else { classN += ' me-2'; }
+    className += ' ms-2';
+  } else { className += ' me-2'; }
 
   if (props.avatar) {
-    classN += ' avatar';
+    className += ' avatar';
   }
 
   return e(
     'span',
     { className: 'menu-icon' },
     e('img',
-      { className: classN, src: link }
+      { className: className, src: link }
     )
   );
 }
@@ -188,10 +187,14 @@ function Header_buttonImage(props) {
 function Header_Button(props) {
 
   var imageE = null;
-  var buttonClassExtra = ' ';
+  var buttonClassExtra = '';
+
+  if (document.body.classList[2] == props.navigation) {
+    buttonClassExtra += ' active mx-1';
+  }
 
   if (props.classExtra !== undefined) {
-    buttonClassExtra = buttonClassExtra + props.classExtra;
+    buttonClassExtra = buttonClassExtra + ' ' + props.classExtra;
   }
 
   if (props.image !== undefined) {
@@ -224,7 +227,8 @@ export class Notepad extends React.Component {
     this.localOptions = GuyraLocalStorage('get', 'guyra_options');
 
     this.state = {
-      renderSelf: (this.localOptions.notepad_enabled == undefined) || (this.localOptions.notepad_enabled == true)
+      renderSelf: (this.localOptions.notepad_enabled == undefined) || (this.localOptions.notepad_enabled == true),
+      notepadIcon: e('i', { className: 'bi bi-stickies' })
     }
 
   }
@@ -303,8 +307,8 @@ export class Notepad extends React.Component {
         { className: 'position-fixed bottom-0 end-0 notepad-element overflow-x-visible' },
         e(
           'div',
-          { id: 'notepad-toggle', className: 'btn-tall blue opacity-0 round-border position-absolute' },
-          e('img', { className: 'page-icon tiny', width: 32, height: 32, src: thei18n.api_link + '?get_image=icons/notes.png&size=32' })
+          { id: 'notepad-toggle', className: 'btn-tall blue round-border position-absolute d-flex justify-content-center' },
+          this.state.notepadIcon
         )
       ),
       e(
@@ -339,7 +343,9 @@ export class Header extends React.Component {
 
     this.state = {
       branding: null,
-      userdata: {}
+      userdata: {},
+      buttons: [],
+      accountCenter: []
     }
 
   }
@@ -348,11 +354,7 @@ export class Header extends React.Component {
 
     setInterval(() => {
 
-      var dataPromise = GuyraGetData();
-
-      dataPromise.then(res => {
-
-        console.log('new userdata', res.userdata);
+      GuyraGetData().then(res => {
 
         this.setState({
           userdata: res.userdata,
@@ -373,9 +375,7 @@ export class Header extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       this.branding = e(
         'div',
@@ -415,37 +415,61 @@ export class Header extends React.Component {
 
   }
 
+  historyBack() {
+
+    try {
+  
+      if (document.getElementById('back-button')) {
+        document.getElementById('back-button').click();
+        return;
+      }
+  
+      window.location.href = window.location.origin;
+  
+      return true;
+  
+    } catch (e) {
+  
+      return false;
+  
+    }
+  
+  }
+
   buildButtons() {
 
     var buttons = [];
 
-    if (!this.state.userdata.is_logged_in) {
-      
+    if (this.state.userdata.is_logged_in) {
+
+      var homeValue = thei18n.study;
+      var homeIcon = 'icons/learning.png';
+
+      if (this.state.userdata.user_code) {
+        var homeValue = thei18n.your_students;
+        var homeIcon = 'icons/textbook.png';
+      }
+
       buttons = [
         e(Header_Button, {
-          value: thei18n.homepage, image: 'icons/exercises/house.png',
-          onClick: () => { window.location.href = thei18n.home_link }
-        }),
-      ];
-
-    } else {
-
-      buttons = [
-        e(Header_Button, {
-          value: thei18n.study, image: 'icons/learning.png',
-          onClick: () => { window.location.href = thei18n.home_link }
+          value: homeValue, image: homeIcon,
+          onClick: () => { window.location.href = thei18n.home_link },
+          navigation: 'home'
         }),
         e(Header_Button, {
           value: thei18n.practice, image: 'icons/target.png',
-          onClick: () => { window.location.href = thei18n.practice_link }
+          onClick: () => { window.location.href = thei18n.practice_link },
+          navigation: 'practice'
         }),
         e(Header_Button, {
           value: thei18n.courses, image: 'icons/online-learning.png',
-          onClick: () => { window.location.href = thei18n.courses_link }
+          onClick: () => { window.location.href = thei18n.courses_link },
+          navigation: 'courses'
         }),
         e(Header_Button, {
           value: thei18n.dictionary, image: 'icons/dictionary.png',
-          onClick: () => { window.location.href = thei18n.reference_link }
+          onClick: () => { window.location.href = thei18n.reference_link },
+          navigation: 'reference'
         }),
       ];
 
@@ -459,17 +483,26 @@ export class Header extends React.Component {
 
     var accountButtons = [];
 
+    var backButton = e(
+      'button', 
+      {
+        className: 'btn text-blue',
+        type: 'button',
+        name: 'button',
+        id: 'mobile-header-back',
+        onClick: this.historyBack
+      },
+      e('i', { className: 'bi bi-chevron-left'})
+    );
+
+    if (document.body.classList[2] == 'home') {
+      backButton = null;
+    }
+
     var topSection = e(
       'div',
       { className: 'top-section' },
-      e('span', { className: 'position-absolute start-0' },
-        e('button', {
-          className: 'btn text-blue',
-          type: 'button',
-          name: 'button',
-          id: 'mobile-header-back'
-        }, e('i', { className: 'bi bi-chevron-left'}))
-      ),
+      e('span', { className: 'position-absolute start-0' }, backButton),
       e('span', { className: 'capitalize text-blue text-ss fw-bold my-2' }, document.title)
     )
 
@@ -538,7 +571,8 @@ export class Header extends React.Component {
               e('i', { className: 'bi bi-x-lg' }),
             ),
             e('h5', {}, item.title),
-            e('span', { className: 'fw-normal text-n' }, item.contents)
+            e('span', { className: 'fw-normal text-n' }, item.contents),
+            actions
           )
         )
       });
@@ -559,16 +593,14 @@ export class Header extends React.Component {
 
       accountButtons = [
         e(Header_Button, {
-          value: thei18n.meeting, image: 'icons/video-camera.png',
-          onClick: () => { window.open(thei18n.api_link + '?redirect_meeting=1', '_blank').focus(); }
-        }),
-        e(Header_Button, {
           value: thei18n.shop, image: 'icons/exercises/shop.png',
-          onClick: () => { window.location.href = thei18n.shop_link }
+          onClick: () => { window.location.href = thei18n.shop_link },
+          navigation: 'shop'
         }),
         e(Header_Button, {
           value: thei18n.ranking, image: 'icons/podium.png',
-          onClick: () => { window.location.href = thei18n.ranking_link }
+          onClick: () => { window.location.href = thei18n.ranking_link },
+          navigation: 'ranking'
         }),
         e(
           'div',
@@ -624,11 +656,30 @@ export class Header extends React.Component {
               admin_buttons,
               e('button', {
                 className: 'btn-tall w-100 red mt-2',
-                onClick: () => { window.location.href = thei18n.api_link + '?logout=1' }
+                onClick: (e) => {
+
+                  e.preventDefault();
+              
+                  var logoutConfirm = window.confirm(thei18n.logout_confirm);
+              
+                  if (logoutConfirm) {
+                    window.location.href == thei18n.api_link + '?logout=1';
+                  }
+
+                }
               }, thei18n.logout),
           )
         )
       ];
+
+      if (this.state.userdata.teacherid != undefined) {
+        accountButtons.unshift(
+          e(Header_Button, {
+            value: thei18n.meeting, image: 'icons/video-camera.png',
+            onClick: () => { window.open(thei18n.api_link + '?redirect_meeting=1', '_blank').focus(); }
+          })
+        );
+      }
 
     }
 
@@ -658,9 +709,17 @@ export class Header extends React.Component {
         e(
           'div',
           { className: 'd-flex flex-grow-1 justify-content-between' },
-          e('div', { className: 'header-buttons' },
-            e('div', {}, this.state.buttons)
-          ),
+          e(()=> {
+
+            if (this.state.buttons.length) {
+              return e('div', { className: 'header-buttons' },
+                e('div', { className: '' }, this.state.buttons)
+              );
+            }
+
+            return null;
+
+          }),
           e('div', { className: 'header-account justify-content-end' }, this.state.accountCenter)
         ),
       ),

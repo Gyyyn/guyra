@@ -58,12 +58,23 @@ if ($_GET['appointment']) {
     str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
 
   $notification['title'] = str_replace('%user', $current_user_name, $notification['title']);
+  $notification['contents'] = str_replace('%day', $data['date'], $notification['contents']);
+  $notification['contents'] = str_replace('%hour', $data['time'], $notification['contents']);
+
+  if ($data['recurring'])
+  $notification['contents'] = $notification['contents'] . ' ' . $notification['is_recurring'];
 
   if ($mode == 'request')
   PushNotification($notification, (int) $user);
 
-  if ($mode == 'accept')
-  PushNotification($gi18n['notification_appointment_accepted'], $user);
+  if ($mode == 'accept') {
+
+    if ($current_user_data['role'] == 'teacher')
+    guyra_update_user_data($user, [ 'teacherid' => $current_user_id ]);
+
+    PushNotification($gi18n['notification_appointment_accepted'], $user);
+
+  }
 
   guyra_output_json('true', true);
   

@@ -184,3 +184,34 @@
   font-size: var(--guyra-fonts-textsize-s);
   padding: 0;
 }
+
+.topbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: calc(var(--guyra-navbar-size) * 0.3);
+}
+
+.topbar-button,
+.topbar-button:hover {
+  background-color: unset;
+  color: var(--guyra-blue);
+  border-radius: 0 !important;
+  border: 0;
+  border-bottom: var(--guyra-border-size) solid var(--guyra-blue);
+}
+
+.btn-tall.topbar-button:active {
+  position: static;
+  top: 0;
+  border-top: 0;
+  border-bottom-width: var(--guyra-border-size) !important;
+}
+
+.topbar-button.active,
+.topbar-button.active:hover {
+  color: var(--guyra-blue-darker);
+  border-color: var(--guyra-blue-darker);
+  background-color: unset;
+}

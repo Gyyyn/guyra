@@ -506,6 +506,38 @@ export function GuyraGetData(args={}) {
 
 }
 
+export function GuyraGetImage(image, options={}) {
+  
+  var guyraCache = GuyraLocalStorage('get', 'guyra_cache');
+  var thelink = thei18n.api_link + '?get_image=' + image + '&size=' + options.size;
+
+  if (typeof guyraCache.images != 'object') {
+    guyraCache.images = {};
+  }
+
+  if (!options.size) {
+    options.size = 32;
+  }
+
+  var imageMD5 = MD5(image + options.size);
+  
+  if (guyraCache.images[imageMD5]) {
+    return guyraCache.images[imageMD5];
+  }
+
+  fetch(thelink).then(res => {
+
+    guyraCache.images[imageMD5] = res.url;
+    GuyraLocalStorage('set', 'guyra_cache', guyraCache);
+
+    return res.url;
+
+  });
+
+  return thelink;
+
+}
+
 export function Guyra_Logout_User() {
   // TODO: Finish this function once the header is transfered to React.
   localStorage.removeItem('guyra_userdata');

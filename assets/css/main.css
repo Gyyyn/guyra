@@ -60,7 +60,6 @@
   --guyra-fonts-textsize-super: calc(2.5rem + 2.2vw);
 
   --guyra-navbar-size: 3.5rem;
-  --guyra-line-height-blog: 3rem;
   --guyra-border-radius: calc(.35rem - 1px);
   --guyra-border-radius-bigger: calc(var(--guyra-border-radius) * 4);
   --guyra-border-size: calc(0.15rem + .05vw);
@@ -610,14 +609,6 @@ input:checked + .slider:before {
   height: auto;
 }
 
-.topbar {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: calc(var(--guyra-navbar-size) * 0.3);
-}
-
 .notepad-element { z-index: 1081; }
 
 #notepad-toggle {
@@ -672,9 +663,9 @@ input:checked + .slider:before {
 }
 
 @media (min-width: 992px) {
-	.squeeze { max-width: calc(40vw + 25rem); margin: 0 auto; }
-	.squeeze-big { max-width: 75vw; margin: 0 auto; }
-  .squeeze-small { max-width: calc(20vw + 25rem); margin: 0 auto; }
+	.squeeze { max-width: calc(40vw + 25rem); margin-left: auto; margin-right: auto; }
+	.squeeze-big { max-width: 75vw; margin-left: auto; margin-right: auto; }
+  .squeeze-small { max-width: calc(20vw + 25rem); margin-left: auto; margin-right: auto; }
   .rounded-box { padding: calc(2vw + 1rem) calc(2vw + 2rem); }
 
   main {
@@ -683,9 +674,9 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 992px) {
-	.squeeze { max-width: unset; margin: 0 auto; }
-	.squeeze-big { max-width: unset; margin: 0 auto; }
-  .squeeze-small { max-width: unset; margin: 0 1rem; }
+	.squeeze { max-width: unset; margin-left: auto; margin-right: auto; }
+	.squeeze-big { max-width: unset; margin-left: auto; margin-right: auto; }
+  .squeeze-small { max-width: unset; margin-left: 1rem; margin-right: 1rem; }
   .rounded-box { padding: calc(2vw + 1rem) calc(1vw + .5rem); }
 
   main {

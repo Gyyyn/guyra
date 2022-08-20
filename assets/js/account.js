@@ -1931,14 +1931,6 @@ function WhoAmI_buttonGroup(props) {
       e(
         WhoAmI_buttonGroup_button,
         {
-          href: i18n.ranking_link,
-          img_src: i18n.api_link + '?get_image=icons/podium.png&size=32',
-          value: i18n.ranking
-        }
-      ),
-      e(
-        WhoAmI_buttonGroup_button,
-        {
           href: i18n.faq_link,
           img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
           value: i18n.help
@@ -2806,9 +2798,7 @@ class Account extends React.Component {
 
   componentWillMount() {
 
-    var dataPromise = GuyraGetData();
-
-    dataPromise.then(res => {
+    GuyraGetData().then(res => {
 
       let page;
 

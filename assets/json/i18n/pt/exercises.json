@@ -515,6 +515,14 @@
 
   "unit7": {
 
+    "CompleteThePhraseBuilder": [
+      ["I'm a mechanic. I work with cars.", ["mechanic", "cars"]],
+      ["I work at home. I'm a software engineer.", ["work", "engineer"]],
+      ["My friend is a doctor in a hospital.", ["doctor", "hospital"]],
+      ["How do you like working as a programmer?", ["you", "as a"]],
+      ["Being a designer is not easy.", ["a designer", "easy"]]
+    ],
+
     "CompleteThePhrase": [
       ["I'm a mechanic. I work with cars.", "mechanic", "(mecânico)"],
       ["I'm a doctor. I work in a hospital.", "doctor", "(médico)"],
@@ -586,6 +594,15 @@
   },
 
   "unit8": {
+
+    "CompleteThePhraseBuilder": [
+      ["I study animals. I'm a zoologist", ["animals", "zoologist"]],
+      ["I study animals but he studies rocks.", ["study", "studies"]],
+      ["My girlfriend is a chef. She's very talented with food.", ["chef", "food"]],
+      ["I need to wake up early.", ["need", "wake"]],
+      ["I want to work at home.", ["want", "work"]],
+      ["My boyfriend is a nurse. He helps people.", ["nurse", "people"]]
+    ],
 
     "CompleteThePhrase": [
       ["I study animals. It's very interesting.", "I study", "(eu estudo)"],
@@ -694,6 +711,15 @@
 
   "unit10": {
 
+    "CompleteThePhraseBuilder": [
+      ["I'm going to eat dinner soon.", ["going", "to"]],
+      ["What are you going to do tomorrow?", ["are", "going"]],
+      ["I'm going to eat lunch soon.", ["going", "eat"]],
+      ["What are you going to do today?", ["you", "do"]],
+      ["We are not going to take the bus.", ["not", "going"]],
+      ["She's not going by bike.", ["not", "going"]]
+    ],
+
     "CompleteThePhrase": [
       ["I'm going to go to the store in a few minutes.", "going to go", "(vou ir)"],
       ["I'm going to go to the shop in a few minutes.", "going", "(vou)"],
@@ -748,6 +774,15 @@
   },
 
   "unit11": {
+
+    "CompleteThePhraseBuilder": [
+      ["I will be here if you need me.", ["will", "be"]],
+      ["I won't be at work.", ["won't", "at"]],
+      ["Will she come with us?", ["Will", "she"]],
+      ["I will be going then.", ["will", "going"]],
+      ["I'll probably go out for dinner.", ["'ll", "go"]],
+      ["Shall I help you?", ["Shall", "I"]]
+    ],
 
     "CompleteThePhrase": [
       ["I will be home today.", "be", "(estar)"],
@@ -809,14 +844,14 @@
   "unit12": {
 
     "CompleteThePhrase": [
-      ["Today's the fifth.", "fifth", "(quinto)"],
-      ["Today's the sixth.", "sixth", "(sexto)"],
-      ["Today's the eight.", "eight", "(oitavo)"],
-      ["Today's the tenth.", "tenth", "(décimo)"],
-      ["Tomorrow will be the seventeenth.", "seventeenth", "(décimo sétimo)"],
-      ["Tomorrow will be the fifteenth.", "fifteenth", "(décimo quinto)"],
-      ["Tomorrow will be the eleventh.", "eleventh", "(décimo primeiro)"],
-      ["Tomorrow will be the twelfth.", "twelfth", "(décimo segundo)"],
+      ["Today's the fifth.", "fifth", "(quinto dia)"],
+      ["Today's the sixth.", "sixth", "(sexto dia)"],
+      ["Today's the eight.", "eight", "(oitavo dia)"],
+      ["Today's the tenth.", "tenth", "(décimo dia)"],
+      ["Tomorrow will be the seventeenth.", "seventeenth", "(décimo sétimo dia)"],
+      ["Tomorrow will be the fifteenth.", "fifteenth", "(décimo quinto dia)"],
+      ["Tomorrow will be the eleventh.", "eleventh", "(décimo primeiro dia)"],
+      ["Tomorrow will be the twelfth.", "twelfth", "(décimo segundo dia)"],
       ["I am going there tomorrow.", "am going", "(estou indo)"],
       ["I am going there the day after next.", "the day after next", "(depois de amanhã)"],
       ["I am going there the week after next.", "after next", "(depois da próxima)"],
@@ -825,11 +860,11 @@
       ["Are you free on Monday evening?", "evening", "(noite)"],
       ["Are you free on Tuesday afternoon?", "on Tuesday", "(na terça)"],
       ["Are you free on Wednesday afternoon?", "on Wednesday", "(na quarta)"],
-      ["This week is crazy but how about on the fourth?", "fourth", "(quarto)"],
+      ["This week is crazy but how about on the fourth?", "fourth", "(quarto dia)"],
       ["This week is crazy but how about on Thursday?", "Thursday", "(quinta)"],
       ["This week is crazy but how about next month?", "next month", "(próximo mês)"],
-      ["This week is crazy but how about on the third?", "third", "(terceiro)"],
-      ["Christmas is always on the twenty fifth of December.", "twenty fifth", "(vigésimo quinto)"],
+      ["This week is crazy but how about on the third?", "third", "(terceiro dia)"],
+      ["Christmas is always on the twenty fifth of December.", "twenty fifth", "(vigésimo quinto dia)"],
       ["Christmas is always on the twenty fifth of December.", "Christmas", "(natal)"],
       ["Christmas is always on the twenty fifth of December.", "always", "(sempre)"],
       ["Christmas is always on the twenty fifth of December.", "on the", "(no)"],
@@ -837,7 +872,7 @@
       ["What are you going to do this weekend?", "this weekend", "(esse fim de semana)"],
       ["What are you going to do on the holiday?", "holiday", "(feriado)"],
       ["What are you going to do on your vacation?", "vacation", "(férias)"],
-      ["My birthday is on the thirtieth.", "thirtieth", "(décimo terceiro)"],
+      ["My birthday is on the thirtieth.", "thirtieth", "(décimo terceiro dia)"],
       ["Easter is next week on the third!", "third", "(terceiro)"],
       ["I'm going to visit my parents on New Year's.", "on New", "(no Novo)"]
     ],

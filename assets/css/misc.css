@@ -6,5 +6,3 @@
 .admin-btn { opacity: 0; }
 
 .admin-btn:hover { opacity: inherit; }
-
-body:not(.wp-admin) #wpadminbar { position: absolute; display: none; }

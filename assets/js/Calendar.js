@@ -159,7 +159,7 @@ class RenderDay_Hour extends React.Component {
       if (theUser.is_self) {
         icons.push(e('i', { className: "bi bi-pen" }));
       } else {
-        icons.push(e('i', { className: "bi bi-box-arrow-in-down-left" }));        
+        icons.push(e('i', { className: "bi bi-box-arrow-in-down-left" }));
       }
 
       return e(
@@ -323,11 +323,12 @@ class RenderDay extends React.Component {
 
   }
 
-  RequestAppointment = (date, time) => {
+  RequestAppointment = (date, time, recurring, callback) => {
 
     var dataToPost = {
-      date: date,
-      time: time
+      date: new Date(date).toLocaleDateString(),
+      time: time,
+      recurring: recurring
     };
 
     fetch(
@@ -341,6 +342,10 @@ class RenderDay extends React.Component {
         body: JSON.stringify(dataToPost)
       }
     ).then(res => res.json()).then(res => {
+
+      if (callback) {
+        callback();
+      }
       
     });
     
@@ -395,6 +400,7 @@ class RenderDay extends React.Component {
           appointment: theAppointment,
           EditRecurringAppointment: this.EditRecurringAppointment,
           AddAppointment: this.AddAppointment,
+          RequestAppointment: this.RequestAppointment,
           day: this.props.day,
           hour: theHour,
           hasRecurring: hasRecurring
