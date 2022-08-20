@@ -7,7 +7,7 @@ import {
   theUserdata,
   LoadingPage,
   dragElement
-} from './Common.js';
+} from './Common.js?ver=4';
 
 export class PersistentMeeting extends React.Component {
   constructor(props) {
