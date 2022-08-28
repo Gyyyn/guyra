@@ -345,7 +345,8 @@ export class Header extends React.Component {
       branding: null,
       userdata: {},
       buttons: [],
-      accountCenter: []
+      accountCenter: [],
+      latestNotificationTimestamp: 0
     }
 
   }
@@ -446,7 +447,7 @@ export class Header extends React.Component {
       var homeIcon = 'icons/learning.png';
 
       if (this.state.userdata.user_code) {
-        var homeValue = thei18n.your_students;
+        var homeValue = thei18n.students;
         var homeIcon = 'icons/textbook.png';
       }
 
@@ -555,6 +556,12 @@ export class Header extends React.Component {
           });
         }
 
+        if (!item.timestamp) {
+          item.timestamp = 1590030000;
+        }
+
+        var itemDate = new Date(item.timestamp * 1000);
+
         notifications.push(
           e(
             'div',
@@ -572,7 +579,8 @@ export class Header extends React.Component {
             ),
             e('h5', {}, item.title),
             e('span', { className: 'fw-normal text-n' }, item.contents),
-            actions
+            actions,
+            e('span', { className: 'fw-normal text-sss mt-2 text-grey-darker' }, itemDate.toLocaleString()),
           )
         )
       });
@@ -663,6 +671,8 @@ export class Header extends React.Component {
                   var logoutConfirm = window.confirm(thei18n.logout_confirm);
               
                   if (logoutConfirm) {
+                    localStorage.removeItem('guyra_userdata');
+                    localStorage.removeItem('guyra_i18n');
                     window.location.href == thei18n.api_link + '?logout=1';
                   }
 

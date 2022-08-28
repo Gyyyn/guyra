@@ -538,12 +538,6 @@ export function GuyraGetImage(image, options={}) {
 
 }
 
-export function Guyra_Logout_User() {
-  // TODO: Finish this function once the header is transfered to React.
-  localStorage.removeItem('guyra_userdata');
-  localStorage.removeItem('guyra_i18n');
-}
-
 export function Guyra_InventoryItem(props) {
 
   var imagePreview = e('img', { className: 'page-icon tiny mx-auto my-1', src: props.preview });

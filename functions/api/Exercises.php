@@ -47,21 +47,26 @@ if ($_GET['log_exercise_data']) {
   if ($theData['score'] == 100)
   $levels_gained = 3;
 
-  PushNotification($gi18n['notification_exercise_levelup']);
-
   $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
-
   $newdata['completed_units'] = json_encode($completed_units);
   
   // Elo validity
   if ($newdata['elo_validity'] < time()) {
     
-    $newdata['elo'] = 0;
+    $newdata['elo'] = $theData['elo'] - $newdata['elo'];
+
+    if ($newdata['elo'] > 25)
+    $newdata['elo'] = 25;
+
     $newdata['elo_validity'] = time() + $secondsForA['week'];
+
+    PushNotification($gi18n['notification_exercise_rankingreset']);
 
   } else {
 
     $newdata['elo'] = $theData['elo'];
+
+    PushNotification($gi18n['notification_exercise_levelup']);
  
   }
 
@@ -85,7 +90,7 @@ if ($_GET['get_ranking_page']) {
 
     $user_elo = $user['gamedata']['elo'];
 
-    if ($user_elo > 0 || true) {
+    if ($user_elo > 0) {
       $users_by_elo[$user['id']]['elo'] = $user_elo;
       $users_by_elo[$user['id']]['id'] = $user['id'];
     }
@@ -109,7 +114,7 @@ if ($_GET['get_ranking_page']) {
 
     $user = [
       'first_name' => $user_first_name,
-      'avatar' => $user_data['userdata']['profile_picture_url'],
+      'avatar' => Guyra_get_profile_picture($user_data['userdata'], null, true),
       'user_ranking' => $user_elo_info,
       'user_private' => $user_private
     ];
@@ -272,30 +277,25 @@ if ($_GET['get_exercises']):
     // * 1 WhatYouHear exercises.
     // * 2 Translate exercises.
     // * 1 MultipleChoice exercise
-    // * 3 CompleteThePhraseBuilder exercises
+    // * 2 CompleteThePhraseBuilder exercises
     //
     // But this is due for a change to a more dynamic system, so
     // TODO: refactor this
 
-    if (is_array($exercisesJSON[$unit]['CompleteThePhrase'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 3, $exercisesJSON));
-    }
+    if (is_array($exercisesJSON[$unit]['CompleteThePhrase']))
+    $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhrase', $unit, 3, $exercisesJSON));
 
-    if (is_array($exercisesJSON[$unit]['WhatYouHear'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $exercisesJSON));
-    }
+    if (is_array($exercisesJSON[$unit]['WhatYouHear']))
+    $responseJSON = array_merge($responseJSON, GetTheExercises('WhatYouHear', $unit, 1, $exercisesJSON));
 
-    if (is_array($exercisesJSON[$unit]['Translate'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $exercisesJSON));
-    }
+    if (is_array($exercisesJSON[$unit]['Translate']))
+    $responseJSON = array_merge($responseJSON, GetTheExercises('Translate', $unit, 2, $exercisesJSON));
 
-    if (is_array($exercisesJSON[$unit]['MultipleChoice'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('MultipleChoice', $unit, 1, $exercisesJSON));
-    }
+    if (is_array($exercisesJSON[$unit]['MultipleChoice']))
+    $responseJSON = array_merge($responseJSON, GetTheExercises('MultipleChoice', $unit, 1, $exercisesJSON));
 
-    if (is_array($exercisesJSON[$unit]['CompleteThePhraseBuilder'])) {
-      $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhraseBuilder', $unit, 3, $exercisesJSON));
-    }
+    if (is_array($exercisesJSON[$unit]['CompleteThePhraseBuilder']))
+    $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhraseBuilder', $unit, 2, $exercisesJSON));
 
   }
 
@@ -311,8 +311,7 @@ if ($_GET['get_exercises']):
 
   }
 
-  if (!empty($responseJSON)) {
-    guyra_output_json($responseJSON, true);
-  }
+  if (!empty($responseJSON))
+  guyra_output_json($responseJSON, true);
 
 endif; // Exercises handler.

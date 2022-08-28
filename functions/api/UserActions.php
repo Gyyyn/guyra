@@ -32,6 +32,7 @@ include_once $template_dir . '/functions/Assets.php';
 include_once $template_dir . '/functions/Payment.php';
 include_once $template_dir . '/functions/Security.php';
 include_once $template_dir . '/components/Icons.php';
+include_once $template_dir . '/components/ProfilePicture.php';
 
 $user = $_GET['user'];
 $auth_token = $_SERVER['HTTP_GUYRA_AUTH'];

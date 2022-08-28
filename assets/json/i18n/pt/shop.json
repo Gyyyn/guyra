@@ -144,6 +144,18 @@
       "name": "Deck de cartas: Alimentos 1",
       "description": "Inclui palavras sobre comida.",
       "description_full": "Palavras de nivel básico."
+    },
+
+    "flashcards_irregulars_past1": {
+      "name": "Deck de cartas: Verbos Irregulares (passado) 1",
+      "description": "Verbos irregulares na forma de passado simples.",
+      "description_full": "Palavres de nível básico."
+    },
+
+    "flashcards_irregulars_participle1": {
+      "name": "Deck de cartas: Verbos Irregulares (participle) 1",
+      "description": "Verbos irregulares na forma de past participle.",
+      "description_full": "Palavres de nível intermediário."
     }
 
   },
@@ -359,6 +371,16 @@
 
     "flashcards_food1": {
       "name": "Deck de cartas: Alimentos 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_irregulars_past1": {
+      "name": "Deck de cartas: Verbos Irregulares (passado) 1",
+      "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "flashcards_irregulars_participle1": {
+      "name": "Deck de cartas: Verbos Irregulares (participle) 1",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
     }
 

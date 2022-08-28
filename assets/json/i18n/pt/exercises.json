@@ -705,7 +705,34 @@
       ["Should we get anything from the store?"],
       ["What do you want to eat for dinner?"],
       ["Sometimes I like to exercise in the morning."]
+    ],
+
+    "MultipleChoice": [
+      ["Can you speak Portuguese?", ["Yes, I am.", "Yes, I can."], "Yes, I can."],
+      ["Do we need anything?", ["Yes, some fruit.", "From the supermarket."], "Yes, some fruit."],
+      ["Shall we go?", ["No, let's go!", "Yes, I am ready."], "Yes, I am ready."],
+      ["What time do you wake up usually?", ["At 6AM.", "Near the supermarket."], "At 6AM"],
+      ["What do you like to eat at breakfast?", ["Some coffee and nothing else!", "I always make dinner."], "Some coffee and nothing else!"]
+    ],
+
+    "Translate": [
+      ["shall", "vamos"],
+      ["time", "tempo"],
+      ["times", "vezes"],
+      ["store", "loja"],
+      ["wake up", "acordar"],
+      ["brought", "trouxe"],
+      ["speak", "falar"]
+    ],
+
+    "CompleteThePhraseBuilder": [
+      ["Sometimes I like to exercise in the evening.", ["Sometimes", "exercise"]],
+      ["He already brought the drinks.", ["already", "brought"]],
+      ["Where do you usually eat lunch?", ["usually", "eat"]],
+      ["I'm driving to work now.", ["driving", "to"]],
+      ["What do you like to eat at breakfast?", ["like", "to"]]
     ]
+
 
   },
 
@@ -718,6 +745,24 @@
       ["What are you going to do today?", ["you", "do"]],
       ["We are not going to take the bus.", ["not", "going"]],
       ["She's not going by bike.", ["not", "going"]]
+    ],
+
+    "Translate": [
+      ["celebrate", "celebrar"],
+      ["class", "aula"],
+      ["afterwards", "depois"],
+      ["tonight", "hoje a noite"],
+      ["leave", "deixar"],
+      ["tomorrow", "amanhã"],
+      ["evening", "noite"]
+    ],
+
+    "MultipleChoice": [
+      ["Are you going to the party tonight?", ["No, I'm sorry.", "Yes, but yesterday."], "No, I'm sorry."],
+      ["What are you going to do tomorrow?", ["I'm going out.", "Next week I'm free."], "I'm going out."],
+      ["Are you going to the movies now?", ["No, I'm busy.", "Yes, I loved the movie."], "No, I'm busy."],
+      ["Are you free tomorrow evening?", ["No, but the next day I am.", "Yes, I'll come with you."], "No, but the next day I am."],
+      ["Where do you want to go?", ["To the burger shop on Main.", "After the movies."], "To the burger shop on Main."]
     ],
 
     "CompleteThePhrase": [
@@ -782,6 +827,14 @@
       ["I will be going then.", ["will", "going"]],
       ["I'll probably go out for dinner.", ["'ll", "go"]],
       ["Shall I help you?", ["Shall", "I"]]
+    ],
+
+    "Translate": [
+      ["home", "lar"],
+      ["understand", "entender"],
+      ["vacation", "férias"],
+      ["tea", "chá"],
+      ["search", "procurar"]
     ],
 
     "CompleteThePhrase": [
@@ -888,6 +941,35 @@
   },
 
   "unit13": {
+
+    "CompleteThePhraseBuilder": [
+      ["Would you like to go to a restaurant?", ["you", "like", "to"]],
+      ["Would you like to go to a restaurant with me?", ["Would", "go", "me?"]],
+      ["Do you want to listen to some music?", "want", "to", "listen"],
+      ["Are you free today?", ["you", "free", "today?"]],
+      ["Do you want to watch old movies together?", ["want", "watch"]],
+      ["Do you mind if I put some music?", ["you", "mind", "if"]]
+    ],
+
+    "MultipleChoice": [
+      ["Would you like to go to a restaurant?", ["Yes, I want to.", "No, but tomorrow."], "Yes, I want to."],
+      ["Do you want to go see a show?", ["Yes, I'd love to!", "Yes, I want it."], "Yes, I'd love to!"],
+      ["Would you like to go out today?", ["Yes, yesterday.", "Where are we going?","I like hip hop."], "Where are we going?"],
+      ["Do you want to listen to the radio?", ["Yes, for you", "Yes, I love music.", "Only tomorrow"], "Yes, I love music."],
+      ["Are you free this afternoon?", ["From the morning.", "Yes, I am.", "Yes, I do."], "Yes, I am."]
+    ],
+
+    "Translate": [
+      ["want", "quer"],
+      ["would you like", "você gostaria"],
+      ["listen", "ouvir"],
+      ["do you want", "você quer"],
+      ["show", "apresentação"],
+      ["store", "loja"],
+      ["free", "livre"],
+      ["possible", "possível"],
+      ["think", "acha"]
+    ],
 
     "CompleteThePhrase": [
       ["Would you like to go to a restaurant?", "Would you", "(você)"],

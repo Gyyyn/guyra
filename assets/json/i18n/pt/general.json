@@ -451,6 +451,7 @@
    "write_word_here":"Escreva a palavra aqui...",
    "cc_warning":"Definições disponíveis sobre os termos <a class=\"text-muted\" href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.pt_BR\">Creative Commons Attribution-ShareAlike License</a> \te são adaptados da <a class=\"text-muted\" href=\"https://wiktionary.org/\">Wiktionary</a>. Imagens usam dados da <a class=\"text-muted\" href=\"https://www.wikidata.org/\">Wikidata</a>.",
    "sign_up_warning": "Ao se cadastrar você confirma ter pelo menos 13 anos de idade e ter concordado com os termos de uso e política de privacidade.",
+   "students":"Alunos",
    "your_students":"Seus Alunos",
    "your_code":"Seu Código",
    "your_code_explain":"Mande este código para seus aluno para eles possam aparecer aqui na sua página.",
@@ -547,6 +548,10 @@
    "notification_exercise_levelup":{
       "title":"Você completou um exercício!",
       "contents":"Foi difícil? Bem, se foi melhor ainda, mais um desafio superado!"
+   },
+   "notification_exercise_rankingreset":{
+      "title":"Seu ranking resetou!",
+      "contents":"Passaram-se uma semana então você voltou ao começo do ranking, é hora de subir de novo!"
    },
    "notification_plan_adquired":{
       "title":"Obrigado pela preferência!",

@@ -329,11 +329,29 @@
   },
 
   "flashcards_food1": {
-    "price": "15",
+    "price": "10",
     "type": "flashcards",
     "image": "icons/card.png",
     "items": {
       "flashcards_food1": {}
+    }
+  },
+
+  "flashcards_irregulars_past1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_irregulars_past1": {}
+    }
+  },
+
+  "flashcards_irregulars_participle1": {
+    "price": "10",
+    "type": "flashcards",
+    "image": "icons/card.png",
+    "items": {
+      "flashcards_irregulars_participle1": {}
     }
   }
 

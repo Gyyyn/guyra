@@ -571,19 +571,28 @@ class AnswersPhraseBuilder extends React.Component {
             })
           )),
 
-          e(ExerciseContext.Consumer, null, ({ClearWord}) => e(
-            'div',
-            { className: 'd-flex align-self-end' },
-            e(
-              'button',
-              {
-                type: 'button',
-                className: 'btn-tall red align-self-end flex-shrink-1',
-                onClick: () => { ClearWord() }
-              },
-              e('i', { className: "bi bi-trash-fill" })
-            )
-          ))
+          e(ExerciseContext.Consumer, null, ({ClearWord, currentExerciseType}) => {
+
+            // In CompleteThePhraseBuilder we shouldn't be able to remove words.
+            if (currentExerciseType == 'CompleteThePhraseBuilder') {
+              return;
+            }
+
+            return e(
+              'div',
+              { className: 'd-flex align-self-end' },
+              e(
+                'button',
+                {
+                  type: 'button',
+                  className: 'btn-tall red align-self-end flex-shrink-1',
+                  onClick: () => { ClearWord() }
+                },
+                e('i', { className: "bi bi-trash-fill" })
+              )
+            );
+
+          })
 
         ),
 
@@ -2043,6 +2052,11 @@ export class Exercises extends React.Component {
 
   ClearWord = () => {
 
+    // In CompleteThePhraseBuilder we shouldn't be able to remove words.
+    if (this.state.currentExerciseType == 'CompleteThePhraseBuilder') {
+      return;
+    }
+
     vibrate(30, fakeClick);
 
     this.setState({
@@ -2052,6 +2066,11 @@ export class Exercises extends React.Component {
   }
 
   SpliceWord = (word, index=0) => {
+
+    // In CompleteThePhraseBuilder we shouldn't be able to remove words.
+    if (this.state.currentExerciseType == 'CompleteThePhraseBuilder') {
+      return;
+    }
 
     var thePhrase = this.state.phraseBuilderPhrase;
 

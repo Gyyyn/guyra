@@ -29,6 +29,7 @@ include_once $template_dir . '/functions/Assets.php';
   
 </footer>
 
+<script>window.guyra_version = <?php echo GUYRA_VERSION ?>;</script>
 <script src="<?php echo GetMinifiedAsset('js', 'react.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'html-react-parser.js'); ?>"></script>

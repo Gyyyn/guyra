@@ -12,6 +12,7 @@ global $is_admin;
 Guyra_Safeguard_File();
 
 include_once $template_dir . '/functions/Payment.php';
+include_once $template_dir . '/components/ProfilePicture.php';
 
 $user = $_GET['user'];
 $allowedUsers = [];
@@ -88,6 +89,8 @@ if ($_GET['action'] == 'fetch_users') {
 
     // Clean sensitive info.
     unset($theUsers[$theUser['id']]['user_pass']);
+
+    $theUsers[$theUser['id']]['userdata']['profile_picture_url'] = Guyra_get_profile_picture($theUser['userdata'], null, true);
 
     // Check for subscription validity.
     $theUsers[$theUser['id']]['user_subscription_valid'] = IsSubscriptionValid($theUser['id'], [

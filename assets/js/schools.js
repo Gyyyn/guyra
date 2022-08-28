@@ -1518,8 +1518,8 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         'div',
         { className: 'justfade-animation animate page-view my-3 position-relative'},
         e(
-          'span',
-          { className: 'close-button position-absolute top-0 end-0', style: { zIndex: 1 } },
+          'div',
+          { className: 'control-area text-end' },
           e(
             'button',
             {
@@ -1541,6 +1541,16 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   }
 
   render() {
+
+    if (this.props.search) {
+
+      var matchword = new RegExp("(" + this.props.search.toLowerCase() + ")");
+
+      if (!matchword.test(this.listingName.toLowerCase())) {
+        return null;
+      }
+      
+    }
 
     var dialogBoxExtraClass = '';
 
@@ -1590,6 +1600,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      search: ''
+    }
+
   }
 
   copyCode() {
@@ -1600,6 +1614,12 @@ class GroupAdminHome_AdminPanel extends React.Component {
     theCode.select();
 
     document.execCommand("copy");
+
+  }
+
+  setSearch(query) {
+
+    this.setState({ search: query.toLowerCase() });
 
   }
 
@@ -1633,8 +1653,24 @@ class GroupAdminHome_AdminPanel extends React.Component {
           'div',
           { className: 'd-flex flex-column mb-3' },
           e('h2', { className: 'mb-2' }, thei18n.your_students),
+          e(
+            'div',
+            { className: 'dialog-box mb-3' },
+            thei18n.search,
+            e(
+              'input',
+              {
+                onChange: (e) => {
+                  this.setSearch(e.target.value);
+                },
+                className: 'form-control',
+                value: this.state.search
+              }
+            )
+          ),
           Object.values(user_list).map((user) => {
 
+            // Check if this user is in a group
             if (user.userdata.studygroup) {
 
               if (!groupeds[user.userdata.studygroup]) {
@@ -1644,13 +1680,13 @@ class GroupAdminHome_AdminPanel extends React.Component {
               groupeds[user.userdata.studygroup].push(user);
 
             } else {
-              return e(GroupAdminHome_AdminPanel_UserListing, { user: user });
+              return e(GroupAdminHome_AdminPanel_UserListing, { user: user, search: this.state.search });
             }
 
           }),
           Object.values(groupeds).map((group, i) => {
 
-            return e(GroupAdminHome_AdminPanel_UserListing, { group: group, groupName: Object.keys(groupeds)[i] });
+            return e(GroupAdminHome_AdminPanel_UserListing, { group: group, groupName: Object.keys(groupeds)[i], search: this.state.search });
 
           }),
         );

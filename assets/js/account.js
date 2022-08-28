@@ -2540,6 +2540,8 @@ class LoginForm extends React.Component {
                 .then(json => {
 
                   if (json == 'true') {
+                    localStorage.removeItem('guyra_userdata');
+                    localStorage.removeItem('guyra_i18n');
                     window.location = i18n.home_link;
                   } else {
                     setMessageBox(i18n[json]);

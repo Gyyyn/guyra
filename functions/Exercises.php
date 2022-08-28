@@ -7,6 +7,7 @@ global $gSettings;
 Guyra_Safeguard_File();
 
 require $template_dir . '/vendor/autoload.php';
+include_once $template_dir . '/components/ProfilePicture.php';
 
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;

@@ -33,6 +33,8 @@ function PushNotification($item, $user=0, $args=[]) {
   if (!is_array($item))
   return false;
 
+  $item['timestamp'] = time();
+
   array_unshift($notifications_data, $item);
   guyra_update_user_meta($user, 'notifications', json_encode($notifications_data, JSON_UNESCAPED_UNICODE));
 

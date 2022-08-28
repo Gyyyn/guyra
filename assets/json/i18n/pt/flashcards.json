@@ -259,6 +259,46 @@
     { "front": "tomato", "back": "tomate" },
     { "front": "butter", "back": "manteiga" },
     { "front": "pasta", "back": "macarrão" }
+  ],
+
+  "flashcards_irregulars_past1": [
+    { "front": "began", "back": "begin" },
+    { "front": "bought", "back": "buy" },
+    { "front": "brought", "back": "bring" },
+    { "front": "broke", "back": "break" },
+    { "front": "chose", "back": "choose" },
+    { "front": "cut", "back": "cut" },
+    { "front": "drank", "back": "drink" },
+    { "front": "drove", "back": "drive" },
+    { "front": "ate", "back": "eat" },
+    { "front": "fell", "back": "fall" },
+    { "front": "found", "back": "find" },
+    { "front": "flew", "back": "fly" },
+    { "front": "forgot", "back": "forget" },
+    { "front": "gave", "back": "give" },
+    { "front": "heard", "back": "hear" },
+    { "front": "left", "back": "leave" },
+    { "front": "saw", "back": "see" }
+  ],
+
+  "flashcards_irregulars_participle1": [
+    { "front": "begun", "back": "begin" },
+    { "front": "bought", "back": "buy" },
+    { "front": "brought", "back": "bring" },
+    { "front": "broken", "back": "break" },
+    { "front": "chosen", "back": "choose" },
+    { "front": "cut", "back": "cut" },
+    { "front": "drunk", "back": "drink" },
+    { "front": "driven", "back": "drive" },
+    { "front": "eaten", "back": "eat" },
+    { "front": "fallen", "back": "fall" },
+    { "front": "found", "back": "find" },
+    { "front": "flown", "back": "fly" },
+    { "front": "forgotten", "back": "forget" },
+    { "front": "given", "back": "give" },
+    { "front": "heard", "back": "hear" },
+    { "front": "left", "back": "leave" },
+    { "front": "seen", "back": "see" }
   ]
 
 }
