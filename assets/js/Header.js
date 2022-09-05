@@ -673,6 +673,8 @@ export class Header extends React.Component {
                   if (logoutConfirm) {
                     localStorage.removeItem('guyra_userdata');
                     localStorage.removeItem('guyra_i18n');
+                    localStorage.removeItem('guyra_levelmap');
+                    localStorage.removeItem('guyra_courses');
                     window.location.href == thei18n.api_link + '?logout=1';
                   }
 

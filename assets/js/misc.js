@@ -21,6 +21,8 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
 
     localStorage.removeItem('guyra_userdata');
     localStorage.removeItem('guyra_i18n');
+    localStorage.removeItem('guyra_levelmap');
+    localStorage.removeItem('guyra_courses');
 
     if (reload) {
       window.location.reload();
