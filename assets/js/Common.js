@@ -507,16 +507,26 @@ export function GuyraGetData(args={}) {
 }
 
 export function GuyraGetImage(image, options={}) {
+
+  if (!options.size || options.size == undefined) {
+    options.size = 32;
+  }
   
   var guyraCache = GuyraLocalStorage('get', 'guyra_cache');
   var thelink = thei18n.api_link + '?get_image=' + image + '&size=' + options.size;
+
+  var cacheExpires = new Date();
 
   if (typeof guyraCache.images != 'object') {
     guyraCache.images = {};
   }
 
-  if (!options.size) {
-    options.size = 32;
+  if (cacheExpires > guyraCache.expires) {
+
+    cacheExpires.setDate(cacheExpires.getDate() + 1);
+    guyraCache.expires = cacheExpires;
+    guyraCache.images = {};
+    
   }
 
   var imageMD5 = MD5(image + options.size);
@@ -606,12 +616,12 @@ export function randomNumber(min, max) {
 
 export function RoundedBoxHeading(props) {
 
-  var theIcon;
+  var theIcon = props.icon;
 
   if (!props.directURL) {
-    theIcon = thei18n.api_link + '?get_image=' + props.icon + '&size=128';
-  } else {
-    theIcon = props.icon;
+
+    theIcon = GuyraGetImage(props.icon, { size: 128 });
+
   }
 
   return e(

@@ -55,6 +55,7 @@ if (!$is_logged_in) {
 include_once $template_dir . '/functions/api/UserActions/Roadmap.php';
 include_once $template_dir . '/functions/api/UserActions/Notifications.php';
 include_once $template_dir . '/functions/api/UserActions/Reference.php';
+include_once $template_dir . '/functions/api/UserActions/Arcade.php';
 
 if ($_GET['i18n'] == "full")
 guyra_output_json($gi18n, true);

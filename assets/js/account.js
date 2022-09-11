@@ -8,6 +8,7 @@ import {
   Guyra_InventoryItem,
   GuyraParseDate,
   GuyraLocalStorage,
+  GuyraGetImage,
   RoundedBoxHeading,
   PaymentItem,
   validatePhoneNumber,
@@ -338,7 +339,7 @@ function AccountPayment_cancelPlan(props) {
       e(
         'span',
         { className: 'd-inline m-auto' },
-        e('img', { className: 'page-icon large', alt: i18n.upload, src: i18n.api_link + '?get_image=img/break-up.png&size=256' })
+        e('img', { className: 'page-icon large', alt: i18n.upload, src: GuyraGetImage('icons/break-up.png', { size: 256 }) })
       ),
       e('span', { className: 'text-n text-start py-3' }, i18n.cancel_membership_message),
       e(
@@ -746,7 +747,7 @@ class AccountPayment extends React.Component {
             e('h2', {}, i18n.payment_processor_warning[0]),
             e('img', {
               alt: thei18n.payment,
-              src: thei18n.api_link + '?get_image=icons/lock.png&size=64'
+              src: GuyraGetImage('icons/lock.png', { size: 64 })
             }),
           ),
           e(
@@ -821,7 +822,7 @@ class AccountPayment extends React.Component {
               e('h2', {}, thei18n.subscription_donations[0] + '!'),
               e('img', {
                 alt: thei18n.payment,
-                src: thei18n.api_link + '?get_image=icons/charity.png&size=64'
+                src: GuyraGetImage('icons/charity.png', { size: 64 })
               }),
             ),
             e('div', { className: '' },
@@ -1615,7 +1616,7 @@ function AccountOptions(props) {
     e(
       'div',
       { className: 'd-flex justify-content-center mt-5' },
-      e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=img/digital-marketing.png&size=128' })
+      e('img', { className: 'page-icon medium', src: GuyraGetImage('icons/digital-marketing.png', { size: 128 }) })
     )
   );
 
@@ -1659,7 +1660,7 @@ function WhoAmI_welcome(props) {
           'img',
           {
             alt: 'learning',
-            src: thei18n.api_link + '?get_image=icons/profile.png&size=128'
+            src: GuyraGetImage('icons/profile.png', { size: 128 })
           }
         )
       )
@@ -1919,7 +1920,7 @@ function WhoAmI_buttonGroup(props) {
       e(AccountContext.Consumer, null, ({setPage}) => e(
         WhoAmI_buttonGroup_button,
         {
-          img_src: i18n.api_link + '?get_image=icons/sliders.png&size=32',
+          img_src: GuyraGetImage('icons/sliders.png'),
           value: i18n.configs,
           buttonColor: 'green',
           onClick: () => {
@@ -1932,8 +1933,16 @@ function WhoAmI_buttonGroup(props) {
         WhoAmI_buttonGroup_button,
         {
           href: i18n.faq_link,
-          img_src: i18n.api_link + '?get_image=icons/helping-hand.png&size=32',
+          img_src: GuyraGetImage('icons/helping-hand.png'),
           value: i18n.help
+        }
+      ),
+      e(
+        WhoAmI_buttonGroup_button,
+        {
+          href: thei18n.ranking_link,
+          img_src: GuyraGetImage('icons/podium.png'),
+          value: thei18n.ranking
         }
       ),
     )
@@ -1980,7 +1989,7 @@ function AccountInfo_ranking(props) {
         'h2',
         { className: 'text-blue' },
         thei18n.coins + ': ',
-        e('img', { className: 'page-icon tiny me-1', src: thei18n.api_link + '?get_image=icons/coin.png&size=64' }),
+        e('img', { className: 'page-icon tiny me-1', src: GuyraGetImage('icons/coin.png', { size: 64 }) }),
         theUserdata.gamedata['level']
       ),
       e('p', {}, thei18n.coins_explain),

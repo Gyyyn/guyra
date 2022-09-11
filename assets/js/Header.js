@@ -605,11 +605,6 @@ export class Header extends React.Component {
           onClick: () => { window.location.href = thei18n.shop_link },
           navigation: 'shop'
         }),
-        e(Header_Button, {
-          value: thei18n.ranking, image: 'icons/podium.png',
-          onClick: () => { window.location.href = thei18n.ranking_link },
-          navigation: 'ranking'
-        }),
         e(
           'div',
           { className: 'dropstart m-0 d-inline' },
@@ -675,7 +670,7 @@ export class Header extends React.Component {
                     localStorage.removeItem('guyra_i18n');
                     localStorage.removeItem('guyra_levelmap');
                     localStorage.removeItem('guyra_courses');
-                    window.location.href == thei18n.api_link + '?logout=1';
+                    window.location.href = thei18n.api_link + '?logout=1';
                   }
 
                 }

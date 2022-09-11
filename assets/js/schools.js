@@ -854,6 +854,8 @@ class Diary extends React.Component {
   AddEntry = (entry) => {
     var x = this.state.diary;
 
+    if (typeof x !== 'object') { x = {}; }
+
     if (!Array.isArray(x.entries)) {
     x.entries = [] }
 
@@ -1601,7 +1603,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
     super(props);
 
     this.state = {
-      search: ''
+      search: '',
+      clearSearch: null
     }
 
   }
@@ -1619,7 +1622,25 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
   setSearch(query) {
 
-    this.setState({ search: query.toLowerCase() });
+    var clearSearch = e(
+      'span',
+      {
+        className: 'position-absolute top-50 end-0 pe-4 cursor-pointer',
+        onClick: () => {
+          this.setSearch('');
+        }
+      },
+      e('i', { className: 'bi bi-x-lg' })
+    );
+
+    if (!query) {
+      clearSearch = null;
+    }
+
+    this.setState({
+      search: query.toLowerCase(),
+      clearSearch: clearSearch
+    });
 
   }
 
@@ -1655,7 +1676,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           e('h2', { className: 'mb-2' }, thei18n.your_students),
           e(
             'div',
-            { className: 'dialog-box mb-3' },
+            { className: 'dialog-box mb-3 position-relative' },
             thei18n.search,
             e(
               'input',
@@ -1665,8 +1686,9 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 },
                 className: 'form-control',
                 value: this.state.search
-              }
-            )
+              },
+            ),
+            this.state.clearSearch
           ),
           Object.values(user_list).map((user) => {
 

@@ -23,6 +23,7 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
     localStorage.removeItem('guyra_i18n');
     localStorage.removeItem('guyra_levelmap');
     localStorage.removeItem('guyra_courses');
+    localStorage.removeItem('guyra_cache');
 
     if (reload) {
       window.location.reload();
