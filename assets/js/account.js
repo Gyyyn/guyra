@@ -16,8 +16,9 @@ import {
   randomNumber,
   calculateOverdueFees,
   formataCPF
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
+import { Ranking } from '%getjs=Ranking.js%end';
+import { Faq } from '%getjs=faq.js%end';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -74,7 +75,6 @@ function Account_BackButton(props) {
         className: 'btn-tall blue round-border',
         onClick: () => {
           setPage(props.page);
-          window.location.hash = '';
         }
       },
       e('i', { className: 'bi bi-arrow-90deg-left' }),
@@ -331,7 +331,7 @@ function AccountPayment_cancelPlan(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'justfade-animation animate' },
-    e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountPayment) })),
+    e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountPayment })),
     e(
       'div',
       { className: 'd-flex flex-column justify-content-center dialog-box my-5 p-3', id: "cancel-membership-step1" },
@@ -379,41 +379,48 @@ function AccountPayment_cancelPlan(props) {
           e('option', { value: 'better_place' }, thei18n.cancel_membership_better_place),
         ),
       ),
-      e(
+      e(AccountContext.Consumer, null, ({setPage}) => e(
         'button',
         {
           className: 'btn-tall green me-3',
           onClick: () => {
-            window.location.href = thei18n.home_link;
+            setPage(AccountWrapper);
           } 
         },
         e('i', { className: 'me-2 bi-heart-fill' }),
         thei18n.cancel_membership_changedmymind
-      ),
+      )),
       e(
         'button',
         {
           className: 'btn-tall',
           onClick: (e) => {
 
-            var before = e.target.innerHTML;
-            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+            reactOnCallback(e, () => {
 
-            var cancelReason = document.getElementById('cancel-reason').value;
+              return new Promise((resolve, reject) => {
 
-            fetch(i18n.api_link + '?cancel_membership=1&cancel_reason=' + cancelReason)
-            .then(res => res.json())
-            .then(res => {
-              if (typeof res === 'string') {
-                res = JSON.parse(res);
-              }
-              if (res.status == 'cancelled') {
-                e.target.innerHTML = before;
-                window.location.href = i18n.account_link;
-              } else {
-                console.error(res);
-              }
-            })
+                var cancelReason = document.getElementById('cancel-reason').value;
+
+                fetch(i18n.api_link + '?cancel_membership=1&cancel_reason=' + cancelReason)
+                .then(res => res.json())
+                .then(res => {
+
+                  if (typeof res === 'string') {
+                    res = JSON.parse(res);
+                  }
+                  if (res.status == 'cancelled') {
+                    resolve(window.location.reload());
+                  } else {
+                    resolve(false);
+                  }
+
+                });
+                
+              });
+
+            });
+
           }
         },
         e('i', { className: 'me-2 bi-heartbreak' }),
@@ -464,7 +471,7 @@ function AccountPayment_yourPlan(props) {
           {
             className: 'btn-tall btn-sm trans',
             onClick: () => {
-              setPage(e(AccountPayment_cancelPlan));
+              setPage(AccountPayment_cancelPlan);
             }
           },
           thei18n.cancel_membership
@@ -681,7 +688,7 @@ class AccountPayment extends React.Component {
 
             if (response.status == 'authorized') {
               submitButton.innerHTML = '<i class="bi bi-lock-fill"></i>';
-              window.location.href = thei18n.account_link;
+              window.location.reload();
             } else {
               if (response.status) {
                 setMessageBox(thei18n['payments_status_' + response.status]);
@@ -785,7 +792,7 @@ class AccountPayment extends React.Component {
       {
         className: 'justfade-animation animate account-payment'
       },
-      e('div', { className: 'd-block' }, e(Account_BackButton, { page: e(AccountOptions) })),
+      e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountOptions })),
       e(AccountContext.Consumer, null, ({i18n}) => e(
         RoundedBoxHeading,
         { value: i18n.subscription, icon: 'icons/credit-card.png' }
@@ -882,7 +889,7 @@ function AccountOptions_changePassword(props) {
           ),
         ),
       ),
-      e(Account_BackButton, { page: e(AccountOptions) }),
+      e(Account_BackButton, { page: AccountOptions }),
       e(AccountContext.Consumer, null, ({setPage}) => e(
         'button',
         {
@@ -1089,8 +1096,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
           'button',
           {
             onClick: () => {
-              setPage(e(AccountOptions_changePassword));
-              window.location.hash = '#changepassword';
+              setPage(AccountOptions_changePassword);
             },
             className: 'btn-tall btn-sm blue'
           },
@@ -1228,8 +1234,7 @@ function AccountOptions_profileDetails(props) {
             {
               className: 'btn-tall btn-sm green',
               onClick: () => {
-                setPage(e(AccountPayment));
-                window.location.hash = '#payment';
+                setPage(AccountPayment);
               }
             },
             thei18n.manage_your_plan,
@@ -1387,7 +1392,39 @@ function AccountOptions_GeneralOptions(props) {
 
           }
         }
-      )
+      ),
+      e(
+        Slider,
+        {
+          dom_id: 'darkmode-checkbox',
+          checked: localOptions.darkmode,
+          value: e(
+            'span',
+            { className: 'position-relative' },
+            e(
+              'span',
+              { className: 'badge bg-primary me-2' },
+              'BETA'
+            ),
+            'Habilitar modo noturno',
+          ),
+          onClick: () => {
+
+            localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+            var checkbox = document.getElementById('darkmode-checkbox');
+            checkbox.checked = !checkbox.checked;
+
+            localOptions.darkmode = checkbox.checked;
+
+            var html = document.querySelector("html");
+            html.classList.toggle('dark-mode');
+
+            GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+          }
+        }
+      ),
     )
   ];
 }
@@ -1610,7 +1647,7 @@ function AccountOptions(props) {
     e(
       'div',
       { className: 'd-flex w-100 my-3' },
-      e(Account_BackButton, { page: e(AccountWrapper) })
+      e(Account_BackButton, { page: AccountWrapper })
     ),
     e(AccountOptions_profileDetails),
     e(
@@ -1743,16 +1780,16 @@ function WhoAmI_openPayments_paymentItem(props) {
       ' + ',
       'R$' + overdueExtra + ' ',
       thei18n.overdue_fees.toLowerCase(),
-      e(
+      e(AccountContext.Consumer, null, ({appSetPage}) => e(
         'button',
         {
           className: 'btn',
           onClick: () => {
-            window.location.href = thei18n.faq_link + '#late_payment';
+            appSetPage(Faq);
           }
         },
         e('i', { className: 'bi bi-question-circle text-blue-darker' })
-      ),
+      )),
       ')'
     );
     
@@ -1761,7 +1798,7 @@ function WhoAmI_openPayments_paymentItem(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'payments-pay justfade-animation animate' },
-    e(Account_BackButton, { page: e(AccountWrapper) }),
+    e(Account_BackButton, { page: AccountWrapper }),
     e(
       'div',
       { className: 'payment-item row mt-3' },
@@ -1866,7 +1903,7 @@ function WhoAmI_openPayments(props) {
           due: item.due,
           value: item.value,
           onClick: () => {
-            setPage(e(WhoAmI_openPayments_paymentItem, { item: item }))
+            setPage(WhoAmI_openPayments_paymentItem, { item: item })
           }
         }))
       );
@@ -1924,27 +1961,26 @@ function WhoAmI_buttonGroup(props) {
           value: i18n.configs,
           buttonColor: 'green',
           onClick: () => {
-            setPage(e(AccountOptions));
-            window.location.hash = '#options';
+            setPage(AccountOptions);
           },
         }
       )),
-      e(
+      e(AccountContext.Consumer, null, ({appSetPage}) => e(
         WhoAmI_buttonGroup_button,
         {
-          href: i18n.faq_link,
+          onClick: () => { appSetPage(Faq, { i18n: i18n }) },
           img_src: GuyraGetImage('icons/helping-hand.png'),
           value: i18n.help
         }
-      ),
-      e(
+      )),
+      e(AccountContext.Consumer, null, ({appSetPage}) => e(
         WhoAmI_buttonGroup_button,
         {
-          href: thei18n.ranking_link,
+          onClick: () => { appSetPage(Ranking, { i18n: i18n }) },
           img_src: GuyraGetImage('icons/podium.png'),
           value: thei18n.ranking
         }
-      ),
+      )),
     )
   ));
 }
@@ -2047,7 +2083,7 @@ function AccountInfo_Inventory(props) {
   return e(
     'div',
     { className: 'account-inventory' },
-    e(Account_BackButton, { page: e(AccountWrapper) }),
+    e(Account_BackButton, { page: AccountWrapper }),
     e(
       'div',
       { className: 'd-flex flex-row justify-content-between flex-wrap py-3' },
@@ -2097,7 +2133,7 @@ function AccountInfo(props) {
                   {
                     className: 'btn-tall btn-sm green',
                     onClick: () => {
-                      setPage(e(AccountInfo_Inventory));
+                      setPage(AccountInfo_Inventory);
                     }
                   },
                   thei18n.see_more,
@@ -2693,7 +2729,7 @@ function LostPassword(props) {
     e(
       'div',
       { className: 'col-md form-control p-5' },
-      e(Account_BackButton, { page: e(Login) }),
+      e(Account_BackButton, { page: Login }),
       e(
         'div',
         { className: 'my-3'},
@@ -2753,58 +2789,90 @@ function LostPassword(props) {
   ));
 }
 
-class Account extends React.Component {
+export class Account extends React.Component {
   constructor(props) {
     super(props);
 
     this.userdata = {};
 
-    this.setPage = (page) => {
-      this.setState({
-        page: page
-      });
+    this.subpages = {
+      options: AccountOptions,
+      payment: AccountPayment,
+      payment_cancel: AccountPayment_cancelPlan,
+      change_password: AccountOptions_changePassword,
+      inventory: AccountInfo_Inventory
     }
 
     this.state = {
-      page: e(LoadingPage),
-      setPage: this.setPage
+      page: LoadingPage,
+      pages: this.subpages,
+      setPage: this.setPage,
+      appSetPage: this.props.setPage
     };
 
   }
 
+  setPage = (page, props) => {
+
+    var pageTitles = Object.keys(this.state.pages);
+    var pages = Object.values(this.state.pages);
+    var title = pages.indexOf(page);
+    title = pageTitles[title];
+
+    if (!title) {
+      
+      document.body.dataset.nests = 'account';
+      window.history.pushState({ route: 'account' },"", thei18n.account_link);
+
+    } else  {
+
+      document.body.dataset.nests = 'account/' + title;
+      window.history.pushState({ route: 'account' },"", thei18n.account_link + '/' + title);
+
+    }
+
+    if (!props) {
+    props = {}; }
+
+    this.setState({
+      page: e(page, props)
+    });
+  }
+
   getStartingPage(is_logged_in=true) {
 
-    var decision = e(AccountWrapper);
+    var decision = AccountWrapper;
+    var subroute = document.body.dataset.nests.split('/')[1];
 
-    if (window.location.hash == '#options') {
-      decision = e(AccountOptions);
+    if (subroute == 'options') {
+      decision = AccountOptions;
     }
 
-    if (window.location.hash == '#payment') {
-      decision = e(AccountPayment);
+    if (subroute == 'payment') {
+      decision = AccountPayment;
     }
 
-    if (window.location.hash == '#changepassword') {
-      decision = e(AccountOptions_changePassword);
+    if (subroute == 'changepassword') {
+      decision = AccountOptions_changePassword;
     }
 
-    if (window.location.hash == '#inventory') {
-      decision = e(AccountInfo_Inventory);
+    if (subroute == 'inventory') {
+      decision = AccountInfo_Inventory;
     }
 
     if (!is_logged_in) {
-      decision = e(Login);
+      decision = Login;
     }
 
-    if (!is_logged_in && window.location.hash == '#register') {
-      decision = e(Register);
+    if (!is_logged_in && subroute == 'register') {
+      decision = Register;
     }
 
-    if (!is_logged_in && window.location.hash == '#lostpassword') {
-      decision = e(LostPassword);
+    if (!is_logged_in && subroute == 'lostpassword') {
+      decision = LostPassword;
     }
 
-    return decision;
+    return e(decision, { appSetPage: this.props.setPage });
   }
 
   componentWillMount() {
@@ -2839,9 +2907,8 @@ class Account extends React.Component {
     }
 
     return e(
-      'main',
+      'div',
       { className: 'squeeze' },
-      e(Header),
       e(
         'div',
         { className: wrapperClass },
@@ -2849,9 +2916,4 @@ class Account extends React.Component {
       )
     );
   };
-}
-
-
-if(document.getElementById('account-container')) {
-  ReactDOM.render(e(Account), document.getElementById('account-container'));
 }

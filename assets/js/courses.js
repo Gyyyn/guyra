@@ -4,8 +4,7 @@ import {
   GuyraLocalStorage,
   thei18n,
   LoadingPage
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 // Youtube Embed stuff
 var tag = document.createElement('script');
@@ -31,21 +30,41 @@ class YoutubeEmbed extends React.Component {
     }
   }
 
+  componentWillMount() {
+    if (player) {
+      player.destroy();
+    }
+  }
+
   componentDidMount() {
 
     var theVideoId = this.props.videoId;
-    player = new YT.Player('youtube-player', {
-      videoId: theVideoId,
-      height: '480',
-      width: '100%',
-      playerVars: {
-        'playsinline': 1
-      },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
+    var loadPlayer = () => {
+
+      var player = new YT.Player('youtube-player', {
+        videoId: theVideoId,
+        height: '480',
+        width: '100%',
+        playerVars: {
+          'playsinline': 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+
+      return player;
+
+    }
+
+    if (document.readyState !== 'complete') {
+      window.onload = () => {
+        player = loadPlayer();  
       }
-    });
+    } else {
+      player = loadPlayer();
+    }
 
     function onPlayerReady(event) {
       event.target.playVideo();
@@ -108,7 +127,11 @@ class YoutubeEmbed extends React.Component {
   }
 
   componentWillUnmount() {
-    player.destroy();
+
+    if (player) {
+      player.destroy();  
+    }
+
   }
 
   render() {
@@ -124,6 +147,10 @@ class YoutubeEmbed extends React.Component {
 
 function returnButton(props) {
 
+  if (!props.props) {
+    props.props = {};
+  }
+
   return e(
     'div',
     {},
@@ -133,11 +160,7 @@ function returnButton(props) {
         id: 'back-button',
         className: 'btn-tall blue round-border',
         onClick: () => {
-          setPage(props.page);
-
-          if (props.set_hash !== undefined) {
-            window.location.hash = props.set_hash;
-          }
+          setPage(props.page, props.props);
         }
       },
       e('i', { className: 'bi bi-arrow-90deg-left' }),
@@ -154,11 +177,9 @@ function previousVideoButton(props) {
     {
       className: 'btn-tall',
       onClick: () => {
-        setPage(e(CourseVideo, props));
-        window.location.hash = props.video.resourceId.videoId;
-        if (player != undefined) {
-          player.loadVideoById(props.video.resourceId.videoId);
-        }
+
+        setPage(CourseVideo, props);
+        
       }
     },
     e('i', { className: 'bi bi-arrow-left me-1' }),
@@ -174,11 +195,7 @@ function nextVideoButton(props) {
     {
       className: 'btn-tall green',
       onClick: () => {
-        setPage(e(CourseVideo, props));
-        window.location.hash = props.video.resourceId.videoId;
-        if (player != undefined) {
-          player.loadVideoById(props.video.resourceId.videoId);
-        }
+        setPage(CourseVideo, props);
       }
     },
     e('span', null, i18n.next_video),
@@ -255,15 +272,13 @@ function CourseVideo(props) {
           'div',
           { className: 'd-flex flex-column flex-md-row justify-content-between py-3' },
           e(returnButton, {
-            page: e(
-              CourseVideoList,
-              {
-                course: props.course,
-                title: props.courseTitle,
-                desc: props.courseDesc,
-                course_key: props.course_key
-              }
-            ),
+            page: CourseVideoList,
+            props: {
+              course: props.course,
+              title: props.courseTitle,
+              desc: props.courseDesc,
+              course_key: props.course_key
+            },
             set_hash: props.course_key
           }),
           e('div', { className: 'mt-5 mt-md-0' }, controlArea)
@@ -286,19 +301,16 @@ function CourseChooserLevel(props) {
     {
       className: 'card hoverable my-3 my-md-5 mx-auto mx-md-0',
       onClick: () => {
-        setPage(
-          e(CourseVideo,
-            {
-              video: props.item,
-              course: props.course,
-              courseTitle: props.courseTitle,
-              courseDesc: props.courseDesc,
-              course_key: props.course_key,
-              number: props.number
-            })
+        setPage(CourseVideo,
+          {
+            video: props.item,
+            course: props.course,
+            courseTitle: props.courseTitle,
+            courseDesc: props.courseDesc,
+            course_key: props.course_key,
+            number: props.number
+          }
         );
-
-        window.location.hash = props.item.resourceId.videoId;
       }
     },
 
@@ -380,7 +392,7 @@ class CourseVideoList extends React.Component {
       e(
         'div',
         { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
-        e(returnButton, { page: e(CourseChooser), set_hash: '' }),
+        e(returnButton, { page: CourseChooser, set_hash: '' }),
         e('h2', { className: 'mt-3 mt-md-0' }, this.props.title)
       ),
       e(
@@ -402,17 +414,14 @@ function CourseListButton(props) {
       className: 'card hoverable d-inline-flex align-items-center flex-row p-3 m-3',
       onClick: () => {
 
-        setPage(
-          e(CourseVideoList,
-            {
-              title: props.title,
-              desc: props.desc,
-              course: props.course,
-              course_key: props.course_key
-            })
+        setPage(CourseVideoList,
+          {
+            title: props.title,
+            desc: props.desc,
+            course: props.course,
+            course_key: props.course_key
+          }
         );
-
-        window.location.hash = props.course_key;
 
       },
     },
@@ -461,12 +470,18 @@ function CourseChooser(props) {
 
 }
 
-class Courses extends React.Component {
+export class Courses extends React.Component {
   constructor(props) {
     super(props);
 
+    this.subpages = {
+      course: CourseVideoList,
+      video: CourseVideo
+    }
+
     this.state = {
       page: e(LoadingPage),
+      pages: this.subpages,
       coursesObject: {},
       setPage: this.setPage,
     };
@@ -481,7 +496,10 @@ class Courses extends React.Component {
         i18n: res.i18n,
         userdata: res.userdata,
         coursesObject: res.courses,
-        page: this.decideStartingPage(),
+      }, () => {
+        this.setState({
+          page: this.decideStartingPage(),
+        });
       });
 
     });
@@ -490,8 +508,14 @@ class Courses extends React.Component {
 
   decideStartingPage() {
 
-    var hash = window.location.hash;
-    hash = hash.slice(1);
+    var nests = document.body.dataset.nests.split('/');
+    var hash;
+
+    if (nests.length >= 2) {
+      hash = nests[1];
+    }
+
+
     var hashLoadPage = false;
     var hashLoadType = false;
 
@@ -506,9 +530,13 @@ class Courses extends React.Component {
 
       var theItem = JSON.parse(item.contents);
       var theItemKey = Object.keys(this.state.coursesObject)[i];
+      var videoId = nests[2];
+
+      if (!theItem) {
+      return; }
 
       theItem.items.forEach((item, i) => {
-        if (item.snippet.resourceId.videoId == hash) {
+        if (item.snippet.resourceId.videoId == videoId) {
           hashLoadPage = {
             video: item.snippet,
             course: theItem,
@@ -546,25 +574,53 @@ class Courses extends React.Component {
 
   }
 
-  setPage = (page) => {
+  setPage = (page, props) => {
+
+    var route = document.body.dataset.route;
+
+    var pageTitles = Object.keys(this.state.pages);
+    var pages = Object.values(this.state.pages);
+    var title = pages.indexOf(page);
+
+    if (title !== -1) {
+      title = pageTitles[title];
+    }
+
     this.setState({
-      page: page,
+      page: e(page, props),
+    }, () => {
+
+      if (title == 'video') {
+
+        if (player != undefined && player.loadVideoById) {
+          player.loadVideoById(props.video.resourceId.videoId);  
+        }
+
+        route = route + '/' + props.course_key + '/' + props.video.resourceId.videoId;
+
+      } else if (title == 'course') {
+
+        if (props.course_key) {
+          route = route + '/' + props.course_key
+        }
+
+      }
+
+      window.history.pushState({ route: title },"", thei18n.home_link + '/' + route);
+
+      window.scrollTo(0, 0);
+
     });
-    window.scrollTo(0, 0);
+    
   }
 
   render() {
     return e(
-      'main',
+      'div',
       { className: 'squeeze' },
-      e(Header),
       e('div', { className: 'courses-squeeze rounded-box p-0' },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)
       )
     )
   };
-}
-
-if(document.getElementById('courses-container')) {
-  ReactDOM.render(e(Courses), document.getElementById('courses-container'));
 }

@@ -6,9 +6,9 @@ import {
     LoadingPage,
     GuyraParseDate,
     RoundedBoxHeading,
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { RenderCalendar } from '%template_url/assets/js/Calendar.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
+import { Header } from '%getjs=Header.js%end';
+import { RenderCalendar } from '%getjs=Calendar.js';
   
 const UserContext = React.createContext();
 

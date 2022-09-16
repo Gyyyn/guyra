@@ -2,12 +2,12 @@ import {
   e,
   RoundedBoxHeading,
   GuyraGetData,
+  GuyraFetchData,
   thei18n,
   theUserdata,
   LoadingPage,
   Guyra_InventoryItem
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const ShopContext = React.createContext();
 
@@ -240,21 +240,35 @@ class Shop_ItemList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.catSearch = '';
-
-    if (window.location.hash) {
-      this.catSearch = window.location.hash.split('#')[1];
-    }
-
     this.state = {
-      search: '',
-      catSearch: this.catSearch
+      catSearch: ''
+    };
+
+  }
+
+  componentDidMount() {
+
+    var nests = document.body.dataset.nests.split('/');
+
+    if (nests.length >= 2) {
+      this.setCatSearch(nests[1]);
     }
+
   }
 
   setCatSearch(cat) {
 
-    window.location.hash = cat;
+    if (cat) {
+
+      document.body.dataset.nests = 'shop/' + cat;
+      window.history.pushState({ route: 'shop' },"", thei18n.shop_link + '/' + cat);
+      
+    } else {
+
+      document.body.dataset.nests = 'shop';
+      window.history.pushState({ route: 'shop' },"", thei18n.shop_link);
+
+    }
 
     this.setState({
       catSearch: cat
@@ -452,7 +466,7 @@ class Shop_wrapper extends React.Component {
 
 }
 
-class Shop extends React.Component {
+export class Shop extends React.Component {
   constructor(props) {
     super(props);
 
@@ -470,13 +484,11 @@ class Shop extends React.Component {
 
     GuyraGetData().then(res => {
 
-      fetch(thei18n.api_link + '?fetch_shop_items=1')
-      .then(res => res.json())
-      .then(res => {
-
+      GuyraFetchData({}, 'api?fetch_shop_items=1', 'guyra_shop', 1440).then(res => {
+        
         this.setState({
           shopObject: res,
-          page: this.decideStartingPage(),
+          page: e(Shop_wrapper),
           userdata: theUserdata,
           i18n: thei18n
         });
@@ -484,15 +496,6 @@ class Shop extends React.Component {
       });
 
     });
-
-  }
-
-  decideStartingPage() {
-
-    var hash = window.location.hash;
-    hash = hash.slice(1);
-
-    return e(Shop_wrapper);
 
   }
 
@@ -514,7 +517,6 @@ class Shop extends React.Component {
     return e(
       'div',
       { className: 'shop-squeeze ' + this.state.squeezeType },
-      e(Header),
       e(
         'div',
         { className: 'rounded-box justfade-animation animate' },
@@ -522,8 +524,5 @@ class Shop extends React.Component {
       )
     );
   };
-}
 
-if(document.getElementById('shop-container')) {
-  ReactDOM.render(e(Shop), document.getElementById('shop-container'));
 }

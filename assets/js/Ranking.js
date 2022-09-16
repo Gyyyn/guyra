@@ -4,17 +4,16 @@ import {
   thei18n,
   RoundedBoxHeading,
   LoadingPage
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const RankingContext = React.createContext();
 
 function Ranking_Wrapper(props) {
-  return  e(RankingContext.Consumer, null, ({i18n, ranking_list}) => e(
+  return e(
     'div',
     { className: 'ranking-squeeze' },
-    e(RoundedBoxHeading, { icon: 'icons/podium.png', value: i18n.ranking }),
-    Object.values(ranking_list).map((list_item, i) => {
+    e(RoundedBoxHeading, { icon: 'icons/podium.png', value: props.i18n.ranking }),
+    Object.values(props.ranking_list).map((list_item, i) => {
 
       var cardExtraValues = '';
       var rankingSize = 'small';
@@ -75,10 +74,10 @@ function Ranking_Wrapper(props) {
         )
       );
     })
-  ));
+  );
 }
 
-class Reference extends React.Component {
+export class Ranking extends React.Component {
   constructor(props) {
     super(props);
 
@@ -86,7 +85,7 @@ class Reference extends React.Component {
       page: e(LoadingPage),
       setPage: this.setPage,
       ranking_list: {},
-      i18n: {},
+      i18n: this.props.i18n,
     };
 
   }
@@ -95,17 +94,13 @@ class Reference extends React.Component {
 
     GuyraGetData().then(res => {
 
-      this.setState({
-        i18n: res.i18n,
-      });
-
       fetch(thei18n.api_link + '?get_ranking_page=1')
       .then(res => res.json())
       .then(json => {
 
         this.setState({
           ranking_list: json,
-          page: e(Ranking_Wrapper)
+          page: e(Ranking_Wrapper, { ranking_list: json, i18n: this.props.i18n })
         });
 
       });
@@ -121,19 +116,14 @@ class Reference extends React.Component {
   }
 
   render() {
-    return e(RankingContext.Provider, { value: this.state }, e(
+    return e(
       'div',
       { className: 'ranking-wrapper squeeze-big mt-0'},
-      e(Header),
       e(
         'div',
         { className: 'rounded-box' },
         this.state.page
       )
-    ));
+    );
   };
-}
-
-if(document.getElementById('ranking-container')) {
-  ReactDOM.render(e(Reference), document.getElementById('ranking-container'));
 }

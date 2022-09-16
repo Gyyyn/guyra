@@ -45,10 +45,15 @@ if ($_GET['get_game']) {
 if ($_GET['transact_game']) {
   
   $game_type = $_GET['transact_game'];
+  $action = $_GET['action'];
 
   if ($game_type == 'wordle') {
-    
-    Guyra_decrease_user_level($current_user_id, 1);
+
+    if ($action == 'win') {
+      Guyra_increase_user_level($current_user_id, 5);
+    } else {
+      Guyra_decrease_user_level($current_user_id, 1);
+    }
 
     guyra_output_json('true', true);
 

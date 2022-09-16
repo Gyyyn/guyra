@@ -6,8 +6,7 @@ import {
   thei18n,
   LoadingPage,
   checkForTranslatables,
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const ReferenceContext = React.createContext();
 
@@ -1156,7 +1155,7 @@ function Reference_Topbar(props) {
   ));
 }
 
-class Reference extends React.Component {
+export class Reference extends React.Component {
   constructor(props) {
     super(props);
 
@@ -1258,22 +1257,15 @@ class Reference extends React.Component {
   }
 
   render() {
-    return e(ReferenceContext.Provider, { value: this.state },  e(
-      'main',
-      { className: '' },
-      e(Header),
-      e('div', { className: 'reference-squeeze squeeze' },
-        e(
-          'div',
-          { className: 'rounded-box pt-2' },
-          this.state.topBar,
-          this.state.page
-        )
-      )
-    ));
+    return e(ReferenceContext.Provider, { value: this.state }, e(
+    'div',
+    { className: 'reference-squeeze squeeze' },
+    e(
+      'div',
+      { className: 'rounded-box pt-2' },
+      this.state.topBar,
+      this.state.page
+    )
+  ));
   };
-}
-
-if(document.getElementById('reference-container')) {
-  ReactDOM.render(e(Reference), document.getElementById('reference-container'));
 }

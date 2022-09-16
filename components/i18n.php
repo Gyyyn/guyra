@@ -21,8 +21,8 @@ function FetchBrowserLangs() {
 $i18n_links = [
 	'guyra_version' => GUYRA_VERSION,
 	'home_link' => $site_url,
+	'landing_link' => $site_url . '/Landing',
 	'api_link' => $site_api_url,
-	'blog_link' => $site_url . '/blog',
 	'practice_link' => $site_url . '/practice',
 	'courses_link' => $site_url . '/courses',
 	'account_link' => $site_url . '/account',

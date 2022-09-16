@@ -10,6 +10,30 @@ require_once $template_dir . '/vendor/autoload.php';
 use MatthiasMullie\Minify;
 use Intervention\Image\ImageManager;
 
+function DynSANDROn(string $file, string $search_start, string $search_end, $and_do) {
+
+  while ($start !== false) {
+    
+    $start = strpos($file, $search_start);
+
+    if (!$start)
+    break;
+    
+    $end = strpos($file, $search_end);
+    $sublength = ($end - $start) + strlen($search_end);
+    $sub = substr($file, $start, $sublength);
+
+    $getfile = str_replace($search_start, '', $sub);
+    $getfile = str_replace($search_end, '', $getfile);
+
+    $file = str_replace($sub, $and_do($getfile), $file);
+
+  }
+
+  return $file;
+
+}
+
 function GetMinifiedAsset($assetFolder, $assetFile, $inline=false, $raw=false) {
 
   if ($assetFolder != 'js' && $assetFolder != 'css' && $assetFolder != 'json') {
@@ -63,7 +87,16 @@ function GetMinifiedAsset($assetFolder, $assetFile, $inline=false, $raw=false) {
     if (!$raw) {
 
       if ($assetFolder == 'js') {
+
+        $object = DynSANDROn($object, '%getjs=', '%end', function($getfile) {
+
+          $r = GetMinifiedAsset('js', $getfile);
+
+          return $r;
+        });
+
         $objectMinified = new Minify\JS($object);
+
       } elseif ($assetFolder == 'css') {
         $objectMinified = new Minify\CSS($object);
       }

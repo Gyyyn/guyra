@@ -3,8 +3,7 @@ import {
   GuyraGetData,
   thei18n,
   LoadingPage,
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const HelpContext = React.createContext();
 
@@ -239,7 +238,7 @@ function Help_Wrapper(props) {
   ];
 }
 
-class Help extends React.Component {
+export class Help extends React.Component {
   constructor(props) {
     super(props);
 
@@ -271,13 +270,10 @@ class Help extends React.Component {
   }
 
   render() {
-    return e(HelpContext.Provider, { value: this.state },
-      e(Header),
+    return e(HelpContext.Provider, { value: this.state }, e(
+      'div',
+      { className: 'rounded-box squeeze help' },
       this.state.page
-    );
+    ));
   };
-}
-
-if(document.getElementById('help-container')) {
-  ReactDOM.render(e(Help), document.getElementById('help-container'));
 }

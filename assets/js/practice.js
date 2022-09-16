@@ -1,5 +1,6 @@
 import {
   e,
+  GuyraFetchData,
   GuyraGetData,
   GuyraLocalStorage,
   thei18n,
@@ -9,8 +10,7 @@ import {
   randomNumber,
   vibrate,
   PopUp
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const { useEffect } = React;
 var fakeClick;
@@ -484,7 +484,7 @@ function AnswerButtonProper(props) {
     'button',
     {
       type: 'button',
-      className: 'btn-tall trans ' + props.extraClass,
+      className: 'btn-tall trans mb-2 me-2' + props.extraClass,
       onClick: theOnclick
     },
     value
@@ -1163,6 +1163,37 @@ function BuyMoreUnits(props) {
   ));
 }
 
+function UnitHint(props) {
+
+  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, i18n}) => {
+
+    return e(
+      'div',
+      { className: 'fade-animation animate' },
+      e('h1', { className: 'text-blue' }, i18n.before_you_start),
+      e('h2', { className: '' }, props.hint.title),
+      e(
+        'div',
+        { className: 'markdown mb-5' },
+        window.HTMLReactParser(marked.parse(props.hint.contents)),
+      ),
+      e(
+        'button',
+        {
+          className: 'btn-tall blue',
+          onClick: () => {
+            loadExerciseJSON(props.level, props.id);
+          }
+        },
+        thei18n.continue,
+        e('i', { className: 'bi bi-arrow-right ms-2' }),
+      )
+    )
+
+  });
+  
+}
+
 function LevelChooserButton(props) {
 
   var buttonExtraClass = ' overpop-animation animate';
@@ -1171,7 +1202,7 @@ function LevelChooserButton(props) {
     buttonExtraClass = ' disabled';
   }
 
-  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage}) => {
+  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage, hints}) => {
 
     return e(
       'div',
@@ -1190,8 +1221,14 @@ function LevelChooserButton(props) {
               return;
             }
 
+            var thisUnitsHint = hints[props.values.id];
+
+            if (thisUnitsHint) {
+              setPage(e(UnitHint, { level: props.level, id: props.values.id, hint: thisUnitsHint }));
+              return;
+            }
+
             loadExerciseJSON(props.level, props.values.id);
-            window.location.hash = props.values.id;
     
           }
         },
@@ -1262,7 +1299,6 @@ function returnToLevelMapButton(props) {
       onClick: () => {
         reset();
         setPage(e(LevelChooser));
-        window.location.hash = '';
 
         // Re-add UI.
         document.querySelector('footer').classList.add('d-md-flex');
@@ -1739,6 +1775,12 @@ export class Exercises extends React.Component {
 
   componentWillMount() {
 
+    GuyraFetchData({}, 'api?fetch_exercise_hints=1', 'guyra_hints', 1440).then(res => {
+      this.setState({
+        hints: res
+      });
+    });
+
     GuyraGetData().then(res => {
 
       this.usermeta = res.userdata.gamedata;
@@ -1751,8 +1793,8 @@ export class Exercises extends React.Component {
 
       fakeClick = new Audio(thei18n.audio_link + 'click.mp3');
 
-      var hash = window.location.hash;
-      hash = hash.slice(1);
+      var hash = document.body.dataset.nests.split('/');
+      hash = hash[1];
       var loadHashUnit = false;
 
       this.setState({
@@ -2469,6 +2511,8 @@ export class Exercises extends React.Component {
 
   loadExerciseJSON = (level, id) => {
 
+    window.history.pushState({ route: 'practice' },"", this.state.i18n.practice_link + '/' + id);
+
     this.setState({
       page: e(LoadingPage),
     });
@@ -2532,6 +2576,9 @@ export class Exercises extends React.Component {
   }
 
   reset = () => {
+
+    window.history.pushState({ route: 'practice' },"", this.state.i18n.practice_link);
+    
     this.ExerciseObject = [];
     this.currentQuestion = 0;
     this.score = 100;
@@ -2540,22 +2587,18 @@ export class Exercises extends React.Component {
     this.disallowCandyOn = [];
 
     this.setState(this.initialState);
+
   }
 
   render() {
 
-    return e(
-      'main',
-      { className: '' },
-      e(Header),
-      e('div', { className: 'exercise-fullscreen' },
-        e(
-          'div',
-          { className: 'exercise-squeeze' },
-          e(ExerciseContext.Provider, { value: this.state }, this.state.page)
-        )
-      )
-    );
+    return e('div', { className: 'exercise-fullscreen' },
+    e(
+      'div',
+      { className: 'exercise-squeeze' },
+      e(ExerciseContext.Provider, { value: this.state }, this.state.page)
+    )
+  );
   };
 }
 

@@ -2,12 +2,10 @@ import {
   e,
   GuyraGetData,
   GuyraLocalStorage,
-  GuyraGetImage,
   thei18n,
-  theUserdata,
   LoadingPage,
   dragElement
-} from './Common.js?ver=4';
+} from '%getjs=Common.js%end';
 
 export class PersistentMeeting extends React.Component {
   constructor(props) {
@@ -158,68 +156,6 @@ export class PersistentMeeting extends React.Component {
   }
 }
 
-function Header_buttonImage(props) {
-
-  var link = props.image;
-  var className = 'page-icon tiny';
-
-  if (!props.image_direct) {
-    link = GuyraGetImage(props.image, { size: 32 });
-  }
-
-  if (props.invert_image) {
-    className += ' ms-2';
-  } else { className += ' me-2'; }
-
-  if (props.avatar) {
-    className += ' avatar';
-  }
-
-  return e(
-    'span',
-    { className: 'menu-icon' },
-    e('img',
-      { className: className, src: link }
-    )
-  );
-}
-
-function Header_Button(props) {
-
-  var imageE = null;
-  var buttonClassExtra = '';
-
-  if (document.body.classList[2] == props.navigation) {
-    buttonClassExtra += ' active mx-1';
-  }
-
-  if (props.classExtra !== undefined) {
-    buttonClassExtra = buttonClassExtra + ' ' + props.classExtra;
-  }
-
-  if (props.image !== undefined) {
-    imageE = e(Header_buttonImage, { image: props.image, image_direct: props.image_direct, invert_image: props.invert_image });
-  }
-
-  var buttonProper = [
-    imageE,
-    e('span', { className: 'value' }, props.value)
-  ];
-
-  if (props.invert_image) {
-    buttonProper = buttonProper.concat(buttonProper.shift());
-  }
-
-  return e(
-    'button',
-    { className: 'btn-tall trans' + buttonClassExtra, onClick: () => {
-      props.onClick();
-    }},
-    buttonProper
-  );
-
-}
-
 export class Notepad extends React.Component {
   constructor(props) {
     super(props);
@@ -351,355 +287,33 @@ export class Header extends React.Component {
 
   }
 
-  componentDidMount() {
-
-    setInterval(() => {
-
-      GuyraGetData().then(res => {
-
-        this.setState({
-          userdata: res.userdata,
-        }, () => {
-
-          this.setState({
-            buttons: this.buildButtons(),
-            accountCenter: this.buildAccountCenter()
-          });
-  
-        });
-
-      });
-
-    }, 10000);
-
-  }
-
   componentWillMount() {
 
-    GuyraGetData().then(res => {
-
-      this.branding = e(
-        'div',
-        { className: 'navbar-brand d-flex me-3' },
-        e(
-          'a', { className: 'text-decoration-none', href: thei18n.home_link },
-          e(
-            'span',
-            { className: 'navbar-center-title' },
-            e(
-              'img',
-              {
-                alt: thei18n.company_name,
-                width: 55,
-                height: 15,
-                className: 'mb-1',
-                src: thei18n.title_img
-              }
-            )
-          )
-        )
-      );
-
-      this.setState({
-        branding: null,
-        userdata: res.userdata,
-      }, () => {
-
-        this.setState({
-          buttons: this.buildButtons(),
-          accountCenter: this.buildAccountCenter()
-        });
-
-      })
-
-    });
-
-  }
-
-  historyBack() {
-
-    try {
-  
-      if (document.getElementById('back-button')) {
-        document.getElementById('back-button').click();
-        return;
-      }
-  
-      window.location.href = window.location.origin;
-  
-      return true;
-  
-    } catch (e) {
-  
-      return false;
-  
-    }
-  
-  }
-
-  buildButtons() {
-
-    var buttons = [];
-
-    if (this.state.userdata.is_logged_in) {
-
-      var homeValue = thei18n.study;
-      var homeIcon = 'icons/learning.png';
-
-      if (this.state.userdata.user_code) {
-        var homeValue = thei18n.students;
-        var homeIcon = 'icons/textbook.png';
-      }
-
-      buttons = [
-        e(Header_Button, {
-          value: homeValue, image: homeIcon,
-          onClick: () => { window.location.href = thei18n.home_link },
-          navigation: 'home'
-        }),
-        e(Header_Button, {
-          value: thei18n.practice, image: 'icons/target.png',
-          onClick: () => { window.location.href = thei18n.practice_link },
-          navigation: 'practice'
-        }),
-        e(Header_Button, {
-          value: thei18n.courses, image: 'icons/online-learning.png',
-          onClick: () => { window.location.href = thei18n.courses_link },
-          navigation: 'courses'
-        }),
-        e(Header_Button, {
-          value: thei18n.dictionary, image: 'icons/dictionary.png',
-          onClick: () => { window.location.href = thei18n.reference_link },
-          navigation: 'reference'
-        }),
-      ];
-
-    }
-
-    return buttons;
-    
-  }
-
-  buildAccountCenter() {
-
-    var accountButtons = [];
-
-    var backButton = e(
-      'button', 
-      {
-        className: 'btn text-blue',
-        type: 'button',
-        name: 'button',
-        id: 'mobile-header-back',
-        onClick: this.historyBack
-      },
-      e('i', { className: 'bi bi-chevron-left'})
-    );
-
-    if (document.body.classList[2] == 'home') {
-      backButton = null;
-    }
-
-    var topSection = e(
+    this.branding = e(
       'div',
-      { className: 'top-section' },
-      e('span', { className: 'position-absolute start-0' }, backButton),
-      e('span', { className: 'capitalize text-blue text-ss fw-bold my-2' }, document.title)
-    )
-
-    if (!this.state.userdata.is_logged_in) {
-
-      accountButtons = [
-        e(Header_Button, {
-          value: thei18n.button_login, image: 'icons/profile.png',
-          onClick: () => { window.location.href = thei18n.account_link }
-        }),
-      ];
-
-    } else {
-
-      var notifications = [];
-      var notification_counter = null;
-      var admin_buttons = [];
-
-      if (this.state.userdata.user_code) {
-        admin_buttons = [
-          e('button', {
-            className: 'btn-tall w-100 mt-2',
-            onClick: () => { window.location.href = thei18n.home_link + '/UserHomePage' }
-          }, thei18n.UserHomePage),
-          e('button', {
-            className: 'btn-tall w-100 mt-2',
-            onClick: () => { window.location.href = thei18n.home_link + '/SuperAdminControlPanel' }
-          }, 'Admin Panel'),
-        ];
-      }
-
-      this.state.userdata.notifications.forEach((item, i) => {
-
-        var actions = [];
-
-        if (item.actions) {
-          item.actions.forEach(action => {
-            actions.push(
-              e(
-                'a',
-                {
-                  className: 'btn-tall btn-sm blue text-center mt-2',
-                  onClick: () => {
-                    fetch(action.link)
-                  }
-                },
-                action.value
-              )
-            )
-          });
-        }
-
-        if (!item.timestamp) {
-          item.timestamp = 1590030000;
-        }
-
-        var itemDate = new Date(item.timestamp * 1000);
-
-        notifications.push(
-          e(
-            'div',
-            { className: 'notifications notification-item dialog-box d-flex flex-column position-relative' },
-            e(
-              'button',
-              {
-                className: 'btn position-absolute top-0 end-0 p-3',
-                onClick: (event) => {
-                  fetch(thei18n.api_link + '?pop_notification=1&index=' + i);
-                  event.target.parentElement.remove();
-                }
-              },
-              e('i', { className: 'bi bi-x-lg' }),
-            ),
-            e('h5', {}, item.title),
-            e('span', { className: 'fw-normal text-n' }, item.contents),
-            actions,
-            e('span', { className: 'fw-normal text-sss mt-2 text-grey-darker' }, itemDate.toLocaleString()),
-          )
-        )
-      });
-
-      if (notifications == false) {
-        notifications = e(
-          'div',
-          {},
-          thei18n.no_notifications
-        )
-      } else {
-        notification_counter = e(
-          'span',
-          { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-red' },
-          notifications.length
-        )
-      }
-
-      accountButtons = [
-        e(Header_Button, {
-          value: thei18n.shop, image: 'icons/exercises/shop.png',
-          onClick: () => { window.location.href = thei18n.shop_link },
-          navigation: 'shop'
-        }),
-        e(
-          'div',
-          { className: 'dropstart m-0 d-inline' },
-          e(
-            'button',
-            {
-              className: 'btn d-flex flex-row align-items-center fw-bold p-1',
-              role: "button", 'data-bs-toggle': "dropdown", 'aria-expanded': "false",
-            },
-            e(
-              'div',
-              { className: 'btn-tall btn-sm green position-relative me-2' },
-              e('i', { className: 'bi bi-bell-fill' }),
-              notification_counter
-            ),
-            this.state.userdata.first_name,
-            e(Header_buttonImage, { image: this.state.userdata.profile_picture_url, image_direct: true, invert_image: true, avatar: true }),
-          ),
-          e(
-            'div',
-            { className: 'dropdown-menu account-controls fade-animation animate fast p-2' },
-            e('div', { className: 'notifications' },
-              e(
-                'div',
-                { className: 'notifications-inner' },
-                e(
-                  'div',
-                  { className: 'd-flex flex-row align-items-center justify-content-between p-2' },
-                  e('h3', { className: 'mb-2' }, thei18n.notifications),
-                  e(
-                    'button',
-                    {
-                      id: 'clear-notification-button',
-                      className: 'btn-tall btn-sm',
-                      onClick: () => {
-                        fetch(thei18n.api_link + '?clear_notifications=1');
-                        document.querySelectorAll('.notifications.notification-item').forEach((item) => {
-                          item.remove();
-                        });
-                      }
-                    },
-                    thei18n.clear
-                  )
-                ),
-                notifications,
-              ),
-              ),
-              e('button', {
-                className: 'btn-tall w-100 blue mt-2',
-                onClick: () => { window.location.href = thei18n.account_link } 
-              }, thei18n.button_myaccount),
-              admin_buttons,
-              e('button', {
-                className: 'btn-tall w-100 red mt-2',
-                onClick: (e) => {
-
-                  e.preventDefault();
-              
-                  var logoutConfirm = window.confirm(thei18n.logout_confirm);
-              
-                  if (logoutConfirm) {
-                    localStorage.removeItem('guyra_userdata');
-                    localStorage.removeItem('guyra_i18n');
-                    localStorage.removeItem('guyra_levelmap');
-                    localStorage.removeItem('guyra_courses');
-                    window.location.href = thei18n.api_link + '?logout=1';
-                  }
-
-                }
-              }, thei18n.logout),
-          )
-        )
-      ];
-
-      if (this.state.userdata.teacherid != undefined) {
-        accountButtons.unshift(
-          e(Header_Button, {
-            value: thei18n.meeting, image: 'icons/video-camera.png',
-            onClick: () => { window.open(thei18n.api_link + '?redirect_meeting=1', '_blank').focus(); }
-          })
-        );
-      }
-
-    }
-
-    return e(
-      'div',
-      {},
-      topSection,
+      { className: 'navbar-brand d-flex me-3' },
       e(
-        'div',
-        { className: 'd-flex justify-content-evenly' },
-        accountButtons
-      ),
+        'a', { className: 'text-decoration-none', href: this.props.i18n.home_link },
+        e(
+          'span',
+          { className: 'navbar-center-title' },
+          e(
+            'img',
+            {
+              alt: this.props.i18n.company_name,
+              width: 55,
+              height: 15,
+              className: 'mb-1',
+              src: this.props.i18n.title_img
+            }
+          )
+        )
+      )
     );
+
+    this.setState({
+      branding: null,
+    });
 
   }
 
@@ -718,16 +332,15 @@ export class Header extends React.Component {
           { className: 'd-flex flex-grow-1 justify-content-between' },
           e(()=> {
 
-            if (this.state.buttons.length) {
-              return e('div', { className: 'header-buttons' },
-                e('div', { className: '' }, this.state.buttons)
-              );
-            }
+            if (!this.props.buttons || !this.props.buttons.length) {
+            return null; }
 
-            return null;
+            return e('div', { className: 'header-buttons' },
+                e('div', { className: '' }, this.props.buttons)
+              );
 
           }),
-          e('div', { className: 'header-account justify-content-end' }, this.state.accountCenter)
+          e('div', { className: 'header-account justify-content-end' }, this.props.accountCenter)
         ),
       ),
       e(Notepad)

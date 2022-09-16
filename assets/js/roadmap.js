@@ -4,7 +4,7 @@ import {
   thei18n,
   LoadingPage,
   PopUp
-} from './Common.js';
+} from '%getjs=Common.js%end';
 
 const RoadmapContext = React.createContext();
 

@@ -10,6 +10,8 @@ global $current_user_notifications;
 global $is_logged_in;
 global $gi18n;
 global $args;
+global $route;
+global $nests;
 
 include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/Header.php';
@@ -66,6 +68,9 @@ if ($where_am_i == '') {
 
 }
 
+if (!$route[0])
+$route[0] = 'home';
+
 ?>
 <!-- Hello :) -->
 <!doctype html>
@@ -98,9 +103,15 @@ if ($where_am_i == '') {
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo $template_url; ?>/assets/img/splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <link href="<?php echo GetMinifiedAsset('css', 'main.css'); ?>" rel="stylesheet">
-<link href="<?php echo GetMinifiedAsset('css', 'animations.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <link href="<?php echo GetMinifiedAsset('css', 'input.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'account.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'courses.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'schools.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'shop.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'reference.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'exercises.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <link href="<?php echo GetMinifiedAsset('css', 'editor.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link href="<?php echo GetMinifiedAsset('css', 'animations.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <link href="<?php echo GetMinifiedAsset('css', 'misc.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <?php if ($args['css']): ?>
 <link href="<?php echo GetMinifiedAsset('css', $args['css']); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -111,5 +122,5 @@ if ($where_am_i == '') {
 <noscript><style media="screen">body>div,body>header,body>main{display:none!important;}</style></noscript>
 </head>
 
-<body class="guyra <?php echo implode(' ', $body_class); ?>">
+<body class="guyra <?php echo implode(' ', $body_class); ?>" data-route="<?php echo $route[0]; ?>" data-nests="<?php echo implode('/', $nests); ?>">
 <noscript><?php echo $gi18n['noscript']; ?></noscript>

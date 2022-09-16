@@ -573,20 +573,28 @@ export function Guyra_InventoryItem(props) {
           return;
         }
 
-        var before = e.target.innerHTML;
-        e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+        reactOnCallback(e, () => {
 
-        fetch(thei18n.api_link + '?use_item=' + props.name)
-        .then(res => res.json())
-        .then(res => {
+          return new Promise((resolve, reject) => {
 
-          if (res == 'true') {
-            e.target.innerHTML = before;
-          } else {
-            e.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
-          }
-
-          window.location.reload();
+            fetch(thei18n.api_link + '?use_item=' + props.name)
+            .then(res => res.json()).then(res => {
+  
+              if (res == 'true') {
+  
+                if (itemCategory == 'avatar') {
+                  document.querySelector('#guyra-navbar .avatar').src = thei18n.assets_link + '/img/ghost.png'
+                }
+  
+                resolve(true);
+  
+              } else {
+                resolve(false);
+              }
+  
+            });
+            
+          });
 
         });
 
@@ -1261,4 +1269,27 @@ export function formataCPF(cpf){
   //realizar a formatação...
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
+}
+
+export function reactOnCallback(event, callback) {
+
+  var before = event.target.innerHTML;
+  event.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+  
+  callback().then(result => {
+
+    if (result) {
+      event.target.innerHTML = '<i class="bi bi-check-lg"></i>';
+    } else {
+      event.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+    }
+
+    setTimeout(() => {
+
+      event.target.innerHTML = before;
+      
+    }, 1500);
+
+  });
+  
 }

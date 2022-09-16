@@ -6,13 +6,22 @@ import {
   randomNumber,
   LoadingPage,
   RoundedBoxHeading,
-} from './Common.js';
+} from '%getjs=Common.js%end';
 
 const ArcadeContext = React.createContext();
 
 function Arcade_BackButton(props) {
   
   return e(ArcadeContext.Consumer, null, ({setPage, i18n}) => {
+
+    if (!props.value) {
+
+      props.value = [
+        e('i', { className: 'bi bi-arrow-90deg-left' }),
+        e('span', { className: 'ms-1' }, i18n.back)
+      ];
+
+    }
 
     return e(
       'button',
@@ -23,8 +32,7 @@ function Arcade_BackButton(props) {
           setPage(Arcade_GameChooser);
         }
       },
-      e('i', { className: 'bi bi-arrow-90deg-left' }),
-      e('span', { className: 'ms-1' }, i18n.back)
+      props.value
     );
 
   });
@@ -298,12 +306,30 @@ class Game_Wordle extends React.Component {
 
   }
 
-  winScreen() {
+  winScreen = () => {
+
+    fetch(this.props.i18n.api_link + '?transact_game=wordle&action=win');
 
     return e(
       'div',
       { className: '' },
       e('h2', {}, this.props.i18n.goodjob),
+      e(
+        'div',
+        { className: '' },
+        this.props.i18n.rewards + ": ",
+        e(
+          'span',
+          { className: 'text-n ms-2' },
+          e('img', { className: 'page-icon tinier', src: GuyraGetImage('icons/coin.png') }),
+          e('span', { className: 'ms-1 fw-bold' }, '5')
+        ),
+      ),
+      e(
+        'div',
+        { className: 'mt-3' },
+        e(Arcade_BackButton, { value: this.props.i18n.get_rewards })
+      )
     );
 
   }
@@ -404,7 +430,7 @@ class Game_Wordle extends React.Component {
           
           return e(
             'div',
-            { className: 'position-absolute top-0 mt-5' },
+            { className: 'overpop-animation animate position-absolute top-0 mt-5' },
             e(
               'div',
               { className: 'bg-white more-rounded shadow p-5 position-relative' },
@@ -471,10 +497,8 @@ export class Arcade extends React.Component {
     
     return e(
       'div',
-      { className: 'rounded-box arcade' },
-      e(ArcadeContext.Provider, { value: this.state },
-        this.state.page
-      ),
+      { className: 'rounded-box arcade squeeze' },
+      e(ArcadeContext.Provider, { value: this.state }, this.state.page),
     );
 
   }

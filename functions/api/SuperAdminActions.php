@@ -78,7 +78,7 @@ if ($_GET['update_special_cache']) {
       ["https://unpkg.com/easymde/dist/easymde.min.css", "easymde.css", "css"],
       ["https://unpkg.com/easymde/dist/easymde.min.js", "easymde.js", "js"],
       ["https://unpkg.com/@popperjs/core@2", "popper.js", "js"],
-      ["https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js", "bootstrap.js", "js"]
+      ["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"]
   ];
 
   $assetsCacheLocation = $template_dir . '/cache/assets/';

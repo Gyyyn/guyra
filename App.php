@@ -2,7 +2,7 @@
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.4.4');
+define('GUYRA_VERSION', '0.4.5');
 
 // Initialize the App enviroment
 include_once './functions/Init.php';
@@ -33,18 +33,16 @@ CaptureRequest(function($r, $_nests) {
   global $current_user_data;
   global $gSettings;
   global $nests;
+  global $route;
 
-  $nests = $_nests;
+  $nests = array_filter($_nests);
 
   // First set up some default pages.
   $page = $template_dir . '/pages/Landing.php';
 
   if($is_logged_in) {
 
-    $page = $template_dir . '/pages/UserHomePage.php';
-
-    if ($current_user_data['role'] == 'teacher')
-    $page = $template_dir . '/pages/GroupAdminControlPanel.php';
+    $page = $template_dir . '/pages/Home.php';
 
     if ($is_admin && $_GET['page'] == 'admin')
     $page = $template_dir . '/pages/SuperAdminControlPanel.php';
@@ -53,6 +51,8 @@ CaptureRequest(function($r, $_nests) {
 
   // $r is the requested URL, if it's empty we are on root.
   if ($r) {
+
+    $page = $template_dir . '/pages/Home.php';
 
     $checkForGetVars = explode('?', $r);
     $pageToLoad = $r;
@@ -68,7 +68,13 @@ CaptureRequest(function($r, $_nests) {
 
     }
 
-    $page = $template_dir . '/pages/' . $pageToLoad . '.php';
+    $pageAsJs = $template_dir . '/assets/js/' . $pageToLoad . '.js';
+
+    if (file_exists($pageAsJs)) {
+      $route[] = $pageToLoad;
+    } else {
+      $page = $template_dir . '/pages/' . $pageToLoad . '.php';
+    }
 
   }
 

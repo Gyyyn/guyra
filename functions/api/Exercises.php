@@ -315,3 +315,11 @@ if ($_GET['get_exercises']):
   guyra_output_json($responseJSON, true);
 
 endif; // Exercises handler.
+
+if ($_GET['fetch_exercise_hints']) {
+  
+  $hints = file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/hints.json');
+
+  guyra_output_json($hints, true);
+
+}

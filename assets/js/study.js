@@ -13,9 +13,9 @@ import {
   RenderReplies,
   checkForTranslatables,
   GuyraParseDate
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Flashcards } from '%template_url/assets/js/Flashcards.js?v=%ver';
-import { PersistentMeeting, Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
+import { PersistentMeeting, Header } from '%getjs=Header.js%end';
+import { Flashcards } from '%getjs=Flashcards.js%end';
 
 const HomeContext = React.createContext();
 
@@ -762,7 +762,7 @@ class UserHome_CardsRenderer extends React.Component {
 
 }
 
-class UserHome extends React.Component {
+export class UserHome extends React.Component {
   constructor(props) {
     super(props);
 
@@ -865,20 +865,12 @@ class UserHome extends React.Component {
 
   render() {
     return e(HomeContext.Provider, { value: this.state },
-    e(Header),
-    e(
-      'main',
-      {},
       this.state.meeting,
       e(
         'div',
         { className: 'squeeze d-flex flex-column justify-content-center home-wrapper' },
         this.state.page
       )
-    ));
+    );
   };
-}
-
-if(document.getElementById('user-home')) {
-  ReactDOM.render(e(UserHome), document.getElementById('user-home'));
 }

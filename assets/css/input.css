@@ -272,8 +272,8 @@ img.left-side-image {
 .study-answers #comment,
 #exercise-answer-textarea {
   border-radius: var(--guyra-border-radius);
-  border: .2rem solid #ddd;
-  background: #f9f9f9;
+  border: .2rem solid var(--guyra-grey-darker);
+  background: var(--guyra-grey);
   padding: 1rem;
   font-family: var(--guyra-fonts-text);
   font-size: var(--guyra-fonts-textsize-n);

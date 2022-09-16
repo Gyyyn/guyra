@@ -34,10 +34,7 @@ include_once $template_dir . '/functions/Assets.php';
 <script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'html-react-parser.js'); ?>"></script>
 <script async src="<?php echo GetMinifiedAsset('js', 'marked.js'); ?>"></script>
-<?php if ($args['recaptcha']): ?>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
-<?php endif; ?>
-<?php if ($args['OAuth']): ?>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
   window.fbAsyncInit = function() {
@@ -57,15 +54,10 @@ include_once $template_dir . '/functions/Assets.php';
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-<?php endif; ?>
-<?php if ($args['easymde']): ?>
 <link rel="stylesheet" href="<?php echo GetMinifiedAsset('css', 'easymde.css'); ?>">
 <script async src="<?php echo GetMinifiedAsset('js', 'easymde.js'); ?>"></script>
-<?php endif; ?>
-<?php if ($args['MercadoPago']): ?>
 <script async src="https://sdk.mercadopago.com/js/v2"></script>
 <script async src="https://www.mercadopago.com/v2/security.js" view="checkout" output="deviceId"></script>
-<?php endif; ?>
 <script async src="<?php echo GetMinifiedAsset('js', 'popper.js'); ?>"></script>
 <script async src="<?php echo GetMinifiedAsset('js', 'bootstrap.js'); ?>"></script>
 <?php if ($args['js']): ?>

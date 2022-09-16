@@ -708,3 +708,13 @@ if ($_GET['getTTS']) {
   guyra_output_json($output, true);
 
 }
+
+if ($_GET['fetch_page']) {
+  
+  $page = $_GET['fetch_page'];
+
+  if ($page == 'faq') {
+    guyra_output_json(file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/faq.json'), true);
+  }
+  
+}

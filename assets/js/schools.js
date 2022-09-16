@@ -9,8 +9,7 @@ import {
   RenderReplies,
   GetStandardDate,
   onChangeForceHTTPS
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
+} from '%getjs=Common.js%end';
 
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
@@ -1566,7 +1565,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       { className: 'd-flex flex-column mb-2 dialog-box p-2' + dialogBoxExtraClass, id: 'user_' + this.listingName },
       e(
         'div',
-        { className: 'control-area d-flex flex-column flex-md-row justify-content-between align-items-center' },
+        { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center' },
         e(
           'span',
           {},
@@ -1849,7 +1848,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
 }
 
-class GroupAdminHome extends React.Component {
+export class GroupAdminHome extends React.Component {
   constructor(props) {
     super(props);
 
@@ -1891,18 +1890,9 @@ class GroupAdminHome extends React.Component {
 
   render() {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
-      'main',
-      {},
-      e(Header),
-      e(
-        'div',
-        { className: 'home-wrapper' },
-        this.state.page
-      )
+      'div',
+      { className: 'home-wrapper' },
+      this.state.page
     ));
   };
-}
-
-if(document.getElementById('groupadmin-home')) {
-  ReactDOM.render(e(GroupAdminHome), document.getElementById('groupadmin-home'));
 }

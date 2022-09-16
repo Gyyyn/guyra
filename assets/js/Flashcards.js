@@ -5,7 +5,7 @@ import {
   LoadingPage,
   MD5,
   vibrate
-} from './Common.js';
+} from '%getjs=Common.js%end';
 
 var user_gamedata = {};
 const FlashcardsContext = React.createContext();

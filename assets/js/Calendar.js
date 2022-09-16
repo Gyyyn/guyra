@@ -6,7 +6,7 @@ import {
   LoadingPage,
   PopUp,
   Slider
-} from './Common.js';
+} from '%getjs=Common.js%end';
 
 const now = new Date();
 const CalendarContext = React.createContext();

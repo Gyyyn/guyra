@@ -1,45 +1,541 @@
 import {
     e,
+    thei18n,
     GuyraGetData,
+    GuyraLocalStorage,
     LoadingPage,
-} from '%template_url/assets/js/Common.js?v=%ver';
-import { Header } from '%template_url/assets/js/Header.js?v=%ver';
-import { Arcade } from '%template_url/assets/js/Arcade.js?v=%ver';
+    GuyraGetImage,
+} from '%getjs=Common.js%end';
+import { Header } from '%getjs=Header.js%end';
+import { UserHome } from '%getjs=study.js%end';
+import { Exercises } from '%getjs=practice.js%end';
+import { Courses } from '%getjs=Courses.js%end';
+import { Reference } from '%getjs=reference.js%end';
+import { Shop } from '%getjs=shop.js%end';
+import { Account } from '%getjs=account.js%end';
+import { GroupAdminHome } from '%getjs=schools.js%end';
+import { Arcade } from '%getjs=Arcade.js%end';
+import { Faq } from '%getjs=faq.js%end';
+import { Help } from '%getjs=Help.js%end';
+
+function Header_buttonImage(props) {
+
+  var link = props.image;
+  var className = 'page-icon tiny';
+
+  if (!props.image_direct) {
+    link = GuyraGetImage(props.image, { size: 32 });
+  }
+
+  if (props.invert_image) {
+    className += ' ms-2';
+  } else { className += ' me-2'; }
+
+  if (props.avatar) {
+    className += ' avatar';
+  }
+
+  return e(
+    'span',
+    { className: 'menu-icon' },
+    e('img',
+      { className: className, src: link }
+    )
+  );
+}
+
+function Header_Button(props) {
+
+  var imageE = null;
+  var buttonClassExtra = ' me-1';
+
+  if (document.body.dataset.route == props.navigation) {
+    buttonClassExtra += ' active';
+  }
+
+  if (props.classExtra !== undefined) {
+    buttonClassExtra = buttonClassExtra + ' ' + props.classExtra;
+  }
+
+  if (props.image !== undefined) {
+    imageE = e(Header_buttonImage, { image: props.image, image_direct: props.image_direct, invert_image: props.invert_image });
+  }
+
+  var buttonProper = [
+    imageE,
+    e('span', { className: 'value' }, props.value)
+  ];
+
+  if (props.invert_image) {
+    buttonProper = buttonProper.concat(buttonProper.shift());
+  }
+
+  return e(
+    'button',
+    { className: 'btn-tall trans' + buttonClassExtra, onClick: () => { props.onClick(); }},
+    buttonProper
+  );
+
+}
 
 class App extends React.Component {
   constructor(props) {
 
     super(props);
 
-    this.state = {
-      page: LoadingPage
+    this.routes = {
+      home: UserHome,
+      practice: Exercises,
+      account: Account,
+      courses: Courses,
+      reference: Reference,
+      shop: Shop,
+      arcade: Arcade,
+      faq: Faq,
+      help: Help
     }
+
+    this.state = {
+      page: LoadingPage,
+      routes: this.routes,
+      i18n: {},
+      userdata: {},
+      header: {}
+    }
+
+  }
+
+  update(callback) {
+
+    var localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+    if(localOptions.darkmode == true) {
+      
+      var html = document.querySelector("html");
+      html.classList.add('dark-mode');
+      
+    }
+
+    GuyraGetData().then(res => {
+
+      this.setState({
+        i18n: res.i18n,
+        userdata: res.userdata
+      }, () => {
+
+        this.setState({
+          header: {
+            buttons: this.buildButtons(),
+            accountCenter: this.buildAccountCenter(),
+          }
+        }, () => {
+
+          if (callback) {
+            callback();  
+          }
+
+        });
+
+      });
+
+    });
 
   }
 
   componentWillMount() {
 
-    GuyraGetData().then(res => {
+    this.update(() => {
 
-      this.setState({
-        page: Arcade,
-        i18n: res.i18n
+      var route = document.body.dataset.route;
+
+      if (this.state.routes[route]) {
+        this.setPage(this.state.routes[route]);
+      } else {
+        this.setPage(UserHome);
+        route = 'home';
+      }
+
+    });
+
+    window.onpopstate = (event) => {
+
+      if (!event.state) {
+      return; }
+
+      var page = this.state.routes[event.state.route];
+
+      if (page) {
+        this.setPage(page);
+        document.body.dataset.route = event.state.route;        
+      } else {
+        this.setPage(UserHome);
+        document.body.dataset.route = 'home';
+      }
+
+    }
+
+    setInterval(() => {
+
+      this.update();
+
+    }, 5000);
+
+  }
+
+  setPage = (page) => {
+
+    var pageTitles = Object.keys(this.state.routes);
+    var pages = Object.values(this.state.routes);
+    var title = pages.indexOf(page);
+
+    if (title === -1) {
+      title = pageTitles[0];
+    } else  {
+      title = pageTitles[title];
+    }
+
+    var nests = document.body.dataset.nests.split('/');
+    var history = title;
+
+    if (nests.length >= 2) {
+      history = document.body.dataset.nests;
+    }
+
+    window.history.pushState({ route: title },"", window.location.origin + '/' + history);
+    document.body.dataset.route = title;
+    
+    if (title != nests[0]) {
+      document.body.dataset.nests = title;
+    }
+
+    var navigation_title = this.state.i18n[title];
+    var header_title = document.getElementById('header-title');
+
+    if (title == 'home') {
+      navigation_title = this.state.i18n.study +  ' ' + this.state.i18n.at + ' ' + this.state.i18n.company_name
+    }
+
+    document.title = navigation_title;
+
+    if (header_title) {
+      header_title.innerHTML = navigation_title; 
+    }
+
+    this.setState({
+      page: page
+    });
+
+  }
+
+  historyBack = () => {
+
+    try {
+  
+      if (document.getElementById('back-button')) {
+        document.getElementById('back-button').click();
+        return;
+      }
+  
+      this.setPage(UserHome);
+  
+      return true;
+  
+    } catch (e) {
+  
+      return false;
+  
+    }
+  
+  }
+
+  buildButtons() {
+
+    var buttons = [];
+
+    if (this.state.userdata.is_logged_in) {
+
+      var homeValue = this.state.i18n.study;
+      var homeIcon = 'icons/learning.png';
+      var homeElement = UserHome;
+
+      if (this.state.userdata.user_code) {
+        homeValue = this.state.i18n.students;
+        homeIcon = 'icons/textbook.png';
+        homeElement = GroupAdminHome;
+      }
+
+      buttons = [
+        e(Header_Button, {
+          value: homeValue, image: homeIcon,
+          onClick: () => { this.setPage(homeElement) },
+          navigation: 'home'
+        }),
+        e(Header_Button, {
+          value: this.state.i18n.practice, image: 'icons/target.png',
+          onClick: () => { this.setPage(Exercises) },
+          navigation: 'practice'
+        }),
+        e(Header_Button, {
+          value: this.state.i18n.courses, image: 'icons/online-learning.png',
+          onClick: () => { this.setPage(Courses) },
+          navigation: 'courses'
+        }),
+        e(Header_Button, {
+          value: this.state.i18n.arcade, image: 'icons/joystick.png',
+          onClick: () => { this.setPage(Arcade) },
+          navigation: 'arcade'
+        }),
+      ];
+
+    }
+
+    return buttons;
+    
+  }
+
+  buildAccountCenter() {
+
+    var accountButtons = [];
+
+    var backButton = e(
+      'button', 
+      {
+        className: 'btn text-blue',
+        type: 'button',
+        name: 'button',
+        id: 'mobile-header-back',
+        onClick: this.historyBack
+      },
+      e('i', { className: 'bi bi-chevron-left'})
+    );
+
+    if (document.body.dataset.route == 'home') {
+      backButton = null;
+    }
+
+    var topSection = e(
+      'div',
+      { className: 'top-section' },
+      e('span', { className: 'position-absolute start-0' }, backButton),
+      e('span', { id: 'header-title', className: 'capitalize text-blue text-ss fw-bold my-2' }, document.title)
+    )
+
+    if (!this.state.userdata.is_logged_in) {
+
+      accountButtons = [
+        e(Header_Button, {
+          value: this.state.i18n.button_login, image: 'icons/profile.png',
+          onClick: () => { window.location.href = this.state.i18n.account_link }
+        }),
+      ];
+
+    } else {
+
+      var notifications = [];
+      var notification_counter = null;
+      var admin_buttons = [];
+
+      if (this.state.userdata.user_code) {
+        admin_buttons = [
+          e('button', {
+            className: 'btn-tall w-100 mt-2',
+            onClick: () => { this.setPage(UserHome) }
+          }, this.state.i18n.UserHomePage),
+          e('button', {
+            className: 'btn-tall w-100 mt-2',
+            onClick: () => { window.location.href = this.state.i18n.home_link + '/SuperAdminControlPanel' }
+          }, 'Admin Panel'),
+        ];
+      }
+
+      this.state.userdata.notifications.forEach((item, i) => {
+
+        var actions = [];
+
+        if (item.actions) {
+          item.actions.forEach(action => {
+            actions.push(
+              e(
+                'a',
+                {
+                  className: 'btn-tall btn-sm blue text-center mt-2',
+                  onClick: () => {
+                    fetch(action.link)
+                  }
+                },
+                action.value
+              )
+            )
+          });
+        }
+
+        if (!item.timestamp) {
+          item.timestamp = 1590030000;
+        }
+
+        var itemDate = new Date(item.timestamp * 1000);
+
+        notifications.push(
+          e(
+            'div',
+            { className: 'notifications notification-item dialog-box d-flex flex-column position-relative' },
+            e(
+              'button',
+              {
+                className: 'btn position-absolute top-0 end-0 p-3',
+                onClick: (event) => {
+                  fetch(this.state.i18n.api_link + '?pop_notification=1&index=' + i);
+                  event.target.parentElement.remove();
+                }
+              },
+              e('i', { className: 'bi bi-x-lg' }),
+            ),
+            e('h5', {}, item.title),
+            e('span', { className: 'fw-normal text-n' }, item.contents),
+            actions,
+            e('span', { className: 'fw-normal text-sss mt-2 text-grey-darker' }, itemDate.toLocaleString()),
+          )
+        )
       });
 
-    })
+      if (notifications == false) {
+        notifications = e(
+          'div',
+          {},
+          this.state.i18n.no_notifications
+        )
+      } else {
+        notification_counter = e(
+          'span',
+          { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-red' },
+          notifications.length
+        )
+      }
+
+      accountButtons = [
+        e(Header_Button, {
+          value: this.state.i18n.shop, image: 'icons/exercises/shop.png',
+          onClick: () => { this.setPage(Shop) },
+          navigation: 'shop'
+        }),
+        e(Header_Button, {
+          value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
+          onClick: () => { this.setPage(Reference) },
+          navigation: 'reference'
+        }),
+        e(
+          'div',
+          { className: 'dropstart m-0 d-inline' },
+          e(
+            'button',
+            {
+              className: 'btn d-flex flex-row align-items-center fw-bold p-1',
+              role: "button", 'data-bs-toggle': "dropdown", 'aria-expanded': "false",
+            },
+            e(
+              'div',
+              { className: 'btn-tall btn-sm green position-relative me-2' },
+              e('i', { className: 'bi bi-bell-fill' }),
+              notification_counter
+            ),
+            this.state.userdata.first_name,
+            e(Header_buttonImage, { image: this.state.userdata.profile_picture_url, image_direct: true, invert_image: true, avatar: true }),
+          ),
+          e(
+            'div',
+            { className: 'dropdown-menu account-controls fade-animation animate fast p-2' },
+            e('div', { className: 'notifications' },
+              e(
+                'div',
+                { className: 'notifications-inner' },
+                e(
+                  'div',
+                  { className: 'd-flex flex-row align-items-center justify-content-between p-2' },
+                  e('h3', { className: 'mb-2' }, this.state.i18n.notifications),
+                  e(
+                    'button',
+                    {
+                      id: 'clear-notification-button',
+                      className: 'btn-tall btn-sm',
+                      onClick: () => {
+                        fetch(this.state.i18n.api_link + '?clear_notifications=1');
+                        document.querySelectorAll('.notifications.notification-item').forEach((item) => {
+                          item.remove();
+                        });
+                      }
+                    },
+                    this.state.i18n.clear
+                  )
+                ),
+                notifications,
+              ),
+              ),
+              e('button', {
+                className: 'btn-tall w-100 blue mt-2',
+                onClick: () => { this.setPage(Account) } 
+              }, this.state.i18n.button_myaccount),
+              admin_buttons,
+              e('button', {
+                className: 'btn-tall w-100 red mt-2',
+                onClick: (e) => {
+
+                  e.preventDefault();
+              
+                  var logoutConfirm = window.confirm(this.state.i18n.logout_confirm);
+              
+                  if (logoutConfirm) {
+                    localStorage.removeItem('guyra_userdata');
+                    localStorage.removeItem('guyra_i18n');
+                    localStorage.removeItem('guyra_levelmap');
+                    localStorage.removeItem('guyra_courses');
+                    window.location.href = this.state.i18n.api_link + '?logout=1';
+                  }
+
+                }
+              }, this.state.i18n.logout),
+          )
+        )
+      ];
+
+      if (this.state.userdata.teacherid != undefined) {
+        accountButtons.unshift(
+          e(Header_Button, {
+            value: this.state.i18n.meeting, image: 'icons/video-camera.png',
+            onClick: () => { window.open(this.state.i18n.api_link + '?redirect_meeting=1', '_blank').focus(); }
+          })
+        );
+      }
+
+    }
+
+    return e(
+      'div',
+      {},
+      topSection,
+      e(
+        'div',
+        { className: 'd-flex justify-content-evenly' },
+        accountButtons
+      ),
+    );
+
   }
 
   render() {
     return [
-      e(Header),
+      e(
+        Header,
+        {
+          buttons: this.state.header.buttons,
+          accountCenter: this.state.header.accountCenter,
+          i18n: this.state.i18n,
+          userdata: this.state.userdata
+        }
+      ),
       e(
         'main',
         {},
-        e(
-          'div',
-          { className: 'squeeze' },
-          e(this.state.page, { i18n: this.state.i18n })
-        )
+        e(this.state.page, { i18n: this.state.i18n, userdata: this.state.userdata, setPage: this.setPage })
       )
     ];
   };
