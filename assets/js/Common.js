@@ -585,6 +585,9 @@ export function Guyra_InventoryItem(props) {
                 if (itemCategory == 'avatar') {
                   document.querySelector('#guyra-navbar .avatar').src = thei18n.assets_link + '/img/ghost.png'
                 }
+
+                // Force userdata update.
+                window.localStorage.removeItem('guyra_userdata');
   
                 resolve(true);
   

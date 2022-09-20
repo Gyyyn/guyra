@@ -41,6 +41,8 @@
 
   --guyra-body-bg: #e5eaee;
 
+  --bs-border-color: var(--guyra-grey);
+
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-smaller: 0 0 .5rem rgba(0,0,0, 0.1);
   --guyra-box-shadow-bigger: 0 0 1.7rem rgba(0,0,0, 0.17);
@@ -731,6 +733,7 @@ input:checked + .slider:before {
 /* Cards */
 
 .card {
+  background-color: var(--guyra-white);
   border-radius: var(--guyra-border-radius-bigger);
   box-shadow: var(--guyra-box-shadow);
   display: inline-flex;
@@ -953,4 +956,21 @@ i.bi { pointer-events: none; }
 
 .divider:not(:empty)::after {
   margin-left: 0.25em;
+}
+
+.list-group-item {
+  background-color: var(--guyra-white);
+  color: var(--guyra-black);
+}
+
+.accordion-item,
+.accordion-button {
+  background-color: var(--guyra-white);
+  color: var(--guyra-black);
+  border-color: var(--guyra-grey-darker);
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--guyra-grey);
+  border-color: var(--guyra-grey-darker);
 }

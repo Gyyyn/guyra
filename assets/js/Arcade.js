@@ -100,10 +100,11 @@ class Game_Wordle extends React.Component {
 
     GuyraFetchData({}, 'api?get_game=wordle', 'guyra_wordle', 1440).then((res) => {
 
-      var randomWord = res[randomNumber(0, res.length - 1)];
+      var randomWord = res.answers[randomNumber(0, res.answers.length - 1)];
 
       this.setState({
-        words: res,
+        words: res.words,
+        answers: res.answers,
         word: randomWord,
         gameOn: true,
         dialog: null
@@ -119,6 +120,7 @@ class Game_Wordle extends React.Component {
 
     var row;
     var finalised = [];
+    var lettersGuessedCorrect = [];
 
     for (let index = 0; index < this.state.wordle_size; index++) {
 
@@ -135,11 +137,31 @@ class Game_Wordle extends React.Component {
           bgColor = 'bg-grey';
 
           if (matchletter.test(this.state.word)) {
-            bgColor = 'bg-warning';
+
+            var occurances = 0;
+            var alreadyGuessedOcurrances = 0
+
+            word.forEach(letterInWord => {
+              if (letter == letterInWord) {
+                occurances += 1;
+              }
+            });
+
+            lettersGuessedCorrect.forEach(guessedLetter => {
+              if (letter == guessedLetter) {
+                alreadyGuessedOcurrances += 1;
+              }
+            });
+
+            if (lettersGuessedCorrect.indexOf(letter) === -1 || occurances < alreadyGuessedOcurrances) {
+              bgColor = 'bg-warning';              
+            }
+
           }
 
           if (this.state.word[index] == letter) {
             bgColor = 'bg-success';
+            lettersGuessedCorrect.push(letter);
           }
 
         }

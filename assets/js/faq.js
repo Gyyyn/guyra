@@ -85,7 +85,7 @@ export class Faq extends React.Component {
               e(
                 'div',
                 { className: 'accordion-body' },
-                item.content
+                window.HTMLReactParser(marked.parse(item.content))
               )
             )
           )

@@ -16,28 +16,40 @@ function GuyraShop_FetchItems($args=[]) {
   return $return;
 }
 
-function AddItemToInventory($item, $user=0, $args=[]) {
-
+function GetInventory($user=0) {
+  
   global $current_user_id;
   global $current_user_inventory;
 
   // Validate our inputs
-  if ($user == 0)
+  if ($user === 0)
   $user = $current_user_id;
-
-  if (!$item)
-  return false;
 
   if ($user == $current_user_id) {
     $theInventory = $current_user_inventory;
   } else {
-    $theInventory = guyra_get_user_meta($user, 'inventory', true)['meta_value'];
-  	$theInventory = json_decode($theInventory, true);
+    $theInventory = guyra_get_user_data($user, 'inventory');
   }
 
   // If we got anything other than an array here something has gone wrong.
   if (!is_array($theInventory))
   $theInventory = [];
+
+  return $theInventory;
+
+}
+
+function AddItemToInventory($item, $user=0, $args=[]) {
+
+  global $current_user_id;
+
+  if (!$item)
+  return false;
+
+  if ($user === 0)
+  $user = $current_user_id;
+
+  $theInventory = GetInventory($user);
 
   if (is_array($item)) {
     $theInventory = array_merge($item, $theInventory);
@@ -46,6 +58,29 @@ function AddItemToInventory($item, $user=0, $args=[]) {
   }
 
   guyra_update_user_meta($user, 'inventory', json_encode($theInventory));
+  return $theInventory;
+
+}
+
+function RemoveItemFromInventory($item, $user=0, $args=[]) {
+
+  global $current_user_id;
+  
+  if (!$user)
+  $user = $current_user_id;
+
+  $theInventory = GetInventory($user);
+  
+  $indexOf = array_search($item, $theInventory);
+
+  if ($indexOf !== false) {
+
+    array_splice($theInventory, $indexOf, 1);
+    
+    guyra_update_user_meta($user, 'inventory', json_encode($theInventory));
+
+  }
+
   return $theInventory;
 
 }

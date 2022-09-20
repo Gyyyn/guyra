@@ -12,6 +12,8 @@ include_once $template_dir . '/functions/Game.php';
 
 function Game_Wordle($wordlist) {
 
+  global $template_dir;
+
   $_wordlist = Array();
   
   foreach ($wordlist as $word) {
@@ -22,9 +24,14 @@ function Game_Wordle($wordlist) {
 
   }
 
-  $random_word = $_wordlist[random_int(0, sizeof($_wordlist ) - 1)];
+  $answersPath = $template_dir . '/assets/json/wordle5.words.en.txt';
+  $answers = file_get_contents($answersPath);
+  $answers = preg_split("/\r\n|\n|\r/", $answers);
 
-  return $_wordlist;
+  return [
+    'words' => $_wordlist,
+    'answers' => $answers
+  ];
 
 }
 
@@ -33,7 +40,7 @@ if ($_GET['get_game']) {
   $game_type = $_GET['get_game'];
   $lang = 'en';
 
-  $wordlistPath = $template_dir . '/assets/json/' . $lang . '.txt';
+  $wordlistPath = $template_dir . '/assets/json/words.en.txt';
   $wordlist = file_get_contents($wordlistPath);
 
   $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);

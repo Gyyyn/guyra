@@ -353,6 +353,15 @@
     "items": {
       "flashcards_irregulars_participle1": {}
     }
+  },
+
+  "challenge_streak_sevendays": {
+    "price": "5",
+    "type": "challenge",
+    "image": "icons/fire.png",
+    "items": {
+      "challenge_streak_sevendays": {}
+    }
   }
 
 }

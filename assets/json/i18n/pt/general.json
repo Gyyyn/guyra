@@ -365,6 +365,7 @@
       "Aprender é melhor com amigues! Indique alguem pra Guyrá e receba um cashback de obrigado nosso!"
    ],
    "whats_for_today":"O que vamos fazer hoje",
+   "challenge":"Desafio",
    "challenges":"Desafios",
    "daily_challenges":"Desafios diários",
    "level":"Nível",
@@ -592,6 +593,18 @@
    "notification_appointment_accepted": {
       "title":"Seu pedido de horário for aceito!",
       "contents":"Logo você vai receber um contato do professor."
+   },
+   "notification_challenge_added": {
+      "title":"Você ativou um desafio!",
+      "contents":"Agora é hora de provar que você é capaz! Veja todos os seus desafios ativos na sua página inicial."
+   },
+   "notification_challenge_lost": {
+      "title":"Você perdeu um desafio!",
+      "contents":"Não foi dessa vez, mas eu acredito que você vai conseguir na próxima!"
+   },
+   "notification_challenge_won": {
+      "title":"Você ganhou um desafio!",
+      "contents":"É isso ai! Agora que tal tentar um mais difícil?"
    },
    "something_went_wrong":"Algo deu errado, tente de novo.",
    "post error":"Houve um erro no envio de informações, tente de novo",

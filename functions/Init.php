@@ -6,13 +6,6 @@
  * user authentication and server settings, etc.
  */
 
-// Detect compatibility
-if ((strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false) ||
-		(strpos($_SERVER["HTTP_USER_AGENT"], 'Trident') ? true : false)) {
-	echo $gi18n['ie_unsupported_warning'];
-	exit;
-}
-
 // Force HTTPS independent of server config.
 if($_SERVER["HTTPS"] != "on") {
     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
@@ -101,6 +94,13 @@ if ($gSettings['site_closed'] && !$is_admin) {
 
 include_once $template_dir . '/components/i18n.php';
 
+// Detect compatibility
+if ((strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false) ||
+		(strpos($_SERVER["HTTP_USER_AGENT"], 'Trident') ? true : false)) {
+	echo $gi18n['ie_unsupported_warning'];
+	exit;
+}
+
 // All functions are loaded, from this point on we can change data.
 
 // Setup current user's globals.
@@ -149,7 +149,18 @@ if ($is_logged_in) {
 		]
 	];
 
-	// Update the daily challenges
+	// Set up some default so no errors occur.
+	if (!$current_user_notifications)
+	$current_user_notifications = [];
+
+	if (!$current_user_inventory)
+	$current_user_inventory = [];
+
+	$changedGamedata = false;
+	$dailyStreakBroken = false;
+	$sendNotification = false;
+
+	// Update the challenges
 	if (($current_user_gamedata['challenges']['daily']['last_update'] + 86400) < time()) {
 
 		$current_user_gamedata['challenges']['daily'] = [
@@ -158,16 +169,46 @@ if ($is_logged_in) {
 			'levels_completed' => 0
 		];
 
-		guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata));
+		$changedGamedata = true;
+		$dailyStreakBroken = true;
 
 	}
 
-	// Set up some default so no errors occur.
-	if (!$current_user_notifications)
-	$current_user_notifications = [];
+	foreach ($current_user_gamedata['challenges'] as &$challenge) {
 
-	if (!$current_user_inventory)
-	$current_user_inventory = [];
+		$now = time();
+		$expireTime = $challenge['started'] + $challenge['limiter']['amount'];
+		$delete = false;
+
+		if ($challenge['type'] == 'streak' && $dailyStreakBroken) {
+			$failed = true;
+			$sendNotification = $gi18n['notification_challenge_lost'];
+		}
+
+		// Check if the goals are done.
+		if ($challenge['goal']['amount'] == $challenge['goal']['done'] && !$failed && $challenge['type']) {
+
+			$current_user_gamedata['level'] += $challenge['reward'];
+			$delete = true;
+			$sendNotification = $gi18n['notification_challenge_won'];
+
+		}
+
+		// Check if challenge has expired.
+		if ($expireTime > $now)
+		$delete = true;
+
+		if ($delete) {
+
+			unset($challenge);
+			$changedGamedata = true;
+
+		}
+
+	}
+	
+	if ($changedGamedata)
+	guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata));
 
 }
 
@@ -235,3 +276,6 @@ UserLoginUpdateStreakStatus($current_user_id);
 include_once $template_dir . '/functions/PWA.php';
 
 $enable_PWA = guyra_handle_pwa();
+
+if ($sendNotification)
+PushNotification($sendNotification);

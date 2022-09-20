@@ -636,7 +636,12 @@ function UserHome_WelcomeCard(props) {
       e(
         'div',
         { className: 'dialog-box greeting' },
-        e('h2', { className: 'mb-2' }, thei18n.daily_challenges),
+        e('h2', { className: 'mb-2' }, thei18n.challenges, 
+        e(
+          'span',
+          { className: 'badge bg-primary me-2 text-uppercase ms-2' },
+          thei18n.new
+        ),),
         e(
           'div',
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
@@ -691,12 +696,55 @@ function UserHome_WelcomeCard(props) {
             ),
             e('progress', { className: 'progress', id: 'daily-challenge', max: userdata.gamedata.raw.challenges.daily.levels, value: userdata.gamedata.raw.challenges.daily.levels_completed}),
           ),
+          e(() => {
+
+            var challengeList = [];
+            var challenges = userdata.gamedata.raw.challenges;
+
+            if (typeof challenges != 'object') {
+            challenges = {}; }
+
+            var challengeIds = Object.keys(challenges);
+
+            Object.values(challenges).forEach((challenge, i) => {
+
+              if (challengeIds[i] == 'daily') {
+              return; }
+
+              var title = thei18n._shop[challengeIds[i]].name;
+
+              if (!title) {
+              title = thei18n.challenge; }
+
+              if (!challenge.goal.done) {
+                challenge.goal.done = 0; }
+
+              var element = e(
+                'div',
+                { className: 'card trans mb-2 me-2' },
+                e('h4', { className: 'mb-2' }, title),
+                e(
+                  'div',
+                  { className: 'd-flex align-items-center' },
+                  challenge.goal.done + '/' +
+                  challenge.goal.amount
+                ),
+                e('progress', { className: 'progress', id: 'daily-challenge', max: challenge.goal.amount, value: challenge.goal.done}),
+              );
+
+              challengeList.push(element);
+              
+            });
+
+            return challengeList;
+
+          }),
           e(
             'div',
             {
-              className: 'card trans blue cursor-pointer mb-2 me-2',
+              className: 'card trans green hoverable cursor-pointer mb-2 me-2',
               onClick: () => {
-                window.location.href = thei18n.shop_link + '#challenge';
+                window.location.href = thei18n.shop_link + '/challenge';
               }
             },
             e('h4', { className: 'cursor-pointer mb-2' }, thei18n.see_more),

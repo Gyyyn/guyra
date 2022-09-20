@@ -156,6 +156,12 @@
       "name": "Deck de cartas: Verbos Irregulares (participle) 1",
       "description": "Verbos irregulares na forma de past participle.",
       "description_full": "Palavres de nível intermediário."
+    },
+
+    "challenge_streak_sevendays": {
+      "name": "Desafio: Sete dias",
+      "description": "Consegue manter a ofensiva por sete dias?",
+      "description_full": "Aposte suas moedas para duplicar caso consiga manter sua ofensiva por sete dias!"
     }
 
   },
@@ -382,6 +388,11 @@
     "flashcards_irregulars_participle1": {
       "name": "Deck de cartas: Verbos Irregulares (participle) 1",
       "preview": "%site_url/api/?get_image=icons/card.png&size=64"
+    },
+
+    "challenge_streak_sevendays": {
+      "name": "Desafio: Sete dias",
+      "preview": "%site_url/api/?get_image=icons/fire.png&size=64"
     }
 
   }

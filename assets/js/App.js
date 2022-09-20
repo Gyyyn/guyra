@@ -108,12 +108,20 @@ class App extends React.Component {
   update(callback) {
 
     var localOptions = GuyraLocalStorage('get', 'guyra_options');
+    var prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches;
 
-    if(localOptions.darkmode == true) {
+    prefersDarkMode = (localOptions.darkmode == undefined && prefersDarkMode);
+
+    if(localOptions.darkmode == true || prefersDarkMode) {
       
       var html = document.querySelector("html");
       html.classList.add('dark-mode');
-      
+
+      if (prefersDarkMode) {
+        localOptions.darkmode = true;
+        GuyraLocalStorage('set', 'guyra_options', localOptions);
+      }
+
     }
 
     GuyraGetData().then(res => {
@@ -384,8 +392,15 @@ class App extends React.Component {
               {
                 className: 'btn position-absolute top-0 end-0 p-3',
                 onClick: (event) => {
+
                   fetch(this.state.i18n.api_link + '?pop_notification=1&index=' + i);
-                  event.target.parentElement.remove();
+
+                  this.state.userdata.notifications.splice(i, 1);
+
+                  this.setState({
+                    userdata: this.state.userdata
+                  });
+
                 }
               },
               e('i', { className: 'bi bi-x-lg' }),
@@ -458,10 +473,15 @@ class App extends React.Component {
                       id: 'clear-notification-button',
                       className: 'btn-tall btn-sm',
                       onClick: () => {
+
                         fetch(this.state.i18n.api_link + '?clear_notifications=1');
-                        document.querySelectorAll('.notifications.notification-item').forEach((item) => {
-                          item.remove();
+
+                        this.state.userdata.notifications = [];
+
+                        this.setState({
+                          userdata: this.state.userdata
                         });
+                        
                       }
                     },
                     this.state.i18n.clear

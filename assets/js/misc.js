@@ -15,7 +15,11 @@ if ('serviceWorker' in navigator) {
 window.onerror = function errHandle(errorMsg, url, lineNumber) {
 
   setTimeout(() => {
-    var reload = confirm('Houve um erro! O site vai tentar concerta-lo, se isso não der certo entre em contato com a gente.');
+    if (errorMsg !== 'guyra') {
+      var reload = confirm('Houve um erro! O site vai tentar concerta-lo, se isso não der certo entre em contato com a gente.'); 
+    } else {
+      reload = true;
+    }
 
     console.error(errorMsg, lineNumber);
 

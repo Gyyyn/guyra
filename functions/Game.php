@@ -26,7 +26,6 @@ function Guyra_increase_user_level($user=0, $amount=1, $noUpdate=false) {
   $gamedata['challenges']['daily']['levels_completed'] += $amount;
 
   // Send the data back for saving.
-
   if (!$noUpdate)
   guyra_update_user_data($user, $gamedata, '', 'gamedata');
 
@@ -136,16 +135,25 @@ function FetchChallengeList() {
 
 function AddGameChallenge($data) {
 
-  $gamedata = guyra_get_user_data($user_id, 'gamedata');
+  global $current_user_id;
+  global $gi18n;
 
-  $challengeNames = array_keys($data);
+  $gamedata = guyra_get_user_data($current_user_id, 'gamedata');
+  $challenges = FetchChallengeList();
+  $challengeNames = array_keys($challenges);
   
   foreach ($challengeNames as $challengeId) {
     
-    $gamedata['challenges'][$challengeId] = $data[$challengeId];
+    if ($challengeId == $data) {
+      
+      $gamedata['challenges'][$challengeId] = $challenges[$challengeId];
+      $gamedata['challenges'][$challengeId]['started'] = time();
+
+    }
 
   }
 
+  guyra_update_user_data($current_user_id, $gamedata, '', 'gamedata');
   PushNotification($gi18n['notification_challenge_added']);
 
 }

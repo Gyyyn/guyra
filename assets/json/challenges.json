@@ -1,7 +1,10 @@
 {
     "challenge_streak_sevendays": {
         "type": "streak",
-        "goal": "7",
+        "goal": {
+            "type": "levels",
+            "amount": "7"
+        },
         "limiter": {
             "type": "time",
             "amount": "604800"

@@ -73,6 +73,14 @@ function UserLoginUpdateStreakStatus($user_id) {
         $gamedata['challenges']['daily']['levels_completed'] += 1;
         PushNotification($notification_message);
 
+        foreach ($gamedata['challenges'] as &$challenge) {
+      
+          if ($challenge['type'] == 'streak')
+          $challenge['goal']['done'] += 1;
+          
+      
+        }
+
       }
 
     }

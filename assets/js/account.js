@@ -838,7 +838,7 @@ class AccountPayment extends React.Component {
               ),
               e('p', {},
                 thei18n.subscription_donations[2] + ' ',
-                e('a', { href: thei18n.home_link + '/faq#donations' }, thei18n.here.toLowerCase())
+                e('a', { href: thei18n.faq_link + '/donations' }, thei18n.here.toLowerCase())
               ),
             )
           ),
@@ -1407,6 +1407,25 @@ function AccountOptions_GeneralOptions(props) {
               'BETA'
             ),
             'Habilitar modo noturno',
+            e(() => {
+
+              var localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+              return e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm blue ms-2',
+                  onClick: () => {
+                    
+                    localOptions.darkmode = undefined;
+                    GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+                  }
+                },
+                'Seguir sistema'
+              );
+
+            })
           ),
           onClick: () => {
 
@@ -2032,7 +2051,7 @@ function AccountInfo_ranking(props) {
       e(
         'p',
         {},
-        e('a', { href: thei18n.faq_link + '#earn_points' }, thei18n.coins_questions)
+        e('a', { href: thei18n.faq_link + '/earn_points' }, thei18n.coins_questions)
       ),
       e(
         'h2',
@@ -2045,7 +2064,7 @@ function AccountInfo_ranking(props) {
         {},
         e('a', { href: thei18n.practice_link }, thei18n.practice_more),
         e('span', {}, ' | '),
-        e('a', { href: thei18n.faq_link + '#earn_points' }, thei18n.level_question)
+        e('a', { href: thei18n.faq_link + '/earn_points' }, thei18n.level_question)
       )
     ),
     e(
@@ -2800,7 +2819,9 @@ export class Account extends React.Component {
       payment: AccountPayment,
       payment_cancel: AccountPayment_cancelPlan,
       change_password: AccountOptions_changePassword,
-      inventory: AccountInfo_Inventory
+      inventory: AccountInfo_Inventory,
+      register: Register,
+      login: Login
     }
 
     this.state = {
@@ -2834,15 +2855,18 @@ export class Account extends React.Component {
     if (!props) {
     props = {}; }
 
+    props.appSetPage = this.props.appSetPage;
+
     this.setState({
       page: e(page, props)
     });
   }
 
-  getStartingPage(is_logged_in=true) {
+  getStartingPage() {
 
     var decision = AccountWrapper;
     var subroute = document.body.dataset.nests.split('/')[1];
+    var is_logged_in = this.userdata.is_logged_in;
 
     if (subroute == 'options') {
       decision = AccountOptions;
@@ -2872,27 +2896,20 @@ export class Account extends React.Component {
       decision = LostPassword;
     }
 
-    return e(decision, { appSetPage: this.props.setPage });
+    return decision;
   }
 
   componentWillMount() {
 
     GuyraGetData().then(res => {
 
-      let page;
-
       this.userdata = res.userdata;
-
-      if (this.userdata.is_logged_in == true) {
-        page = this.getStartingPage();
-      } else {
-        page = this.getStartingPage(false);
-      }
 
       this.setState({
         userdata: this.userdata,
         i18n: res.i18n,
-        page: page,
+      }, () => {
+        this.setPage(this.getStartingPage())
       });
 
     });

@@ -356,6 +356,10 @@ class CourseVideoList extends React.Component {
 
     this.videoList = [];
 
+    if (typeof this.props.course.items != 'object') {
+      window.onerror('guyra');
+    }
+
     Object.values(this.props.course.items).map((item, n) => {
 
       this.videoList.push(
