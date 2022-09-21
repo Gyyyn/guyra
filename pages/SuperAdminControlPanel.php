@@ -264,6 +264,8 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
         </div>
 
+        <textarea name="" id="" cols="30" rows="10"><?php var_dump($user) ?></textarea>
+
       </div>
 
     </div>

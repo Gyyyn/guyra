@@ -260,6 +260,8 @@ class Game_Wordle extends React.Component {
     var guessedLetters = this.state.guessedLetters;
     var typed = this.state.typed.join('');
 
+    document.getElementById('wordle-input').value = '';
+
     if (this.state.words.indexOf(typed) === -1) {
 
       this.setState({

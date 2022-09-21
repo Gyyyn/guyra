@@ -196,34 +196,43 @@ if ($_GET['logout']) {
 
 if ($_GET['get_user_data']) {
 
-  $theData = $current_user_data;
+  $user = $_GET['user'];
 
-  $theData['is_logged_in'] = true;
-  $theData['id'] = $current_user_id;
-  $theData['user_email'] = $current_user_object['user_login'];
-  $theData['user_subscription_valid'] = $current_user_subscription_valid;
-  $theData['profile_picture_url'] = Guyra_get_profile_picture($current_user_id, null, true);
+  if (!$user) {
 
-  $theData['gamedata'] = GetUserRanking($current_user_id);
-  $theData['gamedata']['raw'] = $current_user_gamedata;
+    $user = $current_user_id;
+    
+    $theData = $current_user_data;
 
-  $theData['user_diary'] = $current_user_diary;
-  $theData['payments'] = $current_user_payments;
-  $theData['notifications'] = $current_user_notifications;
-  $theData['inventory'] = $current_user_inventory;
+    $theData['is_logged_in'] = true;
+    $theData['id'] = $user;
+    $theData['user_email'] = $current_user_object['user_login'];
+    $theData['user_subscription_valid'] = $current_user_subscription_valid;
+    $theData['profile_picture_url'] = Guyra_get_profile_picture($user, null, true);
 
-  if ($is_GroupAdmin || $is_admin) {
-    $theData['user_code'] = Guyra_hash($current_user_id);
+    $theData['payments'] = $current_user_payments;
+    $theData['notifications'] = $current_user_notifications;
+
+    $theData['user_code'] = Guyra_hash($user);
+
+    // If user is in a group then set their diary to be the groups's.
+    if ($current_user_data['studygroup']) {
+      $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
+      $theData['user_diary'] = $teachers_diary['diaries'][$current_user_data['studygroup']];
+    }
+
+  } else {
+    $theData = guyra_get_user_data($user);
   }
 
-  // If user is in a group then set their diary to be the groups's.
-  if ($current_user_data['studygroup']) {
-    $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
-    $theData['user_diary'] = $teachers_diary['diaries'][$current_user_data['studygroup']];
-  }
+  $theData['gamedata'] = GetUserRanking($user);
+  $theData['gamedata']['raw'] = guyra_get_user_data($user, 'gamedata');
+  $theData['user_diary'] = guyra_get_user_data($user, 'diary');
+  $theData['inventory'] = guyra_get_user_data($user, 'inventory');
 
   // Unset some sensitive data;
   unset($theData['user_pass']);
+  unset($theData['doc_id']);
 
   guyra_output_json(json_encode($theData), true);
 
@@ -661,6 +670,16 @@ if ($_GET['oauth_login']) {
 if ($_GET['gen_pix']) {
 
   $thePost = json_decode(file_get_contents('php://input'), true);
+
+  $thePost = [
+    'value' => 142,
+    'user' => [
+      'user_email' => 'test_user_462563@testuser.com',
+      'first_name' => 'Test',
+      'last_name' => 'Test',
+      'doc_id' => '11111111111'
+    ]
+  ];
 
   if (!$thePost || !$thePost['value'] || !$thePost['user'])
   guyra_output_json('post error', true);

@@ -95,6 +95,7 @@ class Shop_ItemView extends React.Component {
   
                 // Force userdata update.
                 window.localStorage.removeItem('guyra_userdata');
+                window.localStorage.removeItem('guyra_levelmap');
   
                 setTimeout(() => {
                   setPage(e(Shop_wrapper));
@@ -519,7 +520,7 @@ export class Shop extends React.Component {
       { className: 'shop-squeeze ' + this.state.squeezeType },
       e(
         'div',
-        { className: 'rounded-box justfade-animation animate' },
+        { className: 'rounded-box' },
         e(ShopContext.Provider, {value: this.state}, this.state.page)
       )
     );

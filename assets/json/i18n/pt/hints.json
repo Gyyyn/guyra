@@ -2,12 +2,22 @@
 
   "unit1": {
     "title": "O verbo be",
-    "contents": "O verbo be é a base de várias gramáticas no Inglês. Nas duas tables abaixo você pode revisar as conjugações e frases de exemplo. \n\n | I | He/She/It | You/We/They | \n | --- | --- | --- | \n | Am | Is | Are | \n\n Você pode usar o verbo assim: \n\n | + | - | ? | \n | --- | --- | --- | \n | I am happy. | I am not happy | Am I happy? \n | He is fine. | He isn't fine. | Is he fine? \n | You are at home | You aren't at home | Are you at home? \n\n O verbo be também usa várias abreviações: \n\n | Am | Is | Are | \n | --- | --- | --- | \n | 'm | 's | 're | \n | --- | isn't | aren't |"
+    "contents": "O verbo be é a base de várias gramáticas no Inglês. Nas duas tables abaixo você pode revisar as conjugações e frases de exemplo. \n\n | I | He/She/It | You/We/They | \n | --- | --- | --- | \n | Am | Is | Are | \n\n Você pode usar o verbo assim: \n\n | + | - | ? | \n | --- | --- | --- | \n | I am happy. | I am not happy. | Am I happy? \n | He is fine. | He isn't fine. | Is he fine? \n | You are at home. | You aren't at home. | Are you at home? \n\n O verbo be também usa várias abreviações: \n\n | Am | Is | Are | \n | --- | --- | --- | \n | 'm | 's | 're | \n | --- | isn't | aren't |"
   },
 
   "unit2": {
     "title": "Adjetivos possesivos",
     "contents": "Na tabela abaixo você pode revisar os adjetivos possesivos. \n\n | Pronome | Adjetivo | \n | --- | --- | \n | I | My | \n | You | Your | \n | He | His | \n | She | Her | \n | It | Its | \n | We | Our | \n | They | Them | \n"
+  },
+
+  "unit4": {
+    "title": "Presente Contínuo",
+    "contents": "Para falar que alguma coisa está acontecendo, ou seja, ainda não acabou, a gente vai usar o *presente contínuo*. Isso significa que vamos usar o verbo *be* (está) e um verbo terminando em *-ing* (o '-endo', do 'acontecendo'). \n\n | + | - | ? | \n | --- | --- | --- | \n | I **am** work**ing**. | I **am not** work**ing**. | **Am** I work**ing**? \n | He **is** play**ing**. | He **is**n't play**ing**. | **Is** he play**ing**?  \n | You **are** study**ing**. | You **are**n't study**ing**. | **Are** you study**ing**? \n\n As outras regras e abreviações do be (como isn't out aren't) também contam aqui!"
+  },
+
+  "unit14": {
+    "title": "Passado Simples",
+    "contents": "Pra contarmos histórias no inglês, nós vamos usar o *passado simples*. Nessa gramática começamos a usar *verbos irregulares* em algumas situações, e em outras vamos usar o *did* ou um verbo terminando em *ed*. \n\n |  | + | - | ? | \n | --- | --- | --- | --- | \n | **Irregular** | I **ate** pizza. | I **did**n't eat pizza. | **Did** I eat pizza? \n | **Regular** | I lik**ed** pizza. | I **did**n't like pizza. | **Did** I like pizza? | \n\n Para uma lista completa de verbos irregulares veja nosso dicionário."
   }
 
 }

@@ -17,6 +17,8 @@ import { GroupAdminHome } from '%getjs=schools.js%end';
 import { Arcade } from '%getjs=Arcade.js%end';
 import { Faq } from '%getjs=faq.js%end';
 import { Help } from '%getjs=Help.js%end';
+import { Ranking } from '%getjs=Ranking.js%end';
+import { User } from '%getjs=user.js%end';
 
 function Header_buttonImage(props) {
 
@@ -92,7 +94,9 @@ class App extends React.Component {
       shop: Shop,
       arcade: Arcade,
       faq: Faq,
-      help: Help
+      help: Help,
+      ranking: Ranking,
+      user: User
     }
 
     this.state = {
@@ -192,6 +196,8 @@ class App extends React.Component {
 
   setPage = (page) => {
 
+    var appFrame = document.getElementById('app');
+
     var pageTitles = Object.keys(this.state.routes);
     var pages = Object.values(this.state.routes);
     var title = pages.indexOf(page);
@@ -209,7 +215,11 @@ class App extends React.Component {
       history = document.body.dataset.nests;
     }
 
-    window.history.pushState({ route: title },"", window.location.origin + '/' + history);
+    if (this.lastPushedHistory != history) {
+      window.history.pushState({ route: title },"", window.location.origin + '/' + history);
+      this.lastPushedHistory = history;
+    }
+
     document.body.dataset.route = title;
     
     if (title != nests[0]) {
@@ -231,6 +241,14 @@ class App extends React.Component {
 
     this.setState({
       page: page
+    }, () => {
+
+      appFrame.classList.add('animate', 'fade-animation');
+      
+      setTimeout(() => {
+        appFrame.classList.remove('animate', 'fade-animation');
+      }, 5000);
+
     });
 
   }
@@ -554,8 +572,35 @@ class App extends React.Component {
       ),
       e(
         'main',
-        {},
+        { id: 'app' },
         e(this.state.page, { i18n: this.state.i18n, userdata: this.state.userdata, setPage: this.setPage })
+      ),
+      e(
+        'footer',
+        { className: 'my-5 d-none d-md-flex flex-column text-grey-darker text-s justify-content-center align-items-center' },
+        e(
+          'nav',
+          {},
+          e(
+            'ol',
+            { className: 'breadcrumb m-0' },
+            e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.faq_link }, this.state.i18n.help)),
+            e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.privacy_link }, this.state.i18n.privacy)),
+            e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.terms_link }, this.state.i18n.terms)),
+            e('li', { className: 'breadcrumb-item d-none' }, e('a', { href: this.state.i18n.schools_footer_link }, this.state.i18n.schools)),
+          )
+        ),
+        e(
+          'span',
+          { className: 'my-2' },
+          e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
+          e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
+        ),
+        e(
+          'span',
+          { className: 'text-sss' },
+          window.HTMLReactParser((this.state.i18n.meta_thirdparty_credit ? this.state.i18n.meta_thirdparty_credit : ""))
+        )
       )
     ];
   };

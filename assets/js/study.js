@@ -16,6 +16,7 @@ import {
 } from '%getjs=Common.js%end';
 import { PersistentMeeting, Header } from '%getjs=Header.js%end';
 import { Flashcards } from '%getjs=Flashcards.js%end';
+import { WhoAmI_openPayments_paymentItem } from '%getjs=account.js%end';
 
 const HomeContext = React.createContext();
 
@@ -543,6 +544,18 @@ function UserHome_WelcomeCard(props) {
       }
 
       var thePayments = [];
+      var backButton = e(HomeContext.Consumer, null, ({setPage}) => e(
+        'button',
+        {
+          id: 'back-button',
+          className: 'btn-tall blue round-border',
+          onClick: () => {
+            setPage(UserHome_CardsRenderer);
+          }
+        },
+        e('i', { className: 'bi bi-arrow-90deg-left' }),
+        e('span', { className: 'ms-1' }, thei18n.back)
+      ));
 
       theUserdata.user_diary.payments.forEach((item) => {
 
@@ -558,6 +571,19 @@ function UserHome_WelcomeCard(props) {
             message = thei18n.bill_expired.replace('%v', item.value);
             cardColor = 'red';
           }
+
+          var itemFull = () => {
+
+            return e(HomeContext.Consumer, null, ({appSetPage}) => e(
+              'div',
+              { className: 'squeeze rounded-box' },
+              e(
+                WhoAmI_openPayments_paymentItem,
+                { item: item, i18n: thei18n, backButton: backButton, appSetPage: appSetPage }
+              )
+            ));
+
+          };
 
           thePayments.push(
             e(
@@ -577,16 +603,16 @@ function UserHome_WelcomeCard(props) {
                 e(
                   'div',
                   { className: 'mt-2' },
-                  e(
+                  e(HomeContext.Consumer, null, ({setPage}) => e(
                     'button',
                     {
                       onClick: () => {
-                        window.location.href = thei18n.account_link;
+                        setPage(itemFull)
                       },
                       className: 'btn-tall btn-sm green'
                     },
                     thei18n.see_bill
-                  )
+                  ))
                 )
               )
             )
@@ -839,6 +865,7 @@ export class UserHome extends React.Component {
       addCard: this.addCard,
       cards: this.defaultCards,
       meeting: null,
+      appSetPage: props.setPage
     };
 
   }
@@ -868,8 +895,12 @@ export class UserHome extends React.Component {
   }
 
   setPage = (page, args) => {
+
+    if (typeof args != 'object') {
+    args = {}; }
+
     this.setState({
-      page: page
+      page: e(page, args)
     });
   }
 

@@ -11,24 +11,6 @@ include_once $template_dir . '/functions/Assets.php';
 
 ?>
 
-<footer class="my-5 d-none d-md-flex flex-column text-grey-darker text-s justify-content-center align-items-center">
-  <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item"><a href="<?php echo $gi18n['faq_link'] ?>"><?php echo $gi18n['help'] ?></a></li>
-      <li class="breadcrumb-item"><a href="<?php echo $gi18n['privacy_link'] ?>"><?php echo $gi18n['privacy'] ?></a></li>
-      <li class="breadcrumb-item"><a href="<?php echo $gi18n['terms_link'] ?>"><?php echo $gi18n['terms'] ?></a></li>
-      <li class="breadcrumb-item d-none"><a href="<?php echo $gi18n['schools_footer_link'] ?>"><?php echo $gi18n['schools'] ?></a></li>
-    </ol>
-  </nav>
-  <span class="my-2">
-    &copy; 2019 - <?php echo date('Y') . ' ' . $gi18n['company_name']; ?>
-    <?php echo $gi18n['company_cnpj'] . ' / ' . $gi18n['company_address'] ?>
-  </span>
-
-  <span class="text-sss"><?php echo $gi18n['meta_thirdparty_credit'] ?></span>
-  
-</footer>
-
 <script>window.guyra_version = '<?php echo GUYRA_VERSION ?>';</script>
 <script src="<?php echo GetMinifiedAsset('js', 'react.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>

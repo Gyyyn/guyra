@@ -2,7 +2,7 @@
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.4.6');
+define('GUYRA_VERSION', '0.4.7');
 
 // Initialize the App enviroment
 include_once './functions/Init.php';
@@ -70,7 +70,7 @@ CaptureRequest(function($r, $_nests) {
 
     $pageAsJs = $template_dir . '/assets/js/' . $pageToLoad . '.js';
 
-    if (file_exists($pageAsJs)) {
+    if (file_exists($pageAsJs) || $pageToLoad == 'home' ) {
       $route[] = $pageToLoad;
     } else {
       $page = $template_dir . '/pages/' . $pageToLoad . '.php';

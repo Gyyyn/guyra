@@ -76,15 +76,12 @@
 
 .prices.primary .card {
   background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
+  height: 105%;
+	top: -5%;
 }
 
 .prices.primary.business .card {
   background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
-}
-
-.prices.primary .card {
-	height: 105%;
-	top: -5%;
 }
 
 .prices .card .card-body {

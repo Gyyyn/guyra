@@ -9,6 +9,15 @@ import {
 const RankingContext = React.createContext();
 
 function Ranking_Wrapper(props) {
+
+  if (props.ranking_list.length == 0) {
+    return e(
+      'div',
+      {},
+      props.i18n.ranking_empty
+    );
+  }
+
   return e(
     'div',
     { className: 'ranking-squeeze' },
@@ -75,6 +84,7 @@ function Ranking_Wrapper(props) {
       );
     })
   );
+
 }
 
 export class Ranking extends React.Component {

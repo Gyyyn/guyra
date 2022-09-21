@@ -170,7 +170,6 @@ if ($is_logged_in) {
 		];
 
 		$changedGamedata = true;
-		$dailyStreakBroken = true;
 
 	}
 
@@ -179,11 +178,6 @@ if ($is_logged_in) {
 		$now = time();
 		$expireTime = $challenge['started'] + $challenge['limiter']['amount'];
 		$delete = false;
-
-		if ($challenge['type'] == 'streak' && $dailyStreakBroken) {
-			$failed = true;
-			$sendNotification = $gi18n['notification_challenge_lost'];
-		}
 
 		// Check if the goals are done.
 		if ($challenge['goal']['amount'] == $challenge['goal']['done'] && !$failed && $challenge['type']) {

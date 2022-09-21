@@ -1378,7 +1378,7 @@ function AccountOptions_GeneralOptions(props) {
         {
           dom_id: 'notepad-checkbox',
           checked: localOptions.notepad_enabled,
-          value: 'Habilitar bloco de notas',
+          value: thei18n.enable_notepad,
           onClick: () => {
 
             localOptions = GuyraLocalStorage('get', 'guyra_options');
@@ -1406,7 +1406,7 @@ function AccountOptions_GeneralOptions(props) {
               { className: 'badge bg-primary me-2' },
               'BETA'
             ),
-            'Habilitar modo noturno',
+            thei18n.enable_nightmode,
             e(() => {
 
               var localOptions = GuyraLocalStorage('get', 'guyra_options');
@@ -1672,7 +1672,7 @@ function AccountOptions(props) {
     e(
       'div',
       { className: 'd-flex justify-content-center mt-5' },
-      e('img', { className: 'page-icon medium', src: GuyraGetImage('icons/digital-marketing.png', { size: 128 }) })
+      e('img', { className: 'page-icon medium', src: GuyraGetImage('img/digital-marketing.png', { size: 128 }) })
     )
   );
 
@@ -1705,7 +1705,12 @@ function WhoAmI_welcome(props) {
           e(
             'span',
             { className: 'ms-1 fw-bold' },
-            dateRegisteredSince.toLocaleDateString() + '!'
+            dateRegisteredSince.toLocaleDateString() + '!',
+          ),
+          e(
+            'span',
+            { className: 'ms-1' },
+            i18n.guyra_thanks_you
           )
         )
       ),
@@ -1751,6 +1756,10 @@ class WhoAmI_openPayments_qrCode extends React.Component {
 
   componentWillMount() {
 
+    if (!theUserdata.doc_id) {
+      return;
+    }
+
     this.theCode = e(
       'img',
       {
@@ -1776,15 +1785,29 @@ class WhoAmI_openPayments_qrCode extends React.Component {
   }
 }
 
-function WhoAmI_openPayments_paymentItem(props) {
+export function WhoAmI_openPayments_paymentItem(props) {
 
   var itemDue = GuyraParseDate(props.item.due);
   var itemValue = parseInt(props.item.value);
   let now = new Date();
   var overdueExtra = false;
   var overdueInset = null;
-
+  var noDocWarning = null;
   var pix_code = '2966bc87-54bd-4334-87e8-e8b86f305f87';
+
+  if (!theUserdata.doc_id) {
+
+    noDocWarning = e(
+      'div',
+      { className: 'dialog-box red mb-3' },
+      'Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.'
+    );
+
+  }
+
+  if (!props.backButton) {
+    props.backButton = null;
+  }
 
   if (itemDue < now) {
 
@@ -1798,44 +1821,44 @@ function WhoAmI_openPayments_paymentItem(props) {
       'R$' + props.item.value,
       ' + ',
       'R$' + overdueExtra + ' ',
-      thei18n.overdue_fees.toLowerCase(),
-      e(AccountContext.Consumer, null, ({appSetPage}) => e(
+      props.i18n.overdue_fees.toLowerCase(),
+      e(
         'button',
         {
           className: 'btn',
           onClick: () => {
-            appSetPage(Faq);
+            props.appSetPage(Faq);
           }
         },
         e('i', { className: 'bi bi-question-circle text-blue-darker' })
-      )),
+      ),
       ')'
     );
     
   }
 
-  return e(AccountContext.Consumer, null, ({i18n}) => e(
+  return e(
     'div',
     { className: 'payments-pay justfade-animation animate' },
-    e(Account_BackButton, { page: AccountWrapper }),
+    props.backButton,
     e(
       'div',
       { className: 'payment-item row mt-3' },
       e(
         'div',
-        { className: 'qr-code col-auto d-none d-md-flex' },
+        { className: 'align-items-center col-auto d-md-flex d-none qr-code' },
         e(
           'div',
           { className: 'card trans blue mb-3' },
           e('h3', { className: 'mb-2' },
-            i18n.qr_code,
+          props.i18n.qr_code,
             e(
               'button',
               {
                 className: 'btn',
                 onMouseOver: (event) => {
 
-                  var tooltip = createTooltip(event.target, i18n.pix_qr_code_explain, {class: 'text-font-text'});
+                  var tooltip = createTooltip(event.target, props.i18n.pix_qr_code_explain, {class: 'text-font-text'});
 
                   event.target.onmouseout = () => {
                     tooltip.remove();
@@ -1852,34 +1875,35 @@ function WhoAmI_openPayments_paymentItem(props) {
       e(
         'div',
         { className: 'col' },
+        noDocWarning,
         e(
           'div',
           { className: 'card trans' },
-          e('h2', { className: 'mb-2' }, i18n.payment),
+          e('h2', { className: 'mb-2' }, props.i18n.payment),
           e(
             'div',
             { className: 'd-inline mb-2' },
             e(
               'div',
-              { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap' },
+              { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap align-items-center' },
               e(
                 'span',
                 { className: 'me-2' },
-                e('span', {}, i18n.value + ': '),
-                e('span', { className: 'fw-bold ms-1'}, 'R$' + itemValue),
+                e('span', {}, props.i18n.value + ': '),
+                e('span', { className: 'fw-bold ms-1'}, props.i18n.currency_iso + itemValue),
               ),
               overdueInset
             ),
             e(
               'div',
               { className: 'badge bg-white me-2 mb-2 text-n' },
-              e('span', {}, i18n.due_date + ': '),
+              e('span', {}, props.i18n.due_date + ': '),
               e('span', {}, itemDue.toLocaleDateString())
             ),
             e(
               'div',
               { className: 'badge bg-primary text-white me-2 mb-2 d-flex flex-row align-items-center' },
-              e('div', {}, thei18n.pix + ': '),
+              e('div', {}, props.i18n.pix + ': '),
               e('div', { style: { maxWidth: '40vw' }, className: 'overflow-hidden ms-2' }, pix_code),
               e(
                 'button',
@@ -1888,7 +1912,7 @@ function WhoAmI_openPayments_paymentItem(props) {
                   onClick: (event) => {
 
                     var before = event.target.innerHTML;
-                    event.target.innerHTML = i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
+                    event.target.innerHTML = props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
 
                     navigator.clipboard.writeText(pix_code);
 
@@ -1898,31 +1922,32 @@ function WhoAmI_openPayments_paymentItem(props) {
 
                   }
                 },
-                i18n.copy,
+                props.i18n.copy,
                 e('i', { className: 'bi bi-files-alt ms-1' })
               )
             ),
           ),
-          e('span', {}, i18n.payment_message),
+          e('span', {}, props.i18n.payment_message),
         )
       )
     )
-  ));
+  );
 }
 
 function WhoAmI_openPayments(props) {
 
   var items = [];
+  var backButton = e(Account_BackButton, { page: AccountWrapper });
 
   if (props.openPayments != null) {
     props.openPayments.forEach((item) => {
 
       items.push(
-        e(AccountContext.Consumer, null, ({setPage}) => e(PaymentItem, {
+        e(AccountContext.Consumer, null, ({setPage, i18n, appSetPage}) => e(PaymentItem, {
           due: item.due,
           value: item.value,
           onClick: () => {
-            setPage(WhoAmI_openPayments_paymentItem, { item: item })
+            setPage(WhoAmI_openPayments_paymentItem, { item: item, i18n: i18n, backButton: backButton, appSetPage: appSetPage })
           }
         }))
       );

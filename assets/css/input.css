@@ -230,7 +230,7 @@ input.form-control:not(.bs),
   font-family: var(--guyra-fonts-text);
   border: unset;
   outline: unset;
-  background: var(--guyra-grey);
+  background-color: var(--guyra-grey);
   border-radius: var(--guyra-border-radius);
   width: 100%;
 }

@@ -7,8 +7,7 @@ import {
     GuyraParseDate,
     RoundedBoxHeading,
 } from '%getjs=Common.js%end';
-import { Header } from '%getjs=Header.js%end';
-import { RenderCalendar } from '%getjs=Calendar.js';
+import { RenderCalendar } from '%getjs=Calendar.js%end';
   
 const UserContext = React.createContext();
 
@@ -49,7 +48,7 @@ class User_Profile extends React.Component {
                     'div',
                     { className: 'd-flex flex-column' },
                     e('h2', { className: 'text-blue mb-3' }, 'Agenda de ' + user.first_name),
-                    e(RenderCalendar, { range: 1, diary: user.user_diary })
+                    e(RenderCalendar, { range: 1, user: user })
                 )
             )
 
@@ -59,9 +58,8 @@ class User_Profile extends React.Component {
 
 }
 
-class User extends React.Component {
+export class User extends React.Component {
     constructor(props) {
-
         super(props);
 
         this.setPage = (page) => {
@@ -74,20 +72,55 @@ class User extends React.Component {
         this.state = {
             page: e(LoadingPage),
             setPage: this.setPage,
+            user: {}
         };
 
     }
 
     componentWillMount() {
 
+        var nests = document.body.dataset.nests.split('/');
+        var user = nests[1];
+        var is_self = false;
+
         GuyraGetData().then(res => {
 
-            this.setState({
-                page: e(User_Profile),
-                user: this.props.user
+            var decideUser = new Promise((resolve) => {
+
+                if (!user) {
+
+                    user = theUserdata;
+                    is_self = true;
+
+                    resolve(true);
+
+                } else {
+
+                    fetch(thei18n.api_link +  '?get_user_data=1&user=' + user).then(res => res.json()).then(res => {
+
+                        if (typeof res != 'object') {
+                            res = JSON.parse(res);
+                        }
+
+                        user = res;
+                        resolve(true);
+
+                    });
+                }
+                
             });
-    
-            document.title = this.props.user.first_name + ' - ' + thei18n.company_name;
+
+            decideUser.then(res => {
+
+                this.setState({
+                    page: e(User_Profile),
+                    user: user,
+                    is_self: is_self
+                });
+
+                document.title = this.state.user.first_name + ' - ' + thei18n.company_name;
+
+            });
 
         });
 
@@ -95,22 +128,10 @@ class User extends React.Component {
 
     render() {
 
-        theUser.is_self = false;
-
         return e(
-            'main',
-            { className: 'squeeze' },
-            e(Header),
-            e(
-                'div',
-                { className: 'user-squeeze page-squeeze rounded-box' },
-                e(UserContext.Provider, {value: this.state}, this.state.page)
-            ),
+            'div',
+            { className: 'user-squeeze squeeze rounded-box' },
+            e(UserContext.Provider, {value: this.state}, this.state.page)
         );
     };
-}
-
-
-if(document.getElementById('user-container')) {
-    ReactDOM.render(e(User, { user: theUser }), document.getElementById('user-container'));
 }

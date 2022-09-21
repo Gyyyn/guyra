@@ -119,6 +119,7 @@ if ($_GET['get_ranking_page']) {
       'user_private' => $user_private
     ];
 
+    if ($user_data['gamedata']['elo_validity'] > time())
     $output[] = $user;
 
   }

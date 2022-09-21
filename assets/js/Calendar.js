@@ -1,11 +1,8 @@
 import {
   e,
-  GuyraGetData,
   thei18n,
-  theUserdata,
   LoadingPage,
   PopUp,
-  Slider
 } from '%getjs=Common.js%end';
 
 const now = new Date();
@@ -32,16 +29,15 @@ function ConstructMonth(month, year) {
 
 }
 
-function RenderMonth(month, year, diary) {
+function RenderMonth(month, year, user) {
+
+  var diary = user.user_diary;
   var theMonthsDays = ConstructMonth(month, year);
   var weekStartsOn = 'Mon';
   var theWeek = [];
   var theMonth = [];
   var firstDayOfTheMonth = theMonthsDays[0].toDateString().split(' ')[0];
   var dayQueue = [];
-
-  if (!diary) {
-  diary = {} }
 
   var theDays = [
     'Mon',
@@ -102,7 +98,7 @@ function RenderMonth(month, year, diary) {
             {
               day: item.toDateString(),
               activeHours: [8,22],
-              diary: diary
+              user: user
             }));
 
         }
@@ -156,7 +152,7 @@ class RenderDay_Hour extends React.Component {
         icons.push(e('i', { className: "bi bi-arrow-repeat me-2" }));
       }
 
-      if (theUser.is_self) {
+      if (this.props.user.is_self) {
         icons.push(e('i', { className: "bi bi-pen" }));
       } else {
         icons.push(e('i', { className: "bi bi-box-arrow-in-down-left" }));
@@ -205,7 +201,7 @@ class RenderDay_Hour extends React.Component {
 
             var theValue = document.querySelector('#schedule-value').value;
 
-            if (theUser.is_self) {
+            if (this.props.user.is_self) {
 
               if (this.state.hasRecurring) {
                 this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, theValue);
@@ -224,7 +220,7 @@ class RenderDay_Hour extends React.Component {
           }
         },
         e(() => {
-          if (theUser.is_self) {
+          if (this.props.user.is_self) {
             return thei18n.save;
           } else {
             return thei18n.button_request_time;
@@ -255,11 +251,20 @@ class RenderDay extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.diary) {
-    this.props.diary = {}; }
+    if (!this.props.user) {
+    return null }
+
+    if (!this.props.user.user_diary) {
+      this.props.diary = {}
+    } else {
+      this.props.diary = this.props.user.user_diary
+    }
 
     if (!this.props.diary.calendar) {
     this.props.diary.calendar = {}; }
+
+    if (!this.props.diary.calendar.recurring) {
+    this.props.diary.calendar.recurring = {}; }
 
     this.state = {
       calendar: this.props.diary.calendar,
@@ -332,7 +337,7 @@ class RenderDay extends React.Component {
     };
 
     fetch(
-      thei18n.api_link + '?appointment=1&action=request&user=' + theUser.id,
+      thei18n.api_link + '?appointment=1&action=request&user=' + this.props.user.id,
       {
         method: "POST",
         headers: {
@@ -403,7 +408,8 @@ class RenderDay extends React.Component {
           RequestAppointment: this.RequestAppointment,
           day: this.props.day,
           hour: theHour,
-          hasRecurring: hasRecurring
+          hasRecurring: hasRecurring,
+          user: this.props.user
         }));
 
       }
@@ -451,6 +457,8 @@ export class RenderCalendar extends React.Component {
     var currentYear = now.getFullYear();
     var nextYear = currentYear + 1;
 
+    this.props.diary = this.props.user.user_diary;
+
     var theMonths = [
       'January',
       'February',
@@ -482,14 +490,15 @@ export class RenderCalendar extends React.Component {
         theMonth = (i - monthsInCurrentYear);
       }
 
-      this.view.push(RenderMonth(theMonths[theMonth], theYear, this.props.diary));
+      this.view.push(RenderMonth(theMonths[theMonth], theYear, this.props.user));
 
     }
 
     this.state = {
       view: e(LoadingPage),
       setDaySchedule: this.setDaySchedule,
-      daySchedule: null
+      daySchedule: null,
+      user: this.props.user
     };
 
   }
@@ -519,7 +528,7 @@ export class RenderCalendar extends React.Component {
   save = () => {
     
     fetch(
-      thei18n.api_link + '?action=update_diary&user=' + theUser.id,
+      thei18n.api_link + '?action=update_diary&user=' + this.props.user.id,
       {
         method: "POST",
         headers: {
@@ -536,14 +545,14 @@ export class RenderCalendar extends React.Component {
 
     return e(CalendarContext.Provider, {value: this.state}, e(
       'div',
-      { className: 'calendar justfade-animation animate d-flex flex-row' },
+      { className: 'calendar d-flex flex-row' },
       e(
         'div',
         { className: 'd-flex flex-column' },
         this.state.view,
         e(() => {
 
-          if (theUser.is_self) {
+          if (this.props.user.is_self) {
             return e(
               'button',
               {

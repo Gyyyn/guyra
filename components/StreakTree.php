@@ -48,6 +48,16 @@ function UserLoginUpdateStreakStatus($user_id) {
 
       // Prevents a notifications being sent on streak reset.
       if ($streak_info['last_logged_activity'] > 1) {
+
+        foreach ($gamedata['challenges'] as &$challenge) {
+
+          if ($challenge['type'] == 'streak') {
+            unset($challenge);
+            PushNotification($gi18n['notification_challenge_lost']);
+          }
+
+        }
+
         PushNotification($gi18n['notification_streak_lost']);
       }
 
