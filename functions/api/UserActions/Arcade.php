@@ -6,6 +6,7 @@ global $gi18n;
 global $gLang;
 global $current_user_id;
 global $current_user_data;
+global $current_user_gamedata;
 global $template_dir;
 
 include_once $template_dir . '/functions/Game.php';
@@ -37,6 +38,9 @@ function Game_Wordle($wordlist) {
 
 if ($_GET['get_game']) {
 
+  if ($current_user_gamedata['level'] < 1)
+  guyra_output_json('no credit', true);
+
   $game_type = $_GET['get_game'];
   $lang = 'en';
 
@@ -44,6 +48,8 @@ if ($_GET['get_game']) {
   $wordlist = file_get_contents($wordlistPath);
 
   $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);
+
+  Guyra_decrease_user_level($current_user_id, 1);
 
   guyra_output_json(Game_Wordle($wordlist), true);
 
@@ -58,8 +64,6 @@ if ($_GET['transact_game']) {
 
     if ($action == 'win') {
       Guyra_increase_user_level($current_user_id, 5);
-    } else {
-      Guyra_decrease_user_level($current_user_id, 1);
     }
 
     guyra_output_json('true', true);

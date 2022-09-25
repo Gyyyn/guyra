@@ -41,6 +41,8 @@ function Arcade_BackButton(props) {
 
 function Arcade_GameChooser(props) {
 
+  var openSound = new Audio(props.i18n.audio_link + 'arcade_coin.mp3');
+
   return e(
     'div',
     { className: '' },
@@ -54,6 +56,7 @@ function Arcade_GameChooser(props) {
           fetch(props.i18n.api_link + '?transact_game=wordle').then(res => res.json()).then(res => {
 
             if (res) {
+              openSound.play();
               setPage(Game_Wordle);
             }
 
@@ -81,6 +84,9 @@ function Arcade_GameChooser(props) {
 class Game_Wordle extends React.Component {
   constructor(props) {
     super(props);
+
+    this.winSound = new Audio(this.props.i18n.audio_link + 'hit.mp3');
+    this.loseSound = new Audio(this.props.i18n.audio_link + 'miss.mp3');
 
     this.state = {
       words: [],
@@ -313,6 +319,8 @@ class Game_Wordle extends React.Component {
         gameOn: false,
       });
 
+      this.winSound.play();
+
       return;
 
     }
@@ -323,6 +331,8 @@ class Game_Wordle extends React.Component {
         dialog: e(this.loseScreen),
         gameOn: false,
       });
+
+      this.loseSound.play();
 
       return;
 

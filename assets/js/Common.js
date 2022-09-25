@@ -1166,64 +1166,8 @@ export class PopUp extends React.Component {
   constructor(props) {
     super(props);
 
-    this.bodyElement = this.props.bodyElement;
-
-    if (this.props.bodyElement === undefined) {
-      this.bodyElement = e(LoadingPage);
-    }
-
-    this.popup = e(
-      'div',
-      {
-        className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center mt-5',
-        id: 'popup',
-        style: {
-          zIndex: 1055,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          overflowY: 'auto'
-        }
-      },
-      e(
-        'div',
-        {
-          className: 'rounded-box pop-animation animate my-5',
-          style: {
-            maxWidth: 700 + 'px'
-          }
-        },
-        e(
-          'div',
-          {
-            class:"modal-header p-0",
-          },
-          e(
-            'h2',
-            { className: 'me-3' },
-            this.props.title
-          ),
-          e(
-            'button',
-            {
-              type: "button",
-              className: "btn-tall btn-sm red close",
-              "aria-label": "close",
-              onClick: () => {
-                this.close();
-              }
-            },
-            e('i', { className: "bi bi-x-lg" })
-          )
-        ),
-        e(
-          'div',
-          { className: 'modal-body p-0 mt-3' },
-          this.bodyElement
-        )
-      )
-    );
-
     this.state = {
-      popup: null
+      open: false
     };
 
   }
@@ -1231,7 +1175,7 @@ export class PopUp extends React.Component {
   open() {
 
     this.setState({
-      popup: this.popup
+      open: true
     });
 
     document.querySelector('body').classList.add('overflow-hidden');
@@ -1243,7 +1187,7 @@ export class PopUp extends React.Component {
     document.querySelector('body').classList.remove('overflow-hidden');
 
     this.setState({
-      popup: null
+      open: false
     });
 
   }
@@ -1259,7 +1203,68 @@ export class PopUp extends React.Component {
         },
         this.props.buttonElement
       ),
-      this.state.popup
+      e(() => {
+
+        if (!this.state.open) {
+        return null; }
+
+        var animationClass = '';
+
+        if (this.props.animation !== false) {
+          animationClass = 'pop-animation animate';
+        }
+
+        return e(
+          'div',
+          {
+            className: 'popup-wrapper position-fixed top-0 start-0 w-100 h-100 d-flex align-items-baseline justify-content-center',
+            id: 'popup',
+            style: {
+              zIndex: 1055,
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              overflowY: 'auto'
+            }
+          },
+          e(
+            'div',
+            {
+              className: 'rounded-box my-5 ' + animationClass,
+              style: {
+                maxWidth: 700 + 'px'
+              }
+            },
+            e(
+              'div',
+              {
+                class:"modal-header p-0",
+              },
+              e(
+                'h2',
+                { className: 'me-3' },
+                this.props.title
+              ),
+              e(
+                'button',
+                {
+                  type: "button",
+                  className: "btn-tall btn-sm red close",
+                  "aria-label": "close",
+                  onClick: () => {
+                    this.close();
+                  }
+                },
+                e('i', { className: "bi bi-x-lg" })
+              )
+            ),
+            e(
+              'div',
+              { className: 'modal-body p-0 mt-3' },
+              this.props.bodyElement
+            )
+          )
+        );
+
+      }),
     ];
   }
 }
@@ -1269,7 +1274,7 @@ export function formataCPF(cpf){
   // retira os caracteres indesejados...
   cpf = cpf.replace(/[^\d]/g, "");
   
-  //realizar a formatação...
+  // realizar a formatação...
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
 }
@@ -1277,19 +1282,33 @@ export function formataCPF(cpf){
 export function reactOnCallback(event, callback) {
 
   var before = event.target.innerHTML;
-  event.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+  var dots = document.createElement('i');
+  var margin = event.target.clientWidth / 2;
+  event.target.innerHTML = '';
+
+  dots.classList.add('bi', 'bi-three-dots');
+  event.target.appendChild(dots);
+
+  var iconWidth = dots.offsetWidth;
+  margin -= iconWidth;
+
+  dots.style.marginLeft = margin + 'px';
+  dots.style.marginRight = margin + 'px';
   
   callback().then(result => {
 
     if (result) {
-      event.target.innerHTML = '<i class="bi bi-check-lg"></i>';
+      dots.classList.remove('bi-three-dots');
+      dots.classList.add('bi-check-lg');
     } else {
-      event.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+      dots.classList.remove('bi-three-dots');
+      dots.classList.add('bi-exclamation-lg');
     }
 
     setTimeout(() => {
 
       event.target.innerHTML = before;
+      dots.remove();
       
     }, 1500);
 

@@ -160,6 +160,7 @@
    "days":"Dias",
    "status":"Status",
    "comment":"Comentário",
+   "recurring":"Recorrente",
    "delete":"Deletar",
    "close":"Fechar",
    "hour":"Horário",

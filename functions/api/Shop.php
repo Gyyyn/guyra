@@ -67,7 +67,3 @@ if ($_GET['use_item']) {
   guyra_output_json('true', true);
 
 }
-
-if ($_GET['testings']) {
-  RemoveItemFromInventory('challenge_streak_sevendays'); exit;
-}

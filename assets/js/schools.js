@@ -8,7 +8,8 @@ import {
   RoundedBoxHeading,
   RenderReplies,
   GetStandardDate,
-  onChangeForceHTTPS
+  onChangeForceHTTPS,
+  reactOnCallback
 } from '%getjs=Common.js%end';
 
 const GroupAdminHomeContext = React.createContext();
@@ -182,7 +183,7 @@ class DiaryEntry extends React.Component {
     return e(
       'div',
       {
-        className: 'diary-entry row g-3 fade-animation animate',
+        className: 'diary-entry row g-3',
         key: 'diary-entry-' + this.props.id
       },
       e(
@@ -407,7 +408,7 @@ function DiaryEntries(props) {
       {
         className: 'diary-entries'
       },
-      e(DiaryPaginatedEntries, { entries: Object.values(theEntries) })
+      e(DiaryPaginatedEntries, { entries: Object.values(theEntries), entriesPerPage: 5 })
     );
 
   });
@@ -416,7 +417,7 @@ function DiaryEntries(props) {
 function DiarySubmit(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'align-items-center animate diary-new-entry justfade-animation m-0 mt-3 p-2 row' },
+    { className: 'align-items-center diary-new-entry m-0 mt-3 p-2 row' },
     e(
       'span',
       { className: 'col-3 text-grey-darker text-end'},
@@ -493,7 +494,7 @@ function DiaryControls(props) {
   return e(
     'div',
     {
-      className: 'diary-controls justfade-animation animate d-flex justify-content-end mt-2'
+      className: 'diary-controls d-flex justify-content-end mt-2'
     },
     paymentsButton,
     e(DiaryContext.Consumer, null, ({diary, name}) => e(
@@ -542,11 +543,27 @@ function DiaryControls(props) {
       {
         className: 'btn-tall btn-sm green',
         id: 'save-button',
-        onClick: (e) => {
-          saveDiary();
-          var before = e.target.innerHTML;
-          e.target.innerHTML = '<i class="bi bi-check-lg"></i>'
-          setTimeout(() => { e.target.innerHTML = before; }, 1000)
+        onClick: (event) => {
+
+          reactOnCallback(event, () => {
+
+            return new Promise((resolve) => {
+
+              saveDiary().then(res => {
+
+                if (res) {
+                  resolve(true);
+                } else {
+                  resolve(false);
+                }
+
+
+              });
+
+            });
+
+          });
+          
         }
       },
       e('i', { className: "bi bi-save me-2"}),
@@ -578,7 +595,7 @@ class DiaryProper extends React.Component {
     return e(
       'div',
       {
-        className: 'diary justfade-animation animate'
+        className: 'diary'
       },
       this.diaryWrapper,
       e(DiaryContext.Consumer, null, ({paymentArea}) => paymentArea),
@@ -592,7 +609,7 @@ class DiaryProper extends React.Component {
 function PaymentAreaInfo(props) {
   return e(DiaryContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row justfade-animation animate' },
+    { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row' },
     e('span', { className: 'col-2' }, i18n.value),
     e('span', { className: 'col-2' }, i18n.status),
     e('span', { className: 'col' }, i18n.due_date)
@@ -689,7 +706,7 @@ class PaymentAreaEntry extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary}) => e(
       'div',
       {
-        className: 'diary-entry row g-0 fade-animation animate'
+        className: 'diary-entry row g-0'
       },
       e(
         'span',
@@ -730,13 +747,13 @@ class PaymentArea extends React.Component {
   render() {
     return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
-      { className: 'justfade-animation animate mt-5' },
+      { className: 'mt-5' },
       e('h2', { className: 'mb-3' }, i18n.payment),
       e(PaymentAreaInfo),
       e(
         'div',
         { className: 'diary-entries' },
-        e(DiaryPaginatedEntries, {entries: diary.payments, mode: 'payment', entriesPerPage: 5})
+        e(DiaryPaginatedEntries, {entries: diary.payments, mode: 'payment', entriesPerPage: 3})
       ),
       e(
         'div',
@@ -886,38 +903,53 @@ class Diary extends React.Component {
   }
 
   saveDiary = () => {
-    var x = this.state.diary;
+    
+    return new Promise((resolve, reject) => {
 
-    var dayAssigned = document.getElementById('day-picker');
+      var x = this.state.diary;
 
-    if (dayAssigned != null) {
-      if (dayAssigned.value != '') {
-        x.dayAssigned = dayAssigned.value;
+      var dayAssigned = document.getElementById('day-picker');
+
+      if (dayAssigned != null) {
+        if (dayAssigned.value != '') {
+          x.dayAssigned = dayAssigned.value;
+        }
       }
-    }
 
-    this.setState({
-      diary: x
+      this.setState({
+        diary: x
+      });
+
+      var dataToPost = x;
+
+      if (this.props.diarytype == 'group') {
+        this.theOtherDiaries.diaries[this.props.grouptag] = x;
+        dataToPost = this.theOtherDiaries;
+      }
+
+      fetch(
+        thei18n.api_link + '?action=update_diary&user=' + this.props.diaryId,
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataToPost)
+        }
+      ).then(res => res.json()).then(res => {
+
+        if (res != 'true') {
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+        
+      });
+      
     });
 
-    var dataToPost = x;
-
-    if (this.props.diarytype == 'group') {
-      this.theOtherDiaries.diaries[this.props.grouptag] = x;
-      dataToPost = this.theOtherDiaries;
-    }
-
-    fetch(
-      thei18n.api_link + '?action=update_diary&user=' + this.props.diaryId,
-      {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToPost)
-      }
-    );
   }
 
   openPayments = () => {
@@ -1029,7 +1061,27 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         'span',
         { className: 'd-flex flex-row' },
         e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
-        e('button', { className: 'btn-tall green', onClick: this.addToGroup }, e('i', {className: 'bi bi-plus-lg'}))
+        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
+          'button',
+          {
+            className: 'btn-tall green',
+            onClick: () => {
+              
+              this.addToGroup().then(res => {
+
+                if (res) {
+                  
+                  user_list[this.props.userId].userdata.studygroup = document.getElementById('add-to-group').value;
+                  updateUserList(user_list);
+
+                }
+
+              });
+
+            }
+          },
+          e('i', {className: 'bi bi-plus-lg'})
+        ))
       ),
     );
 
@@ -1041,7 +1093,28 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       e(
         'span',
         { className: 'd-flex flex-row' },
-        e('button', { className: 'btn-tall btn-sm', onClick: this.archiveStudent },  e('i', {className: 'bi bi-archive me-3'}), thei18n.archive_student)
+        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
+          'button',
+          {
+            className: 'btn-tall btn-sm',
+            onClick: () => {
+
+              this.archiveStudent().then(res => {
+
+                if (res) {
+                  
+                  delete user_list[this.props.userId];
+                  updateUserList(user_list);
+
+                }
+
+              });
+
+            }
+          },
+          e('i', {className: 'bi bi-archive me-3'}),
+          thei18n.archive_student
+        ))
       ),
     );
 
@@ -1060,15 +1133,28 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
           { className: 'd-flex flex-row flex-wrap' },
           this.props.groupData.map((user) => {
 
-            return e(
+            return e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
               'button', {
                 className: 'btn-tall btn-sm red me-2 mb-2',
                 id: 'remove-from-group-' + user.id,
-                onClick: () => { this.removeFromGroup(user.id) }
+                onClick: () => {
+
+                  this.removeFromGroup(user.id).then(res => {
+
+                    if (res) {
+                  
+                      user_list[this.props.userId].userdata.studygroup = '';
+                      updateUserList(user_list);
+    
+                    }
+
+                  });
+
+                }
               },
               e('i', {className: 'bi bi-dash-lg me-1'}),
               user.userdata.first_name
-            );
+            ));
 
           }),
         ),
@@ -1098,79 +1184,81 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   }
 
   addToGroup = () => {
+    
+    return new Promise((resolve, reject) => {
 
-    var theGroupTag = document.getElementById('add-to-group');
+      var theGroupTag = document.getElementById('add-to-group');
 
-    if (!this.validateForm(theGroupTag)) {
-      return;
-    }
-
-    fetch(thei18n.api_link + '?user=' + this.props.userId + '&assigntogroup=' + theGroupTag.value)
-    .then(res => res.json()).then(res => {
-
-      if (res != 'true') {
-        console.error('Update failed.');
-        return;
+      if (!this.validateForm(theGroupTag)) {
+        resolve(false);
       }
 
-      this.removeUser();
+      fetch(thei18n.api_link + '?user=' + this.props.userId + '&assigntogroup=' + theGroupTag.value)
+      .then(res => res.json()).then(res => {
 
+        if (res != 'true') {
+          reject('Update failed.');
+          return;
+        }
+
+        resolve(true);
+
+      });
+      
     });
 
   }
 
   removeFromGroup = (id) => {
 
-    var theButton = document.getElementById('remove-from-group-' + id);
+    return new Promise((resolve, reject) => {
 
-    fetch(thei18n.api_link + '?user=' + id + '&cleargroup=1')
-    .then(res => res.json()).then(res => {
+      var theButton = document.getElementById('remove-from-group-' + id);
 
-      if (res != 'true') {
-        console.error('Call failed.');
-        return;
-      }
+      fetch(thei18n.api_link + '?user=' + id + '&cleargroup=1')
+      .then(res => res.json()).then(res => {
 
-      if (theButton) {
-        theButton.remove();
-      }
+        if (res != 'true') {
+          reject('Call failed.');
+          return;
+        }
 
+        if (theButton) {
+          theButton.remove();
+        }
+
+        resolve(true);
+
+      });
+      
     });
 
   }
 
   archiveStudent = () => {
-    if (confirm(thei18n.are_you_sure)) {
+
+    return new Promise((resolve, reject) => {
+
+      if (!confirm(thei18n.are_you_sure)) {
+
+        reject('User Canceled.');
+        return;
+
+      }
 
       fetch(thei18n.api_link + '?user=' + this.props.userId + '&clearteacher=1')
       .then(res => res.json()).then(res => {
 
         if (res != 'true') {
-          console.error('Update failed.');
+          reject('API Call error.');
           return;
         }
 
-        this.removeUser();
+        resolve(true);
 
       });
-    }
-  }
-
-  removeUser() {
-
-    // WARNING: This is purely visual.
-
-    var theUserListing = document.getElementById('user_' + this.props.listingName);
-
-    if (theUserListing) {
-
-      theUserListing.classList.add('justfadeout-animation', 'animate');
-
-      setTimeout(() => {
-        theUserListing.remove();
-      }, 500);
-
-    }
+      
+    });
 
   }
 
@@ -1199,7 +1287,7 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
     if (!this.theReplies) {
     this.theReplies = []; }
 
-    this.theReplies.reverse();
+    // this.theReplies.reverse();
 
   }
 
@@ -1520,7 +1608,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         { className: 'justfade-animation animate page-view my-3 position-relative'},
         e(
           'div',
-          { className: 'control-area text-end' },
+          { className: 'd-flex justify-content-end mb-3' },
           e(
             'button',
             {
@@ -1603,7 +1691,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
     this.state = {
       search: '',
-      clearSearch: null
+      clearSearch: null,
+      searchOpen: false
     }
 
   }
@@ -1644,6 +1733,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
   }
 
   render() {
+    
     return e(
       'div',
       { className: 'squeeze-big schools rounded-box' },
@@ -1672,23 +1762,46 @@ class GroupAdminHome_AdminPanel extends React.Component {
         return e(
           'div',
           { className: 'd-flex flex-column mb-3' },
-          e('h2', { className: 'mb-2' }, thei18n.your_students),
           e(
             'div',
-            { className: 'dialog-box mb-3 position-relative' },
-            thei18n.search,
+            { className: 'd-flex justify-content-between mb-2' },
+            e('h2', { className: 'mb-2' }, thei18n.your_students),
             e(
-              'input',
+              'button',
               {
-                onChange: (e) => {
-                  this.setSearch(e.target.value);
-                },
-                className: 'form-control',
-                value: this.state.search
+                className: 'btn-tall',
+                onClick: () => {
+                  this.setState({
+                    searchOpen: !this.state.searchOpen
+                  });
+                }
               },
-            ),
-            this.state.clearSearch
+              e('i', { className: 'bi bi-search' })
+            )
           ),
+          e(() => {
+
+            if (!this.state.searchOpen) {
+            return null; }
+
+            return e(
+              'div',
+              { className: 'pop-animation animate dialog-box mb-3 position-relative' },
+              thei18n.search,
+              e(
+                'input',
+                {
+                  onChange: (e) => {
+                    this.setSearch(e.target.value);
+                  },
+                  className: 'form-control',
+                  value: this.state.search
+                },
+              ),
+              this.state.clearSearch
+            );
+
+          }),
           Object.values(user_list).map((user) => {
 
             // Check if this user is in a group
@@ -1730,12 +1843,17 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 className: 'btn-tall btn-sm green',
                 onClick: (event) => {
 
-                  var before = event.target.innerHTML;
+                  reactOnCallback(event, () => {
 
-                  this.copyCode();
+                    return new Promise((resolve) => {
 
-                  event.target.innerHTML = '<i class="bi bi-clipboard-check-fill"></i>'
-                  setTimeout(() => { event.target.innerHTML = before; }, 2000)
+                      this.copyCode();
+
+                      setTimeout(() => { resolve(true) }, 500)
+                      
+                    });
+
+                  });
 
                 }
               },
@@ -1841,7 +1959,63 @@ class GroupAdminHome_AdminPanel extends React.Component {
             thei18n.public_profile,
             e('i', { className: "bi bi-box-arrow-up-right ms-2" })
           )
-        )
+        ),
+        e(
+          'div',
+          { className: 'col-6' },
+          e('h3', { className: 'mb-3' }, 'Bio'),
+          e(
+            'div',
+            { className: 'dialog-box' },
+            e('textarea', { id: 'bio_textarea', className: 'form-control' }),
+          ),
+          e(
+            'button',
+            {
+              className: 'btn-tall blue',
+              onClick: (event) => {
+
+                reactOnCallback(event, () => {
+
+                  return new Promise((resolve, reject) => {
+
+                    var dataToPost = {
+                      fields: ['user_bio']
+                    };
+              
+                    dataToPost.user_bio = document.getElementById('bio_textarea').value;
+              
+                    fetch(
+                      thei18n.api_link + '?update_userdata=1',
+                      {
+                        method: "POST",
+                        headers: {
+                          'Accept': 'application/json, text/plain, */*',
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dataToPost)
+                      }
+                    ).then(res => res.json()).then(res => {
+
+                      if (res != true) {
+                        resolve(false);
+                        return;
+                      }
+
+                      resolve(true);
+
+                    });
+                    
+                  });
+
+                });
+
+              }
+            },
+            thei18n.save,
+            e('i', { className: "bi bi-save ms-2" })
+          )
+        ),
       )
     );
   }
@@ -1854,6 +2028,7 @@ export class GroupAdminHome extends React.Component {
 
     this.state = {
       user_list: {},
+      updateUserList: this.updateUserList,
       page: e(LoadingPage),
       setPage: this.setPage,
     };
@@ -1886,6 +2061,14 @@ export class GroupAdminHome extends React.Component {
     this.setState({
       page: page
     });
+  }
+
+  updateUserList = (users) => {
+
+    this.setState({
+      user_list: users,
+    });
+
   }
 
   render() {

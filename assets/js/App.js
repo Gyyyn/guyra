@@ -247,7 +247,7 @@ class App extends React.Component {
       
       setTimeout(() => {
         appFrame.classList.remove('animate', 'fade-animation');
-      }, 5000);
+      }, 1000);
 
     });
 

@@ -15,7 +15,8 @@ import {
   createTooltip,
   randomNumber,
   calculateOverdueFees,
-  formataCPF
+  formataCPF,
+  reactOnCallback
 } from '%getjs=Common.js%end';
 import { Ranking } from '%getjs=Ranking.js%end';
 import { Faq } from '%getjs=faq.js%end';
@@ -687,8 +688,12 @@ class AccountPayment extends React.Component {
             var response = res;
 
             if (response.status == 'authorized') {
+
               submitButton.innerHTML = '<i class="bi bi-lock-fill"></i>';
-              window.location.reload();
+              
+              window.localStorage.removeItem('guyra_userdata');
+              window.location.href = thei18n.home_link;
+
             } else {
               if (response.status) {
                 setMessageBox(thei18n['payments_status_' + response.status]);
@@ -822,7 +827,7 @@ class AccountPayment extends React.Component {
           topWarnings,
           e(
             'div',
-            { className: 'dialog-box info mt-3' },
+            { className: 'dialog-box info mt-3 d-none' },
             e(
               'div',
               { className: 'd-flex flex-row justify-content-between align-items-center' },
@@ -1414,6 +1419,7 @@ function AccountOptions_GeneralOptions(props) {
               return e(
                 'button',
                 {
+                  type: 'button',
                   className: 'btn-tall btn-sm blue ms-2',
                   onClick: () => {
                     

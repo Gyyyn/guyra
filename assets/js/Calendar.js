@@ -3,6 +3,7 @@ import {
   thei18n,
   LoadingPage,
   PopUp,
+  reactOnCallback
 } from '%getjs=Common.js%end';
 
 const now = new Date();
@@ -137,8 +138,13 @@ class RenderDay_Hour extends React.Component {
     super(props);
 
     this.state = {
-      hasRecurring: this.props.hasRecurring
+      hasRecurring: this.props.hasRecurring,
+      appointmentValue: this.props.appointment
     };
+
+    if (!this.props.user.is_self && this.state.appointmentValue) {
+      this.state.appointmentValue = e('span', { className: 'badge bg-red' }, thei18n.busy);
+    }
 
   }
 
@@ -149,57 +155,87 @@ class RenderDay_Hour extends React.Component {
       var icons = [];
 
       if (props.hasRecurring) {
-        icons.push(e('i', { className: "bi bi-arrow-repeat me-2" }));
+        icons.push(e('i', { className: "bi bi-arrow-repeat" }));
       }
 
       if (this.props.user.is_self) {
-        icons.push(e('i', { className: "bi bi-pen" }));
-      } else {
-        icons.push(e('i', { className: "bi bi-box-arrow-in-down-left" }));
+        icons.push(e('i', { className: "bi bi-pen ms-1" }));
       }
 
       return e(
         'span',
-        {
-          className: 'translate-middle position-absolute end-0 top-50'
-        },
+        { className: 'translate-middle position-absolute end-0 top-50 badge text-dark' },
         icons
       );
 
     }
 
     this.editHourButton = [
-      e('span', { className: 'fw-bold'}, this.props.hour + ':00'),
-      this.props.appointment,
+      e('span', { className: 'fw-bold me-2' }, this.props.hour + ':00'),
+      e(
+        'span',
+        { className: 'appointment ms-2 fs-italic ' + this.props.hour},
+        this.state.appointmentValue
+      ),
       e(this.editIcon, { hasRecurring: this.state.hasRecurring })
     ];
 
     this.dayScheduleBody = e(
       'div',
-      { className: 'd-flex flex-column form-control' },
-      e('label', {}, thei18n.comment),
-      e('input', { id: 'schedule-value', type: 'text' }),
-      e('label', {}, 'Recorrente'),
-      e(
-        'input',
-        {
-          id: 'recurring-checkbox', type: 'checkbox', checked: this.state.hasRecurring,
-          className: 'form-control',
-          onClick: (event) => {
-            
-            this.setState({
-              hasRecurring: !this.state.hasRecurring
-            });
+      { className: 'd-flex flex-column form-control p-2' },
+      e(() => {
 
-          }
+        if (!this.props.user.is_self) {
+        return null; }
+
+        return e(
+          'div',
+          {},
+          e('label', { className: 'text-ss' }, thei18n.comment),
+          e(
+            'input',
+            {
+              id: 'schedule-value', type: 'text',
+              value: this.state.appointmentValue,
+              onChange: (event) => {
+                this.setState({
+                  appointmentValue: event.target.value
+                });
+              }
+            }
+          ),
+        );
+
       }),
+      e(
+        'div',
+        { className: 'd-flex flex-row my-3 align-items-center justify-content-between' },
+        e('label', { className: 'text-ss' }, thei18n.recurring),
+        e(
+          'input',
+          {
+            id: 'recurring-checkbox', type: 'checkbox', checked: this.state.hasRecurring,
+            className: 'w-auto',
+            onClick: () => {
+              
+              this.setState({
+                hasRecurring: !this.state.hasRecurring
+              });
+
+            }
+        }),
+      ),
       e(
         'button',
         {
-          className: 'btn-tall green mt-3',
+          className: 'btn-tall btn-sm green mt-3',
           onClick: () => {
 
             var theValue = document.querySelector('#schedule-value').value;
+
+            if (!theValue) {
+              theValue = '';
+            }
 
             if (this.props.user.is_self) {
 
@@ -232,16 +268,25 @@ class RenderDay_Hour extends React.Component {
 
     return e(
       'div',
-      { className: 'daySchedule btn text-start animate position-relative ' + this.props.hour },
+      { className: 'daySchedule', id: 'day-hour' + this.props.hour },
       e(
-        PopUp,
+        'button',
         {
-          buttonElement: this.editHourButton,
-          bodyElement: this.dayScheduleBody,
-          hasRecurring: this.state.hasRecurring,
-          title: this.props.day.split(' ')[0] + ' ' + this.props.hour + ':00'
-        }
-      )
+          className: 'position-relative collapsed btn p-0 w-100 text-start',
+          "data-bs-target": '#collapse-hour' + this.props.hour,
+          "data-bs-toggle": 'collapse'
+        },
+        this.editHourButton
+      ),
+      e(
+        'div',
+        {
+          id: 'collapse-hour' + this.props.hour,
+          className: 'collapse',
+          "data-bs-parent": '#day-hour' + this.props.hour
+        },
+        this.dayScheduleBody
+      ),
     );
 
   }
@@ -311,20 +356,21 @@ class RenderDay extends React.Component {
     if (!x.recurring || Array.isArray(x.recurring)) {
     x.recurring = new Object(); }
 
-    if (!x.recurring[time]) {
-    x.recurring[time] = {}; }
-
-    x.recurring[time] = value;
+    if (!value) {
+      delete x.recurring[time];
+    } else {
+      x.recurring[time] = value; 
+    }
 
     this.setState({
       calendar: x
-    });
+    }, () => {
 
-    setTimeout(() => {
       this.setState({
         theDay: this.buildDay()
       });
-    }, 50);
+      
+    });
 
   }
 
@@ -390,11 +436,7 @@ class RenderDay extends React.Component {
             var currentAppointmentHour = currentAppointment.split(':')[0];
 
             if (currentAppointmentHour == theHour) {
-              theAppointment = e(
-                'span',
-                { className: 'appointment ms-2 fs-italic ' + theHour},
-                appointments[currentAppointment]
-              );
+              theAppointment = appointments[currentAppointment];
             }
 
           });
@@ -525,19 +567,36 @@ export class RenderCalendar extends React.Component {
 
   }
 
-  save = () => {
+  save = (event) => {
     
-    fetch(
-      thei18n.api_link + '?action=update_diary&user=' + this.props.user.id,
-      {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.props.diary)
-      }
-    );
+    reactOnCallback(event, () => {
+      
+      return new Promise((resolve, reject) => {
+
+        fetch(
+          thei18n.api_link + '?action=update_diary&user=' + this.props.user.id,
+          {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.props.diary)
+          }
+        ).then(res => res.json()).then(res => {
+
+          if (res != true) {
+            resolve(false);
+            return;
+          }
+
+          resolve(true);
+
+        });
+        
+      });
+
+    })
     
   }
 

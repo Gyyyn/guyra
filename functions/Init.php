@@ -173,6 +173,9 @@ if ($is_logged_in) {
 
 	}
 
+	$iCount = 0;
+	$challengeKeys = array_keys($current_user_gamedata['challenges']);
+
 	foreach ($current_user_gamedata['challenges'] as &$challenge) {
 
 		$now = time();
@@ -194,12 +197,16 @@ if ($is_logged_in) {
 
 		if ($delete) {
 
-			unset($challenge);
+			unset($current_user_gamedata['challenges'][$challengeKeys[$iCount]]);
 			$changedGamedata = true;
 
 		}
 
+		$iCount +=1;
+
 	}
+
+	unset($iCount);
 	
 	if ($changedGamedata)
 	guyra_update_user_meta($current_user_id, 'gamedata', json_encode($current_user_gamedata));

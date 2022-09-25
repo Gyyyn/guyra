@@ -113,7 +113,7 @@ if ($_GET['update_userdata']) {
 
   // By now if we don't have any posted date the logic can't continue.
   if (!$data)
-  guyra_output_json('post error');
+  guyra_output_json('post error', true);
 
   // 'user_pass' fields needs different logic and can only be
   // set by itself because of it.
@@ -232,7 +232,10 @@ if ($_GET['get_user_data']) {
 
   // Unset some sensitive data;
   unset($theData['user_pass']);
-  unset($theData['doc_id']);
+
+  if ($user != $current_user_id) {
+    unset($theData['doc_id']);
+  }
 
   guyra_output_json(json_encode($theData), true);
 

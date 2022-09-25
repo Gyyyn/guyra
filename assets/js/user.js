@@ -21,10 +21,15 @@ class User_Profile extends React.Component {
         return e(UserContext.Consumer, null, ({user}) => {
 
             var dateRegisteredSince = GuyraParseDate(user.user_registered);
+            var userBio = null;
             var userInfo = user.first_name + ' está com a gente desde ' + dateRegisteredSince.toLocaleDateString();
 
-            if (theUserdata.teacherid == user.id) {
+            if (user.teacherid == user.id) {
                 userInfo = userInfo + ', e é quem está te ensinando!'
+            }
+
+            if (user.user_bio) {
+                userBio = user.user_bio;
             }
 
             return e(
@@ -42,6 +47,11 @@ class User_Profile extends React.Component {
                         'div',
                         { className: 'dialog-box' },
                         userInfo
+                    ),
+                    e(
+                        'div',
+                        { className: 'dialog-box' },
+                        userBio
                     )
                 ),
                 e(
@@ -87,9 +97,9 @@ export class User extends React.Component {
 
             var decideUser = new Promise((resolve) => {
 
-                if (!user) {
+                if (!user || this.props.userdata.id == user) {
 
-                    user = theUserdata;
+                    user = this.props.userdata;
                     is_self = true;
 
                     resolve(true);
@@ -112,10 +122,11 @@ export class User extends React.Component {
 
             decideUser.then(res => {
 
+                user.is_self = is_self;
+
                 this.setState({
                     page: e(User_Profile),
                     user: user,
-                    is_self: is_self
                 });
 
                 document.title = this.state.user.first_name + ' - ' + thei18n.company_name;
