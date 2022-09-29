@@ -720,14 +720,10 @@ input:checked + .slider:before {
   .rounded-box { padding: calc(2vw + 1rem) calc(1vw + .5rem); }
 
   main {
-    margin-top: 3rem;
-    margin-bottom: 5rem;
-  }
-
-  .logged_in main {
     margin-top: 6rem;
     margin-bottom: 20rem;
   }
+
 }
 
 

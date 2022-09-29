@@ -24,6 +24,7 @@ $route[0] = 'home';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="<?php echo $gi18n['meta_desc'] ?>">
+<meta name="theme-color" content="#ffffff"/>
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <title><?php echo $gi18n['company_name']; ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/maskable_icon.png', 32, 'png'); ?>" type="image/x-icon">

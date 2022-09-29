@@ -99,7 +99,8 @@ function RenderMonth(month, year, user) {
             {
               day: item.toDateString(),
               activeHours: [8,22],
-              user: user
+              user: user,
+              setDaySchedule: setDaySchedule
             }));
 
         }
@@ -285,7 +286,7 @@ class RenderDay_Hour extends React.Component {
   }
 }
 
-class RenderDay extends React.Component {
+export class RenderDay extends React.Component {
   constructor(props) {
     super(props);
 
@@ -464,16 +465,16 @@ class RenderDay extends React.Component {
       e(
         'span',
         { className: 'position-absolute top-0 end-0 m-3' },
-        e(CalendarContext.Consumer, null, ({setDaySchedule}) => e(
+        e(
           'button',
           {
             className: 'btn',
             onClick: () => {
-              setDaySchedule(null);
+              this.props.setDaySchedule(null);
             }
           },
           e('i', { className: 'bi bi-x-lg' })
-        )),
+        ),
       ),
       e('span', { className: 'fw-bold my-3 text-center' }, theDate.toLocaleDateString()),
       this.state.theDay

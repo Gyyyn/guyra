@@ -12,6 +12,7 @@ import {
   onChangeForceHTTPS,
   reactOnCallback
 } from '%getjs=Common.js%end';
+import { RenderDay } from '%getjs=Calendar.js%end';
 
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
@@ -1693,7 +1694,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
     this.state = {
       search: '',
       clearSearch: null,
-      searchOpen: false
+      searchOpen: false,
+      daySchedule: null
     }
 
   }
@@ -1728,7 +1730,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
     this.setState({
       search: query.toLowerCase(),
-      clearSearch: clearSearch
+      clearSearch: clearSearch,
     });
 
   }
@@ -1764,6 +1766,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
         if (!this.state.searchOpen) {
           searchClassExtra = 'd-none';
         }
+
+        var today = new Date().toDateString();
 
         return e(
           'div',
@@ -1820,6 +1824,46 @@ class GroupAdminHome_AdminPanel extends React.Component {
               },
             ),
             this.state.clearSearch
+          ),
+          e(
+            'div',
+            { className: 'position-relative mb-3', style: { zIndex: '1060' } },
+            e(
+              'button',
+              {
+                className: 'btn-tall blue',
+                onClick: () => {
+  
+                  if (this.state.daySchedule !== null) {
+                    this.setState({
+                      daySchedule: null
+                    });
+                  }
+  
+                  else {
+                    this.setState({
+                      daySchedule: e(
+                        RenderDay,
+                        {
+                          day: today,
+                          activeHours: [8,22],
+                          user: { ...theUserdata, is_self: true },
+                          setDaySchedule: () => {
+                            this.setState({
+                              daySchedule: null
+                            });
+                          }
+                        }
+                      )
+                    });
+                  }
+  
+                }
+              },
+              e('i', { className: 'bi bi-calendar3 me-2' }),
+              thei18n.calendar + ' ' + thei18n.today,
+            ),
+            this.state.daySchedule,
           ),
           Object.values(user_list).map((user) => {
 
