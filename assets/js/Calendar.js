@@ -126,8 +126,8 @@ function RenderMonth(month, year, user) {
   return e(
     'div',
     { className: 'month mb-3' },
-    e('div', { className: 'text-center' }, month + ' ' + year),
-    e('div', { className: 'd-flex justify-content-between my-3' }, theDays),
+    e('div', { className: 'text-center fw-bold' }, month + ' ' + year),
+    e('div', { className: 'd-flex justify-content-between my-3 text-muted fst-italic' }, theDays),
     e('div', { className: 'month-wrapper'}, theMonth)
   );
 
@@ -149,6 +149,12 @@ class RenderDay_Hour extends React.Component {
   }
 
   render() {
+    
+    var inputCommentClass = '';
+
+    if (!this.props.user.is_self) {
+      inputCommentClass = 'd-none';
+    }
 
     this.editIcon = (props) => {
 
@@ -164,49 +170,44 @@ class RenderDay_Hour extends React.Component {
 
       return e(
         'span',
-        { className: 'translate-middle position-absolute end-0 top-50 badge text-dark' },
+        { className: 'col-2 badge text-dark' },
         icons
       );
 
     }
 
-    this.editHourButton = [
-      e('span', { className: 'fw-bold me-2' }, this.props.hour + ':00'),
+    this.editHourButton = e(
+      'div',
+      { className: 'row g-2' },
+      e('span', { className: 'col-3 fw-bold' }, this.props.hour + ':00'),
       e(
         'span',
-        { className: 'appointment ms-2 fs-italic ' + this.props.hour},
+        { className: 'col appointment fs-italic ' + this.props.hour},
         this.state.appointmentValue
       ),
       e(this.editIcon, { hasRecurring: this.state.hasRecurring })
-    ];
+    );
 
     this.dayScheduleBody = e(
       'div',
       { className: 'd-flex flex-column form-control p-2' },
-      e(() => {
-
-        if (!this.props.user.is_self) {
-        return null; }
-
-        return e(
-          'div',
-          {},
-          e('label', { className: 'text-ss' }, thei18n.comment),
-          e(
-            'input',
-            {
-              id: 'schedule-value', type: 'text',
-              value: this.state.appointmentValue,
-              onChange: (event) => {
-                this.setState({
-                  appointmentValue: event.target.value
-                });
-              }
+      e(
+        'div',
+        { className: inputCommentClass },
+        e('label', { className: 'text-ss' }, thei18n.comment),
+        e(
+          'input',
+          {
+            id: 'schedule-value', type: 'text',
+            value: this.state.appointmentValue,
+            onChange: (event) => {
+              this.setState({
+                appointmentValue: event.target.value
+              });
             }
-          ),
-        );
-
-      }),
+          }
+        ),
+      ),
       e(
         'div',
         { className: 'd-flex flex-row my-3 align-items-center justify-content-between' },
@@ -231,18 +232,12 @@ class RenderDay_Hour extends React.Component {
           className: 'btn-tall btn-sm green mt-3',
           onClick: () => {
 
-            var theValue = document.querySelector('#schedule-value').value;
-
-            if (!theValue) {
-              theValue = '';
-            }
-
             if (this.props.user.is_self) {
 
               if (this.state.hasRecurring) {
-                this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, theValue);
+                this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, this.state.appointmentValue);
               } else {
-                this.props.AddAppointment(this.props.day, this.props.hour, theValue)
+                this.props.AddAppointment(this.props.day, this.props.hour, this.state.appointmentValue)
               }
               
             } else {
@@ -250,8 +245,6 @@ class RenderDay_Hour extends React.Component {
               this.props.RequestAppointment(this.props.day, this.props.hour, this.state.hasRecurring);
 
             }
-
-            document.querySelector("#popup .modal-header .close").click();
 
           }
         },
@@ -335,13 +328,11 @@ class RenderDay extends React.Component {
 
     this.setState({
       calendar: x,
-    });
-
-    setTimeout(() => {
+    }, () => {
       this.setState({
         theDay: this.buildDay()
       });
-    }, 50);
+    });
 
   }
   
@@ -423,8 +414,9 @@ class RenderDay extends React.Component {
         }
 
         // Normal appointments take precedent over recurrings.
-        if (this.state.calendar[this.props.day]) {
-          appointments = { ...this.state.calendar[this.props.day], ...appointments };
+        if (this.state.calendar[this.props.day] && this.state.calendar[this.props.day][theHour]) {
+          appointments = { ...this.state.calendar[this.props.day] };
+          hasRecurring = false;
         }
 
         var theAppointment = '';

@@ -29,7 +29,12 @@ class User_Profile extends React.Component {
             }
 
             if (user.user_bio) {
-                userBio = user.user_bio;
+                userBio = e(
+                    'div',
+                    { className: 'dialog-box' },
+                    e('h2', { className: 'mb-2' }, thei18n.bio),
+                    window.HTMLReactParser(marked.parse(user.user_bio))
+                );
             }
 
             return e(
@@ -48,11 +53,7 @@ class User_Profile extends React.Component {
                         { className: 'dialog-box' },
                         userInfo
                     ),
-                    e(
-                        'div',
-                        { className: 'dialog-box' },
-                        userBio
-                    )
+                    userBio
                 ),
                 e(
                     'div',

@@ -103,6 +103,9 @@ function CheckSubscription($user_id=0) {
 function IsSubscriptionValid($user_id, $data=false) {
 
   global $secondsForA;
+  global $current_user_payments;
+  global $current_user_id;
+  global $gi18n;
 
   if (is_array($data)) {
     
@@ -119,8 +122,14 @@ function IsSubscriptionValid($user_id, $data=false) {
   $return = false;
 
   // Allow payed users to access the site.
-  if ($user_payments['status'] == 'approved')
-  $return = true;
+  if ($user_payments['status'] == 'approved') {
+
+    $return = true;
+
+    if ($user_payments['payed_for'] == 'premium' && $user_id == $current_user_id)
+    $current_user_payments['feature_set'] = 'premium';
+
+  }
   
   // Allow payment through direct payment
   if (is_array($user_diary) && $user_diary['payments']) {
@@ -135,8 +144,16 @@ function IsSubscriptionValid($user_id, $data=false) {
     $payment_grace_period = $latest_item_due_unix + ($secondsForA['day'] * 40) > time();
 
     // Allow if the latest oked payment is less than a month ago.
-    if ( $latest_item['status'] == 'ok' && $payment_grace_period )
-    $return = true;
+    if ( $latest_item['status'] == 'ok' && $payment_grace_period ) {
+
+      $return = true;
+      
+      // Allow direct payments to be 'premium'
+      if ($user_id == $current_user_id)
+      $current_user_payments['feature_set'] = 'premium';
+
+    }
+    
 
   }
 

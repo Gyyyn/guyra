@@ -7,10 +7,7 @@ global $gi18n;
 global $gLang;
 global $args;
 
-include_once $template_dir . '/functions/Assets.php';
-
-?>
-
+include_once $template_dir . '/functions/Assets.php'; ?>
 <script>window.guyra_version = '<?php echo GUYRA_VERSION ?>';</script>
 <script src="<?php echo GetMinifiedAsset('js', 'react.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>
@@ -51,6 +48,4 @@ include_once $template_dir . '/functions/Assets.php';
 <script>AOS.init();</script>
 <?php endif; ?>
 <script async src="<?php echo GetMinifiedAsset('js', 'misc.js'); ?>"></script>
-
-</body>
-</html>
+</body></html>

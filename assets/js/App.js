@@ -19,6 +19,7 @@ import { Faq } from '%getjs=faq.js%end';
 import { Help } from '%getjs=Help.js%end';
 import { Ranking } from '%getjs=Ranking.js%end';
 import { User } from '%getjs=user.js%end';
+import { TeacherListing } from '%getjs=teachers.js%end';
 
 function Header_buttonImage(props) {
 
@@ -96,7 +97,8 @@ class App extends React.Component {
       faq: Faq,
       help: Help,
       ranking: Ranking,
-      user: User
+      user: User,
+      teachers: TeacherListing
     }
 
     this.state = {
@@ -160,11 +162,24 @@ class App extends React.Component {
 
       var route = document.body.dataset.route;
 
-      if (this.state.routes[route]) {
+      if (this.state.routes[route] && route != 'home') {
         this.setPage(this.state.routes[route]);
-      } else {
-        this.setPage(UserHome);
-        route = 'home';
+      }
+      
+      else {
+        
+        var localOptions = GuyraLocalStorage('get', 'guyra_options');
+        
+        if (this.routes[localOptions.last_page]) {
+          this.setPage(this.routes[localOptions.last_page]);
+          route = localOptions.last_page;
+        }
+
+        else {
+          this.setPage(UserHome);
+          route = 'home';
+        }
+        
       }
 
     });
@@ -251,6 +266,11 @@ class App extends React.Component {
 
     });
 
+    // Lastly save this as our last page.
+    var localOptions = GuyraLocalStorage('get', 'guyra_options');
+    localOptions.last_page = this.lastPushedHistory;
+    GuyraLocalStorage('set', 'guyra_options', localOptions);
+
   }
 
   historyBack = () => {
@@ -284,7 +304,7 @@ class App extends React.Component {
       var homeIcon = 'icons/learning.png';
       var homeElement = UserHome;
 
-      if (this.state.userdata.user_code) {
+      if (this.state.userdata.role == "teacher") {
         homeValue = this.state.i18n.students;
         homeIcon = 'icons/textbook.png';
         homeElement = GroupAdminHome;
@@ -577,7 +597,7 @@ class App extends React.Component {
       ),
       e(
         'footer',
-        { className: 'my-5 d-none d-md-flex flex-column text-grey-darker text-s justify-content-center align-items-center' },
+        { className: 'my-5 d-none d-md-flex flex-column text-muted text-s justify-content-center align-items-center' },
         e(
           'nav',
           {},
@@ -591,16 +611,17 @@ class App extends React.Component {
           )
         ),
         e(
-          'span',
+          'div',
           { className: 'my-2' },
           e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
           e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
+          e('div', {}, 'Guyrá Version ' + window.guyra_version),
+          e(
+            'div',
+            { className: 'text-sss' },
+            window.HTMLReactParser((this.state.i18n.meta_thirdparty_credit ? this.state.i18n.meta_thirdparty_credit : ""))
+          )
         ),
-        e(
-          'span',
-          { className: 'text-sss' },
-          window.HTMLReactParser((this.state.i18n.meta_thirdparty_credit ? this.state.i18n.meta_thirdparty_credit : ""))
-        )
       )
     ];
   };

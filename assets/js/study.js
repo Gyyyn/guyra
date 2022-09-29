@@ -412,7 +412,7 @@ function UserHome_WelcomeCard(props) {
               addCard([
                 { id: 'lesson', element: e(UserHome_LessonCard) },
                 { id: 'reply', element: e(UserHome_ReplyCard) }
-              ], 2);
+              ], 1);
             },
             value: [
               e('img', { src: thei18n.api_link + '?get_image=icons/light.png&size=32' }),
@@ -468,7 +468,7 @@ function UserHome_WelcomeCard(props) {
             var randomUnit = randomLevel[randomLevelKeys[randomUnitIndex]];
 
             // loadExerciseJSON(levelMapKeys[randomLevelIndex], randomUnit.id);
-            window.location.href = thei18n.practice_link + '#' + randomUnit.id;
+            window.location.href = thei18n.practice_link + '/' + randomUnit.id;
 
           }
         },
@@ -516,7 +516,7 @@ function UserHome_WelcomeCard(props) {
 
             });
 
-            window.location.href = thei18n.practice_link + '#' + unitToLoad;
+            window.location.href = thei18n.practice_link + '/' + unitToLoad;
 
           }
         },
@@ -630,6 +630,85 @@ function UserHome_WelcomeCard(props) {
 
     }
 
+    var coursesObject = GuyraLocalStorage('get', 'guyra_courses').guyra_courses;
+    var newVideos = [];
+    var newVideosGreeting = [];
+    var coursesKeys = Object.keys(coursesObject)
+
+    Object.values(coursesObject).forEach((course, i) => {
+
+      course.contents = JSON.parse(course.contents);
+
+      if (!course.contents) {
+      return; }
+
+      course.contents.items.forEach(video => {
+
+        var date = new Date();
+        date.setDate(date.getDate() - 14);
+
+        var videoPublished = new Date(video.snippet.publishedAt);
+
+        if (videoPublished > date) {
+          newVideos.push( { ...video, course: coursesKeys[i] } );
+        }
+
+      });
+
+    });
+
+    if (newVideos.length) {
+
+      var videoCard = (props) => {
+
+        return e(
+          'div',
+          {
+            className: 'card hoverable cursor-pointer overflow-wrap mb-2 me-2',
+            style: {
+              maxWidth: props.thumbnails.medium.width,
+            },
+            onClick: () => {
+              window.location.href = thei18n.courses_link + '/' + props.course + '/' + props.resourceId.videoId
+            }
+          },
+          e(
+            'img',
+            {
+              className: 'course-thumbnail',
+              alt: 'thumbnail',
+              width: props.thumbnails.medium.width,
+              height: props.thumbnails.medium.height,
+              src: props.thumbnails.medium.url
+            }
+          ),
+          e(
+            'h4',
+            { className: 'course-title text-wrap p-2' },
+            props.title
+          )
+        );
+
+      }
+      
+      newVideos.forEach(video => {
+
+        newVideosGreeting.push(e(
+          videoCard,
+          { ...video.snippet, course: video.course }
+        ));
+
+      });
+
+      newVideosGreeting = e(
+        'div',
+        { className: 'dialog-box' },
+        e('h2', {}, thei18n.whatsnew),
+        newVideosGreeting
+      );
+
+    }
+
     var WelcomeGreeting = e(
       'div',
       { className: 'welcome-greeting' },
@@ -662,12 +741,7 @@ function UserHome_WelcomeCard(props) {
       e(
         'div',
         { className: 'dialog-box greeting' },
-        e('h2', { className: 'mb-2' }, thei18n.challenges, 
-        e(
-          'span',
-          { className: 'badge bg-primary me-2 text-uppercase ms-2' },
-          thei18n.new
-        ),),
+        e('h2', { className: 'mb-2' }, thei18n.challenges),
         e(
           'div',
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
@@ -782,6 +856,7 @@ function UserHome_WelcomeCard(props) {
           )
         ),
       ),
+      newVideosGreeting
     );
 
     var theList = [];

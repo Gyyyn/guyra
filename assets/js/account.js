@@ -20,6 +20,7 @@ import {
 } from '%getjs=Common.js%end';
 import { Ranking } from '%getjs=Ranking.js%end';
 import { Faq } from '%getjs=faq.js%end';
+import { TeacherListing } from '%getjs=teachers.js%end';
 
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
@@ -1514,11 +1515,23 @@ function AccountOptions_accountDetails(props) {
       e(
         'h3',
         { className: 'text-blue' },
-        thei18n.teacher_code
+        thei18n.teacher
       ),
       e(
         'div',
         { className: 'dialog-box' },
+        e('h4', {}, thei18n.calendar),
+        e(
+          'button',
+          {
+            className: 'btn-tall blue mb-2',
+            onClick: () => {
+              window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
+            }
+          },
+          thei18n.button_see_available_times
+        ),
+        e('h4', { className: 'mt-3' }, thei18n.teacher_code),
         e(
           'p',
           {},
@@ -1543,21 +1556,32 @@ function AccountOptions_accountDetails(props) {
               'button',
               {
                 className: "btn-tall green w-25",
-                onClick: (e) => {
-  
-                  var loadingBefore = e.target.innerHTML;
-                  e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-  
-                  var theCode = document.getElementById('teacher-code-input');
-  
-                  if (theCode.value != '') {
-                    fetch(thei18n.api_link + '?teacher_code=' + theCode.value);
-                    setTimeout(() => { theCode.value = '' }, 150);
-                  }
-  
-                  setTimeout(() => {
-                    e.target.innerHTML = loadingBefore;
-                  }, 500)
+                onClick: (event) => {
+
+                  reactOnCallback(event, () => {
+
+                    return new Promise((resolve) => {
+
+                      var theCode = document.getElementById('teacher-code-input');
+
+                      if (!theCode.value) {
+                      resolve(false); }
+
+                      fetch(thei18n.api_link + '?teacher_code=' + theCode.value).then(res => res.json()).then(res => {
+
+                        if (res) {
+                          resolve(true);  
+                        }
+                        
+                        else {
+                          resolve(false);
+                        }
+
+                      });
+                      
+                    });
+
+                  });
   
                 }
               },
@@ -2031,6 +2055,21 @@ function WhoAmI_buttonGroup(props) {
           value: thei18n.ranking
         }
       )),
+      e(() => {
+
+        if (theUserdata.teacherid) {
+        return null; }
+
+        return e(AccountContext.Consumer, null, ({appSetPage}) => e(
+          WhoAmI_buttonGroup_button,
+          {
+            onClick: () => { appSetPage(TeacherListing, { i18n: i18n }) },
+            img_src: GuyraGetImage('icons/textbook.png'),
+            value: thei18n.teachers
+          }
+        ));
+
+      }),
     )
   ));
 }
@@ -2141,6 +2180,9 @@ function AccountInfo_Inventory(props) {
 
         var theInventory = userdata.inventory;
 
+        if (!theInventory) {
+        theInventory = []; }
+
         return theInventory.map((item, i) => {
 
           return e(Guyra_InventoryItem, { name: item, title: i18n._items[item].name, preview: i18n._items[item].preview });
@@ -2164,6 +2206,9 @@ function AccountInfo(props) {
       e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
 
         var theInventory = userdata.inventory;
+
+        if (!theInventory) {
+        theInventory = []; }
 
         if (theInventory.length == 0) {
           return e('span', { className: '' }, i18n.inventory_empty);

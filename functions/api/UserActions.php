@@ -721,6 +721,7 @@ if ($_GET['getTTS']) {
     $word = str_replace('.', '', $word);
     $word = str_replace(',', '', $word);
     $word = str_replace('!', '', $word);
+    $word = str_replace('\'', '', $word);
     $word = strtolower($word);
 
     $output[$word] = GetTTSAudioFor($word);
@@ -737,6 +738,24 @@ if ($_GET['fetch_page']) {
 
   if ($page == 'faq') {
     guyra_output_json(file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/faq.json'), true);
+  }
+
+  if ($page == 'teachers') {
+    
+    $users = guyra_get_users();
+    $output = [];
+
+    foreach ($users as $user) {
+
+      if ($user['userdata']['role'] == 'teacher') {
+        $user['userdata']['id'] = $user['id'];
+        $output[] = $user['userdata'];
+      }
+
+    }
+
+    guyra_output_json($output, true);
+
   }
   
 }

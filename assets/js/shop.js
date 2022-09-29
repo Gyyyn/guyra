@@ -366,7 +366,7 @@ function Shop_yourItems(props) {
             'button',
             {
               className: 'btn-tall green',
-              onClick: () => { window.location.href = thei18n.account_link + '#inventory' }
+              onClick: () => { window.location.href = thei18n.account_link + '/inventory' }
             },
             thei18n.see_more
           );
@@ -451,7 +451,7 @@ class Shop_wrapper extends React.Component {
                 'button',
                 {
                   className: 'btn-tall btn-sm green ms-2',
-                  onClick: () => { window.location.href = thei18n.faq_link + '#earn_points'} 
+                  onClick: () => { window.location.href = thei18n.faq_link + '/earn_points'} 
                 },
                 thei18n.get_more_coins,
                 e('img', { className: 'page-icon tinier ms-2', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' })

@@ -39,6 +39,12 @@
   }
 }
 
+.home-wrapper .course-thumbnail {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: var(--guyra-border-radius-bigger);
+  border-top-right-radius: var(--guyra-border-radius-bigger);
+}
+
 .course-title {
   white-space: nowrap;
   overflow: hidden;

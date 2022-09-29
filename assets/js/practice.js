@@ -1153,7 +1153,7 @@ function BuyMoreUnits(props) {
         'button',
         {
           type: 'button',
-          onClick: () => { window.location.href = i18n.shop_link + '#progress' },
+          onClick: () => { window.location.href = i18n.shop_link + '/progress' },
           className: 'btn-tall green mx-auto'
         },
         e('span', { className: 'me-2' }, i18n.go_to_shop),

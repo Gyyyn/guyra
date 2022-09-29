@@ -59,9 +59,9 @@
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
   --guyra-fonts-textsize-n: calc(0.85rem + 0.5vh);
   --guyra-fonts-textsize-x: calc(0.95rem + 0.8vw);
-  --guyra-fonts-textsize-xx: calc(1.5rem + 0.9vw);
-  --guyra-fonts-textsize-xxx: calc(2rem + 1vw);
-  --guyra-fonts-textsize-super: calc(2.5rem + 2.2vw);
+  --guyra-fonts-textsize-xx: calc(1.33rem + 0.9vw);
+  --guyra-fonts-textsize-xxx: calc(1.75rem + 1vw);
+  --guyra-fonts-textsize-super: calc(2rem + 2.2vw);
 
   --guyra-navbar-size: 3.5rem;
   --guyra-border-radius: calc(.35rem - 1px);
@@ -77,13 +77,13 @@
 
 :root.dark-mode {
 
-  --guyra-blue: #3f9bb9;
+  --guyra-blue: #14acdf;
   --guyra-blue-darker: rgb(2, 113, 150);
   --guyra-blue-darkest: rgb(0, 130, 173);
   --guyra-blue-lighter: rgb(49, 149, 182);
   --guyra-blue-lightest: rgb(127, 177, 196);
 
-  --guyra-green: #4ec26e;
+  --guyra-green: #3ceb6f;
   --guyra-green-lighter: #63c780;
   --guyra-green-lightest: #86cc9a;
   --guyra-green-darker: #31974e;
@@ -97,7 +97,7 @@
 
   --guyra-white: #333333;
   --guyra-grey: #444444;
-  --guyra-grey-dark: #4e4e4e;
+  --guyra-grey-dark: #474747;
   --guyra-grey-darker: #5e5e5e;
   --guyra-grey-darkest: #a0a0a0;
   --guyra-black: #9b9b9b;
@@ -215,9 +215,9 @@ body {
 h1 { font-size: var(--guyra-fonts-textsize-xxx); font-weight: 900; }
 h2 { font-size: var(--guyra-fonts-textsize-xx); }
 h3 { font-size: var(--guyra-fonts-textsize-x); }
-h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .15rem); }
-h5 { font-size: calc(var(--guyra-fonts-textsize-x) - .25rem); }
-h6 { font-size: var(--guyra-fonts-textsize-n); }
+h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .25rem); }
+h5 { font-size: calc(var(--guyra-fonts-textsize-x) - .35rem); }
+h6 { font-size: calc(var(--guyra-fonts-textsize-x) - .45rem); }
 
 h1, h2, h3 {
 	font-family: var(--guyra-fonts-title);
@@ -285,6 +285,7 @@ h3, h4, h5, h6 {
 .border-secondary { border-color: var(--guyra-purple-darker); }
 .border-outline { box-shadow: var(--guyra-box-shadow-outline); }
 .round-border, a.round-border { border-radius: 50vw !important; }
+.border-top, .border-bottom, .border-end, .border-start { border-color: var(--guyra-grey-darker) !important; }
 
 .page-icon {
   overflow-x: initial;
