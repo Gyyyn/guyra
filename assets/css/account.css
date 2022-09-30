@@ -68,14 +68,17 @@
 
 .schedule {
   min-width: 20rem;
-  position: absolute;
   top: -50%;
   background-color: var(--guyra-white);
+}
+
+.hover .schedule {
   box-shadow: var(--guyra-box-shadow-material);
+  position: absolute;
 }
 
 @media (max-width: 767px) {
-  .schedule {
+  .hover .schedule {
     right: 100%;
   }
 }

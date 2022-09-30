@@ -462,10 +462,10 @@ export class RenderDay extends React.Component {
   render() {
 
     var theDate = new Date(this.props.day);
-    var classExtra = '';
+    var classExtra = 'hover';
 
     if (this.props.nonHover) {
-      classExtra = 'position-relative shadow-none';
+      classExtra = 'no-hover';
     }
 
     return e(
