@@ -124,8 +124,8 @@ export class TeacherListing extends React.Component {
             return e(
               'div',
               { className: 'dialog-box' },
-              e('h4', {}, 'Você ainda não pode escolher um professor!'),
-              'Você olhar nossos profissionais, mas para poder escolher um professor e pedir horário você precisa escolher um plano que inclua este acesso.'
+              e('h4', {}, this.props.i18n.plan_doesnt_allow_private_teachers),
+              this.props.i18n.plan_doesnt_allow_private_teachers_explain
             );
 
           }),

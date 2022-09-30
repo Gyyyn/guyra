@@ -436,6 +436,10 @@ export class RenderDay extends React.Component {
 
         }
 
+        if (this.props.skipEmpty && !theAppointment) {
+          continue;
+        }
+
         theDay.push(e(RenderDay_Hour, {
           appointment: theAppointment,
           EditRecurringAppointment: this.EditRecurringAppointment,
@@ -457,11 +461,16 @@ export class RenderDay extends React.Component {
 
   render() {
 
-    var theDate = new Date(this.props.day)
+    var theDate = new Date(this.props.day);
+    var classExtra = '';
+
+    if (this.props.nonHover) {
+      classExtra = 'position-relative shadow-none';
+    }
 
     return e(
       'div',
-      { className: this.props.day + ' d-flex flex-column overpop-animation animate schedule ms-3' },
+      { className: this.props.day + ' d-flex flex-column overpop-animation animate schedule ms-3 ' + classExtra },
       e(
         'span',
         { className: 'position-absolute top-0 end-0 m-3' },

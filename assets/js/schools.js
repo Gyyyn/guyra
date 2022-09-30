@@ -1695,7 +1695,6 @@ class GroupAdminHome_AdminPanel extends React.Component {
       search: '',
       clearSearch: null,
       searchOpen: false,
-      daySchedule: null
     }
 
   }
@@ -1827,43 +1826,18 @@ class GroupAdminHome_AdminPanel extends React.Component {
           ),
           e(
             'div',
-            { className: 'position-relative mb-3', style: { zIndex: '1060' } },
+            { className: 'd-flex mb-3' },
             e(
-              'button',
+              RenderDay,
               {
-                className: 'btn-tall blue',
-                onClick: () => {
-  
-                  if (this.state.daySchedule !== null) {
-                    this.setState({
-                      daySchedule: null
-                    });
-                  }
-  
-                  else {
-                    this.setState({
-                      daySchedule: e(
-                        RenderDay,
-                        {
-                          day: today,
-                          activeHours: [8,22],
-                          user: { ...theUserdata, is_self: true },
-                          setDaySchedule: () => {
-                            this.setState({
-                              daySchedule: null
-                            });
-                          }
-                        }
-                      )
-                    });
-                  }
-  
-                }
-              },
-              e('i', { className: 'bi bi-calendar3 me-2' }),
-              thei18n.calendar + ' ' + thei18n.today,
+                day: today,
+                activeHours: [8,22],
+                user: { ...theUserdata, is_self: true },
+                skipEmpty: true,
+                nonHover: true,
+                setDaySchedule: function() {}
+              }
             ),
-            this.state.daySchedule,
           ),
           Object.values(user_list).map((user) => {
 
@@ -2009,7 +1983,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-auto' },
+          { className: 'col-3' },
           e('h3', { className: 'mb-2' }, thei18n.profile),
           e(
             'button',
@@ -2019,13 +1993,13 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 window.location.href = thei18n.home_link + '/user/' + theUserdata.id
               }
             },
-            thei18n.public_profile,
+            thei18n.your + ' ' + thei18n.calendar,
             e('i', { className: "bi bi-box-arrow-up-right ms-2" })
           )
         ),
         e(
           'div',
-          { className: 'col-6' },
+          { className: 'col-6 mt-3' },
           e('h3', { className: 'mb-2' }, thei18n.bio),
           e('span', { className: 'text-sss text-muted' }, thei18n.accepts_markdown),
           e(
@@ -2082,7 +2056,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-6' },
+          { className: 'col-6 mt-3' },
           e('h3', { className: 'mb-2' }, thei18n.upload_profile_pic),
           e('p', { className: 'text-sss text-muted' }, thei18n.profile_picture_warning),
           e(

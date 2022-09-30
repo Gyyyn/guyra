@@ -361,3 +361,7 @@ img.left-side-image {
 .form-check-input[type=checkbox] {
   padding: var(--guyra-fonts-textsize-sss);
 }
+
+button.table {
+  width: inherit;
+}

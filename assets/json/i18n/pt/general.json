@@ -425,6 +425,8 @@
    "profile_picture_warning":"Ao enviar sua foto você concorda em deixar a Guyrá usar tal foto como representação sua no App e em material de propaganda externo. Você também garante que tem todos os direitos autorais para ultilizar a foto e que ela está de acordo com os termos de uso.",
    "teacher_code":"Convite",
    "teacher_code_explain":"Seu professor te deu algum código? Digite ele aqui.",
+   "plan_doesnt_allow_private_teachers":"Você ainda não pode escolher um professor!",
+   "plan_doesnt_allow_private_teachers_explain":"Você pode olhar nossos profissionais, mas para poder escolher um professor e pedir horário você precisa escolher um plano que inclua este acesso.",
    "missing_fields":"Complete todos os campos!",
    "nonmatch_fields":"Os campos precisam estar iguais!",
    "invalid_mail_fields":"Este email não parece ser válido.",
