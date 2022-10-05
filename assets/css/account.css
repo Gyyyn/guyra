@@ -72,13 +72,13 @@
   background-color: var(--guyra-white);
 }
 
-.hover .schedule {
+.hover.schedule {
   box-shadow: var(--guyra-box-shadow-material);
   position: absolute;
 }
 
 @media (max-width: 767px) {
-  .hover .schedule {
+  .hover.schedule {
     right: 100%;
   }
 }

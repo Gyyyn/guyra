@@ -1839,6 +1839,21 @@ class GroupAdminHome_AdminPanel extends React.Component {
               }
             ),
           ),
+          e(() => {
+
+            var value = Object.values(user_list).length;
+
+            value = value * thei18n.prices_features.premium.value;
+            value = value * (thei18n.prices_features.business.company_cut / 100);
+
+            return e(
+              'div',
+              { className: 'dialog-box my-3' },
+              'Ganhos estimados/mês:',
+              e('span', { className: 'fw-bold mx-2' }, 'R$' + value)
+            );
+
+          }),
           Object.values(user_list).map((user) => {
 
             // Check if this user is in a group

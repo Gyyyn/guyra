@@ -295,7 +295,8 @@
        "title": "Guyrá For Schools and Teachers",
        "subtitle": "Seu sistema de gestão escolar.",
        "price": "<small>A partir de</small> 200R$",
-       "value": "200"
+       "value": "200",
+       "company_cut": "70"
      },
      "free": {
        "title": "Guyrá Free",
