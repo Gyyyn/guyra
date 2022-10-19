@@ -160,3 +160,51 @@ function IsSubscriptionValid($user_id, $data=false) {
   return $return;
 
 }
+
+function GetMPPaymentStatus($payment_id) {
+
+  global $gSettings;
+  
+  require_once 'vendor/autoload.php';
+
+  MercadoPago\SDK::setAccessToken($gSettings['mp_access_token']);
+
+  $payment = MercadoPago\Payment::find_by_id($payment_id);
+
+  return $payment->status;
+
+}
+
+function UpdateDirectPaymentsStatus() {
+  
+  global $current_user_id;
+  global $current_user_diary;
+
+  $updateNeeded = false;
+
+  foreach ($current_user_diary['payments'] as &$payment_item) {
+    
+    if ($payment_item['status'] == 'pending' && $payment_item['id']) {
+
+      $newStatus = GetMPPaymentStatus($payment_item['id']);
+
+      if ($newStatus !== $payment_item['status']) {
+
+        if ($newStatus == 'approved') {
+          $payment_item['status'] = 'ok';
+        } else {
+          $payment_item['status'] = 'pending';
+          $payment_item['response'] = $newStatus;
+        }
+        
+        $updateNeeded = true;
+      }
+
+    }
+
+  }
+
+  if ($updateNeeded)
+  guyra_update_user_data($current_user_id, $current_user_diary, null, 'diary');
+
+}

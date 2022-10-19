@@ -8,15 +8,6 @@
   flex-direction: column;
 }
 
-#prices_carousel .carousel-inner {
-  min-height: 300px;
-}
-
-.carousel-control-next:focus, .carousel-control-next:hover,
-.carousel-control-prev:focus, .carousel-control-prev:hover {
-  background: transparent;
-}
-
 @media (min-width: 980px) {
 
   .prices-container {
@@ -29,34 +20,12 @@
   }
 
   .prices.primary {
-  	width: calc(7rem + 13vw);
+  	width: calc(5rem + 7vw);
   }
 
   .prices.primary.business {
-  	width: calc(11rem + 16vw);
+  	width: calc(7rem + 10vw);
   }
-
-  .with-animation .prices:hover,
-  .with-animation .prices:first-child .card:hover,
-  .with-animation .prices:last-child .card:hover {
-  	z-index: 3;
-  	transition: var(--guyra-transition);
-  	position: relative;
-  	transform: scale(1.02);
-  }
-
-  @keyframes prices-left-popforward {
-      from { left: 0%; }
-      to{ left: 10%; }
-  }
-
-  @keyframes prices-right-popforward {
-      from { left: 0%; }
-      to{ left: -10%; }
-  }
-
-  .with-animation .prices:first-child .card:hover { animation: prices-left-popforward 0.35s; left: 10%; }
-  .with-animation .prices:last-child .card:hover { animation: prices-right-popforward 0.35s; left: -10%; }
 
 }
 
@@ -76,8 +45,6 @@
 
 .prices.primary .card {
   background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
-  height: 105%;
-	top: -5%;
 }
 
 .prices.primary.business .card {
@@ -109,11 +76,7 @@
 
 .cover {
   min-height: 100vh;
-  background-color: var(--guyra-blue);
-	background-repeat: repeat;
-	background-size: cover, contain;
-  background-image: url('%template_url/assets/img/hero.svg'), url('%template_url/assets/img/bg.png');
-  background-position: 0, 0;
+  background-color: var(--guyra-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,4 +101,8 @@
   box-shadow: var(--guyra-box-shadow-bigger);
   padding: 0;
   margin: 0;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: var(--guyra-black);
 }

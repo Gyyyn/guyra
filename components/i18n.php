@@ -26,18 +26,18 @@ $i18n_links = [
 	'practice_link' => $site_url . '/practice',
 	'courses_link' => $site_url . '/courses',
 	'account_link' => $site_url . '/account',
-	'profile_link' => $site_url . '/account/#options',
-	'register_link' => $site_url . '/account/#register',
+	'profile_link' => $site_url . '/account/options',
+	'register_link' => $site_url . '/account/register',
 	'shop_link' => $site_url . '/shop',
 	'reference_link' => $site_url . '/reference',
 	'ranking_link' => $site_url . '/ranking',
-	'lost_password_link' => $site_url . '/account/#lostpassword',
-	'password_edit_link' => $site_url . '/account/#changepassword',
+	'lost_password_link' => $site_url . '/account/lostpassword',
+	'password_edit_link' => $site_url . '/account/changepassword',
 	'logout_link' => $site_url . '/api?logout=1',
 	'privacy_link' => $site_url . '/privacy',
 	'terms_link' => $site_url . '/terms',
 	'schools_link' => $site_url . '/schools',
-	'purchase_link' => $site_url . '/account/#payment',
+	'purchase_link' => $site_url . '/account/payment',
 	'help_link' => $site_url . '/help',
 	'faq_link' => $site_url . '/faq',
 	'help_wp_link' => 'https://wa.me/+5519982576400',
@@ -53,8 +53,12 @@ $i18n_links = [
 	'mp_public_key' => $gSettings['mp_public_key']
 ];
 
-if ($gSettings['dev_env'])
-$i18n_links['mp_public_key'] = $gSettings['mp_public_key_dev'];
+if ($gSettings['dev_env']) {
+
+	$i18n_links['mp_public_key'] = $gSettings['mp_public_key_dev'];
+	$gSettings['mp_access_token'] = $gSettings['mp_access_token_dev'];
+	
+}
 
 
 function Fetchi18n($args=[]) {

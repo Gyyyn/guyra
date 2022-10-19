@@ -587,7 +587,7 @@ export class RenderCalendar extends React.Component {
           }
         ).then(res => res.json()).then(res => {
 
-          if (res != true) {
+          if (res != 'true') {
             resolve(false);
             return;
           }

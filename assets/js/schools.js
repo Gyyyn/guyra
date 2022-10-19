@@ -1998,7 +1998,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-3' },
+          { className: 'col-md-3' },
           e('h3', { className: 'mb-2' }, thei18n.profile),
           e(
             'button',
@@ -2014,7 +2014,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-6 mt-3' },
+          { className: 'col-md-6 mt-3' },
           e('h3', { className: 'mb-2' }, thei18n.bio),
           e('span', { className: 'text-sss text-muted' }, thei18n.accepts_markdown),
           e(
@@ -2071,7 +2071,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
         ),
         e(
           'div',
-          { className: 'col-6 mt-3' },
+          { className: 'col-md-6 mt-3' },
           e('h3', { className: 'mb-2' }, thei18n.upload_profile_pic),
           e('p', { className: 'text-sss text-muted' }, thei18n.profile_picture_warning),
           e(

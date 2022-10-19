@@ -127,6 +127,28 @@ class Game_Wordle extends React.Component {
     var row;
     var finalised = [];
     var lettersGuessedCorrect = [];
+    var occurances = {};
+    var alreadyGuessedOcurrances = {};
+
+    this.state.word.split('').forEach(letter => {
+
+      alreadyGuessedOcurrances[letter] = 0;
+
+      if (!occurances[letter]) {
+        occurances[letter] = 1;
+      } else {
+        occurances[letter] += 1;
+      }
+
+    });
+
+    word.forEach((letter, i) => {
+
+      if (letter == word[i]) {
+        alreadyGuessedOcurrances[letter] += 1;
+      }
+      
+    });
 
     for (let index = 0; index < this.state.wordle_size; index++) {
 
@@ -144,22 +166,7 @@ class Game_Wordle extends React.Component {
 
           if (matchletter.test(this.state.word)) {
 
-            var occurances = 0;
-            var alreadyGuessedOcurrances = 0
-
-            word.forEach(letterInWord => {
-              if (letter == letterInWord) {
-                occurances += 1;
-              }
-            });
-
-            lettersGuessedCorrect.forEach(guessedLetter => {
-              if (letter == guessedLetter) {
-                alreadyGuessedOcurrances += 1;
-              }
-            });
-
-            if (lettersGuessedCorrect.indexOf(letter) === -1 || occurances < alreadyGuessedOcurrances) {
+            if (occurances[letter] >= alreadyGuessedOcurrances[letter]) {
               bgColor = 'bg-warning';              
             }
 
@@ -167,7 +174,6 @@ class Game_Wordle extends React.Component {
 
           if (this.state.word[index] == letter) {
             bgColor = 'bg-success';
-            lettersGuessedCorrect.push(letter);
           }
 
         }

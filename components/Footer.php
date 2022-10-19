@@ -6,6 +6,7 @@ global $current_user_id;
 global $gi18n;
 global $gLang;
 global $args;
+global $nests;
 
 include_once $template_dir . '/functions/Assets.php'; ?>
 <script>window.guyra_version = '<?php echo GUYRA_VERSION ?>';</script>
@@ -35,17 +36,10 @@ include_once $template_dir . '/functions/Assets.php'; ?>
 </script>
 <link rel="stylesheet" href="<?php echo GetMinifiedAsset('css', 'easymde.css'); ?>">
 <script async src="<?php echo GetMinifiedAsset('js', 'easymde.js'); ?>"></script>
-<script async src="https://sdk.mercadopago.com/js/v2"></script>
-<script async src="https://www.mercadopago.com/v2/security.js" view="checkout" output="deviceId"></script>
 <script async src="<?php echo GetMinifiedAsset('js', 'popper.js'); ?>"></script>
 <script async src="<?php echo GetMinifiedAsset('js', 'bootstrap.js'); ?>"></script>
 <?php if ($args['js']): ?>
 <script async type="module" src="<?php echo GetMinifiedAsset('js', $args['js']); ?>"></script>
-<?php endif; ?>
-<?php if ($args['aos']): ?>
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js" crossorigin="anonymous"></script>
-<script>AOS.init();</script>
 <?php endif; ?>
 <script async src="<?php echo GetMinifiedAsset('js', 'misc.js'); ?>"></script>
 </body></html>

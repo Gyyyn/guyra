@@ -672,17 +672,9 @@ if ($_GET['oauth_login']) {
 
 if ($_GET['gen_pix']) {
 
+  // Attention: this function assumes that the user is generating
+  // a payment for themself, so it updates $current_user_diary.
   $thePost = json_decode(file_get_contents('php://input'), true);
-
-  $thePost = [
-    'value' => 142,
-    'user' => [
-      'user_email' => 'test_user_462563@testuser.com',
-      'first_name' => 'Test',
-      'last_name' => 'Test',
-      'doc_id' => '11111111111'
-    ]
-  ];
 
   if (!$thePost || !$thePost['value'] || !$thePost['user'])
   guyra_output_json('post error', true);
@@ -707,7 +699,19 @@ if ($_GET['gen_pix']) {
 
   $payment->save();
 
-  guyra_output_json($payment, true);
+  // Update the payment item with the newly adquired ID.
+  $current_user_diary['payments'][$thePost['offset']]['id'] = $payment->id;
+  $current_user_diary['payments'][$thePost['offset']]['status'] = $payment->status;
+
+  guyra_update_user_data($current_user_id, $current_user_diary, null, 'diary');
+
+  guyra_output_json([
+    'qr_code' => $payment->point_of_interaction->transaction_data->qr_code,
+    'qr_code_base64' => $payment->point_of_interaction->transaction_data->qr_code_base64,
+    'ticket_url' => $payment->point_of_interaction->transaction_data->ticket_url,
+    'status' => $payment->status,
+    'id' => $payment->id
+  ], true);
 
 }
 

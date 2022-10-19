@@ -557,7 +557,7 @@ function UserHome_WelcomeCard(props) {
         e('span', { className: 'ms-1' }, thei18n.back)
       ));
 
-      theUserdata.user_diary.payments.forEach((item) => {
+      theUserdata.user_diary.payments.forEach((item, i) => {
 
         var due = GuyraParseDate(item.due);
         var now = new Date();
@@ -579,7 +579,13 @@ function UserHome_WelcomeCard(props) {
               { className: 'squeeze rounded-box' },
               e(
                 WhoAmI_openPayments_paymentItem,
-                { item: item, i18n: thei18n, backButton: backButton, appSetPage: appSetPage }
+                {
+                  item: item,
+                  i18n: thei18n,
+                  backButton: backButton,
+                  appSetPage: appSetPage,
+                  index: i
+                }
               )
             ));
 
@@ -767,22 +773,29 @@ function UserHome_WelcomeCard(props) {
               e('span', { className: 'text-ss fw-bold capitalize'}, theUserdata.gamedata['ranking_name'])
             ),
           ),
-          e(
-            'div',
-            { className: 'card trans mb-2 me-2' },
-            e('h4', {}, thei18n.streak),
-            e(
-              'span',
-              { className: 'd-flex flex-row fw-bold' },
-              thei18n.current + ': ' + streak_info.streak_length + ' ' + thei18n.days,
-            ),
-            e('progress', { className: 'progress', max: streak_info.streak_record, value: streak_info.streak_length}),
-            e(
-              'span',
-              { className: 'd-flex flex-row text-ss' },
-              thei18n.biggest + ': ' + ((streak_info.streak_record) ? streak_info.streak_record : "0") + ' ' + thei18n.days,
-            ),
-          ),
+          e(() => {
+
+            if (!streak_info) {
+            return; }
+
+            return e(
+              'div',
+              { className: 'card trans mb-2 me-2' },
+              e('h4', {}, thei18n.streak),
+              e(
+                'span',
+                { className: 'd-flex flex-row fw-bold' },
+                thei18n.current + ': ' + streak_info.streak_length + ' ' + thei18n.days,
+              ),
+              e('progress', { className: 'progress', max: streak_info.streak_record, value: streak_info.streak_length}),
+              e(
+                'span',
+                { className: 'd-flex flex-row text-ss' },
+                thei18n.biggest + ': ' + ((streak_info.streak_record) ? streak_info.streak_record : "0") + ' ' + thei18n.days,
+              ),
+            );
+
+          }),
           e(
             'div',
             { className: 'card trans mb-2 me-2' },

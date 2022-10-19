@@ -6,6 +6,7 @@
    "company_address":"Piracicaba - SP",
    "meta_thirdparty_credit":"Alguns recursos por <a href=\"https://www.flaticon.com/\">Freepik</a>",
    "noscript":"Este site precisa de JavaScript para funcionar.",
+   "console_warning": "ATENÇÃO: Se alguem está te instruindo a colar algo nesta area suas informações estão em risco de serem roubadas.",
    "_hellos": [
       "Oi %s!",
       "E ai %s?",
@@ -492,7 +493,10 @@
       "finished":"Finalizada",
       "absent":"Falta",
       "pending":"Em aberto",
-      "ok":"OK"
+      "ok":"OK",
+      "rejected":"Rejeitado",
+      "in_process":"Processando",
+      "cancelled":"Cancelado"
      }
    },
    "full_comments":"Todas as respostas",

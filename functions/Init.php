@@ -224,6 +224,8 @@ error_reporting(E_ALL);
 
 include_once $template_dir . '/functions/Payment.php';
 
+UpdateDirectPaymentsStatus();
+
 $current_user_subscription_valid = IsSubscriptionValid($current_user_id);
 
 // Handle trial accounts and non-payed access.

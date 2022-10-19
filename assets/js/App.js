@@ -101,6 +101,8 @@ class App extends React.Component {
       teachers: TeacherListing
     }
 
+    this.homeElement = null;
+
     this.state = {
       page: LoadingPage,
       routes: this.routes,
@@ -160,7 +162,15 @@ class App extends React.Component {
 
     this.update(() => {
 
+      // Phishing attack prevention warning.
+      console.log(this.state.i18n.company_name + ' ' + window.guyra_version + ': ' + this.state.i18n.console_warning);
+
       var route = document.body.dataset.route;
+
+      if (!this.state.userdata.is_logged_in) {
+        this.setPage(this.state.routes.account);
+        return;
+      }
 
       if (this.state.routes[route] && route != 'home') {
         this.setPage(this.state.routes[route]);
@@ -170,13 +180,13 @@ class App extends React.Component {
         
         var localOptions = GuyraLocalStorage('get', 'guyra_options');
         
-        if (this.routes[localOptions.last_page]) {
+        if (this.routes[localOptions.last_page] && localOptions.last_page != 'home') {
           this.setPage(this.routes[localOptions.last_page]);
           route = localOptions.last_page;
         }
 
         else {
-          this.setPage(UserHome);
+          this.setPage(this.homeElement);
           route = 'home';
         }
         
@@ -302,18 +312,18 @@ class App extends React.Component {
 
       var homeValue = this.state.i18n.study;
       var homeIcon = 'icons/learning.png';
-      var homeElement = UserHome;
+      this.homeElement = UserHome;
 
       if (this.state.userdata.role == "teacher") {
         homeValue = this.state.i18n.students;
         homeIcon = 'icons/textbook.png';
-        homeElement = GroupAdminHome;
+        this.homeElement = GroupAdminHome;
       }
 
       buttons = [
         e(Header_Button, {
           value: homeValue, image: homeIcon,
-          onClick: () => { this.setPage(homeElement) },
+          onClick: () => { this.setPage(this.homeElement) },
           navigation: 'home'
         }),
         e(Header_Button, {

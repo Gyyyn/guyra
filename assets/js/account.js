@@ -22,6 +22,18 @@ import { Ranking } from '%getjs=Ranking.js%end';
 import { Faq } from '%getjs=faq.js%end';
 import { TeacherListing } from '%getjs=teachers.js%end';
 
+var MPsdk = document.createElement('script');
+var MPsecuritySdk = document.createElement('script');
+
+MPsdk.src = "https://sdk.mercadopago.com/js/v2";
+MPsecuritySdk.src = "https://www.mercadopago.com/v2/security.js";
+MPsecuritySdk.setAttribute("view", "checkout");
+MPsecuritySdk.setAttribute("deviceId", "output");
+
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(MPsdk, firstScriptTag);
+firstScriptTag.parentNode.insertBefore(MPsecuritySdk, firstScriptTag);
+
 const AccountContext = React.createContext();
 const PaymentContext = React.createContext({setPlan: () => {}});
 
@@ -1158,7 +1170,9 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
                       },
                       body: JSON.stringify(dataToPost)
                     }
-                  );
+                  ).then(res => {
+                    localStorage.removeItem('guyra_userdata');
+                  });
 
                   if (tryingToChangeEmail) {
                     setMessageBox(thei18n.confirm_mail_fields);
@@ -1770,198 +1784,257 @@ class WhoAmI_openPayments_qrCode extends React.Component {
       e('span', { className: 'visually-hidden'}, thei18n.loading)
     );
 
-    this.state = {
-      theCode: this.loadingIcon
-    };
-
   }
 
-  getQRCode() {
+  render() {
 
-    var request = '%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';
+    var theCode = this.loadingIcon;
 
-    return request;
-    
+    if (theUserdata.doc_id && this.props.code) {
+      
+      theCode = e(
+        'img',
+        {
+          className: 'page-icon large more-rounded',
+          alt: 'QR Code',
+          src: 'data:image/jpeg;base64,' + this.props.code
+        }
+      );
+
+    }
+
+    return e(
+      'div',
+      { className: 'align-items-center d-flex generated-qr-code h-100 justify-content-center w-100' },
+      theCode
+    );
+  }
+}
+
+export class WhoAmI_openPayments_paymentItem extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      qrCodeProps: {},
+      ticket_url: null
+    }
+
   }
 
   componentWillMount() {
 
-    if (!theUserdata.doc_id) {
-      return;
+    let now = new Date();
+
+    this.itemDue = GuyraParseDate(this.props.item.due);
+    this.itemValue = parseInt(this.props.item.value);
+    this.overdueExtra = false;
+    this.overdueInset = null;
+    this.noDocWarning = null;
+    this.pix_code = '2966bc87-54bd-4334-87e8-e8b86f305f87';
+
+    if (this.itemDue < now) {
+      this.overdueExtra = calculateOverdueFees(this.props.item.value, this.itemDue);
+      this.itemValue = this.itemValue + this.overdueExtra;
     }
 
-    this.theCode = e(
-      'img',
-      {
-        className: 'page-icon large more-rounded',
-        alt: 'QR Code',
-        src: 'data:image/jpeg;base64,' + this.getQRCode()
-      }
-    );
+    if (!theUserdata.doc_id) {
 
-    this.setState({
-      theCode: this.theCode
-    });
+      this.pix_code = '...';
+
+      this.noDocWarning = e(
+        'div',
+        { className: 'dialog-box red mb-3' },
+        'Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.'
+      );
+
+    }
+
+    else {
+
+      var dataToPost = {
+        user: {
+          first_name: theUserdata.first_name,
+          last_name: theUserdata.last_name,
+          doc_id: theUserdata.doc_id,
+          user_email: theUserdata.user_email
+        },
+        value: this.itemValue + (this.props.item.value * 0.01),
+        offset: this.props.index
+      }
+
+      fetch(this.props.i18n.api_link + '?gen_pix=1',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToPost)
+      }).then(res => res.json()).then(res => {
+
+        this.pix_code = res.qr_code;
+
+        this.setState({
+          qrCodeProps: { code: res.qr_code_base64 },
+          pix_code: this.pix_code,
+          ticket_url: res.ticket_url,
+          id: res.id
+        });
+
+      });
+      
+    }
 
   }
 
   render() {
 
+    let now = new Date();
+
+    if (!this.props.backButton) {
+      this.props.backButton = null;
+    }
+
+    if (this.itemDue < now) {
+
+      this.overdueInset = e(
+        'span',
+        { className: 'text-s text-grey-darkest' },
+        '(',
+        'R$' + this.props.item.value,
+        ' + ',
+        'R$' + this.overdueExtra + ' ',
+        this.props.i18n.overdue_fees.toLowerCase(),
+        e(AccountContext.Consumer, null, ({appSetPage}) => e(
+          'button',
+          {
+            className: 'btn',
+            onClick: () => {
+              appSetPage(Faq);
+            }
+          },
+          e('i', { className: 'bi bi-question-circle text-blue-darker' })
+        )),
+        ')'
+      );
+      
+    }
+
     return e(
       'div',
-      { className: 'align-items-center d-flex generated-qr-code h-100 justify-content-center w-100' },
-      this.state.theCode
-    );
-  }
-}
-
-export function WhoAmI_openPayments_paymentItem(props) {
-
-  var itemDue = GuyraParseDate(props.item.due);
-  var itemValue = parseInt(props.item.value);
-  let now = new Date();
-  var overdueExtra = false;
-  var overdueInset = null;
-  var noDocWarning = null;
-  var pix_code = '2966bc87-54bd-4334-87e8-e8b86f305f87';
-
-  if (!theUserdata.doc_id) {
-
-    noDocWarning = e(
-      'div',
-      { className: 'dialog-box red mb-3' },
-      'Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.'
-    );
-
-  }
-
-  if (!props.backButton) {
-    props.backButton = null;
-  }
-
-  if (itemDue < now) {
-
-    overdueExtra = calculateOverdueFees(props.item.value, itemDue);
-    itemValue = itemValue + overdueExtra;
-
-    overdueInset = e(
-      'span',
-      { className: 'text-s text-grey-darkest' },
-      '(',
-      'R$' + props.item.value,
-      ' + ',
-      'R$' + overdueExtra + ' ',
-      props.i18n.overdue_fees.toLowerCase(),
-      e(
-        'button',
-        {
-          className: 'btn',
-          onClick: () => {
-            props.appSetPage(Faq);
-          }
-        },
-        e('i', { className: 'bi bi-question-circle text-blue-darker' })
-      ),
-      ')'
-    );
-    
-  }
-
-  return e(
-    'div',
-    { className: 'payments-pay justfade-animation animate' },
-    props.backButton,
-    e(
-      'div',
-      { className: 'payment-item row mt-3' },
+      { className: 'payments-pay justfade-animation animate' },
+      this.props.backButton,
       e(
         'div',
-        { className: 'align-items-center col-auto d-md-flex d-none qr-code' },
+        { className: 'payment-item row mt-3' },
         e(
           'div',
-          { className: 'card trans blue mb-3' },
-          e('h3', { className: 'mb-2' },
-          props.i18n.qr_code,
-            e(
-              'button',
-              {
-                className: 'btn',
-                onMouseOver: (event) => {
-
-                  var tooltip = createTooltip(event.target, props.i18n.pix_qr_code_explain, {class: 'text-font-text'});
-
-                  event.target.onmouseout = () => {
-                    tooltip.remove();
-                  }
-
-                }
-              },
-              e('i', { className: 'bi bi-question-circle ms-1 text-blue-darker' })
-            )
-          ),
-          e(WhoAmI_openPayments_qrCode)
-        ),
-      ),
-      e(
-        'div',
-        { className: 'col' },
-        noDocWarning,
-        e(
-          'div',
-          { className: 'card trans' },
-          e('h2', { className: 'mb-2' }, props.i18n.payment),
+          { className: 'align-items-center col-auto d-md-flex d-none qr-code' },
           e(
             'div',
-            { className: 'd-inline mb-2' },
-            e(
-              'div',
-              { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap align-items-center' },
-              e(
-                'span',
-                { className: 'me-2' },
-                e('span', {}, props.i18n.value + ': '),
-                e('span', { className: 'fw-bold ms-1'}, props.i18n.currency_iso + itemValue),
-              ),
-              overdueInset
-            ),
-            e(
-              'div',
-              { className: 'badge bg-white me-2 mb-2 text-n' },
-              e('span', {}, props.i18n.due_date + ': '),
-              e('span', {}, itemDue.toLocaleDateString())
-            ),
-            e(
-              'div',
-              { className: 'badge bg-primary text-white me-2 mb-2 d-flex flex-row align-items-center' },
-              e('div', {}, props.i18n.pix + ': '),
-              e('div', { style: { maxWidth: '40vw' }, className: 'overflow-hidden ms-2' }, pix_code),
+            { className: 'card trans blue mb-3' },
+            e('h3', { className: 'mb-2' },
+            this.props.i18n.qr_code,
               e(
                 'button',
                 {
-                  className: 'btn-tall btn-sm green ms-2',
-                  onClick: (event) => {
-
-                    var before = event.target.innerHTML;
-                    event.target.innerHTML = props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
-
-                    navigator.clipboard.writeText(pix_code);
-
-                    setTimeout(() => {
-                      event.target.innerHTML = before;
-                    }, 300);
-
+                  className: 'btn',
+                  onMouseOver: (event) => {
+  
+                    var tooltip = createTooltip(event.target, this.props.i18n.pix_qr_code_explain, {class: 'text-font-text'});
+  
+                    event.target.onmouseout = () => {
+                      tooltip.remove();
+                    }
+  
                   }
                 },
-                props.i18n.copy,
-                e('i', { className: 'bi bi-files-alt ms-1' })
+                e('i', { className: 'bi bi-question-circle ms-1 text-blue-darker' })
               )
             ),
+            e(WhoAmI_openPayments_qrCode, this.state.qrCodeProps)
           ),
-          e('span', {}, props.i18n.payment_message),
+        ),
+        e(
+          'div',
+          { className: 'col' },
+          this.noDocWarning,
+          e(
+            'div',
+            { className: 'card trans' },
+            e('h2', { className: 'mb-2' }, this.props.i18n.payment),
+            e(
+              'div',
+              { className: 'd-inline mb-2' },
+              e(
+                'div',
+                { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap align-items-center' },
+                e(
+                  'span',
+                  { className: 'me-2' },
+                  e('span', {}, this.props.i18n.value + ': '),
+                  e('span', { className: 'fw-bold ms-1'}, this.props.i18n.currency_iso + this.itemValue),
+                ),
+                this.overdueInset
+              ),
+              e(
+                'div',
+                { className: 'badge bg-white me-2 mb-2 text-n' },
+                e('span', {}, this.props.i18n.due_date + ': '),
+                e('span', {}, this.itemDue.toLocaleDateString())
+              ),
+              e(
+                'div',
+                { className: 'badge bg-primary text-white me-2 mb-2 d-flex flex-row align-items-center' },
+                e('div', {}, this.props.i18n.pix + ': '),
+                e('div', { style: { maxWidth: '30vw' }, className: 'overflow-hidden ms-2' }, this.state.pix_code),
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall btn-sm green ms-2',
+                    onClick: (event) => {
+  
+                      var before = event.target.innerHTML;
+                      event.target.innerHTML = this.props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
+  
+                      navigator.clipboard.writeText(this.state.pix_code);
+  
+                      setTimeout(() => {
+                        event.target.innerHTML = before;
+                      }, 300);
+  
+                    }
+                  },
+                  this.props.i18n.copy,
+                  e('i', { className: 'bi bi-files-alt ms-1' })
+                )
+              ),
+            ),
+            e('span', {}, this.props.i18n.payment_message),
+            e(() => {
+
+              if (!this.state.ticket_url) {
+              return null; }
+
+              return e(
+                'span',
+                { className: 'mt-3 text-s' },
+                e(
+                  'a',
+                  { href: this.state.ticket_url, target: '_blank' },
+                  'Código não funcionando? Abra este link no MercadoPago.'
+                )
+              );
+
+            })
+          )
         )
       )
-    )
-  );
+    );
+
+  }
+
 }
 
 function WhoAmI_openPayments(props) {
@@ -1969,15 +2042,25 @@ function WhoAmI_openPayments(props) {
   var items = [];
   var backButton = e(Account_BackButton, { page: AccountWrapper });
 
+  // Here openPayments has empty offsets, to allow for updating the diary later.
   if (props.openPayments != null) {
-    props.openPayments.forEach((item) => {
+    props.openPayments.forEach((item, i) => {
 
       items.push(
         e(AccountContext.Consumer, null, ({setPage, i18n, appSetPage}) => e(PaymentItem, {
           due: item.due,
           value: item.value,
           onClick: () => {
-            setPage(WhoAmI_openPayments_paymentItem, { item: item, i18n: i18n, backButton: backButton, appSetPage: appSetPage })
+            setPage(
+              WhoAmI_openPayments_paymentItem,
+              {
+                item: item,
+                i18n: i18n,
+                backButton: backButton,
+                appSetPage: appSetPage,
+                index: i
+              }
+            )
           }
         }))
       );
@@ -2080,9 +2163,9 @@ function WhoAmI(props) {
     var openPayments = [];
 
     if (userdata.user_diary && userdata.user_diary.payments) {
-      userdata.user_diary.payments.forEach((item) => {
+      userdata.user_diary.payments.forEach((item, i) => {
         if (item.status == 'pending') {
-          openPayments.push(item);
+          openPayments[i] = item;
         }
       });
     }
@@ -2092,7 +2175,7 @@ function WhoAmI(props) {
       {},
       e(WhoAmI_welcome),
       e(WhoAmI_buttonGroup),
-      e(WhoAmI_openPayments, {openPayments: openPayments}),
+      e(WhoAmI_openPayments, { openPayments: openPayments }),
     );
   });
 }
