@@ -21,7 +21,7 @@ window.onerror = function errHandle(errorMsg, url, lineNumber) {
       reload = true;
     }
 
-    console.error(errorMsg, lineNumber);
+    console.error('Guyra: ', errorMsg, '--Line: ', lineNumber, '--Reload: ', reload);
 
     localStorage.removeItem('guyra_userdata');
     localStorage.removeItem('guyra_i18n');
@@ -86,7 +86,9 @@ function SendOAuthPayload(data) {
     data.payload.email = emailField.value;
   }
 
-  if (window.location.hash == '#register') {
+  var nests = document.body.dataset.nests.split('/');
+
+  if (nests[1] == 'register') {
 
     theApiLink = thei18n.api_link + '?register=1&oauth=1';
     data.user_email = data.payload.email;

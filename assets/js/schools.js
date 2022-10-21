@@ -705,7 +705,7 @@ class PaymentAreaEntry extends React.Component {
   }
 
   render() {
-    return e(DiaryContext.Consumer, null, ({diary}) => e(
+    return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
       {
         className: 'diary-entry row g-0'
@@ -715,7 +715,7 @@ class PaymentAreaEntry extends React.Component {
         {
           className: 'col-2 position-relative'
         },
-        e('span', { className: 'me-3' }, 'R$'),
+        e('span', { className: 'me-3' }, i18n.currency_iso),
         diary.payments[this.props.index].value,
         e(
           'div',
@@ -769,7 +769,7 @@ class PaymentArea extends React.Component {
             'input',
             { id: 'the-payment-value', className: 'form-control w-100', type: 'number', placeholder: 'Ex.: 100' }
           ),
-          e('span', { for: 'the-payment-value', className: 'end-0 me-3 position-absolute top-50 translate-middle' }, 'R$'),
+          e('span', { for: 'the-payment-value', className: 'end-0 me-3 position-absolute top-50 translate-middle' }, i18n.currency_iso),
         ),
         e(
           'span',
@@ -1850,7 +1850,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
               'div',
               { className: 'dialog-box my-3' },
               'Ganhos estimados/mês:',
-              e('span', { className: 'fw-bold mx-2' }, 'R$' + value)
+              e('span', { className: 'fw-bold mx-2' }, thei18n.currency_iso + value)
             );
 
           }),

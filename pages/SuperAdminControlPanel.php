@@ -9,8 +9,10 @@ global $is_admin;
 global $gi18n;
 global $gSettings;
 
-if (!$is_admin)
-exit;
+if (!$is_admin) {
+  Guyra_Redirect($site_url);
+  exit;
+}
 
 include_once $template_dir . '/functions/Assets.php';
 
@@ -20,7 +22,8 @@ GetComponent('Header', ['css' => 'admin.css']); ?>
 
 <div class="admin-section">
 
-  <h2 onclick="document.getElementById('debug').classList.remove('d-none');">Admin panel</h2>
+  <a href="<?php echo $gi18n['home_link']; ?>" class="btn me-3"><i class="bi bi-arrow-90deg-left"></i></a>
+  <h2 class="d-inline" onclick="document.getElementById('debug').classList.remove('d-none');">Admin panel</h2>
 
 </div>
 
@@ -36,10 +39,7 @@ GetComponent('Header', ['css' => 'admin.css']); ?>
 </div>
 
 <?php if($_GET['exercise_log']):
-
-$theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
-
-?>
+$theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
 
 <div class="admin-section">
 
@@ -79,8 +79,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
 
   <h4 class="mt-5">Site:</h4>
   <div class="admin-forms border rounded p-3 m-0">
-
-    <a class="btn btn-primary" href="<?php echo $gi18n['guyra_admin_link']; ?>?exercise_log=10">See LogDB</a>
 
     <h5>Change a site option:</h5>
 
@@ -295,6 +293,56 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true);
   <a href="<?php echo $site_api_url . '?delete_cache=translations&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Translations Cache</a>
   <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Audio Cache</a>
   <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Refresh PWA</a>
+  <a href="<?php echo $gi18n['guyra_admin_link']; ?>?exercise_log=10" class="btn btn-sm btn-primary me-3 mb-3">See LogDB</a>
+
+  </div>
+
+  <h4 class="mt-4">Gen PIX:</h4>
+  <div class="admin-forms form-control border rounded p-3 m-0">
+
+    <div class="d-flex flex-column">
+      Email pagador: <input id="pix-payer-mail" type="text"></input>
+      Nome pagador: <input id="pix-payer-firstname" type="text"></input>
+      Sobrenome pagador: <input id="pix-payer-lastname" type="text"></input>
+      Doc pagador: <input id="pix-payer-doc" type="text"></input>
+      Valor: <input id="pix-value" type="text"></input>
+    </div>
+
+    <script>
+      function genPix() {
+
+        var dataToPost = {
+          user: {
+            first_name: document.getElementById('pix-payer-firstname').value,
+            last_name: document.getElementById('pix-payer-lastname').value,
+            doc_id: document.getElementById('pix-payer-doc').value,
+            user_email: document.getElementById('pix-payer-mail').value
+          },
+          value: document.getElementById('pix-value').value
+        }
+
+        fetch('<?php echo $site_api_url ?>?gen_pix=1',
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataToPost)
+        }).then(res => res.json()).then(res => {
+
+          console.log(res);
+          document.getElementById('pix-res').innerHTML = JSON.stringify(res);
+          document.getElementById('pix-link').href = res.ticket_url;
+
+        });
+        
+      }
+    </script>
+
+    <button onclick="genPix()" class="btn mt-3">Gen pix</button>
+    <a id="pix-link" href="">Open Link</a>
+    <pre id="pix-res"></pre>
 
   </div>
 

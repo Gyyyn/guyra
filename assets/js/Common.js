@@ -36,7 +36,12 @@ class LoadingProgress extends React.Component {
       increaseAmount = 1; }
 
       if (this.state.value >= 100) {
-        window.location.reload();
+
+        if (this.props.reload !== false) {
+          window.onerror('Component did not load in time. Refreshing...');
+        }
+
+        clearInterval()
       }
 
       this.setState({
@@ -81,7 +86,7 @@ export class LoadingPage extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        message: e(LoadingProgress)
+        message: e(LoadingProgress, { reload: this.props.reload })
       });
     }, 2500);
   }
@@ -1084,7 +1089,7 @@ export class PaymentItem extends React.Component {
       e(
         'span',
         { className: 'd-flex justify-content-between align-items-baseline mb-2' },
-        e('span', { className: 'fw-bold text-n' }, 'R$' + this.itemValue),
+        e('span', { className: 'fw-bold text-n' }, thei18n.currency_iso + this.itemValue),
       ),
       e(
         'span',

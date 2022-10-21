@@ -304,7 +304,7 @@ function AccountPayment_planSelect(props) {
             e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.lite.title),
             e('small', { className: 'fw-normal' }, i18n.prices_features.lite.subtitle),
           ),
-          e('span', { className: 'd-flex' }, "R$"+i18n.prices_features.lite.value)
+          e('span', { className: 'd-flex' }, i18n.currency_iso + i18n.prices_features.lite.value)
         )),
       ),
 
@@ -325,7 +325,7 @@ function AccountPayment_planSelect(props) {
             e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.premium.title),
             e('small', { className: 'fw-normal' }, i18n.prices_features.premium.subtitle),
           ),
-          e('span', { className: 'd-flex' }, "R$"+i18n.prices_features.premium.value)
+          e('span', { className: 'd-flex' }, i18n.currency_iso + i18n.prices_features.premium.value)
         )),
       ),
 
@@ -334,7 +334,7 @@ function AccountPayment_planSelect(props) {
       'div',
       { className: 'account-plans-total card d-flex flex-row justify-content-between p-3' },
       e('span', {}, i18n.total),
-      e('strong', {}, 'R$', e('span', { id: 'price-total'}, checkoutTotal))
+      e('strong', {}, i18n.currency_iso, e('span', { id: 'price-total'}, checkoutTotal))
     ))
   );
 
@@ -404,7 +404,7 @@ function AccountPayment_cancelPlan(props) {
         e('i', { className: 'me-2 bi-heart-fill' }),
         thei18n.cancel_membership_changedmymind
       )),
-      e(
+      e(AccountContext.Consumer, null, ({setPage}) => e(
         'button',
         {
           className: 'btn-tall',
@@ -424,7 +424,8 @@ function AccountPayment_cancelPlan(props) {
                     res = JSON.parse(res);
                   }
                   if (res.status == 'cancelled') {
-                    resolve(window.location.reload());
+                    setPage(AccountWrapper);
+                    resolve(false);
                   } else {
                     resolve(false);
                   }
@@ -439,7 +440,7 @@ function AccountPayment_cancelPlan(props) {
         },
         e('i', { className: 'me-2 bi-heartbreak' }),
         thei18n.cancel_membership,
-      )
+      ))
     )
 
   ));
@@ -1831,7 +1832,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
     this.overdueExtra = false;
     this.overdueInset = null;
     this.noDocWarning = null;
-    this.pix_code = '2966bc87-54bd-4334-87e8-e8b86f305f87';
+    this.pix_code = this.props.i18n.company_cnpj;
 
     if (this.itemDue < now) {
       this.overdueExtra = calculateOverdueFees(this.props.item.value, this.itemDue);
@@ -1845,7 +1846,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
       this.noDocWarning = e(
         'div',
         { className: 'dialog-box red mb-3' },
-        'Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.'
+        this.props.i18n.nodoc_warning
       );
 
     }
@@ -1859,7 +1860,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
           doc_id: theUserdata.doc_id,
           user_email: theUserdata.user_email
         },
-        value: this.itemValue + (this.props.item.value * 0.01),
+        value: this.itemValue + (this.itemValue * 0.01),
         offset: this.props.index
       }
 
@@ -1902,20 +1903,20 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
         'span',
         { className: 'text-s text-grey-darkest' },
         '(',
-        'R$' + this.props.item.value,
+        this.props.i18n.currency_iso + this.props.item.value,
         ' + ',
-        'R$' + this.overdueExtra + ' ',
+        this.props.i18n.currency_iso + this.overdueExtra + ' ',
         this.props.i18n.overdue_fees.toLowerCase(),
-        e(AccountContext.Consumer, null, ({appSetPage}) => e(
+        e(
           'button',
           {
             className: 'btn',
             onClick: () => {
-              appSetPage(Faq);
+              this.props.appSetPage(Faq);
             }
           },
           e('i', { className: 'bi bi-question-circle text-blue-darker' })
-        )),
+        ),
         ')'
       );
       
@@ -2023,7 +2024,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
                 e(
                   'a',
                   { href: this.state.ticket_url, target: '_blank' },
-                  'Código não funcionando? Abra este link no MercadoPago.'
+                  this.props.i18n.open_in_thirdparty_processor
                 )
               );
 

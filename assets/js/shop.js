@@ -108,7 +108,6 @@ class Shop_ItemView extends React.Component {
                 ev.target.onclick = null;
                 ev.target.classList.add('disabled');
                 alert(i18n.something_went_wrong);
-                window.location.reload();
   
               }
   

@@ -115,6 +115,8 @@
    "reference":"Referência",
    "ultilities":"Ultilidades",
    "courses":"Cursos",
+   "videos":"Videos",
+   "live":"Ao Vivo",
    "lessons":"Lições",
    "privacy":"Privacidade",
    "privacy_public_ranking": "Aparecer publicamente nos rankings.",
@@ -240,6 +242,8 @@
    "already_answered":"já responderam",
    "already_answered_singular":"já respondeu",
    "thirdparty_processor":"Mercado Pago",
+   "open_in_thirdparty_processor":"Código não funcionando? Abra este link no MercadoPago.",
+   "nodoc_warning": "Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.",
    "subscription_donations": [
      "Ajude uma causa",
      "1% da sua mensalidade na Guyrá e direcionada a doações para organizações sem fins lucrativos!",
@@ -494,6 +498,7 @@
       "absent":"Falta",
       "pending":"Em aberto",
       "ok":"OK",
+      "approved":"Aprovado",
       "rejected":"Rejeitado",
       "in_process":"Processando",
       "cancelled":"Cancelado"

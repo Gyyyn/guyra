@@ -139,7 +139,7 @@ class YoutubeEmbed extends React.Component {
       'div',
       { className: 'video-responsive position-relative' },
       this.state.videoDone,
-      e('div', {id:'youtube-player'}, e(LoadingPage))
+      e('div', { id:'youtube-player' }, e(LoadingPage, { reload: false }))
     );
   }
 

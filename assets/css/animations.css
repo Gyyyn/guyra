@@ -207,7 +207,8 @@
 }
 
 
-i.bi.bi-three-dots {
+i.bi.bi-three-dots,
+.glow {
   transition: var(--guyra-transition);
   animation: pulse 0.75s;
   animation-iteration-count: infinite;

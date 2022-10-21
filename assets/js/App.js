@@ -320,6 +320,19 @@ class App extends React.Component {
         this.homeElement = GroupAdminHome;
       }
 
+      var liveBadge = () => {
+
+        if (!0) {
+        return null; }
+
+        return e(
+          'span',
+          { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger glow' },
+          this.state.i18n.live
+        );
+
+      }
+
       buttons = [
         e(Header_Button, {
           value: homeValue, image: homeIcon,
@@ -331,11 +344,16 @@ class App extends React.Component {
           onClick: () => { this.setPage(Exercises) },
           navigation: 'practice'
         }),
-        e(Header_Button, {
-          value: this.state.i18n.courses, image: 'icons/online-learning.png',
-          onClick: () => { this.setPage(Courses) },
-          navigation: 'courses'
-        }),
+        e(
+          'span',
+          { className: 'position-relative' },
+          e(Header_Button, {
+            value: this.state.i18n.courses, image: 'icons/online-learning.png',
+            onClick: () => { this.setPage(Courses) },
+            navigation: 'courses'
+          }),
+          e(liveBadge)
+        ),
         e(Header_Button, {
           value: this.state.i18n.arcade, image: 'icons/joystick.png',
           onClick: () => { this.setPage(Arcade) },
@@ -529,6 +547,8 @@ class App extends React.Component {
                         this.setState({
                           userdata: this.state.userdata
                         });
+
+                        this.update();
                         
                       }
                     },

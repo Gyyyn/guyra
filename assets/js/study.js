@@ -953,7 +953,7 @@ export class UserHome extends React.Component {
       addCard: this.addCard,
       cards: this.defaultCards,
       meeting: null,
-      appSetPage: props.setPage
+      appSetPage: this.props.setPage
     };
 
   }

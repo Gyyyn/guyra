@@ -699,11 +699,13 @@ if ($_GET['gen_pix']) {
 
   $payment->save();
 
-  // Update the payment item with the newly adquired ID.
-  $current_user_diary['payments'][$thePost['offset']]['id'] = $payment->id;
-  $current_user_diary['payments'][$thePost['offset']]['status'] = $payment->status;
+  if ($thePost['offset']) {
+    // Update the payment item with the newly adquired ID.
+    $current_user_diary['payments'][$thePost['offset']]['id'] = $payment->id;
+    $current_user_diary['payments'][$thePost['offset']]['status'] = $payment->status;
 
-  guyra_update_user_data($current_user_id, $current_user_diary, null, 'diary');
+    guyra_update_user_data($current_user_id, $current_user_diary, null, 'diary');
+  }
 
   guyra_output_json([
     'qr_code' => $payment->point_of_interaction->transaction_data->qr_code,
