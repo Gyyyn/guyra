@@ -40,11 +40,6 @@
   border-bottom: var(--guyra-border-radius) solid var(--guyra-grey-darker);
 }
 
-#exercise-container .exercise-squeeze .btn.btn-correct {
-	background-color: var(--guyra-green);
-	transition: var(--guyra-transition);
-}
-
 .dialog-arrow {
   width: 0;
   height: 0;

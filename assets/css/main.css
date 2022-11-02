@@ -31,6 +31,9 @@
   --guyra-white-transparent-gradient: linear-gradient(180deg, var(--guyra-white) 0%, rgba(255, 255, 255, 0) 100%);
   --guyra-black-transparent-gradient: linear-gradient(180deg, var(--guyra-black) 0%, rgba(255, 255, 255, 0) 100%);
 
+  --guyra-blue-gradient: linear-gradient(90deg, var(--guyra-blue) 0%, var(--guyra-blue-lighter) 100%);
+  --guyra-green-gradient: linear-gradient(90deg, var(--guyra-green) 0%, var(--guyra-green-lighter) 100%);
+
   --guyra-white: #ffffff;
   --guyra-grey: #f7f7f7;
   --guyra-grey-dark: #ebebeb;
@@ -57,9 +60,9 @@
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
-  --guyra-fonts-textsize-n: calc(0.85rem + 0.5vh);
-  --guyra-fonts-textsize-x: calc(0.95rem + 0.8vw);
-  --guyra-fonts-textsize-xx: calc(1.33rem + 0.9vw);
+  --guyra-fonts-textsize-n: calc(0.82rem + 0.5vh);
+  --guyra-fonts-textsize-x: calc(0.95rem + 0.5vw);
+  --guyra-fonts-textsize-xx: calc(1.33rem + 0.7vw);
   --guyra-fonts-textsize-xxx: calc(1.75rem + 1vw);
   --guyra-fonts-textsize-super: calc(2rem + 2.2vw);
 
@@ -212,7 +215,7 @@ body {
   background-color: var(--guyra-body-bg);
 }
 
-h1 { font-size: var(--guyra-fonts-textsize-xxx); font-weight: 900; }
+h1 { font-size: var(--guyra-fonts-textsize-xxx); }
 h2 { font-size: var(--guyra-fonts-textsize-xx); }
 h3 { font-size: var(--guyra-fonts-textsize-x); }
 h4 { font-size: calc(var(--guyra-fonts-textsize-x) - .25rem); }
@@ -226,11 +229,11 @@ h1, h2, h3 {
 }
 
 h1, h2 {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 h3, h4, h5, h6 {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .text-font-title { font-family: var(--guyra-fonts-title); }
@@ -703,10 +706,10 @@ input:checked + .slider:before {
 }
 
 @media (min-width: 992px) {
-	.squeeze { max-width: calc(40vw + 25rem); margin-left: auto; margin-right: auto; }
-	.squeeze-big { max-width: 75vw; margin-left: auto; margin-right: auto; }
+	.squeeze { max-width: calc(45vw + 25rem); margin-left: auto; margin-right: auto; }
+	.squeeze-big { max-width: 83vw; margin-left: auto; margin-right: auto; }
   .squeeze-small { max-width: calc(20vw + 25rem); margin-left: auto; margin-right: auto; }
-  .rounded-box { padding: calc(2vw + 1rem) calc(2vw + 2rem); }
+  .rounded-box { padding: calc(1vw + 1rem) calc(1vw + 2rem); }
 
   main {
     margin-top: calc(var(--guyra-navbar-size) * 1.5) !important;

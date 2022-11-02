@@ -10,7 +10,8 @@ import {
   RenderReplies,
   GetStandardDate,
   onChangeForceHTTPS,
-  reactOnCallback
+  reactOnCallback,
+  RemovePunctuation
 } from '%getjs=Common.js%end';
 import { RenderDay } from '%getjs=Calendar.js%end';
 
@@ -1635,9 +1636,11 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
 
     if (this.props.search) {
 
-      var matchword = new RegExp("(" + this.props.search.toLowerCase() + ")");
+      var search = RemovePunctuation(this.props.search.toLowerCase());
+      var matchword = new RegExp("(" + search + ")");
+      var testword = RemovePunctuation(this.listingName.toLowerCase());
 
-      if (!matchword.test(this.listingName.toLowerCase())) {
+      if (!matchword.test(testword)) {
         return null;
       }
       

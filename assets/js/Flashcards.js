@@ -551,7 +551,3 @@ export class Flashcards extends React.Component {
     ));
   };
 }
-
-if(document.getElementById('flashcards-container')) {
-  ReactDOM.render(e(Flashcards), document.getElementById('flashcards-container'));
-}

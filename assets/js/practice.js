@@ -9,7 +9,8 @@ import {
   GoogleAd,
   randomNumber,
   vibrate,
-  PopUp
+  PopUp,
+  RemovePunctuation
 } from '%getjs=Common.js%end';
 
 const { useEffect } = React;
@@ -35,35 +36,6 @@ function findIndices(haystack, needle) {
   }
 
   return indices;
-}
-
-function RemovePunctuation(word, options={}) {
-
-  // Just in case.
-  if (!word) {
-  return; }
-
-  if (options.includeApostrophe === true) {
-    var regex = new RegExp("[.,!?']",'g');
-  } else {
-    var regex = new RegExp("[.,!?]",'g');
-  }
-
-  if (!options.keepAccented) {
-    var theEs = new RegExp("[éèê]",'g');
-    var theAs = new RegExp("[áàãâ]",'g');
-    var theIs = new RegExp("[íìî]",'g');
-    var theUs = new RegExp("[úùû]",'g');
-    var theOs = new RegExp("[óòõô]",'g');
-
-    word = word.replace(theEs,'e');
-    word = word.replace(theAs,'a');
-    word = word.replace(theIs,'i');
-    word = word.replace(theUs,'u');
-    word = word.replace(theOs,'o');
-  }
-
-  return word.replace(regex,'');
 }
 
 function getEquivalentAnswersFor(answer) {
@@ -2600,8 +2572,4 @@ export class Exercises extends React.Component {
     )
   );
   };
-}
-
-if(document.getElementById('exercise-container')) {
-  ReactDOM.render(e(Exercises), document.getElementById('exercise-container'));
 }

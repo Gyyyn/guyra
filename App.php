@@ -2,7 +2,7 @@
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.4.16');
+define('GUYRA_VERSION', '0.4.17');
 
 // Initialize the App enviroment
 include_once './functions/Init.php';

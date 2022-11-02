@@ -184,14 +184,14 @@
   border-color: var(--guyra-blue-darker);
 }
 
-#exercise-container .exercise-answers .btn-tall {
+.exercise-answers .btn-tall {
   display: flex;
   flex-grow: 1;
   justify-content: center;
   margin: .25rem;
 }
 
-#exercise-container .exercise-answers .exercise-answers-wordbank .btn-tall {
+.exercise-answers .exercise-answers-wordbank .btn-tall {
   flex-grow: 0;
 }
 
@@ -286,6 +286,7 @@ img.left-side-image {
   font-size: var(--guyra-fonts-textsize-n);
   margin-bottom: 1.5em;
   width: 100%;
+  color: var(--guyra-black);
 }
 
 .study-answers .comment-content > p { margin: 0; }
@@ -310,8 +311,6 @@ img.left-side-image {
 
 .study-answers #comment:focus-visible,
 #exercise-answer-textarea:focus-visible {
-  border: .2rem solid #bdbdbd;
-  background: #f5f5f5;
   outline: none;
 }
 

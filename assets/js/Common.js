@@ -1320,3 +1320,37 @@ export function reactOnCallback(event, callback) {
   });
   
 }
+
+export function RemovePunctuation(word, options={}) {
+
+  // Just in case.
+  if (!word) {
+  return false; }
+
+  if (options.includeApostrophe !== true) {
+    var theApost = new RegExp("[']",'g');
+    word = word.replace(theApost,'');
+  }
+
+  // I hate regex and JS and regex in JS.
+  var thePunc = new RegExp("[.,!?\\-_+=[\\]\\{\\}\\\\]", 'g');
+  word = word.replace(thePunc,'');
+
+  if (!options.keepAccented) {
+    var theEs = new RegExp("[éèê]",'g');
+    var theAs = new RegExp("[áàãâ]",'g');
+    var theIs = new RegExp("[íìî]",'g');
+    var theUs = new RegExp("[úùû]",'g');
+    var theOs = new RegExp("[óòõô]",'g');
+
+    word = word.replace(theEs,'e');
+    word = word.replace(theAs,'a');
+    word = word.replace(theIs,'i');
+    word = word.replace(theUs,'u');
+    word = word.replace(theOs,'o');
+    word = word.replace('ç', 'c');
+  }
+
+  return word;
+
+}
