@@ -144,6 +144,11 @@ if ($_GET['update_userdata']) {
 
       $userNewMail = $data[$field];
 
+      $userExists = guyra_get_user_object(null, $userNewMail);
+
+      if ($userExists)
+      guyra_output_json('user already exists', true);
+
       guyra_update_user($user, ['user_login' => $userNewMail]);
 
       $current_user_data['mail_confirmed'] = 'false';
@@ -215,12 +220,6 @@ if ($_GET['get_user_data']) {
 
     $theData['user_code'] = Guyra_hash($user);
 
-    // If user is in a group then set their diary to be the groups's.
-    if ($current_user_data['studygroup']) {
-      $teachers_diary = guyra_get_user_data($current_user_data['teacherid'], 'diary');
-      $theData['user_diary'] = $teachers_diary['diaries'][$current_user_data['studygroup']];
-    }
-
   } else {
     $theData = guyra_get_user_data($user);
   }
@@ -229,6 +228,16 @@ if ($_GET['get_user_data']) {
   $theData['gamedata']['raw'] = guyra_get_user_data($user, 'gamedata');
   $theData['user_diary'] = guyra_get_user_data($user, 'diary');
   $theData['inventory'] = guyra_get_user_data($user, 'inventory');
+
+  // If user is in a group then set their diary to be the groups's.
+  if ($theData['studygroup']) {
+
+    $teachers_diary = guyra_get_user_data($theData['teacherid'], 'diary');
+
+    $theData['user_diary']['userpage'] = $teachers_diary['diaries'][$theData['studygroup']]['userpage'];
+    $theData['user_diary']['teachers_diary'] = $teachers_diary['diaries'][$theData['studygroup']]['teachers_diary'];
+
+  }
 
   // Unset some sensitive data;
   unset($theData['user_pass']);

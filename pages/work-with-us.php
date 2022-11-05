@@ -21,7 +21,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
        </div>
        <div class="col-md-3">
          <div class="page-icon large">
-           <img alt="phone" src="<?php echo $gi18n['logo_img'] ?>">
+           
          </div>
        </div>
      </div>

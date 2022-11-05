@@ -637,7 +637,6 @@ class App extends React.Component {
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.faq_link }, this.state.i18n.help)),
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.privacy_link }, this.state.i18n.privacy)),
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.terms_link }, this.state.i18n.terms)),
-            e('li', { className: 'breadcrumb-item d-none' }, e('a', { href: this.state.i18n.schools_footer_link }, this.state.i18n.schools)),
           )
         ),
         e(

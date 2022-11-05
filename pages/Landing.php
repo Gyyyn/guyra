@@ -24,7 +24,7 @@ GetComponent('Header', ['css' => 'landing.css']); ?>
 
       <div class="d-block w-100">
         <div class="col-md mb-5 mb-md-0 d-flex align-items-center justify-content-around">
-          <img alt="<?php echo $gi18n['company_name']; ?>" class="page-icon large" src="<?php echo $gi18n['title_img']; ?>" />
+          <img alt="<?php echo $gi18n['company_name']; ?>" class="page-icon large" src="<?php echo $gi18n['assets_link'] . 'img/guyra-title.svg'; ?>" />
         </div>
 
         <p class="text-n pt-5 d-none d-md-block"><?php echo $gi18n['_landing']['main_subtitle'] ?></p>

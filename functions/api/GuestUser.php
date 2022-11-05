@@ -57,6 +57,11 @@ if ($_GET['register']) {
     $data['user_password'] = bin2hex(random_bytes(8));
   }
 
+  $user = guyra_get_user_object(null, $data['user_email']);
+
+  if ($user)
+  guyra_output_json('user already exists', true);
+
   // All is ok, let's generate a user id and populate the data.
   $user = guyra_create_user($data['user_email']);
 

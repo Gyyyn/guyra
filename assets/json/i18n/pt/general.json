@@ -652,5 +652,6 @@
    "item not in inventory":"Este item não está em seu inventário",
    "no credit":"Você não tem pontos o suficiente para esta trasação.",
    "oauth_user_notfound": "Não conseguimos te autenticar com essa conta. Talvez você ainda não tenha associado sua conta Guyrá com esse serviço ainda?",
-   "ie_unsupported_warning":"Internet Explorer não é suportado. Por favor atualize seu navegador."
+   "ie_unsupported_warning":"Internet Explorer não é suportado. Por favor atualize seu navegador.",
+   "help_wp_link":"https://wa.me/+5519982576400"
 }

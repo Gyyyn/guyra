@@ -287,36 +287,6 @@ export class Header extends React.Component {
 
   }
 
-  componentWillMount() {
-
-    this.branding = e(
-      'div',
-      { className: 'navbar-brand d-flex me-3' },
-      e(
-        'a', { className: 'text-decoration-none', href: this.props.i18n.home_link },
-        e(
-          'span',
-          { className: 'navbar-center-title' },
-          e(
-            'img',
-            {
-              alt: this.props.i18n.company_name,
-              width: 55,
-              height: 15,
-              className: 'mb-1',
-              src: this.props.i18n.title_img
-            }
-          )
-        )
-      )
-    );
-
-    this.setState({
-      branding: null,
-    });
-
-  }
-
   render() {
 
     return [

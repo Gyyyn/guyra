@@ -40,16 +40,10 @@ $i18n_links = [
 	'purchase_link' => $site_url . '/account/payment',
 	'help_link' => $site_url . '/help',
 	'faq_link' => $site_url . '/faq',
-	'help_wp_link' => 'https://wa.me/+5519982576400',
-	'schools_footer_link' => $site_url . '/work-with-us',
-	'thanks_footer_link' => $site_url . '/thanks',
 	'guyra_admin_link' => $site_url . '/SuperAdminControlPanel',
 	'template_link' => $template_url,
 	'assets_link' => $template_url . '/assets/',
 	'audio_link' => $template_url . '/assets/audio/',
-	'logo_img' => $template_url . '/assets/img/birdlogo_ver1.5.svg',
-	'title_img' => $template_url . '/assets/img/guyra-title.svg',
-	'title_logo_img' => $template_url . '/assets/img/guyra-title-logo.svg',
 	'mp_public_key' => $gSettings['mp_public_key']
 ];
 

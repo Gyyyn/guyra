@@ -1789,7 +1789,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                     
                     reactOnCallback(event, () => {
 
-                      return fetchUserList();
+                      return fetchUserList(true);
 
                     });
 
@@ -2149,7 +2149,11 @@ export class GroupAdminHome extends React.Component {
 
   }
 
-  fetchUserList = () => {
+  fetchUserList = (force) => {
+
+    if (force) {
+      window.localStorage.removeItem('guyra_students');
+    }
 
     return new Promise((resolve, reject) => {
 

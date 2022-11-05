@@ -1171,13 +1171,22 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
                       },
                       body: JSON.stringify(dataToPost)
                     }
-                  ).then(res => {
-                    localStorage.removeItem('guyra_userdata');
-                  });
+                  ).then(res => res.json()).then(res => {
 
-                  if (tryingToChangeEmail) {
-                    setMessageBox(thei18n.confirm_mail_fields);
-                  }
+                    if (res == 'true') {
+
+                      localStorage.removeItem('guyra_userdata');
+
+                      if (tryingToChangeEmail) {
+                        setMessageBox(thei18n.confirm_mail_fields);
+                      }
+
+                    } else {
+                      console.error(res);
+                      setMessageBox(thei18n[res]);
+                    }
+                    
+                  });
 
                 }
               }
@@ -1535,7 +1544,7 @@ function AccountOptions_accountDetails(props) {
       e(
         'div',
         { className: 'dialog-box' },
-        e('h4', {}, thei18n.calendar),
+        e('h3', {}, thei18n.calendar),
         e(
           'button',
           {
@@ -1546,7 +1555,7 @@ function AccountOptions_accountDetails(props) {
           },
           thei18n.button_see_available_times
         ),
-        e('h4', { className: 'mt-3' }, thei18n.teacher_code),
+        e('h3', { className: 'mt-3' }, thei18n.teacher_code),
         e(
           'p',
           {},
