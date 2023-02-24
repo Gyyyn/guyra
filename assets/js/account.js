@@ -1906,6 +1906,15 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
       this.props.backButton = null;
     }
 
+    if (this.noDocWarning) {
+      return e(
+        'div',
+        {},
+        this.props.backButton,
+        this.noDocWarning
+      );
+    }
+
     if (this.itemDue < now) {
 
       this.overdueInset = e(
@@ -1969,7 +1978,6 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
         e(
           'div',
           { className: 'col' },
-          this.noDocWarning,
           e(
             'div',
             { className: 'card trans' },

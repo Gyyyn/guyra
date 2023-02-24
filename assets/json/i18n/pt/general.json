@@ -29,6 +29,7 @@
    "everything":"Tudo",
    "are_you_sure":"Tem certeza?",
    "use":"Usar",
+   "user":"Usuário",
    "cant_use":"Este item não pode ser usado.",
    "get_more":"Achar mais",
    "see_more":"Ver mais",
@@ -243,7 +244,7 @@
    "already_answered_singular":"já respondeu",
    "thirdparty_processor":"Mercado Pago",
    "open_in_thirdparty_processor":"Código não funcionando? Abra este link no MercadoPago.",
-   "nodoc_warning": "Você ainda não adicionou um documento na sua conta. Por favor, adcione antes de prosseguir.",
+   "nodoc_warning": "Você ainda não adicionou um documento na sua conta. Por favor, adicione para poder prosseguir.",
    "subscription_donations": [
      "Ajude uma causa",
      "1% da sua mensalidade na Guyrá e direcionada a doações para organizações sem fins lucrativos!",
@@ -287,20 +288,20 @@
      "lite": {
        "title": "Guyrá Pass",
        "subtitle": "Acesso ao site e ferramentas.",
-       "price": "<s class=\"text-small text-grey\">30R$</s> <span class=\"text-primary\">19R$</span>",
+       "price": "<s class=\"text-small text-grey\">30R$</s> <span class=\"text-primary\">20R$</span>",
        "value": "20"
      },
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "140R$",
-       "value": "140"
+       "price": "172R$",
+       "value": "172"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",
        "subtitle": "Seu sistema de gestão escolar.",
-       "price": "<small>A partir de</small> 200R$",
-       "value": "200",
+       "price": "<small>A partir de</small> 399R$",
+       "value": "399",
        "company_cut": "70"
      },
      "free": {

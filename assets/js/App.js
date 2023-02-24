@@ -634,7 +634,6 @@ class App extends React.Component {
           e(
             'ol',
             { className: 'breadcrumb m-0' },
-            e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.faq_link }, this.state.i18n.help)),
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.privacy_link }, this.state.i18n.privacy)),
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.terms_link }, this.state.i18n.terms)),
           )
@@ -644,12 +643,6 @@ class App extends React.Component {
           { className: 'my-2' },
           e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
           e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
-          e('div', {}, 'Guyrá Version ' + window.guyra_version),
-          e(
-            'div',
-            { className: 'text-sss' },
-            window.HTMLReactParser((this.state.i18n.meta_thirdparty_credit ? this.state.i18n.meta_thirdparty_credit : ""))
-          )
         ),
       )
     ];

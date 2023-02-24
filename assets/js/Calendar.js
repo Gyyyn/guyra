@@ -138,14 +138,33 @@ class RenderDay_Hour extends React.Component {
   constructor(props) {
     super(props);
 
+    if (!this.props.appointment.user) {
+      this.props.appointment.user = '';
+    }
+
     this.state = {
       hasRecurring: this.props.hasRecurring,
-      appointmentValue: this.props.appointment
+      appointmentValue: this.props.appointment.value,
+      userValue: this.props.appointment.user
     };
 
     if (!this.props.user.is_self && this.state.appointmentValue) {
       this.state.appointmentValue = e('span', { className: 'badge bg-red' }, thei18n.busy);
     }
+
+  }
+
+  componentWillMount() {
+
+    // If person has a student list saved we will use that later.
+    GuyraFetchData({}, 'api?action=fetch_users', 'guyra_students', 30).then((res) => {
+
+      if (!res) {
+      res = {}; }
+
+      this.students = res;
+
+    });
 
   }
 
@@ -228,6 +247,23 @@ class RenderDay_Hour extends React.Component {
         }),
       ),
       e(
+        'div',
+        { className: inputCommentClass },
+        e('label', { className: 'text-ss' }, thei18n.user),
+        e(
+          'input',
+          {
+            id: 'schedule-value', type: 'text',
+            value: this.state.userValue,
+            onChange: (event) => {
+              this.setState({
+                userValue: event.target.value
+              });
+            }
+          }
+        ),
+      ),
+      e(
         'button',
         {
           className: 'btn-tall btn-sm green mt-3',
@@ -235,10 +271,19 @@ class RenderDay_Hour extends React.Component {
 
             if (this.props.user.is_self) {
 
+              // build the new appointment
+              var theAppointment = {
+                value: this.state.appointmentValue
+              };
+
+              if (this.state.userValue) {
+                theAppointment.user = this.state.userValue;
+              }
+
               if (this.state.hasRecurring) {
                 this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, this.state.appointmentValue);
               } else {
-                this.props.AddAppointment(this.props.day, this.props.hour, this.state.appointmentValue)
+                this.props.AddAppointment(this.props.day, this.props.hour, theAppointment)
               }
               
             } else {
@@ -438,6 +483,12 @@ export class RenderDay extends React.Component {
 
         if (this.props.skipEmpty && !theAppointment) {
           continue;
+        }
+
+        // Convert old style into new style.
+        // TODO: Delete in a few versions.
+        if (typeof theAppointment == 'string') {
+          theAppointment = { value: theAppointment };
         }
 
         theDay.push(e(RenderDay_Hour, {

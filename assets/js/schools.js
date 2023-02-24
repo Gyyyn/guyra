@@ -1770,6 +1770,9 @@ class GroupAdminHome_AdminPanel extends React.Component {
         }
 
         var today = new Date().toDateString();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow = tomorrow.toDateString();
 
         return e(
           'div',
@@ -1841,19 +1844,36 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 setDaySchedule: function() {}
               }
             ),
+            e(
+              RenderDay,
+              {
+                day: tomorrow,
+                activeHours: [8,22],
+                user: { ...theUserdata, is_self: true },
+                skipEmpty: true,
+                nonHover: true,
+                setDaySchedule: function() {}
+              }
+            ),
           ),
           e(() => {
 
             var value = Object.values(user_list).length;
+            var students = value;
 
             value = value * thei18n.prices_features.premium.value;
             value = value * (thei18n.prices_features.business.company_cut / 100);
 
+            value = Math.round(thei18n.currency_iso + value);
+
             return e(
               'div',
               { className: 'dialog-box my-3' },
+              'Total de alunos:',
+              e('span', { className: 'fw-bold mx-2' }, students),
+              e('span', { className: 'mx-3 text-grey-darker'}, '/'),
               'Ganhos estimados/mês:',
-              e('span', { className: 'fw-bold mx-2' }, thei18n.currency_iso + value)
+              e('span', { className: 'fw-bold mx-2' }, thei18n.currency_iso + value),
             );
 
           }),

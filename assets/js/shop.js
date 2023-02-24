@@ -411,7 +411,7 @@ class Shop_wrapper extends React.Component {
 
     var inventoryButtonExtraClass = '';
 
-    if (theUserdata.inventory.length == 0) {
+    if (!theUserdata.inventory || theUserdata.inventory.length == 0) {
       inventoryButtonExtraClass = 'd-none';
     }
 

@@ -9,6 +9,12 @@ global $site_url;
 global $is_admin;
 global $redirect;
 global $is_logged_in;
+global $nests;
+
+if ($nests[2] == 'cron') {
+  include $template_dir . '/components/Cron.php';
+  exit;
+}
 
 $redirect = false;
 
