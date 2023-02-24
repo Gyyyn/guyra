@@ -3,7 +3,8 @@ import {
   thei18n,
   LoadingPage,
   PopUp,
-  reactOnCallback
+  reactOnCallback,
+  GuyraFetchData
 } from '%getjs=Common.js%end';
 
 const now = new Date();
