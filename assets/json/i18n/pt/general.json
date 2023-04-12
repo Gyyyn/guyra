@@ -288,14 +288,14 @@
      "lite": {
        "title": "Guyrá Pass",
        "subtitle": "Acesso ao site e ferramentas.",
-       "price": "<s class=\"text-small text-grey\">30R$</s> <span class=\"text-primary\">20R$</span>",
+       "price": "<s class=\"text-small text-grey\">20$</s> <span class=\"text-primary\">10R$</span>",
        "value": "20"
      },
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "172R$",
-       "value": "172"
+       "price": "140$",
+       "value": "140"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",

@@ -268,6 +268,11 @@ if ($current_user_subscription_valid) {
 
 }
 
+// Set up school association
+
+if ($is_admin)
+$current_user_data['school_id'] = 'guyra';
+
 include_once $template_dir . '/functions/Notifications.php';
 include_once $template_dir . '/components/ProfilePicture.php';
 include_once $template_dir . '/components/StreakTree.php';

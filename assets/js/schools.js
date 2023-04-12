@@ -1862,9 +1862,12 @@ class GroupAdminHome_AdminPanel extends React.Component {
             var students = value;
 
             value = value * thei18n.prices_features.premium.value;
-            value = value * (thei18n.prices_features.business.company_cut / 100);
 
-            value = Math.round(thei18n.currency_iso + value);
+            if (theUserdata.school_id != 'guyra') {
+              value = value * (thei18n.prices_features.business.company_cut / 100);
+            }
+
+            value = Math.round(value);
 
             return e(
               'div',

@@ -520,6 +520,10 @@ export class RenderDay extends React.Component {
       classExtra = 'no-hover';
     }
 
+    if (this.props.skipEmpty && this.state.theDay.length == 0) {
+      return null;
+    }
+
     return e(
       'div',
       { className: this.props.day + ' d-flex flex-column overpop-animation animate schedule ms-3 ' + classExtra },

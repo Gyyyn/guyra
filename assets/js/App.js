@@ -409,7 +409,7 @@ class App extends React.Component {
       var notification_counter = null;
       var admin_buttons = [];
 
-      if (this.state.userdata.user_code) {
+      if (this.state.userdata.role == 'teacher') {
         admin_buttons = [
           e('button', {
             className: 'btn-tall w-100 mt-2',
