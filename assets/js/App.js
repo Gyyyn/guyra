@@ -167,7 +167,17 @@ class App extends React.Component {
 
       var route = document.body.dataset.route;
 
-      if (!this.state.userdata.is_logged_in) {
+      var routesThatNeedLogin = [
+        'practice',
+        'courses',
+        'reference',
+        'shop',
+        'arcade',
+        'help',
+        'ranking'
+      ];
+
+      if (routesThatNeedLogin.indexOf(route) !== -1) {
         this.setPage(this.state.routes.account);
         return;
       }

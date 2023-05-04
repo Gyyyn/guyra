@@ -460,7 +460,7 @@ input:checked + .slider:before {
 
 @media (max-width: 1200px) {
 
-  .navbar .header-account .btn-tall span.value {
+  .navbar .btn-tall span.value {
     display: none;
   }
 
@@ -749,7 +749,7 @@ input:checked + .slider:before {
 
 .card.trans {
   background: var(--guyra-grey);
-  box-shadow: unset;
+  box-shadow: 0 5px 15px -10px;
   border: var(--guyra-grey-darker) solid var(--guyra-border-size);
   border-top-width: .15rem !important;
   border-right-width: .15rem !important;
@@ -761,7 +761,7 @@ input:checked + .slider:before {
 .card.trans.green { border-color: var(--guyra-green-lighter); color: var(--guyra-green-darkest); background-color: var(--guyra-green-lightest); }
 .card.trans.blue { border-color: var(--guyra-blue-lighter); color: var(--guyra-blue-darkest); background-color: var(--guyra-blue-lightest); }
 .card.trans.yellow { border-color: var(--guyra-yellow-lighter); color: var(--guyra-yellow-darkest); background-color: var(--guyra-yellow-lightest); }
-.card.trans.red { border-color: var(--guyra-red-lighter); color: var(--guyra-red-darkest); background-color: var(--guyra-red-lightest); }
+.card.trans.red { border-color: rgb(255 131 112 / 35%); color: var(--guyra-red-darkest); background-color: rgb(255 176 164 / 35%); }
 
 .card.thin {
   border-top: 0;

@@ -24,6 +24,65 @@ global $cache_dir;
 Guyra_Safeguard_File();
 
 include_once $template_dir . '/functions/Assets.php';
+require_once $template_dir . '/functions/Hash.php';
+include_once $template_dir . '/functions/Game.php';
+
+if ($_GET['get_user_data']) {
+
+    $user = $_GET['user'];
+  
+    if (!$user && $is_logged_in) {
+  
+      $user = $current_user_id;
+      
+      $theData = $current_user_data;
+  
+      $theData['is_logged_in'] = true;
+      $theData['id'] = $user;
+      $theData['user_email'] = $current_user_object['user_login'];
+      $theData['user_subscription_valid'] = $current_user_subscription_valid;
+      $theData['profile_picture_url'] = Guyra_get_profile_picture($user, null, true);
+  
+      $theData['payments'] = $current_user_payments;
+      $theData['notifications'] = $current_user_notifications;
+  
+      $theData['user_code'] = Guyra_hash($user);
+  
+    } else {
+      $theData = guyra_get_user_data($user);
+    }
+  
+    $theData['gamedata'] = GetUserRanking($user);
+    $theData['gamedata']['raw'] = guyra_get_user_data($user, 'gamedata');
+    $theData['user_diary'] = guyra_get_user_data($user, 'diary');
+    $theData['inventory'] = guyra_get_user_data($user, 'inventory');
+  
+    // If user is in a group then set their diary to be the groups's.
+    if ($theData['studygroup']) {
+  
+      $teachers_diary = guyra_get_user_data($theData['teacherid'], 'diary');
+  
+      $theData['user_diary']['userpage'] = $teachers_diary['diaries'][$theData['studygroup']]['userpage'];
+      $theData['user_diary']['teachers_diary'] = $teachers_diary['diaries'][$theData['studygroup']]['teachers_diary'];
+  
+    }
+  
+    // Unset some sensitive data;
+    unset($theData['user_pass']);
+  
+    if ($user != $current_user_id) {
+      unset($theData['doc_id']);
+      unset($theData['userpage']);
+      unset($theData['payments']);
+      unset($theData['user_diary']['payments']);
+      unset($theData['user_diary']['entries']);
+      unset($theData['user_diary']['user_comments']);
+      unset($theData['user_email']);
+    }
+  
+    guyra_output_json(json_encode($theData), true);
+  
+  }
 
 if ($_GET['get_image']) {
 

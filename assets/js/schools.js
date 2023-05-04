@@ -1832,7 +1832,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           ),
           e(
             'div',
-            { className: 'd-flex mb-3' },
+            { className: 'd-flex mb-3 overflow-auto' },
             e(
               RenderDay,
               {
