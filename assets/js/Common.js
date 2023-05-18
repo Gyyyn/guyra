@@ -434,7 +434,7 @@ export function GuyraFetchData(args={}, url, name, expires) {
     var localStorage = GuyraLocalStorage('get', name);
     var now = new Date();
 
-    if (localStorage && (localStorage.expires > now) && !args.force) {
+    if (localStorage && (localStorage.expires > now) && (window.guyra_version == localStorage.ver) && !args.force) {
       
       resolve(localStorage[name]);
 
@@ -453,6 +453,7 @@ export function GuyraFetchData(args={}, url, name, expires) {
         localStorage = {};
         localStorage[name] = theData;
         localStorage.expires = expires;
+        localStorage.ver = window.guyra_version;
 
         if (name != 'guyra_userdata' || theData.is_logged_in) {
           GuyraLocalStorage('set', name, localStorage);
@@ -1075,6 +1076,9 @@ export class PaymentItem extends React.Component {
       this.overdueExtra = calculateOverdueFees(this.props.value, this.itemDue);
       this.itemValue = this.itemValue + this.overdueExtra;
     }
+
+    this.transferFee = this.itemValue * parseFloat(thei18n.prices_features.transfer_fee);
+    this.itemValue = (this.itemValue + this.transferFee).toString().slice(0, 5);
 
   }
 

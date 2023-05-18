@@ -650,7 +650,7 @@ class App extends React.Component {
         ),
         e(
           'div',
-          { className: 'my-2' },
+          { className: 'text-black my-2' },
           e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
           e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
         ),

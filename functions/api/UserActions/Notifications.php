@@ -48,11 +48,7 @@ if ($_GET['appointment']) {
   $current_user_name = $current_user_data['first_name'] . ' ' . $current_user_data['last_name'];
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $teacher_data = guyra_get_user_data($user);
-
-  // Make sure the user is actually a teacher.
-  if ($teacher_data['role'] != 'teacher')
-  guyra_output_json('post error', true);
+  $teacher_data = guyra_get_user_data((int) $current_user_data['teacherid']);
 
   $notification['actions'][0]['link'] = 
     str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
@@ -65,9 +61,13 @@ if ($_GET['appointment']) {
   $notification['contents'] = $notification['contents'] . ' ' . $notification['is_recurring'];
 
   if ($mode == 'request')
-  PushNotification($notification, (int) $user);
+  PushNotification($notification, (int) $teacher_data['id']);
 
   if ($mode == 'accept') {
+
+    // Make sure the user is actually a teacher.
+    if ($teacher_data['role'] != 'teacher')
+    guyra_output_json('post error', true);
 
     if ($current_user_data['role'] == 'teacher')
     guyra_update_user_data($user, [ 'teacherid' => $current_user_id ]);
@@ -76,6 +76,6 @@ if ($_GET['appointment']) {
 
   }
 
-  guyra_output_json('true', true);
+  guyra_output_json('sent to' . $teacher_data['id'], true);
   
 }

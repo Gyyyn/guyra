@@ -321,11 +321,17 @@ class Shop_ItemList extends React.Component {
               theItems = {};
             }
 
-            Object.keys(theItems).forEach((item, i) => {
-              if (userdata.inventory.indexOf(item) === -1) {
-                isOwnedItem = false;
-              }
-            });
+            if (userdata.inventory) {
+
+              Object.keys(theItems).forEach((item, i) => {
+                if (userdata.inventory.indexOf(item) === -1) {
+                  isOwnedItem = false;
+                }
+              });
+              
+            } else {
+              isOwnedItem = false;
+            }
 
             var props = theItem;
 

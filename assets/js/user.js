@@ -24,7 +24,7 @@ class User_Profile extends React.Component {
             var userBio = null;
             var userInfo = user.first_name + ' está com a gente desde ' + dateRegisteredSince.toLocaleDateString();
 
-            if (user.teacherid == user.id) {
+            if (theUserdata.is_logged_in && theUserdata.teacherid == user.id) {
                 userInfo = userInfo + ', e é quem está te ensinando!'
             }
 
@@ -59,7 +59,7 @@ class User_Profile extends React.Component {
                     'div',
                     { className: 'd-flex flex-column' },
                     e('h2', { className: 'text-blue mb-3' }, 'Agenda de ' + user.first_name),
-                    e(RenderCalendar, { range: 1, user: user })
+                    e(RenderCalendar, { range: 2, user: user })
                 )
             )
 

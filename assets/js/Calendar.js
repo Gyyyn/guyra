@@ -1,7 +1,9 @@
 import {
   e,
   thei18n,
+  theUserdata,
   LoadingPage,
+  RemovePunctuation,
   PopUp,
   reactOnCallback,
   GuyraFetchData
@@ -33,29 +35,24 @@ function ConstructMonth(month, year) {
 
 function RenderMonth(month, year, user) {
 
+  var theDays = Object.values(thei18n._weekdays);
+
   var diary = user.user_diary;
   var theMonthsDays = ConstructMonth(month, year);
-  var weekStartsOn = 'Mon';
+  var weekStartsOn = theDays[0];
   var theWeek = [];
   var theMonth = [];
   var firstDayOfTheMonth = theMonthsDays[0].toDateString().split(' ')[0];
   var dayQueue = [];
 
-  var theDays = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun'
-  ];
-
   if (theDays[0] != weekStartsOn) {
     theDays = theDays.splice(theDays.indexOf(weekStartsOn)).concat(theDays);
   }
 
-  var weekOffset = theDays.indexOf(theMonthsDays[0].toDateString().split(' ')[0]);
+  var startingDay = theMonthsDays[0].toLocaleDateString(navigator.language, {weekday: 'long'});
+  startingDay = startingDay[0].charAt(0).toUpperCase().concat(startingDay.slice(1));
+
+  var weekOffset = theDays.indexOf(startingDay);
 
   var pushWeek = (theWeek) => {
     theMonth.push(e(
@@ -99,7 +96,7 @@ function RenderMonth(month, year, user) {
             RenderDay,
             {
               day: item.toDateString(),
-              activeHours: [8,22],
+              activeHours: [9,21],
               user: user,
               setDaySchedule: setDaySchedule
             }));
@@ -121,14 +118,15 @@ function RenderMonth(month, year, user) {
   pushWeek(theWeek);
 
   theDays.forEach((item, i) => {
-    theDays[i] = e('span', { className: '' }, item);
+    theDays[i] = e('span', { className: '' }, item.slice(0,3));
   });
 
+  var theMonthDisplay = theMonthsDays[0].toLocaleDateString(navigator.language, {month: 'long'});
 
   return e(
     'div',
-    { className: 'month mb-3' },
-    e('div', { className: 'text-center fw-bold' }, month + ' ' + year),
+    { className: 'month mb-3 me-3' },
+    e('div', { className: 'text-center fw-bold capitalize' }, theMonthDisplay + ' ' + year),
     e('div', { className: 'd-flex justify-content-between my-3 text-muted fst-italic' }, theDays),
     e('div', { className: 'month-wrapper'}, theMonth)
   );
@@ -139,6 +137,12 @@ class RenderDay_Hour extends React.Component {
   constructor(props) {
     super(props);
 
+    if (typeof this.props.appointment == 'string') {
+      this.props.appointment = { value: this.props.appointment };
+    } else if (typeof this.props.appointment != 'object') {
+      this.props.appointment = {};
+    }
+
     if (!this.props.appointment.user) {
       this.props.appointment.user = '';
     }
@@ -146,7 +150,9 @@ class RenderDay_Hour extends React.Component {
     this.state = {
       hasRecurring: this.props.hasRecurring,
       appointmentValue: this.props.appointment.value,
-      userValue: this.props.appointment.user
+      userValue: this.props.appointment.user,
+      userValueDisplay: null,
+      matchedStudents: null,
     };
 
     if (!this.props.user.is_self && this.state.appointmentValue) {
@@ -164,6 +170,20 @@ class RenderDay_Hour extends React.Component {
       res = {}; }
 
       this.students = res;
+
+      if (this.state.userValue) {
+
+        Object.values(this.students).forEach(student => {
+          
+          if (student.userdata.id == this.state.userValue) {
+            this.setState({
+              userValueDisplay: student.userdata.first_name,
+            });
+          }
+
+        });
+
+      }
 
     });
 
@@ -186,7 +206,7 @@ class RenderDay_Hour extends React.Component {
       }
 
       if (this.props.user.is_self) {
-        icons.push(e('i', { className: "bi bi-pen ms-1" }));
+        // icons.push(e('i', { className: "bi bi-pen ms-1" }));
       }
 
       return e(
@@ -255,43 +275,95 @@ class RenderDay_Hour extends React.Component {
           'input',
           {
             id: 'schedule-value', type: 'text',
-            value: this.state.userValue,
+            className: 'mb-1',
+            value: this.state.userValueDisplay,
             onChange: (event) => {
+
+              var searchedUser = event.target.value;
+              var search = RemovePunctuation(searchedUser.toLowerCase());
+              var matchword = new RegExp("(" + search + ")");
+              var testword;
+              var matchedStudents = [];
+
+              var userButton = (props) => {
+                
+                return e(
+                  'button',
+                  {
+                    className: 'btn border',
+                    onClick: () => {
+                      this.setState({
+                        userValue: props.student.userdata.id,
+                        userValueDisplay: props.student.userdata.first_name,
+                        matchedStudents: null
+                      });
+                    }
+                  },
+                  props.student.userdata.first_name
+                );
+
+              };
+
+              Object.values(this.students).forEach(student => {
+
+                testword = RemovePunctuation(student.userdata.first_name.toLowerCase());
+                
+                if (matchword.test(testword)) {
+                  matchedStudents.push(e(
+                    userButton,
+                    { student: student }
+                  ));
+                }
+
+              });
+
               this.setState({
-                userValue: event.target.value
+                userValueDisplay: event.target.value,
+                matchedStudents: matchedStudents
               });
             }
           }
         ),
+        this.state.matchedStudents,
       ),
       e(
         'button',
         {
           className: 'btn-tall btn-sm green mt-3',
-          onClick: () => {
+          onClick: (event) => {
 
-            if (this.props.user.is_self) {
+            reactOnCallback(event, () => {
 
-              // build the new appointment
-              var theAppointment = {
-                value: this.state.appointmentValue
-              };
+              return new Promise((resolve) => {
+                
+                if (this.props.user.is_self) {
 
-              if (this.state.userValue) {
-                theAppointment.user = this.state.userValue;
-              }
+                  // build the new appointment
+                  var theAppointment = {
+                    value: this.state.appointmentValue
+                  };
+    
+                  if (this.state.userValue) {
+                    theAppointment.user = this.state.userValue;
+                  }
+    
+                  if (this.state.hasRecurring) {
+                    this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, theAppointment);
+                  } else {
+                    this.props.AddAppointment(this.props.day, this.props.hour, theAppointment)
+                  }
+                  
+                } else {
+    
+                  this.props.RequestAppointment(this.props.day, this.props.hour, this.state.hasRecurring);
+    
+                }
 
-              if (this.state.hasRecurring) {
-                this.props.EditRecurringAppointment(this.props.day.split(' ')[0] + ' ' + this.props.hour, this.state.appointmentValue);
-              } else {
-                this.props.AddAppointment(this.props.day, this.props.hour, theAppointment)
-              }
-              
-            } else {
+                resolve(true);
 
-              this.props.RequestAppointment(this.props.day, this.props.hour, this.state.hasRecurring);
+              })
 
-            }
+            });
 
           }
         },
@@ -306,16 +378,23 @@ class RenderDay_Hour extends React.Component {
       )
     );
 
+    var editHourButtonProps = {
+      className: 'position-relative collapsed btn p-0 w-100 text-start'
+    };
+
+    if (!this.props.skipEmpty && theUserdata.is_logged_in) {
+
+      editHourButtonProps["data-bs-target"] = '#collapse-hour' + this.props.hour;
+      editHourButtonProps["data-bs-toggle"] = 'collapse';
+
+    }
+
     return e(
       'div',
       { className: 'daySchedule', id: 'day-hour' + this.props.hour },
       e(
         'button',
-        {
-          className: 'position-relative collapsed btn p-0 w-100 text-start',
-          "data-bs-target": '#collapse-hour' + this.props.hour,
-          "data-bs-toggle": 'collapse'
-        },
+        editHourButtonProps,
         this.editHourButton
       ),
       e(
@@ -486,12 +565,6 @@ export class RenderDay extends React.Component {
           continue;
         }
 
-        // Convert old style into new style.
-        // TODO: Delete in a few versions.
-        if (typeof theAppointment == 'string') {
-          theAppointment = { value: theAppointment };
-        }
-
         theDay.push(e(RenderDay_Hour, {
           appointment: theAppointment,
           EditRecurringAppointment: this.EditRecurringAppointment,
@@ -500,7 +573,8 @@ export class RenderDay extends React.Component {
           day: this.props.day,
           hour: theHour,
           hasRecurring: hasRecurring,
-          user: this.props.user
+          user: this.props.user,
+          skipEmpty: this.props.skipEmpty
         }));
 
       }
@@ -662,30 +736,60 @@ export class RenderCalendar extends React.Component {
 
     return e(CalendarContext.Provider, {value: this.state}, e(
       'div',
-      { className: 'calendar d-flex flex-row' },
+      { className: 'calendar d-flex flex-column' },
       e(
         'div',
-        { className: 'd-flex flex-column' },
-        this.state.view,
-        e(() => {
-
-          if (this.props.user.is_self) {
-            return e(
+        { className: 'd-flex flex-row mb-3' },
+        e(
+          'div',
+          { className: 'd-flex flex-column', style: { overflowX: 'auto' } },
+          e(
+            'div',
+            { className: 'd-flex flex-row' },
+            this.state.view,
+          ),
+        ),
+        e('div', { id: 'schedule' }, this.state.daySchedule)
+      ),
+      e(() => {
+  
+        if (this.props.user.is_self) {
+          return e(
+            'div',
+            {},
+            e(
               'button',
               {
                 type: 'button',
-                className: 'btn-tall green',
+                className: 'btn-tall green me-2',
                 onClick: this.save
               },
               thei18n.save
-            );
-          }
+            ),
+            e(
+              'button',
+              {
+                type: 'button',
+                className: 'btn-tall red',
+                onClick: (event) => {
+                  
+                  var newDiary = {};
+                  newDiary.recurring = this.props.diary.calendar.recurring;
 
-          return null;
+                  this.props.diary.calendar = newDiary;
 
-        }),
-      ),
-      e('div', { id: 'schedule' }, this.state.daySchedule)
+                  this.save(event);
+
+                }
+              },
+              thei18n.clear
+            )
+          );
+        }
+
+        return null;
+
+      }),
     ));
 
   }

@@ -233,6 +233,9 @@ input.form-control:not(.bs),
   background-color: var(--guyra-grey);
   border-radius: var(--guyra-border-radius);
   width: 100%;
+  border-bottom-width: 2px;
+  border-color: #ccc9;
+  border-bottom-style: solid;
 }
 
 input.form-control:focus:not(.bs),
@@ -241,12 +244,18 @@ input.form-control:focus:not(.bs),
   background: var(--guyra-grey);
 	border: unset;
   outline: unset;
+  border-bottom-width: 2px;
+  border-color: #ccc9;
+  border-bottom-style: solid;
 }
 
 input.form-control:focus-visible,
 .form-control input:focus-visible {
 	border: unset;
   outline: unset;
+  border-bottom-width: 2px;
+  border-color: #ccc9;
+  border-bottom-style: solid;
 }
 
 .form-check-input:checked {
@@ -331,7 +340,9 @@ img.left-side-image {
 }
 
 .dialog-box input.form-control:not(.bs),
-.dialog-box .form-control input
+.dialog-box .form-control input,
+.dialog-box .form-control textarea,
+.dialog-box textarea.form-control:not(.bs)
 {
   border: 1px solid var(--guyra-grey-darker);
   box-shadow: var(--guyra-box-shadow-smaller);

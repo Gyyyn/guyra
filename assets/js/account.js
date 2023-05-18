@@ -332,9 +332,29 @@ function AccountPayment_planSelect(props) {
     )),
     e(AccountContext.Consumer, null, ({i18n}) => e(
       'div',
-      { className: 'account-plans-total card d-flex flex-row justify-content-between p-3' },
-      e('span', {}, i18n.total),
-      e('strong', {}, i18n.currency_iso, e('span', { id: 'price-total'}, checkoutTotal))
+      { className: 'account-plans-total card d-flex p-3' },
+      e(
+        'div',
+        { className: 'd-flex flex-row justify-content-between' },
+        e('span', {}, i18n.plan),
+        e('span', {}, e('span', {}, i18n.currency_iso), checkoutTotal),
+      ),
+      e(
+        'div',
+        { className: 'd-flex flex-row justify-content-between' },
+        e('span', {}, i18n.card_fee),
+        e('span', {}, e('span', {}, i18n.currency_iso), 
+        checkoutTotal * parseFloat(i18n.prices_features.card_fee).toString().slice(0, 4)),
+      ),
+      e('hr'),
+      e(
+        'div',
+        { className: 'd-flex flex-row justify-content-between' },
+        e('span', {}, i18n.total),
+        e('strong', {}, i18n.currency_iso, e('span', { id: 'price-total'}, 
+          (parseInt(checkoutTotal) + (checkoutTotal * parseFloat(i18n.prices_features.card_fee))).toString().replace('.', ',').slice(0,5)
+        ))
+      ),
     ))
   );
 
@@ -1901,6 +1921,9 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
   render() {
 
     let now = new Date();
+    this.displayValue = parseInt(this.props.item.value);
+    this.transferFee = this.displayValue * parseFloat(this.props.i18n.prices_features.transfer_fee);
+    this.displayValue = (this.displayValue + this.transferFee).toString().slice(0, 5);
 
     if (!this.props.backButton) {
       this.props.backButton = null;
@@ -1921,8 +1944,6 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
         'span',
         { className: 'text-s text-grey-darkest' },
         '(',
-        this.props.i18n.currency_iso + this.props.item.value,
-        ' + ',
         this.props.i18n.currency_iso + this.overdueExtra + ' ',
         this.props.i18n.overdue_fees.toLowerCase(),
         e(
@@ -1992,7 +2013,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
                   'span',
                   { className: 'me-2' },
                   e('span', {}, this.props.i18n.value + ': '),
-                  e('span', { className: 'fw-bold ms-1'}, this.props.i18n.currency_iso + this.itemValue),
+                  e('span', { className: 'fw-bold ms-1'}, this.props.i18n.currency_iso + this.displayValue),
                 ),
                 this.overdueInset
               ),
@@ -2520,18 +2541,6 @@ function Register(props) {
     { className: 'row mb-3 justfade-animation animate g-0' },
     e(
       'div',
-      { className: 'col-5 d-none d-md-flex' },
-      e(
-        'img',
-        {
-          className: 'left-side-image',
-          alt: i18n.register,
-          src: i18n.template_link + '/assets/img/register.png'
-        }
-      )
-    ),
-    e(
-      'div',
       { className: 'col-md p-5' },
       e('h1', { className: 'text-blue mb-3' }, thei18n.welcome + "!"),
       e(OAuthButtons),
@@ -2886,18 +2895,6 @@ class Login extends React.Component {
       { className: 'row mb-3 justfade-animation animate g-0' },
       e(
         'div',
-        { className: 'col-5 d-none d-md-flex' },
-        e(
-          'img',
-          {
-            className: 'left-side-image',
-            alt: thei18n.button_login,
-            src: thei18n.template_link + '/assets/img/Welcome.png'
-          }
-        )
-      ),
-      e(
-        'div',
         { className: 'col-md' },
         e(LoginForm)
       )
@@ -3005,7 +3002,8 @@ export class Account extends React.Component {
       page: LoadingPage,
       pages: this.subpages,
       setPage: this.setPage,
-      appSetPage: this.props.setPage
+      appSetPage: this.props.setPage,
+      squeezeType: 'squeeze'
     };
 
   }
@@ -3063,10 +3061,12 @@ export class Account extends React.Component {
 
     if (!is_logged_in) {
       decision = Login;
+      this.state.squeezeType = 'squeeze-small';
     }
 
     if (!is_logged_in && subroute == 'register') {
       decision = Register;
+      this.state.squeezeType = 'squeeze-small';
     }
 
     if (!is_logged_in && subroute == 'lostpassword') {
@@ -3074,6 +3074,7 @@ export class Account extends React.Component {
     }
 
     return decision;
+
   }
 
   componentWillMount() {
@@ -3102,7 +3103,7 @@ export class Account extends React.Component {
 
     return e(
       'div',
-      { className: 'squeeze' },
+      { className: this.state.squeezeType },
       e(
         'div',
         { className: wrapperClass },

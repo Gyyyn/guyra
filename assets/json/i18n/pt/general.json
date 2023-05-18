@@ -294,8 +294,8 @@
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "140$",
-       "value": "140"
+       "price": "165$",
+       "value": "165"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",
@@ -310,6 +310,8 @@
        "price": "0R$",
        "value": "0"
      },
+     "card_fee": "0.0399",
+     "transfer_fee": "0.0099",
      "feature_courses_access":"Acesso as vídeo aulas.",
      "feature_whatsapp_questions":"Tire suas duvidas por WhatsApp.",
      "feature_whatsapp_questions2":"Tirar duvidas por WhatsApp.",
@@ -505,13 +507,24 @@
       "cancelled":"Cancelado"
      }
    },
+   "_weekdays": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+   },
    "full_comments":"Todas as respostas",
    "archive_student":"Arquivar aluno",
-   "archive_student_explain":" <p>Se este aluno nao está mais ativo ele pode ser arquivado. Ele vai sair da sua lista de aluno mas ainda vai ter acesso ao site.</p> <p>Uma vez arquivado você não vai ter mais acesso a esse aluno a não ser que ele use seu código de novo.</p> \t",
+   "archive_student_explain":"Se este aluno nao está mais ativo ele pode ser arquivado. Ele vai sair da sua lista de aluno mas ainda vai ter acesso ao site. Uma vez arquivado você não vai ter mais acesso a esse aluno a não ser que ele use seu código de novo.",
    "remove_from_group":"Remover do grupo",
    "next_video":"Próximo Video",
    "previous_video":"Video Anterior",
    "your_plan":"Seu plano",
+   "plan":"Plano",
+   "card_fee":"Taxa do cartão",
    "manage_your_plan":"Gerenciar seu plano",
    "card": {
      "holder": "Titular do cartão",

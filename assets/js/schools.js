@@ -768,7 +768,7 @@ class PaymentArea extends React.Component {
           { className: 'col-3 d-flex flex-row position-relative' },
           e(
             'input',
-            { id: 'the-payment-value', className: 'form-control w-100', type: 'number', placeholder: 'Ex.: 100' }
+            { id: 'the-payment-value', className: 'form-control w-100', type: 'number', placeholder: thei18n.prices_features.premium.value }
           ),
           e('span', { for: 'the-payment-value', className: 'end-0 me-3 position-absolute top-50 translate-middle' }, i18n.currency_iso),
         ),
@@ -799,16 +799,20 @@ class PaymentArea extends React.Component {
                 var due = document.getElementById('the-payment-due').value;
 
                 if (due == '') {
-                  due = this.today;
+                  
+                  var now = new Date();
+                  var lastDayOfMonth = new Date(now.getFullYear(), now.getMonth()+1, 0);
+                  due = lastDayOfMonth.toISOString().split('T')[0];
+
                 }
 
-                if (value != '') {
-                  addPaymentEntry({value: value, status: status, due: due});
-                  value = '';
-                  due = '';
-                } else {
-                  alert(i18n.value_missing);
+                if (!value) {
+                  value = i18n.prices_features.premium.value;
                 }
+
+                addPaymentEntry({value: value, status: status, due: due});
+                value = '';
+                due = '';
 
               }
             },
@@ -1059,7 +1063,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     this.userAddToGroupCard = e(
       'div',
       { className: this.cardsClasses, style: { minHeight: 'unset' } },
-      e('h4', {}, thei18n.group),
+      e('h3', {}, thei18n.group),
       e(
         'span',
         { className: 'd-flex flex-row' },
@@ -1091,15 +1095,15 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     this.userArchiveStudentCard = e(
       'div',
       { className: this.cardsClasses, style: { minHeight: 'unset' } },
-      e('h4', {}, thei18n.archive_student),
-      e('span', {}, window.HTMLReactParser(thei18n.archive_student_explain)),
+      e('h3', {}, thei18n.archive_student),
+      e('span', { className: 'text-sss' }, thei18n.archive_student_explain),
       e(
         'span',
         { className: 'd-flex flex-row' },
         e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
           'button',
           {
-            className: 'btn-tall btn-sm',
+            className: 'btn-tall',
             onClick: () => {
 
               this.archiveStudent().then(res => {
@@ -1741,7 +1745,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     
     return e(
       'div',
-      { className: 'squeeze-big schools rounded-box' },
+      { className: 'squeeze schools rounded-box' },
       e(
         'div',
         { className: 'mb-3 d-none' },
@@ -1787,7 +1791,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
               e(
                 'button',
                 {
-                  className: 'btn-tall green me-2',
+                  className: 'btn-tall me-2',
                   onClick: (event) => {
                     
                     reactOnCallback(event, () => {
@@ -1803,14 +1807,15 @@ class GroupAdminHome_AdminPanel extends React.Component {
               e(
                 'button',
                 {
-                  className: 'btn-tall',
+                  className: 'btn-tall blue',
                   onClick: () => {
                     this.setState({
                       searchOpen: !this.state.searchOpen
                     });
                   }
                 },
-                e('i', { className: 'bi bi-search' })
+                thei18n.search,
+                e('i', { className: 'bi bi-search ms-2' })
               ),
             ),
           ),
@@ -1909,25 +1914,184 @@ class GroupAdminHome_AdminPanel extends React.Component {
         e('h2', { className: 'mb-2' }, thei18n.controls),
         e(
           'div',
-          { className: 'col-auto mb-3' },
-          e('h3', { className: 'mb-3' }, thei18n.your_code),
+          { className: 'col-md-6' },
           e(
             'div',
-            { className: 'dialog-box d-inline' },
-            e('input', { id: 'the-code', className: 'text-black border-0 bg-transparent no-focus', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
+            { className: 'dialog-box' },
+            e(
+              'div',
+              { className: 'mb-3' },
+              e('h3', { className: 'mb-3' }, thei18n.your_code),
+              e(
+                'div',
+                { className: 'form-control d-flex' },
+                e('input', { id: 'the-code', className: 'form-control no-focus me-2', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall btn-sm green',
+                    onClick: (event) => {
+    
+                      reactOnCallback(event, () => {
+    
+                        return new Promise((resolve) => {
+    
+                          this.copyCode();
+    
+                          setTimeout(() => { resolve(true) }, 500)
+                          
+                        });
+    
+                      });
+    
+                    }
+                  },
+                  e('i', { className: 'bi bi-clipboard' })
+                )
+              ),
+            ),
+            e(
+              'div',
+              { className: 'mb-3' },
+              e('h3', { className: 'mb-2' }, thei18n.meeting_link),
+              e(
+                'div',
+                { className: 'd-flex' },
+                e(
+                  'input', {
+                    id: 'teacher-meeting-link', type: 'text', placeholder: theUserdata.user_meetinglink, className: 'form-control me-2',
+                    onChange: onChangeForceHTTPS
+                  }
+                ),
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall me-2',
+                    onClick: () => {
+                      window.open(theUserdata.user_meetinglink, '_blank').focus();
+                    }
+                  },
+                  e('i', { className: 'bi bi-box-arrow-up-right' })
+                ),
+                e(
+                  'button', 
+                  {
+                    className: 'btn-tall green',
+                    id: 'meeting-link-add-button',
+                    onClick: () => {
+    
+                      var theValue = document.getElementById('teacher-meeting-link').value;
+    
+                      if (!theValue) {
+                      return; }
+    
+                      var button = document.getElementById('meeting-link-add-button');
+                      var buttonBefore = button.innerHTML;
+                      button.innerHTML = '<i class="bi bi-three-dots"></i>';
+    
+                      var dataToPost = {
+                        fields: ['user_meetinglink'],
+                        user_meetinglink: theValue
+                      };
+          
+                      fetch(
+                        thei18n.api_link + '?update_userdata=1',
+                        {
+                          method: "POST",
+                          headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(dataToPost)
+                        }
+                      ).then(res => res.json()).then(json => {
+          
+                        if (json != 'true') {
+                          button.innerHTML = '<i class="bi bi-x"></i>';
+                        }
+          
+                        button.innerHTML = '<i class="bi bi-check-all"></i>';
+                        
+                        setTimeout(() => {
+                          button.innerHTML = buttonBefore;
+                        }, 3000);
+          
+                      });
+    
+                    }
+                  },
+                  e('i', {className: 'bi bi-check'})
+                ),
+              ),
+              e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
+            ),
+            e(
+              'div',
+              { className: 'mb-3' },
+              e('h3', { className: 'mb-2' }, thei18n.profile),
+              e(
+                'button',
+                {
+                  className: 'btn-tall blue',
+                  onClick: () => {
+                    window.location.href = thei18n.home_link + '/user/' + theUserdata.id
+                  }
+                },
+                thei18n.your + ' ' + thei18n.calendar,
+                e('i', { className: "bi bi-box-arrow-up-right ms-2" })
+              )
+            ),
+          ),
+        ),
+        e(
+          'div',
+          { className: 'col-md-6' },
+          e(
+            'div',
+            { className: 'dialog-box mb-3' },
+            e('h3', { className: 'mb-2' }, thei18n.bio),
+            e('span', { className: 'text-sss' }, thei18n.accepts_markdown),
+            e(
+              'div',
+              { className: 'my-3' },
+              e('textarea', { id: 'bio_textarea', className: 'form-control' }),
+            ),
             e(
               'button',
               {
-                className: 'btn-tall btn-sm green',
+                className: 'btn-tall blue',
                 onClick: (event) => {
 
                   reactOnCallback(event, () => {
 
-                    return new Promise((resolve) => {
+                    return new Promise((resolve, reject) => {
 
-                      this.copyCode();
+                      var dataToPost = {
+                        fields: ['user_bio']
+                      };
+                
+                      dataToPost.user_bio = document.getElementById('bio_textarea').value;
+                
+                      fetch(
+                        thei18n.api_link + '?update_userdata=1',
+                        {
+                          method: "POST",
+                          headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(dataToPost)
+                        }
+                      ).then(res => res.json()).then(res => {
 
-                      setTimeout(() => { resolve(true) }, 500)
+                        if (res != 'true') {
+                          resolve(false);
+                          return;
+                        }
+
+                        resolve(true);
+
+                      });
                       
                     });
 
@@ -1935,222 +2099,67 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
                 }
               },
-              e('i', { className: 'bi bi-clipboard' })
+              thei18n.save,
+              e('i', { className: "bi bi-save ms-2" })
+            ),
+          ),
+          e(
+            'div',
+            { className: 'dialog-box' },
+            e('h3', { className: 'mb-2' }, thei18n.upload_profile_pic),
+            e('p', { className: 'text-sss' }, thei18n.profile_picture_warning),
+            e(
+              'div',
+              { className: 'd-flex' },
+              e('input', { id: 'profile_picture_input', className: 'form-control me-2' }),
+              e(
+                'button',
+                {
+                  className: 'btn-tall blue d-flex',
+                  onClick: (event) => {
+  
+                    reactOnCallback(event, () => {
+  
+                      return new Promise((resolve, reject) => {
+  
+                        var dataToPost = {
+                          fields: ['profile_picture_url']
+                        };
+                  
+                        dataToPost.profile_picture_url = document.getElementById('profile_picture_input').value;
+                  
+                        fetch(
+                          thei18n.api_link + '?update_userdata=1',
+                          {
+                            method: "POST",
+                            headers: {
+                              'Accept': 'application/json, text/plain, */*',
+                              'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(dataToPost)
+                          }
+                        ).then(res => res.json()).then(res => {
+  
+                          if (res != 'true') {
+                            resolve(false);
+                            return;
+                          }
+  
+                          resolve(true);
+  
+                        });
+                        
+                      });
+  
+                    });
+  
+                  }
+                },
+                thei18n.save,
+                e('i', { className: "bi bi-save ms-2" })
+              ),
             )
           ),
-        ),
-        e(
-          'div',
-          { className: 'col-auto mb-3' },
-          e('h3', { className: 'mb-2' }, thei18n.meeting_link),
-          e(
-            'span',
-            { className: 'd-flex flex-row' },
-            e(
-              'span',
-              { className: 'position-relative' },
-              e(
-                'input', {
-                  id: 'teacher-meeting-link', type: 'text', placeholder: theUserdata.user_meetinglink, className: 'form-control me-3',
-                  onChange: onChangeForceHTTPS
-                }
-              ),
-              e(
-                'span',
-                { className: 'position-absolute top-0 end-0' },
-                e(
-                  'button',
-                  {
-                    className: 'btn bg-grey text-s',
-                    onClick: () => {
-                      window.open(theUserdata.user_meetinglink, '_blank').focus();
-                    }
-                  },
-                  e('i', { className: 'bi bi-box-arrow-up-right' })
-                ),
-              )
-            ),
-            e(
-              'button', 
-              {
-                className: 'btn-tall green ms-2',
-                id: 'meeting-link-add-button',
-                onClick: () => {
-
-                  var theValue = document.getElementById('teacher-meeting-link').value;
-
-                  if (!theValue) {
-                  return; }
-
-                  var button = document.getElementById('meeting-link-add-button');
-                  var buttonBefore = button.innerHTML;
-                  button.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-                  var dataToPost = {
-                    fields: ['user_meetinglink'],
-                    user_meetinglink: theValue
-                  };
-      
-                  fetch(
-                    thei18n.api_link + '?update_userdata=1',
-                    {
-                      method: "POST",
-                      headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(dataToPost)
-                    }
-                  ).then(res => res.json()).then(json => {
-      
-                    if (json != 'true') {
-                      button.innerHTML = '<i class="bi bi-x"></i>';
-                    }
-      
-                    button.innerHTML = '<i class="bi bi-check-all"></i>';
-                    
-                    setTimeout(() => {
-                      button.innerHTML = buttonBefore;
-                    }, 3000);
-      
-                  });
-
-                }
-              },
-              e('i', {className: 'bi bi-check'})
-            ),
-          ),
-          e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
-        ),
-        e(
-          'div',
-          { className: 'col-md-3' },
-          e('h3', { className: 'mb-2' }, thei18n.profile),
-          e(
-            'button',
-            {
-              className: 'btn-tall blue',
-              onClick: () => {
-                window.location.href = thei18n.home_link + '/user/' + theUserdata.id
-              }
-            },
-            thei18n.your + ' ' + thei18n.calendar,
-            e('i', { className: "bi bi-box-arrow-up-right ms-2" })
-          )
-        ),
-        e(
-          'div',
-          { className: 'col-md-6 mt-3' },
-          e('h3', { className: 'mb-2' }, thei18n.bio),
-          e('span', { className: 'text-sss text-muted' }, thei18n.accepts_markdown),
-          e(
-            'div',
-            { className: 'dialog-box' },
-            e('textarea', { id: 'bio_textarea', className: 'form-control' }),
-          ),
-          e(
-            'button',
-            {
-              className: 'btn-tall blue',
-              onClick: (event) => {
-
-                reactOnCallback(event, () => {
-
-                  return new Promise((resolve, reject) => {
-
-                    var dataToPost = {
-                      fields: ['user_bio']
-                    };
-              
-                    dataToPost.user_bio = document.getElementById('bio_textarea').value;
-              
-                    fetch(
-                      thei18n.api_link + '?update_userdata=1',
-                      {
-                        method: "POST",
-                        headers: {
-                          'Accept': 'application/json, text/plain, */*',
-                          'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(dataToPost)
-                      }
-                    ).then(res => res.json()).then(res => {
-
-                      if (res != 'true') {
-                        resolve(false);
-                        return;
-                      }
-
-                      resolve(true);
-
-                    });
-                    
-                  });
-
-                });
-
-              }
-            },
-            thei18n.save,
-            e('i', { className: "bi bi-save ms-2" })
-          )
-        ),
-        e(
-          'div',
-          { className: 'col-md-6 mt-3' },
-          e('h3', { className: 'mb-2' }, thei18n.upload_profile_pic),
-          e('p', { className: 'text-sss text-muted' }, thei18n.profile_picture_warning),
-          e(
-            'div',
-            { className: 'dialog-box' },
-            e('input', { id: 'profile_picture_input', className: 'form-control' }),
-          ),
-          e(
-            'button',
-            {
-              className: 'btn-tall blue',
-              onClick: (event) => {
-
-                reactOnCallback(event, () => {
-
-                  return new Promise((resolve, reject) => {
-
-                    var dataToPost = {
-                      fields: ['profile_picture_url']
-                    };
-              
-                    dataToPost.profile_picture_url = document.getElementById('profile_picture_input').value;
-              
-                    fetch(
-                      thei18n.api_link + '?update_userdata=1',
-                      {
-                        method: "POST",
-                        headers: {
-                          'Accept': 'application/json, text/plain, */*',
-                          'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(dataToPost)
-                      }
-                    ).then(res => res.json()).then(res => {
-
-                      if (res != 'true') {
-                        resolve(false);
-                        return;
-                      }
-
-                      resolve(true);
-
-                    });
-                    
-                  });
-
-                });
-
-              }
-            },
-            thei18n.save,
-            e('i', { className: "bi bi-save ms-2" })
-          )
         ),
       )
     );
@@ -2201,10 +2210,12 @@ export class GroupAdminHome extends React.Component {
 
     GuyraGetData().then(res => {
 
-      this.fetchUserList();
+      this.fetchUserList().then(() => {
 
-      this.setState({
-        page: e(GroupAdminHome_AdminPanel),
+        this.setState({
+          page: e(GroupAdminHome_AdminPanel),
+        });
+        
       });
 
     });

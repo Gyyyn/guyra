@@ -24,7 +24,12 @@ function GetStandardDate() {
 function guyra_log_to_file($object='something happened') {
 
   global $template_dir;
-  $object = GetStandardDate() . ': ' . $object . "\r\n";
+
+  if (!$object) {
+    $object = 'unknown event of note';
+  }
+  
+  $object = GetStandardDate() . ' ' . $_SERVER['SCRIPT_NAME'] . ' ( ' . $_SERVER['PHP_SELF'] . '): ' . $object . "\r\n";
 
   file_put_contents($template_dir . '/log.txt', $object, FILE_APPEND);
 }
@@ -97,11 +102,19 @@ function guyra_database_create_db() {
 function guyra_handle_query_error($error='') {
 
   if (preg_match("/(doesn't exist)/", $error)) {
+
     guyra_database_create_db();
+
+    guyra_output_json('database created', true);
+    exit;
+
   } else {
+
     guyra_log_to_file(json_encode($error));
     guyra_output_json('query error', true);
+
   }
+
 }
 
 /**
@@ -136,7 +149,17 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   $sql = sprintf("SELECT user_id, meta_key, meta_value
   FROM guyra_user_meta
   WHERE user_id='%d'", $user);
-  $result = $db->query($sql);
+
+  try {
+    
+    $result = $db->query($sql);
+
+  } catch (Exception $th) {
+    
+    guyra_handle_query_error($th->getMessage());
+
+  }
+
   $output = false;
 
   // Check if the user exists
@@ -352,8 +375,10 @@ function guyra_get_user_data($user_id, $datatype='userdata') {
 
   if ($user_data) {
   	$user_data = json_decode($user_data, true);
-
   }
+
+  if ($datatype == 'userdata')
+  $user_data['id'] = $user_id;
 
   return $user_data;
 

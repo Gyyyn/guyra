@@ -30,6 +30,8 @@ include_once $template_dir . '/functions/Game.php';
 if ($_GET['get_user_data']) {
 
     $user = $_GET['user'];
+    $theData['is_logged_in'] = false;
+    $theData['id'] = 0;
   
     if (!$user && $is_logged_in) {
   
@@ -48,14 +50,16 @@ if ($_GET['get_user_data']) {
   
       $theData['user_code'] = Guyra_hash($user);
   
-    } else {
+    } else if ($user) {
       $theData = guyra_get_user_data($user);
     }
-  
-    $theData['gamedata'] = GetUserRanking($user);
-    $theData['gamedata']['raw'] = guyra_get_user_data($user, 'gamedata');
-    $theData['user_diary'] = guyra_get_user_data($user, 'diary');
-    $theData['inventory'] = guyra_get_user_data($user, 'inventory');
+
+    if ($theData['id'] != 0) {
+      $theData['gamedata'] = GetUserRanking($user);
+      $theData['gamedata']['raw'] = guyra_get_user_data($user, 'gamedata');
+      $theData['user_diary'] = guyra_get_user_data($user, 'diary');
+      $theData['inventory'] = guyra_get_user_data($user, 'inventory');
+    }
   
     // If user is in a group then set their diary to be the groups's.
     if ($theData['studygroup']) {

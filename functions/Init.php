@@ -77,11 +77,20 @@ global $current_user_meta;
 // Build an user meta associative array.
 $current_user_meta = guyra_get_user_meta($current_user_id, null, true);
 
-// Convert the simple array into an associative array.
-// This allows it to be used by the guyra_get_user_meta function.
-for ($i=0; $i < count($current_user_meta); $i++) {
-	$current_user_meta[$current_user_meta[$i]['meta_key']] = $current_user_meta[$i];
-	unset($current_user_meta[$i]);
+if (is_array($current_user_meta)) {
+	
+	// Convert the simple array into an associative array.
+	// This allows it to be used by the guyra_get_user_meta function.
+	for ($i=0; $i < count($current_user_meta); $i++) {
+		$current_user_meta[$current_user_meta[$i]['meta_key']] = $current_user_meta[$i];
+		unset($current_user_meta[$i]);
+	}
+
+} else {
+	
+	$current_user_meta = [
+		'id' => 0
+	];
 }
 
 // If the site is closed load no further.
