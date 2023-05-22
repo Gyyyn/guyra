@@ -22,53 +22,54 @@ export class TeacherListing extends React.Component {
 
       this.userListing = (props) => {
 
-          return e(
+        return e(
+          'div',
+          {
+            className: 'col-6 card trans hoverable cursor-pointer mb-2 me-2',
+            onClick: () => {
+              window.location.href = this.props.i18n.home_link + '/user/' + props.id
+            }
+          },
+          e(
+            'h2',
+            { className: 'mb-2' },
+            props.first_name + ' ' + props.last_name
+          ),
+          e(
             'div',
-            {
-              className: 'col-6 card trans hoverable cursor-pointer mb-2 me-2',
-              onClick: () => {
-                window.location.href = this.props.i18n.home_link + '/user/' + props.id
-              }
-            },
-            e(
-              'h4',
-              { className: 'mb-2' },
-              props.first_name + ' ' + props.last_name
-            ),
+            { className: 'row' },
             e(
               'div',
-              { className: 'row' },
+              { className: 'col-auto' },
               e(
-                'div',
-                { className: 'col-auto' },
-                e(
-                  'img',
-                  {
-                    className: 'page-icon small',
-                    src: props.profile_picture_url
-                  },
-                ),
+                'img',
+                {
+                  className: 'page-icon avatar',
+                  loading: 'lazy',
+                  src: props.profile_picture_url
+                },
               ),
-              e(() => {
-
-                if(!props.user_bio) {
-                return null; }
-
-                var theBio = props.user_bio;
-
-                if (theBio.length > 75) {
-                  theBio = theBio.substr(0, 75) + '...';
-                }
-
-                return e(
-                  'div',
-                  { className: 'col border-start ps-2' },
-                  window.HTMLReactParser(marked.parse(theBio))
-                );
-
-              }),
             ),
-          );
+            e(() => {
+
+              if(!props.user_bio) {
+              return null; }
+
+              var theBio = props.user_bio;
+
+              if (theBio.length > 75) {
+                theBio = theBio.substr(0, 75) + '...';
+              }
+
+              return e(
+                'div',
+                { className: 'col border-start ps-2' },
+                window.HTMLReactParser(marked.parse(theBio))
+              );
+
+            }),
+          ),
+        );
 
       }
 
@@ -84,7 +85,7 @@ export class TeacherListing extends React.Component {
           }),
           e(
             'div',
-            { className: 'border-top pt-2 mt-2' },
+            { className: 'pt-2 mt-2' },
             e(
               'div',
               { className: 'dialog-box' },
@@ -117,6 +118,9 @@ export class TeacherListing extends React.Component {
           { className: 'user-squeeze squeeze rounded-box' },
           e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: this.props.i18n.teachers }),
           e(() => {
+
+            if (!this.props.userdata.payments) {
+            return null; }
 
             if (this.props.userdata.payments.feature_set == 'premium') {
             return null; }

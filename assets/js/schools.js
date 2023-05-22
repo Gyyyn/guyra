@@ -13,51 +13,10 @@ import {
   reactOnCallback,
   RemovePunctuation
 } from '%getjs=Common.js%end';
-import { RenderDay } from '%getjs=Calendar.js%end';
+import { RenderDay, RenderCalendar } from '%getjs=Calendar.js%end';
 
 const GroupAdminHomeContext = React.createContext();
 const DiaryContext = React.createContext();
-
-function WeekdayList(props) {
-
-  var currentDay = props.currentDay;
-
-  if (currentDay == '') {
-    currentDay = '...';
-  }
-
-  return e(
-    'span',
-    {
-      onClick: () => {
-        document.getElementById('day-picker').value = '';
-      }
-    },
-    e(
-      'input',
-      {
-        list: 'weekdays',
-        name: 'weekday',
-        id: 'day-picker',
-        placeholder: currentDay
-      }
-    ),
-    e(
-      'datalist',
-      {
-        id: 'weekdays'
-      },
-      e('option', {value: 'Monday'}),
-      e('option', {value: 'Tueday'}),
-      e('option', {value: 'Wednesday'}),
-      e('option', {value: 'Thursday'}),
-      e('option', {value: 'Friday'}),
-      e('option', {value: 'Saturday'}),
-      e('option', {value: 'Sunday'})
-    )
-  );
-
-}
 
 function DiaryEditButton(props) {
   return e(DiaryContext.Consumer, null, ({EditEntry, changePaymentEntry, i18n}) => e(
@@ -458,21 +417,19 @@ function DiarySubmit(props) {
             var time = GetStandardDate();
 
             if (entryComment.value == '') {
-              alert(i18n.comment_missing);
-            } else {
+            entryComment.value = i18n._diary.status.ok; }
 
-              AddEntry({
-                "date": time,
-                "status": 'finished',
-                "comment": entryComment.value
-              });
+            AddEntry({
+              "date": time,
+              "status": 'finished',
+              "comment": entryComment.value
+            });
 
-              entryComment.value = '';
+            entryComment.value = '';
 
-            }
           }
         },
-        e('i', { className: "bi bi-plus-lg", alt: i18n.add })
+        e('i', { className: "bi bi-plus-lg", alt: i18n.add }),
       ))
     )
   ));
@@ -499,11 +456,10 @@ function DiaryControls(props) {
     {
       className: 'diary-controls d-flex justify-content-end mt-2'
     },
-    paymentsButton,
     e(DiaryContext.Consumer, null, ({diary, name}) => e(
       'button',
       {
-        className: 'btn-tall btn-sm me-2',
+        className: 'btn-tall btn-sm blue me-2',
         onClick: () => {
 
           var exportString = [
@@ -541,6 +497,7 @@ function DiaryControls(props) {
       e('i', { className: 'bi bi-file-earmark-spreadsheet me-2' }),
       thei18n.export,
     )),
+    paymentsButton,
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
       {
@@ -761,7 +718,7 @@ class PaymentArea extends React.Component {
       e(
         'div',
         {
-          className: 'row align-items-center diary-new-entry m-0 mt-3 p-2 bg-white more-rounded'
+          className: 'row align-items-center diary-new-entry m-0 mt-3 p-2'
         },
         e(
           'span',
@@ -816,7 +773,7 @@ class PaymentArea extends React.Component {
 
               }
             },
-            e('i', { className: "bi bi-plus-lg", alt: i18n.add })
+            e('i', { className: "bi bi-plus-lg", alt: i18n.add }),
           ))
         )
       )
@@ -1054,7 +1011,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardsClasses = 'card trans thin blue d-flex flex-column p-3 me-3 mb-3';
+    this.cardsClasses = 'card trans thin blue col-5 p-3 me-3 mb-3';
 
     this.state = {
       cards: [],
@@ -1062,7 +1019,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
     this.userAddToGroupCard = e(
       'div',
-      { className: this.cardsClasses, style: { minHeight: 'unset' } },
+      { className: this.cardsClasses },
       e('h3', {}, thei18n.group),
       e(
         'span',
@@ -1094,7 +1051,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
     this.userArchiveStudentCard = e(
       'div',
-      { className: this.cardsClasses, style: { minHeight: 'unset' } },
+      { className: this.cardsClasses },
       e('h3', {}, thei18n.archive_student),
       e('span', { className: 'text-sss' }, thei18n.archive_student_explain),
       e(
@@ -1126,14 +1083,14 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     );
 
     if (this.props.listingType == 'user') {
-      this.state.cards.push(this.userAddToGroupCard, this.userArchiveStudentCard);
+      this.state.cards.push(this.userArchiveStudentCard, this.userAddToGroupCard);
     }
 
     if (this.props.listingType == 'group') {
 
       this.groupRemoveUsers = e(
         'div',
-        { className: this.cardsClasses, style: { minHeight: 'unset' } },
+        { className: this.cardsClasses },
         e('h4', {}, thei18n.remove_from_group),
         e(
           'span',
@@ -1168,6 +1125,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
       );
 
       this.state.cards.push(this.groupRemoveUsers);
+
     }
 
   }
@@ -1272,7 +1230,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'd-flex flex-row flex-wrap form-control' },
+      { className: 'row form-control' },
       this.state.cards,
     )
   }
@@ -1541,23 +1499,33 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
 
       if (this.userStreakInfo && this.userStreakInfo.last_logged_activity) {
         this.lastLogin = new Date(this.userStreakInfo.last_logged_activity * 1000);
-        this.lastLogin = this.lastLogin.toLocaleDateString();
+        this.lastLogin = this.lastLogin.toLocaleDateString(false, {
+          weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' 
+        });
       }
 
       this.avatar = e('img', { loading: 'lazy', className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
       this.userInfo = e(
         'span',
         { className: 'text-ss fw-bold text-grey-darkest mx-2' },
-        '(',
-        thei18n.level + ': ',
-        this.representativeUser.gamedata.level_total,
-        ' / ',
-        thei18n.coins + ': ',
-        this.representativeUser.gamedata.level,
-        ' / ',
-        thei18n.last_login + ': ',
-        this.lastLogin,
-        ')'
+        e(
+          'span',
+          { className: 'me-2' },
+          e('i', { className: 'bi bi-coin me-1' }),
+          this.representativeUser.gamedata.level
+        ),
+        e(
+          'span',
+          { className: 'me-2' },
+          e('i', { className: 'bi bi-bar-chart-fill me-1' }),
+          this.representativeUser.gamedata.level_total
+        ),
+        e(
+          'span',
+          {},
+          e('i', { className: 'bi bi-clock-history me-1' }),
+          this.lastLogin
+        ),
       );
 
     }
@@ -1612,7 +1580,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     this.setState({
       currentView: e(
         'div',
-        { className: 'justfade-animation animate page-view my-3 position-relative'},
+        { className: 'justfade-animation animate page-view mb-2 position-relative dialog-box'} ,
         e(
           'div',
           { className: 'd-flex justify-content-end mb-3' },
@@ -1650,16 +1618,16 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       
     }
 
-    var dialogBoxExtraClass = '';
+    var listingTitleExtraClass = '';
 
     if (!this.listingSubscriptionValid) {
-      dialogBoxExtraClass = ' text-danger';
+      listingTitleExtraClass = ' text-danger';
     }
 
     return [
     e(
       'div',
-      { className: 'd-flex flex-column mb-2 dialog-box p-2' + dialogBoxExtraClass, id: 'user_' + this.listingName },
+      { className: 'd-flex flex-column mb-2 dialog-box p-2', id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center' },
@@ -1673,7 +1641,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
           ),
           e(
             'span',
-            { className: 'text-font-title user-name' },
+            { className: 'user-name' + listingTitleExtraClass },
             this.state.listingTitle
           ),
           this.userInfo,
@@ -1681,10 +1649,10 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e(
           'span',
           { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
-          e('button', { className: 'btn me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
-          e('button', { className: 'btn me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
-          e('button', { className: 'btn me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
-          e('button', { className: 'btn', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
+          e('button', { className: 'btn-tall trans', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
         ),
       ),
     ),
@@ -1773,14 +1741,9 @@ class GroupAdminHome_AdminPanel extends React.Component {
           searchClassExtra = 'd-none';
         }
 
-        var today = new Date().toDateString();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow = tomorrow.toDateString();
-
         return e(
           'div',
-          { className: 'd-flex flex-column mb-3' },
+          { className: 'd-flex flex-column mb-2' },
           e(
             'div',
             { className: 'd-flex justify-content-between mb-2' },
@@ -1821,7 +1784,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           ),
           e(
             'div',
-            { className: 'pop-animation animate dialog-box mb-3 position-relative ' + searchClassExtra },
+            { className: 'pop-animation animate dialog-box mb-2 position-relative ' + searchClassExtra },
             thei18n.search,
             e(
               'input',
@@ -1835,56 +1798,6 @@ class GroupAdminHome_AdminPanel extends React.Component {
             ),
             this.state.clearSearch
           ),
-          e(
-            'div',
-            { className: 'd-flex mb-3 overflow-auto' },
-            e(
-              RenderDay,
-              {
-                day: today,
-                activeHours: [8,22],
-                user: { ...theUserdata, is_self: true },
-                skipEmpty: true,
-                nonHover: true,
-                setDaySchedule: function() {}
-              }
-            ),
-            e(
-              RenderDay,
-              {
-                day: tomorrow,
-                activeHours: [8,22],
-                user: { ...theUserdata, is_self: true },
-                skipEmpty: true,
-                nonHover: true,
-                setDaySchedule: function() {}
-              }
-            ),
-          ),
-          e(() => {
-
-            var value = Object.values(user_list).length;
-            var students = value;
-
-            value = value * thei18n.prices_features.premium.value;
-
-            if (theUserdata.school_id != 'guyra') {
-              value = value * (thei18n.prices_features.business.company_cut / 100);
-            }
-
-            value = Math.round(value);
-
-            return e(
-              'div',
-              { className: 'dialog-box my-3' },
-              'Total de alunos:',
-              e('span', { className: 'fw-bold mx-2' }, students),
-              e('span', { className: 'mx-3 text-grey-darker'}, '/'),
-              'Ganhos estimados/mês:',
-              e('span', { className: 'fw-bold mx-2' }, thei18n.currency_iso + value),
-            );
-
-          }),
           Object.values(user_list).map((user) => {
 
             // Check if this user is in a group
@@ -1906,15 +1819,87 @@ class GroupAdminHome_AdminPanel extends React.Component {
             return e(GroupAdminHome_AdminPanel_UserListing, { group: group, groupName: Object.keys(groupeds)[i], search: this.state.search });
 
           }),
+          e(() => {
+
+            var value = Object.values(user_list).length;
+            var students = value;
+
+            value = value * thei18n.prices_features.premium.value;
+
+            if (theUserdata.school_id != 'guyra') {
+              value = value * (thei18n.prices_features.business.company_cut / 100);
+            }
+
+            value = Math.round(value);
+
+            const [values, setValues] = React.useState([
+              "-",
+              "-",
+              "bi bi-eye-slash-fill"
+            ]);
+
+            return e(
+              'div',
+              { className: 'dialog-box d-flex justify-content-between mb-2' },
+              e(
+                'div',
+                {},
+                'Total de alunos:',
+                e('span', { className: 'fw-bold mx-2' }, values[0]),
+                e('span', { className: 'mx-3 text-grey-darker'}, '/'),
+                'Ganhos estimados/mês:',
+                e('span', { className: 'fw-bold mx-2' }, values[1]),
+              ),
+              e(
+                'div',
+                {},
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall blue btn-sm',
+                    onClick: (event) => {
+
+                      if (values[0] != '-') {
+
+                        setValues([
+                          "-",
+                          "-",
+                          "bi bi-eye-slash-fill"
+                        ]);
+                        
+                        return;
+
+                      }
+
+                      setValues([
+                        students,
+                        thei18n.currency_iso + value,
+                        "bi bi-eye-fill"
+                      ]);
+
+                    }
+                  },
+                  e('i', { className: values[2] }),
+                )
+              )
+            );
+
+          }),
         );
       }),
       e(
         'div',
         { className: 'controls row' },
-        e('h2', { className: 'mb-2' }, thei18n.controls),
+        e('h2', { className: 'mb-2' }, thei18n.profile),
         e(
           'div',
           { className: 'col-md-6' },
+          e(
+            'div',
+            { className: 'dialog-box' },
+            e('h3', { className: 'mb-3' }, thei18n.calendar),
+            e(RenderCalendar, { range: 2, user: {...theUserdata, is_self: true } })
+          ),
           e(
             'div',
             { className: 'dialog-box' },
@@ -2025,27 +2010,51 @@ class GroupAdminHome_AdminPanel extends React.Component {
               ),
               e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
             ),
-            e(
-              'div',
-              { className: 'mb-3' },
-              e('h3', { className: 'mb-2' }, thei18n.profile),
-              e(
-                'button',
-                {
-                  className: 'btn-tall blue',
-                  onClick: () => {
-                    window.location.href = thei18n.home_link + '/user/' + theUserdata.id
-                  }
-                },
-                thei18n.your + ' ' + thei18n.calendar,
-                e('i', { className: "bi bi-box-arrow-up-right ms-2" })
-              )
-            ),
           ),
         ),
         e(
           'div',
           { className: 'col-md-6' },
+          e(() => {
+
+            var today = new Date().toDateString();
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow = tomorrow.toDateString();
+
+            return e(
+              'div',
+              { className: 'dialog-box' },
+              e('h3', { className: 'mb-3' }, thei18n.schedule),
+              e(
+                'div',
+                { className: 'd-flex mb-2 overflow-auto' },
+                e(
+                  RenderDay,
+                  {
+                    day: today,
+                    activeHours: [9,21],
+                    user: { ...theUserdata, is_self: true },
+                    skipEmpty: true,
+                    nonHover: true,
+                    setDaySchedule: function() {}
+                  }
+                ),
+                e(
+                  RenderDay,
+                  {
+                    day: tomorrow,
+                    activeHours: [9,21],
+                    user: { ...theUserdata, is_self: true },
+                    skipEmpty: true,
+                    nonHover: true,
+                    setDaySchedule: function() {}
+                  }
+                ),
+              ),
+            );
+
+          }),
           e(
             'div',
             { className: 'dialog-box mb-3' },

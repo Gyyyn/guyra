@@ -244,7 +244,7 @@ class WelcomeGreeting_News extends React.Component {
 
         var newsE = e(
           'div',
-          { className: 'dialog-box greeting overpop-animation animate position-relative' },
+          { className: 'col-md-6 card trans blue mb-2 p-3 me-2 greeting overpop-animation animate' },
           e('h2', { className: 'mb-2' }, thei18n.whatsnew),
           e(
             'button',
@@ -595,12 +595,12 @@ function UserHome_WelcomeCard(props) {
             e(
               'div',
               {
-                className: 'card px-2 trans col-md-5 me-2 mb-2 ' + cardColor,
+                className: 'card px-2 trans col-md-4 me-2 mb-2 ' + cardColor,
               },
               e(
-                'div',
-                { className: 'col' },
-                e('i', { className: 'bi bi-info-circle-fill text-xx px-2'} ),
+                'h2',
+                { className: '' },
+                thei18n.bill,
               ),
               e(
                 'div',
@@ -628,11 +628,7 @@ function UserHome_WelcomeCard(props) {
 
       });
 
-      return e(
-        'div',
-        { className: 'row g-0 mt-3' },
-        thePayments
-      );
+      return thePayments;
 
     }
 
@@ -718,13 +714,17 @@ function UserHome_WelcomeCard(props) {
     var WelcomeGreeting = e(
       'div',
       { className: 'welcome-greeting' },
-      e(WelcomeGreeting_News),
       e(
         'div',
         { className: 'dialog-box greeting' },
         e('h1', { className: 'text-blue mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
         e('div', {}, window.HTMLReactParser(randomGreeting)),
-        e(openPaymentsGreeting)
+        e(
+          'div',
+          { className: 'row g-2 my-3' },
+          e(WelcomeGreeting_News),
+          e(openPaymentsGreeting),
+        ),
       ),
       e(
         'div',

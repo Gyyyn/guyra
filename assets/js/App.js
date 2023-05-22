@@ -660,6 +660,4 @@ class App extends React.Component {
 
 }
 
-if(document.getElementById('render')) {
-  ReactDOM.render(e(App), document.getElementById('render'));
-}
+ReactDOM.render(e(App), document.getElementById('render'));

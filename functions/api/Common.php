@@ -117,3 +117,60 @@ if ($_GET['get_asset']) {
     Guyra_Redirect(GetMinifiedAsset($file[1], $_GET['get_asset']));
 
 }
+
+if ($_GET['get_identicon']) {
+
+  $hash = $_GET['hash'];
+
+  $cached_identicon_path = '/assets/' . md5('Icon' . $hash) . '.png';
+  $cached_identicon = $cache_dir . $cached_identicon_path;
+  $cached_identicon_file = file_exists($cached_identicon);
+
+  if (!$cached_identicon_file) {
+
+    require $template_dir . '/vendor/autoload.php';
+
+    $icon = new \Jdenticon\Identicon();
+    $icon->setValue($hash);
+    $icon->setSize(256);
+
+    file_put_contents($cached_identicon, $icon->getImageData('png'));
+
+  }
+
+  Guyra_Redirect($template_url . '/cache' . $cached_identicon_path);
+
+}
+
+if ($_GET['fetch_page']) {
+  
+  $page = $_GET['fetch_page'];
+
+  if ($page == 'faq') {
+    guyra_output_json(file_get_contents($template_dir . '/assets/json/i18n/' . $gLang[0] . '/faq.json'), true);
+  }
+
+  if ($page == 'teachers') {
+    
+    $users = guyra_get_users();
+    $output = [];
+
+    foreach ($users as $user) {
+
+      if ($user['userdata']['role'] == 'teacher') {
+
+        $user['userdata']['id'] = $user['id'];
+        $user['userdata']['profile_picture_url'] = Guyra_get_profile_picture($user['id'], null, true);
+        unset($user['userdata']['doc_id']);
+
+        $output[] = $user['userdata'];
+
+      }
+
+    }
+
+    guyra_output_json($output, true);
+
+  }
+  
+}

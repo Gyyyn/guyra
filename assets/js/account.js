@@ -1354,7 +1354,7 @@ function AccountOptions_profileDetails(props) {
           'div',
           { className: 'form-control' },
           e(
-            'h3',
+            'h1',
             { className: 'text-blue mb-3' },
             thei18n.profile_details
           ),
@@ -1419,7 +1419,7 @@ function AccountOptions_GeneralOptions(props) {
   }
   
   return [
-    e('h3', { className: 'text-blue' }, 'Geral'),
+    e('h2', { className: 'text-blue' }, thei18n.general),
     e(
       'div',
       { className: 'dialog-box' },
@@ -1507,7 +1507,7 @@ function AccountOptions_accountDetails(props) {
       'div',
       { className: 'profile-notifications' },
       e(
-        'h3',
+        'h2',
         { className: 'text-blue' },
         thei18n.notifications
       ),
@@ -1557,25 +1557,34 @@ function AccountOptions_accountDetails(props) {
       'div',
       { className: 'profile-code' },
       e(
-        'h3',
+        'h2',
         { className: 'text-blue' },
         thei18n.teacher
       ),
       e(
         'div',
         { className: 'dialog-box' },
-        e('h3', {}, thei18n.calendar),
-        e(
-          'button',
-          {
-            className: 'btn-tall blue mb-2',
-            onClick: () => {
-              window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
-            }
-          },
-          thei18n.button_see_available_times
-        ),
-        e('h3', { className: 'mt-3' }, thei18n.teacher_code),
+        e(() => {
+
+          if (!theUserdata.teacherid) {
+          return null; }
+
+          return [
+            e('h3', {}, thei18n.calendar),
+            e(
+              'button',
+              {
+                className: 'btn-tall blue mb-3',
+                onClick: () => {
+                  window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
+                }
+              },
+              thei18n.button_see_available_times
+            ),
+          ];
+
+        }),
+        e('h3', {}, thei18n.teacher_code),
         e(
           'p',
           {},
@@ -1642,7 +1651,7 @@ function AccountOptions_accountDetails(props) {
       'div',
       { className: 'thirdparty-oauth-connect' },
       e(
-        'h3',
+        'h2',
         { className: 'text-blue' },
         thei18n.social_login
       ),
@@ -1719,9 +1728,9 @@ function AccountOptions_privacyDetails(props) {
     'div',
     { className: 'profile-privacy' },
     e(
-      'h3',
+      'h2',
       { className: 'text-blue' },
-      'Privacidade',
+      thei18n.privacy,
     ),
     e(
       'div',
