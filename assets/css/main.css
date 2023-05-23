@@ -35,8 +35,8 @@
   --guyra-green-gradient: linear-gradient(90deg, var(--guyra-green) 0%, var(--guyra-green-lighter) 100%);
 
   --guyra-white: #f3f8fd;
-  --guyra-grey: #f0f0f0;
-  --guyra-grey-dark: #ebebeb;
+  --guyra-grey: #eef2f5;
+  --guyra-grey-dark: #eaf1f5;
   --guyra-grey-darker: #dbdbdb;
   --guyra-grey-darkest: #7a7a7a;
   --guyra-black: #2b2e30;
@@ -325,7 +325,7 @@ img.page-icon.small,
 
 img.page-icon.tiny,
 page-icon.tiny > img {
-  max-width: 32px;
+  max-width: 28px;
   height: auto;
 }
 

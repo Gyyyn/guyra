@@ -555,7 +555,7 @@ class DiaryProper extends React.Component {
     return e(
       'div',
       {
-        className: 'diary'
+        className: 'diary mt-3'
       },
       this.diaryWrapper,
       e(DiaryContext.Consumer, null, ({paymentArea}) => paymentArea),
@@ -1270,7 +1270,7 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
         listingType: this.props.listingType,
         listingName: this.props.listingName,
         diaryId: this.props.diaryId,
-        wrapperClass: 'bg-white more-rounded p-3 mt-2',
+        wrapperClass: 'bg-white more-rounded p-3 mt-5',
         maxAge: this.props.maxAge
       });
 
@@ -1402,7 +1402,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       { className: 'd-flex flex-column' },
       e(
         'div',
-        { className: 'control-area d-flex flex-row mb-3' },
+        { className: 'd-flex flex-row mb-3' },
         e(
           'button',
           { className: 'btn-tall btn-sm green', onClick: this.state.editButtonOnclick },
@@ -1411,7 +1411,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
       ),
       e(
         'div',
-        { className: 'userpage mt-3 text-n' },
+        { className: 'userpage text-n' },
         this.state.view,
       ),
     );
@@ -1583,7 +1583,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         { className: 'justfade-animation animate page-view mb-2 position-relative dialog-box'} ,
         e(
           'div',
-          { className: 'd-flex justify-content-end mb-3' },
+          { className: 'position-absolute end-0 me-3' },
           e(
             'button',
             {

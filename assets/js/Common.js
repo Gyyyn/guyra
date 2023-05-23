@@ -1292,14 +1292,21 @@ export function reactOnCallback(event, callback) {
 
   var before = event.target.innerHTML;
   var dots = document.createElement('i');
-  var margin = event.target.clientWidth / 2;
-  event.target.innerHTML = '';
-
   dots.classList.add('bi', 'bi-three-dots');
+  var cs = window.getComputedStyle(event.target);
+
+  var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+  var borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+
+  var elementWidth = event.target.offsetWidth - paddingX - borderX;
+
+  var margin = elementWidth / 2;
+
+  event.target.innerHTML = '';
   event.target.appendChild(dots);
 
   var iconWidth = dots.offsetWidth;
-  margin -= iconWidth;
+  margin = margin - (iconWidth / 2);
 
   dots.style.marginLeft = margin + 'px';
   dots.style.marginRight = margin + 'px';

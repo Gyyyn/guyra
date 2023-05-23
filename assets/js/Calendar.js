@@ -153,10 +153,18 @@ class RenderDay_Hour extends React.Component {
       userValue: this.props.appointment.user,
       userValueDisplay: null,
       matchedStudents: null,
+      isOwnTime: false
     };
 
     if (!this.props.user.is_self && this.state.appointmentValue) {
+
       this.state.appointmentValue = e('span', { className: 'badge bg-red' }, thei18n.busy);
+
+      if (this.props.appointment.user == theUserdata.id) {
+        this.state.appointmentValue = e('span', { className: 'badge bg-green' }, thei18n.you);
+        this.state.isOwnTime = true;
+      }
+
     }
 
   }
@@ -177,7 +185,7 @@ class RenderDay_Hour extends React.Component {
           
           if (student.userdata.id == this.state.userValue) {
             this.setState({
-              userValueDisplay: student.userdata.first_name,
+              userValueDisplay: [student.userdata.first_name, student.userdata.last_name].join(' '),
             });
           }
 
@@ -286,6 +294,8 @@ class RenderDay_Hour extends React.Component {
               var matchedStudents = [];
 
               var userButton = (props) => {
+
+                var studentName = [props.student.userdata.first_name, props.student.userdata.last_name].join(' ');
                 
                 return e(
                   'button',
@@ -294,12 +304,12 @@ class RenderDay_Hour extends React.Component {
                     onClick: () => {
                       this.setState({
                         userValue: props.student.userdata.id,
-                        userValueDisplay: props.student.userdata.first_name,
+                        userValueDisplay: studentName,
                         matchedStudents: null
                       });
                     }
                   },
-                  props.student.userdata.first_name
+                  studentName
                 );
 
               };
@@ -382,7 +392,14 @@ class RenderDay_Hour extends React.Component {
       className: 'position-relative collapsed btn p-0 w-100 text-start'
     };
 
+    var editHourButtonDivProps = {
+      className: 'collapse'
+    };
+
     if (!this.props.skipEmpty && theUserdata.is_logged_in) {
+
+      editHourButtonDivProps.id = 'collapse-hour' + this.props.hour;
+      editHourButtonDivProps["data-bs-parent"] = '#day-hour' + this.props.hour;
 
       editHourButtonProps["data-bs-target"] = '#collapse-hour' + this.props.hour;
       editHourButtonProps["data-bs-toggle"] = 'collapse';
@@ -399,11 +416,7 @@ class RenderDay_Hour extends React.Component {
       ),
       e(
         'div',
-        {
-          id: 'collapse-hour' + this.props.hour,
-          className: 'collapse',
-          "data-bs-parent": '#day-hour' + this.props.hour
-        },
+        editHourButtonDivProps,
         this.dayScheduleBody
       ),
     );
@@ -764,7 +777,8 @@ export class RenderCalendar extends React.Component {
                 className: 'btn-tall green me-2',
                 onClick: this.save
               },
-              thei18n.save
+              thei18n.save,
+              e('i', { className: "bi bi-save ms-2"}),
             ),
             e(
               'button',
@@ -782,7 +796,8 @@ export class RenderCalendar extends React.Component {
 
                 }
               },
-              thei18n.clear
+              thei18n.clear,
+              e('i', { className: "bi bi-stars ms-2"}),
             )
           );
         }

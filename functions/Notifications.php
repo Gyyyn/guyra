@@ -33,6 +33,9 @@ function PushNotification($item, $user=0, $args=[]) {
   if (!is_array($item))
   return false;
 
+  if (!$notifications_data)
+  $notifications_data = [];
+
   $item['timestamp'] = time();
 
   array_unshift($notifications_data, $item);

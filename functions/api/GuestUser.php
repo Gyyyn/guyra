@@ -92,6 +92,7 @@ if ($_GET['register']) {
 
   guyra_update_user_meta($user, 'userdata', json_encode($user_meta, JSON_UNESCAPED_UNICODE));
   guyra_update_user_meta($user, 'user_pass', password_hash($data['user_password'], PASSWORD_DEFAULT));
+
   PushNotification($gi18n['notification_welcome'], $user);
 
   Guyra_Login_User($creds, false);
@@ -128,6 +129,8 @@ if ($_GET['register']) {
     guyra_output_json('authorized', true);
 
   }
+
+  guyra_output_json('true', true);
 
 }
 
