@@ -108,6 +108,7 @@
    "logout_confirm":"Tem certeza que deseja encerrar sessão?",
    "practice":"Praticar",
    "practice_mode":"Modo Praticar",
+   "exercises": "Exercicios",
    "activities":"Atividades",
    "homework":"Lição de casa",
    "study":"Estudar",
@@ -558,6 +559,7 @@
    ],
    "payment_expired_warning":"Sua assinatura expirou! Atualize seus dados de pagamento e tente de novo.",
    "payment_already_active_warning":"Você já tem uma assinatura ativa nesta conta. Para atualizar seus dados ou mudar de plano preencha novamente as informações abaixo. <b>Ao mudar de plano, você será cobrado o valor do novo plano imediatamente, mesmo se ainda tiver tempo restando no seu plano atual!</b>",
+   "cancel": "Cancelar",
    "cancel_membership":"Cancelar Assinatura",
    "cancel_membership_message":"Espere um pouco! Você sabia que das pessoas que cancelam menos da metade volta a estudar? Antes de cancelar tenha certeza de que é isso que você realmente quer.",
    "cancel_membership_confirm":"Tenho certeza e vou cancelar",
@@ -622,11 +624,15 @@
    },
    "notification_appointment_request": {
       "is_recurring": "É um pedido para aula recorrente.",
-      "title":"%user está pedindo um horário.",
-      "contents":"Elx quer %day as %hourh.",
+      "title":"%user está pedindo uma mudança de horário.",
+      "contents":"Elx quer mudar %day as %hourh.",
       "actions": [
          {"link": "%site_url/api?appointment=1&action=accept&user=%user", "value": "Aceitar"}
       ]
+   },
+   "notification_appointment_requested": {
+      "title":"Seu pedido de horário for encaminhado!",
+      "contents":"Logo você vai receber um contato do professor."
    },
    "notification_appointment_accepted": {
       "title":"Seu pedido de horário for aceito!",

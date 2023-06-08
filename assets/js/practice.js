@@ -1271,11 +1271,6 @@ function returnToLevelMapButton(props) {
       onClick: () => {
         reset();
         setPage(e(LevelChooser));
-
-        // Re-add UI.
-        document.querySelector('footer').classList.add('d-md-flex');
-        document.querySelector('#guyra-navbar').classList.remove('d-none');
-        document.querySelector('main').classList.remove('mt-0', 'mb-0');
       }
     },
     e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
@@ -2489,11 +2484,6 @@ export class Exercises extends React.Component {
       page: e(LoadingPage),
     });
 
-    // Remove UI.
-    document.querySelector('footer').classList.remove('d-md-flex');
-    document.querySelector('#guyra-navbar').classList.add('d-none');
-    document.querySelector('main').classList.add('mt-0', 'mb-0');
-
     this.currentExerciseWeight = this.state.levelMap[level][id].difficulty;
     this.currentUnit = id;
 
@@ -2564,12 +2554,17 @@ export class Exercises extends React.Component {
 
   render() {
 
-    return e('div', { className: 'exercise-fullscreen' },
-    e(
-      'div',
-      { className: 'exercise-squeeze' },
-      e(ExerciseContext.Provider, { value: this.state }, this.state.page)
-    )
-  );
+    return e(ExerciseContext.Provider, { value: this.state }, this.state.page);
+
   };
+}
+
+export function Practice(props) {
+  
+  return e('div', { className: 'exercise-fullscreen' }, e(
+    'div',
+    { className: 'exercise-squeeze' },
+    e(Exercises)
+  ));
+
 }

@@ -14,8 +14,9 @@ import {
   checkForTranslatables,
   GuyraParseDate
 } from '%getjs=Common.js%end';
-import { PersistentMeeting, Header } from '%getjs=Header.js%end';
+import { PersistentMeeting } from '%getjs=Header.js%end';
 import { Flashcards } from '%getjs=Flashcards.js%end';
+import { Exercises } from '%getjs=practice.js%end';
 import { WhoAmI_openPayments_paymentItem } from '%getjs=account.js%end';
 
 const HomeContext = React.createContext();
@@ -244,7 +245,7 @@ class WelcomeGreeting_News extends React.Component {
 
         var newsE = e(
           'div',
-          { className: 'col-md-6 card trans blue mb-2 p-3 me-2 greeting overpop-animation animate' },
+          { className: 'col-md-6 card trans blue mb-2 p-2 me-2 greeting overpop-animation animate' },
           e('h2', { className: 'mb-2' }, thei18n.whatsnew),
           e(
             'button',
@@ -340,7 +341,7 @@ function UserHome_WelcomeCard(props) {
 
     var WelcomeTrialCountdown = e(
       'div',
-      { className: 'dialog-box' },
+      { className: 'greeting dialog-box' },
       e('span', { className: 'fw-bold' }, 'Você tem ' + TrialDaysLeft + ' dias no seu teste grátis.'),
       e('progress', { className: 'progress', max: 30, value: TrialDaysLeft }),
     );
@@ -426,6 +427,21 @@ function UserHome_WelcomeCard(props) {
 
     // Add the buttons.
     WelcomeGreeting_buttons = WelcomeGreeting_buttons.concat([
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            addCard([
+              { id: 'practice', element: e(Exercises) }
+            ], 1);
+          },
+          value: [
+            e('img', { src: thei18n.api_link + '?get_image=icons/target.png&size=32' }),
+            thei18n.exercises
+          ],
+          color: 'green'
+        },
+      )),
       e(
         WelcomeGreeting_Button,
         {
@@ -527,7 +543,7 @@ function UserHome_WelcomeCard(props) {
           onClick: () => {
             addCard([
               { id: 'flashcards', element: e(Flashcards) }
-            ], 2);
+            ], 1);
           },
           value: [
             e('img', { src: thei18n.api_link + '?get_image=icons/card.png&size=32' }),
@@ -704,7 +720,7 @@ function UserHome_WelcomeCard(props) {
 
       newVideosGreeting = e(
         'div',
-        { className: 'dialog-box' },
+        { className: 'greeting dialog-box' },
         e('h2', {}, thei18n.whatsnew),
         newVideosGreeting
       );
@@ -716,38 +732,35 @@ function UserHome_WelcomeCard(props) {
       { className: 'welcome-greeting' },
       e(
         'div',
-        { className: 'dialog-box greeting' },
-        e('h1', { className: 'text-blue mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
-        e('div', {}, window.HTMLReactParser(randomGreeting)),
+        { className: 'mb-2' },
+        e('h1', { className: 'greeting text-blue mb-2' }, thei18n.whats_for_today + ', ' + theUserdata.first_name + '?'),
         e(
           'div',
-          { className: 'row g-2 my-3' },
+          { id: 'activities' },
+          e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
+        ),
+        e(
+          'div',
+          { className: 'greeting row g-0' },
+          e('div', { className: 'col-md-5 card trans mb-2 p-2 me-2' },
+            e(
+              'h2',
+              { className: '' },
+              thei18n.hello,
+            ),
+            e(
+              'div',
+              { className: 'text' },
+              window.HTMLReactParser(randomGreeting),
+            ),
+          ),
           e(WelcomeGreeting_News),
           e(openPaymentsGreeting),
         ),
       ),
       e(
         'div',
-        { className: 'dialog-box', id: 'activities' },
-        e('h2', { className: 'mb-2' }, thei18n.activities),
-        e(
-          'div',
-          { className: 'my-2 d-flex flex-row align-items-center' },
-          e(
-            'div',
-            { className: 'd-flex flex-row align-items-center' },
-            e('span', { className: 'me-2'},
-              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
-              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
-            ),
-          ),
-        ),
-        e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
-      ),
-      e(
-        'div',
-        { className: 'dialog-box greeting' },
-        e('h2', { className: 'mb-2' }, thei18n.challenges),
+        { className: 'greeting mb-2' },
         e(
           'div',
           { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
@@ -943,7 +956,7 @@ export class UserHome extends React.Component {
     }
 
     this.defaultCards = [
-      { id: 'welcome', element: e(UserHome_WelcomeCard) }
+      { id: 'welcome', element: e(UserHome_WelcomeCard) },
     ];
 
     this.state = {
@@ -1013,11 +1026,6 @@ export class UserHome extends React.Component {
 
     // Now we remove some unescessary information, since the user has chosen an activity
     var closeables = document.querySelectorAll('.greeting');
-    var activitiesE = document.querySelector('#activities');
-
-    if (activitiesE.classList.contains('dialog-box')) {
-      activitiesE.classList.remove('dialog-box')
-    }
 
     closeables.forEach((closeable) => {
       closeable.classList.add('justfadeout-animation', 'animate', 'fast');
@@ -1025,6 +1033,9 @@ export class UserHome extends React.Component {
       setTimeout(() => {
         closeable.classList.add('closed', 'd-none');
         closeable.classList.remove('justfadeout-animation', 'animate', 'fast');
+
+        document.querySelector('#reopen-greetings').classList.remove('d-none');
+
       }, 100)
     });
 
@@ -1035,7 +1046,29 @@ export class UserHome extends React.Component {
       this.state.meeting,
       e(
         'div',
-        { className: 'squeeze d-flex flex-column justify-content-center home-wrapper' },
+        { className: 'squeeze d-flex flex-column justify-content-center home-wrapper position-relative' },
+        e(
+          'button',
+          {
+            className: 'blue btn-sm btn-tall end-0 m-3 position-absolute top-0 d-none',
+            id: 'reopen-greetings',
+            onClick: () => {
+
+              var closeables = document.querySelectorAll('.greeting');
+
+              closeables.forEach((closeable) => {
+                closeable.classList.remove('closed', 'd-none');
+              });
+
+              document.querySelector('#reopen-greetings').classList.add('d-none');
+
+            },
+            style: {
+              zIndex: 1
+            }
+          },
+          e('i', { className: 'bi bi-chevron-down' })
+        ),
         this.state.page
       )
     );

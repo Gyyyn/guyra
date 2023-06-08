@@ -363,13 +363,6 @@ img.left-side-image {
   color: var(--guyra-red-darkest);
 }
 
-.welcome-greeting .dialog-box {
-  border: unset;
-  background: unset;
-  padding: 0;
-  margin-bottom: 2rem;
-}
-
 .form-check-input[type=checkbox] {
   padding: var(--guyra-fonts-textsize-sss);
 }

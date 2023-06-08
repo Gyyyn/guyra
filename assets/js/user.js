@@ -123,7 +123,7 @@ export class User extends React.Component {
 
             decideUser.then(res => {
 
-                user.is_self = is_self;
+                // user.is_self = is_self;
 
                 this.setState({
                     page: e(User_Profile),

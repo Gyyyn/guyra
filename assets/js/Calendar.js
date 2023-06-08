@@ -1,10 +1,7 @@
 import {
   e,
-  thei18n,
-  theUserdata,
   LoadingPage,
   RemovePunctuation,
-  PopUp,
   reactOnCallback,
   GuyraFetchData
 } from '%getjs=Common.js%end';
@@ -33,17 +30,14 @@ function ConstructMonth(month, year) {
 
 }
 
-function RenderMonth(month, year, user) {
+function RenderMonth(month, year, user, i18n) {
 
-  var theDays = Object.values(thei18n._weekdays);
+  var theDays = Object.values(i18n._weekdays);
 
-  var diary = user.user_diary;
   var theMonthsDays = ConstructMonth(month, year);
   var weekStartsOn = theDays[0];
   var theWeek = [];
   var theMonth = [];
-  var firstDayOfTheMonth = theMonthsDays[0].toDateString().split(' ')[0];
-  var dayQueue = [];
 
   if (theDays[0] != weekStartsOn) {
     theDays = theDays.splice(theDays.indexOf(weekStartsOn)).concat(theDays);
@@ -73,7 +67,7 @@ function RenderMonth(month, year, user) {
     var isEndOfWeek = ((i + 1 + weekOffset) % (7) == 0) ? true : false;
     var theItemInfo = item.toDateString().split(' ');
     
-    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule}) => e(
+    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n}) => e(
       'button',
       {
         className: 'btn day day-' + i + classExtra,
@@ -98,6 +92,7 @@ function RenderMonth(month, year, user) {
               day: item.toDateString(),
               activeHours: [9,21],
               user: user,
+              i18n: i18n,
               setDaySchedule: setDaySchedule
             }));
 
@@ -147,6 +142,10 @@ class RenderDay_Hour extends React.Component {
       this.props.appointment.user = '';
     }
 
+    if (typeof this.props.i18n != 'object') {
+      this.props.i18n = {};
+    }
+
     this.state = {
       hasRecurring: this.props.hasRecurring,
       appointmentValue: this.props.appointment.value,
@@ -158,10 +157,10 @@ class RenderDay_Hour extends React.Component {
 
     if (!this.props.user.is_self && this.state.appointmentValue) {
 
-      this.state.appointmentValue = e('span', { className: 'badge bg-red' }, thei18n.busy);
+      this.state.appointmentValue = e('span', { className: 'badge bg-red' }, this.props.i18n.busy);
 
-      if (this.props.appointment.user == theUserdata.id) {
-        this.state.appointmentValue = e('span', { className: 'badge bg-green' }, thei18n.you);
+      if (this.props.appointment.user == this.props.user.id) {
+        this.state.appointmentValue = e('span', { className: 'badge bg-green' }, this.props.i18n.you);
         this.state.isOwnTime = true;
       }
 
@@ -183,7 +182,7 @@ class RenderDay_Hour extends React.Component {
 
         Object.values(this.students).forEach(student => {
           
-          if (student.userdata.id == this.state.userValue) {
+          if (student.id == this.state.userValue) {
             this.setState({
               userValueDisplay: [student.userdata.first_name, student.userdata.last_name].join(' '),
             });
@@ -225,9 +224,16 @@ class RenderDay_Hour extends React.Component {
 
     }
 
+    var editHourButtonClassExtra = ' ';
+    var now = new Date();
+
+    if ((this.props.hour == now.getHours()) && (this.props.day == now.toDateString())) {
+      editHourButtonClassExtra = ' border-start';
+    }
+
     this.editHourButton = e(
       'div',
-      { className: 'row g-2' },
+      { className: 'row' + editHourButtonClassExtra },
       e('span', { className: 'col-3 fw-bold' }, this.props.hour + ':00'),
       e(
         'span',
@@ -243,7 +249,7 @@ class RenderDay_Hour extends React.Component {
       e(
         'div',
         { className: inputCommentClass },
-        e('label', { className: 'text-ss' }, thei18n.comment),
+        e('label', { className: 'text-ss' }, this.props.i18n.comment),
         e(
           'input',
           {
@@ -260,7 +266,7 @@ class RenderDay_Hour extends React.Component {
       e(
         'div',
         { className: 'd-flex flex-row my-3 align-items-center justify-content-between' },
-        e('label', { className: 'text-ss' }, thei18n.recurring),
+        e('label', { className: 'text-ss' }, this.props.i18n.recurring),
         e(
           'input',
           {
@@ -278,7 +284,7 @@ class RenderDay_Hour extends React.Component {
       e(
         'div',
         { className: inputCommentClass },
-        e('label', { className: 'text-ss' }, thei18n.user),
+        e('label', { className: 'text-ss' }, this.props.i18n.user),
         e(
           'input',
           {
@@ -303,7 +309,7 @@ class RenderDay_Hour extends React.Component {
                     className: 'btn border',
                     onClick: () => {
                       this.setState({
-                        userValue: props.student.userdata.id,
+                        userValue: props.student.id,
                         userValueDisplay: studentName,
                         matchedStudents: null
                       });
@@ -379,12 +385,15 @@ class RenderDay_Hour extends React.Component {
         },
         e(() => {
           if (this.props.user.is_self) {
-            return thei18n.save;
+            return [this.props.i18n.save, e('i', { className: "bi bi-save ms-2"})];
           } else {
-            return thei18n.button_request_time;
+
+            if (this.state.isOwnTime) {
+              return [this.props.i18n.cancel, e('i', { className: "bi bi-x-lg ms-2"})]
+            }
+            return [this.props.i18n.button_request_time, e('i', { className: "bi bi-send-check-fill ms-2"})];
           }
         }),
-        e('i', { className: "bi bi-save ms-2"}),
       )
     );
 
@@ -396,7 +405,7 @@ class RenderDay_Hour extends React.Component {
       className: 'collapse'
     };
 
-    if (!this.props.skipEmpty && theUserdata.is_logged_in) {
+    if (!this.props.skipEmpty && this.props.user.is_logged_in) {
 
       editHourButtonDivProps.id = 'collapse-hour' + this.props.hour;
       editHourButtonDivProps["data-bs-parent"] = '#day-hour' + this.props.hour;
@@ -513,7 +522,7 @@ export class RenderDay extends React.Component {
     };
 
     fetch(
-      thei18n.api_link + '?appointment=1&action=request&user=' + this.props.user.id,
+      this.props.i18n.api_link + '?appointment=1&action=request&user=' + this.props.user.id,
       {
         method: "POST",
         headers: {
@@ -587,7 +596,8 @@ export class RenderDay extends React.Component {
           hour: theHour,
           hasRecurring: hasRecurring,
           user: this.props.user,
-          skipEmpty: this.props.skipEmpty
+          skipEmpty: this.props.skipEmpty,
+          i18n: this.props.i18n
         }));
 
       }
@@ -601,7 +611,7 @@ export class RenderDay extends React.Component {
   render() {
 
     var theDate = new Date(this.props.day);
-    var classExtra = 'hover';
+    var classExtra = 'hover overpop-animation';
 
     if (this.props.nonHover) {
       classExtra = 'no-hover';
@@ -613,7 +623,7 @@ export class RenderDay extends React.Component {
 
     return e(
       'div',
-      { className: this.props.day + ' d-flex flex-column overpop-animation animate schedule ms-3 ' + classExtra },
+      { className: this.props.day + ' d-flex flex-column animate schedule ms-3 ' + classExtra },
       e(
         'span',
         { className: 'position-absolute top-0 end-0 m-3' },
@@ -677,7 +687,7 @@ export class RenderCalendar extends React.Component {
         theMonth = (i - monthsInCurrentYear);
       }
 
-      this.view.push(RenderMonth(theMonths[theMonth], theYear, this.props.user));
+      this.view.push(RenderMonth(theMonths[theMonth], theYear, this.props.user, this.props.i18n));
 
     }
 
@@ -685,7 +695,8 @@ export class RenderCalendar extends React.Component {
       view: e(LoadingPage),
       setDaySchedule: this.setDaySchedule,
       daySchedule: null,
-      user: this.props.user
+      user: this.props.user,
+      i18n: this.props.i18n
     };
 
   }
@@ -719,7 +730,7 @@ export class RenderCalendar extends React.Component {
       return new Promise((resolve, reject) => {
 
         fetch(
-          thei18n.api_link + '?action=update_diary&user=' + this.props.user.id,
+          this.props.i18n.api_link + '?action=update_diary&user=' + this.props.user.id,
           {
             method: "POST",
             headers: {
@@ -777,7 +788,7 @@ export class RenderCalendar extends React.Component {
                 className: 'btn-tall green me-2',
                 onClick: this.save
               },
-              thei18n.save,
+              this.props.i18n.save,
               e('i', { className: "bi bi-save ms-2"}),
             ),
             e(
@@ -796,7 +807,7 @@ export class RenderCalendar extends React.Component {
 
                 }
               },
-              thei18n.clear,
+              this.props.i18n.clear,
               e('i', { className: "bi bi-stars ms-2"}),
             )
           );

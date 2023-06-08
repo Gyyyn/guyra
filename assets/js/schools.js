@@ -2,7 +2,6 @@ import {
   e,
   GuyraGetData,
   GuyraFetchData,
-  GuyraLocalStorage,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -1270,7 +1269,7 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
         listingType: this.props.listingType,
         listingName: this.props.listingName,
         diaryId: this.props.diaryId,
-        wrapperClass: 'bg-white more-rounded p-3 mt-5',
+        wrapperClass: 'bg-white more-rounded p-3 mt-2',
         maxAge: this.props.maxAge
       });
 
@@ -1667,7 +1666,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     super(props);
 
     this.state = {
-      search: '',
+      search: 'guyra',
       clearSearch: null,
       searchOpen: false,
     }
@@ -1717,7 +1716,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
       e(
         'div',
         { className: 'mb-3 d-none' },
-        e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: thei18n.schools }),
+        e(RoundedBoxHeading, { icon: 'icons/textbook.png', value: this.props.i18n.schools }),
       ),
       e(GroupAdminHomeContext.Consumer, null, ({user_list, fetchUserList}) => {
 
@@ -1728,9 +1727,9 @@ class GroupAdminHome_AdminPanel extends React.Component {
             e(
               'span',
               { className: 'd-inline m-auto' },
-              e('img', { className: 'page-icon medium', src: thei18n.api_link + '?get_image=icons/no-results.png&size=128' })
+              e('img', { className: 'page-icon medium', src: this.props.i18n.api_link + '?get_image=icons/no-results.png&size=128' })
             ),
-            e('h2', {}, thei18n.no_users_found),
+            e('h2', {}, this.props.i18n.no_users_found),
           );
         }
 
@@ -1747,7 +1746,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           e(
             'div',
             { className: 'd-flex justify-content-between mb-2' },
-            e('h2', { className: 'mb-2' }, thei18n.your_students),
+            e('h2', { className: 'mb-2' }, this.props.i18n.students),
             e(
               'span',
               {},
@@ -1770,14 +1769,42 @@ class GroupAdminHome_AdminPanel extends React.Component {
               e(
                 'button',
                 {
-                  className: 'btn-tall blue',
+                  className: 'btn-tall blue me-2',
                   onClick: () => {
-                    this.setState({
-                      searchOpen: !this.state.searchOpen
-                    });
+                    
+                    if (this.state.search == 'guyra') {
+                      this.setSearch('');
+                    } else {
+                      this.setSearch('guyra');
+                    }
+
                   }
                 },
-                thei18n.search,
+                e('i', { className: 'bi bi-view-list' })
+              ),
+              e(
+                'button',
+                {
+                  className: 'btn-tall blue',
+                  onClick: () => {
+
+                    this.setSearch('');
+
+                    this.setState({
+                      searchOpen: !this.state.searchOpen
+                    }, () => {
+
+                      var searchBar = document.querySelector('#student-search');
+
+                      if (searchBar) {
+                        searchBar.focus();
+                      }
+
+                    });
+
+                  }
+                },
+                this.props.i18n.search,
                 e('i', { className: 'bi bi-search ms-2' })
               ),
             ),
@@ -1785,13 +1812,14 @@ class GroupAdminHome_AdminPanel extends React.Component {
           e(
             'div',
             { className: 'pop-animation animate dialog-box mb-2 position-relative ' + searchClassExtra },
-            thei18n.search,
+            this.props.i18n.search,
             e(
               'input',
               {
                 onChange: (e) => {
                   this.setSearch(e.target.value);
                 },
+                id: 'student-search',
                 className: 'form-control',
                 value: this.state.search
               },
@@ -1824,10 +1852,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
             var value = Object.values(user_list).length;
             var students = value;
 
-            value = value * thei18n.prices_features.premium.value;
+            value = value * this.props.i18n.prices_features.premium.value;
 
-            if (theUserdata.school_id != 'guyra') {
-              value = value * (thei18n.prices_features.business.company_cut / 100);
+            if (this.props.userdata.school_id != 'guyra') {
+              value = value * (this.props.i18n.prices_features.business.company_cut / 100);
             }
 
             value = Math.round(value);
@@ -1873,7 +1901,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
                       setValues([
                         students,
-                        thei18n.currency_iso + value,
+                        this.props.i18n.currency_iso + value,
                         "bi bi-eye-fill"
                       ]);
 
@@ -1890,15 +1918,15 @@ class GroupAdminHome_AdminPanel extends React.Component {
       e(
         'div',
         { className: 'controls row' },
-        e('h2', { className: 'mb-2' }, thei18n.profile),
+        e('h2', { className: 'mb-2' }, this.props.i18n.profile),
         e(
           'div',
           { className: 'col-md-6' },
           e(
             'div',
             { className: 'dialog-box' },
-            e('h3', { className: 'mb-3' }, thei18n.calendar),
-            e(RenderCalendar, { range: 2, user: {...theUserdata, is_self: true } })
+            e('h3', { className: 'mb-3' }, this.props.i18n.calendar),
+            e(RenderCalendar, { range: 2, user: {...this.props.userdata, is_self: true }, i18n: this.props.i18n })
           ),
           e(
             'div',
@@ -1906,11 +1934,11 @@ class GroupAdminHome_AdminPanel extends React.Component {
             e(
               'div',
               { className: 'mb-3' },
-              e('h3', { className: 'mb-3' }, thei18n.your_code),
+              e('h3', { className: 'mb-3' }, this.props.i18n.your_code),
               e(
                 'div',
                 { className: 'form-control d-flex' },
-                e('input', { id: 'the-code', className: 'form-control no-focus me-2', value: theUserdata.user_code, onClick: () => { this.copyCode() } }, null),
+                e('input', { id: 'the-code', className: 'form-control no-focus me-2', value: this.props.userdata.user_code, onClick: () => { this.copyCode() } }, null),
                 e(
                   'button',
                   {
@@ -1938,7 +1966,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
             e(
               'div',
               { className: 'mb-3' },
-              e('h3', { className: 'mb-2' }, thei18n.meeting_link),
+              e('h3', { className: 'mb-2' }, this.props.i18n.meeting_link),
               e(
                 'div',
                 { className: 'd-flex' },
@@ -1980,7 +2008,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                       };
           
                       fetch(
-                        thei18n.api_link + '?update_userdata=1',
+                        this.props.i18n.api_link + '?update_userdata=1',
                         {
                           method: "POST",
                           headers: {
@@ -2025,7 +2053,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
             return e(
               'div',
               { className: 'dialog-box' },
-              e('h3', { className: 'mb-3' }, thei18n.schedule),
+              e('h3', { className: 'mb-3' }, this.props.i18n.schedule),
               e(
                 'div',
                 { className: 'd-flex mb-2 overflow-auto' },
@@ -2058,8 +2086,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
           e(
             'div',
             { className: 'dialog-box mb-3' },
-            e('h3', { className: 'mb-2' }, thei18n.bio),
-            e('span', { className: 'text-sss' }, thei18n.accepts_markdown),
+            e('h3', { className: 'mb-2' }, this.props.i18n.bio),
+            e('span', { className: 'text-sss' }, this.props.i18n.accepts_markdown),
             e(
               'div',
               { className: 'my-3' },
@@ -2082,7 +2110,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                       dataToPost.user_bio = document.getElementById('bio_textarea').value;
                 
                       fetch(
-                        thei18n.api_link + '?update_userdata=1',
+                        this.props.i18n.api_link + '?update_userdata=1',
                         {
                           method: "POST",
                           headers: {
@@ -2108,15 +2136,15 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
                 }
               },
-              thei18n.save,
+              this.props.i18n.save,
               e('i', { className: "bi bi-save ms-2" })
             ),
           ),
           e(
             'div',
             { className: 'dialog-box' },
-            e('h3', { className: 'mb-2' }, thei18n.upload_profile_pic),
-            e('p', { className: 'text-sss' }, thei18n.profile_picture_warning),
+            e('h3', { className: 'mb-2' }, this.props.i18n.upload_profile_pic),
+            e('p', { className: 'text-sss' }, this.props.i18n.profile_picture_warning),
             e(
               'div',
               { className: 'd-flex' },
@@ -2138,7 +2166,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                         dataToPost.profile_picture_url = document.getElementById('profile_picture_input').value;
                   
                         fetch(
-                          thei18n.api_link + '?update_userdata=1',
+                          this.props.i18n.api_link + '?update_userdata=1',
                           {
                             method: "POST",
                             headers: {
@@ -2164,7 +2192,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
   
                   }
                 },
-                thei18n.save,
+                this.props.i18n.save,
                 e('i', { className: "bi bi-save ms-2" })
               ),
             )
@@ -2184,7 +2212,7 @@ export class GroupAdminHome extends React.Component {
       user_list: {},
       updateUserList: this.updateUserList,
       fetchUserList: this.fetchUserList,
-      page: e(LoadingPage),
+      page: LoadingPage,
       setPage: this.setPage,
     };
 
@@ -2222,7 +2250,7 @@ export class GroupAdminHome extends React.Component {
       this.fetchUserList().then(() => {
 
         this.setState({
-          page: e(GroupAdminHome_AdminPanel),
+          page: GroupAdminHome_AdminPanel,
         });
         
       });
@@ -2249,7 +2277,7 @@ export class GroupAdminHome extends React.Component {
     return e(GroupAdminHomeContext.Provider, { value: this.state }, e(
       'div',
       { className: 'home-wrapper' },
-      this.state.page
+      e(this.state.page, { i18n: this.props.i18n, userdata: this.props.userdata })
     ));
   };
 }

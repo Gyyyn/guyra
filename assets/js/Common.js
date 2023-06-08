@@ -474,7 +474,7 @@ export function GuyraGetData(args={}) {
   return new Promise((resolve) => {
 
     var userDataPromise = GuyraFetchData(args, 'api?get_user_data=1', 'guyra_userdata', 1);
-    var i18nPromise = GuyraFetchData(args, 'api?i18n=full', 'guyra_i18n', 10);
+    var i18nPromise = GuyraFetchData(args, 'api?i18n=full', 'guyra_i18n', 60);
     var levelmapPromise = GuyraFetchData(args, 'api?get_exercises=levelmap', 'guyra_levelmap', 60);
     var coursesPromise = GuyraFetchData(args, 'api?get_courses=1', 'guyra_courses', 60);
 

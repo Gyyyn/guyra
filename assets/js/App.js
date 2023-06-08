@@ -8,7 +8,7 @@ import {
 } from '%getjs=Common.js%end';
 import { Header } from '%getjs=Header.js%end';
 import { UserHome } from '%getjs=study.js%end';
-import { Exercises } from '%getjs=practice.js%end';
+import { Practice } from '%getjs=practice.js%end';
 import { Courses } from '%getjs=courses.js%end';
 import { Reference } from '%getjs=reference.js%end';
 import { Shop } from '%getjs=shop.js%end';
@@ -88,7 +88,7 @@ class App extends React.Component {
 
     this.routes = {
       home: UserHome,
-      practice: Exercises,
+      practice: Practice,
       account: Account,
       courses: Courses,
       reference: Reference,
@@ -177,7 +177,7 @@ class App extends React.Component {
         'ranking'
       ];
 
-      if (routesThatNeedLogin.indexOf(route) !== -1) {
+      if (!this.state.userdata.is_logged_in && routesThatNeedLogin.indexOf(route) !== -1) {
         this.setPage(this.state.routes.account);
         return;
       }
@@ -350,9 +350,14 @@ class App extends React.Component {
           navigation: 'home'
         }),
         e(Header_Button, {
-          value: this.state.i18n.practice, image: 'icons/target.png',
-          onClick: () => { this.setPage(Exercises) },
-          navigation: 'practice'
+          value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
+          onClick: () => { this.setPage(Reference) },
+          navigation: 'reference'
+        }),
+        e(Header_Button, {
+          value: this.state.i18n.arcade, image: 'icons/joystick.png',
+          onClick: () => { this.setPage(Arcade) },
+          navigation: 'arcade'
         }),
         e(
           'span',
@@ -364,11 +369,6 @@ class App extends React.Component {
           }),
           e(liveBadge)
         ),
-        e(Header_Button, {
-          value: this.state.i18n.arcade, image: 'icons/joystick.png',
-          onClick: () => { this.setPage(Arcade) },
-          navigation: 'arcade'
-        }),
       ];
 
     }
@@ -509,11 +509,6 @@ class App extends React.Component {
           onClick: () => { this.setPage(Shop) },
           navigation: 'shop'
         }),
-        e(Header_Button, {
-          value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
-          onClick: () => { this.setPage(Reference) },
-          navigation: 'reference'
-        }),
         e(
           'div',
           { className: 'dropstart m-0 d-inline' },
@@ -523,6 +518,16 @@ class App extends React.Component {
               className: 'btn d-flex flex-row align-items-center fw-bold p-1',
               role: "button", 'data-bs-toggle': "dropdown", 'aria-expanded': "false",
             },
+            e(
+              'div',
+              { className: 'btn-tall btn-sm green position-relative me-2 d-flex flex-row align-items-center' },
+              e(
+                'div',
+                { className: 'd-flex flex-row align-items-center' },
+                e('img', { className: 'page-icon tinier', src: this.state.i18n.api_link + '?get_image=icons/coins.png&size=32' }),
+                e('span', { className: 'ms-1 fw-bold' }, parseInt(this.state.userdata.gamedata.level))
+              ),
+            ),
             e(
               'div',
               { className: 'btn-tall btn-sm green position-relative me-2' },

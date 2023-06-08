@@ -60,8 +60,12 @@ if ($_GET['appointment']) {
   if ($data['recurring'])
   $notification['contents'] = $notification['contents'] . ' ' . $notification['is_recurring'];
 
-  if ($mode == 'request')
-  PushNotification($notification, (int) $teacher_data['id']);
+  if ($mode == 'request') {
+
+    PushNotification($notification, (int) $teacher_data['id']);
+    PushNotification($gi18n['notification_appointment_requested'], (int) $user);
+
+  }
 
   if ($mode == 'accept') {
 
@@ -76,6 +80,6 @@ if ($_GET['appointment']) {
 
   }
 
-  guyra_output_json('sent to' . $teacher_data['id'], true);
+  guyra_output_json('true', true);
   
 }
