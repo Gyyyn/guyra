@@ -59,7 +59,7 @@ class User_Profile extends React.Component {
                     'div',
                     { className: 'd-flex flex-column' },
                     e('h2', { className: 'text-blue mb-3' }, 'Agenda de ' + user.first_name),
-                    e(RenderCalendar, { range: 2, user: user })
+                    e(RenderCalendar, { range: 2, user: user, i18n: thei18n })
                 )
             )
 
