@@ -495,7 +495,7 @@ export class RenderDay extends React.Component {
     if (!x.recurring || Array.isArray(x.recurring)) {
     x.recurring = new Object(); }
 
-    if (!value) {
+    if (!value.value) {
       delete x.recurring[time];
     } else {
       x.recurring[time] = value; 
