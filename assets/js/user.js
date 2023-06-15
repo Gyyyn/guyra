@@ -58,7 +58,19 @@ class User_Profile extends React.Component {
                 e(
                     'div',
                     { className: 'd-flex flex-column' },
-                    e('h2', { className: 'text-blue mb-3' }, 'Agenda de ' + user.first_name),
+                    e('h2', { className: 'text-blue mb-3' }, [thei18n.schedule, thei18n.of, user.first_name].join(' ')),
+                    e(() => {
+
+                        if (!theUserdata.user_phone) {
+                            return e(
+                                'div',
+                                { className: 'dialog-box red' },
+                                thei18n.no_phone_teacher_contact_explain
+                            )
+                        }
+
+                        return null;
+                    }),
                     e(RenderCalendar, { range: 2, user: user, i18n: thei18n })
                 )
             )

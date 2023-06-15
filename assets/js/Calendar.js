@@ -30,11 +30,11 @@ function ConstructMonth(month, year) {
 
 }
 
-function RenderMonth(month, year, user, i18n) {
+function RenderMonth(props) {
 
-  var theDays = Object.values(i18n._weekdays);
+  var theDays = Object.values(props.i18n._weekdays);
 
-  var theMonthsDays = ConstructMonth(month, year);
+  var theMonthsDays = ConstructMonth(props.month, props.year);
   var weekStartsOn = theDays[0];
   var theWeek = [];
   var theMonth = [];
@@ -67,7 +67,7 @@ function RenderMonth(month, year, user, i18n) {
     var isEndOfWeek = ((i + 1 + weekOffset) % (7) == 0) ? true : false;
     var theItemInfo = item.toDateString().split(' ');
     
-    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n}) => e(
+    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n, setCalendar}) => e(
       'button',
       {
         className: 'btn day day-' + i + classExtra,
@@ -91,9 +91,10 @@ function RenderMonth(month, year, user, i18n) {
             {
               day: item.toDateString(),
               activeHours: [9,21],
-              user: user,
+              user: props.user,
               i18n: i18n,
-              setDaySchedule: setDaySchedule
+              setDaySchedule: setDaySchedule,
+              setCalendar: setCalendar
             }));
 
         }
@@ -121,7 +122,7 @@ function RenderMonth(month, year, user, i18n) {
   return e(
     'div',
     { className: 'month mb-3 me-3' },
-    e('div', { className: 'text-center fw-bold capitalize' }, theMonthDisplay + ' ' + year),
+    e('div', { className: 'text-center fw-bold capitalize' }, theMonthDisplay + ' ' + props.year),
     e('div', { className: 'd-flex justify-content-between my-3 text-muted fst-italic' }, theDays),
     e('div', { className: 'month-wrapper'}, theMonth)
   );
@@ -474,6 +475,8 @@ export class RenderDay extends React.Component {
 
     x[date][time] = value;
 
+    this.props.setCalendar(x);
+
     this.setState({
       calendar: x,
     }, () => {
@@ -500,6 +503,8 @@ export class RenderDay extends React.Component {
     } else {
       x.recurring[time] = value; 
     }
+
+    this.props.setCalendar(x);
 
     this.setState({
       calendar: x
@@ -654,8 +659,6 @@ export class RenderCalendar extends React.Component {
     var currentYear = now.getFullYear();
     var nextYear = currentYear + 1;
 
-    this.props.diary = this.props.user.user_diary;
-
     var theMonths = [
       'January',
       'February',
@@ -687,17 +690,31 @@ export class RenderCalendar extends React.Component {
         theMonth = (i - monthsInCurrentYear);
       }
 
-      this.view.push(RenderMonth(theMonths[theMonth], theYear, this.props.user, this.props.i18n));
+      this.view.push(
+        RenderMonth({
+          month: theMonths[theMonth],
+          year: theYear,
+          user: this.props.user,
+          i18n: this.props.i18n
+        })
+      );
 
     }
 
     this.state = {
       view: e(LoadingPage),
       setDaySchedule: this.setDaySchedule,
+      setCalendar: this.setCalendar,
       daySchedule: null,
       user: this.props.user,
       i18n: this.props.i18n
     };
+
+    this.state.diary = this.props.user.user_diary;
+
+    if (typeof this.state.diary !== 'object' || this.state.diary == null) {
+      this.state.diary = {};
+    }
 
   }
 
@@ -723,6 +740,12 @@ export class RenderCalendar extends React.Component {
 
   }
 
+  setCalendar = (object) => {
+
+    this.state.diary.calendar = object;
+
+  }
+
   save = (event) => {
     
     reactOnCallback(event, () => {
@@ -737,7 +760,7 @@ export class RenderCalendar extends React.Component {
               'Accept': 'application/json, text/plain, */*',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.props.diary)
+            body: JSON.stringify(this.state.diary)
           }
         ).then(res => res.json()).then(res => {
 
@@ -799,9 +822,9 @@ export class RenderCalendar extends React.Component {
                 onClick: (event) => {
                   
                   var newDiary = {};
-                  newDiary.recurring = this.props.diary.calendar.recurring;
+                  newDiary.recurring = this.state.diary.calendar.recurring;
 
-                  this.props.diary.calendar = newDiary;
+                  this.state.diary.calendar = newDiary;
 
                   this.save(event);
 
