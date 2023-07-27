@@ -70,7 +70,8 @@
 .schedule {
   min-width: 20rem;
   top: -50%;
-  background-color: var(--guyra-white);
+  background-color: var(--guyra-white-bg);
+  backdrop-filter: blur(12px);
 }
 
 .hover.schedule {

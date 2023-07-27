@@ -5,8 +5,9 @@ import {
     GuyraLocalStorage,
     LoadingPage,
     GuyraGetImage,
+    ShowNotification
 } from '%getjs=Common.js%end';
-import { Header } from '%getjs=Header.js%end';
+import { AccountCenter, Header } from '%getjs=Header.js%end';
 import { UserHome } from '%getjs=study.js%end';
 import { Practice } from '%getjs=practice.js%end';
 import { Courses } from '%getjs=courses.js%end';
@@ -30,10 +31,6 @@ function Header_buttonImage(props) {
     link = GuyraGetImage(props.image, { size: 32 });
   }
 
-  if (props.invert_image) {
-    className += ' ms-2';
-  } else { className += ' me-2'; }
-
   if (props.avatar) {
     className += ' avatar';
   }
@@ -50,6 +47,17 @@ function Header_buttonImage(props) {
 function Header_Button(props) {
 
   var imageE = null;
+  var spanE = (props) => {
+
+    var className = 'value';
+
+    if (props.invert_image) {
+      className += ' me-2';
+    } else { className += ' ms-2'; }
+
+    return e('span', { className: className }, props.value);
+
+  };
   var buttonClassExtra = ' me-1';
 
   if (document.body.dataset.route == props.navigation) {
@@ -66,7 +74,7 @@ function Header_Button(props) {
 
   var buttonProper = [
     imageE,
-    e('span', { className: 'value' }, props.value)
+    e(spanE, { invert: props.invert_image, value: props.value })
   ];
 
   if (props.invert_image) {
@@ -108,7 +116,8 @@ class App extends React.Component {
       routes: this.routes,
       i18n: {},
       userdata: {},
-      header: {}
+      header: {},
+      notification_counter: 0,
     }
 
   }
@@ -136,8 +145,27 @@ class App extends React.Component {
 
       this.setState({
         i18n: res.i18n,
-        userdata: res.userdata
+        userdata: res.userdata,
       }, () => {
+
+        // Do notification popup
+        // Todo: Move to web worker
+
+        if (this.state.notification_counter != 0 && 
+        this.state.notification_counter < this.state.userdata.notifications.length) {
+          
+          var newNotifs = this.state.userdata.notifications.length - this.state.notification_counter;
+          var newNotifsItems = this.state.userdata.notifications.slice(newNotifs - (newNotifs * 2));
+
+          newNotifsItems.forEach(item => {
+            
+            ShowNotification(item, this.state.i18n.assets_link + 'img/apple-icon.png');
+
+          });
+
+        }
+
+        this.state.notification_counter = this.state.userdata.notifications.length;
 
         this.setState({
           header: {
@@ -415,94 +443,6 @@ class App extends React.Component {
 
     } else {
 
-      var notifications = [];
-      var notification_counter = null;
-      var admin_buttons = [];
-
-      if (this.state.userdata.role == 'teacher') {
-        admin_buttons = [
-          e('button', {
-            className: 'btn-tall w-100 mt-2',
-            onClick: () => { this.setPage(UserHome) }
-          }, this.state.i18n.UserHomePage),
-          e('button', {
-            className: 'btn-tall w-100 mt-2',
-            onClick: () => { window.location.href = this.state.i18n.home_link + '/SuperAdminControlPanel' }
-          }, 'Admin Panel'),
-        ];
-      }
-
-      this.state.userdata.notifications.forEach((item, i) => {
-
-        var actions = [];
-
-        if (item.actions) {
-          item.actions.forEach(action => {
-            actions.push(
-              e(
-                'a',
-                {
-                  className: 'btn-tall btn-sm blue text-center mt-2',
-                  onClick: () => {
-                    fetch(action.link)
-                  }
-                },
-                action.value
-              )
-            )
-          });
-        }
-
-        if (!item.timestamp) {
-          item.timestamp = 1590030000;
-        }
-
-        var itemDate = new Date(item.timestamp * 1000);
-
-        notifications.push(
-          e(
-            'div',
-            { className: 'notifications notification-item dialog-box d-flex flex-column position-relative' },
-            e(
-              'button',
-              {
-                className: 'btn position-absolute top-0 end-0 p-3',
-                onClick: (event) => {
-
-                  fetch(this.state.i18n.api_link + '?pop_notification=1&index=' + i);
-
-                  this.state.userdata.notifications.splice(i, 1);
-
-                  this.setState({
-                    userdata: this.state.userdata
-                  });
-
-                }
-              },
-              e('i', { className: 'bi bi-x-lg' }),
-            ),
-            e('h5', {}, item.title),
-            e('span', { className: 'fw-normal text-n' }, item.contents),
-            actions,
-            e('span', { className: 'fw-normal text-sss mt-2 text-grey-darker' }, itemDate.toLocaleString()),
-          )
-        )
-      });
-
-      if (notifications == false) {
-        notifications = e(
-          'div',
-          {},
-          this.state.i18n.no_notifications
-        )
-      } else {
-        notification_counter = e(
-          'span',
-          { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-red' },
-          notifications.length
-        )
-      }
-
       accountButtons = [
         e(Header_Button, {
           value: this.state.i18n.shop, image: 'icons/exercises/shop.png',
@@ -511,16 +451,24 @@ class App extends React.Component {
         }),
         e(
           'div',
-          { className: 'dropstart m-0 d-inline' },
+          { className: 'm-0 d-inline' },
           e(
             'button',
             {
-              className: 'btn d-flex flex-row align-items-center fw-bold p-1',
-              role: "button", 'data-bs-toggle': "dropdown", 'aria-expanded': "false",
+              className: 'btn d-flex flex-row align-items-center fw-bold px-0 py-1',
+              role: "button",
+              id: 'account-center-button',
+              onClick: (event) => {
+
+                var accountCenter = document.querySelector('#account-controls');
+
+                accountCenter.classList.toggle('d-none');
+                
+              }
             },
             e(
               'div',
-              { className: 'btn-tall btn-sm green position-relative me-2 d-flex flex-row align-items-center' },
+              { className: 'btn-tall btn-sm green position-relative me-1 d-flex flex-row align-items-center' },
               e(
                 'div',
                 { className: 'd-flex flex-row align-items-center' },
@@ -530,73 +478,24 @@ class App extends React.Component {
             ),
             e(
               'div',
-              { className: 'btn-tall btn-sm green position-relative me-2' },
+              { className: 'btn-tall btn-sm green position-relative me-1' },
               e('i', { className: 'bi bi-bell-fill' }),
-              notification_counter
+              e(() => {
+
+                if (this.state.userdata.notifications.length == 0) {
+                  return null;
+                }
+
+                return e(
+                  'span',
+                  { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-red' },
+                  this.state.userdata.notifications.length
+                );
+              }),
             ),
-            this.state.userdata.first_name,
+            e('span', { className: 'd-none' }, this.state.userdata.first_name),
             e(Header_buttonImage, { image: this.state.userdata.profile_picture_url, image_direct: true, invert_image: true, avatar: true }),
           ),
-          e(
-            'div',
-            { className: 'dropdown-menu account-controls fade-animation animate fast p-2' },
-            e('div', { className: 'notifications' },
-              e(
-                'div',
-                { className: 'notifications-inner' },
-                e(
-                  'div',
-                  { className: 'd-flex flex-row align-items-center justify-content-between p-2' },
-                  e('h3', { className: 'mb-2' }, this.state.i18n.notifications),
-                  e(
-                    'button',
-                    {
-                      id: 'clear-notification-button',
-                      className: 'btn-tall btn-sm',
-                      onClick: () => {
-
-                        fetch(this.state.i18n.api_link + '?clear_notifications=1');
-
-                        this.state.userdata.notifications = [];
-
-                        this.setState({
-                          userdata: this.state.userdata
-                        });
-
-                        this.update();
-                        
-                      }
-                    },
-                    this.state.i18n.clear
-                  )
-                ),
-                notifications,
-              ),
-              ),
-              e('button', {
-                className: 'btn-tall w-100 blue mt-2',
-                onClick: () => { this.setPage(Account) } 
-              }, this.state.i18n.button_myaccount),
-              admin_buttons,
-              e('button', {
-                className: 'btn-tall w-100 red mt-2',
-                onClick: (e) => {
-
-                  e.preventDefault();
-              
-                  var logoutConfirm = window.confirm(this.state.i18n.logout_confirm);
-              
-                  if (logoutConfirm) {
-                    localStorage.removeItem('guyra_userdata');
-                    localStorage.removeItem('guyra_i18n');
-                    localStorage.removeItem('guyra_levelmap');
-                    localStorage.removeItem('guyra_courses');
-                    window.location.href = this.state.i18n.api_link + '?logout=1';
-                  }
-
-                }
-              }, this.state.i18n.logout),
-          )
         )
       ];
 
@@ -625,6 +524,7 @@ class App extends React.Component {
   }
 
   render() {
+
     return [
       e(
         Header,
@@ -633,6 +533,14 @@ class App extends React.Component {
           accountCenter: this.state.header.accountCenter,
           i18n: this.state.i18n,
           userdata: this.state.userdata
+        }
+      ),
+      e(
+        AccountCenter,
+        {
+          i18n: this.state.i18n,
+          userdata: this.state.userdata,
+          setPage: this.setPage
         }
       ),
       e(
@@ -653,14 +561,21 @@ class App extends React.Component {
             e('li', { className: 'breadcrumb-item' }, e('a', { href: this.state.i18n.terms_link }, this.state.i18n.terms)),
           )
         ),
-        e(
-          'div',
-          { className: 'text-black my-2' },
-          e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
-          e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
-        ),
+        e(() => {
+
+          if (!this.state.i18n.company_name) { return null; }
+
+          return e(
+            'div',
+            { className: 'text-black my-2' },
+            e('span', {}, "© 2019 - " + new Date().getFullYear() + " " + this.state.i18n.company_name),
+            e('span', { className: 'ms-2' }, this.state.i18n.company_cnpj + ' / ' + this.state.i18n.company_address),
+          );
+
+        }),
       )
     ];
+    
   };
 
 }

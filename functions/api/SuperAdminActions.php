@@ -71,8 +71,8 @@ if ($_GET['update_special_cache']) {
   $special_caches = [
       ["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css", "bootstrap.css", "css"],
       ["https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css", "bootstrap-icons.css", "css"],
-      ["https://unpkg.com/react@17/umd/react.production.min.js", "react.js", "js"],
-      ["https://unpkg.com/react-dom@17/umd/react-dom.production.min.js", "react-dom.js", "js"],
+      ["https://unpkg.com/react@18/umd/react.production.min.js", "react.js", "js"],
+      ["https://unpkg.com/react-dom@18/umd/react-dom.production.min.js", "react-dom.js", "js"],
       ["https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js", "html-react-parser.js", "js"],
       ["https://cdn.jsdelivr.net/npm/marked/marked.min.js", "marked.js", "js"],
       ["https://unpkg.com/easymde/dist/easymde.min.css", "easymde.css", "css"],

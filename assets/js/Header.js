@@ -4,8 +4,11 @@ import {
   GuyraLocalStorage,
   thei18n,
   LoadingPage,
-  dragElement
+  dragElement,
+  HandleNotificationPayload,
+  reactOnCallback
 } from '%getjs=Common.js%end';
+import { Account } from '%getjs=account.js%end';
 
 export class PersistentMeeting extends React.Component {
   constructor(props) {
@@ -294,7 +297,7 @@ export class Header extends React.Component {
         'nav',
         {
           id: 'guyra-navbar',
-          className: 'navbar fixed-top'
+          className: 'navbar fixed-top squeeze'
         },
         this.state.branding,
         e(
@@ -317,4 +320,163 @@ export class Header extends React.Component {
     ]
   }
 
+}
+
+export class AccountCenter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    if (!this.props.userdata.notifications) {
+      this.props.userdata.notifications = [];
+    }
+
+    this.state = {
+      notifications: [],
+    }
+
+  }
+
+  renderNotifications(notifications) {
+
+    var items = [];
+
+    notifications.forEach((item, i) => {
+
+      var actions = [];
+
+      if (item.actions) {
+        item.actions.forEach(action => {
+          actions.push(
+            e(
+              'a',
+              {
+                className: 'btn-tall btn-sm blue text-center mt-2',
+                onClick: () => {
+
+                  if (item.payload && item.payload.handler == 'client') {
+                    HandleNotificationPayload(item.payload);
+                  }
+
+                  fetch(action.link);
+                }
+              },
+              action.value
+            )
+          )
+        });
+      }
+
+      if (!item.timestamp) {
+        item.timestamp = 1590030000;
+      }
+
+      var itemDate = new Date(item.timestamp * 1000);
+
+      items.push(
+        e(
+          'div',
+          { className: 'notifications notification-item dialog-box d-flex flex-column position-relative' },
+          e(
+            'button',
+            {
+              className: 'btn position-absolute top-0 end-0 p-3',
+              onClick: (event) => {
+
+                fetch(this.props.i18n.api_link + '?pop_notification=1&index=' + i);
+
+              }
+            },
+            e('i', { className: 'bi bi-x-lg' }),
+          ),
+          e('h5', {}, item.title),
+          e('span', { className: 'fw-normal text-n' }, item.contents),
+          actions,
+          e('span', { className: 'fw-normal text-sss mt-2 text-grey-darker' }, itemDate.toLocaleString()),
+        )
+      )
+    });
+
+    if (items.length < 1) {
+      items = e(
+        'div',
+        {},
+        this.props.i18n.no_notifications
+      )
+    }
+
+    return items;
+
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'd-none account-controls fade-animation animate fast p-2 z-1', id: 'account-controls' },
+      e('div', { className: 'notifications' },
+        e(
+          'div',
+          { className: 'notifications-inner' },
+          e(
+            'div',
+            { className: 'd-flex flex-row align-items-center justify-content-between p-2' },
+            e('h3', { className: 'mb-2' }, this.props.i18n.notifications),
+            e(
+              'button',
+              {
+                id: 'clear-notification-button',
+                className: 'btn-tall btn-sm',
+                onClick: (event) => {
+
+                  reactOnCallback(event, () => {
+
+                    return new Promise((resolve, reject) => {
+
+                      fetch(this.props.i18n.api_link + '?clear_notifications=1').then(res => {
+
+                        resolve(true);
+
+                      });
+                      
+                    });
+
+                  });
+                  
+                }
+              },
+              this.props.i18n.clear
+            )
+          ),
+          this.renderNotifications(this.props.userdata.notifications),
+        ),
+      ),
+      e(
+        'div',
+        { className: 'buttons' },
+        e('button', {
+          className: 'btn-tall w-100 blue mt-2',
+          onClick: () => { this.props.setPage(Account) } 
+        }, this.props.i18n.button_myaccount),
+        e('button', {
+          className: 'btn-tall w-100 red mt-2',
+          onClick: (e) => {
+  
+            e.preventDefault();
+        
+            var logoutConfirm = window.confirm(this.props.i18n.logout_confirm);
+        
+            if (logoutConfirm) {
+              localStorage.removeItem('guyra_userdata');
+              localStorage.removeItem('guyra_i18n');
+              localStorage.removeItem('guyra_levelmap');
+              localStorage.removeItem('guyra_courses');
+              window.location.href = this.props.i18n.api_link + '?logout=1';
+            }
+  
+          }
+        }, this.props.i18n.logout),
+      )
+    );
+
+  }
 }

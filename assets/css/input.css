@@ -49,6 +49,7 @@
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-darker);
   background: var(--guyra-grey-dark);
   text-decoration: none;
+  transition: var(--guyra-transition);
 }
 
 .btn-tall:hover {

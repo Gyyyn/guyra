@@ -1,9 +1,11 @@
 import {
   e,
+  theUserdata,
   LoadingPage,
   RemovePunctuation,
   reactOnCallback,
-  GuyraFetchData
+  GuyraFetchData,
+  PopUp
 } from '%getjs=Common.js%end';
 
 const now = new Date();
@@ -406,13 +408,27 @@ class RenderDay_Hour extends React.Component {
       className: 'collapse'
     };
 
-    if (!this.props.skipEmpty && this.props.user.is_logged_in) {
+    if (!this.props.skipEmpty && theUserdata.is_logged_in) {
 
       editHourButtonDivProps.id = 'collapse-hour' + this.props.hour;
       editHourButtonDivProps["data-bs-parent"] = '#day-hour' + this.props.hour;
 
       editHourButtonProps["data-bs-target"] = '#collapse-hour' + this.props.hour;
       editHourButtonProps["data-bs-toggle"] = 'collapse';
+
+    }
+    
+    if (!theUserdata.is_logged_in) {
+
+      editHourButtonProps["onClick"] = () => {
+
+        var fakeButton = document.querySelector('#fake-button-register');
+
+        if (fakeButton) {
+          fakeButton.click();
+        }
+
+      }
 
     }
 
@@ -617,32 +633,35 @@ export class RenderDay extends React.Component {
 
     var theDate = new Date(this.props.day);
     var classExtra = 'hover overpop-animation';
+    var closeButton = e(
+      'span',
+      { className: 'position-absolute top-0 end-0 m-3' },
+      e(
+        'button',
+        {
+          className: 'btn',
+          onClick: () => {
+            this.props.setDaySchedule(null);
+          }
+        },
+        e('i', { className: 'bi bi-x-lg' })
+      ),
+    );
 
     if (this.props.nonHover) {
       classExtra = 'no-hover';
+      closeButton = null;
     }
 
     if (this.props.skipEmpty && this.state.theDay.length == 0) {
       return null;
     }
 
+
     return e(
       'div',
       { className: this.props.day + ' d-flex flex-column animate schedule ms-3 ' + classExtra },
-      e(
-        'span',
-        { className: 'position-absolute top-0 end-0 m-3' },
-        e(
-          'button',
-          {
-            className: 'btn',
-            onClick: () => {
-              this.props.setDaySchedule(null);
-            }
-          },
-          e('i', { className: 'bi bi-x-lg' })
-        ),
-      ),
+      closeButton,
       e('span', { className: 'fw-bold my-3 text-center' }, theDate.toLocaleDateString()),
       this.state.theDay
     );
@@ -834,6 +853,33 @@ export class RenderCalendar extends React.Component {
               e('i', { className: "bi bi-stars ms-2"}),
             )
           );
+        }
+
+        if (!this.props.user.is_logged_in) {
+          
+          return e(
+            PopUp,
+            {
+              title: this.props.i18n.register,
+              buttonElement: e('button', { alt: 'fake button', id: 'fake-button-register', className: 'd-none' }, null),
+              bodyElement: e(
+                'div',
+                { className: 'd-flex flex-column' },
+                e('p', {}, 'Precisamos de algumas informacoes antes de escolhermos seu horario, vamos ate a pagina de cadastro?'),
+                e(
+                  'button',
+                  {
+                    className: 'btn-tall blue',
+                    onClick: () => {
+                      window.location.href = this.props.i18n.register_link
+                    }
+                  },
+                  this.props.i18n.register
+                )
+              )
+            }
+          );
+
         }
 
         return null;

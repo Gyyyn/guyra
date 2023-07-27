@@ -1859,6 +1859,11 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
       ticket_url: null
     }
 
+    // TEMP: actually figure out whats going on here.
+    if (this.props.appSetPage != 'function') {
+      this.props.appSetPage = () => {};
+    }
+
   }
 
   componentWillMount() {

@@ -128,7 +128,7 @@ export class Ranking extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'ranking-wrapper squeeze-big mt-0'},
+      { className: 'ranking-wrapper squeeze mt-0'},
       e(
         'div',
         { className: 'rounded-box' },

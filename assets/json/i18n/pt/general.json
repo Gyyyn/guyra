@@ -222,6 +222,7 @@
    "configs":"Configurações",
    "account":"Conta",
    "phone":"Celular",
+   "document": "Document",
    "buy":"Comprar",
    "buy_for":"Comprar por",
    "buy_more_units":"Comprar mais unidades",
@@ -299,8 +300,8 @@
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "165$",
-       "value": "165"
+       "price": "160$",
+       "value": "160"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",
@@ -627,7 +628,7 @@
    "notification_appointment_request": {
       "is_recurring": "É um pedido para aula recorrente.",
       "title":"%user está pedindo uma mudança de horário.",
-      "contents":"Elx quer mudar %day as %hourh.",
+      "contents":"Ele(a) quer %day as %hourh.",
       "actions": [
          {"link": "%site_url/api?appointment=1&action=accept&user=%user", "value": "Aceitar"}
       ]

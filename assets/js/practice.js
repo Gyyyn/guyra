@@ -954,7 +954,11 @@ class HintAreaHint extends React.Component {
           });
         }
       },
-      '...'
+      e(
+        'button',
+        { className: 'btn-tall blue btn-sm' },
+        e('i', { className: 'bi bi-eye-fill' }),
+      )
     );
 
     this.hintValue = this.revealHintButton;

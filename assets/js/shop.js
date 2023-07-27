@@ -122,7 +122,7 @@ class Shop_ItemView extends React.Component {
       return e(
         'div',
         { className: 'shop-item-wrapper justfade-animation animate row' },
-        e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze-big' } }),
+        e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze' } }),
         e(
           'div',
           { className: 'col-md-5 mt-3' },
@@ -480,7 +480,7 @@ export class Shop extends React.Component {
       page: e(LoadingPage),
       setPage: this.setPage,
       shopObject: {},
-      squeezeType: 'squeeze-big',
+      squeezeType: 'squeeze',
       userdata: {},
     };
 

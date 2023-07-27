@@ -590,11 +590,16 @@ class GrammaticalTime extends React.Component {
   constructor(props) {
     super(props);
 
-    this.defaultVerb = 'study';
+    console.log(this.props);
+
     this.defaultPronoun = 'I';
 
+    if (!this.props.word) {
+      this.props.word = 'study';
+    }
+
     this.state = {
-      verb: this.defaultVerb,
+      verb: this.props.word,
       pronoun: this.defaultPronoun,
     };
   }
@@ -689,6 +694,7 @@ class Dictionary extends React.Component {
 
     this.state = {
       ad: null,
+      word: ''
     }
 
   }
@@ -696,15 +702,11 @@ class Dictionary extends React.Component {
   componentDidMount() {
     this.dictionaryInput = document.getElementById('dictionary-word');
     this.dictionaryInput.onkeydown = (i) => {
-      if (i.keyCode === 13) {
+      if (i.code === 'Enter') {
         i.preventDefault();
-        this.conceptFetch(this.getInputWord());
+        this.conceptFetch(this.state.word);
       }
     }
-  }
-
-  getInputWord() {
-    return this.dictionaryInput.value;
   }
 
   conceptFetch(submittedWord) {
@@ -1047,13 +1049,29 @@ class Dictionary extends React.Component {
         e(
           'div',
           { className: 'd-flex flex-row justify-content-center mb-5' },
-          e('input', { autocapitalize: "off", autofocus: "true", id: "dictionary-word", className: "form-control w-75 me-3", type: "text", placeholder: i18n.write_word_here }),
+          e(
+            'input',
+            {
+              autocapitalize: "off",
+              autofocus: "true",
+              id: "dictionary-word",
+              className: "form-control w-75 me-3",
+              type: "text",
+              placeholder: i18n.write_word_here,
+              value: this.state.word,
+              onChange: (event) => {
+                this.setState({
+                  word: event.target.value
+                });
+              }
+            }
+          ),
           e(
             'button',
             {
               className: 'btn-tall blue',
               id: 'dictionary-submit',
-              onClick: () => { this.conceptFetch(this.getInputWord()); } 
+              onClick: () => { this.conceptFetch(this.state.word); } 
             },
             e('i', { className: 'bi bi-search me-2' }),
             thei18n.search,
@@ -1079,7 +1097,8 @@ class Dictionary extends React.Component {
         'div',
         { className: 'cc-warning text-ss text-muted text-center d-none' },
         window.HTMLReactParser(thei18n.cc_warning)
-      )
+      ),
+      e(GrammaticalTime, { word: this.state.word })
     ]);
   }
 }
@@ -1125,7 +1144,7 @@ function Reference_Topbar_button(props) {
 }
 
 function Reference_Topbar(props) {
-  return e(ReferenceContext.Consumer, null, ({setPage, i18n}) => e(
+  return e(ReferenceContext.Consumer, null, ({i18n}) => e(
     'div',
     { className: 'topbar' },
     e(Reference_Topbar_button, {
@@ -1215,7 +1234,7 @@ export class Reference extends React.Component {
       } else {
         this.setState({
           irregularsObject: JSON.parse(this.state.irregularsObject),
-          topBar: e(Reference_Topbar),
+          topBar: null,
           page: this.decideStartingPage()
         });
       }

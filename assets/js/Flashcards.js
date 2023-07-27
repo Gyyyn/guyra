@@ -546,7 +546,7 @@ export class Flashcards extends React.Component {
   render() {
     return e(FlashcardsContext.Provider, { value: this.state }, e(
       'div',
-      { className: 'flashcards-wrapper squeeze-big mt-0'},
+      { className: 'flashcards-wrapper squeeze mt-0'},
       this.state.page
     ));
   };

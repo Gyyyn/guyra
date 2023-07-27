@@ -1080,6 +1080,31 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         ))
       ),
     );
+    this.userArchiveStudentCard = e(
+      'div',
+      { className: this.cardsClasses },
+      e('h3', {}, thei18n.info),
+      e(GroupAdminHomeContext.Consumer, null, ({user_list}) => e(
+        'div',
+        {
+          onClick: () => {
+            console.log(user_list[this.props.userId]);
+          }
+        },
+        e('p', {}, thei18n.phone + ' ', user_list[this.props.userId].userdata.user_phone),
+        e('p', {}, thei18n.email + ' ', user_list[this.props.userId].userdata.user_email),
+        e('p', {}, thei18n.document + ' ', user_list[this.props.userId].userdata.doc_id),
+        e(() => {
+
+          if (!user_list[this.props.userId].payment.processor_data) {
+            return null;
+          }
+
+          return e('p', {}, thei18n.payment + ' ', JSON.stringify(user_list[this.props.userId].payment.processor_data.card_data));
+
+        })
+      ))
+    );
 
     if (this.props.listingType == 'user') {
       this.state.cards.push(this.userArchiveStudentCard, this.userAddToGroupCard);
@@ -1432,6 +1457,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.listingGrouptag = this.props.groupName;
       this.listingDiaryUserId = theUserdata.id;
       this.listingSubscriptionValid = true;
+      this.fullName = this.listingName;
 
       // Assign a user as the user for this listing.
       // It doesn't matter what user we choose since all actions will apply to
@@ -1483,10 +1509,10 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.groupUsers = null;
       var truncatedLastName = this.representativeUser.userdata.last_name.trim().split(' ').at(-1);
 
-      var fullName = this.representativeUser.userdata.first_name + ' ' + this.representativeUser.userdata.last_name;
+      this.fullName = this.representativeUser.userdata.first_name + ' ' + this.representativeUser.userdata.last_name;
 
       this.listingTitle = [
-        e('span', { className: 'fw-bold', alt: fullName }, this.representativeUser.userdata.first_name),
+        e('span', { className: 'fw-bold', alt: this.fullName }, this.representativeUser.userdata.first_name),
         e('span', { className: 'ms-1' }, truncatedLastName),
       ];
 
@@ -1582,7 +1608,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         { className: 'justfade-animation animate page-view mb-2 position-relative dialog-box'} ,
         e(
           'div',
-          { className: 'position-absolute end-0 me-3' },
+          { className: 'position-absolute end-0 me-3 z-1' },
           e(
             'button',
             {
@@ -1609,9 +1635,9 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
 
       var search = RemovePunctuation(this.props.search.toLowerCase());
       var matchword = new RegExp("(" + search + ")");
-      var testword = RemovePunctuation(this.listingName.toLowerCase());
+      var testword = RemovePunctuation(this.fullName.toLowerCase());
 
-      if (!matchword.test(testword)) {
+      if (!matchword.test(testword) && search != this.listingUserId) {
         return null;
       }
       
@@ -1680,11 +1706,17 @@ class GroupAdminHome_AdminPanel extends React.Component {
     theCode.focus();
     theCode.select();
 
-    document.execCommand("copy");
+    navigator.clipboard.writeText(theCode.value);
 
   }
 
   setSearch(query) {
+
+    query = query.toLowerCase();
+
+    if (this.state.search == query) {
+      return;
+    }
 
     var clearSearch = e(
       'span',
@@ -1702,7 +1734,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     }
 
     this.setState({
-      search: query.toLowerCase(),
+      search: query,
       clearSearch: clearSearch,
     });
 
@@ -1739,6 +1771,39 @@ class GroupAdminHome_AdminPanel extends React.Component {
         if (!this.state.searchOpen) {
           searchClassExtra = 'd-none';
         }
+
+        // Check if anything is schedule for any user
+
+        var appointedTime;
+        var theKeys;
+        var now = new Date().toDateString();
+        var nowTime = new Date().toTimeString();
+        theKeys = Object.keys(this.props.userdata.user_diary.calendar);
+
+        Object.values(this.props.userdata.user_diary.calendar).forEach((appointment, i) => {
+
+          // If time is an object this is probably the recurring events
+          if (theKeys[i] == 'recurring') {
+
+            var theKeysRecurr = Object.keys(appointment);
+            
+            Object.values(appointment).forEach((recurrAppointment, i) => {
+
+              appointedTime = theKeysRecurr[i];
+
+              if (appointedTime == now.split(' ')[0] + ' ' + nowTime.substring(0, 2)) {
+                this.setSearch(recurrAppointment.user);
+              }
+
+            });
+
+          }
+
+          if (theKeys[i] == now) {
+            this.setSearch(time.user);
+          }
+
+        });
 
         return e(
           'div',
@@ -1863,7 +1928,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
             const [values, setValues] = React.useState([
               "-",
               "-",
-              "bi bi-eye-slash-fill"
+              "bi bi-eye-fill"
             ]);
 
             return e(
@@ -1892,7 +1957,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                         setValues([
                           "-",
                           "-",
-                          "bi bi-eye-slash-fill"
+                          "bi bi-eye-fill"
                         ]);
                         
                         return;
@@ -1902,7 +1967,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                       setValues([
                         students,
                         this.props.i18n.currency_iso + value,
-                        "bi bi-eye-fill"
+                        "bi bi-eye-slash-fill"
                       ]);
 
                     }

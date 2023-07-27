@@ -44,26 +44,39 @@ if ($_GET['appointment']) {
 
   $mode = $_GET['action'];
   $user = $_GET['user'];
-  $notification = $gi18n['notification_appointment_request'];
-  $current_user_name = $current_user_data['first_name'] . ' ' . $current_user_data['last_name'];
-  $data = json_decode(file_get_contents('php://input'), true);
-
-  $teacher_data = guyra_get_user_data((int) $current_user_data['teacherid']);
-
-  $notification['actions'][0]['link'] = 
-    str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
-
-  $notification['title'] = str_replace('%user', $current_user_name, $notification['title']);
-  $notification['contents'] = str_replace('%day', $data['date'], $notification['contents']);
-  $notification['contents'] = str_replace('%hour', $data['time'], $notification['contents']);
-
-  if ($data['recurring'])
-  $notification['contents'] = $notification['contents'] . ' ' . $notification['is_recurring'];
 
   if ($mode == 'request') {
 
+    $notification = $gi18n['notification_appointment_request'];
+    $current_user_name = $current_user_data['first_name'] . ' ' . $current_user_data['last_name'];
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    $teacher_data = guyra_get_user_data((int) $current_user_data['teacherid']);
+
+    $notification['actions'][0]['link'] = 
+      str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
+
+    $notification['title'] = str_replace('%user', $current_user_name, $notification['title']);
+    $notification['contents'] = str_replace('%day', $data['date'], $notification['contents']);
+    $notification['contents'] = str_replace('%hour', $data['time'], $notification['contents']);
+
+    if ($data['recurring'])
+    $notification['contents'] = $notification['contents'] . ' ' . $notification['is_recurring'];
+
+    $notification['payload'] = [
+      'type' => 'calendar',
+      'handler' => 'client',
+      'data' => [
+        'date' => $data['date'],
+        'time' => $data['time'],
+        'recurring' => $data['recurring'],
+        'user' => $current_user_id,
+        'value' => $current_user_name
+      ]
+    ];
+
     PushNotification($notification, (int) $teacher_data['id']);
-    PushNotification($gi18n['notification_appointment_requested'], (int) $user);
+    PushNotification($gi18n['notification_appointment_requested'], $current_user_id);
 
   }
 

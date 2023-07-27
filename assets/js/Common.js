@@ -295,6 +295,18 @@ export class RenderReplies extends React.Component {
       e(
         'button',
         {
+          className: 'btn-tall btn-sm blue me-2',
+          onClick: () => {
+
+            document.querySelector('#notepad-text').value = this.props.reply.comment;
+
+          }
+        },
+        thei18n.button_copy_notepad
+      ),
+      e(
+        'button',
+        {
           className: 'btn-tall btn-sm blue',
           onClick: this.state.replyOnclick
         },
@@ -1130,7 +1142,7 @@ export class PaymentItem extends React.Component {
 
 export function calculateOverdueFees(value, itemDue) {
 
-  let overdueRate = 0.035;
+  let overdueRate = 0.06;
   let now = new Date();
   let difference = now.getTime() - itemDue.getTime();
   let overdueDays = Math.round(difference / (1000 * 3600 * 24));
@@ -1313,20 +1325,24 @@ export function reactOnCallback(event, callback) {
   
   callback().then(result => {
 
-    if (result) {
-      dots.classList.remove('bi-three-dots');
-      dots.classList.add('bi-check-lg');
-    } else {
-      dots.classList.remove('bi-three-dots');
-      dots.classList.add('bi-exclamation-lg');
-    }
-
     setTimeout(() => {
 
-      event.target.innerHTML = before;
-      dots.remove();
+      if (result) {
+        dots.classList.remove('bi-three-dots');
+        dots.classList.add('bi-check-lg');
+      } else {
+        dots.classList.remove('bi-three-dots');
+        dots.classList.add('bi-exclamation-lg');
+      }
+  
+      setTimeout(() => {
+  
+        event.target.innerHTML = before;
+        dots.remove();
+        
+      }, 3000);
       
-    }, 1500);
+    }, 500);
 
   });
   
@@ -1363,5 +1379,92 @@ export function RemovePunctuation(word, options={}) {
   }
 
   return word;
+
+}
+
+export function HandleNotificationPayload(payload) {
+
+  GuyraGetData().then(res => {
+
+    if (payload.type == 'calendar') {
+
+      var calendar = res.userdata.user_diary.calendar;
+      var dateSplit = payload.data.date.split('/');
+      // Month is 0-indexed AAAAAAAAA
+      var date = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
+      var dateString = date.toDateString();
+
+      if (payload.data.recurring) {
+
+        calendar.recurring[dateString.split(' ')[0] + ' ' + payload.data.time] = {
+          value: payload.data.value,
+          user: payload.data.user
+        };
+
+      } else {
+
+        if (typeof calendar[dateString] != 'object') {
+          calendar[dateString] = {}
+        }
+
+        calendar[dateString][payload.data.time] = {
+          value: payload.data.value,
+          user: payload.data.user
+        };
+
+      }
+
+      GuyraLocalStorage('set', 'guyra_userdata', res.userdata);
+
+      fetch(
+        res.i18n.api_link + '?action=update_diary&user=' + res.userdata.id,
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(res.userdata.user_diary)
+        }
+      );
+    
+    }
+
+  });
+  
+}
+
+export function ShowNotification(payload, icon) {
+  
+  if (!("Notification" in window)) {
+    return false;
+  }
+
+  if (Notification.permission !== "denied") {
+
+    Notification.requestPermission();
+
+  }
+  
+  if (Notification.permission === "granted") {
+    const notification = new Notification(payload.title, {
+      body: payload.contents,
+      icon: icon,
+      onclick: (event) => {
+
+        var accountCenter = document.querySelector('#account-center-button');
+        console.log(event, accountCenter);
+  
+        if (accountCenter) {
+          accountCenter.click();
+        }
+        
+      }
+    });
+
+    var sound = new Audio(rootUrl + 'assets/audio/normal.mp3');
+    sound.play();
+
+  }
 
 }
