@@ -415,7 +415,7 @@ export class AccountCenter extends React.Component {
 
     return e(
       'div',
-      { className: 'd-none account-controls fade-animation animate fast p-2 z-1', id: 'account-controls' },
+      { className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-1', id: 'account-controls' },
       e('div', { className: 'notifications' },
         e(
           'div',

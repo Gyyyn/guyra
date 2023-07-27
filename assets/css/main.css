@@ -287,6 +287,12 @@ h3, h4, h5, h6 {
 .bg-gradient { background: var(--guyra-blue-purple-gradient); }
 .bg-gradient-white { background: var(--guyra-white-transparent-gradient); }
 
+.bg-white-blurred {
+  background-color: var(--guyra-white-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
 .border-primary { border-color: var(--guyra-blue);}
 .border-secondary { border-color: var(--guyra-purple-darker); }
 .border-outline { box-shadow: var(--guyra-box-shadow-outline); }
@@ -455,6 +461,7 @@ input:checked + .slider:before {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     background: var(--guyra-white-bg);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
 
@@ -518,19 +525,19 @@ input:checked + .slider:before {
     padding: .5rem;
     box-shadow: var(--guyra-box-shadow-material);
     border-radius: var(--guyra-border-radius-bigger);
-    background: transparent;
     background: var(--guyra-white-bg);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
 
   .navbar .header-account {
     width: 100%;
-    background: transparent;
     position: fixed;
     top: 0;
     left: 0;
     box-shadow: var(--guyra-box-shadow-bigger);
     background: var(--guyra-white-bg);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
 
@@ -618,10 +625,8 @@ input:checked + .slider:before {
   padding: 0;
   border-radius: var(--guyra-border-radius-bigger);
   color: var(--guyra-black);
-  background-color: var(--guyra-white-bg);
   border: 1px solid var(--guyra-grey);
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
-  backdrop-filter: blur(12px);
   width: 20rem;
   position: fixed;
   right: 15vw;
@@ -644,7 +649,7 @@ input:checked + .slider:before {
 @media (max-width: 992px) {
   .account-controls {
     width: 95vw;
-    height: 80vh;
+    height: 70vh;
     position: fixed;
     top: 5rem !important;
     left: 1vw !important;
@@ -711,6 +716,7 @@ input:checked + .slider:before {
   box-shadow: 0 25px 25px 0 rgb(0 0 0 / 50%);
   display: flex;
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 #notepad-text {
