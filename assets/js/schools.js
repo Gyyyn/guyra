@@ -1800,7 +1800,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           }
 
           if (theKeys[i] == now) {
-            this.setSearch(time.user);
+            this.setSearch(appointment.user);
           }
 
         });
