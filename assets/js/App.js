@@ -151,6 +151,10 @@ class App extends React.Component {
         // Do notification popup
         // Todo: Move to web worker
 
+        if (!this.state.userdata.notifications) {
+          this.state.userdata.notifications = [];
+        }
+
         if (this.state.notification_counter != 0 && 
         this.state.notification_counter < this.state.userdata.notifications.length) {
           

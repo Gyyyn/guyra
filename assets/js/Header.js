@@ -339,6 +339,9 @@ export class AccountCenter extends React.Component {
   renderNotifications(notifications) {
 
     var items = [];
+    if (!notifications) {
+      notifications = [];
+    }
 
     notifications.forEach((item, i) => {
 
