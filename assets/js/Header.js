@@ -411,11 +411,76 @@ export class AccountCenter extends React.Component {
 
   }
 
+  componentDidMount() {
+
+    var accountCenterElement = document.querySelector('#account-controls');
+
+    if (accountCenterElement) {
+
+      var closeit = (event) => {
+
+        accountCenterElement.classList.add('justfadeout-animation');
+
+        setTimeout(() => {
+          accountCenterElement.classList.add('d-none');
+          accountCenterElement.classList.remove('justfadeout-animation');
+        }, 500);
+
+      }
+
+      accountCenterElement.addEventListener("blur", (event) => {
+
+        if (!accountCenterElement.classList.contains('d-none')) {
+          closeit(event);
+        }
+        
+      }, true);
+
+      accountCenterElement.addEventListener('keyup', (event) => {
+
+        if (event.code === 'Escape') {
+          event.preventDefault();
+          closeit(event);
+        }
+
+      });
+
+      accountCenterElement.addEventListener('click', (event) => {
+
+        if (event.target.tagName == 'BUTTON') {
+          closeit(event);
+        }
+
+      });
+      
+    }
+
+  }
+
   render() {
+
+    var extraButtons = [];
+
+    if(this.props.userdata.is_admin) {
+      extraButtons.push(
+        e('button', {
+          className: 'btn-tall w-100 mt-2',
+          onClick: () => { this.props.setPage('home') } 
+        }, this.props.i18n.UserHomePage),
+        e('button', {
+          className: 'btn-tall w-100 mt-2',
+          onClick: () => { window.location.href = this.props.i18n.guyra_admin_link } 
+        }, 'Super Control Panel'),
+      );
+    }
 
     return e(
       'div',
-      { className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-1', id: 'account-controls' },
+      {
+        className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-1',
+        id: 'account-controls',
+        tabindex: 0
+      },
       e('div', { className: 'notifications' },
         e(
           'div',
@@ -458,8 +523,9 @@ export class AccountCenter extends React.Component {
         { className: 'buttons' },
         e('button', {
           className: 'btn-tall w-100 blue mt-2',
-          onClick: () => { this.props.setPage(Account) } 
+          onClick: () => { this.props.setPage('account') } 
         }, this.props.i18n.button_myaccount),
+        extraButtons,
         e('button', {
           className: 'btn-tall w-100 red mt-2',
           onClick: (e) => {

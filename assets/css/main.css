@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;900&family=Patrick+Hand+SC&family=Work+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
 :root {
   --guyra-blue: #4bb8dd;
   --guyra-blue-darker: rgb(2 144 191);
@@ -57,8 +59,8 @@
   --guyra-box-shadow-outline-onwhite: 0 0 0 1rem rgba(166, 241, 255, .33);
   --guyra-box-shadow-outline-onwhite-smaller: 0 0 0 .33rem rgba(166, 241, 255, .33);
 
-  --guyra-fonts-text: 'Rubik',var(--bs-font-sans-serif);
-  --guyra-fonts-title: 'Campton',var(--bs-font-sans-serif);
+  --guyra-fonts-text: 'Work Sans',var(--bs-font-sans-serif);
+  --guyra-fonts-title: 'Hanken Grotesk',var(--bs-font-sans-serif);
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);
@@ -102,100 +104,26 @@
 
   --guyra-white: #2c2c2c;
   --guyra-white-bg: #2c2c2ca6;
-  --guyra-grey: #444444;
-  --guyra-grey-dark: #474747;
-  --guyra-grey-darker: #5e5e5e;
-  --guyra-grey-darkest: #a0a0a0;
+  --guyra-grey: #303030;
+  --guyra-grey-dark: #3f3f3f;
+  --guyra-grey-darker: #4e4e4e;
+  --guyra-grey-darkest: #818181;
   --guyra-black: #b4b4b4;
   --guyra-blacker: #a1a1a1;
   --guyra-body-bg: #373a3d;
 
+  --guyra-grey-dark: #4e4e4e;
+  --guyra-grey-darker: #3f3f3f;
+
 }
 
-/*
-* -------- Fonts
-*/
+:root.accessibility-zoom {
 
-@font-face {
-  font-family: 'Campton';
-  src: url('%template_url/assets/fonts/campton_black.woff2') format('woff2'),
-       url('%template_url/assets/fonts/campton_black.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
+  --guyra-fonts-textsize-sss: calc(0.9rem + 0.25vw);
+  --guyra-fonts-textsize-ss: calc(0.9rem + 0.35vw);
+  --guyra-fonts-textsize-s: calc(1rem + 0.15vw);
+  --guyra-fonts-textsize-n: calc(1.1rem + 0.5vh);
 
-@font-face {
-  font-family: 'Campton';
-  src: url('%template_url/assets/fonts/campton_bold-webfont.woff2') format('woff2'),
-       url('%template_url/assets/fonts/campton_bold-webfont.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Campton';
-  src: url('%template_url/assets/fonts/campton_bold_italic-webfont.woff2') format('woff2'),
-       url('%template_url/assets/fonts/campton_bold_italic-webfont.woff') format('woff');
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Campton';
-  src: url('%template_url/assets/fonts/campton_extrabold-webfont.woff2') format('woff2'),
-       url('%template_url/assets/fonts/campton_extrabold-webfont.woff') format('woff');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Campton';
-  src: url('%template_url/assets/fonts/campton_extrabold-webfont.woff2') format('woff2'),
-       url('%template_url/assets/fonts/campton_extrabold-webfont.woff') format('woff');
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rubik';
-  src: url('%template_url/assets/fonts/Rubik-Regular.woff2') format('woff2'),
-       url('%template_url/assets/fonts/Rubik-Regular.woff') format('woff');
- font-weight: 400;
- font-style: normal;
- font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rubik';
-  src: url('%template_url/assets/fonts/Rubik-Black.woff2') format('woff2'),
-      url('%template_url/assets/fonts/Rubik-Black.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rubik';
-  src: url('%template_url/assets/fonts/Rubik-Bold.woff2') format('woff2'),
-      url('%template_url/assets/fonts/Rubik-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-@font-face {
-  font-family: 'Komika';
-  src: url('%template_url/assets/fonts/komikask-webfont.woff2') format('woff2'),
-       url('%template_url/assets/fonts/komikask-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
 
 /*
@@ -764,7 +692,7 @@ input:checked + .slider:before {
   .rounded-box { padding: calc(2vw + 1rem) calc(1vw + .5rem); }
 
   main {
-    margin-top: 6rem;
+    margin-top: 4.5rem;
     margin-bottom: 20rem;
   }
 
@@ -791,7 +719,7 @@ input:checked + .slider:before {
 
 .card.trans {
   background: var(--guyra-grey);
-  box-shadow: 0 5px 15px -10px;
+  box-shadow: var(--guyra-box-shadow-material);
   border: var(--guyra-grey-darker) solid var(--guyra-border-size);
   border-top-width: .15rem !important;
   border-right-width: .15rem !important;

@@ -31,10 +31,6 @@ $route[0] = 'home';
 <link href="<?php echo GetMinifiedAsset('css', 'bootstrap.css'); ?>" rel="stylesheet">
 <link href="<?php echo GetMinifiedAsset('css', 'bootstrap-icons.css'); ?>" rel="stylesheet">
 <link rel="manifest" href="/GuyraManifest.json">
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Regular.woff" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff2" as="font" crossorigin>
-<link rel="preload" href="<?php echo $template_url; ?>/assets/fonts/Rubik-Bold.woff" as="font" crossorigin>
 <link rel="apple-touch-icon" href="<?php echo $template_url; ?>/assets/img/apple-icon.png">
 <link href="<?php echo GetMinifiedAsset('css', 'main.css'); ?>" rel="stylesheet">
 <link href="<?php echo GetMinifiedAsset('css', 'input.css'); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">

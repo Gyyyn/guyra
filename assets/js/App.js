@@ -141,6 +141,18 @@ class App extends React.Component {
 
     }
 
+    if(localOptions.accessibility_zoom == true) {
+      
+      var html = document.querySelector("html");
+      html.classList.add('accessibility-zoom');
+
+      if (prefersDarkMode) {
+        localOptions.darkmode = true;
+        GuyraLocalStorage('set', 'guyra_options', localOptions);
+      }
+
+    }
+
     GuyraGetData().then(res => {
 
       this.setState({
@@ -264,6 +276,10 @@ class App extends React.Component {
   setPage = (page) => {
 
     var appFrame = document.getElementById('app');
+
+    if (typeof page == 'string') {
+      page = this.state.routes[page];
+    }
 
     var pageTitles = Object.keys(this.state.routes);
     var pages = Object.values(this.state.routes);
@@ -483,7 +499,7 @@ class App extends React.Component {
             e(
               'div',
               { className: 'btn-tall btn-sm green position-relative me-1' },
-              e('i', { className: 'bi bi-bell-fill' }),
+              e('img', { className: 'page-icon tinier', src: this.state.i18n.api_link + '?get_image=icons/bell.png&size=32' }),
               e(() => {
 
                 if (this.state.userdata.notifications.length == 0) {

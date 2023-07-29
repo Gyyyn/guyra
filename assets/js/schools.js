@@ -1712,7 +1712,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
   setSearch(query) {
 
-    if (!query) {
+    if (!query && query != '') {
       return;
     }
 

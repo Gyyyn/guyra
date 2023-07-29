@@ -1451,11 +1451,6 @@ function AccountOptions_GeneralOptions(props) {
           value: e(
             'span',
             { className: 'position-relative' },
-            e(
-              'span',
-              { className: 'badge bg-primary me-2' },
-              'BETA'
-            ),
             thei18n.enable_nightmode,
             e(() => {
 
@@ -1489,6 +1484,38 @@ function AccountOptions_GeneralOptions(props) {
 
             var html = document.querySelector("html");
             html.classList.toggle('dark-mode');
+
+            GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+          }
+        }
+      ),
+      e(
+        Slider,
+        {
+          dom_id: 'accessibility-zoom-checkbox',
+          checked: localOptions.accessibility_zoom,
+          value: e(
+            'span',
+            { className: 'position-relative' },
+            e(
+              'span',
+              { className: 'badge bg-primary me-2' },
+              'BETA'
+            ),
+            thei18n.enable_accessibility_zoom,
+          ),
+          onClick: () => {
+
+            localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+            var checkbox = document.getElementById('accessibility-zoom-checkbox');
+            checkbox.checked = !checkbox.checked;
+
+            localOptions.accessibility_zoom = checkbox.checked;
+
+            var html = document.querySelector("html");
+            html.classList.toggle('accessibility-zoom');
 
             GuyraLocalStorage('set', 'guyra_options', localOptions);
 

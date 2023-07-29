@@ -445,6 +445,8 @@ function build_user_object($user_id) {
 
 // This generates a random unused 16 length number
 function guyra_generate_user_id() {
+
+  // Repeated for efficiency, most gens will yield a non-used id
   $random = random_int(0, 9999999999999999);
   $this_user_exists = guyra_get_user_object($random);
 

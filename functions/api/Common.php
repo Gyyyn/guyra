@@ -85,6 +85,9 @@ if ($_GET['get_user_data']) {
       $theData['notifications'] = $current_user_notifications;
   
       $theData['user_code'] = Guyra_hash($user);
+
+      if ($is_admin)
+      $theData['is_admin'] = true;
   
     } else if ($user) {
       $theData = guyra_get_user_data($user);

@@ -1281,7 +1281,7 @@ export class Reference extends React.Component {
     { className: 'reference-squeeze squeeze' },
     e(
       'div',
-      { className: 'rounded-box pt-2' },
+      { className: 'rounded-box' },
       this.state.topBar,
       this.state.page
     )
