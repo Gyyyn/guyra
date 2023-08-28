@@ -11,12 +11,9 @@
   }
 }
 
-.courses-list {
-  padding: 3rem;
-}
-
 .courses-squeeze .card {
   cursor: pointer;
+  display: block;
 }
 
 @media (max-width: 767px) {

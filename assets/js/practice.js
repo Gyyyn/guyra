@@ -10,7 +10,8 @@ import {
   randomNumber,
   vibrate,
   PopUp,
-  RemovePunctuation
+  RemovePunctuation,
+  BuyInShop
 } from '%getjs=Common.js%end';
 
 const { useEffect } = React;
@@ -1109,36 +1110,6 @@ class ReviewAnswers extends React.Component {
 *
 */
 
-function BuyMoreUnits(props) {
-
-  return e(ExerciseContext.Consumer, null, ({i18n}) => e(
-    'div',
-    { className: 'buy-more-units pop-animation animate' },
-    e(returnToLevelMapButton),
-    e(
-      'div',
-      { className: 'd-flex flex-column justify-content-center text-center dialog-box my-5 p-3' },
-      e('h2', { className: 'text-blue'}, i18n.you_need_to_buy_this),
-      e(
-        'span',
-        { className: 'd-inline m-auto' },
-        e('img', { className: 'page-icon large', alt: i18n.upload, src: i18n.api_link + '?get_image=img/shopping-cart.png&size=256' })
-      ),
-      e('span', { className: 'text-n py-3' }, i18n.you_need_to_buy_this + ' ' + i18n.go_to_shop + '?'),
-      e(
-        'button',
-        {
-          type: 'button',
-          onClick: () => { window.location.href = i18n.shop_link + '/progress' },
-          className: 'btn-tall green mx-auto'
-        },
-        e('span', { className: 'me-2' }, i18n.go_to_shop),
-        e('span',{}, e('i', {className: 'bi bi-shop'}))
-      )
-    ),
-  ));
-}
-
 function UnitHint(props) {
 
   return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, i18n}) => {
@@ -1178,7 +1149,7 @@ function LevelChooserButton(props) {
     buttonExtraClass = ' disabled';
   }
 
-  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage, hints}) => {
+  return e(ExerciseContext.Consumer, null, ({loadExerciseJSON, setPage, hints, i18n}) => {
 
     return e(
       'div',
@@ -1193,7 +1164,10 @@ function LevelChooserButton(props) {
           onClick: () => {
 
             if (props.values.disabled) {
-              setPage(e(BuyMoreUnits));
+              setPage([
+                e(returnToLevelMapButton),
+                e(BuyInShop, { i18n: i18n })
+              ]);
               return;
             }
 

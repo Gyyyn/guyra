@@ -769,6 +769,10 @@ class Dictionary extends React.Component {
 
     GetCaptchaAndDo((token) => {
 
+      if (!this.props.userdata.is_logged_in) {
+        return;
+      }
+
       fetch(thei18n.api_link + '?translate=' + TheWord + '&from=en&to=pt-BR&token=' + token)
       .then(res => res.text()).then(res => {
 

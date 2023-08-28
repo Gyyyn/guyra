@@ -2,7 +2,7 @@
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.6.6');
+define('GUYRA_VERSION', '0.7.0');
 
 // Initialize the App enviroment
 include_once './functions/Init.php';
@@ -38,21 +38,13 @@ CaptureRequest(function($r, $_nests) {
   $nests = array_filter($_nests);
 
   // First set up some default pages.
-  $page = $template_dir . '/pages/Landing.php';
+  $page = $template_dir . '/pages/Home.php';
 
-  if($is_logged_in) {
-
-    $page = $template_dir . '/pages/Home.php';
-
-    if ($is_admin && $_GET['page'] == 'admin')
-    $page = $template_dir . '/pages/SuperAdminControlPanel.php';
-
-  }
+  if ($is_admin && $_GET['page'] == 'admin')
+  $page = $template_dir . '/pages/SuperAdminControlPanel.php';
 
   // $r is the requested URL, if it's empty we are on root.
   if ($r) {
-
-    $page = $template_dir . '/pages/Home.php';
 
     $checkForGetVars = explode('?', $r);
     $pageToLoad = $r;

@@ -298,7 +298,11 @@ export class RenderReplies extends React.Component {
           className: 'btn-tall btn-sm blue me-2',
           onClick: () => {
 
-            document.querySelector('#notepad-text').value = this.props.reply.comment;
+            var notepad = document.querySelector('#notepad-text');
+
+            if (notepad) {
+              document.querySelector('#notepad-text').value = this.props.reply.comment;
+            }
 
           }
         },
@@ -404,6 +408,35 @@ export function Slider(props) {
       'p',
       { className: 'ms-5' },
       props.value
+    ),
+  );
+}
+
+export function BuyInShop(props) {
+
+  return e(
+    'div',
+    { className: 'buy-more-units pop-animation animate' },
+    e(
+      'div',
+      { className: 'd-flex flex-column justify-content-center text-center dialog-box my-5 p-3' },
+      e('h2', { className: 'text-blue'}, props.i18n.you_need_to_buy_this),
+      e(
+        'span',
+        { className: 'd-inline m-auto' },
+        e('img', { className: 'page-icon large', alt: props.i18n.upload, src: props.i18n.api_link + '?get_image=img/shopping-cart.png&size=256' })
+      ),
+      e('span', { className: 'text-n py-3' }, props.i18n.you_need_to_buy_this + ' ' + props.i18n.go_to_shop + '?'),
+      e(
+        'button',
+        {
+          type: 'button',
+          onClick: () => { window.location.href = props.i18n.shop_link + '/progress' },
+          className: 'btn-tall green mx-auto'
+        },
+        e('span', { className: 'me-2' }, props.i18n.go_to_shop),
+        e('span',{}, e('i', {className: 'bi bi-shop'}))
+      )
     ),
   );
 }
@@ -876,9 +909,6 @@ export function dragElement(theElement, clickFunction) {
     theElementDragPoint = document.getElementById(theElement.id + "-header");
   }
 
-  // If there is a saved position set that.
-  updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left }, true);
-
   function updateElementOffset(element, pos, force=false) {
 
     if (!force) {
@@ -905,6 +935,9 @@ export function dragElement(theElement, clickFunction) {
     posTracker[element.id].left = pos.left;
 
   }
+
+  // If there is a saved position set that.
+  updateElementOffset(theElement, { top: posTracker[theElement.id].top, left: posTracker[theElement.id].left }, true);
 
   // Set up vars used to determine clickness.
   var lastRelativePos = [0, 0];
@@ -934,6 +967,8 @@ export function dragElement(theElement, clickFunction) {
 
     if (hasAnimation) {
     theElement.classList.remove('animate'); }
+
+    theElement.classList.add('no-animate');
 
     var touches = e.targetTouches[0];
     pos3 = touches.clientX;
@@ -979,11 +1014,12 @@ export function dragElement(theElement, clickFunction) {
 
   function dragMouseDown(e) {
 
-    e = e || window.event;
     e.preventDefault();
 
     if (hasAnimation) {
     theElement.classList.remove('animate'); }
+
+    theElement.classList.add('no-animate');
 
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
@@ -996,7 +1032,6 @@ export function dragElement(theElement, clickFunction) {
 
   function elementDrag(e) {
 
-    e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
     pos1 = pos3 - e.clientX;

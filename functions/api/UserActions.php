@@ -54,7 +54,6 @@ if (!$is_logged_in) {
 
 include_once $template_dir . '/functions/api/UserActions/Roadmap.php';
 include_once $template_dir . '/functions/api/UserActions/Notifications.php';
-include_once $template_dir . '/functions/api/UserActions/Reference.php';
 include_once $template_dir . '/functions/api/UserActions/Arcade.php';
 
 if ($_GET['i18n'] == "full")
@@ -197,17 +196,6 @@ if ($_GET['logout']) {
   <?php
   Guyra_Logout_User();
   exit;
-}
-
-if ($_GET['get_news']) {
-  
-  $news_file = $template_dir . '/cache/news.' . $gLang[0] . '.txt';
-
-  if (file_exists($news_file))
-  guyra_output_json(file_get_contents($news_file), true);
-  else
-  guyra_output_json(false, true);
-
 }
 
 if ($_GET['post_reply']) {
@@ -493,37 +481,6 @@ if ($_GET['is_valid_promo']) {
   }
 
   guyra_output_json($return, true);
-
-}
-
-if ($_GET['get_courses']) {
-
-  function createYoutubeApiPlaylistLink($key) {
-
-    global $gSettings;
-
-    $youtubeApi = [
-      'Key' => $gSettings['google_api'],
-      'Link' => 'https://www.googleapis.com/youtube/v3/'
-    ];
-
-    $r = sprintf(
-        $youtubeApi['Link'] . 'playlistItems?part=snippet&maxResults=50&playlistId=%s&key=' . $youtubeApi['Key'],
-        $key
-      );
-
-    return $r;
-  }
-
-  $coursesJSON = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/courses.json';
-  $coursesArray = json_decode(file_get_contents($coursesJSON), true);
-
-  foreach ($coursesArray as &$current) {
-    $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));
-    $current['image'] = GuyraGetIcon('courses/' . $current['id'] . '.png');
-  }
-
-  guyra_output_json($coursesArray, true);
 
 }
 

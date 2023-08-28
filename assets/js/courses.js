@@ -1,9 +1,11 @@
 import {
   e,
+  RoundedBoxHeading,
   GuyraGetData,
   GuyraLocalStorage,
   thei18n,
-  LoadingPage
+  LoadingPage,
+  BuyInShop
 } from '%getjs=Common.js%end';
 
 // Youtube Embed stuff
@@ -296,24 +298,44 @@ function CourseVideo(props) {
 
 function CourseChooserLevel(props) {
 
-  return e(CoursesContext.Consumer, null, ({setPage}) => e(
+  return e(CoursesContext.Consumer, null, ({i18n, userdata, setPage}) => e(
     'div',
     {
-      className: 'card hoverable my-3 my-md-5 mx-auto mx-md-0',
+      className: 'card hoverable mb-2',
       onClick: () => {
-        setPage(CourseVideo,
-          {
-            video: props.item,
-            course: props.course,
-            courseTitle: props.courseTitle,
-            courseDesc: props.courseDesc,
-            course_key: props.course_key,
-            number: props.number
+
+        if (userdata.is_logged_in) {
+
+          setPage(CourseVideo,
+            {
+              video: props.item,
+              course: props.course,
+              courseTitle: props.courseTitle,
+              courseDesc: props.courseDesc,
+              course_key: props.course_key,
+              number: props.number
+            }
+          );
+          
+        } else {
+
+          var blocked = () => {
+
+            return e(
+              'div',
+              { className: 'p-3' },
+              e(returnButton, { page: CourseChooser, set_hash: '' }),
+              e(BuyInShop, { i18n: i18n })
+            );
+            
           }
-        );
+
+          setPage(blocked);
+
+        }
+        
       }
     },
-
     e(
       'div',
       { className: 'd-md-flex' },
@@ -338,7 +360,7 @@ function CourseChooserLevel(props) {
         'div',
         { className: 'card-body overflow-hidden' },
         e(
-          'h4',
+          'h3',
           { className: 'course-title' },
           props.item.title
         ),
@@ -446,29 +468,30 @@ function CourseListButton(props) {
 
 function CourseChooser(props) {
 
-  return e(CoursesContext.Consumer, null, ({coursesObject}) => {
+  return e(CoursesContext.Consumer, null, ({coursesObject, i18n}) => {
 
-    return e(
-      'div',
-      {
-        className: 'courses-level-chooser'
-      },
-      Object.keys(coursesObject).map( (n) => {
-
-        var curr = coursesObject[n];
-        var course = JSON.parse(curr['contents']);
-
-        return e(CourseListButton, {
-          title: curr['title'],
-          desc: curr['desc'],
-          imgURL: curr['image'],
-          course: course,
-          course_key: n,
-          key: course.etag
+    return [
+      e(RoundedBoxHeading, { icon: 'icons/online-learning.png', value: i18n.courses }),
+      e(
+        'div',
+        { className: 'courses-level-chooser' },
+        Object.keys(coursesObject).map( (n) => {
+  
+          var curr = coursesObject[n];
+          var course = JSON.parse(curr['contents']);
+  
+          return e(CourseListButton, {
+            title: curr['title'],
+            desc: curr['desc'],
+            imgURL: curr['image'],
+            course: course,
+            course_key: n,
+            key: course.etag
+          })
+  
         })
-
-      })
-    );
+      )
+    ];
 
   });
 
@@ -558,6 +581,8 @@ export class Courses extends React.Component {
 
     if (hashLoadPage) {
 
+      this.title = hashLoadType;
+
       if (hashLoadType == 'course') {
         return e(CourseVideoList,
           {
@@ -584,17 +609,17 @@ export class Courses extends React.Component {
 
     var pageTitles = Object.keys(this.state.pages);
     var pages = Object.values(this.state.pages);
-    var title = pages.indexOf(page);
+    this.title = pages.indexOf(page);
 
-    if (title !== -1) {
-      title = pageTitles[title];
+    if (this.title !== -1) {
+      this.title = pageTitles[this.title];
     }
 
     this.setState({
       page: e(page, props),
     }, () => {
 
-      if (title == 'video') {
+      if (this.title == 'video') {
 
         if (player != undefined && player.loadVideoById) {
           player.loadVideoById(props.video.resourceId.videoId);  
@@ -602,7 +627,7 @@ export class Courses extends React.Component {
 
         route = route + '/' + props.course_key + '/' + props.video.resourceId.videoId;
 
-      } else if (title == 'course') {
+      } else if (this.title == 'course') {
 
         if (props.course_key) {
           route = route + '/' + props.course_key
@@ -610,8 +635,7 @@ export class Courses extends React.Component {
 
       }
 
-      window.history.pushState({ route: title },"", thei18n.home_link + '/' + route);
-
+      window.history.pushState({ route: this.title },"", thei18n.home_link + '/' + route);
       window.scrollTo(0, 0);
 
     });
@@ -619,12 +643,22 @@ export class Courses extends React.Component {
   }
 
   render() {
+
+    console.log(this.title);
+
+    var paddingClass = '';
+
+    if (this.title == 'video') {
+      paddingClass = 'p-0';
+    }
+
     return e(
       'div',
       { className: 'squeeze' },
-      e('div', { className: 'courses-squeeze rounded-box p-0' },
+      e('div', { className: 'courses-squeeze rounded-box ' + paddingClass },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)
       )
     )
   };
+
 }

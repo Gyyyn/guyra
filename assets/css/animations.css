@@ -198,6 +198,11 @@
   transition: var(--guyra-transition);
 }
 
+.no-animate {
+  animation: none !important;
+  transition: none !important;
+}
+
 .animate.fast {
   animation-duration: .1s;
 }
@@ -205,7 +210,6 @@
 .animate.reverse {
   animation-direction: reverse;
 }
-
 
 i.bi.bi-three-dots,
 .glow {

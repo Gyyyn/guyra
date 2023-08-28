@@ -3,21 +3,31 @@
 Guyra_Safeguard_File();
 
 function generateRandomString($length = 10) {
-  return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+}
+
+function base64url_encode($data) {
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+
+
+function base64url_decode($data) {
+    return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
 }
 
 function Guyra_hash($string, $decode=false) {
 
-  $secret = 'aryug';
+  $secret = 'g';
 
   if ($decode) {
 
-    return str_replace($secret, "", hex2bin($string));
+    return str_replace($secret, "", base64url_decode($string));
 
   } else {
 
     $stringAndSecret = $string . $secret;
-    return bin2hex($stringAndSecret);
+    return base64url_encode($stringAndSecret);
 
   }
 }

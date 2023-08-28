@@ -1,6 +1,5 @@
 import {
     e,
-    thei18n,
     GuyraGetData,
     GuyraLocalStorage,
     LoadingPage,
@@ -211,37 +210,41 @@ class App extends React.Component {
 
       var route = document.body.dataset.route;
 
+      if (!route) { route = 'home'; }
+
       var routesThatNeedLogin = [
-        'practice',
-        'courses',
-        'reference',
         'shop',
-        'arcade',
         'help',
-        'ranking'
       ];
 
+      // Check if we are on a route that needs login
       if (!this.state.userdata.is_logged_in && routesThatNeedLogin.indexOf(route) !== -1) {
         this.setPage(this.state.routes.account);
         return;
       }
-
-      if (this.state.routes[route] && route != 'home') {
-        this.setPage(this.state.routes[route]);
-      }
       
       else {
+
+        // If we are home allow for checking last used page
+        if (route == 'home') {
+
+          var localOptions = GuyraLocalStorage('get', 'guyra_options');
         
-        var localOptions = GuyraLocalStorage('get', 'guyra_options');
-        
-        if (this.routes[localOptions.last_page] && localOptions.last_page != 'home') {
-          this.setPage(this.routes[localOptions.last_page]);
-          route = localOptions.last_page;
-        }
+          if (this.routes[localOptions.last_page] && localOptions.last_page != 'home') {
+            this.setPage(this.routes[localOptions.last_page]);
+            route = localOptions.last_page;
+          }
+
+          else { this.setPage(this.homeElement); }
+
+        } 
 
         else {
-          this.setPage(this.homeElement);
-          route = 'home';
+
+          if (this.state.routes[route]) {
+            this.setPage(this.state.routes[route]);
+          }
+
         }
         
       }
@@ -323,7 +326,8 @@ class App extends React.Component {
     }
 
     this.setState({
-      page: page
+      page: page,
+      route: title
     }, () => {
 
       appFrame.classList.add('animate', 'fade-animation');
@@ -365,61 +369,63 @@ class App extends React.Component {
   buildButtons() {
 
     var buttons = [];
+    this.homeElement = UserHome;
 
     if (this.state.userdata.is_logged_in) {
 
-      var homeValue = this.state.i18n.study;
-      var homeIcon = 'icons/learning.png';
-      this.homeElement = UserHome;
-
-      if (this.state.userdata.role == "teacher") {
-        homeValue = this.state.i18n.students;
-        homeIcon = 'icons/textbook.png';
-        this.homeElement = GroupAdminHome;
-      }
-
-      var liveBadge = () => {
-
-        if (!0) {
-        return null; }
-
-        return e(
-          'span',
-          { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger glow' },
-          this.state.i18n.live
-        );
-
-      }
-
-      buttons = [
-        e(Header_Button, {
-          value: homeValue, image: homeIcon,
-          onClick: () => { this.setPage(this.homeElement) },
-          navigation: 'home'
-        }),
-        e(Header_Button, {
-          value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
-          onClick: () => { this.setPage(Reference) },
-          navigation: 'reference'
-        }),
-        e(Header_Button, {
-          value: this.state.i18n.arcade, image: 'icons/joystick.png',
-          onClick: () => { this.setPage(Arcade) },
-          navigation: 'arcade'
-        }),
-        e(
-          'span',
-          { className: 'position-relative' },
-          e(Header_Button, {
-            value: this.state.i18n.courses, image: 'icons/online-learning.png',
-            onClick: () => { this.setPage(Courses) },
-            navigation: 'courses'
-          }),
-          e(liveBadge)
-        ),
-      ];
+      
 
     }
+
+    var homeValue = this.state.i18n.study;
+    var homeIcon = 'icons/learning.png';
+
+    if (this.state.userdata.role == "teacher") {
+      homeValue = this.state.i18n.students;
+      homeIcon = 'icons/textbook.png';
+      this.homeElement = GroupAdminHome;
+    }
+
+    var liveBadge = () => {
+
+      if (!0) {
+      return null; }
+
+      return e(
+        'span',
+        { className: 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger glow' },
+        this.state.i18n.live
+      );
+
+    }
+
+    buttons = [
+      e(Header_Button, {
+        value: homeValue, image: homeIcon,
+        onClick: () => { this.setPage(this.homeElement) },
+        navigation: 'home'
+      }),
+      e(Header_Button, {
+        value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
+        onClick: () => { this.setPage(Reference) },
+        navigation: 'reference'
+      }),
+      e(Header_Button, {
+        value: this.state.i18n.arcade, image: 'icons/joystick.png',
+        onClick: () => { this.setPage(Arcade) },
+        navigation: 'arcade'
+      }),
+      e(
+        'span',
+        { className: 'position-relative' },
+        e(Header_Button, {
+          value: this.state.i18n.courses, image: 'icons/online-learning.png',
+          onClick: () => { this.setPage(Courses) },
+          navigation: 'courses'
+        }),
+        e(liveBadge)
+      ),
+    ];
 
     return buttons;
     
@@ -457,7 +463,8 @@ class App extends React.Component {
       accountButtons = [
         e(Header_Button, {
           value: this.state.i18n.button_login, image: 'icons/profile.png',
-          onClick: () => { window.location.href = this.state.i18n.account_link }
+          onClick: () => { this.setPage(Account) },
+          navigation: 'account'
         }),
       ];
 
@@ -545,7 +552,70 @@ class App extends React.Component {
 
   render() {
 
+    var noLoginPopup = null;
+
+    if (!this.state.userdata.is_logged_in && this.state.route == 'home' && !this.state.tryingOut) {
+
+      var welcomeGreeting = null;
+      var member = GuyraLocalStorage('get', 'guyra_members');
+
+      if (member && member.user_name) {
+        
+        welcomeGreeting = e(
+          'h2',
+          { className: 'welcome-greeting mb-3' },
+          this.state.i18n.hello + ' ' + member.user_name + '!'
+        );
+
+      }
+      
+      noLoginPopup = e(
+        'div',
+        { className: 'fade-animation animate position-absolute start-0 top-0 w-100', style: { zIndex: 2000 } },
+        e(
+          'div',
+          { className: 'bg-white-blurred squeeze', style: { height: '100vh' } },
+          e(
+            'div',
+            { className: 'd-flex flex-column p-5' },
+            e(
+              'div',
+              { className: 'col-md mb-5 d-flex align-items-center justify-content-around' },
+              e('img', { className: 'page-icon large', src: this.state.i18n.assets_link + 'img/guyra-title-logo.svg' }),
+            ),
+            e('h1', {}, this.state.i18n.meta_desc_short),
+            welcomeGreeting,
+            e('span', {}, this.state.i18n.welcome_lead),
+            e(
+              'div',
+              { className: 'd-flex flex-column flex-md-row align-items-center mt-5 mt-5' },
+              e(
+                'button',
+                { className: 'btn-tall btn-lg blue d-block text-center me-3 mb-3',
+                  onClick: () => { this.setPage('account') } },
+                this.state.i18n.button_login,
+                e('i', { className: 'bi bi-box-arrow-in-right ms-2' })
+              ),
+              e(
+                'button',
+                { className: 'btn-tall btn-lg green d-block text-center flex-grow-1 me-3 mb-3',
+                  onClick: () => { this.setState({ tryingOut: true })} },
+                this.state.i18n.button_meet,
+                e('i', { className: 'bi bi-door-open ms-2' })
+              )
+            )
+          )
+        ),
+      );
+      
+      setTimeout(() => {
+        this.setState({ tryingOut: true });
+      }, 20000);
+
+    }
+
     return [
+      noLoginPopup,
       e(
         Header,
         {

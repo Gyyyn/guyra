@@ -4,7 +4,8 @@ import {
   thei18n,
   LoadingPage,
   MD5,
-  vibrate
+  vibrate,
+  BuyInShop
 } from '%getjs=Common.js%end';
 
 var user_gamedata = {};
@@ -397,25 +398,10 @@ function Flashcards_YourItems_ItemListing(props) {
 
 function Flashcards_YourItems(props) {
 
-  var noFlashcardsWarning = e(
-    'div',
-    { className: 'dialog-box my-3' },
-    e('div', {}, thei18n.no_decks),
-    e(
-      'button',
-      {
-        onClick: () => { window.location.href = thei18n.shop_link + '/flashcards' },
-        className: 'btn-tall green mx-auto mt-3'
-      },
-      e('span', { className: 'me-2' }, thei18n.go_to_shop),
-      e('span',{}, e('i', {className: 'bi bi-shop'}))
-    )
-  );
-
   return e(FlashcardsContext.Consumer, null, ({setPack, userdata}) => {
 
     if (!userdata || !userdata.inventory) {
-      return noFlashcardsWarning;
+      return [e(BuyInShop, { i18n: thei18n })];
     }
 
     var userFlashcards = [];
@@ -431,7 +417,7 @@ function Flashcards_YourItems(props) {
     });
 
     if (!userFlashcards || userFlashcards.length == 0) {
-      return noFlashcardsWarning;
+      return [e(BuyInShop, { i18n: thei18n })];
     }
 
 

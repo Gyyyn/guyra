@@ -3,70 +3,10 @@
 	margin: .5rem auto 0;
 }
 
-.prices-container {
-	justify-content: center;
-  flex-direction: column;
-}
-
-@media (min-width: 980px) {
-
-  .prices-container {
-    flex-direction: row;
-  }
-
-  .prices {
-    margin: 0;
-  	width: calc(6rem + 10vw);
-  }
-
-  .prices.primary {
-  	width: calc(5rem + 7vw);
-  }
-
-  .prices.primary.business {
-  	width: calc(7rem + 10vw);
-  }
-
-}
-
 @media (min-width:980px) {
 	.cover-container {
 		max-width: 70vw;
 	}
-}
-
-.prices .card {
-  border-radius: var(--guyra-border-radius-bigger);
-  background: var(--guyra-blue-blue-darker-gradient);
-  color: var(--guyra-white);
-  border: 0;
-  box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
-}
-
-.prices.primary .card {
-  background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
-}
-
-.prices.primary.business .card {
-  background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
-}
-
-.prices .card .card-body {
-	flex: 1 1 auto;
-	padding: 1.5rem 2rem;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	justify-content: space-between;
-}
-
-.prices .features li {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	font-size: var(--guyra-fonts-textsize-s);
-	text-align: left;
-	margin: 0 5px 5px 0;
 }
 
 .course-showcase iframe {

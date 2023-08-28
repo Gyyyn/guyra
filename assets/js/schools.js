@@ -1010,7 +1010,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardsClasses = 'card trans thin blue col-5 p-3 me-3 mb-3';
+    this.cardsClasses = 'card trans thin blue col-3 p-3 me-3 mb-3';
 
     this.state = {
       cards: [],
@@ -1080,7 +1080,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         ))
       ),
     );
-    this.userArchiveStudentCard = e(
+    this.userInfoCard = e(
       'div',
       { className: this.cardsClasses },
       e('h3', {}, thei18n.info),
@@ -1107,7 +1107,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
     );
 
     if (this.props.listingType == 'user') {
-      this.state.cards.push(this.userArchiveStudentCard, this.userAddToGroupCard);
+      this.state.cards.push(this.userInfoCard, this.userArchiveStudentCard, this.userAddToGroupCard);
     }
 
     if (this.props.listingType == 'group') {
@@ -1712,6 +1712,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
   setSearch(query) {
 
+    var userInput = true;
+
     if (!query && query != '') {
       return;
     }
@@ -1735,11 +1737,13 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
     if (!query) {
       clearSearch = null;
+      userInput = false;
     }
 
     this.setState({
       search: query,
       clearSearch: clearSearch,
+      userInput: userInput
     });
 
   }
@@ -1795,7 +1799,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
               appointedTime = theKeysRecurr[i];
 
-              if (appointedTime == now.split(' ')[0] + ' ' + nowTime.substring(0, 2)) {
+              if (appointedTime == now.split(' ')[0] + ' ' + nowTime.substring(0, 2) && !this.state.userInput) {
                 this.setSearch(recurrAppointment.user);
               }
 
@@ -1803,8 +1807,18 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
           }
 
-          if (theKeys[i] == now) {
-            this.setSearch(appointment.user);
+          if (theKeys[i] == now && !this.state.userInput) {
+
+            var timeKeys = Object.keys(appointment);
+
+            Object.values(appointment).forEach((hour, i) => {
+
+              if (nowTime.substring(0, 2) == timeKeys[i]) {
+                this.setSearch(hour.user);
+              }
+              
+            });
+
           }
 
         });

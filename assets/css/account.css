@@ -55,6 +55,11 @@
   border: 1px solid var(--guyra-grey-darker);
 }
 
+.day.disabled {
+  border-color: transparent;
+  color: var(--guyra-grey-darker);
+}
+
 .month, .schedule {
   border: 1px solid var(--guyra-grey-darker);
   padding: 1rem;

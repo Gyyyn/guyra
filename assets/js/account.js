@@ -2049,7 +2049,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
               { className: 'd-inline mb-2' },
               e(
                 'div',
-                { className: 'badge bg-white me-2 mb-2 text-n d-flex flex-wrap align-items-center' },
+                { className: 'badge bg-white me-2 mb-2 text-n flex-wrap align-items-center' },
                 e(
                   'span',
                   { className: 'me-2' },
@@ -2720,6 +2720,14 @@ class LoginForm extends React.Component {
             .then(res => res.json()).then(json => {
 
               if (json != 'true') {
+
+                if (json == 'user_not_found') {
+
+                  window.location.href = i18n.register_link;
+                  return;
+                  
+                }
+
                 console.error(json);
                 setMessageBox(i18n[json]);
                 return;

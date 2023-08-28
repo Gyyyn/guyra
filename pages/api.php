@@ -21,6 +21,10 @@ $redirect = false;
 // First include some actions for all users.
 include $template_dir . '/functions/api/Common.php';
 
+// Game API
+include $template_dir . '/functions/api/Exercises.php';
+include_once $template_dir . '/functions/api/UserActions/Reference.php';
+
 // If user isn't logged in he only has a few options.
 if (!$is_logged_in) {
   include $template_dir . '/functions/api/GuestUser.php';
@@ -46,9 +50,6 @@ if ($is_admin || $current_user_data['role'] == "teacher") {
 
 // Logged in user actions.
 include $template_dir . '/functions/api/UserActions.php';
-
-// Game API
-include $template_dir . '/functions/api/Exercises.php';
 
 // If we have no redirect then we assume things went right.
 if (!$_POST['redirect'] && !$_GET['redirect'] && !$redirect)

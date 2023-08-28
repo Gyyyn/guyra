@@ -29,58 +29,6 @@ if ($_GET['log_wrong_answer']) {
   guyra_update_user_meta(1, 'reported_answers', json_encode($current_data, JSON_UNESCAPED_UNICODE));
 }
 
-if ($_GET['log_exercise_data']) {
-
-  $theDataJSON = file_get_contents('php://input');
-  $theData = json_decode($theDataJSON, true);
-  $completed_units = $current_user_gamedata['completed_units'];
-
-  if (!is_array($completed_units))
-  $completed_units = [];
-
-  $completed_units[] = $theData['unit'];
-  $current_user_gamedata['completed_units'] = $completed_units;
-  $current_user_gamedata['elo'] = $theData['elo'];
-
-  $levels_gained = 1;
-
-  if ($theData['score'] == 100)
-  $levels_gained = 3;
-
-  $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
-  $newdata['completed_units'] = json_encode($completed_units);
-  
-  // Elo validity
-  if ($newdata['elo_validity'] < time()) {
-    
-    $newdata['elo'] = $theData['elo'] - $newdata['elo'];
-
-    if ($newdata['elo'] > 25)
-    $newdata['elo'] = 25;
-
-    $newdata['elo_validity'] = time() + $secondsForA['week'];
-
-    PushNotification($gi18n['notification_exercise_rankingreset']);
-
-  } else {
-
-    $newdata['elo'] = $theData['elo'];
-
-    PushNotification($gi18n['notification_exercise_levelup']);
- 
-  }
-
-  guyra_update_user_data(
-    $current_user_id,
-    $newdata,
-    null,
-    'gamedata'
-  );
-
-  guyra_log_to_db($current_user_id, $theDataJSON);
-
-}
-
 if ($_GET['get_ranking_page']) {
   $users = guyra_get_users();
   $users_by_elo = [];
@@ -141,17 +89,6 @@ if ($_GET['fetch_flashcard_deck']) {
   guyra_output_json('invalid deck', true);
 
   guyra_output_json($fetchedDeck, true);
-
-}
-
-if ($_GET['update_flashcards']) {
-
-  $theDataJSON = file_get_contents('php://input');
-  $theData = json_decode($theDataJSON, true);
-
-  Guyra_increase_user_level();
-
-  guyra_update_user_data($current_user_id, ['flashcards' => $theData], null, 'gamedata');
 
 }
 
@@ -324,3 +261,70 @@ if ($_GET['fetch_exercise_hints']) {
   guyra_output_json($hints, true);
 
 }
+
+if ($is_logged_in):
+
+if ($_GET['update_flashcards']) {
+
+  $theDataJSON = file_get_contents('php://input');
+  $theData = json_decode($theDataJSON, true);
+
+  Guyra_increase_user_level();
+
+  guyra_update_user_data($current_user_id, ['flashcards' => $theData], null, 'gamedata');
+
+}
+
+if ($_GET['log_exercise_data']) {
+
+  $theDataJSON = file_get_contents('php://input');
+  $theData = json_decode($theDataJSON, true);
+  $completed_units = $current_user_gamedata['completed_units'];
+
+  if (!is_array($completed_units))
+  $completed_units = [];
+
+  $completed_units[] = $theData['unit'];
+  $current_user_gamedata['completed_units'] = $completed_units;
+  $current_user_gamedata['elo'] = $theData['elo'];
+
+  $levels_gained = 1;
+
+  if ($theData['score'] == 100)
+  $levels_gained = 3;
+
+  $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
+  $newdata['completed_units'] = json_encode($completed_units);
+  
+  // Elo validity
+  if ($newdata['elo_validity'] < time()) {
+    
+    $newdata['elo'] = $theData['elo'] - $newdata['elo'];
+
+    if ($newdata['elo'] > 25)
+    $newdata['elo'] = 25;
+
+    $newdata['elo_validity'] = time() + $secondsForA['week'];
+
+    PushNotification($gi18n['notification_exercise_rankingreset']);
+
+  } else {
+
+    $newdata['elo'] = $theData['elo'];
+
+    PushNotification($gi18n['notification_exercise_levelup']);
+ 
+  }
+
+  guyra_update_user_data(
+    $current_user_id,
+    $newdata,
+    null,
+    'gamedata'
+  );
+
+  guyra_log_to_db($current_user_id, $theDataJSON);
+
+}
+
+endif;

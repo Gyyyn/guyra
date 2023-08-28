@@ -6,6 +6,7 @@ import {
   randomNumber,
   LoadingPage,
   RoundedBoxHeading,
+  BuyInShop
 } from '%getjs=Common.js%end';
 
 const ArcadeContext = React.createContext();
@@ -519,7 +520,11 @@ export class Arcade extends React.Component {
 
     GuyraGetData().then(() => {
 
-      this.setPage(Arcade_GameChooser);
+      if (this.props.userdata.gamedata.level < 1) {
+
+        this.setPage(BuyInShop, { i18n: this.props.i18n });
+        
+      } else { this.setPage(Arcade_GameChooser); }
 
     });
 

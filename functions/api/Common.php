@@ -26,6 +26,7 @@ Guyra_Safeguard_File();
 include_once $template_dir . '/functions/Assets.php';
 require_once $template_dir . '/functions/Hash.php';
 include_once $template_dir . '/functions/Game.php';
+include_once $template_dir . '/components/Icons.php';
 
 if ($_GET['update_special_cache']) {
 
@@ -68,6 +69,18 @@ if ($_GET['get_user_data']) {
     $user = $_GET['user'];
     $theData['is_logged_in'] = false;
     $theData['id'] = 0;
+    $theData['first_name'] = $gi18n['guest'];
+    $theData['gamedata'] = GetUserRanking($user);
+
+    // Todo move to a function
+    $theData['gamedata']['raw'] = [
+      'challenges' => [
+        'daily' => [
+          'levels' => 0,
+          'levels_completed' => 0
+        ]
+      ],
+    ];
   
     if (!$user && $is_logged_in) {
   
@@ -212,4 +225,46 @@ if ($_GET['fetch_page']) {
 
   }
   
+}
+
+if ($_GET['get_news']) {
+  
+  $news_file = $template_dir . '/cache/news.' . $gLang[0] . '.txt';
+
+  if (file_exists($news_file))
+  guyra_output_json(file_get_contents($news_file), true);
+  else
+  guyra_output_json(false, true);
+
+}
+
+if ($_GET['get_courses']) {
+
+  function createYoutubeApiPlaylistLink($key) {
+
+    global $gSettings;
+
+    $youtubeApi = [
+      'Key' => $gSettings['google_api'],
+      'Link' => 'https://www.googleapis.com/youtube/v3/'
+    ];
+
+    $r = sprintf(
+        $youtubeApi['Link'] . 'playlistItems?part=snippet&maxResults=50&playlistId=%s&key=' . $youtubeApi['Key'],
+        $key
+      );
+
+    return $r;
+  }
+
+  $coursesJSON = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/courses.json';
+  $coursesArray = json_decode(file_get_contents($coursesJSON), true);
+
+  foreach ($coursesArray as &$current) {
+    $current['contents'] = file_get_contents(createYoutubeApiPlaylistLink($current['link']));
+    $current['image'] = GuyraGetIcon('courses/' . $current['id'] . '.png');
+  }
+
+  guyra_output_json($coursesArray, true);
+
 }

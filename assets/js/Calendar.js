@@ -68,6 +68,13 @@ function RenderMonth(props) {
 
     var isEndOfWeek = ((i + 1 + weekOffset) % (7) == 0) ? true : false;
     var theItemInfo = item.toDateString().split(' ');
+    var excludedDays = ['Sat', 'Sun'];
+    var isExcluded = false;
+
+    if (excludedDays.indexOf(theItemInfo[0]) !== -1) {
+      isExcluded = true;
+      classExtra += ' disabled';
+    }
     
     var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n, setCalendar}) => e(
       'button',
@@ -75,6 +82,9 @@ function RenderMonth(props) {
         className: 'btn day day-' + i + classExtra,
         title: item.toDateString(),
         onClick: () => {
+
+          if (isExcluded) {
+          return; }
 
           var currentlyActive = document.querySelector('.day.active');
           

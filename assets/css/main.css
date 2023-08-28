@@ -197,13 +197,6 @@ h3, h4, h5, h6 {
 
 .capitalize { text-transform: capitalize; }
 
-.text-marked {
-  background-image: url('%template_url/assets/img/marker.png');
-  background-repeat: no-repeat;
-	background-size: contain;
-  background-position: bottom;
-}
-
 .bg-primary { background-color: var(--guyra-blue) !important; }
 .bg-secondary { background-color: var(--guyra-purple) !important; }
 .bg-success, .bg-green { background-color: var(--guyra-green) !important; }
@@ -418,6 +411,15 @@ input:checked + .slider:before {
 @media (min-width: 1279px) {
   
   .navbar .header-buttons .btn-tall span.value {
+    display: inherit;
+  }
+
+  .navbar .header-account .btn-tall {
+    display: inherit;
+    align-items: center;
+  }
+
+  .navbar .header-account .btn-tall:first-of-type span.value {
     display: inherit;
   }
 
@@ -938,4 +940,58 @@ i.bi { pointer-events: none; }
 .accordion-button:not(.collapsed) {
   background-color: var(--guyra-grey);
   border-color: var(--guyra-grey-darker);
+}
+
+.prices .card {
+  border-radius: var(--guyra-border-radius-bigger);
+  background: var(--guyra-blue-blue-darker-gradient);
+  border: 0;
+  box-shadow: 0 0 15px 5px rgb(0 190 255 / 30%);
+}
+
+.prices .card.primary {
+  background: linear-gradient(90deg, var(--guyra-purple-darker) 0%, var(--guyra-purple) 100%);
+}
+
+.prices.primary.business .card {
+  background: linear-gradient(315deg, var(--guyra-purple) 0%, var(--bs-dark) 50%);
+}
+
+.prices .card .card-header {
+  padding-bottom: 0;
+  color: var(--guyra-white);
+}
+
+.prices .card .card-title {
+  text-align: center;
+}
+
+.prices .card .card-body {
+	flex: 1 1 auto;
+	padding: 1.5rem 2rem;
+  padding-top: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: space-between;
+  background-color: var(--guyra-white);
+  box-shadow: 0 -5px 10px -4px var(--guyra-black);
+  border-radius: var(--guyra-border-radius-bigger);
+  transition: var(--guyra-transition);
+}
+
+.prices .features li {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-size: var(--guyra-fonts-textsize-s);
+	text-align: left;
+	margin: 0 5px 5px 0;
+  max-width: 25em;
+}
+
+.prices .card:hover .card-body {
+  transform: scale(105%);
+  z-index: 1004;
+  box-shadow: 0 -5px 15px 5px var(--guyra-purple);
 }

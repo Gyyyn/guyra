@@ -21,6 +21,69 @@ import { WhoAmI_openPayments_paymentItem } from '%getjs=account.js%end';
 
 const HomeContext = React.createContext();
 
+function PriceFeaturette(props) {
+
+  var makeAccountAndBuy = () => {
+
+    var localOptions = GuyraLocalStorage('get', 'guyra_options');
+    localOptions.redirect_to_payment = true;
+    GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+    window.location.href = props.i18n.register_link;
+
+  }
+  
+  return e(
+    'div',
+    { className: 'prices mb-3 d-md-flex justify-content-center' },
+    e(
+      'div',
+      { className: 'card cursor-pointer me-3 mb-3', onClick: makeAccountAndBuy },
+      e(
+        'div',
+        { className: 'card-header' },
+        e('h2', {}, props.i18n.prices_features.lite.title),
+      ),
+      e(
+        'div',
+        { className: 'card-body' },
+        e('h2', { className: 'card-title pricing-card-title' }, props.i18n.prices_features.lite.price  + '/' + props.i18n.month),
+        e(
+          'div',
+          { className: 'list-unstyled features' },
+          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'bi bi-x-lg text-red' })),
+          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'bi bi-check-lg text-green' })),
+        )
+      )
+    ),
+    e(
+      'div',
+      { className: 'card cursor-pointer primary border-secondary', onClick: makeAccountAndBuy },
+      e(
+        'div',
+        { className: 'card-header' },
+        e('h2', {}, props.i18n.prices_features.premium.title),
+      ),
+      e(
+        'div',
+        { className: 'card-body' },
+        e('h2', { className: 'card-title pricing-card-title text-secondary' }, props.i18n.prices_features.premium.price  + '/' + props.i18n.month),
+        e(
+          'div',
+          { className: 'list-unstyled features' },
+          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'bi bi-check-lg text-green' })),
+        )
+      )
+    )
+  );
+
+}
+
 class UserHome_ReplyCard extends React.Component {
   constructor(props) {
     super(props);
@@ -309,34 +372,43 @@ function UserHome_LessonCard(props) {
 function UserHome_WelcomeCard(props) {
 
   var randomGreeting = thei18n.greetings[randomNumber(0 , thei18n.greetings.length - 1)];
+  var theList = [];
 
   return e(HomeContext.Consumer, null, ({userdata}) => {
 
-    var TrialDaysLeft = 30 - userdata.payments['days_left'];
-    var streak_info = JSON.parse(userdata.gamedata.raw.streak_info);
-    var WelcomeNoPlanWarning_OpenPayments = [];
+    if (userdata.is_logged_in) {
 
-    // TODO: Move this and account.js's version to Common.js
-    if (theUserdata && theUserdata.user_diary && theUserdata.user_diary.payments) {
-      theUserdata.user_diary.payments.forEach((item) => {
+      var TrialDaysLeft = 30 - userdata.payments['days_left'];
+      var streak_info = JSON.parse(userdata.gamedata.raw.streak_info);
+      var WelcomeNoPlanWarning_OpenPayments = [];
+
+      // TODO: Move this and account.js's version to Common.js
+      if (theUserdata && theUserdata.user_diary && theUserdata.user_diary.payments) {
+        theUserdata.user_diary.payments.forEach((item) => {
 
 
-        if (item.status == 'pending') {
+          if (item.status == 'pending') {
 
-          WelcomeNoPlanWarning_OpenPayments.push(
-            e(PaymentItem, {
-              due: item.due,
-              value: item.value,
-              onlyPastDue: true,
-              onClick: () => {
-                window.location.href = thei18n.account_link;
-              }
-            })
-          );
+            WelcomeNoPlanWarning_OpenPayments.push(
+              e(PaymentItem, {
+                due: item.due,
+                value: item.value,
+                onlyPastDue: true,
+                onClick: () => {
+                  window.location.href = thei18n.account_link;
+                }
+              })
+            );
 
-        }
+          }
 
-      });
+        });
+      }
+      
+    } else {
+
+      theList.push(e(PriceFeaturette, { i18n: thei18n }));
+      
     }
 
     var WelcomeTrialCountdown = e(
@@ -611,7 +683,7 @@ function UserHome_WelcomeCard(props) {
             e(
               'div',
               {
-                className: 'card px-2 trans col-md-4 me-2 mb-2 ' + cardColor,
+                className: 'card px-2 trans col-md-3 me-2 mb-2 ' + cardColor,
               },
               e(
                 'h2',
@@ -742,7 +814,7 @@ function UserHome_WelcomeCard(props) {
         e(
           'div',
           { className: 'greeting row g-0' },
-          e('div', { className: 'col-md-5 card trans mb-2 p-2 me-2' },
+          e('div', { className: 'col-md-4 card trans mb-2 p-2 me-2' },
             e(
               'h2',
               { className: '' },
@@ -756,17 +828,9 @@ function UserHome_WelcomeCard(props) {
           ),
           e(WelcomeGreeting_News),
           e(openPaymentsGreeting),
-        ),
-      ),
-      e(
-        'div',
-        { className: 'greeting mb-2' },
-        e(
-          'div',
-          { className: 'd-flex flex-wrap justify-content-center justify-content-md-start' },
           e(
             'div',
-            { className: 'card trans mb-2 me-2' },
+            { className: 'card trans col-auto mb-2 me-2' },
             e(
               'h4',
               { className: 'mb-0' },
@@ -793,7 +857,7 @@ function UserHome_WelcomeCard(props) {
 
             return e(
               'div',
-              { className: 'card trans mb-2 me-2' },
+              { className: 'card trans col-auto mb-2 me-2' },
               e('h4', {}, thei18n.streak),
               e(
                 'span',
@@ -811,7 +875,7 @@ function UserHome_WelcomeCard(props) {
           }),
           e(
             'div',
-            { className: 'card trans mb-2 me-2' },
+            { className: 'card trans col-auto mb-2 me-2' },
             e('h4', { className: 'mb-2' }, thei18n.levels),
             e(
               'div',
@@ -847,7 +911,7 @@ function UserHome_WelcomeCard(props) {
 
               var element = e(
                 'div',
-                { className: 'card trans mb-2 me-2' },
+                { className: 'card trans col-auto mb-2 me-2' },
                 e('h4', { className: 'mb-2' }, title),
                 e(
                   'div',
@@ -868,7 +932,7 @@ function UserHome_WelcomeCard(props) {
           e(
             'div',
             {
-              className: 'card trans green hoverable cursor-pointer mb-2 me-2',
+              className: 'card trans col-auto green hoverable cursor-pointer mb-2 me-2',
               onClick: () => {
                 window.location.href = thei18n.shop_link + '/challenge';
               }
@@ -879,19 +943,17 @@ function UserHome_WelcomeCard(props) {
               { className: 'd-flex align-items-center justify-content-center' },
               e('i', { className: 'bi bi-box-arrow-up-right pt-3' })
             ),
-          )
+          ),
+          newVideosGreeting
         ),
       ),
-      newVideosGreeting
     );
-
-    var theList = [];
 
     if (TrialDaysLeft > 0) {
       theList.push(WelcomeTrialCountdown);
     }
 
-    if (!userdata.user_subscription_valid) {
+    if (userdata.is_logged_in && !userdata.user_subscription_valid) {
       theList.push(WelcomeNoPlanWarning);
     } else {
       theList.push(WelcomeGreeting);
