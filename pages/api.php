@@ -50,6 +50,7 @@ if ($is_admin || $current_user_data['role'] == "teacher") {
 
 // Logged in user actions.
 include $template_dir . '/functions/api/UserActions.php';
+include_once $template_dir . '/functions/api/UserActions/Payments.php';
 
 // If we have no redirect then we assume things went right.
 if (!$_POST['redirect'] && !$_GET['redirect'] && !$redirect)

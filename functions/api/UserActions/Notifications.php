@@ -6,6 +6,8 @@ global $gi18n;
 global $current_user_id;
 global $current_user_data;
 
+include_once $template_dir . '/functions/Mailer.php';
+
 if ($_GET['push_notification']) {
 
   $data = json_decode(file_get_contents('php://input'), true);
@@ -43,7 +45,7 @@ if ($_GET['clear_notifications']) {
 if ($_GET['appointment']) {
 
   $mode = $_GET['action'];
-  $user = $_GET['user'];
+  $user = $_GET['user']; // This is the teacher
 
   if ($mode == 'request') {
 
@@ -51,7 +53,8 @@ if ($_GET['appointment']) {
     $current_user_name = $current_user_data['first_name'] . ' ' . $current_user_data['last_name'];
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $teacher_data = guyra_get_user_data((int) $current_user_data['teacherid']);
+    $teacher_data = guyra_get_user_data((int) $user);
+    $teacher_object = build_user_object((int) $user);
 
     $notification['actions'][0]['link'] = 
       str_replace('%user', $current_user_id, $notification['actions'][0]['link']);
@@ -75,7 +78,15 @@ if ($_GET['appointment']) {
       ]
     ];
 
+    $mail_strings = [
+      $notification['title'],
+      $notification['contents'],
+      '',
+      ''
+    ];
+
     PushNotification($notification, (int) $teacher_data['id']);
+    Guyra_mail('basic_link.html', $notification['title'], $teacher_object['user_login'], $mail_strings);
     PushNotification($gi18n['notification_appointment_requested'], $current_user_id);
 
   }

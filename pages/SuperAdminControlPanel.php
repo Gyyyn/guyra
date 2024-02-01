@@ -346,6 +346,38 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
 
   </div>
 
+  <h4 class="mt-4">Holiday list:</h4>
+  <div class="admin-forms form-control border rounded p-3 m-0">
+    <select name="language" id="holiday-language">
+      <option value="pt">pt</option>
+      <option value="en">en</option>
+    </select>
+
+    <div><textarea name="holiday-file" id="holiday-file" cols="50" rows="5"></textarea></div>
+
+    <button class="btn btn-primary" onclick="
+
+      var holidayFile = document.getElementById('holiday-file');
+
+      console.log(JSON.stringify({lang: 'pt', value: holidayFile.value}));
+
+      fetch('<?php echo $gi18n['api_link'] ?>?set_holidays=1',
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lang: 'pt', value: holidayFile.value})
+      });
+
+      holidayFile.value = 'ok';
+      setTimeout(() => { holidayFile.value = ''; }, 1000)
+
+    ">Set news file</button>
+
+  </div>
+
 </div>
 
 </main></div>

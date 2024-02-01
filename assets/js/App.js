@@ -51,8 +51,8 @@ function Header_Button(props) {
     var className = 'value';
 
     if (props.invert_image) {
-      className += ' me-2';
-    } else { className += ' ms-2'; }
+      className += ' me-md-2';
+    } else { className += ' ms-md-2'; }
 
     return e('span', { className: className }, props.value);
 
@@ -145,10 +145,12 @@ class App extends React.Component {
       var html = document.querySelector("html");
       html.classList.add('accessibility-zoom');
 
-      if (prefersDarkMode) {
-        localOptions.darkmode = true;
-        GuyraLocalStorage('set', 'guyra_options', localOptions);
-      }
+    }
+
+    if(localOptions.accessibility_contrast == true) {
+      
+      var html = document.querySelector("html");
+      html.classList.add('accessibility-contrast');
 
     }
 
@@ -415,17 +417,18 @@ class App extends React.Component {
         onClick: () => { this.setPage(Arcade) },
         navigation: 'arcade'
       }),
-      e(
-        'span',
-        { className: 'position-relative' },
-        e(Header_Button, {
-          value: this.state.i18n.courses, image: 'icons/online-learning.png',
-          onClick: () => { this.setPage(Courses) },
-          navigation: 'courses'
-        }),
-        e(liveBadge)
-      ),
     ];
+
+    // e(
+    //   'span',
+    //   { className: 'position-relative' },
+    //   e(Header_Button, {
+    //     value: this.state.i18n.courses, image: 'icons/online-learning.png',
+    //     onClick: () => { this.setPage(Courses) },
+    //     navigation: 'courses'
+    //   }),
+    //   e(liveBadge)
+    // ),
 
     return buttons;
     

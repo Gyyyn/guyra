@@ -707,7 +707,7 @@ class PaymentArea extends React.Component {
     return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
       { className: 'mt-5' },
-      e('h2', { className: 'mb-3' }, i18n.payment),
+      e('h2', {}, i18n.payment),
       e(PaymentAreaInfo),
       e(
         'div',
@@ -1605,14 +1605,14 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     this.setState({
       currentView: e(
         'div',
-        { className: 'justfade-animation animate page-view mb-2 position-relative dialog-box'} ,
+        { className: 'dialog-box justfade-animation animate position-relative' } ,
         e(
           'div',
-          { className: 'position-absolute end-0 me-3 z-1' },
+          { className: 'translate-middle-y position-absolute end-0 z-1' },
           e(
             'button',
             {
-              className: "btn-tall btn-sm red",
+              className: "btn-tall btn-sm red shadow-material",
               onClick: () => {
 
                 this.setState({
@@ -1652,7 +1652,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     return [
     e(
       'div',
-      { className: 'd-flex flex-column mb-2 dialog-box p-2', id: 'user_' + this.listingName },
+      { className: 'd-flex flex-column pb-1 mb-1 border-bottom', id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center' },
@@ -1829,7 +1829,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           e(
             'div',
             { className: 'd-flex justify-content-between mb-2' },
-            e('h2', { className: 'mb-2' }, this.props.i18n.students),
+            e('h2', {}, this.props.i18n.students),
             e(
               'span',
               {},
@@ -1951,7 +1951,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
             return e(
               'div',
-              { className: 'dialog-box d-flex justify-content-between mb-2' },
+              { className: 'd-flex justify-content-between mt-2' },
               e(
                 'div',
                 {},
@@ -2001,23 +2001,22 @@ class GroupAdminHome_AdminPanel extends React.Component {
       e(
         'div',
         { className: 'controls row' },
-        e('h2', { className: 'mb-2' }, this.props.i18n.profile),
         e(
           'div',
           { className: 'col-md-6' },
           e(
             'div',
-            { className: 'dialog-box' },
-            e('h3', { className: 'mb-3' }, this.props.i18n.calendar),
+            { className: 'section mb-2' },
+            e('h2', {}, this.props.i18n.calendar),
             e(RenderCalendar, { range: 2, user: {...this.props.userdata, is_self: true }, i18n: this.props.i18n })
           ),
           e(
             'div',
-            { className: 'dialog-box' },
+            { className: 'section' },
             e(
               'div',
               { className: 'mb-3' },
-              e('h3', { className: 'mb-3' }, this.props.i18n.your_code),
+              e('h2', {}, this.props.i18n.your_code),
               e(
                 'div',
                 { className: 'form-control d-flex' },
@@ -2049,7 +2048,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
             e(
               'div',
               { className: 'mb-3' },
-              e('h3', { className: 'mb-2' }, this.props.i18n.meeting_link),
+              e('h2', {}, this.props.i18n.meeting_link),
               e(
                 'div',
                 { className: 'd-flex' },
@@ -2135,8 +2134,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
             return e(
               'div',
-              { className: 'dialog-box' },
-              e('h3', { className: 'mb-3' }, this.props.i18n.schedule),
+              { className: 'section' },
+              e('h2', {}, this.props.i18n.schedule),
               e(
                 'div',
                 { className: 'd-flex mb-2 overflow-auto' },
@@ -2168,13 +2167,13 @@ class GroupAdminHome_AdminPanel extends React.Component {
           }),
           e(
             'div',
-            { className: 'dialog-box mb-3' },
-            e('h3', { className: 'mb-2' }, this.props.i18n.bio),
+            { className: 'section mb-3' },
+            e('h2', {}, this.props.i18n.bio),
             e('span', { className: 'text-sss' }, this.props.i18n.accepts_markdown),
             e(
               'div',
               { className: 'my-3' },
-              e('textarea', { id: 'bio_textarea', className: 'form-control' }),
+              e('textarea', { id: 'bio_textarea', className: 'form-control bs' }),
             ),
             e(
               'button',
@@ -2225,8 +2224,8 @@ class GroupAdminHome_AdminPanel extends React.Component {
           ),
           e(
             'div',
-            { className: 'dialog-box' },
-            e('h3', { className: 'mb-2' }, this.props.i18n.upload_profile_pic),
+            { className: 'section' },
+            e('h2', {}, this.props.i18n.upload_profile_pic),
             e('p', { className: 'text-sss' }, this.props.i18n.profile_picture_warning),
             e(
               'div',

@@ -1522,6 +1522,38 @@ function AccountOptions_GeneralOptions(props) {
           }
         }
       ),
+      e(
+        Slider,
+        {
+          dom_id: 'accessibility-contrast-checkbox',
+          checked: localOptions.accessibility_contrast,
+          value: e(
+            'span',
+            { className: 'position-relative' },
+            e(
+              'span',
+              { className: 'badge bg-primary me-2' },
+              'BETA'
+            ),
+            thei18n.enable_accessibility_contrast,
+          ),
+          onClick: () => {
+
+            localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+            var checkbox = document.getElementById('accessibility-contrast-checkbox');
+            checkbox.checked = !checkbox.checked;
+
+            localOptions.accessibility_contrast = checkbox.checked;
+
+            var html = document.querySelector("html");
+            html.classList.toggle('accessibility-contrast');
+
+            GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+          }
+        }
+      ),
     )
   ];
 }
@@ -2365,7 +2397,7 @@ function AccountInfo(props) {
     e('h2', { className: 'text-blue' }, thei18n.inventory),
     e(
       'div',
-      { className: 'account-inventory-preview position-relative d-flex flex-row flex-wrap align-items-center justify-content-center dialog-box' },
+      { className: 'account-inventory-preview' },
       e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
 
         var theInventory = userdata.inventory;
@@ -2385,7 +2417,7 @@ function AccountInfo(props) {
             if (i == 4) {
               return e(
                 'span',
-                { className: 'position-absolute bottom-0 end-0 p-3' },
+                { className: '' },
                 e(
                   'button',
                   {

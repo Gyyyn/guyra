@@ -8,12 +8,11 @@ global $current_user_id;
 global $current_user_data;
 global $current_user_gamedata;
 global $template_dir;
+global $gSettings;
 
 include_once $template_dir . '/functions/Game.php';
 
 function Game_Wordle($wordlist) {
-
-  global $template_dir;
 
   $_wordlist = Array();
   
@@ -70,4 +69,42 @@ if ($_GET['transact_game']) {
 
   }
   
+}
+
+if ($_GET['get_lyrics']) {
+
+  error_reporting(E_ALL);
+
+  require_once $template_dir . '/vendor/autoload.php';
+
+  $client = new Google_Client();
+  $client->setApplicationName('Guyra');
+  $client->setScopes([
+      'https://www.googleapis.com/auth/youtube.force-ssl',
+  ]);
+
+  $fileLocation = $cache_dir . '/settings/gcloud.json';
+  $settingsFile = file_put_contents($fileLocation, json_encode($gSettings['google_cloud']));
+
+  $client->setAuthConfig($fileLocation);
+  $client->setAccessType('offline');
+
+  $accessToken = $client->fetchAccessTokenWithAuthCode($gSettings['google_api']);
+  $client->setAccessToken($accessToken);
+
+  $videoID = 'LjhCEhWiKXk';
+  $cacheFile = $cache_dir . '/lyrics/' . $videoID;
+
+  $http = $client->authorize();
+  $fp = fopen($cacheFile, 'w');
+
+  $response = $http->request(
+    'GET',
+    '/youtube/v3/youtube/v3/captions/' . $videoID
+  );
+  fwrite($fp, $response->getBody()->getContents());
+  fclose($fp);
+
+  unlink($fileLocation);
+
 }

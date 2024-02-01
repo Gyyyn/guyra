@@ -61,6 +61,7 @@ function RenderMonth(props) {
   theMonthsDays.forEach((item, i) => {
 
     var classExtra = '';
+    var currentDayNumber = now.getDate();
 
     if (item.toDateString() == now.toDateString()) {
       classExtra = ' active text-blue';
@@ -73,17 +74,22 @@ function RenderMonth(props) {
 
     if (excludedDays.indexOf(theItemInfo[0]) !== -1) {
       isExcluded = true;
-      classExtra += ' disabled';
+      classExtra += ' opacity-25';
+    }
+
+    if (i < (currentDayNumber + 1) && item.getMonth() == now.getMonth()) {
+      isExcluded = true;
+      classExtra += ' opacity-25';
     }
     
-    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n, setCalendar}) => e(
+    var theDay = e(CalendarContext.Consumer, null, ({setDaySchedule, i18n, setCalendar, user}) => e(
       'button',
       {
         className: 'btn day day-' + i + classExtra,
         title: item.toDateString(),
         onClick: () => {
 
-          if (isExcluded) {
+          if (!user.is_self && isExcluded) {
           return; }
 
           var currentlyActive = document.querySelector('.day.active');

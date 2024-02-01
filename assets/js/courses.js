@@ -23,6 +23,16 @@ let lineBreakify = (desc) => desc.split('\n').map((item, i) => {
   }
 });
 
+function isCourseOwned(id, userdata) {
+  
+  if (!userdata.courses || !userdata.courses[id] || !userdata.courses[id].owned) {
+    return false;
+  } else {
+    return true;
+  }
+
+}
+
 class YoutubeEmbed extends React.Component {
   constructor(props) {
     super(props);
@@ -417,14 +427,18 @@ class CourseVideoList extends React.Component {
       },
       e(
         'div',
-        { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
-        e(returnButton, { page: CourseChooser, set_hash: '' }),
-        e('h2', { className: 'mt-3 mt-md-0' }, this.props.title)
-      ),
-      e(
-        'div',
-        { className: 'd-flex justify-content-left py-3' },
-        e('p', null, this.props.desc)
+        { className: 'rounded-box' },
+        e(
+          'div',
+          { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center py-3' },
+          e(returnButton, { page: CourseChooser, set_hash: '' }),
+          e('h2', { className: 'mt-3 mt-md-0' }, this.props.title)
+        ),
+        e(
+          'div',
+          { className: 'd-flex justify-content-left py-3' },
+          e('p', null, this.props.desc)
+        ),
       ),
       this.state.videoList
     )
@@ -434,35 +448,77 @@ class CourseVideoList extends React.Component {
 
 function CourseListButton(props) {
 
-  return e(CoursesContext.Consumer, null, ({setPage}) => e(
-    'div',
-    {
-      className: 'card hoverable d-inline-flex align-items-center flex-row p-3 m-3',
-      onClick: () => {
+  return e(CoursesContext.Consumer, null, ({setPage, i18n, userdata}) => {
 
-        setPage(CourseVideoList,
-          {
-            title: props.title,
-            desc: props.desc,
-            course: props.course,
-            course_key: props.course_key
-          }
-        );
+    var courseButton = e(
+      'button',
+      { className: 'btn-tall green' },
+      i18n.open
+    );
 
+    var clickFunction = () => {
+  
+      setPage(CourseVideoList,
+        {
+          title: props.title,
+          desc: props.desc,
+          course: props.course,
+          course_key: props.course_key
+        }
+      );
+
+    };
+
+    if (!isCourseOwned(props.course_key, userdata)) {
+
+      clickFunction = () => {};
+
+      courseButton = e(
+        'div',
+        {},
+        e(
+          'span',
+          { className: 'badge bg-green text-n me-2' },
+          props.value
+        ),
+        e(
+          'button',
+          { className: 'btn-tall blue',
+            onClick: () => {
+              window.open(props.buy_url, '_blank').focus();
+            }
+          },
+          i18n.buy
+        )
+      );
+
+    }
+
+    return e(
+      'div',
+      {
+        className: 'rounded-box hoverable d-flex flex-row align-items-center justify-content-between w-100 mb-2',
+        onClick: clickFunction,
       },
-    },
-    e(
-      'span',
-      { className: 'card-title p-2 me-2' },
-      e('img', { src: props.imgURL, className: 'page-icon small'})
-    ),
-    e(
-      'span',
-      null,
-      e('h3', null, props.title),
-      e('p', { className: 'text-small' }, props.desc)
-    ),
-  ))
+      e(
+        'div',
+        { className: 'd-flex align-items-center' },
+        e(
+          'span',
+          { className: 'card-title p-2 me-2' },
+          e('img', { src: props.image, className: 'page-icon small' })
+        ),
+        e(
+          'span',
+          null,
+          e('h3', null, props.title),
+          e('p', { className: 'text-small' }, props.desc)
+        ),
+      ),
+      courseButton
+    );
+
+  });
 
 }
 
@@ -471,7 +527,11 @@ function CourseChooser(props) {
   return e(CoursesContext.Consumer, null, ({coursesObject, i18n}) => {
 
     return [
-      e(RoundedBoxHeading, { icon: 'icons/online-learning.png', value: i18n.courses }),
+      e(
+        'div',
+        { className: 'rounded-box' },
+        e(RoundedBoxHeading, { icon: 'icons/online-learning.png', value: i18n.courses })
+      ),
       e(
         'div',
         { className: 'courses-level-chooser' },
@@ -481,9 +541,7 @@ function CourseChooser(props) {
           var course = JSON.parse(curr['contents']);
   
           return e(CourseListButton, {
-            title: curr['title'],
-            desc: curr['desc'],
-            imgURL: curr['image'],
+            ...curr,
             course: course,
             course_key: n,
             key: course.etag
@@ -646,16 +704,16 @@ export class Courses extends React.Component {
 
     console.log(this.title);
 
-    var paddingClass = '';
+    var paddingClass = 'courses';
 
     if (this.title == 'video') {
-      paddingClass = 'p-0';
+      paddingClass += ' p-0 rounded-box';
     }
 
     return e(
       'div',
       { className: 'squeeze' },
-      e('div', { className: 'courses-squeeze rounded-box ' + paddingClass },
+      e('div', { className: paddingClass },
         e(CoursesContext.Provider, {value: this.state}, this.state.page)
       )
     )

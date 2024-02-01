@@ -81,6 +81,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+  border-radius: 1.5rem !important;
 }
 
 .btn-tall.blue,
@@ -130,7 +131,7 @@
 
 .navbar .btn-tall.trans {
   border-color: transparent;
-  padding: .4rem .9rem;
+  padding: .5rem .7rem;
 }
 
 .btn-tall.trans:hover {

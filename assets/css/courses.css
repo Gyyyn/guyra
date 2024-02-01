@@ -5,13 +5,8 @@
   justify-content: center;
 }
 
-@media (min-width: 768px) {
-  .courses-level-chooser .card {
-      max-width: 46%;
-  }
-}
-
-.courses-squeeze .card {
+.courses .rounded-box,
+.courses .card {
   cursor: pointer;
   display: block;
 }

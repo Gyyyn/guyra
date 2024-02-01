@@ -12,7 +12,8 @@ import {
   RoundedBoxHeading,
   RenderReplies,
   checkForTranslatables,
-  GuyraParseDate
+  GuyraParseDate,
+  GuyraFetchData
 } from '%getjs=Common.js%end';
 import { PersistentMeeting } from '%getjs=Header.js%end';
 import { Flashcards } from '%getjs=Flashcards.js%end';
@@ -488,7 +489,7 @@ function UserHome_WelcomeCard(props) {
               ], 1);
             },
             value: [
-              e('img', { src: thei18n.api_link + '?get_image=icons/light.png&size=32' }),
+              e('img', { className: 'float-animation animate', src: thei18n.api_link + '?get_image=icons/light.png&size=32' }),
               thei18n.homework
             ],
             color: 'green'
@@ -508,7 +509,7 @@ function UserHome_WelcomeCard(props) {
             ], 1);
           },
           value: [
-            e('img', { src: thei18n.api_link + '?get_image=icons/target.png&size=32' }),
+            e('img', { className: 'float-animation animate', style: { animationDelay: '2.5s' }, src: thei18n.api_link + '?get_image=icons/target.png&size=32' }),
             thei18n.exercises
           ],
           color: 'green'
@@ -773,7 +774,7 @@ function UserHome_WelcomeCard(props) {
             }
           ),
           e(
-            'h4',
+            'h2',
             { className: 'course-title text-wrap p-2' },
             props.title
           )
@@ -795,6 +796,110 @@ function UserHome_WelcomeCard(props) {
         { className: 'greeting dialog-box' },
         e('h2', {}, thei18n.whatsnew),
         newVideosGreeting
+      );
+
+    }
+
+    var teacherData = GuyraLocalStorage('get', 'guyra_teacher_data').guyra_teacher_data;
+    var appointedTimes = null;
+    var appointedTimesElement = null;
+
+    if (teacherData && teacherData.user_diary && teacherData.user_diary.calendar) {
+      
+      appointedTimes = { recurring: [], normal: [] };
+      var theKeys;
+      theKeys = Object.keys(teacherData.user_diary.calendar);
+
+      Object.values(teacherData.user_diary.calendar).forEach((appointment, i) => {
+
+        var timeKeys = Object.keys(appointment);
+
+        // If time is an object this is probably the recurring events
+        if (theKeys[i] == 'recurring') {
+
+          var theKeysRecurr = Object.keys(appointment);
+          
+          Object.values(appointment).forEach((recurrAppointment, i) => {
+
+            if (recurrAppointment.user == theUserdata.id) {
+              appointedTimes.recurring.push(theKeysRecurr[i]);
+            }
+
+          });
+
+        } else {
+
+          Object.values(appointment).forEach((hour, ii) => {
+
+            if (hour.user == theUserdata.id) {
+              appointedTimes.normal.push(theKeys[i] + " " + timeKeys[ii] + ":00");
+            }
+            
+          });
+          
+        }
+
+      });
+
+    }
+
+    if (appointedTimes !== null) {
+
+      var appointedTimesElementList = [];
+
+      appointedTimes.recurring.forEach(appointment => {
+
+        var appointment = appointment.split(' ');
+
+        Object.keys(thei18n._weekdays).forEach((weekday, i) => {
+
+          if (weekday.substring(0, 3) == appointment[0].toLowerCase()) {
+            appointment = thei18n.every + " " + Object.values(thei18n._weekdays)[i] + ", " + appointment[1] + ":00"
+          }
+
+        });
+
+        if (Array.isArray(appointment)) {
+          appointment.join(',');
+        }
+
+        appointedTimesElementList.push(
+          e(
+            'div',
+            { className: 'badge bg-green text-white me-1 mb-1' },
+            appointment
+          )
+        );
+
+      });
+      
+      appointedTimes.normal.forEach(appointment => {
+
+        var appointment = new Date(appointment);
+
+        if (appointment > new Date()) {
+
+          appointedTimesElementList.push(
+            e(
+              'div',
+              { className: 'badge bg-grey-darker text-white me-1 mb-1' },
+              appointment.toLocaleString().slice(0, -3)
+            )
+          );
+
+        }
+
+      });
+
+      appointedTimesElement = e(
+        'div',
+        { className: "card trans col-md-3 mb-2 me-2" },
+        e('h2', {}, thei18n.appointments),
+        e(
+          'div', 
+          { className: 'text' },
+          appointedTimesElementList
+        )
       );
 
     }
@@ -828,11 +933,12 @@ function UserHome_WelcomeCard(props) {
           ),
           e(WelcomeGreeting_News),
           e(openPaymentsGreeting),
+          appointedTimesElement,
           e(
             'div',
             { className: 'card trans col-auto mb-2 me-2' },
             e(
-              'h4',
+              'h2',
               { className: 'mb-0' },
               thei18n.ranking
             ),
@@ -858,7 +964,7 @@ function UserHome_WelcomeCard(props) {
             return e(
               'div',
               { className: 'card trans col-auto mb-2 me-2' },
-              e('h4', {}, thei18n.streak),
+              e('h2', {}, thei18n.streak),
               e(
                 'span',
                 { className: 'd-flex flex-row fw-bold' },
@@ -876,7 +982,7 @@ function UserHome_WelcomeCard(props) {
           e(
             'div',
             { className: 'card trans col-auto mb-2 me-2' },
-            e('h4', { className: 'mb-2' }, thei18n.levels),
+            e('h2', { className: 'mb-2' }, thei18n.levels),
             e(
               'div',
               { className: 'd-flex align-items-center' },
@@ -912,7 +1018,7 @@ function UserHome_WelcomeCard(props) {
               var element = e(
                 'div',
                 { className: 'card trans col-auto mb-2 me-2' },
-                e('h4', { className: 'mb-2' }, title),
+                e('h2', { className: 'mb-2' }, title),
                 e(
                   'div',
                   { className: 'd-flex align-items-center' },
@@ -929,21 +1035,6 @@ function UserHome_WelcomeCard(props) {
             return challengeList;
 
           }),
-          e(
-            'div',
-            {
-              className: 'card trans col-auto green hoverable cursor-pointer mb-2 me-2',
-              onClick: () => {
-                window.location.href = thei18n.shop_link + '/challenge';
-              }
-            },
-            e('h4', { className: 'cursor-pointer mb-2' }, thei18n.see_more),
-            e(
-              'div',
-              { className: 'd-flex align-items-center justify-content-center' },
-              e('i', { className: 'bi bi-box-arrow-up-right pt-3' })
-            ),
-          ),
           newVideosGreeting
         ),
       ),
@@ -1037,9 +1128,13 @@ export class UserHome extends React.Component {
 
     GuyraGetData().then(res => {
 
+      if (res.userdata.teacherid) {
+        GuyraFetchData({}, 'api?get_user_data=1&user=' + res.userdata.teacherid, 'guyra_teacher_data', 60);
+      }
+
       this.setState({
         page: e(UserHome_CardsRenderer),
-        userdata: theUserdata
+        userdata: res.userdata
       });
 
     });

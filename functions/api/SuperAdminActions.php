@@ -7,6 +7,7 @@ global $current_user_data;
 global $current_user_gamedata;
 global $site_url;
 global $site_root;
+global $gLang;
 
 Guyra_Safeguard_File();
 
@@ -72,9 +73,23 @@ if ($_GET['set_news']) {
   $lang = $thePost['lang'];
 
   if (!$lang)
-  $lang = 'pt';
+  $lang = $gLang[0];
 
   $news_file = $template_dir . '/cache/news.' . $lang . '.txt';
+
+  file_put_contents($news_file, $thePost['value']);
+
+}
+
+if ($_GET['set_holidays']) {
+  
+  $thePost = json_decode(file_get_contents('php://input'), true);
+  $lang = $thePost['lang'];
+
+  if (!$lang)
+  $lang = $gLang[0];
+
+  $news_file = $template_dir . '/settings/holidays.' . $lang . '.json';
 
   file_put_contents($news_file, $thePost['value']);
 

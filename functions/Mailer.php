@@ -36,6 +36,7 @@ function Guyra_mail($template, $subject, $to, $string_replacements) {
   $mail->msgHTML($message);
 
   if (!$mail->send()) {
+    guyra_log_to_file(json_encode($mail->ErrorInfo));
     return ['error' => $mail->ErrorInfo];
   } else {
     return true;

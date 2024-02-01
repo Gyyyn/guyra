@@ -8,7 +8,6 @@ import {
   HandleNotificationPayload,
   reactOnCallback
 } from '%getjs=Common.js%end';
-import { Account } from '%getjs=account.js%end';
 
 export class PersistentMeeting extends React.Component {
   constructor(props) {
@@ -477,7 +476,7 @@ export class AccountCenter extends React.Component {
     return e(
       'div',
       {
-        className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-1',
+        className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-2',
         id: 'account-controls',
         tabindex: 0
       },
@@ -539,6 +538,7 @@ export class AccountCenter extends React.Component {
               localStorage.removeItem('guyra_i18n');
               localStorage.removeItem('guyra_levelmap');
               localStorage.removeItem('guyra_courses');
+              localStorage.removeItem('guyra_teacher_data');
               window.location.href = this.props.i18n.api_link + '?logout=1';
             }
   

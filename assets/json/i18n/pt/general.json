@@ -26,6 +26,7 @@
    "you":"Você",
    "copy":"Copiar",
    "soon": "Em breve",
+   "every": "Toda",
    "everything":"Tudo",
    "are_you_sure":"Tem certeza?",
    "use":"Usar",
@@ -85,6 +86,7 @@
    "meeting":"Reunião",
    "teacher":"Professor",
    "teachers":"Professores",
+   "appointments": "Horários marcados",
    "you_chose":"Você escolheu",
    "qr_code":"Código QR",
    "pix_qr_code_explain":"Use o aplicativo do seu banco para ler este código com a chave PIX.",
@@ -116,7 +118,7 @@
    "UserHomePage":"Página inicial do aluno",
    "reference":"Referência",
    "ultilities":"Ultilidades",
-   "courses":"Video Aulas",
+   "courses":"Cursos",
    "videos":"Videos",
    "live":"Ao Vivo",
    "lessons":"Lições",
@@ -289,8 +291,8 @@
      "premium": {
        "title": "Guyrá Premium",
        "subtitle": "Professores particulares.",
-       "price": "R$160",
-       "value": "160"
+       "price": "R$200",
+       "value": "200"
      },
      "business": {
        "title": "Guyrá For Schools and Teachers",
@@ -453,6 +455,7 @@
    "guyra_thanks_you":"Obrigado por escolher a Guyrá ❤️",
    "enable_nightmode":"Habilitar modo noturno",
    "enable_accessibility_zoom":"Habilitar modo de zoom acessível",
+   "enable_accessibility_contrast":"Habilitar modo de contraste acessível",
    "enable_notepad":"Habilitar bloco de notas",
    "clear_group":"Tirar grupo",
    "no_diary":"Nenhum diário foi encontrado, gostaria de criar um?",

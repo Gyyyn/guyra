@@ -590,8 +590,6 @@ class GrammaticalTime extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props);
-
     this.defaultPronoun = 'I';
 
     if (!this.props.word) {

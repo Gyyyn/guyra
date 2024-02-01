@@ -301,7 +301,7 @@ export class RenderReplies extends React.Component {
             var notepad = document.querySelector('#notepad-text');
 
             if (notepad) {
-              document.querySelector('#notepad-text').value = this.props.reply.comment;
+              document.querySelector('#notepad-text').value = this.props.reply.comment.replace('<br />', '');
             }
 
           }
@@ -439,6 +439,47 @@ export function BuyInShop(props) {
       )
     ),
   );
+}
+
+export function GuyraAPI(url, mode='fetch') {
+
+  var apiBaseUrl = rootUrl + 'api';
+  var options = {};
+
+  if (thei18n.api_link) {
+    apiBaseUrl = thei18n.api_link;
+  }
+
+  if (mode == 'post') {
+
+    options = {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataToPost)
+    };
+
+  }
+
+  return new Promise((resolve, reject) => {
+
+    fetch(apiBaseUrl + url)
+    .then(res => res.json())
+    .then(theData => {
+
+      if (mode == 'post' && theData != 'true') {
+        console.error(theData);
+        reject(theData);
+      }
+
+      resolve(theData);
+
+    });
+    
+  });
+
 }
 
 export function GuyraLocalStorage(mode, item, data=false) {
@@ -663,7 +704,7 @@ export function Guyra_InventoryItem(props) {
 
   return e(
     'div',
-    { className: 'card trans flex-grow-0 ms-3 mb-3', style: { minWidth: '10rem' } },
+    { className: 'card trans flex-grow-0 ms-3 mb-3', style: { minWidth: '10rem', maxWidth: '20rem' } },
     e('h4', { className: 'text-n' }, props.title),
     imagePreview,
     useButton
@@ -1488,7 +1529,6 @@ export function ShowNotification(payload, icon) {
       onclick: (event) => {
 
         var accountCenter = document.querySelector('#account-center-button');
-        console.log(event, accountCenter);
   
         if (accountCenter) {
           accountCenter.click();
@@ -1502,4 +1542,53 @@ export function ShowNotification(payload, icon) {
 
   }
 
+}
+
+export function SearchCalendarForCurrentTime(calendar, callback) {
+  
+  var appointedTime;
+  var theKeys;
+  var now = new Date().toDateString();
+  var nowTime = new Date().toTimeString();
+  theKeys = Object.keys(calendar);
+
+  Object.values(calendar).forEach((appointment, i) => {
+
+    // If time is an object this is probably the recurring events
+    if (theKeys[i] == 'recurring') {
+
+      var theKeysRecurr = Object.keys(appointment);
+      
+      Object.values(appointment).forEach((recurrAppointment, i) => {
+
+        appointedTime = theKeysRecurr[i];
+
+        if (appointedTime == now.split(' ')[0] + ' ' + nowTime.substring(0, 2)) {
+
+          callback(recurrAppointment.user);
+          
+        }
+
+      });
+
+    }
+
+    if (theKeys[i] == now) {
+
+      var timeKeys = Object.keys(appointment);
+
+      Object.values(appointment).forEach((hour, i) => {
+
+        if (nowTime.substring(0, 2) == timeKeys[i]) {
+          
+          callback(hour.user);
+
+        }
+        
+      });
+
+    }
+
+  });
+  
 }

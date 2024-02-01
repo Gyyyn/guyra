@@ -1,20 +1,26 @@
 {
-  "quick_grammar": {
+  "beginner_level1": {
     "link": "PLKL9JMrDmA-C1MCa8ifxty9uZAQfvL_VS",
-    "title": "Gramática Rápida",
-    "desc": "Todas as gramáticas do inglês, explicadas em menos de 5 minutos por vez.",
-    "id": "quicktips"
+    "title": "Iniciante 1",
+    "desc": "Aprenda ou reveja o básico do inglês, com explicações objetivas e exemplos práticos!",
+    "id": "beginner_level1",
+    "value": "59,90",
+    "buy_url": "https://mpago.li/2kpXrvf"
   },
   "phonetics1": {
     "link": "PLKL9JMrDmA-AmJgGqx4J_4xOf1csTMR5H",
     "title": "Fonética 1",
     "desc": "Introdução a fonética do inglês e dicas de pronúncia.",
-    "id": "speaking"
+    "id": "speaking",
+    "value": "69,90",
+    "buy_url": "https://www.mercadopago.com.br/"
   },
   "advanced1": {
     "link": "PLKL9JMrDmA-C4jh-QWOKvaA7mzXWjYMEV",
     "title": "Advanced",
     "desc": "Gramáticas avançadas e tópicos mais complicados.",
-    "id": "advanced1"
+    "id": "advanced1",
+    "value": "79,90",
+    "buy_url": "https://www.mercadopago.com.br/"
   }
 }

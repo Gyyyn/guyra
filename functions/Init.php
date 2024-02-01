@@ -110,6 +110,45 @@ if ((strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false) ||
 	exit;
 }
 
+$special_caches = [
+	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css", "bootstrap.css", "css"],
+	["https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css", "bootstrap-icons.css", "css"],
+	["https://unpkg.com/react@18/umd/react.production.min.js", "react.js", "js"],
+	["https://unpkg.com/react-dom@18/umd/react-dom.production.min.js", "react-dom.js", "js"],
+	["https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js", "html-react-parser.js", "js"],
+	["https://cdn.jsdelivr.net/npm/marked/marked.min.js", "marked.js", "js"],
+	["https://unpkg.com/easymde/dist/easymde.min.css", "easymde.css", "css"],
+	["https://unpkg.com/easymde/dist/easymde.min.js", "easymde.js", "js"],
+	["https://unpkg.com/@popperjs/core@2", "popper.js", "js"],
+	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"]
+];
+
+$assetsCacheLocation = $template_dir . '/cache/assets/';
+
+foreach ($special_caches as $cache) {
+
+	$assetFolder = $cache[2];
+	$assetFile = $cache[1];
+
+	$cachedObjectAppend = md5($assetFolder . $assetFile . GUYRA_VERSION) . '.' . $assetFolder;
+	$cachedObject = $assetsCacheLocation . $cachedObjectAppend;
+	
+	if (!file_exists($cachedObject)) {
+
+		$object = file_get_contents($cache[0]);
+
+		if ($assetFile == 'bootstrap-icons.css') {
+			$object = str_replace('./fonts', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/fonts', $object);
+		}
+
+		file_put_contents($cachedObject, $object);
+		
+		guyra_log_to_file('updated cached: ' . $assetFile);
+
+	}
+
+}
+
 // All functions are loaded, from this point on we can change data.
 
 // Setup current user's globals.
