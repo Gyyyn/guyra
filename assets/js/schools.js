@@ -1712,6 +1712,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
       return;
     }
 
+    if (typeof query !== 'string') {
+      return;
+    }
+
     query = query.toLowerCase();
 
     if (this.state.search == query) {
