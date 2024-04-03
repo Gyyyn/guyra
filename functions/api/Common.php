@@ -54,7 +54,10 @@ if ($_GET['get_user_data']) {
   
       $theData['is_logged_in'] = true;
       $theData['id'] = $user;
+
+      if(!$theData['user_email'])
       $theData['user_email'] = $current_user_object['user_login'];
+    
       $theData['user_subscription_valid'] = $current_user_subscription_valid;
       $theData['profile_picture_url'] = Guyra_get_profile_picture($user, null, true);
   

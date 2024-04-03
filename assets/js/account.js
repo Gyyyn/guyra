@@ -16,7 +16,8 @@ import {
   randomNumber,
   calculateOverdueFees,
   formataCPF,
-  reactOnCallback
+  reactOnCallback,
+  RenderReplies
 } from '%getjs=Common.js%end';
 import { Ranking } from '%getjs=Ranking.js%end';
 import { Faq } from '%getjs=faq.js%end';
@@ -364,7 +365,7 @@ function AccountPayment_cancelPlan(props) {
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'justfade-animation animate' },
+    { className: '' },
     e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountPayment })),
     e(
       'div',
@@ -398,7 +399,7 @@ function AccountPayment_cancelPlan(props) {
     ),
     e(
       'div',
-      { id: 'cancel-membership-step2', className: 'd-none justfade-animation animate my-3' },
+      { id: 'cancel-membership-step2', className: 'd-none my-3' },
       e(
         'div',
         { className: 'mb-5' },
@@ -829,7 +830,7 @@ class AccountPayment extends React.Component {
     return e(
       'div',
       {
-        className: 'justfade-animation animate account-payment'
+        className: 'account-payment'
       },
       e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountOptions })),
       e(AccountContext.Consumer, null, ({i18n}) => e(
@@ -893,7 +894,7 @@ class AccountPayment extends React.Component {
 function AccountOptions_changePassword(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'profile-change-password justfade-animation animate row' },
+    { className: 'profile-change-password row' },
     e('h1', { className: 'text-blue mb-4' }, i18n.change_password),
     e(
       'div',
@@ -1280,16 +1281,60 @@ function AccountOptions_profileDetails(props) {
 
           }),
           e(AccountContext.Consumer, null, ({setPage}) => e(
-            'button',
-            {
-              className: 'btn-tall btn-sm green',
-              onClick: () => {
-                setPage(AccountPayment);
-              }
-            },
-            thei18n.manage_your_plan,
-            e('i', { className: 'bi bi-credit-card-fill ms-2' }),
-          ))
+            'div',
+            { className: 'd-flex flex-column' },
+            e(() => {
+
+              if (!theUserdata.teacherid) {
+              return null; }
+    
+              return e(
+                'button',
+                {
+                  className: 'btn-tall btn-sm blue mb-1',
+                  onClick: () => {
+                    window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
+                  }
+                },
+                thei18n.button_see_available_times,
+                e('i', { className: 'bi bi-calendar2-check-fill ms-2' }),
+              );
+    
+            }),
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm green mb-1',
+                onClick: () => {
+                  setPage(AccountPayment);
+                }
+              },
+              thei18n.manage_your_plan,
+              e('i', { className: 'bi bi-credit-card-fill ms-2' }),
+            ),
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm mb-1',
+                onClick: () => {
+                  setPage(BillHistory);
+                }
+              },
+              thei18n.bills,
+              e('i', { className: 'bi bi-receipt-cutoff ms-2' }),
+            ),
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm mb-1',
+                onClick: () => {
+                  setPage(HomeworkHistory);
+                }
+              },
+              thei18n.homework,
+              e('i', { className: 'bi bi-receipt-cutoff ms-2' }),
+            ),
+          )),
         )
       )
     ),
@@ -1804,7 +1849,7 @@ function AccountOptions(props) {
 
   return e(
     'div',
-    { className: 'justfade-animation animate' },
+    { className: '' },
     e(
       'div',
       { className: 'd-flex w-100 my-3' },
@@ -1932,9 +1977,9 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
     this.itemDue = GuyraParseDate(this.props.item.due);
     this.itemValue = parseInt(this.props.item.value);
     this.overdueExtra = false;
-    this.overdueInset = null;
     this.noDocWarning = null;
     this.pix_code = this.props.i18n.company_cnpj;
+    this.sendPaymentProof = null;
 
     if (this.itemDue < now) {
       this.overdueExtra = calculateOverdueFees(this.props.item.value, this.itemDue);
@@ -1962,7 +2007,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
           doc_id: theUserdata.doc_id,
           user_email: theUserdata.user_email
         },
-        value: this.itemValue + (this.itemValue * 0.01),
+        value: this.itemValue,
         offset: this.props.index
       }
 
@@ -1994,9 +2039,14 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
   render() {
 
     let now = new Date();
-    this.displayValue = parseInt(this.props.item.value);
-    this.transferFee = this.displayValue * parseFloat(this.props.i18n.prices_features.transfer_fee);
-    this.displayValue = (this.displayValue + this.transferFee).toString().slice(0, 5);
+    this.displayValue = parseInt(this.itemValue);
+
+    if (this.state.id) {
+      
+      this.transferFee = this.displayValue * parseFloat(this.props.i18n.prices_features.transfer_fee);
+      this.displayValue = (this.displayValue + this.transferFee).toString().slice(0, 5);
+
+    }
 
     if (!this.props.backButton) {
       this.props.backButton = null;
@@ -2011,36 +2061,97 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
       );
     }
 
-    if (this.itemDue < now) {
+    if (!this.state.id) {
 
-      this.overdueInset = e(
-        'span',
-        { className: 'text-s text-grey-darkest' },
-        '(',
-        this.props.i18n.currency_iso + this.overdueExtra + ' ',
-        this.props.i18n.overdue_fees.toLowerCase(),
+      this.sendPaymentProof = e(
+        'div',
+        { className: '' },
         e(
-          'button',
-          {
-            className: 'btn',
-            onClick: () => {
-              this.props.appSetPage(Faq);
+          'label',
+          { className: 'me-2' },
+          e(
+            'input',
+            { 
+              className: 'd-none',
+              type: 'file',
+              id: 'comment-file',
+              accept: 'image/jpeg,image/jpg,image/gif,image/png',
+              onChange: (event) => {
+
+                var theFile = document.getElementById('comment-file');
+            
+                if (theFile.files.length != 0) {
+                  theFile = theFile.files[0];
+                } else {
+                  return;
+                }
+            
+                var formData = new FormData();
+                formData.append("file", theFile);
+            
+                fetch(this.props.i18n.api_link + '?post_attachment=1', {
+                  method: 'POST',
+                  body: formData
+                }).then(res => res.json()).then(res => {
+            
+                  if (typeof res === 'object') {
+                    console.error(res[1]);
+                    return;
+                  }
+
+                  fetch(
+                    this.props.i18n.api_link + '?update_payment=1',
+                    {
+                      method: "POST",
+                      headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        item: this.props.item,
+                        paymentProof: res
+                      })
+                    }
+                  ).then(res => res.json()).then(res => {
+
+                    if (typeof res === 'object') {
+                      console.error(res[1]);
+                      return;
+                    }
+
+                    localStorage.removeItem('guyra_userdata');
+                    window.location.reload();
+
+                  });
+            
+                });
+            
+              }
             }
-          },
-          e('i', { className: 'bi bi-question-circle text-blue-darker' })
+          ),
+          e('a', { id: 'comment-file-button', className: 'btn btn-tall green' },
+            e(
+              'img',
+              {
+                className: 'page-icon tiny me-2',
+                alt: this.props.i18n.upload,
+                src: GuyraGetImage('icons/add-image.png')
+              }
+            ),
+            this.props.i18n.send + ' ' + this.props.i18n.payment_proof
+          )
         ),
-        ')'
       );
-      
+
     }
 
     return e(
       'div',
-      { className: 'payments-pay justfade-animation animate' },
+      { className: 'payments-pay' },
       this.props.backButton,
       e(
         'div',
-        { className: 'payment-item row mt-3' },
+        { className: 'payment-item row g-3 mt-1' },
         e(
           'div',
           { className: 'align-items-center col-auto d-md-flex d-none qr-code' },
@@ -2074,73 +2185,59 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
           { className: 'col' },
           e(
             'div',
-            { className: 'card trans' },
-            e('h2', { className: 'mb-2' }, this.props.i18n.payment),
+            { className: 'bg-grey border border-light-subtle d-flex flex-column more-rounded' },
             e(
               'div',
-              { className: 'd-inline mb-2' },
+              { className: 'shadow card p-3' },
               e(
                 'div',
-                { className: 'badge bg-white me-2 mb-2 text-n flex-wrap align-items-center' },
-                e(
-                  'span',
-                  { className: 'me-2' },
-                  e('span', {}, this.props.i18n.value + ': '),
-                  e('span', { className: 'fw-bold ms-1'}, this.props.i18n.currency_iso + this.displayValue),
-                ),
-                this.overdueInset
+                { className: 'd-flex justify-content-between text-s' },
+                e('span', {}, this.props.i18n.due_date + ': ', this.itemDue.toLocaleDateString())
               ),
+              e('h3', { className: 'fw-bold me-1' }, this.props.i18n.currency_iso + this.displayValue),
               e(
-                'div',
-                { className: 'badge bg-white me-2 mb-2 text-n' },
-                e('span', {}, this.props.i18n.due_date + ': '),
-                e('span', {}, this.itemDue.toLocaleDateString())
-              ),
-              e(
-                'div',
-                { className: 'badge bg-primary text-white me-2 mb-2 d-flex flex-row align-items-center' },
-                e('div', {}, this.props.i18n.pix + ': '),
-                e('div', { style: { maxWidth: '30vw' }, className: 'overflow-hidden ms-2' }, this.state.pix_code),
-                e(
-                  'button',
-                  {
-                    className: 'btn-tall btn-sm green ms-2',
-                    onClick: (event) => {
-  
-                      var before = event.target.innerHTML;
-                      event.target.innerHTML = this.props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
-  
-                      navigator.clipboard.writeText(this.state.pix_code);
-  
-                      setTimeout(() => {
-                        event.target.innerHTML = before;
-                      }, 300);
-  
-                    }
-                  },
-                  this.props.i18n.copy,
-                  e('i', { className: 'bi bi-files-alt ms-1' })
-                )
+                'button',
+                {
+                  className: 'btn-tall btn-sm green ms-2',
+                  onClick: (event) => {
+
+                    var before = event.target.innerHTML;
+                    event.target.innerHTML = this.props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
+
+                    navigator.clipboard.writeText(this.state.pix_code);
+
+                    setTimeout(() => {
+                      event.target.innerHTML = before;
+                    }, 300);
+
+                  }
+                },
+                this.props.i18n.copy + " " + this.props.i18n.pix,
+                e('i', { className: 'bi bi-files-alt ms-1' })
               ),
             ),
-            e('span', {}, this.props.i18n.payment_message),
-            e(() => {
+            e(
+              'div',
+              { className: 'p-3' },
+              this.sendPaymentProof
+            ),
+          ),
+          e(() => {
 
-              if (!this.state.ticket_url) {
-              return null; }
+            if (!this.state.ticket_url) {
+            return null; }
 
-              return e(
-                'span',
-                { className: 'mt-3 text-s' },
-                e(
-                  'a',
-                  { href: this.state.ticket_url, target: '_blank' },
-                  this.props.i18n.open_in_thirdparty_processor
-                )
-              );
+            return e(
+              'span',
+              { className: 'btn-tall btn-sm mt-1 text-s' },
+              e(
+                'a',
+                { href: this.state.ticket_url, target: '_blank' },
+                this.props.i18n.open_in_thirdparty_processor
+              )
+            );
 
-            })
-          )
+          })
         )
       )
     );
@@ -2286,7 +2383,6 @@ function WhoAmI(props) {
       'div',
       {},
       e(WhoAmI_welcome),
-      e(WhoAmI_buttonGroup),
       e(WhoAmI_openPayments, { openPayments: openPayments }),
     );
   });
@@ -2444,10 +2540,9 @@ function AccountWrapper(props) {
 
   return e(
     'div',
-    { className: 'justfade-animation animate' },
+    { className: '' },
     e(WhoAmI),
-    e(AccountInfo),
-    e(AccountInfo_ranking)
+    e(AccountOptions_profileDetails),
   );
 
 }
@@ -2479,7 +2574,7 @@ class AppearingInput_Checkbox extends React.Component {
 
     this.Input = e(
       'div',
-      { className: 'form-floating justfade-animation animate'},
+      { className: 'form-floating '},
       e('input', { id: this.props.name, name: this.props.name, type: this.props.type, className: "form-control", placeholder: "." }),
       e('label', { for: this.props.name }, this.props.label),
     );
@@ -2611,7 +2706,7 @@ function Register(props) {
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'row mb-3 justfade-animation animate g-0' },
+    { className: 'row mb-3  g-0' },
     e(
       'div',
       { className: 'col-md p-5' },
@@ -2973,7 +3068,7 @@ class Login extends React.Component {
   render() {
     return e(
       'div',
-      { className: 'row mb-3 justfade-animation animate g-0' },
+      { className: 'row mb-3  g-0' },
       e(
         'div',
         { className: 'col-md' },
@@ -2987,7 +3082,7 @@ class Login extends React.Component {
 function LostPassword(props) {
   return e(AccountContext.Consumer, null, ({i18n}) => e(
     'div',
-    { className: 'row mb-3 justfade-animation animate' },
+    { className: 'row mb-3 ' },
     e(
       'div',
       { className: 'col-5 d-none d-md-flex' },
@@ -3192,4 +3287,142 @@ export class Account extends React.Component {
       )
     );
   };
+}
+
+function BillHistory(params) {
+
+  return e(AccountContext.Consumer, null, ({userdata, i18n, setPage}) => {
+
+    var thePayments = Array.from(userdata.user_diary.payments);
+    thePayments.reverse();
+
+    return e(
+      'div',
+      {},
+      e(
+        'div',
+        { className: '' },
+        e(Account_BackButton, { page: AccountWrapper }),
+        e(
+          'div',
+          { className: 'd-flex flex-column' },
+          e(
+            RoundedBoxHeading,
+            { value: i18n.bills, icon: 'icons/document.png' }
+          ),
+          e(
+            'table',
+            { className: 'table table-hover' },
+            e(
+              'thead',
+              {},
+              e('th', { scope: 'col' }, '#'),
+              e('td', { scope: 'col' }, i18n.due),
+              e('td', { scope: 'col' }, i18n.value),
+              e('td', { scope: 'col' }, i18n.status),
+            ),
+            thePayments.map((item, i) => {
+  
+              var theStatusClasses = 'badge cursor-pointer ';
+              var theStatusClick = null;
+  
+              if (item.status == 'ok') {
+                theStatusClasses = theStatusClasses + 'bg-green';
+              }
+  
+              if (item.status == 'pending') {
+                
+                theStatusClasses = theStatusClasses + 'bg-warning';
+                theStatusClick = () => {
+                  setPage(
+                    WhoAmI_openPayments_paymentItem,
+                    {
+                      item: item,
+                      i18n: i18n,
+                      backButton: e(Account_BackButton, { page: BillHistory }),
+                      appSetPage: params.appSetPage,
+                      index: i
+                    }
+                  )
+                };
+  
+              }
+  
+              if (item.status == 'cancelled') {
+                theStatusClasses = theStatusClasses + 'bg-red';
+              }
+
+              var theStatusPaymentProof = null;
+
+              if (item.payment_proof) {
+                theStatusPaymentProof = e(
+                  'button',
+                  {
+                    className: 'btn-tall btn-sm blue ms-1',
+                    onClick: () => {
+                      window.open(item.payment_proof, '_blank').focus();
+                    }
+                  },
+                  e('i', {className: 'bi bi-card-list me-1'}),
+                  i18n.payment_proof
+                );
+              }
+  
+              var theStatus = e(
+                'span',
+                {
+                  className: theStatusClasses,
+                  onClick: theStatusClick
+                },
+                i18n._diary.status[item.status]
+              )
+            
+              return e(
+                'tr',
+                {},
+                e('th', { scope: 'row' }, i+1),
+                e('td', { className: 'badge text-dark' }, item.due),
+                e('td', { className: 'fw-bold' }, i18n.currency_iso + item.value),
+                e('td', {}, theStatus, theStatusPaymentProof),
+              );
+    
+            })
+          )
+        )
+      ),
+    );
+
+  });
+  
+}
+
+function HomeworkHistory(params) {
+
+  return e(AccountContext.Consumer, null, ({userdata, i18n}) => {
+
+    var theDiaryComments = userdata.user_diary.user_comments;
+      
+    if (!Array.isArray(theDiaryComments)) {
+      return i18n.no_comments;
+    }
+
+    theDiaryComments.reverse();
+
+    return e(
+      'div',
+      {},
+      e(Account_BackButton, { page: AccountWrapper }),
+      e(
+        RoundedBoxHeading,
+        { value: i18n.homework, icon: 'icons/exam.png' }
+      ),
+      theDiaryComments.map((reply, i) => {
+    
+        return e(RenderReplies, { reply: reply, replyId: i, disableReply: true });
+  
+      }),
+    );
+
+  });
+  
 }

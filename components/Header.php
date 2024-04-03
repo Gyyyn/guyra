@@ -12,6 +12,7 @@ global $gi18n;
 global $args;
 global $route;
 global $nests;
+global $gSettings;
 
 include_once $template_dir . '/functions/Assets.php';
 
@@ -51,5 +52,5 @@ $route[0] = 'home';
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DCFLSY9LC7');</script>
 <noscript><style media="screen">body>div,body>header,body>main{display:none!important;}</style></noscript>
 </head>
-<body class="guyra" data-route="<?php echo $route[0]; ?>" data-nests="<?php echo implode('/', $nests); ?>">
+<body class="guyra <?php echo $gSettings['dev_env'] ? 'dev': ''; ?>" data-route="<?php echo $route[0]; ?>" data-nests="<?php echo implode('/', $nests); ?>">
 <noscript><?php echo $gi18n['noscript']; ?></noscript>

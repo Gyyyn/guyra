@@ -1,6 +1,7 @@
 import {
   e,
   GuyraGetData,
+  GuyraGetImage,
   GuyraLocalStorage,
   thei18n,
   LoadingPage,
@@ -460,23 +461,54 @@ export class AccountCenter extends React.Component {
 
     var extraButtons = [];
 
+    var button = (props) => {
+
+      if (props.image) {
+        
+        props.image = e(
+          'span',
+          { className: 'menu-icon' },
+          e('img', {
+            className: 'page-icon tiny me-1',
+            alt: props.text,
+            src: GuyraGetImage(props.image)
+          })
+        );
+
+      } else {
+        props.image = null;
+      }
+
+      return e(
+        'button',
+        {
+          className: 'btn-tall w-100 mt-2 ' + props.className,
+          onClick: props.onClick
+        },
+        props.image,
+        props.text
+      );
+
+    }
+
     if(this.props.userdata.is_admin) {
       extraButtons.push(
-        e('button', {
+        e(button, {
           className: 'btn-tall w-100 mt-2',
-          onClick: () => { this.props.setPage('home') } 
-        }, this.props.i18n.UserHomePage),
-        e('button', {
-          className: 'btn-tall w-100 mt-2',
-          onClick: () => { window.location.href = this.props.i18n.guyra_admin_link } 
-        }, 'Super Control Panel'),
+          onClick: () => { this.props.setPage('home') },
+          text: this.props.i18n.UserHomePage
+        }),
+        e(button, {
+          onClick: () => { window.location.href = this.props.i18n.guyra_admin_link },
+          text: 'Super Control Panel'
+        }),
       );
     }
 
     return e(
       'div',
       {
-        className: 'd-none account-controls bg-white-blurred fade-animation animate fast p-2 z-2',
+        className: 'fade-animation animate d-none account-controls bg-white-blurred  fast p-2 z-2',
         id: 'account-controls',
         tabindex: 0
       },
@@ -520,13 +552,24 @@ export class AccountCenter extends React.Component {
       e(
         'div',
         { className: 'buttons' },
-        e('button', {
-          className: 'btn-tall w-100 blue mt-2',
-          onClick: () => { this.props.setPage('account') } 
-        }, this.props.i18n.button_myaccount),
+        e(button, {
+          onClick: () => { this.props.setPage('account') },
+          className: 'blue',
+          text: this.props.i18n.button_myaccount,
+          image: 'icons/profile.png',
+        }),
+        e(button, {
+          onClick: () => { this.props.setPage('faq') },
+          image: 'icons/helping-hand.png',
+          text: this.props.i18n.help
+        }),
+        e(button, {
+          onClick: () => { this.props.setPage('ranking') },
+          image: 'icons/podium.png',
+          text: this.props.i18n.ranking
+        }),
         extraButtons,
-        e('button', {
-          className: 'btn-tall w-100 red mt-2',
+        e(button, {
           onClick: (e) => {
   
             e.preventDefault();
@@ -542,8 +585,11 @@ export class AccountCenter extends React.Component {
               window.location.href = this.props.i18n.api_link + '?logout=1';
             }
   
-          }
-        }, this.props.i18n.logout),
+          },
+          className: 'red',
+          image: 'icons/logout.png',
+          text: this.props.i18n.logout
+        }),
       )
     );
 

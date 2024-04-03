@@ -391,7 +391,7 @@ class Game_Wordle extends React.Component {
     return e(
       'div',
       {
-        className: 'wordle justfade-animation animate d-flex justify-content-center flex-column align-items-center position-relative',
+        className: 'wordle  d-flex justify-content-center flex-column align-items-center position-relative',
         onClick: () => {
           document.getElementById('wordle-input').focus();
         }

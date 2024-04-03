@@ -181,6 +181,10 @@ if ($is_logged_in) {
 		$gLang = $current_user_data['lang'];
 	}
 
+	// Make sure that if we want, we have user_login on user_data too.
+	// TODO: Check if this is actually an email, because it may be an oauth id sometimes.
+	$current_user_data['user_email'] = $current_user_object['user_login'];
+
 	// Set up some defaults for uncreated data, and handle some time-based events.
 
 	// If there is no payment data it means the user never payed for anything.

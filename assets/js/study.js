@@ -223,7 +223,7 @@ class UserHome_ReplyCard extends React.Component {
       }),
       e(
         'div',
-        { className: 'dialog-box' },
+        { className: '' },
         e('textarea', { id: 'comment'}, null),
         e(
           'div',
@@ -252,6 +252,22 @@ class UserHome_ReplyCard extends React.Component {
             e('i', { className: 'bi bi-clipboard me-2' }),
             e('span', { className: 'text-s' }, thei18n.button_copy_notepad)
           ),
+          e(HomeContext.Consumer, null, ({userdata}) => e(
+            'button',
+            {
+              className: 'btn-tall green me-2',
+              onClick: () => {
+
+                if (!this.easyMDE || !userdata.user_diary.userpage) {
+                return; }
+
+                this.easyMDE.value(userdata.user_diary.userpage);
+
+              }
+            },
+            e('i', { className: 'bi bi-clipboard me-2' }),
+            e('span', { className: 'text-s' }, thei18n.button_copy_homework)
+          )),
           e(
             'button',
             { className: 'btn-tall blue me-2 mt-2 mt-md-0 flex-grow-1', onClick: (event) => { this.submit(event) } },
@@ -1074,7 +1090,7 @@ class UserHome_CardsRenderer extends React.Component {
        return theCards.map((card) => {
 
          if (!card.class) {
-           card.class = 'rounded-box position-relative justfade-animation animate';
+           card.class = 'rounded-box position-relative ';
          }
 
          return e(

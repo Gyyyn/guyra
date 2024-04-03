@@ -76,6 +76,7 @@ CaptureRequest(function($r, $_nests) {
   } else {
 
     HandleServerError([
+      'err' => 'Page 404: ' . $page,
       'message' => 'Page not found'
     ], 404);
 

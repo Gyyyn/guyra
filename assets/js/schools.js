@@ -455,47 +455,6 @@ function DiaryControls(props) {
     {
       className: 'diary-controls d-flex justify-content-end mt-2'
     },
-    e(DiaryContext.Consumer, null, ({diary, name}) => e(
-      'button',
-      {
-        className: 'btn-tall btn-sm blue me-2',
-        onClick: () => {
-
-          var exportString = [
-            thei18n.date,
-            thei18n.status,
-            thei18n.comment
-          ];
-
-          exportString = exportString.join(',') + "\n";
-
-          diary.entries.forEach((entry, i) => {
-
-            var stringConcat = [
-              entry.date,
-              thei18n._diary.status[entry.status],
-              "\"" + entry.comment + "\""
-            ];
-
-            exportString = exportString + stringConcat.join(',') + '\n';
-
-          });
-
-          var element = document.createElement("a");
-          var file = new Blob([exportString], {type: "application/csv"});
-          element.href = URL.createObjectURL(file);
-          element.download = thei18n.diary_for + ' ' + name + ".csv";
-          element.click();
-
-          // Clean up
-          file = null;
-          element.remove();
-
-        }
-      },
-      e('i', { className: 'bi bi-file-earmark-spreadsheet me-2' }),
-      thei18n.export,
-    )),
     paymentsButton,
     e(DiaryContext.Consumer, null, ({saveDiary, i18n}) => e(
       'button',
@@ -629,7 +588,7 @@ class PaymentAreaEntry extends React.Component {
         { className: 'position-absolute bottom-0 end-0' },
         e(
           'span',
-          { className: 'me-2'},
+          { className: 'me-1'},
           e(
             'button',
             {
@@ -643,12 +602,46 @@ class PaymentAreaEntry extends React.Component {
             e('i', { className: "bi bi-pencil" })
           )
         ),
+        e(() => {
+
+          if (diary.payments[this.props.index].payment_proof) {
+  
+            return e(
+              'button',
+              {
+                className: 'btn-tall btn-sm blue me-1',
+                onClick: () => {
+                  window.open(diary.payments[this.props.index].payment_proof, '_blank').focus();
+                }
+              },
+              e('i', {className: 'bi bi-card-list'})
+            );
+  
+          }
+  
+          return null;
+  
+        }),
         e('span', {className: ''}, e(DiaryDeleteButton, {id: this.props.index, entryType: 'payment'})),
-      )
+      ),
     ));
 
+    this.payment_status = e(DiaryContext.Consumer, null, ({diary}) => {
+
+      var payment_status = thei18n._diary.status[diary.payments[this.props.index].status];
+      var payed_on = diary.payments[this.props.index].payed_on;
+
+      if (payed_on) {
+        payment_status = payment_status + ": " + payed_on;
+      }
+
+      return payment_status;
+      
+    });
+
     this.state = {
-      dateSection: this.dateDisplay
+      dateSection: this.dateDisplay,
+      payment_status: this.payment_status
     }
 
   }
@@ -662,6 +655,7 @@ class PaymentAreaEntry extends React.Component {
   }
 
   render() {
+
     return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
       {
@@ -689,7 +683,7 @@ class PaymentAreaEntry extends React.Component {
             changePaymentEntry(this.props.index, 'status', 'pending');
           }
         }
-      }, thei18n._diary.status[diary.payments[this.props.index].status])),
+      }, this.state.payment_status)),
       this.state.dateSection
     ));
   }
@@ -1605,7 +1599,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     this.setState({
       currentView: e(
         'div',
-        { className: 'dialog-box justfade-animation animate position-relative' } ,
+        { className: 'dialog-box  position-relative' } ,
         e(
           'div',
           { className: 'translate-middle-y position-absolute end-0 z-1' },
@@ -2318,6 +2312,10 @@ export class GroupAdminHome extends React.Component {
         });
 
         resolve(true);
+
+        if (force) {
+          window.location.reload();
+        }
   
       });
       

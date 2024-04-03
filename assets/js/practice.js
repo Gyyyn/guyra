@@ -1086,7 +1086,7 @@ class ReviewAnswers extends React.Component {
   render() {
     return e(
       'div',
-      {className: "fade-animation animate"},
+      {className: ""},
       e('div', {className: "answers-review"}, this.props.answers.map((x) => {
 
         return e(
@@ -1116,7 +1116,7 @@ function UnitHint(props) {
 
     return e(
       'div',
-      { className: 'fade-animation animate' },
+      { className: '' },
       e('h1', { className: 'text-blue' }, i18n.before_you_start),
       e('h2', { className: '' }, props.hint.title),
       e(
@@ -1334,7 +1334,7 @@ function hintAreaCorrectAnswer(props) {
     },
     e(
       'span',
-      { className: 'exercise-hints-hint justfade-animation animate' },
+      { className: 'exercise-hints-hint ' },
       i18n.goodjob + ' 👍 ',
       e('span', { className: 'fw-bold' }, i18n.meaning + ': '),
       e('span', { className: ' ms-1 fst-italic' },  '"' + values['translation'] + '"')
@@ -1469,7 +1469,7 @@ class ExerciseDone extends React.Component {
     e(ExerciseContext.Consumer, null, ({i18n, setPage, answers}) => e(
       'div',
       {
-        className: 'exercise-hints correct justfade-animation animate'
+        className: 'exercise-hints correct '
       },
       e('div', {className: 'd-flex align-items-center'},
         e('span', {className: 'exercise-hints-hint fw-bold text-x me-2'}, e(() => {

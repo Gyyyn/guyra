@@ -38,7 +38,7 @@ function Help_Main_Form(props) {
 
   return e(
     'div',
-    { className: 'dialog-box text-s fade-animation animate d-flex flex-column mt-3', id: 'help-form-wrapper' },
+    { className: 'dialog-box text-s  d-flex flex-column mt-3', id: 'help-form-wrapper' },
     e('h2', { className: 'text-blue' }, thei18n.help_form),
     e(
       'div',
@@ -172,7 +172,7 @@ class Help_Main extends React.Component {
 
     this.wp_redirect_warning = e(
       'div',
-      { className: 'dialog-box fade-animation animate mt-3' },
+      { className: 'dialog-box  mt-3' },
       e('p', {}, thei18n.help_form_redirect[0]),
       e('p', {}, thei18n.help_form_redirect[1], e('a', { className:'ms-2', href: thei18n.help_wp_link }, thei18n.here))
     );

@@ -121,7 +121,7 @@ class Shop_ItemView extends React.Component {
 
       return e(
         'div',
-        { className: 'shop-item-wrapper justfade-animation animate row' },
+        { className: 'shop-item-wrapper  row' },
         e(returnButton, { page: e(Shop_wrapper), pageArgs: { squeezeType: 'squeeze' } }),
         e(
           'div',
@@ -424,7 +424,7 @@ class Shop_wrapper extends React.Component {
     return [
       e(ShopContext.Consumer, null, ({shopObject}) => e(
         'div',
-        { className: 'shop-wrapper justfade-animation animate' },
+        { className: 'shop-wrapper ' },
         e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
         e(
           'div',

@@ -17,16 +17,22 @@ function guyra_output_json($message, $exit=false) {
 
 }
 
-function GetStandardDate() {
-  return date('d-m-Y H:i:s');
+function GetStandardDate($timestamp=false) {
+
+  if(!$timestamp)
+  $timestamp = time();
+
+  $date = date('d-m-Y H:i:s', $timestamp);
+
+  return $date;
 }
 
-function guyra_log_to_file($object='something happened') {
+function guyra_log_to_file($object) {
 
   global $template_dir;
 
   if (!$object) {
-    $object = 'unknown event of note';
+    $object = 'unknown event of note: ' . json_encode(debug_backtrace());
   }
   
   $object = GetStandardDate() . ' ' . $_SERVER['SCRIPT_NAME'] . ' ( ' . $_SERVER['PHP_SELF'] . '): ' . $object . "\r\n";

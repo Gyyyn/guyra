@@ -6,7 +6,7 @@ import {
     GuyraGetImage,
     ShowNotification
 } from '%getjs=Common.js%end';
-import { AccountCenter, Header } from '%getjs=Header.js%end';
+import { AccountCenter, Header, PersistentMeeting } from '%getjs=Header.js%end';
 import { UserHome } from '%getjs=study.js%end';
 import { Practice } from '%getjs=practice.js%end';
 import { Courses } from '%getjs=courses.js%end';
@@ -117,6 +117,7 @@ class App extends React.Component {
       userdata: {},
       header: {},
       notification_counter: 0,
+      persistentMeeting: null
     }
 
   }
@@ -321,6 +322,11 @@ class App extends React.Component {
       navigation_title = this.state.i18n.study +  ' ' + this.state.i18n.at + ' ' + this.state.i18n.company_name
     }
 
+    if (document.body.classList.contains('dev')) {
+      navigation_title = 'Dev: ' + navigation_title;
+      this.state.dev = true;
+    }
+
     document.title = navigation_title;
 
     if (header_title) {
@@ -332,11 +338,11 @@ class App extends React.Component {
       route: title
     }, () => {
 
-      appFrame.classList.add('animate', 'fade-animation');
+      // appFrame.classList.add('animate', 'fade-animation');
       
-      setTimeout(() => {
-        appFrame.classList.remove('animate', 'fade-animation');
-      }, 1000);
+      // setTimeout(() => {
+      //   appFrame.classList.remove('animate', 'fade-animation');
+      // }, 1000);
 
     });
 
@@ -533,7 +539,15 @@ class App extends React.Component {
         accountButtons.unshift(
           e(Header_Button, {
             value: this.state.i18n.meeting, image: 'icons/video-camera.png',
-            onClick: () => { window.open(this.state.i18n.api_link + '?redirect_meeting=1', '_blank').focus(); }
+            onClick: () => {
+
+              if (this.state.dev) {
+                this.setState({ persistentMeeting: e(PersistentMeeting) });
+                return;
+              }
+
+              window.open(this.state.i18n.api_link + '?redirect_meeting=1', '_blank').focus();
+            }
           })
         );
       }
@@ -636,6 +650,7 @@ class App extends React.Component {
           setPage: this.setPage
         }
       ),
+      this.state.persistentMeeting,
       e(
         'main',
         { id: 'app' },

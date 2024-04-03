@@ -7,20 +7,20 @@
     "value": "59,90",
     "buy_url": "https://mpago.li/2kpXrvf"
   },
-  "phonetics1": {
+  "threshold_level1": {
     "link": "PLKL9JMrDmA-AmJgGqx4J_4xOf1csTMR5H",
     "title": "Fonética 1",
     "desc": "Introdução a fonética do inglês e dicas de pronúncia.",
-    "id": "speaking",
+    "id": "threshold_level1",
     "value": "69,90",
-    "buy_url": "https://www.mercadopago.com.br/"
+    "buy_url": "https://mpago.li/2yTFKVt"
   },
-  "advanced1": {
+  "advanced_level1": {
     "link": "PLKL9JMrDmA-C4jh-QWOKvaA7mzXWjYMEV",
     "title": "Advanced",
     "desc": "Gramáticas avançadas e tópicos mais complicados.",
-    "id": "advanced1",
+    "id": "advanced_level1",
     "value": "79,90",
-    "buy_url": "https://www.mercadopago.com.br/"
+    "buy_url": "https://mpago.li/1WoM9MT"
   }
 }

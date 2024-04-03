@@ -561,53 +561,6 @@ if ($_GET['oauth_login']) {
 
 }
 
-if ($_GET['gen_pix']) {
-
-  // Attention: this function assumes that the user is generating
-  // a payment for themself, so it updates $current_user_diary.
-  $thePost = json_decode(file_get_contents('php://input'), true);
-
-  if (!$thePost || !$thePost['value'] || !$thePost['user'])
-  guyra_output_json('post error', true);
-
-  require_once 'vendor/autoload.php';
-
-  MercadoPago\SDK::setAccessToken($gSettings['mp_access_token']);
-
-  $payment = new MercadoPago\Payment();
-  $payment->transaction_amount = $thePost['value'];
-  $payment->description = $gi18n['prices_features']['premium']['title'];
-  $payment->payment_method_id = "pix";
-  $payment->payer = array(
-      "email" => $thePost['user']['user_email'],
-      "first_name" => $thePost['user']['first_name'],
-      "last_name" => $thePost['user']['last_name'],
-      "identification" => array(
-          "type" => "CPF",
-          "number" => $thePost['user']['doc_id']
-      ),
-    );
-
-  $payment->save();
-
-  if ($thePost['offset']) {
-    // Update the payment item with the newly adquired ID.
-    $current_user_diary['payments'][$thePost['offset']]['id'] = $payment->id;
-    $current_user_diary['payments'][$thePost['offset']]['status'] = $payment->status;
-
-    guyra_update_user_data($current_user_id, $current_user_diary, null, 'diary');
-  }
-
-  guyra_output_json([
-    'qr_code' => $payment->point_of_interaction->transaction_data->qr_code,
-    'qr_code_base64' => $payment->point_of_interaction->transaction_data->qr_code_base64,
-    'ticket_url' => $payment->point_of_interaction->transaction_data->ticket_url,
-    'status' => $payment->status,
-    'id' => $payment->id
-  ], true);
-
-}
-
 if ($_GET['getTTS']) {
   
   $data = json_decode(file_get_contents('php://input'), true);

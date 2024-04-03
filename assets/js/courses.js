@@ -269,13 +269,13 @@ function CourseVideo(props) {
   return e(
     'div',
     {
-      className: 'fade-animation animate'
+      className: ''
     },
     e(YoutubeEmbed, {videoId: props.video.resourceId.videoId}),
     e(
       'div',
       {
-        className: 'course-video-description-container fade-animation animate mb-3',
+        className: 'course-video-description-container  mb-3',
       },
       e(
         'div',
@@ -422,7 +422,7 @@ class CourseVideoList extends React.Component {
     return e(
       'div',
       {
-        className: "courses-list fade-animation animate",
+        className: "courses-list ",
         key: this.props.course.etag,
       },
       e(

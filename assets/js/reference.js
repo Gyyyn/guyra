@@ -352,6 +352,8 @@ function GrammaticalTime_ListingSection(props) {
   if (!theVerb) { theVerb = ''; }
   if (!thePronoun) { thePronoun = ''; }
 
+  theVerb = theVerb.toLowerCase();
+
   // Consonat + Vowel endings
   if (
     matchCons.test(theVerb[theVerb.length - 3]) &&

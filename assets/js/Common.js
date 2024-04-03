@@ -1,6 +1,6 @@
 export const rootUrl = window.location.origin.concat('/');
 export let e = React.createElement;
-export var thei18n = {};
+export var thei18n = { api_link: rootUrl + 'api' };
 export var theUserdata = {};
 export var theLevelMap = {};
 
@@ -94,10 +94,10 @@ export class LoadingPage extends React.Component {
   render() {
     return e(
       'span',
-      {className: 'loading justfade-animation animate d-flex flex-column'},
+      {className: 'loading  d-flex flex-column'},
       e(
         'div',
-        { className: 'd-flex justify-content-center justfade-animation animate' },
+        { className: 'd-flex justify-content-center ' },
         e(LoadingIcon),
       ),
       this.state.message
@@ -183,7 +183,7 @@ export class RenderReplies extends React.Component {
     var replyArea = [
       e(
         'div',
-        { className: 'd-flex flex-column position-relative mt-3 border-top d-none fade-animation animate', id: 'reply-area' },
+        { className: 'd-flex flex-column position-relative mt-3 border-top d-none ', id: 'reply-area' },
         e('h3', { className: 'my-3' }, thei18n.reply),
         e(
           'span',

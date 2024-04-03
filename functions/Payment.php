@@ -1,6 +1,14 @@
 <?php
 
+
+global $secondsForA;
+global $template_dir;
+global $current_user_object;
+
 Guyra_Safeguard_File();
+
+include_once $template_dir . '/functions/Database.php';
+include_once $template_dir . '/functions/Mailer.php';
 
 function CreateMPcURLObject($args=[]) {
 
@@ -179,11 +187,15 @@ function UpdateDirectPaymentsStatus() {
   
   global $current_user_id;
   global $current_user_diary;
+  global $current_user_data;
+  global $secondsForA;
+  global $gi18n;
 
   $updateNeeded = false;
 
   foreach ($current_user_diary['payments'] as &$payment_item) {
-    
+
+    // Check and update payments through a payment processor
     if ($payment_item['status'] == 'pending' && $payment_item['id']) {
 
       $newStatus = GetMPPaymentStatus($payment_item['id']);
@@ -198,7 +210,40 @@ function UpdateDirectPaymentsStatus() {
         }
         
         $updateNeeded = true;
+
       }
+
+    }
+
+  }
+
+  $latest_payment_item = end($current_user_diary['payments']);
+
+  // Check and create new bills for direct payment
+  if ($latest_payment_item['status'] == 'ok') {
+
+    $item_due_unix = strtotime($latest_payment_item['due']);
+    $item_due_date = date('Y-m-d', $item_due_unix + $secondsForA['month']);
+
+    if ($item_due_unix < time()) {
+
+      $newBill = [
+        'value' => $latest_payment_item['value'],
+        'status' => 'pending',
+        'due' => $item_due_date
+      ];
+      
+      array_push($current_user_diary['payments'], $newBill);
+
+      $updateNeeded = true;
+
+      $mail_strings = [
+        $gi18n['bill_arived'],
+        $item_due_date,
+        $latest_payment_item['value']
+      ];
+
+      Guyra_mail('bill_generated.html', $gi18n['bill_arived'], $current_user_data['user_email'], $mail_strings);
 
     }
 
