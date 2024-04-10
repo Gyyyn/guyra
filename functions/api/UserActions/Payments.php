@@ -12,10 +12,15 @@ include_once $template_dir . '/functions/Database.php';
 
 if ($_GET['add_course']) {
 
-  // TODO: Make this actually check if the course exists, and maybe more robust security
+  $coursesJSON = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/courses.json';
+  $coursesArray = json_decode(file_get_contents($coursesJSON), true);
+  $coursesKeys = array_keys($coursesArray);
 
   $id = $_GET['add_course'];
   $key = $_GET['key'];
+
+  if (array_search($id, $coursesKeys) === false)
+  guyra_output_json(['error' => 'course doesn\'t exist'], true);
 
   if ($key != 'guyra')
   guyra_output_json(['error' => 'wrong key'], true);
@@ -76,7 +81,6 @@ if ($_GET['gen_pix']) {
   endif;
 
   // If there is no paymento processor, just give a simple qrCode.
-
   guyra_output_json([
     'qr_code' => '00020126330014BR.GOV.BCB.PIX0111490419238965204000053039865802BR5925GABRIEL HENRIQUE FRANZONI6009SAO PAULO6226052248kqmCKfToGwUCBlxMcAos6304FC92',
     'qr_code_base64' => file_get_contents($template_dir . '/assets/img/payment_qrcode.b64'),

@@ -36,7 +36,6 @@ if ($_GET['get_user_data']) {
     $theData['first_name'] = $gi18n['guest'];
     $theData['gamedata'] = GetUserRanking($user);
 
-    // Todo move to a function
     $theData['gamedata']['raw'] = [
       'challenges' => [
         'daily' => [

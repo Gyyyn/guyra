@@ -202,10 +202,18 @@ class RenderDay_Hour extends React.Component {
         Object.values(this.students).forEach(student => {
           
           if (student.id == this.state.userValue) {
+
             this.setState({
               userValueDisplay: [student.userdata.first_name, student.userdata.last_name].join(' '),
             });
+
+            return;
+
           }
+
+          this.setState({
+            userValueDisplay: this.state.userValue
+          });
 
         });
 
@@ -353,6 +361,7 @@ class RenderDay_Hour extends React.Component {
               });
 
               this.setState({
+                userValue: event.target.value,
                 userValueDisplay: event.target.value,
                 matchedStudents: matchedStudents
               });

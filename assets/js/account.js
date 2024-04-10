@@ -3403,7 +3403,12 @@ function HomeworkHistory(params) {
     var theDiaryComments = userdata.user_diary.user_comments;
       
     if (!Array.isArray(theDiaryComments)) {
-      return i18n.no_comments;
+      return e(
+        'div',
+        {},
+        e(Account_BackButton, { page: AccountWrapper }),
+        i18n.no_comments
+      );
     }
 
     theDiaryComments.reverse();

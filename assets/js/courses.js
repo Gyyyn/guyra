@@ -702,8 +702,6 @@ export class Courses extends React.Component {
 
   render() {
 
-    console.log(this.title);
-
     var paddingClass = 'courses';
 
     if (this.title == 'video') {

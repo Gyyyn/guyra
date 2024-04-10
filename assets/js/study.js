@@ -837,7 +837,7 @@ function UserHome_WelcomeCard(props) {
           
           Object.values(appointment).forEach((recurrAppointment, i) => {
 
-            if (recurrAppointment.user == theUserdata.id) {
+            if ( (recurrAppointment.user == theUserdata.id) || (recurrAppointment.user == theUserdata.studygroup)) {
               appointedTimes.recurring.push(theKeysRecurr[i]);
             }
 
@@ -847,7 +847,7 @@ function UserHome_WelcomeCard(props) {
 
           Object.values(appointment).forEach((hour, ii) => {
 
-            if (hour.user == theUserdata.id) {
+            if ( (hour.user == theUserdata.id) || (hour.user == theUserdata.studygroup) ) {
               appointedTimes.normal.push(theKeys[i] + " " + timeKeys[ii] + ":00");
             }
             
@@ -917,6 +917,9 @@ function UserHome_WelcomeCard(props) {
           appointedTimesElementList
         )
       );
+
+      if (appointedTimesElementList.length === 0) {
+      appointedTimesElement = null; }
 
     }
 

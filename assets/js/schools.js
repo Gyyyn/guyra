@@ -1526,7 +1526,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       this.avatar = e('img', { loading: 'lazy', className: 'avatar page-icon tiny me-2', src: this.representativeUser.userdata.profile_picture_url });
       this.userInfo = e(
         'span',
-        { className: 'text-ss fw-bold text-grey-darkest mx-2' },
+        { className: 'details text-ss fw-bold text-grey-darkest mx-2' },
         e(
           'span',
           { className: 'me-2' },
@@ -1646,7 +1646,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     return [
     e(
       'div',
-      { className: 'd-flex flex-column pb-1 mb-1 border-bottom', id: 'user_' + this.listingName },
+      { className: 'user-listing-item d-flex flex-column pb-1 mb-1', id: 'user_' + this.listingName },
       e(
         'div',
         { className: 'd-flex flex-column flex-md-row justify-content-between align-items-center' },
@@ -1949,7 +1949,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
             return e(
               'div',
-              { className: 'd-flex justify-content-between mt-2' },
+              { className: 'd-flex justify-content-between dialog-box' },
               e(
                 'div',
                 {},
@@ -2302,6 +2302,7 @@ export class GroupAdminHome extends React.Component {
 
     if (force) {
       window.localStorage.removeItem('guyra_students');
+      window.localStorage.removeItem('guyra_userdata');
     }
 
     return new Promise((resolve, reject) => {

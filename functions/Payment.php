@@ -190,6 +190,7 @@ function UpdateDirectPaymentsStatus() {
   global $current_user_data;
   global $secondsForA;
   global $gi18n;
+  global $current_user_payments;
 
   $updateNeeded = false;
 
@@ -220,7 +221,7 @@ function UpdateDirectPaymentsStatus() {
   $latest_payment_item = end($current_user_diary['payments']);
 
   // Check and create new bills for direct payment
-  if ($latest_payment_item['status'] == 'ok') {
+  if ($latest_payment_item['status'] == 'ok' && $current_user_payments['status'] != 'approved') {
 
     $item_due_unix = strtotime($latest_payment_item['due']);
     $item_due_date = date('Y-m-d', $item_due_unix + $secondsForA['month']);

@@ -182,7 +182,6 @@ if ($is_logged_in) {
 	}
 
 	// Make sure that if we want, we have user_login on user_data too.
-	// TODO: Check if this is actually an email, because it may be an oauth id sometimes.
 	$current_user_data['user_email'] = $current_user_object['user_login'];
 
 	// Set up some defaults for uncreated data, and handle some time-based events.
@@ -276,9 +275,9 @@ error_reporting(E_ALL);
 
 include_once $template_dir . '/functions/Payment.php';
 
-UpdateDirectPaymentsStatus();
-
 $current_user_subscription_valid = IsSubscriptionValid($current_user_id);
+
+UpdateDirectPaymentsStatus();
 
 // Handle trial accounts and non-payed access.
 if (!$current_user_subscription_valid) {

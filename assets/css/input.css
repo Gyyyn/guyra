@@ -207,7 +207,6 @@ input.form-control:not(.bs),
   padding: .5rem 1rem;
   font-size: var(--guyra-fonts-textsize-n);
   color: var(--guyra-black);
-  background-color: var(--guyra-white);
   font-family: var(--guyra-fonts-text);
   border: unset;
   outline: unset;

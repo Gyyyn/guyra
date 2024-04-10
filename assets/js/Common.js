@@ -1165,8 +1165,8 @@ export class PaymentItem extends React.Component {
       this.itemValue = this.itemValue + this.overdueExtra;
     }
 
-    this.transferFee = this.itemValue * parseFloat(thei18n.prices_features.transfer_fee);
-    this.itemValue = (this.itemValue + this.transferFee).toString().slice(0, 5);
+    // this.transferFee = this.itemValue * parseFloat(thei18n.prices_features.transfer_fee);
+    // this.itemValue = (this.itemValue + this.transferFee).toString().slice(0, 5);
 
   }
 
