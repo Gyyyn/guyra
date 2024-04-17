@@ -2541,7 +2541,7 @@ export function Practice(props) {
   
   return e('div', { className: 'exercise-fullscreen' }, e(
     'div',
-    { className: 'exercise-squeeze' },
+    { className: 'squeeze rounded-box exercise-squeeze' },
     e(Exercises)
   ));
 

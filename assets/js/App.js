@@ -425,6 +425,28 @@ class App extends React.Component {
       }),
     ];
 
+    if (this.state.userdata.is_admin) {
+
+      buttons[0] = e(
+        'div',
+        { className: 'd-flex flex-row'},
+        buttons[0],
+        e(Header_Button, {
+          onClick: () => { this.setPage('home') },
+          navigation: 'home',
+          value: '', image: 'icons/profile.png',
+          classExtra: 'p-0 border-0 ms-1'
+        }),
+      );
+
+      buttons.push(
+        e(Header_Button, {
+          onClick: () => { window.location.href = this.state.i18n.guyra_admin_link },
+          value: 'Admin', image: 'icons/sliders.png'
+        })
+      )
+    }
+
     // e(
     //   'span',
     //   { className: 'position-relative' },
@@ -491,7 +513,7 @@ class App extends React.Component {
           e(
             'button',
             {
-              className: 'btn d-flex flex-row align-items-center fw-bold px-0 py-1',
+              className: 'btn w-100 justify-content-center d-flex flex-row align-items-center fw-bold px-0 py-1',
               role: "button",
               id: 'account-center-button',
               onClick: (event) => {
@@ -504,12 +526,12 @@ class App extends React.Component {
             },
             e(
               'div',
-              { className: 'btn-tall btn-sm green position-relative me-1 d-flex flex-row align-items-center' },
+              { className: 'coins-button btn-tall btn-sm green position-relative me-1 d-flex flex-row align-items-center' },
               e(
                 'div',
                 { className: 'd-flex flex-row align-items-center' },
                 e('img', { className: 'page-icon tinier', src: this.state.i18n.api_link + '?get_image=icons/coins.png&size=32' }),
-                e('span', { className: 'ms-1 fw-bold' }, parseInt(this.state.userdata.gamedata.level))
+                e('span', { className: 'value ms-1 fw-bold' }, parseInt(this.state.userdata.gamedata.level))
               ),
             ),
             e(
@@ -560,7 +582,7 @@ class App extends React.Component {
       topSection,
       e(
         'div',
-        { className: 'd-flex justify-content-evenly' },
+        { className: 'buttons-proper d-flex justify-content-evenly' },
         accountButtons
       ),
     );
@@ -658,7 +680,7 @@ class App extends React.Component {
       ),
       e(
         'footer',
-        { className: 'my-5 d-none d-md-flex flex-column text-muted text-s justify-content-center align-items-center' },
+        { className: 'd-none my-5 flex-column text-muted text-s justify-content-center align-items-center' },
         e(
           'nav',
           {},

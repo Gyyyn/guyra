@@ -385,7 +385,11 @@ export class AccountCenter extends React.Component {
               className: 'btn position-absolute top-0 end-0 p-3',
               onClick: (event) => {
 
-                fetch(this.props.i18n.api_link + '?pop_notification=1&index=' + i);
+                fetch(this.props.i18n.api_link + '?pop_notification=1&index=' + i).then(res => {
+
+                  localStorage.removeItem('guyra_userdata');
+                  
+                });
 
               }
             },
@@ -459,8 +463,6 @@ export class AccountCenter extends React.Component {
 
   render() {
 
-    var extraButtons = [];
-
     var button = (props) => {
 
       if (props.image) {
@@ -491,20 +493,6 @@ export class AccountCenter extends React.Component {
 
     }
 
-    if(this.props.userdata.is_admin) {
-      extraButtons.push(
-        e(button, {
-          className: 'btn-tall w-100 mt-2',
-          onClick: () => { this.props.setPage('home') },
-          text: this.props.i18n.UserHomePage
-        }),
-        e(button, {
-          onClick: () => { window.location.href = this.props.i18n.guyra_admin_link },
-          text: 'Super Control Panel'
-        }),
-      );
-    }
-
     return e(
       'div',
       {
@@ -532,6 +520,8 @@ export class AccountCenter extends React.Component {
                     return new Promise((resolve, reject) => {
 
                       fetch(this.props.i18n.api_link + '?clear_notifications=1').then(res => {
+
+                        localStorage.removeItem('guyra_userdata');
 
                         resolve(true);
 
@@ -568,7 +558,6 @@ export class AccountCenter extends React.Component {
           image: 'icons/podium.png',
           text: this.props.i18n.ranking
         }),
-        extraButtons,
         e(button, {
           onClick: (e) => {
   

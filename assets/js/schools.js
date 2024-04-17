@@ -10,7 +10,8 @@ import {
   GetStandardDate,
   onChangeForceHTTPS,
   reactOnCallback,
-  RemovePunctuation
+  RemovePunctuation,
+  PopUp
 } from '%getjs=Common.js%end';
 import { RenderDay, RenderCalendar } from '%getjs=Calendar.js%end';
 
@@ -21,7 +22,7 @@ function DiaryEditButton(props) {
   return e(DiaryContext.Consumer, null, ({EditEntry, changePaymentEntry, i18n}) => e(
     'button',
     {
-      className: "btn-tall btn-sm blue",
+      className: "btn p-0",
       onClick: () => {
 
         var newComment = window.prompt('', props.current);
@@ -38,7 +39,7 @@ function DiaryEditButton(props) {
 
       }
     },
-    e('i', { className: "bi bi-pencil-square", alt: i18n.edit })
+    e('i', { className: "bi bi bi-pencil", alt: i18n.edit })
   ));
 }
 
@@ -46,7 +47,7 @@ function DiaryDeleteButton(props) {
   return e(DiaryContext.Consumer, null, ({deleteEntry, deletePaymentEntry, i18n}) => e(
     'button',
     {
-      className: "btn-tall btn-sm red",
+      className: "btn red p-0",
       onClick: () => {
 
         if (window.confirm(i18n.delete_confirm)) {
@@ -112,24 +113,18 @@ class DiaryEntry extends React.Component {
 
     this.dateDisplay = e(DiaryContext.Consumer, null, ({diary}) => e(
       'span',
-      {
-        id: 'date-' + this.props.id
-      },
+      { id: 'date-' + this.props.id },
       e(
-        'span',
-        { className: 'close-button position-absolute bottom-0 start-0'},
-        e(
-          'button',
-          {
-            className: "btn-tall btn-sm blue me-2",
-            onClick: () => {
-              this.setState({
-                dateSection: this.datePicker
-              })
-            }
-          },
-          e('i', { className: "bi bi-pencil" })
-        )
+        'button',
+        {
+          className: "btn p-0 me-2",
+          onClick: () => {
+            this.setState({
+              dateSection: this.datePicker
+            })
+          }
+        },
+        e('i', { className: "bi bi-pencil" })
       ),
       diary.entries[this.props.id].date
     ));
@@ -150,7 +145,7 @@ class DiaryEntry extends React.Component {
       e(
         'div',
         {
-          className: 'date text-grey-darker text-end col-lg-3 position-relative',
+          className: 'date col-lg-3',
           title: this.props.entry.date
         },
         this.state.dateSection
@@ -354,7 +349,7 @@ class DiaryPaginatedEntries extends React.Component {
 
 function DiaryEntries(props) {
 
-  return e(DiaryContext.Consumer, null, ({diary}) => {
+  return e(DiaryContext.Consumer, null, ({diary, i18n}) => {
 
     if (!diary) {
     diary = {} }
@@ -369,6 +364,13 @@ function DiaryEntries(props) {
       {
         className: 'diary-entries'
       },
+      e(
+        'div',
+        { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row' },
+        e('span', { className: 'col-3' }, i18n.date),
+        e('span', { className: 'col-2' }, i18n.status),
+        e('span', { className: 'col' }, i18n.comment)
+      ),
       e(DiaryPaginatedEntries, { entries: Object.values(theEntries), entriesPerPage: 5 })
     );
 
@@ -501,11 +503,7 @@ class DiaryProper extends React.Component {
         i18n.user_ingroup
       ));
     } else {
-      this.diaryWrapper = e(
-        'div',
-        {},
-        e(DiaryEntries),
-      );
+      this.diaryWrapper = e(DiaryEntries);
     }
   }
 
@@ -513,7 +511,7 @@ class DiaryProper extends React.Component {
     return e(
       'div',
       {
-        className: 'diary mt-3'
+        className: 'diary'
       },
       this.diaryWrapper,
       e(DiaryContext.Consumer, null, ({paymentArea}) => paymentArea),
@@ -522,16 +520,6 @@ class DiaryProper extends React.Component {
     );
   }
 
-}
-
-function PaymentAreaInfo(props) {
-  return e(DiaryContext.Consumer, null, ({i18n}) => e(
-    'div',
-    { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row' },
-    e('span', { className: 'col-2' }, i18n.value),
-    e('span', { className: 'col-2' }, i18n.status),
-    e('span', { className: 'col' }, i18n.due_date)
-  ));
 }
 
 class PaymentAreaEntry extends React.Component {
@@ -592,7 +580,7 @@ class PaymentAreaEntry extends React.Component {
           e(
             'button',
             {
-              className: "btn-tall btn-sm blue",
+              className: "btn p-0",
               onClick: () => {
                 this.setState({
                   dateSection: this.datePicker
@@ -700,9 +688,14 @@ class PaymentArea extends React.Component {
   render() {
     return e(DiaryContext.Consumer, null, ({diary, i18n}) => e(
       'div',
-      { className: 'mt-5' },
-      e('h2', {}, i18n.payment),
-      e(PaymentAreaInfo),
+      { className: 'mt-1' },
+      e(
+        'div',
+        { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row' },
+        e('span', { className: 'col-2' }, i18n.value),
+        e('span', { className: 'col-2' }, i18n.status),
+        e('span', { className: 'col' }, i18n.due_date)
+      ),
       e(
         'div',
         { className: 'diary-entries' },
@@ -1004,7 +997,7 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardsClasses = 'card trans thin blue col-3 p-3 me-3 mb-3';
+    this.cardsClasses = 'card trans thin col-3 p-3 me-3 mb-3';
 
     this.state = {
       cards: [],
@@ -1142,7 +1135,34 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         ),
       );
 
-      this.state.cards.push(this.groupRemoveUsers);
+      this.groupSeeUserDiary = e(
+        'div',
+        { className: this.cardsClasses },
+        e('h4', {}, thei18n.diary),
+        e(
+          'div',
+          { className: 'd-flex flex-wrap' },
+          this.props.groupData.map((user) => {
+
+            return e(PopUp,
+              {
+                title: user.userdata.first_name + ' ' + thei18n.diary,
+                buttonElement: e('button', { className: 'btn-tall btn-sm blue me-1 mb-1' }, e('i', {className: 'bi bi-box-arrow-up-right me-1'}), user.userdata.first_name),
+                bodyElement: e(Diary,
+                  {
+                    username: user.userdata.first_name,
+                    diaryId: user.id,
+                    diary: user.diary,
+                  }
+                )
+              }
+            );
+  
+          }),
+        )
+      );
+
+      this.state.cards.push(this.groupSeeUserDiary, this.groupRemoveUsers);
 
     }
 
@@ -1265,12 +1285,19 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
     this.theReplies = this.props.diary.user_comments; }
 
     if (this.props.listingType == 'group') {
-    this.theReplies = this.props.diary.diaries[this.props.listingName].user_comments; }
+
+      if (!this.props.diary.diaries[this.props.listingName]) {
+
+        this.props.diary.diaries[this.props.listingName] = {};
+
+      }
+      this.theReplies = this.props.diary.diaries[this.props.listingName].user_comments;
+    }
 
     if (!this.theReplies) {
     this.theReplies = []; }
 
-    // this.theReplies.reverse();
+    this.theReplies = structuredClone(this.theReplies).reverse();
 
   }
 
@@ -1597,35 +1624,41 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
     };
 
     this.setState({
-      currentView: e(
-        'div',
-        { className: 'dialog-box  position-relative' } ,
+      currentView: [
         e(
           'div',
-          { className: 'translate-middle-y position-absolute end-0 z-1' },
+          { className: 'd-flex justify-content-left mb-2' },
           e(
             'button',
             {
-              className: "btn-tall btn-sm red shadow-material",
+              className: "btn btn-sm red",
               onClick: () => {
-
+  
                 this.setState({
                   currentView: null
                 });
-
+  
               }
             },
             e('i', { className: "bi bi-x-lg", alt: thei18n.close })
-          )
+          ),
         ),
-        views[view]
-      )
+        e(
+          'div',
+          { className: 'border more-rounded p-2 slidedown-animation animate' },
+          views[view]
+        )
+      ]
     });
   }
 
   render() {
 
-    if (this.props.search) {
+    if (this.props.search && this.props.search !== '*') {
+
+      if (this.props.search === '-') {
+        return;
+      }
 
       var search = RemovePunctuation(this.props.search.toLowerCase());
       var matchword = new RegExp("(" + search + ")");
@@ -1727,7 +1760,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
       {
         className: 'position-absolute top-50 end-0 pe-4 cursor-pointer',
         onClick: () => {
-          this.setSearch('');
+          this.setSearch('*');
         }
       },
       e('i', { className: 'bi bi-x-lg' })
@@ -1853,10 +1886,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
                   className: 'btn-tall blue me-2',
                   onClick: () => {
                     
-                    if (this.state.search == 'guyra') {
-                      this.setSearch('');
+                    if (this.state.search == '-') {
+                      this.setSearch('*');
                     } else {
-                      this.setSearch('guyra');
+                      this.setSearch('-');
                     }
 
                   }
@@ -1949,7 +1982,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
             return e(
               'div',
-              { className: 'd-flex justify-content-between dialog-box' },
+              { className: 'd-flex justify-content-between' },
               e(
                 'div',
                 {},

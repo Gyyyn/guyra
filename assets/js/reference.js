@@ -1064,9 +1064,11 @@ class Dictionary extends React.Component {
               placeholder: i18n.write_word_here,
               value: this.state.word,
               onChange: (event) => {
+
                 this.setState({
                   word: event.target.value
                 });
+
               }
             }
           ),

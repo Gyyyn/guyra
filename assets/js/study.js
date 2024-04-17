@@ -681,7 +681,7 @@ function UserHome_WelcomeCard(props) {
 
             return e(HomeContext.Consumer, null, ({appSetPage}) => e(
               'div',
-              { className: 'squeeze rounded-box' },
+              { className: 'rounded-box' },
               e(
                 WhoAmI_openPayments_paymentItem,
                 {

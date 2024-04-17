@@ -1327,7 +1327,7 @@ export class PopUp extends React.Component {
             {
               className: 'rounded-box my-5 ' + animationClass,
               style: {
-                maxWidth: 700 + 'px'
+                maxWidth: 900 + 'px'
               }
             },
             e(
