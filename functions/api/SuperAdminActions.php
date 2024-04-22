@@ -1,6 +1,7 @@
 <?php
 
 global $template_dir;
+global $cache_dir;
 global $template_url;
 global $current_user_id;
 global $current_user_data;
@@ -92,5 +93,17 @@ if ($_GET['set_holidays']) {
   $news_file = $template_dir . '/settings/holidays.' . $lang . '.json';
 
   file_put_contents($news_file, $thePost['value']);
+
+}
+
+if ($_GET['upload_db_file']) {
+  
+  $target_file = $cache_dir . '/' . 'database.db';
+
+  if (file_exists($target_file))
+  rename($target_file, $target_file . '.' . time() . '.old');
+  
+  if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
+  guyra_output_json(['error' => 'file upload error']);
 
 }

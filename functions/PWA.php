@@ -21,8 +21,8 @@ function guyra_handle_pwa() {
   $js_path = $template_dir . '/assets/js';
   $success = true;
 
-  $PWAjs_file_path = $site_root . '/GuyraPWA.js';
-  $PWAmanifest_file_path = $site_root . '/GuyraManifest.json';
+  $PWAjs_file_path = $site_root . '/public/GuyraPWA.js';
+  $PWAmanifest_file_path = $site_root . '/public/GuyraManifest.json';
 
   // Check if the files are already placed on the root folder.
   $file = file_get_contents($PWAjs_file_path);

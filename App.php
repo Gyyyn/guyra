@@ -2,7 +2,7 @@
 
 // Define the app version.
 if (!defined('GUYRA_VERSION'))
-define('GUYRA_VERSION', '0.8.2');
+define('GUYRA_VERSION', '0.8.3');
 
 // Initialize the App enviroment
 include_once './functions/Init.php';
@@ -24,9 +24,34 @@ function GetComponent($component, $_args=[]) {
 
 }
 
+function isFilePublic($file): bool {
+
+  global $site_root;
+
+  $publicDir = $site_root . '/public';
+  $isDir = false;
+
+  if (!is_dir($publicDir))
+  return false;
+
+  if (sizeof($file) > 1)
+  $isDir = true;
+
+  $publicDirFiles = scandir($publicDir);
+
+  // TODO: handle dirs
+
+  if (array_search($file[1], $publicDirFiles))
+  return true;
+
+  return false;
+  
+}
+
 // Capture request and pass to handler.
 CaptureRequest(function($r, $_nests) {
 
+  global $site_root;
   global $template_dir;
   global $is_logged_in;
   global $is_admin;
@@ -34,6 +59,7 @@ CaptureRequest(function($r, $_nests) {
   global $gSettings;
   global $nests;
   global $route;
+  global $isPublicFile;
 
   $nests = array_filter($_nests);
 
@@ -66,6 +92,11 @@ CaptureRequest(function($r, $_nests) {
       $route[] = $pageToLoad;
     } else {
       $page = $template_dir . '/pages/' . $pageToLoad . '.php';
+    }
+
+    if(isFilePublic($nests)) {
+      $isPublicFile = true;
+      $page = $site_root . '/pages/public.php';
     }
 
   }

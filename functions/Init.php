@@ -123,7 +123,7 @@ $special_caches = [
 	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"]
 ];
 
-$assetsCacheLocation = $template_dir . '/cache/assets/';
+$assetsCacheLocation = $cache_dir . '/assets/';
 
 foreach ($special_caches as $cache) {
 
@@ -192,14 +192,6 @@ if ($is_logged_in) {
 		'status' => 'none'
 	];
 
-	// If the user never engaged with the challenge system set it as so.
-	if (!$current_user_gamedata['challenges'])
-	$current_user_gamedata['challenges'] = [
-		'daily' => [
-			'last_update' => 0
-		]
-	];
-
 	// Set up some default so no errors occur.
 	if (!$current_user_notifications)
 	$current_user_notifications = [];
@@ -210,6 +202,17 @@ if ($is_logged_in) {
 	$changedGamedata = false;
 	$dailyStreakBroken = false;
 	$sendNotification = false;
+
+	if (!$current_user_gamedata)
+	$current_user_gamedata = [];
+
+	// If the user never engaged with the challenge system set it as so.
+	if (!$current_user_gamedata['challenges'])
+	$current_user_gamedata['challenges'] = [
+		'daily' => [
+			'last_update' => 0
+		]
+	];
 
 	// Update the challenges
 	if (($current_user_gamedata['challenges']['daily']['last_update'] + 86400) < time()) {

@@ -409,7 +409,7 @@ class App extends React.Component {
 
     buttons = [
       e(Header_Button, {
-        value: homeValue, image: homeIcon,
+        value: homeValue, image: homeIcon, classExtra: 'flex-grow-1',
         onClick: () => { this.setPage(this.homeElement) },
         navigation: 'home'
       }),
@@ -530,14 +530,14 @@ class App extends React.Component {
               e(
                 'div',
                 { className: 'd-flex flex-row align-items-center' },
-                e('img', { className: 'page-icon tinier', src: this.state.i18n.api_link + '?get_image=icons/coins.png&size=32' }),
+                e('img', { className: 'page-icon tinier', src: GuyraGetImage('icons/coins.png') }),
                 e('span', { className: 'value ms-1 fw-bold' }, parseInt(this.state.userdata.gamedata.level))
               ),
             ),
             e(
               'div',
               { className: 'btn-tall btn-sm green position-relative me-1' },
-              e('img', { className: 'page-icon tinier', src: this.state.i18n.api_link + '?get_image=icons/bell.png&size=32' }),
+              e('img', { className: 'page-icon tinier', src: GuyraGetImage('icons/bell.png') }),
               e(() => {
 
                 if (this.state.userdata.notifications.length == 0) {
@@ -613,14 +613,14 @@ class App extends React.Component {
         { className: 'fade-animation animate position-absolute start-0 top-0 w-100', style: { zIndex: 2000 } },
         e(
           'div',
-          { className: 'bg-white-blurred squeeze', style: { height: '100vh' } },
+          { className: 'bg-white-blurred', style: { height: '100vh' } },
           e(
             'div',
             { className: 'd-flex flex-column p-5' },
             e(
               'div',
               { className: 'col-md mb-5 d-flex align-items-center justify-content-around' },
-              e('img', { className: 'page-icon large', src: this.state.i18n.assets_link + 'img/guyra-title-logo.svg' }),
+              e('img', { className: 'page-icon large', src: GuyraGetImage('img/guyra-title-logo.svg') }),
             ),
             e('h1', {}, this.state.i18n.meta_desc_short),
             welcomeGreeting,

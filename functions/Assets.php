@@ -134,6 +134,19 @@ function GetImageCache($asset, $size=null, $type='png', $compression=80, $full_i
   $object = file_get_contents($cachedObject);
   $theLink = $template_url . '/cache/assets/' . $cachedObjectAppend;
 
+  $imageType = explode('.', $asset)[1];
+
+  if ($imageType == 'svg' && !$object) {
+
+    $object = file_get_contents($realObject);
+    $cachedObject = str_replace('.' . $type, '.svg', $cachedObject);
+    $theLink = str_replace('.' . $type, '.svg', $theLink);
+    
+    if(!file_put_contents($cachedObject, $object))
+    return ['error' => 'couldn\'t make svg file'];
+
+  }
+
   if (!$object) {
 
     $manager = new ImageManager();

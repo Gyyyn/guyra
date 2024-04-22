@@ -40,7 +40,7 @@ function guyra_log_to_file($object) {
   file_put_contents($template_dir . '/log.txt', $object, FILE_APPEND);
 }
 
-function Guyra_GetDBConnection($args=[]) {
+function Guyra_GetDBConnectionMYSQL($args=[]) {
 
   $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $db->set_charset("utf8");
@@ -58,33 +58,54 @@ function Guyra_GetDBConnection($args=[]) {
 
 }
 
+function Guyra_GetDBConnection($args=[]) {
+
+  global $site_root;
+
+  try {
+    
+    $db = new SQLite3($site_root . '/cache/database.db');
+
+  } catch(Exception $exception) {
+
+    HandleServerError([
+      'message' => 'Database error!',
+      'err' => $exception->getMessage()
+    ], 500);
+
+  }
+
+  return $db;
+
+}
+
 function guyra_database_create_db() {
 
   $db = Guyra_GetDBConnection();
 
   $tables = [
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
+    "CREATE TABLE IF NOT EXISTS guyra_user_history (
     log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT UNSIGNED,
-    object LONGTEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+    object TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
+    "CREATE TABLE IF NOT EXISTS guyra_user_meta (
     meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT UNSIGNED,
-    meta_key VARCHAR(255),
-    meta_value LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+    meta_key TEXT,
+    meta_value TEXT)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
+    "CREATE TABLE IF NOT EXISTS guyra_error_history (
     log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    object LONGTEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+    object TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_users (
+    "CREATE TABLE IF NOT EXISTS guyra_users (
     user_id BIGINT UNSIGNED PRIMARY KEY,
-    user_login VARCHAR(100),
-    type VARCHAR(255),
-    flags LONGTEXT) CHARACTER SET %s", DB_CHARSET)
+    user_login TEXT,
+    type TEXT,
+    flags TEXT)"
   ];
 
   foreach ($tables as $table => $sql) {
@@ -92,13 +113,19 @@ function guyra_database_create_db() {
       guyra_output_json('empty query, check input vars', true);
     }
 
-    if ($db->query($sql) === TRUE) {
+    try {
+    
+      $result = $db->exec($sql);
 
-      guyra_output_json('query successful');
-
-    } else {
-      guyra_output_json('query error: ' . $db->error, true);
+      if(!$result)
+      guyra_handle_query_error($db->lastErrorMsg());
+  
+    } catch (Exception $th) {
+      
+      guyra_handle_query_error($th->getMessage());
+  
     }
+
   }
 
   $db->close();
@@ -106,6 +133,8 @@ function guyra_database_create_db() {
 }
 
 function guyra_handle_query_error($error='') {
+
+  var_dump($error); exit;
 
   if (preg_match("/(doesn't exist)/", $error)) {
 
@@ -135,6 +164,9 @@ function guyra_handle_query_error($error='') {
  */
 function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
+  if (!$user)
+  return;
+
   global $current_user_meta;
   global $current_user_id;
 
@@ -156,6 +188,12 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   FROM guyra_user_meta
   WHERE user_id='%d'", $user);
 
+if ($meta_key) {
+
+  $sql .= sprintf(" AND meta_key = '%s'", $meta_key);
+
+}
+
   try {
     
     $result = $db->query($sql);
@@ -169,24 +207,14 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
   $output = false;
 
   // Check if the user exists
-  if ($result->num_rows > 0) {
+  if ($result) {
 
-    if (!$meta_key) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+      $output[] = $row;
+    }
 
-      while ($row = $result->fetch_assoc()) {
-          $output[] = $row;
-      }
-
-    } else {
-
-      foreach ($result as $row) {
-
-        if ($row['meta_key'] == $meta_key) {
-          $output = $row;
-        }
-
-      }
-
+    if (sizeof($output) == 1) {
+      $output = $output[0];
     }
 
     if ($return === 'exists' && $output != false) {
@@ -209,14 +237,18 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
 function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 
-  $db = Guyra_GetDBConnection();
-  $meta_value = $db->real_escape_string($meta_value);
+  if (!$user)
+  return;
 
-  if (guyra_get_user_meta($user, $meta_key, 'exists')) {
+  $db = Guyra_GetDBConnection();
+  $meta_value = $db->escapeString($meta_value);
+  $meta_exists = guyra_get_user_meta($user, $meta_key, 'exists');
+
+  if ($meta_exists) {
 
     $sql = sprintf("UPDATE guyra_user_meta
     SET meta_value = '%s'
-    WHERE user_id = %d AND meta_key = '%s'", $meta_value, $user, $meta_key);
+    WHERE user_id = '%d' AND meta_key = '%s'", $meta_value, $user, $meta_key);
 
   } else {
 
@@ -225,19 +257,18 @@ function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 
   }
 
-  if ($db->query($sql) === TRUE) {
+  try {
+    
+    $result = $db->exec($sql);
 
-    if ($return) {
-
-      guyra_output_json('query successful');
-
-    }
-
-  } else {
-
-    guyra_handle_query_error($db->error);
+  } catch (Exception $th) {
+    
+    guyra_handle_query_error($th->getMessage());
 
   }
+
+  if ($return)
+  guyra_output_json('query successful');
 
   $db->close();
 
@@ -250,19 +281,18 @@ function guyra_remove_user_meta($user, $meta_key, $return=false) {
   $sql = sprintf("DELETE FROM guyra_user_meta
   WHERE user_id = %d AND meta_key = '%s'", $user, $meta_key);
 
-  if ($db->query($sql) === TRUE) {
+  try {
+      
+    $result = $db->exec($sql);
 
-    if ($return) {
-
-      guyra_output_json('query successful');
-
-    }
-
-  } else {
-
-    guyra_handle_query_error($db->error);
+  } catch (Exception $th) {
+    
+    guyra_handle_query_error($th->getMessage());
 
   }
+
+  if ($return)
+  guyra_output_json('query successful');
 
   $db->close();
 
@@ -275,13 +305,13 @@ function guyra_log_to_db($user, $object) {
   $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
   VALUES (%d, '%s')", $user, addslashes($object));
 
-  if ($db->query($sql) === TRUE) {
+  try {
+      
+    $result = $db->exec($sql);
 
-    guyra_output_json('query successful');
-
-  } else {
-
-    guyra_handle_query_error($db->error);
+  } catch (Exception $th) {
+    
+    guyra_handle_query_error($th->getMessage());
 
   }
 
@@ -300,7 +330,7 @@ function guyra_get_logdb_items($amount=10, $return=false) {
   $result = $db->query($sql);
   $output = false;
 
-  while ($row = $result->fetch_assoc()) {
+  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       $output[] = $row;
   }
 
@@ -321,7 +351,7 @@ function guyra_log_error_todb($object) {
   $sql = sprintf("INSERT INTO guyra_error_history (object)
   VALUES ('%s')", addslashes($object));
 
-  $db->query($sql);
+  $db->exec($sql);
 
   $db->close();
 
@@ -412,15 +442,21 @@ function guyra_get_user_object($user_id, $user_email=null) {
   $result = $db->query($sql);
   $output = false;
 
-  // Check if the user exists
-  if ($result->num_rows > 0) {
+  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
-    while ($row = $result->fetch_assoc()) {
-        $output[] = $row;
-    }
+    // $found = false;
 
-    // Truncate the result
-    if ($result->num_rows === 1) {
+    // if ($user_id && $row['user_id'] == $user_id) {
+    //   $found = true;
+    // }
+
+    // if ($user_email && $row['user_login'] == $user_email) {
+    //   $found = true;
+    // }
+
+    $output[] = $row;
+
+    if (sizeof($output) == 1) {
       $output = $output[0];
     }
 
@@ -488,7 +524,7 @@ function guyra_create_user($login, $type='user', $flags=[]) {
   $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
   VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
 
-  $result = $db->query($sql);
+  $result = $db->exec($sql);
 
   return $user_id;
 
@@ -530,7 +566,7 @@ function guyra_update_user($user_id, array $values) {
     flags = '%s'
   WHERE user_id = %d", $string_replacements);
 
-  $result = $db->query($sql);
+  $result = $db->exec($sql);
 
 }
 
@@ -553,7 +589,7 @@ function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
   $result = $db->query($sql);
   $output = false;
 
-  while ($row = $result->fetch_assoc()) {
+  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $_output[] = $row;
   }
 

@@ -2,6 +2,7 @@ import {
   e,
   MD5,
   GuyraGetData,
+  GuyraGetImage,
   GuyraLocalStorage,
   thei18n,
   theUserdata,
@@ -969,7 +970,7 @@ function UserHome_WelcomeCard(props) {
                 {
                   className: 'page-icon small',
                   alt: theUserdata.gamedata['ranking'],
-                  src: thei18n.assets_link + 'icons/exercises/ranks/' + theUserdata.gamedata['ranking'] + '.png'
+                  src: GuyraGetImage('icons/exercises/ranks/' + theUserdata.gamedata['ranking'] + '.png', { size: 128 })
                 },
               ),
               e('span', { className: 'text-ss fw-bold capitalize'}, theUserdata.gamedata['ranking_name'])

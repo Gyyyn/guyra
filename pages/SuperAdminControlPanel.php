@@ -378,6 +378,17 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
 
   </div>
 
+  <h4 class="mt-4">Holiday list:</h4>
+  <div class="admin-forms form-control border rounded p-3 m-0">
+    
+  <form action="<?php echo $gi18n['api_link'] . '?upload_db_file=1' ?>" method="post" enctype="multipart/form-data">
+    Select file:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload Image" name="submit">
+  </form>
+
+  </div>
+
 </div>
 
 </main></div>

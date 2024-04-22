@@ -108,3 +108,23 @@ function GuyraDisplayErrorPage($title, $message) {
   exit;
 
 }
+
+function generateUpToDateMimeArray() {
+
+  global $site_root;
+
+  $return = array();
+  $mimes = file_get_contents($site_root . '/assets/mime.types');
+
+  preg_match_all('#^([^\s]{2,}?)\s+(.+?)$#ism', $mimes, $matches, PREG_SET_ORDER);
+  
+  foreach ($matches as $match){
+      $exts = explode(" ", $match[2]);
+      foreach ($exts as $ext){
+          $return[$ext]=$match[1];
+      }
+  }
+
+  return $return;
+  
+}

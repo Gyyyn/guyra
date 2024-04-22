@@ -166,17 +166,18 @@ if ($_GET['lost_password']) {
     if ($nonce_pass) {
 
       $new_password = bin2hex(random_bytes(8));
+      $hashedPass = password_hash($new_password, PASSWORD_DEFAULT);
       $user_data = guyra_get_user_object($user);
       $user_email = $user_data['user_login'];
 
-      guyra_update_user_meta($user_data['user_id'], 'user_pass', password_hash($new_password, PASSWORD_DEFAULT));
+      guyra_update_user_meta($user_data['user_id'], 'user_pass', $hashedPass);
 
       $creds = [
         'user_login'    => $user_email,
         'user_password' => $new_password
       ];
 
-      Guyra_Login_User($creds);
+      $login = Guyra_Login_User($creds);
       unset($new_password);
 
       if ($_GET['passwordless']) {

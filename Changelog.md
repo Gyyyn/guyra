@@ -1,3 +1,9 @@
+# 0.8.3
+
+* change handling of public files all to php¨
+* add public folder, handles as an extension of cache folder
+* add support for svgs in asset logic
+
 # 0.8.2
 
 * force update on clearing and deleting notifications

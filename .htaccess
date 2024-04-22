@@ -13,7 +13,7 @@
     RewriteRule ^index\.php$ - [L]
 
     # Send Requests To Front Controller.
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule . /index.php [L]
 
 </IfModule>

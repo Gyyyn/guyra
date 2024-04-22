@@ -21,6 +21,10 @@ $redirect = false;
 // First include some actions for all users.
 include $template_dir . '/functions/api/Common.php';
 
+// Case where user is site admin.
+if ($is_admin)
+include $template_dir . '/functions/api/SuperAdminActions.php';
+
 // Game API
 include $template_dir . '/functions/api/Exercises.php';
 include_once $template_dir . '/functions/api/UserActions/Reference.php';
@@ -33,13 +37,6 @@ if (!$is_logged_in) {
 
 include $template_dir . '/functions/api/Shop.php';
 include $template_dir . '/functions/api/Reference.php';
-
-// Case where user is site admin.
-if ($is_admin) {
-
-  include $template_dir . '/functions/api/SuperAdminActions.php';
-
-}
 
 // Case where user is a group admin.
 if ($is_admin || $current_user_data['role'] == "teacher") {
