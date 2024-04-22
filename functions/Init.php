@@ -7,9 +7,15 @@
  */
 
 // Force HTTPS independent of server config.
-if($_SERVER["HTTPS"] != "on") {
-    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-    exit;
+if(!$_SERVER["HTTPS"] || $_SERVER["HTTPS"] != "on") {
+
+	if (!$_GET['ignore_https']) {
+		
+		header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		exit;
+
+	}
+
 }
 
 // Force disable error reporting.
