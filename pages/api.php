@@ -11,15 +11,6 @@ global $redirect;
 global $is_logged_in;
 global $nests;
 
-if ($_GET['test']) {
-  include_once $template_dir . '/functions/Mailer.php';
-  global $gi18n;
-  error_reporting(E_ALL);
-  $send = Guyra_mail('welcome.html', $gi18n['notification_welcome']['title'], 'ghfranzoni@gmail.com', [$site_url,$site_url]);
-  var_dump($send);
-  exit;
-}
-
 if ($nests[2] == 'cron') {
   include $template_dir . '/components/Cron.php';
   exit;
