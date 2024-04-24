@@ -213,7 +213,7 @@ if ($meta_key) {
       $output[] = $row;
     }
 
-    if (sizeof($output) == 1) {
+    if (is_array($output) && sizeof($output) == 1) {
       $output = $output[0];
     }
 
@@ -456,7 +456,7 @@ function guyra_get_user_object($user_id, $user_email=null) {
 
     $output[] = $row;
 
-    if (sizeof($output) == 1) {
+    if (is_array($output) && sizeof($output) == 1) {
       $output = $output[0];
     }
 

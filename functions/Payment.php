@@ -218,6 +218,7 @@ function UpdateDirectPaymentsStatus() {
 
   }
 
+  if(is_array($current_user_diary['payments']))
   $latest_payment_item = end($current_user_diary['payments']);
 
   // Check and create new bills for direct payment
