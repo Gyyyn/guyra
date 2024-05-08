@@ -85,13 +85,13 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
 }
 
 .exercise-answers .word {
-    padding: .25rem .5rem;
-    text-decoration: none;
-    border-radius: var(--guyra-border-radius);
-    border-bottom: .25rem solid var(--guyra-grey-dark);
-    margin: 0 .25rem;
-    background: var(--guyra-grey);
-    color: var(--guyra-black);
+  padding: .25rem .5rem;
+  text-decoration: none;
+  border-radius: var(--guyra-border-radius);
+  border-bottom: .25rem solid var(--guyra-grey-dark);
+  margin: 0 .25rem;
+  background: var(--guyra-grey);
+  color: var(--guyra-black);
 }
 
 .control-area {
@@ -108,26 +108,26 @@ progress#exercise-done-percent[value]::-moz-progress-bar {
   align-items: center;
   justify-content: space-between;
   border-radius: var(--guyra-border-radius-bigger);
-  border-bottom: var(--guyra-border-size) solid var(--guyra-grey-dark);
+  border: 1px solid var(--guyra-grey-dark);
 }
 
 .exercise-hints.info {
-  background: var(--guyra-blue-lightest);
+  /* background: var(--guyra-blue-lightest); */
   border-bottom-color: var(--guyra-blue-lighter);
   color: var(--guyra-blue-darkest);
 }
 
 .exercise-hints.correct,
 .answers-review-card.correct {
-  background: var(--guyra-green-lightest);
-  border-bottom-color: var(--guyra-green-lighter);
+  /* background: var(--guyra-green-lightest); */
+  border-color: var(--guyra-green-lighter);
   color: var(--guyra-green-darkest);
 }
 
 .exercise-hints.wrong,
 .answers-review-card.wrong {
-  background: var(--guyra-red-lightest);
-  border-bottom-color: var(--guyra-red-lighter);
+  /* background: var(--guyra-red-lightest); */
+  border-color: var(--guyra-red-lighter);
   color: var(--guyra-red-darker);
 }
 

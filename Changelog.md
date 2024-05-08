@@ -1,3 +1,8 @@
+# 0.9.0 
+
+* substantial design changes to a more neumorphic design
+* change mailing to twilio
+
 # 0.8.2
 
 * force update on clearing and deleting notifications

@@ -619,6 +619,9 @@ class GrammaticalTime extends React.Component {
   }
 
   render() {
+
+    const updateSelfVerb = (e) => { this.setValues({ verb: e.target.value }); }
+
     return e(ReferenceContext.Consumer, null, ({i18n, irregularsObject}) => e(
       'div',
       { className: 'grammar-reference' },
@@ -630,13 +633,18 @@ class GrammaticalTime extends React.Component {
             'span',
             { className: 'dialog-box info p-3 more-rounded' },
             e('div', { className: 'fw-bold me-2' }, i18n.pronoun),
-            e('input', { id: 'pronoun-input', className: 'w-25', type: 'text', value: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
+            e('input', { id: 'pronoun-input', className: 'w-25', type: 'text', deafultValue: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
           ),
           e(
             'span',
             { className: 'dialog-box info p-3 more-rounded' },
             e('div', { className: 'fw-bold me-2' }, i18n.verb),
-            e('input', { id: 'verb-input', className: 'w-50', type: 'text', value: this.state.verb, onChange: (e) => { this.setValues({ verb: e.target.value }); } }),
+            e('input', {
+              id: 'verb-input', className: 'w-50', type: 'text',
+              deafultValue: this.state.verb,
+              onChange: updateSelfVerb,
+              onClick: updateSelfVerb
+            }),
             e(
               'span',
               { className: 'ms-3'},
@@ -1064,6 +1072,17 @@ class Dictionary extends React.Component {
               placeholder: i18n.write_word_here,
               value: this.state.word,
               onChange: (event) => {
+
+                var verbInput = document.querySelector('#verb-input');
+
+                if (verbInput) {
+                  
+                  verbInput.value = event.target.value;
+
+                  // This is such a hack lol.
+                  verbInput.click();
+
+                }
 
                 this.setState({
                   word: event.target.value

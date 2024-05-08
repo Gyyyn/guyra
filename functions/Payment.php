@@ -183,6 +183,29 @@ function GetMPPaymentStatus($payment_id) {
 
 }
 
+function GetMPPaymentsList($client_email) {
+
+  if (!$client_email)
+  return ['error' => 'no email provided'];
+
+  global $gSettings;
+  require_once 'vendor/autoload.php';
+  MercadoPago\SDK::setAccessToken($gSettings['mp_access_token']);
+
+  $searchRequest = new MPSearchRequest(30, 0, [
+    "sort" => "date_created",
+    "criteria" => "desc",
+    "external_reference" => "ID_REF",
+    "range" => "date_created",
+    "begin_date" => "NOW-30DAYS",
+    "end_date" => "NOW"
+  ]);
+
+  $client = new PaymentClient();
+  $client->search($searchRequest);
+
+}
+
 function UpdateDirectPaymentsStatus() {
   
   global $current_user_id;
@@ -218,6 +241,9 @@ function UpdateDirectPaymentsStatus() {
 
   }
 
+  $latest_payment_item = [];
+
+  if ($current_user_diary['payments'])
   $latest_payment_item = end($current_user_diary['payments']);
 
   // Check and create new bills for direct payment

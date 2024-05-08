@@ -61,11 +61,12 @@
 }
 
 .month, .schedule {
-  border: 1px solid var(--guyra-grey-darker);
+  /* border: 1px solid var(--guyra-grey-darker); */
   padding: 1rem;
   border-radius: var(--guyra-border-radius-bigger);
-  box-shadow: var(--guyra-box-shadow-smaller);
   background-color: var(--guyra-white);
+  box-shadow:  5px 5px 10px #c9cfd3,
+              -5px -5px 10px #ffffff;
 }
 
 #schedule {

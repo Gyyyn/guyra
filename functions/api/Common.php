@@ -20,6 +20,7 @@ global $current_user_subscription_valid;
 global $is_admin;
 global $is_GroupAdmin;
 global $cache_dir;
+global $nests;
 
 Guyra_Safeguard_File();
 

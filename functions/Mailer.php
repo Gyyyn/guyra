@@ -13,14 +13,26 @@ function Guyra_mail($template, $subject, $to, $string_replacements) {
 
   global $template_dir;
   global $gi18n;
-  global $gLang;
+  global $gSettings;
+
+  if (!$gSettings['twilioApiKey'])
+  return ['error' => 'no twilio api key'];
 
   $mail = new PHPMailer();
   $mail->CharSet = 'UTF-8';
-  $mail->isSendmail();
+  // $mail->isSendmail();
   $mail->setFrom('hello@guyra.me', $gi18n['company_name']);
   $mail->addAddress($to);
   $mail->Subject = $subject;
+
+  // Auth stuff
+  $mail->isSMTP();
+  $mail->SMTPAuth = true;
+  $mail->Host = 'smtp.sendgrid.net';
+  $mail->SMTPSecure = 'tls'; 
+  $mail->Port = 587;
+  $mail->Username="apikey";
+  $mail->Password = $gSettings['twilioApiKey'];
 
   $template_link = $template_dir . '/assets/json/i18n/' . $gLang[0] . '/templates/mail/' . $template;
 

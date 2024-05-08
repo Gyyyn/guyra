@@ -8,11 +8,8 @@
 
 .grammar-reference .list-group-item,
 .word-list .word-list-item {
-  border-width: 0;
-  border-bottom: 0.25rem solid var(--guyra-grey-dark);
+  border: unset;
   background: var(--guyra-grey);
-  margin-bottom: 0.5rem;
-  border-radius: var(--guyra-border-radius);
 }
 
 .word-list .word-list-item {

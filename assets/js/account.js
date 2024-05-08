@@ -1291,7 +1291,7 @@ function AccountOptions_profileDetails(props) {
               return e(
                 'button',
                 {
-                  className: 'btn-tall btn-sm blue mb-1',
+                  className: 'btn-tall btn-sm blue mb-2',
                   onClick: () => {
                     window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
                   }
@@ -1304,7 +1304,7 @@ function AccountOptions_profileDetails(props) {
             e(
               'button',
               {
-                className: 'btn-tall btn-sm green mb-1',
+                className: 'btn-tall btn-sm green mb-2',
                 onClick: () => {
                   setPage(AccountPayment);
                 }
@@ -1315,7 +1315,7 @@ function AccountOptions_profileDetails(props) {
             e(
               'button',
               {
-                className: 'btn-tall btn-sm mb-1',
+                className: 'btn-tall btn-sm mb-2',
                 onClick: () => {
                   setPage(BillHistory);
                 }
@@ -1326,7 +1326,7 @@ function AccountOptions_profileDetails(props) {
             e(
               'button',
               {
-                className: 'btn-tall btn-sm mb-1',
+                className: 'btn-tall btn-sm mb-2',
                 onClick: () => {
                   setPage(HomeworkHistory);
                 }
@@ -3317,7 +3317,7 @@ function BillHistory(params) {
               'thead',
               {},
               e('th', { scope: 'col' }, '#'),
-              e('td', { scope: 'col' }, i18n.due),
+              e('td', { scope: 'col' }, i18n.due_date),
               e('td', { scope: 'col' }, i18n.value),
               e('td', { scope: 'col' }, i18n.status),
             ),

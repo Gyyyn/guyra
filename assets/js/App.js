@@ -275,7 +275,7 @@ class App extends React.Component {
 
       this.update();
 
-    }, 5000);
+    }, 30000);
 
   }
 

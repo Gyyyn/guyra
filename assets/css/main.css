@@ -384,6 +384,10 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
+#app {
+  margin-bottom: calc(var(--guyra-navbar-size) * 2);
+}
+
 /*
 * -------- Navbar
 */
@@ -754,11 +758,12 @@ input:checked + .slider:before {
 
 .card.trans {
   background: var(--guyra-grey);
-  box-shadow: var(--guyra-box-shadow-material);
+  /* box-shadow: var(--guyra-box-shadow-material);
   border: var(--guyra-grey-darker) solid var(--guyra-border-size);
   border-top-width: .15rem !important;
   border-right-width: .15rem !important;
-  border-left-width: .15rem !important;
+  border-left-width: .15rem !important; */
+  border: unset;
   color: var(--guyra-black);
   padding: .5rem;
 }

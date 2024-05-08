@@ -99,6 +99,7 @@ class UserHome_ReplyCard extends React.Component {
     this.easyMDE = new EasyMDE({
       element: document.getElementById('comment'),
       autosave: { enabled: true, uniqueId: 'UserPageReplyBox' },
+      previewImagesInEditor: true,
       toolbar: ["bold", "italic", "heading", "|", "quote", "link", "ordered-list", "image", "|", "table", "horizontal-rule"]
     });
 
@@ -129,9 +130,13 @@ class UserHome_ReplyCard extends React.Component {
         return;
       }
 
-      this.attachedFile = res;
+      var newtext = this.easyMDE.value();
+      newtext = newtext + '\r\n ![](' + res + ')';
 
-      this.theFileButton.innerHTML = '<img class="page-icon tiny" src=' + this.attachedFile + '>';
+      this.easyMDE.value(newtext);
+
+      // this.attachedFile = res;
+      // this.theFileButton.innerHTML = '<img class="page-icon tiny" src=' + this.attachedFile + '>';
 
     });
 
@@ -483,7 +488,7 @@ function UserHome_WelcomeCard(props) {
 
       return e(
         'button',
-        { className: 'btn-tall btn-v btn-sm me-2 mb-2 ' + props.color,
+        { className: 'btn-tall btn-v trans me-2 mb-2 ' + props.color,
         onClick: () => {
             props.onClick();
           } },
@@ -933,7 +938,7 @@ function UserHome_WelcomeCard(props) {
         e(
           'div',
           { id: 'activities' },
-          e('div', { className: 'd-flex flex-row flex-wrap' }, WelcomeGreeting_buttons),
+          e('div', { className: 'd-flex flex-row flex-wrap my-2' }, WelcomeGreeting_buttons),
         ),
         e(
           'div',

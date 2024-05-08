@@ -259,7 +259,7 @@ i.bi.bi-three-dots,
 
 #activities .btn-tall:first-of-type {
   flex-grow: 5;
-  box-shadow: var(--guyra-box-shadow-material);
+  /* box-shadow: var(--guyra-box-shadow-material); */
   z-index: 1001;
 }
 
@@ -271,7 +271,7 @@ i.bi.bi-three-dots,
 
 #activities:hover .btn-tall:hover {
   flex-grow: 3;
-  box-shadow: var(--guyra-box-shadow-material);
+  /* box-shadow: var(--guyra-box-shadow-material); */
   z-index: 1001;
 }
 
