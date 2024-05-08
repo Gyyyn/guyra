@@ -2075,7 +2075,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
               className: 'd-none',
               type: 'file',
               id: 'comment-file',
-              accept: 'image/jpeg,image/jpg,image/gif,image/png',
+              accept: 'image/jpeg,image/jpg,image/gif,image/png,application/pdf',
               onChange: (event) => {
 
                 var theFile = document.getElementById('comment-file');

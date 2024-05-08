@@ -252,13 +252,15 @@ function GuyraHandleFileUpload() {
 
     // check MIME
     $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $file_mime = $finfo->file($theFile['tmp_name']);
     if (false === array_search(
-        $finfo->file($theFile['tmp_name']),
+        $file_mime,
         array(
             'jpg' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
             'png' => 'image/png',
             'gif' => 'image/gif',
+            'pdf' => 'application/pdf'
         ),
         true
     )) {
@@ -276,32 +278,17 @@ function GuyraHandleFileUpload() {
     }
 
     // upload compressed to jpg.
-    $manager = new ImageManager();
+    $manager = new ImageManager(['driver' => 'imagick']);
     $compression = 25;
     $ext = '.jpg';
 
     // Set all the file paths. We don't use the ext directly yet to check for duplicates later.
+    $randomness = md5(time());
     $uploadFileAppend = '/' . md5($current_user_id . '_' . $theFile['name']);
-    $uploadFileURL = $template_url . '/cache/assets' . $uploadFileAppend;
-    $uploadFile = $assetsCacheLocation . $uploadFileAppend;
+    $uploadFileURL = $template_url . '/cache/assets' . $uploadFileAppend . '_' . $randomness;
+    $uploadFile = $assetsCacheLocation . $uploadFileAppend . '_' . $randomness;
 
     $image = $manager->make($theFile['tmp_name']);
-
-    if (file_get_contents($uploadFile . $ext)) {
-
-      // Group admins can upload more than one picture.
-      if ($is_GroupAdmin) {
-
-        $randomness = md5(time());
-
-        $uploadFile = $uploadFile . '_' . $randomness;
-        $uploadFileURL = $uploadFileURL . '_' . $randomness;
-
-      } else {
-        unlink($uploadFile . $ext);
-      }
-
-    }
 
     // Finally set the final paths.
     $uploadFile = $uploadFile . $ext;
