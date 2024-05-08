@@ -12,6 +12,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 function Guyra_mail($template, $subject, $to, $string_replacements) {
 
   global $template_dir;
+  global $gLang;
   global $gi18n;
   global $gSettings;
 
