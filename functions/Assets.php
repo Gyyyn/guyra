@@ -253,6 +253,7 @@ function GuyraHandleFileUpload() {
     // check MIME
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $file_mime = $finfo->file($theFile['tmp_name']);
+
     if (false === array_search(
         $file_mime,
         array(
@@ -278,7 +279,7 @@ function GuyraHandleFileUpload() {
     }
 
     // upload compressed to jpg.
-    $manager = new ImageManager(['driver' => 'imagick']);
+    $manager = new ImageManager();
     $compression = 25;
     $ext = '.jpg';
 
@@ -288,7 +289,19 @@ function GuyraHandleFileUpload() {
     $uploadFileURL = $template_url . '/cache/assets' . $uploadFileAppend . '_' . $randomness;
     $uploadFile = $assetsCacheLocation . $uploadFileAppend . '_' . $randomness;
 
-    $image = $manager->make($theFile['tmp_name']);
+    $temp_file_location = $theFile['tmp_name'];
+
+    // Handle PDF
+    if ($file_mime == 'application/pdf') {
+
+      $im = new imagick($temp_file_location . '[0]');
+      $im->setImageFormat('jpg');
+
+      file_put_contents($temp_file_location, $im);
+      
+    }
+
+    $image = $manager->make($temp_file_location);
 
     // Finally set the final paths.
     $uploadFile = $uploadFile . $ext;
