@@ -65,8 +65,8 @@
   padding: 1rem;
   border-radius: var(--guyra-border-radius-bigger);
   background-color: var(--guyra-white);
-  box-shadow:  5px 5px 10px #c9cfd3,
-              -5px -5px 10px #ffffff;
+  box-shadow:  5px 5px 10px var(--guyra-neumorphic-bottom-color),
+              -5px -5px 10px var(--guyra-neumorphic-top-color);
 }
 
 #schedule {

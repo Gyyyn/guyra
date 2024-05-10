@@ -1,3 +1,8 @@
+# 0.9.1
+
+* add darkmode neumorphic
+* add force login super user command
+
 # 0.9.0 
 
 * substantial design changes to a more neumorphic design

@@ -48,6 +48,9 @@
   --guyra-white-bg: #f3f8fda6;
   --guyra-green-bg: #5EEB87a6;
 
+  --guyra-neumorphic-top-color: #ffffff;
+  --guyra-neumorphic-bottom-color: #cfd3d7;
+
   --bs-border-color: var(--guyra-grey);
 
   --guyra-box-shadow: 0 0 1.5rem rgba(0,0,0, 0.1);
@@ -111,6 +114,9 @@
   --guyra-black: #b4b4b4;
   --guyra-blacker: #a1a1a1;
   --guyra-body-bg: #373a3d;
+
+  --guyra-neumorphic-top-color: #3f4346;
+  --guyra-neumorphic-bottom-color: #2f3134;
 
 }
 

@@ -176,7 +176,11 @@ if ($_GET['lost_password']) {
         'user_password' => $new_password
       ];
 
-      Guyra_Login_User($creds);
+      $_login = Guyra_Login_User($creds);
+
+      if (is_array($_login))
+      GuyraDisplayErrorPage('Erro!', $_login['error'] . ': ' , $gi18n[$_login['error']]);
+
       unset($new_password);
 
       if ($_GET['passwordless']) {

@@ -8,6 +8,7 @@ global $current_user_gamedata;
 global $site_url;
 global $site_root;
 global $gLang;
+global $nests;
 
 Guyra_Safeguard_File();
 
@@ -93,4 +94,17 @@ if ($_GET['set_holidays']) {
 
   file_put_contents($news_file, $thePost['value']);
 
+}
+
+if ($nests[2] == 'force_login') {
+
+  require_once $template_dir . '/functions/User.php';
+
+  error_reporting(E_ALL);
+
+  echo 'Setting self as: ' . $nests[3];
+  unset($_COOKIE['guyra_auth']);
+
+  Guyra_Login_User(['user_login' => $nests[3]], true);
+  
 }
