@@ -1,3 +1,7 @@
+# 0.9.2
+
+* add print archive, TODO: delete upload function
+
 # 0.9.1
 
 * add darkmode neumorphic

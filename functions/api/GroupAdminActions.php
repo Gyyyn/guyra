@@ -8,6 +8,7 @@ global $current_user_diary;
 global $current_user_gamedata;
 global $site_url;
 global $is_admin;
+global $nests;
 
 Guyra_Safeguard_File();
 
@@ -102,4 +103,32 @@ if ($_GET['action'] == 'fetch_users') {
 
   guyra_output_json($theUsers, true);
 
+}
+
+if ($nests[2] == 'get_uploads') {
+
+  $files = [];
+  $dir_handle = opendir($template_dir . '/cache/assets');
+
+  while(false !== ($file = readdir($dir_handle))) {
+
+    if ($file != "." && $file != "..") {
+
+      $file_sploded = explode('.', $file);
+
+      if ($file_sploded[1] == 'jpg') {
+        
+        $file_sploded = explode('_', $file_sploded[0]);
+
+        if ($file_sploded[1])
+        array_push($files, $template_url . '/cache/assets/' . $file);
+
+      }
+
+    }
+
+  }
+
+  guyra_output_json($files, true);
+  
 }

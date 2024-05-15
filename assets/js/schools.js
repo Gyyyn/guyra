@@ -1324,6 +1324,91 @@ class GroupAdminHome_AdminPanel_UserpageView_Replies extends React.Component {
 
 }
 
+class PrintArchive extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      view: e(LoadingPage),
+      uploads: {}
+    }
+
+    this.uploadsView = (props) => {
+
+      return e(
+        'div',
+        { className: 'printArchive d-flex flex-wrap flex-row' },
+        props.links.map(link => {
+
+          return e(
+            'div',
+            { className: 'position-relative' },
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm red position-absolute top-0 end-0',
+                onClick: (event) => {
+                    
+                  reactOnCallback(event, () => {
+
+                    return new Promise((resolve, reject) => {
+    
+                      fetch(thei18n.api_link + '/delete_upload/' + link).then(res => {
+
+                        if (res['error']) {
+                        reject(res['error'])}
+
+                        resolve(res);
+
+                      })
+                      
+                    });
+
+                  });
+
+                }
+              },
+              e('i', { className: 'bi bi-trash' })
+            ),
+            e(
+              'img',
+              { style: { maxWidth: '150px' }, className: 'print_archive_image', src: link }
+            )
+          );
+  
+        })
+      );
+
+    }
+
+  }
+
+  componentWillMount() {
+
+    GuyraFetchData({}, 'api/get_uploads', 'guyra_teacher_uploads', 1440).then((res) => {
+
+      if (!res) {
+      res = {}; }
+
+      this.setState({
+        uploads: res,
+        view: e(this.uploadsView, { links: res })
+      });
+
+      resolve(true);
+
+    });
+
+  }
+
+  render() {
+
+    return this.state.view;
+
+  }
+
+}
+
 class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
   constructor(props) {
     super(props);
@@ -1452,6 +1537,14 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
           'button',
           { className: 'btn-tall btn-sm green', onClick: this.state.editButtonOnclick },
           this.state.editButtonValue
+        ),
+        e(
+          PopUp,
+          {
+            title: 'Print Archive',
+            buttonElement: e('button', { className: 'btn-tall btn-sm ms-2' }, 'Print Archive'),
+            bodyElement: e(PrintArchive)
+          }
         )
       ),
       e(
