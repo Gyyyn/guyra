@@ -1,6 +1,10 @@
 <?php
 
+global $template_dir;
+
 Guyra_Safeguard_File();
+
+include_once $template_dir . '/functions/Database.php';
 
 function Guyra_increase_user_level($user=0, $amount=1, $noUpdate=false) {
 
@@ -28,6 +32,12 @@ function Guyra_increase_user_level($user=0, $amount=1, $noUpdate=false) {
   // Send the data back for saving.
   if (!$noUpdate)
   guyra_update_user_data($user, $gamedata, '', 'gamedata');
+
+  guyra_log_to_file(
+    'User: ' . $user . ', ' .
+    'Transacted: ' . $amount . 'coins on ' . 
+    json_encode(debug_backtrace())
+  , 'coin_transations.txt');
 
   return $gamedata;
 

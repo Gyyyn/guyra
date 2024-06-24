@@ -113,6 +113,7 @@ if ((strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false) ||
 $special_caches = [
 	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css", "bootstrap.css", "css"],
 	["https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css", "bootstrap-icons.css", "css"],
+	["https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css", "remix-icons.css", "css"],
 	["https://unpkg.com/react@18/umd/react.production.min.js", "react.js", "js"],
 	["https://unpkg.com/react-dom@18/umd/react-dom.production.min.js", "react-dom.js", "js"],
 	["https://unpkg.com/html-react-parser@1/dist/html-react-parser.min.js", "html-react-parser.js", "js"],
@@ -120,7 +121,8 @@ $special_caches = [
 	["https://unpkg.com/easymde/dist/easymde.min.css", "easymde.css", "css"],
 	["https://unpkg.com/easymde/dist/easymde.min.js", "easymde.js", "js"],
 	["https://unpkg.com/@popperjs/core@2", "popper.js", "js"],
-	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"]
+	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"],
+	["https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs", "dotlottie-player.js", "js"]
 ];
 
 $assetsCacheLocation = $template_dir . '/cache/assets/';
@@ -139,6 +141,10 @@ foreach ($special_caches as $cache) {
 
 		if ($assetFile == 'bootstrap-icons.css') {
 			$object = str_replace('./fonts', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/fonts', $object);
+		}
+
+		if ($assetFile == 'remix-icons.css') {
+			$object = str_replace('remixicon.', 'https://cdn.jsdelivr.net/npm/remixicon@latest/fonts/remixicon.', $object);
 		}
 
 		file_put_contents($cachedObject, $object);

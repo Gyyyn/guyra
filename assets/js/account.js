@@ -9,6 +9,7 @@ import {
   GuyraParseDate,
   GuyraLocalStorage,
   GuyraGetImage,
+  GetStandardDate,
   RoundedBoxHeading,
   PaymentItem,
   validatePhoneNumber,
@@ -17,7 +18,9 @@ import {
   calculateOverdueFees,
   formataCPF,
   reactOnCallback,
-  RenderReplies
+  RenderReplies,
+  Purchase,
+  PopUp
 } from '%getjs=Common.js%end';
 import { Ranking } from '%getjs=Ranking.js%end';
 import { Faq } from '%getjs=faq.js%end';
@@ -92,803 +95,10 @@ function Account_BackButton(props) {
           setPage(props.page);
         }
       },
-      e('i', { className: 'bi bi-arrow-90deg-left' }),
+      e('i', { className: 'ri-corner-down-left-fill' }),
       e('span', { className: 'ms-1' }, title)
     );
   });
-}
-
-function Account_dialogBox(props) {
-
-  if (typeof props.value === 'string') {
-    props.value = window.HTMLReactParser(props.value);
-  }
-
-  return e(
-    'div',
-    {
-      className: 'dialog-box ' + props.extraClasses
-    },
-    props.value
-  );
-
-}
-
-function AccountPayment_paymentForm(props) {
-
-  var matchNum = new RegExp("[123456789]");
-
-  return e(AccountContext.Consumer, null, ({i18n}) => e(
-    'form',
-    {
-      id: 'form-checkout',
-      className: 'form-control'
-    },
-    e('progress', { value: 0, class: 'd-none progress-bar mt-3' }, '...'),
-    e(
-      'div',
-      { className: 'row gy-3' },
-
-      e('h2', { className: 'mb-2' }, i18n.payment),
-
-      e(
-        'div',
-        { className: 'col-md-6' },
-        e('label', {}, i18n.card.holder),
-        e('input', { className: 'bs form-control', type: 'text', name: 'cardholderName', id: 'form-checkout__cardholderName'})
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-6 d-none' },
-        e('label', {}, i18n.card.issuer),
-        e('select', {name: 'issuer', id: 'form-checkout__issuer'})
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-6 d-none' },
-        e('label', {}, i18n.card.installments),
-        e('select', {name: 'installments', id: 'form-checkout__installments'})
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-6 position-relative' },
-        e('label', {}, i18n.card.number),
-        e('input', { className: 'bs form-control', type: 'text', name: 'cardNumber', id: 'form-checkout__cardNumber'}),
-        e(
-          'span',
-          { id: 'card-flag', className: 'bottom-0 end-0 pe-1 position-absolute translate-middle' },
-          e(
-            'img',
-            { className: 'd-none', src: '', style: {maxWidth: 2 + 'rem'} }
-          )
-        )
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-6 d-flex' },
-        e(
-          'span',
-          { className: '' },
-          e('label', {}, i18n.expiration),
-          e(
-            'input',
-            {
-              type: 'text',
-              name: 'cardExpirationMonth',
-              className: 'bs form-control',
-              id: 'form-checkout__cardExpirationMonth',
-              onChange: (event) => {
-
-                if (event.target.value.length == 2) {
-                  document.getElementById('form-checkout__cardExpirationYear').focus();
-                  return;
-                }
-
-              }
-            }
-          ),
-        ),
-        e('span', { className: 'align-self-end mx-3' }, '/'),
-        e(
-          'span',
-          {},
-          e('label', { className: 'opacity-0' }, i18n.expiration),
-          e(
-            'input',
-            {
-              type: 'text',
-              name: 'cardExpirationYear',
-              className: 'bs form-control',
-              id: 'form-checkout__cardExpirationYear',
-              onChange: (event) => {
-
-                if (event.target.value.length == 2) {
-                  document.getElementById('form-checkout__securityCode').focus();
-                  return;
-                }
-
-              }
-            }
-          ),
-        )
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-6' },
-        e('label', {}, i18n.card.sec_code),
-        e('input', { className: 'bs form-control', type: 'text', name: 'securityCode', id: 'form-checkout__securityCode'})
-      ),
-
-      e('h3', { className: 'mb-2' }, i18n.identification),
-
-      e(
-        'div',
-        { className: 'col-md-12' },
-        e('label', {}, i18n.email),
-        e('input', { className: 'bs form-control', type: 'text', name: 'cardholderEmail', id: 'form-checkout__cardholderEmail'})
-      ),
-
-      e(
-        'div',
-        { className: 'col-md-12 d-flex flex-column' },
-        e('label', {}, i18n.card.id),
-        e(
-          'span',
-          { className: 'd-flex flex-row' },
-          e('select', { className: 'me-3 w-25', name: 'identificationType', id: 'form-checkout__identificationType'}),
-          e('input', { className: 'bs form-control', type: 'text', name: 'identificationNumber', id: 'form-checkout__identificationNumber'})
-        ),
-      ),
-
-    ),
-
-    e('input', { type: 'hidden', id: 'deviceId'}),
-
-    e(
-      'div',
-      { className: 'payment-checkout-wrapper my-3 px-3 px-md-0 w-100 d-flex justify-content-center' },
-      e('button', { id: 'purchase-submit', type: 'submit', className: 'w-100 btn-tall green' }, i18n.checkout)
-    ),
-
-  ));
-}
-
-function AccountPayment_planSelect(props) {
-
-  var premiumPlanExtraClass = '';
-  var litePlanExtraClass = '';
-  var checkoutTotal = 0;
-  var selectedPlan = props.selectedPlan;
-  if ((props.userPlan !== undefined) && (!props.userSelectedPlan)) {
-    selectedPlan = props.userPlan;
-  }
-
-  if (selectedPlan == 'premium') {
-    premiumPlanExtraClass = 'bg-primary text-white';
-  } else if (selectedPlan == 'lite') {
-    litePlanExtraClass = 'bg-primary text-white';
-  }
-
-  if (thei18n.prices_features[selectedPlan]) {
-    checkoutTotal = thei18n.prices_features[selectedPlan].value;
-  }
-
-  return e(
-    'div',
-    {
-      className: 'account-plans'
-    },
-    e(AccountContext.Consumer, null, ({i18n}) => e('h3', {}, i18n.plans)),
-    e(PaymentContext.Consumer, null, ({setPlan}) => e(
-      'ul',
-      { className: 'list-group more-rounded mt-0 mb-3' },
-
-      e(
-        'li',
-        {
-          id: 'plan-option-lite', className: 'list-group-item cursor-pointer lh-sm ' + litePlanExtraClass,
-          onClick: () => {
-            setPlan('lite');
-          }
-        },
-        e(AccountContext.Consumer, null, ({i18n}) => e(
-          'div',
-          { className: 'd-flex justify-content-between w-100' },
-          e(
-            'div',
-            { className: 'plan-details' },
-            e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.lite.title),
-            e('small', { className: 'fw-normal' }, i18n.prices_features.lite.subtitle),
-          ),
-          e('span', { className: 'd-flex' }, i18n.currency_iso + i18n.prices_features.lite.value)
-        )),
-      ),
-
-      e(
-        'li',
-        {
-          id: 'plan-option-premium', className: 'list-group-item cursor-pointer d-flex justify-content-between lh-sm ' + premiumPlanExtraClass,
-          onClick: () => {
-            setPlan('premium');
-          }
-        },
-        e(AccountContext.Consumer, null, ({i18n}) => e(
-          'div',
-          { className: 'd-flex justify-content-between w-100' },
-          e(
-            'div',
-            { className: 'plan-details' },
-            e('h6', { className: 'fw-bold my-0'}, i18n.prices_features.premium.title),
-            e('small', { className: 'fw-normal' }, i18n.prices_features.premium.subtitle),
-          ),
-          e('span', { className: 'd-flex' }, i18n.currency_iso + i18n.prices_features.premium.value)
-        )),
-      ),
-
-    )),
-    e(AccountContext.Consumer, null, ({i18n}) => e(
-      'div',
-      { className: 'account-plans-total card d-flex p-3' },
-      e(
-        'div',
-        { className: 'd-flex flex-row justify-content-between' },
-        e('span', {}, i18n.plan),
-        e('span', {}, e('span', {}, i18n.currency_iso), checkoutTotal),
-      ),
-      e(
-        'div',
-        { className: 'd-flex flex-row justify-content-between' },
-        e('span', {}, i18n.card_fee),
-        e('span', {}, e('span', {}, i18n.currency_iso), 
-        checkoutTotal * parseFloat(i18n.prices_features.card_fee).toString().slice(0, 4)),
-      ),
-      e('hr'),
-      e(
-        'div',
-        { className: 'd-flex flex-row justify-content-between' },
-        e('span', {}, i18n.total),
-        e('strong', {}, i18n.currency_iso, e('span', { id: 'price-total'}, 
-          (parseInt(checkoutTotal) + (checkoutTotal * parseFloat(i18n.prices_features.card_fee))).toString().replace('.', ',').slice(0,5)
-        ))
-      ),
-    ))
-  );
-
-}
-
-function AccountPayment_cancelPlan(props) {
-
-  return e(AccountContext.Consumer, null, ({i18n}) => e(
-    'div',
-    { className: '' },
-    e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountPayment })),
-    e(
-      'div',
-      { className: 'd-flex flex-column justify-content-center dialog-box my-5 p-3', id: "cancel-membership-step1" },
-      e('h2', { className: 'text-blue'}, i18n.cancel_membership),
-      e(
-        'span',
-        { className: 'd-inline m-auto' },
-        e('img', { className: 'page-icon large', alt: i18n.upload, src: GuyraGetImage('icons/break-up.png', { size: 256 }) })
-      ),
-      e('span', { className: 'text-n text-start py-3' }, i18n.cancel_membership_message),
-      e(
-        'button',
-        {
-          className: 'blue btn-sm btn-tall d-block mt-3',
-          onClick: (e) => {
-
-            var before = e.target.innerHTML;
-            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-            setTimeout(() => {
-              document.querySelector('div#cancel-membership-step1').classList.add('d-none');
-              document.querySelector('div#cancel-membership-step2').classList.remove('d-none');
-              e.target.innerHTML = before;
-            }, 3000);
-
-          }
-        },
-        i18n.cancel_membership_confirm
-      ),
-    ),
-    e(
-      'div',
-      { id: 'cancel-membership-step2', className: 'd-none my-3' },
-      e(
-        'div',
-        { className: 'mb-5' },
-        e('h3', { className: 'text-blue' }, thei18n.cancel_membership_cancelreason),
-        e(
-          'select',
-          { name: 'cancel-reason', id: 'cancel-reason', className: 'form-select form-select-lg mb-3' },
-          e('option', { value: 'generic' }, '---'),
-          e('option', { value: 'too_expensive' }, thei18n.cancel_membership_too_expensive),
-          e('option', { value: 'unused' }, thei18n.cancel_membership_unused),
-          e('option', { value: 'bad_experience' }, thei18n.cancel_membership_bad_experience),
-          e('option', { value: 'better_place' }, thei18n.cancel_membership_better_place),
-        ),
-      ),
-      e(AccountContext.Consumer, null, ({setPage}) => e(
-        'button',
-        {
-          className: 'btn-tall green me-3',
-          onClick: () => {
-            setPage(AccountWrapper);
-          } 
-        },
-        e('i', { className: 'me-2 bi-heart-fill' }),
-        thei18n.cancel_membership_changedmymind
-      )),
-      e(AccountContext.Consumer, null, ({setPage}) => e(
-        'button',
-        {
-          className: 'btn-tall',
-          onClick: (e) => {
-
-            reactOnCallback(e, () => {
-
-              return new Promise((resolve, reject) => {
-
-                var cancelReason = document.getElementById('cancel-reason').value;
-
-                fetch(i18n.api_link + '?cancel_membership=1&cancel_reason=' + cancelReason)
-                .then(res => res.json())
-                .then(res => {
-
-                  if (typeof res === 'string') {
-                    res = JSON.parse(res);
-                  }
-                  if (res.status == 'cancelled') {
-                    setPage(AccountWrapper);
-                    resolve(false);
-                  } else {
-                    resolve(false);
-                  }
-
-                });
-                
-              });
-
-            });
-
-          }
-        },
-        e('i', { className: 'me-2 bi-heartbreak' }),
-        thei18n.cancel_membership,
-      ))
-    )
-
-  ));
-}
-
-function AccountPayment_yourPlan(props) {
-
-  var cardinfo = null;
-
-  if (props.values.payed_for != 'free') {
-    cardinfo = e(
-      'span',
-      { className: 'd-flex flex-row'},
-      e('span', { className: 'me-1' }, thei18n['issuer_' + props.values.processor_data.payment_method_id]),
-      e('span', {}, thei18n.card_ending_in + ': ' + props.values.processor_data.card_data.digits)
-    );
-  }
-
-  return e(
-    'div',
-    { className: 'dialog-box d-flex flex-row justify-content-between' },
-    e(
-      'div',
-      { className: 'align-self-start' },
-      e('h3', {}, thei18n.your_plan),
-      e(
-        'div',
-        { className: 'd-flex flex-column'},
-        e('span', { className: 'fw-bold' }, thei18n.prices_features[props.values.payed_for].title),
-        cardinfo
-      ),
-    ),
-    e(AccountContext.Consumer, null, ({setPage}) => {
-
-      if (props.values.payed_for == 'free') {
-      return null; }
-
-      return e(
-        'div',
-        { className: 'align-self-end' },
-        e(
-          'button',
-          {
-            className: 'btn-tall btn-sm trans',
-            onClick: () => {
-              setPage(AccountPayment_cancelPlan);
-            }
-          },
-          thei18n.cancel_membership
-        )
-      );
-
-    }),
-  );
-}
-
-class AccountPayment extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.setPlan = (plan) => {
-      this.setState({
-        selectedPlan: plan,
-        userSelectedPlan: true
-      });
-    }
-
-    this.state = {
-      selectedPlan: 'lite',
-      setPlan: this.setPlan,
-      userSelectedPlan: false
-    };
-
-  }
-
-  componentDidMount() {
-
-    const mp = new MercadoPago(thei18n.mp_public_key);
-
-    if (!mp) {
-      window.onerror();
-    }
-
-    this.cardForm = mp.cardForm({
-      amount: "1",
-      autoMount: true,
-      form: {
-        id: "form-checkout",
-        cardholderName: {
-          id: "form-checkout__cardholderName",
-          placeholder: thei18n.card.holder_ex,
-        },
-        cardholderEmail: {
-          id: "form-checkout__cardholderEmail",
-          placeholder: thei18n.card.email_ex,
-        },
-        cardNumber: {
-          id: "form-checkout__cardNumber",
-          placeholder: thei18n.card.number_ex,
-        },
-        cardExpirationMonth: {
-          id: "form-checkout__cardExpirationMonth",
-          placeholder: thei18n.month,
-        },
-        cardExpirationYear: {
-          id: "form-checkout__cardExpirationYear",
-          placeholder: thei18n.year,
-        },
-        securityCode: {
-          id: "form-checkout__securityCode",
-          placeholder: thei18n.card.sec_code_ex,
-        },
-        installments: {
-          id: "form-checkout__installments",
-          placeholder: thei18n.card.installments,
-        },
-        identificationType: {
-          id: "form-checkout__identificationType",
-          placeholder: thei18n.card.doc_type,
-        },
-        identificationNumber: {
-          id: "form-checkout__identificationNumber",
-          placeholder: thei18n.card.doc_number,
-        },
-        issuer: {
-          id: "form-checkout__issuer",
-          placeholder: thei18n.card.issuer,
-        },
-      },
-      callbacks: {
-        onFormMounted: error => {
-            if (error) return console.warn('Form Mounted handling error: ', error)
-            // console.log('Form mounted')
-        },
-        onFormUnmounted: error => {
-            if (error) return console.warn('Form Unmounted handling error: ', error)
-            // console.log('Form unmounted')
-        },
-        onIdentificationTypesReceived: (error, identificationTypes) => {
-            if (error) return console.warn('identificationTypes handling error: ', error)
-            // console.log('Identification types available: ', identificationTypes)
-        },
-        onPaymentMethodsReceived: (error, paymentMethods) => {
-            if (error) return console.warn('paymentMethods handling error: ', error)
-            // console.log('Payment Methods available: ', paymentMethods)
-            var cardFlag = document.querySelector('#card-flag img');
-            cardFlag.src = paymentMethods[0].thumbnail;
-            cardFlag.classList.remove('d-none');
-        },
-        onIssuersReceived: (error, issuers) => {
-            if (error) return console.warn('issuers handling error: ', error)
-            // console.log('Issuers available: ', issuers)
-        },
-        onInstallmentsReceived: (error, installments) => {
-            if (error) return console.warn('installments handling error: ', error)
-            // console.log('Installments available: ', installments)
-        },
-        onCardTokenReceived: (error, token) => {
-
-          if (error) {
-
-            error.forEach((item) => {
-
-              // 205: cardNumber empty
-              if (item.code == 205 || item.code == 'E301') {
-                document.getElementById('form-checkout__cardNumber').classList.add('is-invalid');
-              }
-
-              // 208: cardExpirationMonth empty
-              if (item.code == 208 || item.code == 325) {
-                document.getElementById('form-checkout__cardExpirationMonth').classList.add('is-invalid');
-              }
-
-              // 209: cardExpirationYear empty
-              if (item.code == 209 || item.code == 326) {
-                document.getElementById('form-checkout__cardExpirationYear').classList.add('is-invalid');
-              }
-
-              // 214: identificationNumber empty
-              if (item.code == 214 || item.code == 324) {
-                document.getElementById('form-checkout__identificationNumber').classList.add('is-invalid');
-              }
-
-              // 221: cardholderName empty
-              if (item.code == 221 || item.code == 316) {
-                document.getElementById('form-checkout__cardholderName').classList.add('is-invalid');
-              }
-
-              // 221: securityCode empty
-              if (item.code == 224 || item.code == 'E203') {
-                document.getElementById('form-checkout__securityCode').classList.add('is-invalid');
-              }
-
-            });
-
-          }
-
-        },
-        onSubmit: event => {
-          event.preventDefault();
-
-          // Remove any invalid checks
-          // TODO: improve this
-          document.getElementById('form-checkout__cardNumber').classList.remove('is-invalid');
-          document.getElementById('form-checkout__cardExpirationMonth').classList.remove('is-invalid');
-          document.getElementById('form-checkout__cardExpirationYear').classList.remove('is-invalid');
-          document.getElementById('form-checkout__cardholderName').classList.remove('is-invalid');
-          document.getElementById('form-checkout__securityCode').classList.remove('is-invalid');
-          document.getElementById('form-checkout__identificationNumber').classList.remove('is-invalid');
-
-          var submitButton = document.getElementById('purchase-submit');
-          var before = submitButton.innerHTML;
-          submitButton.innerHTML = '<i class="bi bi-three-dots"></i>';
-
-          const {
-            paymentMethodId: payment_method_id,
-            issuerId: issuer_id,
-            cardholderEmail: email,
-            amount,
-            token,
-            installments,
-            identificationNumber,
-            identificationType,
-          } = this.cardForm.getCardFormData();
-
-          this.cardData = JSON.stringify({
-            token,
-            issuer_id,
-            card_digits: document.getElementById('form-checkout__cardNumber').value.slice(-4),
-            payment_method_id,
-            transaction_amount: Number(amount),
-            installments: Number(installments),
-            description: this.state.selectedPlan,
-            payer: {
-              email,
-              identification: {
-                type: identificationType,
-                number: identificationNumber,
-              },
-            },
-          });
-
-          // console.log('CardForm data available: ', this.cardData)
-
-          fetch(thei18n.api_link + "?proccess_payment=1", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: this.cardData,
-          }).then(res => res.text()).then(res => {
-
-            submitButton.innerHTML = before;
-
-            if (typeof res === 'string') {
-              res = JSON.parse(res);
-            }
-
-            var response = res;
-
-            if (response.status == 'authorized') {
-
-              submitButton.innerHTML = '<i class="bi bi-lock-fill"></i>';
-              
-              window.localStorage.removeItem('guyra_userdata');
-              window.location.href = thei18n.home_link;
-
-            } else {
-              if (response.status) {
-                setMessageBox(thei18n['payments_status_' + response.status]);
-
-                setTimeout(() => {
-                  window.location.reload();
-                }, 5000);
-
-              } else {
-                setMessageBox(thei18n[response]);
-              }
-            }
-
-          });
-
-        },
-        onFetching: (resource) => {
-          // console.log("Fetching resource: ", resource);
-
-          // Animate progress bar
-          const progressBar = document.querySelector(".progress-bar");
-          progressBar.removeAttribute("value");
-
-          return () => {
-            progressBar.setAttribute("value", "0");
-          };
-        },
-      },
-    });
-  }
-
-  componentWillUnmount() {
-    this.cardForm.unmount();
-  }
-
-  render() {
-
-    var topWarnings = e(AccountContext.Consumer, null, ({i18n, userdata}) => {
-
-      var warningsList = [];
-
-      if (userdata.payments.status == 'approved') {
-        warningsList.push(
-          e(AccountPayment_yourPlan, {values: userdata.payments})
-        );
-
-        warningsList.push(
-          e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_already_active_warning })
-        );
-      }
-
-      if (userdata.payments.status == 'expired') {
-        warningsList.push(
-          e(Account_dialogBox, { extraClasses: 'info mt-3', value: i18n.payment_expired_warning })
-        );
-      }
-
-      warningsList.push(
-        e(Account_dialogBox, { extraClasses: 'info mt-3', value: [
-          e(
-            'div',
-            { className: 'd-flex flex-row justify-content-between align-items-center' },
-            e('h2', {}, i18n.payment_processor_warning[0]),
-            e('img', {
-              alt: thei18n.payment,
-              src: GuyraGetImage('icons/lock.png', { size: 64 })
-            }),
-          ),
-          e(
-            'ul',
-            { className: 'check-list' },
-            e('li', {}, i18n.payment_processor_warning[1]),
-            e('li', {}, i18n.payment_processor_warning[2]),
-            e('li', {}, i18n.payment_processor_warning[3]),
-          ),
-          e(
-            'a',
-            {
-              className: 'btn',
-              href: 'https://transparencyreport.google.com/safe-browsing/search?url=guyra.me',
-              target: '_blank'
-            },
-            e('img', {
-              className: '',
-              src: i18n.api_link + '?get_image=img/google-safe-browsing.png&size=[150,30]'
-            })
-          ),
-        ]})
-      );
-
-      return e(
-        'div',
-        { className: 'warnings' },
-        warningsList
-      );
-
-    });
-
-    return e(
-      'div',
-      {
-        className: 'account-payment'
-      },
-      e('div', { className: 'd-block' }, e(Account_BackButton, { page: AccountOptions })),
-      e(AccountContext.Consumer, null, ({i18n}) => e(
-        RoundedBoxHeading,
-        { value: i18n.subscription, icon: 'icons/credit-card.png' }
-      )),
-      e(
-        'div',
-        { className: 'row g-3' },
-        e(
-          'div',
-          { className: 'col-md-5 col-lg-4 mt-0 mb-3 order-first order-md-last' },
-          e(PaymentContext.Provider, { value: this.state },
-            e(AccountContext.Consumer, null, ({userdata}) => {
-              return e(
-                AccountPayment_planSelect,
-                {
-                  selectedPlan: this.state.selectedPlan,
-                  userPlan: userdata.payments.payed_for,
-                  userSelectedPlan: this.state.userSelectedPlan
-                }
-              );
-            })
-          ),
-        ),
-        e(
-          'div',
-          { className: 'col-md-7 col-lg-8 mt-0 mb-5 mb-md-3' },
-          topWarnings,
-          e(
-            'div',
-            { className: 'dialog-box info mt-3 d-none' },
-            e(
-              'div',
-              { className: 'd-flex flex-row justify-content-between align-items-center' },
-              e('h2', {}, thei18n.subscription_donations[0] + '!'),
-              e('img', {
-                alt: thei18n.payment,
-                src: GuyraGetImage('icons/charity.png', { size: 64 })
-              }),
-            ),
-            e('div', { className: '' },
-              e('p', {},
-                thei18n.subscription_donations[1],
-              ),
-              e('p', {},
-                thei18n.subscription_donations[2] + ' ',
-                e('a', { href: thei18n.faq_link + '/donations' }, thei18n.here.toLowerCase())
-              ),
-            )
-          ),
-          e(AccountPayment_paymentForm),
-          e('div', { id: 'message', className: 'd-none dialog-box warn pop-animation animate my-3' }),
-        ),
-      ),
-    );
-  }
-
 }
 
 function AccountOptions_changePassword(props) {
@@ -938,7 +148,7 @@ function AccountOptions_changePassword(props) {
 
             var dataToPost = {};
             var loadingBefore = e.target.innerHTML;
-            e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+            e.target.innerHTML = '<i class="ri-more-fill"></i>';
 
             setTimeout(() => {
               e.target.innerHTML = loadingBefore;
@@ -990,7 +200,7 @@ function AccountOptions_changePassword(props) {
 
           }
         },
-        e('i', { className: 'bi bi-save me-2' }),
+        e('i', { className: 'ri-save-fill me-2' }),
         i18n.save,
       )),
       e('div', { id: 'message', className: 'd-none dialog-box info pop-animation animate my-3' })
@@ -1026,12 +236,12 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
 
     this.MailConfirmedCheck = null;
 
-    if (this.props.userdata.mail_confirmed) {
+    if (this.props.userdata.mail_confirmed == 'true') {
 
       this.MailConfirmedCheck = e(
         'span',
         { className: 'position-absolute top-25 end-0 p-3 pe-4' },
-        e('i', { className: 'bi bi-check-lg text-green text-x' })
+        e('i', { className: 'ri-check-fill text-green text-x' })
       );
 
     }
@@ -1140,6 +350,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
             },
             className: 'btn-tall btn-sm blue'
           },
+          e('i', { className: 'ri-repeat-2-fill me-2' }),
           thei18n.change_password,
         )),
         e(
@@ -1149,7 +360,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
             onClick: (e) => {
 
               var loadingBefore = e.target.innerHTML;
-              e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+              e.target.innerHTML = '<i class="ri-more-fill"></i>';
 
               var dataToPost = {};
 
@@ -1218,6 +429,7 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
 
             }
           },
+          e('i', { className: 'ri-save-fill me-2' }),
           thei18n.save,
         ),
       ),
@@ -1225,6 +437,137 @@ class AccountOptions_profileDetails_updateDetails extends React.Component {
     );
 
   }
+}
+
+function AccountOptions_Documents(props) {
+
+  var tehCard = (props) => {
+
+    return e(
+      'div',
+      {
+        className: 'card cursor-pointer me-2 mb-2',
+        style: { maxWidth: '300px' },
+        onClick: () => {
+          window.open(props.link, "_blank").focus();
+        }
+      },
+      e('h2', { className: "cursor-pointer m-2" }, e('i', { className: 'ri-' + props.icon })),
+      e('h3', { className: "cursor-pointer m-2" }, props.title)
+    );
+
+  }
+
+  return e(
+    'div',
+    {},
+    e(Account_BackButton, { page: AccountWrapper }),
+    e(
+      'div',
+      { className: 'dialog-box mt-3' },
+      e(()=> {
+
+        if (theUserdata.class_info && theUserdata.class_info.contract_started) {
+
+          return e(
+            'div',
+            {},
+            'Assinado em '
+          );
+          
+        }
+
+        return null;
+
+      }),
+      e(
+        PopUp,
+        {
+          title: 'Assinar documentos',
+          bodyElement: e(
+            'div',
+            { className: 'd-flex flex-column form-control' },
+            e('span', { className: 'mb-1 border-bottom' }, 'Signatário'),
+            e('input', { type: 'text', defaultValue: theUserdata.first_name + ' ' + theUserdata.last_name, className: 'mb-3', id: 'signing_name' }),
+            e(
+              'input',
+              {
+                type: 'text', defaultValue: theUserdata.doc_id,
+                className: 'mb-3', id: 'signing_doc',
+                onChange: (event) => {
+
+                  event.target.value = formataCPF(event.target.value);
+
+                }
+              }
+            ),
+            e('span', { className: 'mb-1 border-bottom' }, thei18n.date),
+            e('input', { type: 'text', value: new Date().toLocaleString(), className: 'mb-3' }),
+            e(
+              'div',
+              { className: 'text-s mb-3' },
+              'Ao assinar você confirma que as informações acima estão corretas, que você é maior de 18 anos e que reconhece a legitimidade da assinatura digital.'
+            ),
+            e(
+              'button',
+              {
+                className: 'btn-tall flat green',
+                onClick: (event) => {
+
+                  reactOnCallback(event, () => {
+
+                    return new Promise((resolve) => {
+                      
+                      var signer = document.querySelector('#signing_name');
+                      var signer_doc = document.querySelector('#signing_doc');
+
+                      if (signer) {
+                        signer = signer.value;
+                      }
+
+                      if (signer_doc) {
+                        signer_doc = signer_doc.value;
+                      }
+
+                      console.log(JSON.stringify({
+                        signer: signer,
+                        signer_doc: signer_doc,
+                        date: GetStandardDate()
+                      }));
+
+                      resolve(true);
+
+                      setTimeout(() => {
+                        document.querySelector('button.close.popup-close-button').click();
+                      }, 2500);
+
+                    });
+
+                  });
+
+                }
+              },
+              e('i', { className: 'ri-shield-check-fill me-2' }),
+              'Assinar documentos',
+            )
+          ),
+          buttonElement: e(
+            'button',
+            { className: 'btn-tall flat blue' },
+            e('i', { className: 'ri-quill-pen-fill me-2' }),
+            'Assinar documentos',
+          )
+        }
+      )
+    ),
+    e(
+      'div',
+      { className: 'd-flex flex-row flex-wrap mt-3' },
+      e(tehCard, { title: "Regulamento Interno", icon: 'file-text-fill', link: "https://www.canva.com/design/DAF6MOY1KMc/aw3oh5ys6fBKXLamSVBD5Q/view"}),
+      e(tehCard, { title: "Contrato de Prestação de Serviços Educacionais", icon: 'file-text-fill', link: "https://www.canva.com/design/DAGFPLGMnKE/2Z_6vNF9QMqWPbljvwHNJQ/view"}),
+    )
+  );
+  
 }
 
 function AccountOptions_profileDetails(props) {
@@ -1275,42 +618,24 @@ function AccountOptions_profileDetails(props) {
             return e(
               'div',
               { className: 'my-3' },
-              thei18n.your_plan + ': ',
+              i18n.your_plan + ': ',
               e('span', { className: 'badge bg-primary ms-1' }, thei18n.prices_features[planName].title)
             )
 
           }),
-          e(AccountContext.Consumer, null, ({setPage}) => e(
+          e(AccountContext.Consumer, null, ({setPage, appSetPage}) => e(
             'div',
             { className: 'd-flex flex-column' },
-            e(() => {
-
-              if (!theUserdata.teacherid) {
-              return null; }
-    
-              return e(
-                'button',
-                {
-                  className: 'btn-tall btn-sm blue mb-2',
-                  onClick: () => {
-                    window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
-                  }
-                },
-                thei18n.button_see_available_times,
-                e('i', { className: 'bi bi-calendar2-check-fill ms-2' }),
-              );
-    
-            }),
             e(
               'button',
               {
                 className: 'btn-tall btn-sm green mb-2',
                 onClick: () => {
-                  setPage(AccountPayment);
+                  setPage(Purchase, { i18n: i18n, userdata: userdata, appSetPage: appSetPage }, 'no-squeeze');
                 }
               },
-              thei18n.manage_your_plan,
-              e('i', { className: 'bi bi-credit-card-fill ms-2' }),
+              e('i', { className: 'ri-wallet-2-fill me-2' }),
+              i18n.manage_your_plan,
             ),
             e(
               'button',
@@ -1320,8 +645,8 @@ function AccountOptions_profileDetails(props) {
                   setPage(BillHistory);
                 }
               },
-              thei18n.bills,
-              e('i', { className: 'bi bi-receipt-cutoff ms-2' }),
+              e('i', { className: 'ri-receipt-fill me-2' }),
+              i18n.bills,
             ),
             e(
               'button',
@@ -1331,8 +656,19 @@ function AccountOptions_profileDetails(props) {
                   setPage(HomeworkHistory);
                 }
               },
-              thei18n.homework,
-              e('i', { className: 'bi bi-receipt-cutoff ms-2' }),
+              e('i', { className: 'ri-file-paper-2-fill me-2' }),
+              i18n.homework,
+            ),
+            e(
+              'button',
+              {
+                className: 'btn-tall btn-sm mb-2',
+                onClick: () => {
+                  setPage(AccountOptions_Documents, { i18n: i18n, setPage: setPage });
+                }
+              },
+              e('i', { className: 'ri-file-copy-2-fill me-2' }),
+              i18n.your + i18n.plural + ' ' + i18n.document + i18n.plural,
             ),
           )),
         )
@@ -1431,7 +767,8 @@ function AccountOptions_profileDetails(props) {
                       );
                     }
                   },
-                  i18n.confirm_mail_button
+                  i18n.confirm_mail_button,
+                  e('i', { className: 'ri-mail-check-fill ms-2' })
                 )
               );
             }
@@ -1513,7 +850,8 @@ function AccountOptions_GeneralOptions(props) {
 
                   }
                 },
-                'Seguir sistema'
+                'Seguir sistema',
+                e('i', { className: 'ri-toggle-fill ms-2' })
               );
 
             })
@@ -1599,6 +937,35 @@ function AccountOptions_GeneralOptions(props) {
           }
         }
       ),
+      e(
+        Slider,
+        {
+          dom_id: 'ads-checkbox',
+          checked: localOptions.enable_ads === false ? false : true,
+          value: e(
+            'span',
+            { className: 'position-relative' },
+            e(
+              'span',
+              { className: 'badge bg-primary me-2' },
+              'BETA'
+            ),
+            thei18n.enable_ads,
+          ),
+          onClick: () => {
+
+            localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+            var checkbox = document.getElementById('ads-checkbox');
+            checkbox.checked = !checkbox.checked;
+
+            localOptions.enable_ads = checkbox.checked;
+
+            GuyraLocalStorage('set', 'guyra_options', localOptions);
+
+          }
+        }
+      ),
     )
   ];
 }
@@ -1609,61 +976,11 @@ function AccountOptions_accountDetails(props) {
     { className: 'profile-details'},
     e(
       'div',
-      { className: 'profile-notifications' },
-      e(
-        'h2',
-        { className: 'text-blue' },
-        thei18n.notifications
-      ),
-      e(
-        'div',
-        { className: 'd-flex flex-row dialog-box' },
-        e(() => {
-
-          if (!("Notification" in window)) {
-            return e(
-              'p',
-              { className: 'me-3' },
-              thei18n.notifications_not_supported
-            );
-          }
-
-          if ("Notification" in window) {
-
-            var allowed = false;
-
-            if (Notification.permission === "granted") {
-              allowed = true;
-            }
-
-            return e(Slider, { dom_id: 'notifications-checkbox', checked: allowed, value: thei18n.notifications_enable, onClick: () => {
-
-              var checkbox = document.getElementById('notifications-checkbox');
-
-              if (allowed == false) {
-                Notification.requestPermission().then((permission) => {
-                  if (permission === "granted") {
-                    checkbox.checked = true;
-                  } else {
-                    checkbox.checked = false;
-                  }
-                });
-              }
-
-            }});
-
-          }
-
-        }),
-      )
-    ),
-    e(
-      'div',
       { className: 'profile-code' },
       e(
         'h2',
         { className: 'text-blue' },
-        thei18n.teacher
+        thei18n.classes
       ),
       e(
         'div',
@@ -1678,12 +995,13 @@ function AccountOptions_accountDetails(props) {
             e(
               'button',
               {
-                className: 'btn-tall blue mb-3',
+                className: 'btn-tall blue flat mb-3',
                 onClick: () => {
                   window.location.href = thei18n.home_link + '/user/' + theUserdata.teacherid 
                 }
               },
-              thei18n.button_see_available_times
+              e('i', { className: 'ri-calendar-check-fill me-2' }),
+              thei18n.button_see_available_times,
             ),
           ];
 
@@ -1743,10 +1061,60 @@ function AccountOptions_accountDetails(props) {
                 }
               },
               thei18n.apply,
-              e('i', { className: 'bi bi-arrow-return-left ms-2' }),
+              e('i', { className: 'ri-corner-down-left-fill ms-2' }),
             )
           )
       )
+      )
+    ),
+    e(
+      'div',
+      { className: 'profile-notifications' },
+      e(
+        'h2',
+        { className: 'text-blue' },
+        thei18n.notifications
+      ),
+      e(
+        'div',
+        { className: 'd-flex flex-row dialog-box' },
+        e(() => {
+
+          if (!("Notification" in window)) {
+            return e(
+              'p',
+              { className: 'me-3' },
+              thei18n.notifications_not_supported
+            );
+          }
+
+          if ("Notification" in window) {
+
+            var allowed = false;
+
+            if (Notification.permission === "granted") {
+              allowed = true;
+            }
+
+            return e(Slider, { dom_id: 'notifications-checkbox', checked: allowed, value: thei18n.notifications_enable, onClick: () => {
+
+              var checkbox = document.getElementById('notifications-checkbox');
+
+              if (allowed == false) {
+                Notification.requestPermission().then((permission) => {
+                  if (permission === "granted") {
+                    checkbox.checked = true;
+                  } else {
+                    checkbox.checked = false;
+                  }
+                });
+              }
+
+            }});
+
+          }
+
+        }),
       )
     ),
     e(AccountOptions_privacyDetails),
@@ -1856,11 +1224,6 @@ function AccountOptions(props) {
       e(Account_BackButton, { page: AccountWrapper })
     ),
     e(AccountOptions_profileDetails),
-    e(
-      'div',
-      { className: 'd-flex justify-content-center mt-5' },
-      e('img', { className: 'page-icon medium', src: GuyraGetImage('img/digital-marketing.png', { size: 128 }) })
-    )
   );
 
 }
@@ -2174,7 +1537,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
   
                   }
                 },
-                e('i', { className: 'bi bi-question-circle ms-1 text-blue-darker' })
+                e('i', { className: 'ri-question-fill ms-1 text-blue-darker' })
               )
             ),
             e(WhoAmI_openPayments_qrCode, this.state.qrCodeProps)
@@ -2202,7 +1565,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
                   onClick: (event) => {
 
                     var before = event.target.innerHTML;
-                    event.target.innerHTML = this.props.i18n.copy + '<i class="bi bi-file-check ms-1"></i>';
+                    event.target.innerHTML = this.props.i18n.copy + '<i class="ri-file-check ms-1"></i>';
 
                     navigator.clipboard.writeText(this.state.pix_code);
 
@@ -2213,7 +1576,7 @@ export class WhoAmI_openPayments_paymentItem extends React.Component {
                   }
                 },
                 this.props.i18n.copy + " " + this.props.i18n.pix,
-                e('i', { className: 'bi bi-files-alt ms-1' })
+                e('i', { className: 'ri-wallet-fill ms-1' })
               ),
             ),
             e(
@@ -2523,7 +1886,7 @@ function AccountInfo(props) {
                     }
                   },
                   thei18n.see_more,
-                  e('i', { className: 'bi bi-box-arrow-up-right ms-2' })
+                  e('i', { className: 'ri-arrow-right-up-fill ms-2' })
                 )
               );
             }
@@ -2623,7 +1986,7 @@ function Register(props) {
   var ContinueButton = e(
     'button',
     {
-      className: 'btn-tall blue',
+      className: 'btn-tall green flex-grow-1 ms-2',
       onClick: (e) => {
 
         e.preventDefault();
@@ -2631,7 +1994,7 @@ function Register(props) {
         var dataToPost = {};
         var previousHTML = '';
         previousHTML = e.target.innerHTML;
-        e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+        e.target.innerHTML = '<i class="ri-more-fill"></i>';
 
         GetCaptchaAndDo((token) => {
 
@@ -2701,7 +2064,7 @@ function Register(props) {
       }
     },
     thei18n.continue,
-    e('i', { className: 'bi bi-arrow-right ms-2' }),
+    e('i', { className: 'ri-arrow-right-fill ms-2' }),
   );
 
   return e(AccountContext.Consumer, null, ({i18n}) => e(
@@ -2729,7 +2092,7 @@ function Register(props) {
         e(
           'div',
           { className: 'form-floating mb-3'},
-          e('input', { id: 'profile-email', name: 'user_email', type: "email", className: "input-email form-control", placeholder: "you@example.com" }),
+          e('input', { id: 'profile-email', name: 'user_email', type: "email", defaultValue: props.email, className: "input-email form-control", placeholder: "you@example.com" }),
           e('label', { for: 'profile-email' }, i18n.email),
         ),
         e(
@@ -2758,7 +2121,12 @@ function Register(props) {
             { className: 'text-ss text-grey-darker my-3' },
             thei18n.sign_up_warning
           ),
-          ContinueButton
+          e(
+            'div',
+            { className: 'd-flex flex-row' },
+            e(Account_BackButton, { page: Login }),
+            ContinueButton
+          ),
         ),
       ),
       e('div', { id: 'message-oauth', className: 'd-none mt-2 dialog-box info pop-animation animate' }, thei18n.oauth_user_notfound),
@@ -2816,7 +2184,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    return e(AccountContext.Consumer, null, ({i18n}) => e(
+    return e(AccountContext.Consumer, null, ({setPage, i18n}) => e(
       'div',
       { className: 'form-control p-5' },
       e(
@@ -2850,7 +2218,7 @@ class LoginForm extends React.Component {
 
                 if (json == 'user_not_found') {
 
-                  window.location.href = i18n.register_link;
+                  setPage(Register, { email: theEmail });
                   return;
                   
                 }
@@ -2894,7 +2262,7 @@ class LoginForm extends React.Component {
           }
         },
         thei18n.email_auth_login,
-        e('i', { className: 'bi bi-shield-lock ms-2' }),
+        e('i', { className: 'ri-shield-keyhole-fill ms-2' }),
       ),
       e(
         'div',
@@ -2944,7 +2312,7 @@ class LoginForm extends React.Component {
                 var dataToPost = {};
                 var previousHTML = '';
                 previousHTML = e.target.innerHTML;
-                e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+                e.target.innerHTML = '<i class="ri-more-fill"></i>';
 
                 dataToPost = {
                   user_email: document.getElementById('profile-email').value,
@@ -2979,7 +2347,7 @@ class LoginForm extends React.Component {
               }
             },
             thei18n.button_login,
-            e('i', { className: 'bi bi-box-arrow-in-right ms-2' }),
+            e('i', { className: 'ri-arrow-down-right-fill ms-2' }),
           )
         )
       ),
@@ -3166,8 +2534,7 @@ export class Account extends React.Component {
 
     this.subpages = {
       options: AccountOptions,
-      payment: AccountPayment,
-      payment_cancel: AccountPayment_cancelPlan,
+      payment: Purchase,
       change_password: AccountOptions_changePassword,
       inventory: AccountInfo_Inventory,
       register: Register,
@@ -3184,7 +2551,7 @@ export class Account extends React.Component {
 
   }
 
-  setPage = (page, props) => {
+  setPage = (page, props, squeeze=false) => {
 
     var pageTitles = Object.keys(this.state.pages);
     var pages = Object.values(this.state.pages);
@@ -3208,8 +2575,15 @@ export class Account extends React.Component {
 
     props.appSetPage = this.props.appSetPage;
 
+    var squeezeType = this.state.squeezeType;
+
+    if (squeeze) {
+      squeezeType = squeeze;
+    }
+
     this.setState({
-      page: e(page, props)
+      page: e(page, props),
+      squeezeType: squeezeType
     });
   }
 
@@ -3224,7 +2598,8 @@ export class Account extends React.Component {
     }
 
     if (subroute == 'payment') {
-      decision = AccountPayment;
+      decision = Purchase;
+      this.state.squeezeType = 'no-squeeze';
     }
 
     if (subroute == 'changepassword') {
@@ -3263,7 +2638,7 @@ export class Account extends React.Component {
         userdata: this.userdata,
         i18n: res.i18n,
       }, () => {
-        this.setPage(this.getStartingPage())
+        this.setPage(this.getStartingPage(), { i18n: res.i18n, userdata: this.userdata, appSetPage: this.props.appSetPage } )
       });
 
     });
@@ -3272,9 +2647,14 @@ export class Account extends React.Component {
 
   render() {
 
-    var wrapperClass = 'account-squeeze page-squeeze rounded-box';
+    var wrapperClass = 'account-squeeze page-squeeze';
+
     if (this.userdata.is_logged_in == false) {
-      wrapperClass = wrapperClass + ' p-0';
+      wrapperClass += ' p-0';
+    }
+
+    if (this.state.squeezeType != 'no-squeeze') {
+      wrapperClass += ' rounded-box';
     }
 
     return e(
@@ -3363,7 +2743,7 @@ function BillHistory(params) {
                       window.open(item.payment_proof, '_blank').focus();
                     }
                   },
-                  e('i', {className: 'bi bi-card-list me-1'}),
+                  e('i', {className: 'ri-currency-fill me-1'}),
                   i18n.payment_proof
                 );
               }

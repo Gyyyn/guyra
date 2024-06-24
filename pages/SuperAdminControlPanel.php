@@ -22,7 +22,7 @@ GetComponent('Header', ['css' => 'admin.css']); ?>
 
 <div class="admin-section">
 
-  <a href="<?php echo $gi18n['home_link']; ?>" class="btn me-3"><i class="bi bi-arrow-90deg-left"></i></a>
+  <a href="<?php echo $gi18n['home_link']; ?>" class="btn me-3"><i class="ri-corner-down-left-fill"></i></a>
   <h2 class="d-inline" onclick="document.getElementById('debug').classList.remove('d-none');">Admin panel</h2>
 
 </div>
@@ -190,7 +190,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
 
     <li class="list-group-item col-2 d-flex align-items-center">
       <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#controls-<?php echo $user['id']; ?>" role="button" aria-expanded="false" aria-controls="collapse-<?php echo $user['id']; ?>">
-        <i class="bi bi-toggles"></i>
+        <i class="ri-toggle-fill"></i>
         <span class="d-none d-md-inline"><?php echo $gi18n['controls']; ?></span>
       </a>
     </li>

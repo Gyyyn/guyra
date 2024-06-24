@@ -242,7 +242,7 @@
   animation-direction: reverse;
 }
 
-i.bi.bi-three-dots,
+i.ri-more-fill,
 .glow {
   transition: var(--guyra-transition);
   animation: pulse 0.75s;
@@ -255,6 +255,7 @@ i.bi.bi-three-dots,
   flex-grow: 1;
   box-shadow: none;
   z-index: inherit;
+  max-width: 38%;
 }
 
 #activities .btn-tall:first-of-type {

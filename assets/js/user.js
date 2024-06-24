@@ -71,7 +71,7 @@ class User_Profile extends React.Component {
 
                         return null;
                     }),
-                    e(RenderCalendar, { range: 2, user: user, i18n: thei18n })
+                    e(RenderCalendar, { range: 3, user: user, i18n: thei18n })
                 )
             )
 

@@ -1,3 +1,11 @@
+# 1.0.0
+* add snake and wheel to arcade
+* add contract information and signing
+
+# 0.9.3
+* move all payment functions to Payment.js
+* add more coin requirements to different actions
+
 # 0.9.2
 
 * add print archive, TODO: delete upload function

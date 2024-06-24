@@ -133,9 +133,9 @@ export class PersistentMeeting extends React.Component {
           e(
             'span',
             { className: 'd-flex flex-row justify-content-start' },
-            e('button', { className: 'btn text-danger', onClick: () => { this.close(); } }, e('i', { className: 'bi bi-x-lg'})),
-            e('button', { className: 'btn text-warning', onClick: () => { this.fullscreen(); } }, e('i', { className: 'bi bi-arrows-fullscreen'})),
-            e('button', { className: 'btn text-success cursor', id: this.thisElementId + '-header', style: { cursor: 'move' } }, e('i', { className: 'bi bi-arrows-move'})),
+            e('button', { className: 'btn text-danger', onClick: () => { this.close(); } }, e('i', { className: 'ri-close-fill'})),
+            e('button', { className: 'btn text-warning', onClick: () => { this.fullscreen(); } }, e('i', { className: 'ri-arrows-fullscreen'})),
+            e('button', { className: 'btn text-success cursor', id: this.thisElementId + '-header', style: { cursor: 'move' } }, e('i', { className: 'ri-arrows-move'})),
             e(
               'button', 
               {
@@ -144,7 +144,7 @@ export class PersistentMeeting extends React.Component {
                   window.open(this.meetingLink, '_blank').focus();
                 } 
               },
-              'Abrir em nova aba', e('i', { className: 'bi bi-box-arrow-up-right ms-2'})
+              'Abrir em nova aba', e('i', { className: 'ri-arrow-right-up-fill ms-2'})
             ),
           ),
           e(
@@ -167,7 +167,7 @@ export class Notepad extends React.Component {
 
     this.state = {
       renderSelf: (this.localOptions.notepad_enabled == undefined) || (this.localOptions.notepad_enabled == true),
-      notepadIcon: e('i', { className: 'bi bi-stickies' })
+      notepadIcon: e('i', { className: 'ri-sticky-note-fill' })
     }
 
   }
@@ -246,7 +246,7 @@ export class Notepad extends React.Component {
         { className: 'position-fixed bottom-0 end-0 notepad-element overflow-x-visible' },
         e(
           'div',
-          { id: 'notepad-toggle', className: 'btn-tall blue round-border position-absolute d-flex justify-content-center' },
+          { id: 'notepad-toggle', className: 'btn-tall flat blue text-x round-border position-absolute d-flex justify-content-center' },
           this.state.notepadIcon
         )
       ),
@@ -262,7 +262,7 @@ export class Notepad extends React.Component {
               className: 'position-absolute top-0 end-0 p-3', id: 'notepad-header',
               style: { cursor: 'move' }
             },
-            e('i', { className: 'bi bi-arrows-move' })
+            e('i', { className: 'ri-draggable' })
           ),
           e(
             'textarea',
@@ -393,7 +393,7 @@ export class AccountCenter extends React.Component {
 
               }
             },
-            e('i', { className: 'bi bi-x-lg' }),
+            e('i', { className: 'ri-close-fill' }),
           ),
           e('h5', {}, item.title),
           e('span', { className: 'fw-normal text-n' }, item.contents),
@@ -533,7 +533,8 @@ export class AccountCenter extends React.Component {
                   
                 }
               },
-              this.props.i18n.clear
+              this.props.i18n.clear,
+              e('i', { className: 'ri-delete-bin-5-fill ms-2' })
             )
           ),
           this.renderNotifications(this.props.userdata.notifications),

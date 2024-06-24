@@ -34,6 +34,10 @@ function Header_buttonImage(props) {
     className += ' avatar';
   }
 
+  if (!props.value) {
+    className += ' mx-2';
+  }
+
   return e(
     'span',
     { className: 'menu-icon' },
@@ -50,13 +54,18 @@ function Header_Button(props) {
 
     var className = 'value';
 
-    if (props.invert_image) {
-      className += ' me-md-2';
-    } else { className += ' ms-md-2'; }
+    if (props.value) {
+
+      if (props.invert_image) {
+        className += ' me-md-2';
+      } else { className += ' ms-md-2'; }
+
+    }
 
     return e('span', { className: className }, props.value);
 
   };
+
   var buttonClassExtra = ' me-1';
 
   if (document.body.dataset.route == props.navigation) {
@@ -68,7 +77,7 @@ function Header_Button(props) {
   }
 
   if (props.image !== undefined) {
-    imageE = e(Header_buttonImage, { image: props.image, image_direct: props.image_direct, invert_image: props.invert_image });
+    imageE = e(Header_buttonImage, props);
   }
 
   var buttonProper = [
@@ -414,14 +423,14 @@ class App extends React.Component {
         navigation: 'home'
       }),
       e(Header_Button, {
-        value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
-        onClick: () => { this.setPage(Reference) },
-        navigation: 'reference'
+        value: this.state.i18n.courses, image: 'icons/online-learning.png',
+        onClick: () => { this.setPage(Courses) },
+        navigation: 'courses'
       }),
       e(Header_Button, {
-        value: this.state.i18n.arcade, image: 'icons/joystick.png',
-        onClick: () => { this.setPage(Arcade) },
-        navigation: 'arcade'
+        value: this.state.i18n.shop, image: 'icons/exercises/shop.png',
+        onClick: () => { this.setPage(Shop) },
+        navigation: 'shop'
       }),
     ];
 
@@ -447,17 +456,6 @@ class App extends React.Component {
       )
     }
 
-    // e(
-    //   'span',
-    //   { className: 'position-relative' },
-    //   e(Header_Button, {
-    //     value: this.state.i18n.courses, image: 'icons/online-learning.png',
-    //     onClick: () => { this.setPage(Courses) },
-    //     navigation: 'courses'
-    //   }),
-    //   e(liveBadge)
-    // ),
-
     return buttons;
     
   }
@@ -475,7 +473,7 @@ class App extends React.Component {
         id: 'mobile-header-back',
         onClick: this.historyBack
       },
-      e('i', { className: 'bi bi-chevron-left'})
+      e('i', { className: 'ri-arrow-left-s-line'})
     );
 
     if (document.body.dataset.route == 'home') {
@@ -503,9 +501,9 @@ class App extends React.Component {
 
       accountButtons = [
         e(Header_Button, {
-          value: this.state.i18n.shop, image: 'icons/exercises/shop.png',
-          onClick: () => { this.setPage(Shop) },
-          navigation: 'shop'
+          value: this.state.i18n.dictionary, image: 'icons/dictionary.png',
+          onClick: () => { this.setPage(Reference) },
+          navigation: 'reference'
         }),
         e(
           'div',
@@ -613,7 +611,7 @@ class App extends React.Component {
         { className: 'fade-animation animate position-absolute start-0 top-0 w-100', style: { zIndex: 2000 } },
         e(
           'div',
-          { className: 'bg-white-blurred squeeze', style: { height: '100vh' } },
+          { className: 'bg-white-blurred', style: { height: '100vh' } },
           e(
             'div',
             { className: 'd-flex flex-column p-5' },
@@ -633,14 +631,14 @@ class App extends React.Component {
                 { className: 'btn-tall btn-lg blue d-block text-center me-3 mb-3',
                   onClick: () => { this.setPage('account') } },
                 this.state.i18n.button_login,
-                e('i', { className: 'bi bi-box-arrow-in-right ms-2' })
+                e('i', { className: 'ri-arrow-down-right-fill ms-2' })
               ),
               e(
                 'button',
                 { className: 'btn-tall btn-lg green d-block text-center flex-grow-1 me-3 mb-3',
                   onClick: () => { this.setState({ tryingOut: true })} },
                 this.state.i18n.button_meet,
-                e('i', { className: 'bi bi-door-open ms-2' })
+                e('i', { className: 'ri-door-open ms-2' })
               )
             )
           )

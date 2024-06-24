@@ -4,8 +4,32 @@
 
     "jackpot": {
       "name": "Roleta",
-      "description": "Tenha a chance de ganhar um item raro!",
-      "description_full": "Você pode ganhar um dos seguites items: ..."
+      "description": "Aposte na sorte!",
+      "description_full": "Você pode ganhar um pacote de quatro aulas ou ganhar até o dobro das moedas!"
+    },
+
+    "classpack_4": {
+      "name": "Pacote de 4 aulas",
+      "description": "Use suas moedas para ganhar aulas.",
+      "description_full": "Pacote de aulas para usar com nossos profeessores! Válido por 1 mês após ativação."
+    },
+
+    "courses_beginner_level1": {
+      "name": "Iniciante 1",
+      "description": "Aprenda ou reveja o básico do inglês, com explicações objetivas e exemplos práticos!",
+      "description_full": ""
+    },
+
+    "courses_threshold_level1": {
+      "name": "Fonética 1",
+      "description": "Introdução a fonética do inglês e dicas de pronúncia.",
+      "description_full": ""
+    },
+
+    "courses_advanced_level1": {
+      "name": "Advanced 1",
+      "description": "Gramáticas avançadas e tópicos mais complicados.",
+      "description_full": ""
     },
 
     "profile_pack1": {
@@ -171,6 +195,11 @@
     "jackpot": {
       "name": "Roleta",
       "preview": "%site_url/api/?get_image=icons/jackpot-machine.png&size=64"
+    },
+
+    "classpack_4": {
+      "name": "Pacote de 4 aulas",
+      "preview": "%site_url/api/?get_image=icons/laptop.png&size=64"
     },
 
     "progress_pack1": {

@@ -102,7 +102,7 @@ function Roadmap_LevelCard(props) {
     e(
       'div',
       { className: 'align-items-center d-flex flex-row justify-content-end' },
-      e('i', { className: "bi bi-award-fill fs-2 me-3" }),
+      e('i', { className: "ri-award-fill fs-2 me-3" }),
       e(
         'div',
         { className: 'mt-2 d-flex flex-column'},

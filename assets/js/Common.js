@@ -1,8 +1,12 @@
+import { AccountPayment } from '%getjs=Payment.js%end';
+
 export const rootUrl = window.location.origin.concat('/');
 export let e = React.createElement;
 export var thei18n = { api_link: rootUrl + 'api' };
 export var theUserdata = {};
 export var theLevelMap = {};
+
+const { useEffect } = React;
 
 export var MD5 = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCase()};function M(d){for(var _,m="0123456789ABCDEF",f="",r=0;r<d.length;r++)_=d.charCodeAt(r),f+=m.charAt(_>>>4&15)+m.charAt(15&_);return f}function X(d){for(var _=Array(d.length>>2),m=0;m<_.length;m++)_[m]=0;for(m=0;m<8*d.length;m+=8)_[m>>5]|=(255&d.charCodeAt(m/8))<<m%32;return _}function V(d){for(var _="",m=0;m<32*d.length;m+=8)_+=String.fromCharCode(d[m>>5]>>>m%32&255);return _}function Y(d,_){d[_>>5]|=128<<_%32,d[14+(_+64>>>9<<4)]=_;for(var m=1732584193,f=-271733879,r=-1732584194,i=271733878,n=0;n<d.length;n+=16){var h=m,t=f,g=r,e=i;f=md5_ii(f=md5_ii(f=md5_ii(f=md5_ii(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_ff(f=md5_ff(f=md5_ff(f=md5_ff(f,r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+0],7,-680876936),f,r,d[n+1],12,-389564586),m,f,d[n+2],17,606105819),i,m,d[n+3],22,-1044525330),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+4],7,-176418897),f,r,d[n+5],12,1200080426),m,f,d[n+6],17,-1473231341),i,m,d[n+7],22,-45705983),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+8],7,1770035416),f,r,d[n+9],12,-1958414417),m,f,d[n+10],17,-42063),i,m,d[n+11],22,-1990404162),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+12],7,1804603682),f,r,d[n+13],12,-40341101),m,f,d[n+14],17,-1502002290),i,m,d[n+15],22,1236535329),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+1],5,-165796510),f,r,d[n+6],9,-1069501632),m,f,d[n+11],14,643717713),i,m,d[n+0],20,-373897302),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+5],5,-701558691),f,r,d[n+10],9,38016083),m,f,d[n+15],14,-660478335),i,m,d[n+4],20,-405537848),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+9],5,568446438),f,r,d[n+14],9,-1019803690),m,f,d[n+3],14,-187363961),i,m,d[n+8],20,1163531501),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+13],5,-1444681467),f,r,d[n+2],9,-51403784),m,f,d[n+7],14,1735328473),i,m,d[n+12],20,-1926607734),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+5],4,-378558),f,r,d[n+8],11,-2022574463),m,f,d[n+11],16,1839030562),i,m,d[n+14],23,-35309556),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+1],4,-1530992060),f,r,d[n+4],11,1272893353),m,f,d[n+7],16,-155497632),i,m,d[n+10],23,-1094730640),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+13],4,681279174),f,r,d[n+0],11,-358537222),m,f,d[n+3],16,-722521979),i,m,d[n+6],23,76029189),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+9],4,-640364487),f,r,d[n+12],11,-421815835),m,f,d[n+15],16,530742520),i,m,d[n+2],23,-995338651),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+0],6,-198630844),f,r,d[n+7],10,1126891415),m,f,d[n+14],15,-1416354905),i,m,d[n+5],21,-57434055),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+12],6,1700485571),f,r,d[n+3],10,-1894986606),m,f,d[n+10],15,-1051523),i,m,d[n+1],21,-2054922799),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+8],6,1873313359),f,r,d[n+15],10,-30611744),m,f,d[n+6],15,-1560198380),i,m,d[n+13],21,1309151649),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+4],6,-145523070),f,r,d[n+11],10,-1120210379),m,f,d[n+2],15,718787259),i,m,d[n+9],21,-343485551),m=safe_add(m,h),f=safe_add(f,t),r=safe_add(r,g),i=safe_add(i,e)}return Array(m,f,r,i)}function md5_cmn(d,_,m,f,r,i){return safe_add(bit_rol(safe_add(safe_add(_,d),safe_add(f,i)),r),m)}function md5_ff(d,_,m,f,r,i,n){return md5_cmn(_&m|~_&f,d,_,r,i,n)}function md5_gg(d,_,m,f,r,i,n){return md5_cmn(_&f|m&~f,d,_,r,i,n)}function md5_hh(d,_,m,f,r,i,n){return md5_cmn(_^m^f,d,_,r,i,n)}function md5_ii(d,_,m,f,r,i,n){return md5_cmn(m^(_|~f),d,_,r,i,n)}function safe_add(d,_){var m=(65535&d)+(65535&_);return(d>>16)+(_>>16)+(m>>16)<<16|65535&m}function bit_rol(d,_){return d<<_|d>>>32-_}
 
@@ -172,7 +176,7 @@ export class RenderReplies extends React.Component {
     this.state = {
       replyArea: replyArea,
       replyOnclick: this.openReply,
-      replyButtonValue: e('i', {className: 'bi bi-reply-fill'}),
+      replyButtonValue: e('i', {className: 'ri-reply-fill'}),
       localReplies: []
     }
 
@@ -206,7 +210,7 @@ export class RenderReplies extends React.Component {
     this.setState({
       replyArea: replyArea,
       replyOnclick: this.closeReply,
-      replyButtonValue: [e('i', {className: 'me-2 bi bi-x-lg'}), thei18n.close]
+      replyButtonValue: [e('i', {className: 'me-2 ri-close-fill'}), thei18n.close]
     });
 
     setTimeout(() => {
@@ -229,7 +233,7 @@ export class RenderReplies extends React.Component {
     this.setState({
       replyArea: e(this.replyButton, {}),
       replyOnclick: this.openReply,
-      replyButtonValue: e('i', {className: 'bi bi-reply-fill'})
+      replyButtonValue: e('i', {className: 'ri-reply-fill'})
     });
 
 
@@ -356,7 +360,7 @@ export class RenderReplies extends React.Component {
               href: reply.attachment,
               target: '_blank',
             },
-            e('i', { className: 'bi bi-cloud-download me-2 text-ss' }), thei18n.download
+            e('i', { className: 'ri-download-cloud-2-fill me-2 text-ss' }), thei18n.download
           )
         )
       );
@@ -387,9 +391,18 @@ export class RenderReplies extends React.Component {
 }
 
 export function Slider(props) {
+
+  var classExtra = ' ';
+  var valueSpanClass = 'ms-3';
+
+  if (props.reverse) {
+    classExtra += 'flex-row-reverse';
+    valueSpanClass = 'me-3';
+  }
+
   return e(
     'div',
-    { className: 'd-flex flex-row' },
+    { className: 'd-flex justify-content-between flex-row' + classExtra },
     e(
       'label',
       {
@@ -405,11 +418,12 @@ export function Slider(props) {
       e('span', { className: 'slider' })
     ),
     e(
-      'p',
-      { className: 'ms-5' },
+      'span',
+      { className: valueSpanClass },
       props.value
     ),
   );
+
 }
 
 export function BuyInShop(props) {
@@ -435,7 +449,7 @@ export function BuyInShop(props) {
           className: 'btn-tall green mx-auto'
         },
         e('span', { className: 'me-2' }, props.i18n.go_to_shop),
-        e('span',{}, e('i', {className: 'bi bi-shop'}))
+        e('span',{}, e('i', {className: 'ri-shopping-bag-4-fill'}))
       )
     ),
   );
@@ -657,7 +671,7 @@ export function Guyra_InventoryItem(props) {
   var useButton = e(
     'button',
     {
-      className: 'btn-tall btn-sm green',
+      className: 'btn-tall btn-sm blue flat',
       "aria-label": thei18n.use,
       onClick: (e) => {
 
@@ -898,7 +912,7 @@ export function checkForTranslatables() {
 
   translatables.forEach((item, i) => {
 
-    var value = '<i class="bi bi-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
+    var value = '<i class="ri-translate me-2"></i>' + item.dataset['translation'] + '<div class="arrow" data-popper-arrow></div>';
 
     createTooltip(item, value);
 
@@ -919,6 +933,16 @@ export var validatePhoneNumber = (v) => {
     r = r.replace(/^(\d*)/, "($1");
   }
   return r;
+
+}
+
+export function isCourseOwned(id, userdata) {
+  
+  if (!userdata.courses || !userdata.courses[id] || !userdata.courses[id].owned) {
+    return false;
+  } else {
+    return true;
+  }
 
 }
 
@@ -1107,12 +1131,31 @@ export function dragElement(theElement, clickFunction) {
 
 }
 
-export class GoogleAd extends React.Component {
+export function GoogleAd(params) {
+  
+  return null;
+
+}
+
+export class OldGoogleAd extends React.Component {
   constructor(props) {
     super(props);
+
+    this.localOptions = GuyraLocalStorage('get', 'guyra_options');
+
+    this.state = {
+      ads_enabled: true
+    }
+
+    if (this.localOptions.enable_ads === false) {
+      this.state.enable_ads = false;
+    }
+
   }
 
   componentDidMount() {
+
+    console.log(document.querySelector('ins.adsbygoogle'));
 
     try {
       (adsbygoogle = window.adsbygoogle || []).push({});
@@ -1129,18 +1172,24 @@ export class GoogleAd extends React.Component {
   }
 
   render() {
+
+    if (!this.state.enable_ads) {
+      return null;
+    }
+
     return e(
       'ins',
       {
         className: "adsbygoogle",
         "style": { display: 'block', minWidth: "300px", },
-        "data-ad-client": "ca-pub-7198773595231701",
-        "data-ad-slot":"2771213975",
+        "data-ad-client": "ca-pub-7194085444951333",
+        "data-ad-slot":"2116335676",
         "data-ad-format": "auto",
         "data-full-width-responsive": "true",
       }
     );
   }
+
 }
 
 export class PaymentItem extends React.Component {
@@ -1343,14 +1392,15 @@ export class PopUp extends React.Component {
               e(
                 'button',
                 {
+                  id: 'popup-close-button',
                   type: "button",
-                  className: "btn-tall btn-sm red close",
+                  className: "btn-tall btn-sm red close popup-close-button",
                   "aria-label": "close",
                   onClick: () => {
                     this.close();
                   }
                 },
-                e('i', { className: "bi bi-x-lg" })
+                e('i', { className: "ri-close-fill" })
               )
             ),
             e(
@@ -1380,7 +1430,7 @@ export function reactOnCallback(event, callback) {
 
   var before = event.target.innerHTML;
   var dots = document.createElement('i');
-  dots.classList.add('bi', 'bi-three-dots');
+  dots.classList.add('ri-more-fill');
   var cs = window.getComputedStyle(event.target);
 
   var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
@@ -1404,11 +1454,11 @@ export function reactOnCallback(event, callback) {
     setTimeout(() => {
 
       if (result) {
-        dots.classList.remove('bi-three-dots');
-        dots.classList.add('bi-check-lg');
+        dots.classList.remove('ri-more-fill');
+        dots.classList.add('ri-check-fill');
       } else {
-        dots.classList.remove('bi-three-dots');
-        dots.classList.add('bi-exclamation-lg');
+        dots.classList.remove('ri-more-fill');
+        dots.classList.add('ri-error-warning-fill');
       }
   
       setTimeout(() => {
@@ -1591,4 +1641,150 @@ export function SearchCalendarForCurrentTime(calendar, callback) {
 
   });
   
+}
+
+export class Purchase extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.loading = [
+      e(
+        'div',
+        { className: 'd-flex flex-column justify-content-center align-items-center' },
+        e('img', {
+          alt: this.props.i18n.payment,
+          src: GuyraGetImage('icons/lock.png', { size: 64 })
+        }),
+        "Iniciando ambiente seguro..."
+      ),
+      e(LoadingPage)
+    ];
+
+    this.state = {
+      view: this.loading,
+    };
+
+  }
+
+  componentWillMount() {
+
+    this.MPsdk = document.createElement('script');
+    this.MPsecuritySdk = document.createElement('script');
+
+    this.MPsdk.src = "https://sdk.mercadopago.com/js/v2";
+    this.MPsecuritySdk.src = "https://www.mercadopago.com/v2/security.js";
+    this.MPsecuritySdk.setAttribute("view", "checkout");
+    this.MPsecuritySdk.setAttribute("deviceId", "output");
+
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(this.MPsdk, firstScriptTag);
+    firstScriptTag.parentNode.insertBefore(this.MPsecuritySdk, firstScriptTag);
+
+    setTimeout(() => {
+      
+      this.setState({
+        view: e(AccountPayment, this.props)
+      })
+
+    }, 3000);
+
+  }
+
+  componentWillUnmount() {
+
+    this.MPsdk.remove();
+    this.MPsecuritySdk.remove();
+
+  }
+  
+  render() {
+
+    return e(
+      'div',
+      { className: 'rounded-box squeeze' },
+      e(RoundedBoxHeading, { value: this.props.i18n.payment, icon: 'icons/credit-card.png' }),
+      this.state.view
+    );
+
+  }
+  
+}
+
+export class Rewards extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.coinsAnimation = e(
+      'div',
+      { className: '' },
+      e(
+        'dotlottie-player',
+        {
+          src: 'https://lottie.host/64422eaa-8e12-49f4-be02-b9a1669420af/6eGNYM7l0Q.json',
+          background: "transparent", speed: "1", style: { height: '300px', width: '300px' }, 
+          loop: true, autoplay: true
+        }
+      )
+    );
+
+    this.getRewardsButton = e(
+      'button',
+      {
+        type: 'button',
+        className: 'btn-tall flat green mt-5',
+        onClick: () => {
+
+          document.getElementById('chest-view').classList.add('animate', 'justfadeout-animation');
+
+          setTimeout(() => {
+
+            var openSound = new Audio(this.props.i18n.audio_link + 'open.mp3');
+
+            openSound.play();
+
+            this.setState({
+              view: this.coinsAnimation,
+            });
+
+            setTimeout(() => {
+  
+              this.setState({
+                view: this.props.rewardsView,
+              });
+              
+            }, '4000');
+            
+          }, '500');
+
+        }
+      },
+      this.props.i18n.get_rewards
+    );
+
+    this.chestView = e(
+      'div',
+      { className: 'd-flex flex-column align-items-center justify-content-center position-relative', id: 'chest-view' },
+      e('img', { className: 'page-icon large', src: this.props.i18n.api_link + '?get_image=icons/treasure-chest.png&size=256' }),
+      e(
+        'span',
+        { className: 'position-absolute start-50 top-50 translate-middle' },
+        this.getRewardsButton
+      )
+    );
+
+    this.state = {
+      view: this.chestView
+    }
+  }
+
+  render() {
+
+    return e(
+      'div',
+      { className: 'text-center' },
+      this.state.view
+    );
+  }
+
+
 }

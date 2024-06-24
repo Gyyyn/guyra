@@ -10,6 +10,43 @@
     "pin": true
   },
 
+  "classpack_4": {
+    "price": "300",
+    "classpack_4": {
+      "location": "icons/laptop.png"
+    },
+    "image": "icons/laptop.png",
+    "items": {"classpack_4": {}},
+    "pin": true
+  },
+
+  "challenge_streak_sevendays": {
+    "price": "5",
+    "type": "challenge",
+    "image": "icons/fire.png",
+    "items": {
+      "challenge_streak_sevendays": {}
+    }
+  },
+
+  "courses_beginner_level1": {
+    "price": "75",
+    "image": "icons/courses/beginner_level1.png",
+    "items": { "courses_beginner_level1": {} }
+  },
+
+  "courses_threshold_level1": {
+    "price": "100",
+    "image": "icons/courses/threshold_level1.png",
+    "items": { "courses_threshold_level1": {} }
+  },
+
+  "courses_advanced_level1": {
+    "price": "125",
+    "image": "icons/courses/advanced_level1.png",
+    "items": { "courses_advanced_level1": {} }
+  },
+
   "profile_pride": {
     "price": "1",
     "image": "icons/rainbow.png",
@@ -352,15 +389,6 @@
     "image": "icons/card.png",
     "items": {
       "flashcards_irregulars_participle1": {}
-    }
-  },
-
-  "challenge_streak_sevendays": {
-    "price": "5",
-    "type": "challenge",
-    "image": "icons/fire.png",
-    "items": {
-      "challenge_streak_sevendays": {}
     }
   }
 

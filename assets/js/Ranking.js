@@ -66,8 +66,8 @@ function Ranking_Wrapper(props) {
             e('img', { className: 'avatar page-icon tiny me-2', src: list_item.avatar }),
             list_item.first_name
           ),
-          e('span', { className: 'me-3'}, e('i', { className: "bi bi-award-fill me-1" }), e('span', { className: 'fw-bold capitalize' }, list_item.user_ranking.ranking_name)),
-          e('span', { className: 'me-3' }, e('i', { className: "bi bi-bar-chart-fill me-1" }), e('span', {}, list_item.user_ranking.level_total)),
+          e('span', { className: 'me-3'}, e('i', { className: "ri-award-fill me-1" }), e('span', { className: 'fw-bold capitalize' }, list_item.user_ranking.ranking_name)),
+          e('span', { className: 'me-3' }, e('i', { className: "ri-bar-chart-fill me-1" }), e('span', {}, list_item.user_ranking.level_total)),
         ),
         e(
           'div',

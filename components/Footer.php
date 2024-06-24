@@ -14,6 +14,7 @@ include_once $template_dir . '/functions/Assets.php'; ?>
 <script src="<?php echo GetMinifiedAsset('js', 'react-dom.js'); ?>"></script>
 <script src="<?php echo GetMinifiedAsset('js', 'html-react-parser.js'); ?>"></script>
 <script async src="<?php echo GetMinifiedAsset('js', 'marked.js'); ?>"></script>
+<script src="<?php echo GetMinifiedAsset('js', 'dotlottie-player.js'); ?>"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6LftVY4dAAAAAL9ZUAjUthZtpxD9D8cERB2sSdYt"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>

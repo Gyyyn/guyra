@@ -39,7 +39,7 @@ function DiaryEditButton(props) {
 
       }
     },
-    e('i', { className: "bi bi bi-pencil", alt: i18n.edit })
+    e('i', { className: "ri-pencil-fill" })
   ));
 }
 
@@ -61,7 +61,7 @@ function DiaryDeleteButton(props) {
 
       }
     },
-    e('i', { className: "bi bi-trash", alt: i18n.delete })
+    e('i', { className: "ri-delete-bin-5-fill", alt: i18n.delete })
   ));
 }
 
@@ -106,7 +106,7 @@ class DiaryEntry extends React.Component {
 
             }
           },
-          e('i', { className: "bi bi-check-lg" })
+          e('i', { className: "ri-check-fill" })
         )
       )
     ));
@@ -124,7 +124,7 @@ class DiaryEntry extends React.Component {
             })
           }
         },
-        e('i', { className: "bi bi-pencil" })
+        e('i', { className: "ri-pencil-fill" })
       ),
       diary.entries[this.props.id].date
     ));
@@ -225,7 +225,7 @@ class DiaryPaginatedEntries extends React.Component {
             this.pageLeft();
           }
         },
-        e('i', { className: "bi-caret-left" }),
+        e('i', { className: "ri-arrow-left-s-fill" }),
         'Previous Page'
       ),
       e(
@@ -237,7 +237,7 @@ class DiaryPaginatedEntries extends React.Component {
           }
         },
         'Next Page',
-        e('i', { className: "bi-caret-right" })
+        e('i', { className: "ri-arrow-right-s-fill" })
       )]
     );
   }
@@ -430,7 +430,7 @@ function DiarySubmit(props) {
 
           }
         },
-        e('i', { className: "bi bi-plus-lg", alt: i18n.add }),
+        e('i', { className: "ri-add-box-fill", alt: i18n.add }),
       ))
     )
   ));
@@ -445,7 +445,7 @@ function DiaryControls(props) {
         className: 'btn-tall btn-sm blue me-2',
         onClick: () => { openPayments(); }
       },
-      e('i', { className: "bi bi-wallet2 me-2" }),
+      e('i', { className: "ri-wallet-fill me-2" }),
       i18n.payments
     ))
   } else {
@@ -486,7 +486,7 @@ function DiaryControls(props) {
           
         }
       },
-      e('i', { className: "bi bi-save me-2"}),
+      e('i', { className: "ri-save-fill me-2"}),
       i18n.save
     ))
   );
@@ -557,7 +557,7 @@ class PaymentAreaEntry extends React.Component {
               });
             }
           },
-          e('i', { className: "bi bi-check-lg" })
+          e('i', { className: "ri-check-fill" })
         )
       )
     )
@@ -587,7 +587,7 @@ class PaymentAreaEntry extends React.Component {
                 });
               }
             },
-            e('i', { className: "bi bi-pencil" })
+            e('i', { className: "ri-pencil-fill" })
           )
         ),
         e(() => {
@@ -602,7 +602,7 @@ class PaymentAreaEntry extends React.Component {
                   window.open(diary.payments[this.props.index].payment_proof, '_blank').focus();
                 }
               },
-              e('i', {className: 'bi bi-card-list'})
+              e('i', {className: 'ri-file-list-fill'})
             );
   
           }
@@ -759,7 +759,7 @@ class PaymentArea extends React.Component {
 
               }
             },
-            e('i', { className: "bi bi-plus-lg", alt: i18n.add }),
+            e('i', { className: "ri-add-box-fill", alt: i18n.add }),
           ))
         )
       )
@@ -997,174 +997,11 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.cardsClasses = 'card trans thin col-3 p-3 me-3 mb-3';
+    this.cardsClasses = 'card trans thin p-3 me-3 mb-3 ';
 
     this.state = {
-      cards: [],
+      userdata: this.props.userData.userdata
     };
-
-    this.userAddToGroupCard = e(
-      'div',
-      { className: this.cardsClasses },
-      e('h3', {}, thei18n.group),
-      e(
-        'span',
-        { className: 'd-flex flex-row' },
-        e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
-        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
-          'button',
-          {
-            className: 'btn-tall green',
-            onClick: () => {
-              
-              this.addToGroup().then(res => {
-
-                if (res) {
-                  
-                  user_list[this.props.userId].userdata.studygroup = document.getElementById('add-to-group').value;
-                  updateUserList(user_list);
-
-                }
-
-              });
-
-            }
-          },
-          e('i', {className: 'bi bi-plus-lg'})
-        ))
-      ),
-    );
-
-    this.userArchiveStudentCard = e(
-      'div',
-      { className: this.cardsClasses },
-      e('h3', {}, thei18n.archive_student),
-      e('span', { className: 'text-sss' }, thei18n.archive_student_explain),
-      e(
-        'span',
-        { className: 'd-flex flex-row' },
-        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
-          'button',
-          {
-            className: 'btn-tall',
-            onClick: () => {
-
-              this.archiveStudent().then(res => {
-
-                if (res) {
-                  
-                  delete user_list[this.props.userId];
-                  updateUserList(user_list);
-
-                }
-
-              });
-
-            }
-          },
-          e('i', {className: 'bi bi-archive me-3'}),
-          thei18n.archive_student
-        ))
-      ),
-    );
-    this.userInfoCard = e(
-      'div',
-      { className: this.cardsClasses },
-      e('h3', {}, thei18n.info),
-      e(GroupAdminHomeContext.Consumer, null, ({user_list}) => e(
-        'div',
-        {
-          onClick: () => {
-            console.log(user_list[this.props.userId]);
-          }
-        },
-        e('p', {}, thei18n.phone + ' ', user_list[this.props.userId].userdata.user_phone),
-        e('p', {}, thei18n.email + ' ', user_list[this.props.userId].userdata.user_email),
-        e('p', {}, thei18n.document + ' ', user_list[this.props.userId].userdata.doc_id),
-        e(() => {
-
-          if (!user_list[this.props.userId].payment.processor_data) {
-            return null;
-          }
-
-          return e('p', {}, thei18n.payment + ' ', JSON.stringify(user_list[this.props.userId].payment.processor_data.card_data));
-
-        })
-      ))
-    );
-
-    if (this.props.listingType == 'user') {
-      this.state.cards.push(this.userInfoCard, this.userArchiveStudentCard, this.userAddToGroupCard);
-    }
-
-    if (this.props.listingType == 'group') {
-
-      this.groupRemoveUsers = e(
-        'div',
-        { className: this.cardsClasses },
-        e('h4', {}, thei18n.remove_from_group),
-        e(
-          'span',
-          { className: 'd-flex flex-row flex-wrap' },
-          this.props.groupData.map((user) => {
-
-            return e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
-              'button', {
-                className: 'btn-tall btn-sm red me-2 mb-2',
-                id: 'remove-from-group-' + user.id,
-                onClick: () => {
-
-                  this.removeFromGroup(user.id).then(res => {
-
-                    if (res) {
-                  
-                      user_list[this.props.userId].userdata.studygroup = '';
-                      updateUserList(user_list);
-    
-                    }
-
-                  });
-
-                }
-              },
-              e('i', {className: 'bi bi-dash-lg me-1'}),
-              user.userdata.first_name
-            ));
-
-          }),
-        ),
-      );
-
-      this.groupSeeUserDiary = e(
-        'div',
-        { className: this.cardsClasses },
-        e('h4', {}, thei18n.diary),
-        e(
-          'div',
-          { className: 'd-flex flex-wrap' },
-          this.props.groupData.map((user) => {
-
-            return e(PopUp,
-              {
-                title: user.userdata.first_name + ' ' + thei18n.diary,
-                buttonElement: e('button', { className: 'btn-tall btn-sm blue me-1 mb-1' }, e('i', {className: 'bi bi-box-arrow-up-right me-1'}), user.userdata.first_name),
-                bodyElement: e(Diary,
-                  {
-                    username: user.userdata.first_name,
-                    diaryId: user.id,
-                    diary: user.diary,
-                  }
-                )
-              }
-            );
-  
-          }),
-        )
-      );
-
-      this.state.cards.push(this.groupSeeUserDiary, this.groupRemoveUsers);
-
-    }
 
   }
 
@@ -1265,12 +1102,255 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
 
   }
 
+  updateUserdata = (event, data) => {
+
+    var newUserdata = this.state.userdata;
+
+    newUserdata[data] = event.target.value;
+
+    this.setState({
+      userdata: newUserdata,
+    });
+
+  }
+
   render() {
+
+    var cards = [];
+
+    var userAddToGroupCard = e(
+      'div',
+      { className: this.cardsClasses + 'col-3' },
+      e('h3', {}, thei18n.group),
+      e(
+        'span',
+        { className: 'd-flex flex-row' },
+        e('input', { id: 'add-to-group', type: 'text', placeholder: thei18n.group_tag, className: 'bs form-control me-3' }),
+        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
+          'button',
+          {
+            className: 'btn-tall green',
+            onClick: () => {
+              
+              this.addToGroup().then(res => {
+
+                if (res) {
+                  
+                  user_list[this.props.userId].userdata.studygroup = document.getElementById('add-to-group').value;
+                  updateUserList(user_list);
+
+                }
+
+              });
+
+            }
+          },
+          e('i', {className: 'ri-add-box-fill'})
+        ))
+      ),
+    );
+
+    var userArchiveStudentCard = e(
+      'div',
+      { className: this.cardsClasses + 'col-3' },
+      e('h3', {}, thei18n.archive_student),
+      e('span', { className: 'text-sss' }, thei18n.archive_student_explain),
+      e(
+        'span',
+        { className: 'd-flex flex-row' },
+        e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
+          'button',
+          {
+            className: 'btn-tall',
+            onClick: () => {
+
+              this.archiveStudent().then(res => {
+
+                if (res) {
+                  
+                  delete user_list[this.props.userId];
+                  updateUserList(user_list);
+
+                }
+
+              });
+
+            }
+          },
+          e('i', {className: 'ri-archive-fill me-3'}),
+          thei18n.archive_student
+        ))
+      ),
+    );
+
+    var userInfoCard = e(
+      'div',
+      { className: this.cardsClasses + 'col-5' },
+      e('h3', {}, thei18n.info),
+      e(GroupAdminHomeContext.Consumer, null, ({user_list}) => e(
+        'div',
+        {
+          onClick: () => {
+            console.log(user_list[this.props.userId]);
+          }
+        },
+        e(
+          'div',
+          { className: 'form-floating mb-3' },
+          e(
+            'input', 
+            {
+              id: 'phone-' + this.props.userId, name: 'user_phone', type: "text",
+              className: "form-control", value : this.state.userdata.user_phone,
+              onChange: (event) => { this.updateUserdata(event, 'user_phone'); }
+            }
+          ),
+          e('label', { for: 'phone-' + this.props.userId }, thei18n.phone),
+        ),
+        e(
+          'div',
+          { className: 'form-floating mb-3' },
+          e(
+            'input', 
+            {
+              id: 'email-' + this.props.userId, name: 'user_email', type: "text",
+              className: "form-control", value : this.state.userdata.user_email,
+              onChange: (event) => { this.updateUserdata(event, 'user_email'); }
+            }
+          ),
+          e('label', { for: 'email-' + this.props.userId }, thei18n.email),
+        ),
+        e(
+          'div',
+          { className: 'form-floating mb-3' },
+          e(
+            'input', 
+            {
+              id: 'doc_id-' + this.props.userId, name: 'doc_id', type: "text",
+              className: "form-control", value : this.state.userdata.doc_id,
+              onChange: (event) => { this.updateUserdata(event, 'doc_id'); }
+            }
+          ),
+          e('label', { for: 'doc_id-' + this.props.userId }, thei18n.document),
+        ),
+        e(
+          'div',
+          { className: 'form-floating mb-3' },
+          e(
+            'input', 
+            {
+              id: 'class_info-' + this.props.userId, name: 'class_info', type: "text",
+              className: "form-control", value : this.state.userdata.class_info,
+              onChange: (event) => { this.updateUserdata(event, 'class_info'); }
+            }
+          ),
+          e('label', { for: 'class_info-' + this.props.userId }, thei18n.classes),
+        ),
+        e(() => {
+
+          if (!user_list[this.props.userId].payment.processor_data) {
+            return null;
+          }
+
+          return e('p', {}, thei18n.payment + ' ', JSON.stringify(user_list[this.props.userId].payment.processor_data.card_data));
+
+        }),
+        e(
+          'button',
+          {
+            className: 'btn-tall green flat',
+            onClick: () => {
+  
+              var userdata = this.state.userdata;
+  
+              alert(JSON.stringify(userdata));
+  
+            }
+          },
+          thei18n.save
+        ),
+      ))
+    );
+
+    if (this.props.listingType == 'user') {
+      cards.push(userInfoCard, userArchiveStudentCard, userAddToGroupCard);
+    }
+
+    if (this.props.listingType == 'group') {
+
+      var groupRemoveUsers = e(
+        'div',
+        { className: this.cardsClasses + 'col-3' },
+        e('h4', {}, thei18n.remove_from_group),
+        e(
+          'span',
+          { className: 'd-flex flex-row flex-wrap' },
+          this.props.groupData.map((user) => {
+
+            return e(GroupAdminHomeContext.Consumer, null, ({user_list, updateUserList}) => e(
+              'button', {
+                className: 'btn-tall btn-sm red me-2 mb-2',
+                id: 'remove-from-group-' + user.id,
+                onClick: () => {
+
+                  this.removeFromGroup(user.id).then(res => {
+
+                    if (res) {
+                  
+                      user_list[this.props.userId].userdata.studygroup = '';
+                      updateUserList(user_list);
+    
+                    }
+
+                  });
+
+                }
+              },
+              e('i', {className: 'ri-subtract-fill me-1'}),
+              user.userdata.first_name
+            ));
+
+          }),
+        ),
+      );
+
+      var groupSeeUserDiary = e(
+        'div',
+        { className: this.cardsClasses + 'col-3' },
+        e('h4', {}, thei18n.diary),
+        e(
+          'div',
+          { className: 'd-flex flex-wrap' },
+          this.props.groupData.map((user) => {
+
+            return e(PopUp,
+              {
+                title: user.userdata.first_name + ' ' + thei18n.diary,
+                buttonElement: e('button', { className: 'btn-tall btn-sm blue me-1 mb-1' }, e('i', {className: 'ri-arrow-right-up-fill me-1'}), user.userdata.first_name),
+                bodyElement: e(Diary,
+                  {
+                    username: user.userdata.first_name,
+                    diaryId: user.id,
+                    diary: user.diary,
+                  }
+                )
+              }
+            );
+  
+          }),
+        )
+      );
+
+      cards.push(this.groupSeeUserDiary, this.groupRemoveUsers);
+
+    }
+
     return e(
       'div',
-      { className: 'row form-control' },
-      this.state.cards,
-    )
+      { className: 'row flex-wrap' },
+      cards,
+    );
+
   }
 }
 
@@ -1368,7 +1448,7 @@ class PrintArchive extends React.Component {
 
                 }
               },
-              e('i', { className: 'bi bi-trash' })
+              e('i', { className: 'ri-delete-bin-4-fill' })
             ),
             e(
               'img',
@@ -1441,7 +1521,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
           maxAge: 7
         }),
       ],
-      editButtonValue: thei18n.edit,
+      editButtonValue: [e('i', { className: "ri-pencil-fill" }), thei18n.edit],
       editButtonOnclick: this.edit
     }
 
@@ -1474,7 +1554,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
 
     this.setState({
       view: window.HTMLReactParser(marked.parse(this.theUserpage)),
-      editButtonValue: e('i', {className: 'bi bi-three-dots'}),
+      editButtonValue: e('i', {className: 'ri-more-fill'}),
       editButtonOnclick: null
     });
 
@@ -1519,7 +1599,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
 
       this.setState({
         view: window.HTMLReactParser(marked.parse(this.theUserpage)),
-        editButtonValue: thei18n.edit,
+        editButtonValue: [e('i', { className: "ri-pencil-fill" }), thei18n.edit],
         editButtonOnclick: this.edit
       });
     });
@@ -1650,20 +1730,26 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e(
           'span',
           { className: 'me-2' },
-          e('i', { className: 'bi bi-coin me-1' }),
+          e('i', { className: 'ri-coins-fill me-1' }),
           this.representativeUser.gamedata.level
         ),
         e(
           'span',
           { className: 'me-2' },
-          e('i', { className: 'bi bi-bar-chart-fill me-1' }),
+          e('i', { className: 'ri-bar-chart-fill me-1' }),
           this.representativeUser.gamedata.level_total
         ),
         e(
           'span',
-          {},
-          e('i', { className: 'bi bi-clock-history me-1' }),
+          { className: 'me-2' },
+          e('i', { className: 'ri-time-fill me-1' }),
           this.lastLogin
+        ),
+        e(
+          'span',
+          { className: 'me-2 d-none d-xl-inline'},
+          e('i', { className: 'ri-gamepad-fill me-1' }),
+          Math.trunc(this.representativeUser.gamedata.elo)
         ),
       );
 
@@ -1681,6 +1767,48 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
       listingTitle: this.listingTitle,
       currentView: null,
     };
+
+    if (!this.state.userdata.class_info) {
+      this.state.userdata.class_info = {}
+    }
+
+    if (this.state.userdata.class_info.monthly_amount) {
+      this.monthly_class_amount = this.state.userdata.class_info.monthly_amount;
+    }
+
+    if (this.state.userdata.class_info.contract_start) {
+      this.contract_start = this.state.userdata.class_info.contract_start;
+    }
+
+    if (this.monthly_class_amount && this.contract_start) {
+
+      var contract_start = new Date(this.contract_start);
+      var now = new Date();
+
+      this.classes_missing_reschedule = 0;
+
+      var years_active = now.getFullYear() - contract_start.getFullYear();
+      var months_active = 11 * years_active - contract_start.getMonth();
+
+      for (let month = contract_start.getMonth(); index == months_active; month++) {
+        
+        
+        
+      }
+
+      this.diary.entries.forEach(entry => {
+
+        var entryDate = new Date(entry.date);
+
+        if (entryDate > contract_start) {
+          
+
+
+        }
+        
+      });
+      
+    }
 
   }
 
@@ -1733,7 +1861,7 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
   
               }
             },
-            e('i', { className: "bi bi-x-lg", alt: thei18n.close })
+            e('i', { className: "ri-close-fill", alt: thei18n.close })
           ),
         ),
         e(
@@ -1794,10 +1922,10 @@ class GroupAdminHome_AdminPanel_UserListing extends React.Component {
         e(
           'span',
           { className: 'd-flex flex-row justify-content-center user-buttons mt-2 mt-md-0'},
-          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 bi bi-card-list'}), thei18n.diary),
-          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 bi bi-journal-richtext'}), thei18n.lessons),
-          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 bi bi-list-nested'})),
-          e('button', { className: 'btn-tall trans', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 bi bi-toggles'})),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('diary')} }, e('i', {className: 'me-1 ri-file-list-2-fill'}), thei18n.diary),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('userpage')} }, e('i', {className: 'me-1 ri-file-list-3-fill'}), thei18n.lessons),
+          e('button', { className: 'btn-tall trans me-2', onClick: () => {this.setView('replies')} }, e('i', {className: 'px-2 ri-list-view'}), e('span', { className: 'd-none d-xl-inline'}, thei18n.replies)),
+          e('button', { className: 'btn-tall trans', onClick: () => {this.setView('controls')} }, e('i', {className: 'px-2 ri-toggle-fill'}), e('span', { className: 'd-none d-xl-inline'}, thei18n.controls)),
         ),
       ),
     ),
@@ -1856,7 +1984,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
           this.setSearch('*');
         }
       },
-      e('i', { className: 'bi bi-x-lg' })
+      e('i', { className: 'ri-close-fill' })
     );
 
     if (!query) {
@@ -1952,10 +2080,79 @@ class GroupAdminHome_AdminPanel extends React.Component {
           { className: 'd-flex flex-column mb-2' },
           e(
             'div',
-            { className: 'd-flex justify-content-between mb-2' },
-            e('h2', {}, this.props.i18n.students),
+            { className: 'd-flex flex-column flex-md-row justify-content-between mb-2' },
             e(
-              'span',
+              'div',
+              { className: 'd-flex flex-row mb-2 mb-md-0' },
+              e('h2', { className: 'me-3' }, this.props.i18n.students),
+              e(() => {
+
+                var value = Object.values(user_list).length;
+                var students = value;
+    
+                value = value * this.props.i18n.prices_features.premium.value;
+    
+                if (this.props.userdata.school_id != 'guyra') {
+                  value = value * (this.props.i18n.prices_features.business.company_cut / 100);
+                }
+    
+                value = Math.round(value);
+    
+                const [values, setValues] = React.useState([
+                  "-",
+                  "-",
+                  "ri-eye-close-fill"
+                ]);
+    
+                return e(
+                  'div',
+                  { className: 'd-flex justify-content-between align-items-baseline' },
+                  e(
+                    'div',
+                    { className: 'me-3' },
+                    e(
+                      'button',
+                      {
+                        className: 'btn-tall blue',
+                        onClick: (event) => {
+    
+                          if (values[0] != '-') {
+    
+                            setValues([
+                              "-",
+                              "-",
+                              "ri-eye-close-fill"
+                            ]);
+                            
+                            return;
+    
+                          }
+    
+                          setValues([
+                            students,
+                            this.props.i18n.currency_iso + value,
+                            "ri-eye-fill"
+                          ]);
+    
+                        }
+                      },
+                      e('i', { className: values[2] }),
+                    )
+                  ),
+                  e(
+                    'div',
+                    {},
+                    e('span', { className: 'fw-bold mx-2' }, values[0]),
+                    e('span', { className: 'mx-3 text-grey-darker'}, '/'),
+                    'Ganhos estimados/mês:',
+                    e('span', { className: 'fw-bold mx-2' }, values[1]),
+                  ),
+                );
+    
+              }),
+            ),
+            e(
+              'div',
               {},
               e(
                 'button',
@@ -1971,7 +2168,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
                   }
                 },
-                e('i', { className: 'bi bi-arrow-repeat' })
+                e('i', { className: 'ri-repeat-fill' })
               ),
               e(
                 'button',
@@ -1987,7 +2184,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
 
                   }
                 },
-                e('i', { className: 'bi bi-view-list' })
+                e('i', { className: 'ri-file-list-fill' })
               ),
               e(
                 'button',
@@ -2012,7 +2209,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                   }
                 },
                 this.props.i18n.search,
-                e('i', { className: 'bi bi-search ms-2' })
+                e('i', { className: 'ri-search-fill ms-2' })
               ),
             ),
           ),
@@ -2028,7 +2225,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 },
                 id: 'student-search',
                 className: 'form-control',
-                value: this.state.search
+                value: this.state.search == '*' ? '' : this.state.search
               },
             ),
             this.state.clearSearch
@@ -2052,72 +2249,6 @@ class GroupAdminHome_AdminPanel extends React.Component {
           Object.values(groupeds).map((group, i) => {
 
             return e(GroupAdminHome_AdminPanel_UserListing, { group: group, groupName: Object.keys(groupeds)[i], search: this.state.search });
-
-          }),
-          e(() => {
-
-            var value = Object.values(user_list).length;
-            var students = value;
-
-            value = value * this.props.i18n.prices_features.premium.value;
-
-            if (this.props.userdata.school_id != 'guyra') {
-              value = value * (this.props.i18n.prices_features.business.company_cut / 100);
-            }
-
-            value = Math.round(value);
-
-            const [values, setValues] = React.useState([
-              "-",
-              "-",
-              "bi bi-eye-fill"
-            ]);
-
-            return e(
-              'div',
-              { className: 'd-flex justify-content-between' },
-              e(
-                'div',
-                {},
-                'Total de alunos:',
-                e('span', { className: 'fw-bold mx-2' }, values[0]),
-                e('span', { className: 'mx-3 text-grey-darker'}, '/'),
-                'Ganhos estimados/mês:',
-                e('span', { className: 'fw-bold mx-2' }, values[1]),
-              ),
-              e(
-                'div',
-                {},
-                e(
-                  'button',
-                  {
-                    className: 'btn-tall blue btn-sm',
-                    onClick: (event) => {
-
-                      if (values[0] != '-') {
-
-                        setValues([
-                          "-",
-                          "-",
-                          "bi bi-eye-fill"
-                        ]);
-                        
-                        return;
-
-                      }
-
-                      setValues([
-                        students,
-                        this.props.i18n.currency_iso + value,
-                        "bi bi-eye-slash-fill"
-                      ]);
-
-                    }
-                  },
-                  e('i', { className: values[2] }),
-                )
-              )
-            );
 
           }),
         );
@@ -2165,7 +2296,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     
                     }
                   },
-                  e('i', { className: 'bi bi-clipboard' })
+                  e('i', { className: 'ri-clipboard-fill' })
                 )
               ),
             ),
@@ -2190,7 +2321,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                       window.open(theUserdata.user_meetinglink, '_blank').focus();
                     }
                   },
-                  e('i', { className: 'bi bi-box-arrow-up-right' })
+                  e('i', { className: 'ri-arrow-right-up-fill' })
                 ),
                 e(
                   'button', 
@@ -2206,7 +2337,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     
                       var button = document.getElementById('meeting-link-add-button');
                       var buttonBefore = button.innerHTML;
-                      button.innerHTML = '<i class="bi bi-three-dots"></i>';
+                      button.innerHTML = '<i class="ri-more-fill"></i>';
     
                       var dataToPost = {
                         fields: ['user_meetinglink'],
@@ -2226,10 +2357,10 @@ class GroupAdminHome_AdminPanel extends React.Component {
                       ).then(res => res.json()).then(json => {
           
                         if (json != 'true') {
-                          button.innerHTML = '<i class="bi bi-x"></i>';
+                          button.innerHTML = '<i class="ri-x"></i>';
                         }
           
-                        button.innerHTML = '<i class="bi bi-check-all"></i>';
+                        button.innerHTML = '<i class="ri-check-double-fill"></i>';
                         
                         setTimeout(() => {
                           button.innerHTML = buttonBefore;
@@ -2239,7 +2370,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
     
                     }
                   },
-                  e('i', {className: 'bi bi-check'})
+                  e('i', {className: 'ri-check-fill'})
                 ),
               ),
               e('span', { className: 'text-sss mt-2 overflow-hidden', style: { maxWidth: '250px' } }, '')
@@ -2343,7 +2474,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                 }
               },
               this.props.i18n.save,
-              e('i', { className: "bi bi-save ms-2" })
+              e('i', { className: "ri-save-fill ms-2" })
             ),
           ),
           e(
@@ -2399,7 +2530,7 @@ class GroupAdminHome_AdminPanel extends React.Component {
                   }
                 },
                 this.props.i18n.save,
-                e('i', { className: "bi bi-save ms-2" })
+                e('i', { className: "ri-save-fill ms-2" })
               ),
             )
           ),

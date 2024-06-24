@@ -33,8 +33,19 @@ if ($_GET['shop_transaction']) {
   if ($current_user_gamedata['level'] < $thePost['amount'])
   guyra_output_json('no credit', true);
 
+  $item_sploded = explode('_', $thePost['items'][0]);
+
+  // This assumes courses will only ever give one item.
+  if ($item_sploded[0] == 'courses') {
+
+    $current_user_data['courses'][$thePost['items'][0]]['owned'] = true;
+    guyra_update_user_data($current_user_id, $current_user_data, '');
+
+  } else {
+    AddItemToInventory($thePost['items']);
+  }
+
   Guyra_decrease_user_level($current_user_id, $thePost['amount']);
-  AddItemToInventory($thePost['items']);
 
   PushNotification($gi18n['notification_item_added']);
 

@@ -88,6 +88,8 @@ if ($_GET['fetch_flashcard_deck']) {
   if (!$fetchedDeck)
   guyra_output_json('invalid deck', true);
 
+  Guyra_decrease_user_level($current_user_id, 3);
+
   guyra_output_json($fetchedDeck, true);
 
 }
@@ -234,6 +236,9 @@ if ($_GET['get_exercises']):
 
     if (is_array($exercisesJSON[$unit]['CompleteThePhraseBuilder']))
     $responseJSON = array_merge($responseJSON, GetTheExercises('CompleteThePhraseBuilder', $unit, 2, $exercisesJSON));
+
+    // TODO this could be a variable amount
+    Guyra_decrease_user_level($current_user_id, 1);
 
   }
 

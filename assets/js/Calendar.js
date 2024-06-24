@@ -5,7 +5,8 @@ import {
   RemovePunctuation,
   reactOnCallback,
   GuyraFetchData,
-  PopUp
+  PopUp,
+  Slider
 } from '%getjs=Common.js%end';
 
 const now = new Date();
@@ -225,7 +226,7 @@ class RenderDay_Hour extends React.Component {
 
   render() {
     
-    var inputCommentClass = '';
+    var inputCommentClass = 'form-floating ';
 
     if (!this.props.user.is_self) {
       inputCommentClass = 'd-none';
@@ -236,11 +237,11 @@ class RenderDay_Hour extends React.Component {
       var icons = [];
 
       if (props.hasRecurring) {
-        icons.push(e('i', { className: "bi bi-arrow-repeat" }));
+        icons.push(e('i', { className: "ri-repeat-fill" }));
       }
 
       if (this.props.user.is_self) {
-        // icons.push(e('i', { className: "bi bi-pen ms-1" }));
+        // icons.push(e('i', { className: "ri-pencil-fill ms-1" }));
       }
 
       return e(
@@ -272,15 +273,16 @@ class RenderDay_Hour extends React.Component {
 
     this.dayScheduleBody = e(
       'div',
-      { className: 'd-flex flex-column form-control p-2' },
+      { className: 'd-flex flex-column p-2' },
       e(
         'div',
         { className: inputCommentClass },
-        e('label', { className: 'text-ss' }, this.props.i18n.comment),
         e(
           'input',
           {
             id: 'schedule-value', type: 'text',
+            className: 'form-control mb-2',
+            name: 'schedule-value', placeholder: this.props.i18n.comment,
             value: this.state.appointmentValue,
             onChange: (event) => {
               this.setState({
@@ -289,34 +291,17 @@ class RenderDay_Hour extends React.Component {
             }
           }
         ),
-      ),
-      e(
-        'div',
-        { className: 'd-flex flex-row my-3 align-items-center justify-content-between' },
-        e('label', { className: 'text-ss' }, this.props.i18n.recurring),
-        e(
-          'input',
-          {
-            id: 'recurring-checkbox', type: 'checkbox', checked: this.state.hasRecurring,
-            className: 'w-auto',
-            onClick: () => {
-              
-              this.setState({
-                hasRecurring: !this.state.hasRecurring
-              });
-
-            }
-        }),
+        e('label', { for: 'schedule-value' }, this.props.i18n.comment),
       ),
       e(
         'div',
         { className: inputCommentClass },
-        e('label', { className: 'text-ss' }, this.props.i18n.user),
         e(
           'input',
           {
-            id: 'schedule-value', type: 'text',
-            className: 'mb-1',
+            id: 'schedule-user', type: 'text',
+            className: 'form-control mb-2',
+            name: 'schedule-user', placeholder: this.props.i18n.user,
             value: this.state.userValueDisplay,
             onChange: (event) => {
 
@@ -368,7 +353,24 @@ class RenderDay_Hour extends React.Component {
             }
           }
         ),
+        e('label', { for: 'schedule-user' }, this.props.i18n.user),
         this.state.matchedStudents,
+      ),
+      e(
+        Slider,
+        {
+          dom_id: 'recurring-checkbox',
+          checked: this.state.hasRecurring,
+          value: this.props.i18n.recurring,
+          reverse: true,
+          onClick: () => {
+
+            this.setState({
+              hasRecurring: !this.state.hasRecurring
+            });
+
+          }
+        }
       ),
       e(
         'button',
@@ -413,13 +415,13 @@ class RenderDay_Hour extends React.Component {
         },
         e(() => {
           if (this.props.user.is_self) {
-            return [this.props.i18n.save, e('i', { className: "bi bi-save ms-2"})];
+            return [this.props.i18n.save, e('i', { className: "ri-save-fill ms-2"})];
           } else {
 
             if (this.state.isOwnTime) {
-              return [this.props.i18n.cancel, e('i', { className: "bi bi-x-lg ms-2"})]
+              return [this.props.i18n.cancel, e('i', { className: "ri-close-fill ms-2"})]
             }
-            return [this.props.i18n.button_request_time, e('i', { className: "bi bi-send-check-fill ms-2"})];
+            return [this.props.i18n.button_request_time, e('i', { className: "ri-send-plane-fill ms-2"})];
           }
         }),
       )
@@ -669,7 +671,7 @@ export class RenderDay extends React.Component {
             this.props.setDaySchedule(null);
           }
         },
-        e('i', { className: 'bi bi-x-lg' })
+        e('i', { className: 'ri-close-fill' })
       ),
     );
 
@@ -773,14 +775,8 @@ export class RenderCalendar extends React.Component {
   setDaySchedule = (element) => {
 
     this.setState({
-      daySchedule: e(LoadingPage),
+      daySchedule: element,
     });
-
-    setTimeout(() => {
-      this.setState({
-        daySchedule: element,
-      });
-    }, 50);
 
   }
 
@@ -828,6 +824,7 @@ export class RenderCalendar extends React.Component {
     return e(CalendarContext.Provider, {value: this.state}, e(
       'div',
       { className: 'calendar d-flex flex-column' },
+      e('div', { id: 'schedule' }, this.state.daySchedule),
       e(
         'div',
         { className: 'd-flex flex-row mb-3' },
@@ -840,7 +837,6 @@ export class RenderCalendar extends React.Component {
             this.state.view,
           ),
         ),
-        e('div', { id: 'schedule' }, this.state.daySchedule)
       ),
       e(() => {
   
@@ -856,7 +852,7 @@ export class RenderCalendar extends React.Component {
                 onClick: this.save
               },
               this.props.i18n.save,
-              e('i', { className: "bi bi-save ms-2"}),
+              e('i', { className: "ri-save-fill ms-2"}),
             ),
             e(
               'button',
@@ -875,7 +871,7 @@ export class RenderCalendar extends React.Component {
                 }
               },
               this.props.i18n.clear,
-              e('i', { className: "bi bi-stars ms-2"}),
+              e('i', { className: "ri-delete-bin-5-fill ms-2"}),
             )
           );
         }

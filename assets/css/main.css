@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;900&family=Patrick+Hand+SC&family=Work+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  --guyra-blue: #4bb8dd;
+  --guyra-blue: #0caee4;
   --guyra-blue-darker: rgb(2 144 191);
   --guyra-blue-darkest: rgb(0 118 157);
   --guyra-blue-lighter: rgba(62, 193, 237, 1);
@@ -12,7 +12,7 @@
   --guyra-purple-darker: rgb(80 33 202);
   --guyra-purple-darkest: rgb(81, 52, 156);
 
-  --guyra-green: #5EEB87;
+  --guyra-green: #24c653;
   --guyra-green-lighter: #7bf79e;
   --guyra-green-lightest: #a5fdbe;
   --guyra-green-darker: #41cc68;

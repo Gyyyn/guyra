@@ -13,11 +13,13 @@ import {
   RenderReplies,
   checkForTranslatables,
   GuyraParseDate,
-  GuyraFetchData
+  GuyraFetchData,
+  GoogleAd
 } from '%getjs=Common.js%end';
 import { PersistentMeeting } from '%getjs=Header.js%end';
 import { Flashcards } from '%getjs=Flashcards.js%end';
 import { Exercises } from '%getjs=practice.js%end';
+import { Arcade } from '%getjs=Arcade.js%end';
 import { WhoAmI_openPayments_paymentItem } from '%getjs=account.js%end';
 
 const HomeContext = React.createContext();
@@ -52,10 +54,10 @@ function PriceFeaturette(props) {
         e(
           'div',
           { className: 'list-unstyled features' },
-          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'bi bi-x-lg text-red' })),
-          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'bi bi-check-lg text-green' })),
-          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'bi bi-check-lg text-green' })),
-          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'ri-close-fill text-red' })),
+          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'ri-check-fill text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'ri-check-fill text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'ri-check-fill text-green' })),
         )
       )
     ),
@@ -74,10 +76,10 @@ function PriceFeaturette(props) {
         e(
           'div',
           { className: 'list-unstyled features' },
-          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'bi bi-check-lg text-green' })),
-          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'bi bi-check-lg text-green' })),
-          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'bi bi-check-lg text-green' })),
-          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'bi bi-check-lg text-green' })),
+          e('li', { className: 'fw-bold' }, props.i18n.prices_features.feature_oneclass, e('i', { className: 'ri-check-fill text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_courses_access, e('i', { className: 'ri-check-fill text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_exercises, e('i', { className: 'ri-check-fill text-green' })),
+          e('li', {}, props.i18n.prices_features.feature_pictionary, e('i', { className: 'ri-check-fill text-green' })),
         )
       )
     )
@@ -254,7 +256,7 @@ class UserHome_ReplyCard extends React.Component {
 
               }
             },
-            e('i', { className: 'bi bi-clipboard me-2' }),
+            e('i', { className: 'ri-clipboard-fill me-2' }),
             e('span', { className: 'text-s' }, thei18n.button_copy_notepad)
           ),
           e(HomeContext.Consumer, null, ({userdata}) => e(
@@ -270,13 +272,13 @@ class UserHome_ReplyCard extends React.Component {
 
               }
             },
-            e('i', { className: 'bi bi-clipboard me-2' }),
+            e('i', { className: 'ri-clipboard-fill me-2' }),
             e('span', { className: 'text-s' }, thei18n.button_copy_homework)
           )),
           e(
             'button',
             { className: 'btn-tall blue me-2 mt-2 mt-md-0 flex-grow-1', onClick: (event) => { this.submit(event) } },
-            e('i', { className: 'bi bi-send-plus me-2' }),
+            e('i', { className: 'ri-send-plane-fill me-2' }),
             e('span', { className: 'text-s' }, thei18n.send),
           ),
         ),
@@ -340,7 +342,7 @@ class WelcomeGreeting_News extends React.Component {
                 this.close();
               }
             },
-            e('i', { className: 'bi bi-x-lg' })
+            e('i', { className: 'ri-close-fill' })
           ),
           window.HTMLReactParser(marked.parse(json))
         );
@@ -427,10 +429,6 @@ function UserHome_WelcomeCard(props) {
         });
       }
       
-    } else {
-
-      theList.push(e(PriceFeaturette, { i18n: thei18n }));
-      
     }
 
     var WelcomeTrialCountdown = e(
@@ -469,7 +467,7 @@ function UserHome_WelcomeCard(props) {
                 window.location.href = thei18n.purchase_link;
               }
             },
-            e('i', { className: 'bi bi-cart-check me-2' }),
+            e('i', { className: 'ri-wallet-2-fill me-2' }),
             e('span', {}, thei18n.manage_your_plan)
           ),
         ),
@@ -534,6 +532,20 @@ function UserHome_WelcomeCard(props) {
             thei18n.exercises
           ],
           color: 'green'
+        },
+      )),
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+            addCard([
+              { id: 'arcade', element: e(Arcade, { userdata: userdata, i18n: thei18n }) }
+            ], 1);
+          },
+          value: [
+            e('img', { src: thei18n.api_link + '?get_image=icons/joystick.png&size=32' }),
+            thei18n.arcade
+          ],
         },
       )),
       e(
@@ -663,7 +675,7 @@ function UserHome_WelcomeCard(props) {
             setPage(UserHome_CardsRenderer);
           }
         },
-        e('i', { className: 'bi bi-arrow-90deg-left' }),
+        e('i', { className: 'ri-corner-down-left-fill' }),
         e('span', { className: 'ms-1' }, thei18n.back)
       ));
 
@@ -1075,6 +1087,18 @@ function UserHome_WelcomeCard(props) {
     }
 
     return [
+      e(
+        'div',
+        { className: '' },
+        e(
+          'dotlottie-player',
+          {
+            src: 'https://lottie.host/64422eaa-8e12-49f4-be02-b9a1669420af/6eGNYM7l0Q.json',
+            background: "transparent", speed: "1", style: { height: '300px', width: '300px' }, 
+            loop: true, autoplay: true
+          }
+        )
+      ),
       theList
     ];
 
@@ -1134,6 +1158,7 @@ export class UserHome extends React.Component {
 
     this.defaultCards = [
       { id: 'welcome', element: e(UserHome_WelcomeCard) },
+      { id: 'ad', element: e(GoogleAd) }
     ];
 
     this.state = {
@@ -1248,7 +1273,7 @@ export class UserHome extends React.Component {
               zIndex: 1
             }
           },
-          e('i', { className: 'bi bi-chevron-down' })
+          e('i', { className: 'ri-arrow-down-s-fill' })
         ),
         this.state.page
       )

@@ -30,7 +30,8 @@ $route[0] = 'home';
 <title><?php echo $gi18n['company_name']; ?></title>
 <link rel="icon" href="<?php echo GetImageCache('img/maskable_icon.png', 32, 'png'); ?>" type="image/x-icon">
 <link href="<?php echo GetMinifiedAsset('css', 'bootstrap.css'); ?>" rel="stylesheet">
-<link href="<?php echo GetMinifiedAsset('css', 'bootstrap-icons.css'); ?>" rel="stylesheet">
+<!-- <link href="<?php echo GetMinifiedAsset('css', 'bootstrap-icons.css'); ?>" rel="stylesheet"> -->
+<link href="<?php echo GetMinifiedAsset('css', 'remix-icons.css'); ?>" rel="stylesheet">
 <link rel="manifest" href="/GuyraManifest.json">
 <link rel="apple-touch-icon" href="<?php echo $template_url; ?>/assets/img/apple-icon.png">
 <link href="<?php echo GetMinifiedAsset('css', 'main.css'); ?>" rel="stylesheet">
@@ -47,7 +48,7 @@ $route[0] = 'home';
 <?php if ($args['css']): ?>
 <link href="<?php echo GetMinifiedAsset('css', $args['css']); ?>" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <?php endif; ?>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7198773595231701" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7194085444951333" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCFLSY9LC7"></script>
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DCFLSY9LC7');</script>
 <noscript><style media="screen">body>div,body>header,body>main{display:none!important;}</style></noscript>

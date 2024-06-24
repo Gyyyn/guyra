@@ -3,6 +3,7 @@ import {
   GuyraFetchData,
   GuyraGetData,
   GuyraLocalStorage,
+  GuyraGetImage,
   thei18n,
   theUserdata,
   LoadingPage,
@@ -11,7 +12,8 @@ import {
   vibrate,
   PopUp,
   RemovePunctuation,
-  BuyInShop
+  BuyInShop,
+  Rewards
 } from '%getjs=Common.js%end';
 
 const { useEffect } = React;
@@ -561,7 +563,7 @@ class AnswersPhraseBuilder extends React.Component {
                   className: 'btn-tall red align-self-end flex-shrink-1',
                   onClick: () => { ClearWord() }
                 },
-                e('i', { className: "bi bi-trash-fill" })
+                e('i', { className: "ri-delete-bin-4-fill" })
               )
             );
 
@@ -752,7 +754,7 @@ function QuestionTranslate(props) {
           {
             className: "exercise-dialog"
           },
-          e('i', { className: 'bi bi-translate text-xx me-2', alt: thei18n.translation }),
+          e('i', { className: 'ri-translate text-xx me-2', alt: thei18n.translation }),
           e('i', { className: 'text-grey-darkest'}, theQuestion),
           e('span', { className: 'ms-1 me-3' }, ':'),
           e('span', { className: 'theTranslation'}, '?')
@@ -803,7 +805,7 @@ class QuestionAudioButton extends React.Component {
                 this.theAudio.play();
               }
             },
-            e('i', { className: "bi bi-volume-up-fill" + audioButtonClassExtra })
+            e('i', { className: "ri-volume-up-fill" + audioButtonClassExtra })
           ),
           e(
             'button',
@@ -822,7 +824,7 @@ class QuestionAudioButton extends React.Component {
 
               }
             },
-            e('i', { className: "bi bi-hourglass-split" })
+            e('i', { className: "ri-hourglass-fill" })
           )
         );
       } else {
@@ -958,7 +960,7 @@ class HintAreaHint extends React.Component {
       e(
         'button',
         { className: 'btn-tall blue btn-sm' },
-        e('i', { className: 'bi bi-eye-fill' }),
+        e('i', { className: 'ri-eye-fill' }),
       )
     );
 
@@ -1036,7 +1038,7 @@ class HintAreaHint extends React.Component {
                 className: 'btn-tall blue btn-sm me-2'
               },
               thei18n.help,
-              e('i', { className: "bi bi-balloon-fill ms-2" }),
+              e('i', { className: "ri-hand-heart-fill ms-2" }),
             );
           }
 
@@ -1047,7 +1049,7 @@ class HintAreaHint extends React.Component {
               className: 'btn-tall black btn-sm me-2'
             },
             thei18n.i_dont_know,
-            e('i', { className: "bi bi-emoji-dizzy ms-2" }),
+            e('i', { className: "ri-question-fill ms-2" }),
           );
 
           var modalBodyElement = e(ExerciseContext.Consumer, null, ({checkAnswerWithButton}) => e(
@@ -1133,7 +1135,7 @@ function UnitHint(props) {
           }
         },
         thei18n.continue,
-        e('i', { className: 'bi bi-arrow-right ms-2' }),
+        e('i', { className: 'ri-arrow-right-fill ms-2' }),
       )
     )
 
@@ -1186,6 +1188,12 @@ function LevelChooserButton(props) {
           'span',
           { className: 'exercise-icon' },
           e('img', { src: props.values.image }),
+        ),
+        e(
+          'span',
+          { className: 'text-n' },
+          e('img', { className: 'page-icon tinier', src: GuyraGetImage('icons/coin.png') }),
+          e('span', { className: 'ms-1 fw-bold' }, '3')
         ),
       ),
       e('div', { className: 'level-name text-center fw-bold mt-1' }, props.values.name)
@@ -1251,7 +1259,7 @@ function returnToLevelMapButton(props) {
         setPage(e(LevelChooser));
       }
     },
-    e('i', { className: 'bi bi-arrow-90deg-left me-1' }),
+    e('i', { className: 'ri-corner-down-left-fill me-1' }),
     e('span', { className: 'd-none d-md-inline' }, i18n.returntomap)
   ));
 
@@ -1279,7 +1287,7 @@ function checkAnswerButton(props) {
         onClick: () => { checkAnswerWithButton() }
       },
       thei18n.check,
-      e('i', { className: 'bi bi-check-lg ms-2' })
+      e('i', { className: 'ri-check-fill ms-2' })
     );
 
   });
@@ -1365,7 +1373,7 @@ function reportAnswerButton() {
         if (reportButtonElement.dataset.alreadyReported != 'true') {
 
           reportAnswer();
-          reportButtonElement.innerHTML = '<i class="bi bi-check-lg"></i>';
+          reportButtonElement.innerHTML = '<i class="ri-check-fill"></i>';
           reportButtonElement.classList.remove('red');
           reportButtonElement.dataset.alreadyReported = 'true';
 
@@ -1384,7 +1392,7 @@ function reportAnswerButton() {
       type: 'button',
       className: 'btn-tall btn-sm red me-1',
     },
-    e('i', { className: 'bi bi-exclamation' })
+    e('i', { className: 'ri-error-warning-fill' })
   );
 
   var modalBody = e(
@@ -1515,7 +1523,7 @@ class ExerciseDone extends React.Component {
             className: 'btn-tall blue',
             onClick: () => {
 
-              setPage(e(Rewards, {
+              setPage(e(ExercisesRewards, {
                 level: levelsGained,
                 elo: Math.floor(this.props.eloChange).toString()
               }));
@@ -1537,116 +1545,70 @@ class ExerciseDone extends React.Component {
 
 }
 
-class Rewards extends React.Component {
-  constructor(props) {
-    super(props);
+function ExercisesRewards(props) {
 
-    var getRewardsButton = e(
-      'button',
-      {
-        type: 'button',
-        className: 'btn-tall green mt-5',
-        onClick: () => {
+  var rewardsViewListing = (props) => {
 
-          document.getElementById('chest-view').classList.add('animate', 'justfadeout-animation');
+    useEffect(() => {
 
-          setTimeout(() => {
+      var timeout = 100;
 
-            var openSound = new Audio(thei18n.audio_link + 'open.mp3');
+      if (props.timeout) {
+      timeout = props.timeout }
+      
+      setTimeout(() => {
 
-            openSound.play();
-
-            this.setState({
-              view: this.rewardsView,
-            });
-            
-          }, '500');
-
-        }
-      },
-      thei18n.get_rewards
-    );
-
-    this.chestView = e(
-      'div',
-      { className: 'd-flex flex-column align-items-center justify-content-center position-relative', id: 'chest-view' },
-      e('img', { className: 'page-icon large', src: thei18n.api_link + '?get_image=icons/treasure-chest.png&size=256' }),
-      e(
-        'span',
-        { className: 'position-absolute start-50 top-50 translate-middle' },
-        getRewardsButton
-      )
-    );
-
-    this.rewardsViewListing = (props) => {
-
-      useEffect(() => {
-
-        var timeout = 100;
-
-        if (props.timeout) {
-        timeout = props.timeout }
+        var listing = document.getElementById(props.title + '-rewards-listing');
         
-        setTimeout(() => {
+        listing.classList.remove('opacity-0');
+        listing.classList.add('slideleft-animation', 'animate');
+        
+      }, timeout);
 
-          var listing = document.getElementById(props.title + '-rewards-listing');
-          
-          listing.classList.remove('opacity-0');
-          listing.classList.add('slideleft-animation', 'animate');
-          
-        }, timeout);
-
-      });
-
-      return e(
-        'div',
-        { className: 'd-inline-block me-3 text-x dialog-box opacity-0', id: props.title + '-rewards-listing' },
-        e('span', { className: 'me-2' }, props.title),
-        props.value,
-      );
-
-    };
-
-    this.rewardsView = e(
-      'div',
-      { className: '' },
-      e(this.rewardsViewListing, {
-        title: e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
-        value: this.props.level,
-        timeout: 150
-      }),
-      e(this.rewardsViewListing, {
-        title: 'Niveis: ',
-        value: this.props.level,
-        timeout: 300
-      }),
-      e(this.rewardsViewListing, {
-        title: 'Elo: ',
-        value: '+' + this.props.elo + '%',
-        timeout: 500
-      }),
-      e(
-        'div',
-        { className: 'mt-3' },
-        e(returnToLevelMapButton)
-      )
-    )
-
-    this.state = {
-      view: this.chestView
-    }
-  }
-
-  render() {
+    });
 
     return e(
       'div',
-      { className: 'text-center' },
-      this.state.view
+      { className: 'd-inline-block me-3 text-x dialog-box opacity-0', id: props.title + '-rewards-listing' },
+      e('span', { className: 'me-2' }, props.title),
+      props.value,
     );
-  }
 
+  };
 
+  var rewardsView = e(
+    'div',
+    { className: '' },
+    e(rewardsViewListing, {
+      title: e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
+      value: props.level,
+      timeout: 150
+    }),
+    e(rewardsViewListing, {
+      title: 'Niveis: ',
+      value: props.level,
+      timeout: 300
+    }),
+    e(rewardsViewListing, {
+      title: 'Elo: ',
+      value: '+' + props.elo + '%',
+      timeout: 500
+    }),
+    e(
+      'div',
+      { className: 'mt-3' },
+      e(returnToLevelMapButton)
+    )
+  );
+
+  return e(
+    Rewards,
+    {
+      rewardsView: rewardsView,
+      i18n: thei18n
+    }
+  )
+  
 }
 
 const ExerciseContext = React.createContext();
@@ -1655,7 +1617,7 @@ export class Exercises extends React.Component {
   constructor(props) {
     super(props);
 
-    this.version = '0.0.5';
+    this.version = '0.0.6';
 
     this.ExerciseObject = [];
     this.currentQuestion = 0;
@@ -1749,6 +1711,13 @@ export class Exercises extends React.Component {
         gamedata: this.gamedata,
         levelMap: this.levelmap,
       });
+
+      if (this.gamedata.level < 1) {
+
+        this.setPage(e(BuyInShop, { i18n: this.i18n }));
+        return;
+        
+      }
 
       Object.values(this.levelmap).forEach((level, i) => {
 

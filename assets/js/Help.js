@@ -88,7 +88,7 @@ function Help_Main_Form(props) {
         onClick: (e) => {
 
           var before = e.target.innerHTML;
-          e.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+          e.target.innerHTML = '<i class="ri-more-fill"></i>';
 
           var formData = {
             "help-email": document.getElementById('help-email').value,

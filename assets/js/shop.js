@@ -6,7 +6,9 @@ import {
   thei18n,
   theUserdata,
   LoadingPage,
-  Guyra_InventoryItem
+  Guyra_InventoryItem,
+  Purchase,
+  isCourseOwned
 } from '%getjs=Common.js%end';
 
 const ShopContext = React.createContext();
@@ -35,7 +37,7 @@ function returnButton(props) {
           }
         }
       },
-      e('i', { className: 'bi bi-arrow-90deg-left' }),
+      e('i', { className: 'ri-corner-down-left-fill' }),
       e('span', { className: 'ms-1' }, i18n.back)
     ))
   );
@@ -64,7 +66,7 @@ class Shop_ItemView extends React.Component {
           onClick: (ev) => {
   
             var before = ev.target.innerHTML;
-            ev.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+            ev.target.innerHTML = '<i class="ri-more-fill"></i>';
   
             var dataToPost = {
               amount: this.props.price,
@@ -90,7 +92,7 @@ class Shop_ItemView extends React.Component {
                 userdata.inventory = Object.keys(this.props.items).concat(userdata.inventory);
   
                 // Drop the user back to the main page.
-                ev.target.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                ev.target.innerHTML = '<i class="ri-lock-fill"></i>';
                 document.getElementById('item-listing-icon').classList.add('itemAdd-animation', 'animate');
   
                 // Force userdata update.
@@ -104,7 +106,7 @@ class Shop_ItemView extends React.Component {
               } else {
   
                 // Something went wrong.
-                ev.target.innerHTML = '<i class="bi bi-exclamation-lg"></i>';
+                ev.target.innerHTML = '<i class="ri-error-warning-fill"></i>';
                 ev.target.onclick = null;
                 ev.target.classList.add('disabled');
                 alert(i18n.something_went_wrong);
@@ -116,7 +118,7 @@ class Shop_ItemView extends React.Component {
           }
         },
         i18n.buy,
-        e('i', { className: 'bi bi-bag-fill ms-2' })
+        e('i', { className: 'ri-bag-fill ms-2' })
       );
 
       return e(
@@ -217,7 +219,7 @@ class Shop_Item extends React.Component {
           ),
           e(
             'button',
-            { className: 'btn-tall btn-sm green d-inline mt-3' + buyButtonExtraClass,
+            { className: 'btn-tall btn-sm flat green d-inline mt-3' + buyButtonExtraClass,
               onClick: () => {
                 if (buyButtonExtraClass !== ' disabled') {
                   setPage(
@@ -228,7 +230,7 @@ class Shop_Item extends React.Component {
               },
             },
             i18n.buy,
-            e('i', { className: 'bi bi-box-arrow-up-right ms-2' })
+            e('i', { className: 'ri-arrow-right-up-fill ms-2' })
           )
         ),
       )
@@ -288,8 +290,10 @@ class Shop_ItemList extends React.Component {
         'div',
         { className: 'd-flex flex-row flex-wrap align-items-center justify-content-start' },
         e('button', { className: 'btn-tall blue mb-3 me-2', onClick: () => { this.setCatSearch('') } }, thei18n.everything),
+        e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('classpack') } }, thei18n.classes),
+        e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('courses') } }, thei18n.courses),
         e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('progress') } }, thei18n.units),
-        e('button', { className: 'btn-tall green mb-3 me-2', onClick: () => { this.setCatSearch('flashcards') } }, thei18n.flashcards),
+        e('button', { className: 'btn-tall mb-3 me-2', onClick: () => { this.setCatSearch('flashcards') } }, thei18n.flashcards),
         e('button', { className: 'btn-tall mb-3 me-2', onClick: () => { this.setCatSearch('challenge') } }, thei18n.challenges),
         e('button', { className: 'btn-tall mb-3 me-2', onClick: () => { this.setCatSearch('profile') } }, thei18n.avatars),
       ),
@@ -303,11 +307,6 @@ class Shop_ItemList extends React.Component {
           var theItemCat = theItem.id.split('_')[0];
 
           if (theItemCat !== this.state.catSearch && this.state.catSearch) {
-            return null;
-          }
-
-          // TODO: remove this once we get the jackpot working
-          if (theItemCat == 'jackpot') {
             return null;
           }
 
@@ -328,6 +327,10 @@ class Shop_ItemList extends React.Component {
                   isOwnedItem = false;
                 }
               });
+
+              if (isCourseOwned(item.id.split('courses_')[1], userdata)) {
+                isOwnedItem = true;
+              }
               
             } else {
               isOwnedItem = false;
@@ -422,10 +425,10 @@ class Shop_wrapper extends React.Component {
     }
 
     return [
-      e(ShopContext.Consumer, null, ({shopObject}) => e(
+      e(ShopContext.Consumer, null, ({shopObject, appSetPage, i18n, userdata}) => e(
         'div',
         { className: 'shop-wrapper ' },
-        e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: thei18n.shop }),
+        e(RoundedBoxHeading, { icon: 'icons/exercises/shop.png', value: i18n.shop }),
         e(
           'div',
           { className: 'dialog-box' },
@@ -435,8 +438,17 @@ class Shop_wrapper extends React.Component {
             e(
               'span',
               {},
-              e('img', { className: 'page-icon tiny', src: thei18n.api_link + '?get_image=icons/coins.png&size=32' }),
-              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level))
+              e('img', { className: 'page-icon tiny', src: i18n.api_link + '?get_image=icons/coins.png&size=32' }),
+              e('span', { className: 'ms-2 fw-bold' }, parseInt(theUserdata.gamedata.level)),
+              e(
+                'button',
+                {
+                  className: 'btn-tall flat green ms-3',
+                  onClick: () => { appSetPage(Purchase, { i18n: i18n, userdata: userdata, appSetPage: appSetPage }); } 
+                },
+                i18n.buy + ' ' + i18n.coins,
+                e('img', { className: 'page-icon tinier ms-2', src: i18n.api_link + '?get_image=icons/coin.png&size=32' })
+              )
             ),
             e(
               'span',
@@ -444,23 +456,30 @@ class Shop_wrapper extends React.Component {
               e(
                 'button',
                 {
-                  className: 'btn-tall btn-sm green mb-2 mb-md-0 ' + inventoryButtonExtraClass,
+                  className: 'btn-tall btn-sm mb-2 mb-md-0 ' + inventoryButtonExtraClass,
                   onClick: () => {
                     this.toggleInventory();
                   }
                 },
-                this.state.inventoryButton + ' ' + thei18n.inventory,
-                e('i', { className: 'bi bi-box ms-2' })
+                this.state.inventoryButton + ' ' + i18n.inventory,
+                e('i', { className: 'ri-box-2-line ms-2' })
               ),
-              e(
-                'button',
-                {
-                  className: 'btn-tall btn-sm green ms-2',
-                  onClick: () => { window.location.href = thei18n.faq_link + '/earn_points'} 
-                },
-                thei18n.get_more_coins,
-                e('img', { className: 'page-icon tinier ms-2', src: thei18n.api_link + '?get_image=icons/coin.png&size=32' })
-              )
+              e(() => {
+
+                if (theUserdata.payments.feature_set != 'premium') {
+                return; }
+
+                return e(
+                  'button',
+                  {
+                    className: 'btn-tall btn-sm ms-2',
+                    onClick: () => { window.location.href = i18n.faq_link + '/earn_points'} 
+                  },
+                  i18n.get_more_coins,
+                  e('img', { className: 'page-icon tinier ms-2', src: i18n.api_link + '?get_image=icons/coin.png&size=32' })
+                );
+
+              })
             )
           ),
           this.state.inventoryListing
@@ -479,6 +498,7 @@ export class Shop extends React.Component {
     this.state = {
       page: e(LoadingPage),
       setPage: this.setPage,
+      appSetPage: this.props.setPage,
       shopObject: {},
       squeezeType: 'squeeze',
       userdata: {},
@@ -489,6 +509,11 @@ export class Shop extends React.Component {
   componentWillMount() {
 
     GuyraGetData().then(res => {
+
+      if (!theUserdata.is_logged_in) {
+        window.open(thei18n.account_link, "_self");
+        return;
+      }
 
       GuyraFetchData({}, 'api?fetch_shop_items=1', 'guyra_shop', 1440).then(res => {
         

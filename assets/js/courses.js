@@ -5,7 +5,8 @@ import {
   GuyraLocalStorage,
   thei18n,
   LoadingPage,
-  BuyInShop
+  BuyInShop,
+  isCourseOwned
 } from '%getjs=Common.js%end';
 
 // Youtube Embed stuff
@@ -22,16 +23,6 @@ let lineBreakify = (desc) => desc.split('\n').map((item, i) => {
     return e('p', {key: i}, item);
   }
 });
-
-function isCourseOwned(id, userdata) {
-  
-  if (!userdata.courses || !userdata.courses[id] || !userdata.courses[id].owned) {
-    return false;
-  } else {
-    return true;
-  }
-
-}
 
 class YoutubeEmbed extends React.Component {
   constructor(props) {
@@ -175,7 +166,7 @@ function returnButton(props) {
           setPage(props.page, props.props);
         }
       },
-      e('i', { className: 'bi bi-arrow-90deg-left' }),
+      e('i', { className: 'ri-corner-down-left-fill' }),
       e('span', { className: 'ms-1' }, i18n.back)
     )),
   );
@@ -194,7 +185,7 @@ function previousVideoButton(props) {
         
       }
     },
-    e('i', { className: 'bi bi-arrow-left me-1' }),
+    e('i', { className: 'ri-arrow-left-fill me-1' }),
     e('span', null, i18n.previous_video)
   ));
 
@@ -211,7 +202,7 @@ function nextVideoButton(props) {
       }
     },
     e('span', null, i18n.next_video),
-    e('i', { className: 'bi bi-arrow-right ms-1' })
+    e('i', { className: 'ri-arrow-right-fill ms-1' })
   ));
 
 }
@@ -452,7 +443,7 @@ function CourseListButton(props) {
 
     var courseButton = e(
       'button',
-      { className: 'btn-tall green' },
+      { className: 'btn-tall green flat' },
       i18n.open
     );
 
@@ -479,11 +470,11 @@ function CourseListButton(props) {
         e(
           'span',
           { className: 'badge bg-green text-n me-2' },
-          props.value
+          i18n.currency_iso + props.value
         ),
         e(
           'button',
-          { className: 'btn-tall blue',
+          { className: 'btn-tall blue flat',
             onClick: () => {
               window.open(props.buy_url, '_blank').focus();
             }
@@ -497,7 +488,7 @@ function CourseListButton(props) {
     return e(
       'div',
       {
-        className: 'rounded-box hoverable d-flex flex-row align-items-center justify-content-between w-100 mb-2',
+        className: 'rounded-box hoverable d-flex flex-row align-items-center justify-content-between w-100 mt-2',
         onClick: clickFunction,
       },
       e(

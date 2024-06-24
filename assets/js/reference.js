@@ -6,6 +6,7 @@ import {
   thei18n,
   LoadingPage,
   checkForTranslatables,
+  reactOnCallback,
 } from '%getjs=Common.js%end';
 
 const ReferenceContext = React.createContext();
@@ -94,18 +95,18 @@ class Irregulars_WordListing extends React.Component {
             if (collapsedE.classList.contains('show')) {
 
               collapsedE.classList.remove('show');
-              expandButtonE.innerHTML = '<i class="bi bi-chevron-down"></i>';
+              expandButtonE.innerHTML = '<i class="ri-arrow-down-s-fill"></i>';
 
             } else {
 
               collapsedE.classList.add('show');
-              expandButtonE.innerHTML = '<i class="bi bi-chevron-up"></i>';
+              expandButtonE.innerHTML = '<i class="ri-arrow-up-s-fill"></i>';
 
             }
 
           }
         },
-        e('i', { className: 'bi bi-chevron-down' })
+        e('i', { className: 'ri-arrow-down-s-fill' })
       );
     }
 
@@ -309,8 +310,8 @@ function GrammaticalTime_ListingSection_item(props) {
 
     return e(
       'li',
-      { className: 'list-group-item d-flex' },
-      e('span', { className: 'col-md-3 text-end text-grey-darkest me-2' }, props.RowTitle + ': '),
+      { className: 'list-group-item d-flex align-items-center' },
+      e('span', { className: 'col-md-3 text-end text-grey-darkest text-s me-2' }, props.RowTitle + ': '),
       e('span', { className: 'col-md-7 fw-bold text-black' },
         e('span', { className: 'pronoun me-1' }, thePronoun),
         e('span', { className: 'aux me-1' + auxRowExtraClass }, theRowAux),
@@ -624,54 +625,11 @@ class GrammaticalTime extends React.Component {
 
     return e(ReferenceContext.Consumer, null, ({i18n, irregularsObject}) => e(
       'div',
-      { className: 'grammar-reference' },
+      { className: 'grammar-reference d-flex flex-column flex-lg-row' },
       [
         e(
           'div',
-          { className: 'd-flex flex-column flex-md-row justify-content-around align-items-center mb-3' },
-          e(
-            'span',
-            { className: 'dialog-box info p-3 more-rounded' },
-            e('div', { className: 'fw-bold me-2' }, i18n.pronoun),
-            e('input', { id: 'pronoun-input', className: 'w-25', type: 'text', deafultValue: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
-          ),
-          e(
-            'span',
-            { className: 'dialog-box info p-3 more-rounded' },
-            e('div', { className: 'fw-bold me-2' }, i18n.verb),
-            e('input', {
-              id: 'verb-input', className: 'w-50', type: 'text',
-              deafultValue: this.state.verb,
-              onChange: updateSelfVerb,
-              onClick: updateSelfVerb
-            }),
-            e(
-              'span',
-              { className: 'ms-3'},
-              e(
-                'button',
-                {
-                  className: 'btn-tall btn-sm',
-                  onClick: () => {
-
-                    var input = document.getElementById('verb-input');
-
-                    fetch(thei18n.api_link + '?translate=' + input.value + '&to=en').then(res => res.json()).then(res => {
-
-                      var theWord = res;
-                      input.value = theWord;
-
-                      this.setValues({ verb: theWord })
-
-                    });
-
-                  }
-                },
-                thei18n.translate,
-                e('i', { className: 'bi bi-translate ms-2' })
-              )
-            )
-          ),
+          { className: 'd-flex flex-column justify-content-start me-3 mb-3' },
           e(
             'span',
             { className: 'dialog-box p-3 more-rounded position-relative' },
@@ -686,11 +644,32 @@ class GrammaticalTime extends React.Component {
 
               }
             })),
-          )
+          ),
+          e(
+            'span',
+            { className: 'dialog-box p-3 more-rounded' },
+            e('div', { className: 'fw-bold me-2' }, i18n.pronoun),
+            e('input', { id: 'pronoun-input', className: 'form-control', type: 'text', deafultValue: this.state.pronoun, onChange: (e) => { this.setValues({ pronoun: e.target.value }); } })
+          ),
+          e(
+            'span',
+            { className: 'dialog-box p-3 more-rounded' },
+            e('div', { className: 'fw-bold me-2' }, i18n.verb),
+            e('input', {
+              id: 'verb-input', className: ' form-control', type: 'text',
+              deafultValue: this.state.verb,
+              onChange: updateSelfVerb,
+              onClick: updateSelfVerb
+            }),
+          ),
         ),
-        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Simple', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
-        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Continuous', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
-        e(GrammaticalTime_ListingSection, { GrammarTitle: 'Perfect', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+        e(
+          'div',
+          { className: 'd-flex flex-column flex-grow-1' },
+          e(GrammaticalTime_ListingSection, { GrammarTitle: 'Simple', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+          e(GrammaticalTime_ListingSection, { GrammarTitle: 'Continuous', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+          e(GrammaticalTime_ListingSection, { GrammarTitle: 'Perfect', verb: this.state.verb, pronoun: this.state.pronoun, irregulars: irregularsObject }),
+        )
       ]
     ));
   }
@@ -719,14 +698,13 @@ class Dictionary extends React.Component {
 
   conceptFetch(submittedWord) {
 
-    // Load in an ad while people wait.
-    // this.setState({
-    //   ad: e(GoogleAd)
-    // });
+    this.setState({
+      ad: e(GoogleAd)
+    });
 
     var dictionarySubmit = document.getElementById('dictionary-submit');
     var dictionarySubmitPreviousInnerHTML = dictionarySubmit.innerHTML;
-    dictionarySubmit.innerHTML = '<i class="bi bi-three-dots"></i>';
+    dictionarySubmit.innerHTML = '<i class="ri-more-fill"></i>';
 
     var TheWord = submittedWord;
     var TheWordElement = document.getElementById('dictionary-the-word');
@@ -802,7 +780,7 @@ class Dictionary extends React.Component {
     });
 
     // Get a dictionary entry on wiktionary.
-    TheWordElement.innerHTML = '<i class="bi bi-three-dots"></i>';
+    TheWordElement.innerHTML = '<i class="ri-three-dots"></i>';
     TheWordElement.classList.remove('d-none');
     TheWordElement.classList.remove('animate');
     TheImagesHTML.classList.remove('animate');
@@ -1021,6 +999,10 @@ class Dictionary extends React.Component {
 
           } // End error catcher else
 
+          theHTML = theHTML.replaceAll('href="/wiki/', 'target="_blank" href="https://wiktionary.org/wiki/');
+          theHTML = theHTML.replaceAll('href="/w/index.php', 'target="_blank" href="https://wiktionary.org/w/index.php');
+          theHTML = theHTML.replaceAll('href="https://en.wikipedia', 'target="_blank" href="https://en.wikipedia');
+
           TheWordElement.innerHTML = TheWord;
           TheWordElement.classList.add('animate');
           TheContent.innerHTML = theHTML;
@@ -1067,7 +1049,7 @@ class Dictionary extends React.Component {
               autocapitalize: "off",
               autofocus: "true",
               id: "dictionary-word",
-              className: "form-control w-75 me-3",
+              className: "form-control w-50 me-3",
               type: "text",
               placeholder: i18n.write_word_here,
               value: this.state.word,
@@ -1094,15 +1076,56 @@ class Dictionary extends React.Component {
           e(
             'button',
             {
+              className: 'btn-tall green me-2',
+              id: 'dictionary-submit',
+              onClick: (event) => {
+
+                reactOnCallback(event, () => {
+
+                  return new Promise((resolve, reject) => {
+
+                    var input = document.querySelector('#verb-input');
+
+                    fetch(thei18n.api_link + '?translate=' + input.value + '&to=en').then(res => res.json()).then(res => {
+
+                      if (res == 'post error') {
+                        resolve(false);
+                        return;
+                      }
+                      
+                      var theWord = res;
+                      input.value = theWord;
+
+                      this.setState({
+                        word: theWord
+                      });
+
+                      resolve(true);
+
+                    });
+                    
+                  });
+
+                });
+
+              }
+            },
+            e('i', { className: 'ri-translate me-2' }),
+            thei18n.translate,
+          ),
+          e(
+            'button',
+            {
               className: 'btn-tall blue',
               id: 'dictionary-submit',
               onClick: () => { this.conceptFetch(this.state.word); } 
             },
-            e('i', { className: 'bi bi-search me-2' }),
+            e('i', { className: 'ri-search-fill me-2' }),
             thei18n.search,
-          )
+          ),
         )
       ),
+      e(GrammaticalTime, { word: this.state.word }),
       e(
         'div',
         { className: 'the-definition' },
@@ -1123,7 +1146,6 @@ class Dictionary extends React.Component {
         { className: 'cc-warning text-ss text-muted text-center d-none' },
         window.HTMLReactParser(thei18n.cc_warning)
       ),
-      e(GrammaticalTime, { word: this.state.word })
     ]);
   }
 }

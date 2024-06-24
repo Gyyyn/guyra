@@ -30,11 +30,11 @@
 }
 
 .btn-tall {
-  padding: .7rem 1.5rem;
+  padding: .6rem 1.3rem;
   border-radius: var(--guyra-border-radius-bigger) !important;
   cursor: pointer;
-  color: var(--guyra-blue);
-  font-size: var(--guyra-fonts-textsize-ss);
+  color: var(--guyra-black);
+  font-size: var(--guyra-fonts-textsize-s);
   letter-spacing: .6px;
   text-transform: uppercase;
   font-weight: bold;
@@ -88,32 +88,32 @@
 .btn-tall.blue,
 .btn-tall.active {
   /* border-bottom-color: var(--guyra-blue-darker);
-  background-color: var(--guyra-blue);
-  background: linear-gradient(145deg, #50c5ec, #44a6c7); */
+  background-color: var(--guyra-blue);*/
+  background: linear-gradient(145deg, #50c5ec, #44a6c7); 
   border-bottom: 0;
   color: var(--guyra-blue);
 }
 
 .btn-tall.purple {
   /* border-bottom-color: var(--guyra-purple-darker);
-  background-color: var(--guyra-purple);
-  background: linear-gradient(145deg, #5623d8, #481eb6); */
+  background-color: var(--guyra-purple); */
+  background: linear-gradient(145deg, #5623d8, #481eb6);
   border-bottom: 0;
   color: var(--guyra-purple);
 }
 
 .btn-tall.green {
   /* border-bottom-color: var(--guyra-green-darker);
-  background-color: var(--guyra-green);
-  background: linear-gradient(145deg, #46da6f, #3bb85e); */
+  background-color: var(--guyra-green); */
+  background: linear-gradient(145deg, #46da6f, #3bb85e);
   border-bottom: 0;
   color: var(--guyra-green);
 }
 
 .btn-tall.red {
   /* border-bottom-color: var(--guyra-red-darker);
-  background-color: var(--guyra-red);
-  background: linear-gradient(145deg, #e82000, #c31b00); */
+  background-color: var(--guyra-red); */
+  background: linear-gradient(145deg, #e82000, #c31b00);
   border-bottom: 0;
   color: var(--guyra-red);
 }
@@ -127,6 +127,19 @@
 .btn-tall.black:hover {
 	background-color: var(--guyra-black);
   border-bottom-color: var(--guyra-blacker);
+}
+
+.btn-tall.flat:not(:hover) {
+  color: var(--guyra-white);
+  box-shadow: unset;
+}
+
+.btn-tall.flat:hover {
+  color: var(--guyra-white);
+}
+
+.btn-tall:not(.flat) {
+  background: transparent;
 }
 
 .btn-tall.trans {

@@ -14,6 +14,8 @@ include_once $template_dir . '/functions/Game.php';
 
 function Game_Wordle($wordlist) {
 
+  global $template_dir;
+
   $_wordlist = Array();
   
   foreach ($wordlist as $word) {
@@ -35,6 +37,41 @@ function Game_Wordle($wordlist) {
 
 }
 
+function Game_Wheel() {
+
+  global $template_dir;
+
+  $phraselist = Array();
+
+  $exercisesPath = $template_dir . '/assets/json/i18n/pt/exercises.json';
+  $exercises = file_get_contents($exercisesPath);
+
+  $exercises = json_decode($exercises, true);
+
+  foreach ($exercises as $unit) {
+
+    foreach ($unit as $exerciseType) {
+      
+      foreach ($exerciseType as $exercise) {
+        
+        $isPhrase = sizeof(explode(' ', $exercise[0])) > 1 ? true : false;
+
+        if ($isPhrase) {
+          array_push($phraselist, $exercise[0]);
+        }
+
+      }
+
+    }
+
+  }
+
+  return [
+    'phrases' => $phraselist
+  ];
+
+}
+
 if ($_GET['get_game']) {
 
   if ($current_user_gamedata['level'] < 1)
@@ -43,14 +80,39 @@ if ($_GET['get_game']) {
   $game_type = $_GET['get_game'];
   $lang = 'en';
 
-  $wordlistPath = $template_dir . '/assets/json/words.en.txt';
-  $wordlist = file_get_contents($wordlistPath);
+  if ($game_type == 'wordle') {
+    
+    $wordlistPath = $template_dir . '/assets/json/words.en.txt';
+    $wordlist = file_get_contents($wordlistPath);
 
-  $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);
+    $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);
 
-  Guyra_decrease_user_level($current_user_id, 1);
+    Guyra_decrease_user_level($current_user_id, 1);
 
-  guyra_output_json(Game_Wordle($wordlist), true);
+    guyra_output_json(Game_Wordle($wordlist), true);
+
+  }
+
+  if ($game_type == 'wheel') {
+
+    Guyra_decrease_user_level($current_user_id, 1);
+
+    guyra_output_json(Game_Wheel(), true);
+
+  }
+
+  if ($game_type == 'snake') {
+    
+    $wordlistPath = $template_dir . '/assets/json/words.en.txt';
+    $wordlist = file_get_contents($wordlistPath);
+
+    $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);
+
+    guyra_output_json(["words" => $wordlist], true);
+
+  }
+
+  guyra_output_json(['error' => 'game doesn\'t exist'], true);
 
 }
 

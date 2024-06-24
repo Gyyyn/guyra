@@ -1,6 +1,7 @@
 import {
   e,
   GuyraGetData,
+  GuyraGetImage,
   thei18n,
   LoadingPage,
   MD5,
@@ -97,7 +98,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
           e(
             'button',
             { className: 'btn btn-sm text-x', onClick: () => { this.flipCard() } },
-            e('i', { className: 'bi bi-arrow-repeat' })
+            e('i', { className: 'ri-repeat' })
           )
         )
       ),
@@ -284,16 +285,16 @@ function Flashcards_YourItems_ItemListing(props) {
 
   return e(FlashcardsContext.Consumer, null, ({setPack, setPage}) => e(
     'div',
-    { className: 'card trans mb-3 me-3' },
+    { className: 'card trans justify-content-between mb-3 me-3' },
     e('span', { className: 'fw-bold mb-3' }, thei18n._items[props.name].name),
     e(
       'button',
       {
-        className: 'btn-tall btn-sm blue',
+        className: 'btn-tall btn-sm blue flat',
         onClick: (event) => {
 
           var eventBefore = event.target.innerHTML;
-          event.target.innerHTML = '<i class="bi bi-three-dots"></i>';
+          event.target.innerHTML = '<i class="ri-more-fill"></i>';
 
           var thePackOrdered = [];
           var zeroDayCards = {
@@ -391,7 +392,13 @@ function Flashcards_YourItems_ItemListing(props) {
 
         }
       },
-      thei18n.open
+      thei18n.open,
+      e(
+        'span',
+        { className: 'text-s ms-2' },
+        e('img', { className: 'page-icon tinier', src: GuyraGetImage('icons/coin.png') }),
+        e('span', { className: 'ms-1 fw-bold' }, '1')
+      ),
     )
   ));
 }
@@ -490,6 +497,13 @@ export class Flashcards extends React.Component {
 
       user_gamedata = res.userdata.gamedata.raw;
 
+      if (user_gamedata.level < 1) {
+
+        this.setPage(e(BuyInShop, { i18n: res.i18n }));
+        return;
+        
+      }
+
       this.setState({
         page: e(Flashcards_Wrapper),
         userdata: res.userdata,
@@ -532,7 +546,7 @@ export class Flashcards extends React.Component {
   render() {
     return e(FlashcardsContext.Provider, { value: this.state }, e(
       'div',
-      { className: 'flashcards-wrapper squeeze mt-0'},
+      { className: 'flashcards-wrapper mt-0'},
       this.state.page
     ));
   };

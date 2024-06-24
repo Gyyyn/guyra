@@ -27,7 +27,7 @@ function GetStandardDate($timestamp=false) {
   return $date;
 }
 
-function guyra_log_to_file($object) {
+function guyra_log_to_file($object, $log='log.txt') {
 
   global $template_dir;
 
@@ -37,7 +37,7 @@ function guyra_log_to_file($object) {
   
   $object = GetStandardDate() . ' ' . $_SERVER['SCRIPT_NAME'] . ' ( ' . $_SERVER['PHP_SELF'] . '): ' . $object . "\r\n";
 
-  file_put_contents($template_dir . '/log.txt', $object, FILE_APPEND);
+  file_put_contents($template_dir . '/' . $log, $object, FILE_APPEND);
 }
 
 function Guyra_GetDBConnection($args=[]) {
@@ -84,7 +84,13 @@ function guyra_database_create_db() {
     user_id BIGINT UNSIGNED PRIMARY KEY,
     user_login VARCHAR(100),
     type VARCHAR(255),
-    flags LONGTEXT) CHARACTER SET %s", DB_CHARSET)
+    flags LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+
+    sprintf("CREATE TABLE IF NOT EXISTS guyra_internal (
+    id BIGINT UNSIGNED AUTO_INCREMENT,
+    path VARCHAR(255),
+    flags LONGTEXT,
+    object LONGTEXT PRIMARY KEY) CHARACTER SET %s", DB_CHARSET),
   ];
 
   foreach ($tables as $table => $sql) {
@@ -589,5 +595,30 @@ function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
   $db->close();
 
   return $output;
+
+}
+
+function guyra_create_internal_log($path, $flags, $object, $return=false) {
+
+  $db = Guyra_GetDBConnection();
+
+  $sql = sprintf("INSERT INTO guyra_internal (path, flags, object)
+  VALUES ('%s', '%s', '%s')",$path, $flags, $object);
+
+  if ($db->query($sql) === TRUE) {
+
+    if ($return) {
+
+      guyra_output_json('query successful');
+
+    }
+
+  } else {
+
+    guyra_handle_query_error($db->error);
+
+  }
+
+  $db->close();
 
 }
