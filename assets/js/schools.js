@@ -2032,7 +2032,12 @@ class GroupAdminHome_AdminPanel extends React.Component {
           searchClassExtra = 'd-none';
         }
 
-        // Check if anything is schedule for any user
+        // Check if anything is scheduled for any user
+        if (!this.props.userdata.user_diary) {
+        this.props.userdata.user_diary = {}; }
+
+        if (!this.props.userdata.user_diary.calendar) {
+        this.props.userdata.user_diary.calendar = {}; }
 
         var appointedTime;
         var theKeys;

@@ -481,83 +481,15 @@ function AccountOptions_Documents(props) {
 
       }),
       e(
-        PopUp,
+        'button',
         {
-          title: 'Assinar documentos',
-          bodyElement: e(
-            'div',
-            { className: 'd-flex flex-column form-control' },
-            e('span', { className: 'mb-1 border-bottom' }, 'Signatário'),
-            e('input', { type: 'text', defaultValue: theUserdata.first_name + ' ' + theUserdata.last_name, className: 'mb-3', id: 'signing_name' }),
-            e(
-              'input',
-              {
-                type: 'text', defaultValue: theUserdata.doc_id,
-                className: 'mb-3', id: 'signing_doc',
-                onChange: (event) => {
-
-                  event.target.value = formataCPF(event.target.value);
-
-                }
-              }
-            ),
-            e('span', { className: 'mb-1 border-bottom' }, thei18n.date),
-            e('input', { type: 'text', value: new Date().toLocaleString(), className: 'mb-3' }),
-            e(
-              'div',
-              { className: 'text-s mb-3' },
-              'Ao assinar você confirma que as informações acima estão corretas, que você é maior de 18 anos e que reconhece a legitimidade da assinatura digital.'
-            ),
-            e(
-              'button',
-              {
-                className: 'btn-tall flat green',
-                onClick: (event) => {
-
-                  reactOnCallback(event, () => {
-
-                    return new Promise((resolve) => {
-                      
-                      var signer = document.querySelector('#signing_name');
-                      var signer_doc = document.querySelector('#signing_doc');
-
-                      if (signer) {
-                        signer = signer.value;
-                      }
-
-                      if (signer_doc) {
-                        signer_doc = signer_doc.value;
-                      }
-
-                      console.log(JSON.stringify({
-                        signer: signer,
-                        signer_doc: signer_doc,
-                        date: GetStandardDate()
-                      }));
-
-                      resolve(true);
-
-                      setTimeout(() => {
-                        document.querySelector('button.close.popup-close-button').click();
-                      }, 2500);
-
-                    });
-
-                  });
-
-                }
-              },
-              e('i', { className: 'ri-shield-check-fill me-2' }),
-              'Assinar documentos',
-            )
-          ),
-          buttonElement: e(
-            'button',
-            { className: 'btn-tall flat blue' },
-            e('i', { className: 'ri-quill-pen-fill me-2' }),
-            'Assinar documentos',
-          )
-        }
+          className: 'btn-tall flat blue',
+          onClick: () => {
+            window.open('https://docuseal.co/d/mVw9CgshTcUPMC', '_blank').focus();
+          }
+        },
+        e('i', { className: 'ri-quill-pen-fill me-2' }),
+        'Assinar documentos',
       )
     ),
     e(

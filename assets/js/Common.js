@@ -393,16 +393,16 @@ export class RenderReplies extends React.Component {
 export function Slider(props) {
 
   var classExtra = ' ';
-  var valueSpanClass = 'ms-3';
+  var valueSpanClass = 'ms-4';
 
   if (props.reverse) {
     classExtra += 'flex-row-reverse';
-    valueSpanClass = 'me-3';
+    valueSpanClass = 'me-4';
   }
 
   return e(
     'div',
-    { className: 'd-flex justify-content-between flex-row' + classExtra },
+    { className: 'd-flex flex-row' + classExtra },
     e(
       'label',
       {

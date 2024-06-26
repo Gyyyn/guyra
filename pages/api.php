@@ -16,6 +16,11 @@ if ($nests[2] == 'cron') {
   exit;
 }
 
+if ($nests[2] == 'test') {
+  guyra_create_internal_log('test');
+  exit;
+}
+
 $redirect = false;
 
 // First include some actions for all users.

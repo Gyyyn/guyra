@@ -39,6 +39,8 @@ function Guyra_increase_user_level($user=0, $amount=1, $noUpdate=false) {
     json_encode(debug_backtrace())
   , 'coin_transations.txt');
 
+  guyra_create_internal_log($user . ' user coin transaction amount ' . $amount, 'coins');
+
   return $gamedata;
 
 }
@@ -57,6 +59,8 @@ function Guyra_decrease_user_level($user=0, $amount=1) {
   // This function should not remove levels from the daily challenge or total level,
   // for that user Guyra_set_user_level.
   $gamedata['level'] -= $amount;
+
+  guyra_create_internal_log($user . ' user coin deduction amount ' . $amount, 'coins');
 
   guyra_update_user_data($user, $gamedata, '', 'gamedata');
 

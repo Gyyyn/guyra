@@ -80,6 +80,8 @@ if ($_GET['get_game']) {
   $game_type = $_GET['get_game'];
   $lang = 'en';
 
+  guyra_create_internal_log($current_user_id . 'user requested game ' . $game_type, 'arcade');
+
   if ($game_type == 'wordle') {
     
     $wordlistPath = $template_dir . '/assets/json/words.en.txt';

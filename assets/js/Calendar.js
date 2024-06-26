@@ -46,7 +46,8 @@ function RenderMonth(props) {
     theDays = theDays.splice(theDays.indexOf(weekStartsOn)).concat(theDays);
   }
 
-  var startingDay = theMonthsDays[0].toLocaleDateString(navigator.language, {weekday: 'long'});
+  // This could use navigator.language, but it bugs outs sometimes.
+  var startingDay = theMonthsDays[0].toLocaleDateString('pt-BR', {weekday: 'long'});
   startingDay = startingDay[0].charAt(0).toUpperCase().concat(startingDay.slice(1));
 
   var weekOffset = theDays.indexOf(startingDay);
@@ -136,7 +137,7 @@ function RenderMonth(props) {
     theDays[i] = e('span', { className: '' }, item.slice(0,3));
   });
 
-  var theMonthDisplay = theMonthsDays[0].toLocaleDateString(navigator.language, {month: 'long'});
+  var theMonthDisplay = theMonthsDays[0].toLocaleDateString('pt-BR', {month: 'long'});
 
   return e(
     'div',

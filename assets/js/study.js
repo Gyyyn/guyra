@@ -398,7 +398,7 @@ function UserHome_WelcomeCard(props) {
   var randomGreeting = thei18n.greetings[randomNumber(0 , thei18n.greetings.length - 1)];
   var theList = [];
 
-  return e(HomeContext.Consumer, null, ({userdata}) => {
+  return e(HomeContext.Consumer, null, ({userdata, appSetPage}) => {
 
     if (userdata.is_logged_in) {
 
@@ -940,6 +940,33 @@ function UserHome_WelcomeCard(props) {
 
     }
 
+    var teacherListingElement = null;
+
+    if (userdata.user_subscription_valid && !userdata.teacherid) {
+      
+      teacherListingElement = e(
+        'div',
+        { className: "card trans col-md-3 mb-2 me-2" },
+        e('h2', {}, thei18n.teacher),
+        e(
+          'div', 
+          { className: 'text' },
+          'Voce ja tem um plano! Que tal encontrar um professor?',
+          e(
+            'button',
+            {
+              className: 'btn-tall btn-sm flat green',
+              onClick: () => {
+                appSetPage('teachers');
+              }
+            },
+            thei18n.pick + ' ' + thei18n.teachers
+          )
+        )
+      );
+
+    }
+
     var WelcomeGreeting = e(
       'div',
       { className: 'welcome-greeting' },
@@ -967,6 +994,7 @@ function UserHome_WelcomeCard(props) {
               window.HTMLReactParser(randomGreeting),
             ),
           ),
+          teacherListingElement,
           e(WelcomeGreeting_News),
           e(openPaymentsGreeting),
           appointedTimesElement,

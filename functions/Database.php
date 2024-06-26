@@ -87,10 +87,10 @@ function guyra_database_create_db() {
     flags LONGTEXT) CHARACTER SET %s", DB_CHARSET),
 
     sprintf("CREATE TABLE IF NOT EXISTS guyra_internal (
-    id BIGINT UNSIGNED AUTO_INCREMENT,
+    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     path VARCHAR(255),
     flags LONGTEXT,
-    object LONGTEXT PRIMARY KEY) CHARACTER SET %s", DB_CHARSET),
+    object LONGTEXT) CHARACTER SET %s", DB_CHARSET),
   ];
 
   foreach ($tables as $table => $sql) {
@@ -103,7 +103,7 @@ function guyra_database_create_db() {
       guyra_output_json('query successful');
 
     } else {
-      guyra_output_json('query error: ' . $db->error, true);
+      guyra_output_json('query error: ' . $db->error);
     }
   }
 
@@ -383,7 +383,16 @@ function guyra_get_user_data($user_id, $datatype='userdata') {
 
   global $site_api_url;
 
-  $user_data = guyra_get_user_meta($user_id, $datatype, true)['meta_value'];
+  $user_data = guyra_get_user_meta($user_id, $datatype, true);
+
+  if ($user_data === false) {
+    return [
+      'id' => 0,
+      'user_doesnt_exist' => true
+    ];
+  }
+
+  $user_data = $user_data['meta_value'];
 
   if ($user_data) {
   	$user_data = json_decode($user_data, true);
@@ -598,12 +607,18 @@ function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
 
 }
 
-function guyra_create_internal_log($path, $flags, $object, $return=false) {
+function guyra_create_internal_log($object, $flags='debug', $path=false, $return=false) {
+
+  global $nests;
 
   $db = Guyra_GetDBConnection();
 
+  if (!$path) {
+    $path = implode('/', $nests);
+  }
+
   $sql = sprintf("INSERT INTO guyra_internal (path, flags, object)
-  VALUES ('%s', '%s', '%s')",$path, $flags, $object);
+  VALUES ('%s', '%s', '%s')", $path, $flags, $object);
 
   if ($db->query($sql) === TRUE) {
 
