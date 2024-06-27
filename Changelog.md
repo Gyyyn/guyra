@@ -1,6 +1,8 @@
 # 1.0.0
 * add snake and wheel to arcade
 * add contract information and signing
+* better neumorphism
+* add courses back
 
 # 0.9.3
 * move all payment functions to Payment.js

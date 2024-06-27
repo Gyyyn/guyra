@@ -110,6 +110,8 @@ if ($_GET['get_game']) {
 
     $wordlist = preg_split("/\r\n|\n|\r/", $wordlist);
 
+    Guyra_decrease_user_level($current_user_id, 1);
+
     guyra_output_json(["words" => $wordlist], true);
 
   }
@@ -129,7 +131,23 @@ if ($_GET['transact_game']) {
       Guyra_increase_user_level($current_user_id, 5);
     }
 
-    guyra_output_json('true', true);
+  }
+
+  if ($game_type == 'wheel') {
+    
+    $coins = $_GET['coins'];
+
+    if ($action == 'win' && $coins) {
+      Guyra_increase_user_level($current_user_id, $coins);
+    }
+
+  }
+
+  if ($game_type == 'snake') {
+
+    if ($action == 'win') {
+      Guyra_increase_user_level($current_user_id, 3);
+    }
 
   }
   

@@ -3,6 +3,18 @@
   border: 0 !important;
   border-radius: var(--guyra-border-radius-bigger) !important;
   background-color: var(--guyra-grey);
+  color: var(--guyra-black);
+}
+
+.editor-toolbar button {
+  color: var(--guyra-black);
+}
+
+.editor-toolbar button.active,
+.editor-toolbar button:hover {
+  background: var(--guyra-grey-darker) !important;
+  border: unset !important;
+  border-radius: var(--guyra-border-radius) !important;
 }
 
 .markdown table {

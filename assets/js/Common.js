@@ -12,9 +12,11 @@ export var MD5 = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCa
 
 function LoadingIcon(props) {
   return e(
-    'img',
+    'dotlottie-wc',
     {
-      src: rootUrl + 'assets/img/loading.svg'
+      src: 'https://lottie.host/fb511dce-b048-412b-84f5-1573e8b67fdc/DwWVwDc877.lottie',
+      background: "transparent", speed: "1", style: { height: '300px', width: '300px' }, 
+      loop: true, autoplay: true
     }
   );
 }
@@ -1718,9 +1720,9 @@ export class Rewards extends React.Component {
       'div',
       { className: '' },
       e(
-        'dotlottie-player',
+        'dotlottie-wc',
         {
-          src: 'https://lottie.host/64422eaa-8e12-49f4-be02-b9a1669420af/6eGNYM7l0Q.json',
+          src: 'https://lottie.host/e1d2e083-7757-4695-b9f1-d6b6667cda45/WwyE8MKdgc.lottie',
           background: "transparent", speed: "1", style: { height: '300px', width: '300px' }, 
           loop: true, autoplay: true
         }

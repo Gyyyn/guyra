@@ -1521,7 +1521,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
           maxAge: 7
         }),
       ],
-      editButtonValue: [e('i', { className: "ri-pencil-fill" }), thei18n.edit],
+      editButtonValue: [e('i', { className: "ri-pencil-fill me-2" }), thei18n.edit],
       editButtonOnclick: this.edit
     }
 
@@ -1531,7 +1531,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
 
     this.setState({
       view: e('textarea', { id: 'userpage-edit', className: 'd-none' }, null),
-      editButtonValue: thei18n.save,
+      editButtonValue: [e('i', { className: "ri-save-fill me-2" }), thei18n.save],
       editButtonOnclick: this.save
     });
 
@@ -1622,7 +1622,7 @@ class GroupAdminHome_AdminPanel_UserpageView extends React.Component {
           PopUp,
           {
             title: 'Print Archive',
-            buttonElement: e('button', { className: 'btn-tall btn-sm ms-2' }, 'Print Archive'),
+            buttonElement: e('button', { className: 'btn-tall btn-sm ms-2' }, e('i', { className: 'ri-archive-drawer-fill me-2' }), 'Print Archive'),
             bodyElement: e(PrintArchive)
           }
         )

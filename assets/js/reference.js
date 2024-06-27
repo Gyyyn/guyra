@@ -1076,9 +1076,22 @@ class Dictionary extends React.Component {
           e(
             'button',
             {
-              className: 'btn-tall green me-2',
+              className: 'btn-tall blue',
+              id: 'dictionary-submit',
+              onClick: () => { this.conceptFetch(this.state.word); } 
+            },
+            e('i', { className: 'ri-search-fill me-2' }),
+            thei18n.search,
+          ),
+          e(
+            'button',
+            {
+              className: 'btn-tall green ms-2 disabled',
               id: 'dictionary-submit',
               onClick: (event) => {
+
+                // TODO Fix translations
+                return;
 
                 reactOnCallback(event, () => {
 
@@ -1112,16 +1125,6 @@ class Dictionary extends React.Component {
             },
             e('i', { className: 'ri-translate me-2' }),
             thei18n.translate,
-          ),
-          e(
-            'button',
-            {
-              className: 'btn-tall blue',
-              id: 'dictionary-submit',
-              onClick: () => { this.conceptFetch(this.state.word); } 
-            },
-            e('i', { className: 'ri-search-fill me-2' }),
-            thei18n.search,
           ),
         )
       ),

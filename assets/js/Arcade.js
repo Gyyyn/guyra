@@ -965,7 +965,7 @@ class Game_Wheel extends React.Component {
       theCoins = 0;
     }
 
-    // fetch(this.props.i18n.api_link + '?transact_game=wheel&action=win');
+    fetch(this.props.i18n.api_link + '?transact_game=wheel&action=win&coins=' + theCoins);
 
     return e(
       'div',
@@ -1038,7 +1038,7 @@ class Game_Wheel extends React.Component {
       e(
         'div',
         { className: 'd-flex flex-row' },
-        "Wagering: ",
+        this.props.i18n.wagering + ": ",
         e(
           'span',
           { className: 'text-n ms-2' },
@@ -1301,8 +1301,31 @@ class Game_Snake extends React.Component {
 
         }
       },
-      this.props.i18n.start
+      this.props.i18n.start,
+      e('i', { className: 'ri-play-circle-fill ms-2' })
     )
+
+  }
+
+  winScreen = () => {
+
+    fetch(this.props.i18n.api_link + '?transact_game=snake&action=win');
+
+    return e(
+      'div',
+      { className: '' },
+      e('h2', {}, this.props.i18n.youwin),
+    );
+
+  }
+
+  loseScreen = () => {
+
+    return e(
+      'div',
+      { className: '' },
+      e('h2', {}, this.props.i18n.youlose),
+    );
 
   }
 
@@ -1340,10 +1363,10 @@ class Game_Snake extends React.Component {
 
     if (foundPossibilities.length == 0) {
 
-      var theDialog = 'You Lose!';
+      var theDialog = e(this.loseScreen);
 
       if (this.state.foundPossibilities.length == 1 && this.state.foundPossibilities[0] !== '') {
-        theDialog = 'You Win!';
+        theDialog = e(this.winScreen);
       }
 
       this.setState({
@@ -1633,7 +1656,7 @@ class Game_Snake extends React.Component {
         this.checkIfLettersMakeWord();
 
         if (gameWon) {
-          this.setState({ gameOn: false, dialog: 'You win!' })
+          this.setState({ gameOn: false, dialog: this.props.i18n.youwin })
         }
 
       });

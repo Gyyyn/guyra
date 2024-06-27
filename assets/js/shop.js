@@ -320,7 +320,7 @@ class Shop_ItemList extends React.Component {
               theItems = {};
             }
 
-            if (userdata.inventory) {
+            if (Array.isArray(userdata.inventory)) {
 
               Object.keys(theItems).forEach((item, i) => {
                 if (userdata.inventory.indexOf(item) === -1) {
@@ -359,7 +359,7 @@ function Shop_yourItems(props) {
 
   return e(ShopContext.Consumer, null, ({userdata}) => {
 
-    if (!userdata.inventory || userdata.inventory.length == 0) {
+    if (!Array.isArray(userdata.inventory) || userdata.inventory.length == 0) {
       return null;
     }
 

@@ -122,7 +122,7 @@ $special_caches = [
 	["https://unpkg.com/easymde/dist/easymde.min.js", "easymde.js", "js"],
 	["https://unpkg.com/@popperjs/core@2", "popper.js", "js"],
 	["https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js", "bootstrap.js", "js"],
-	["https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs", "dotlottie-player.js", "js"]
+	["https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js", "dotlottie-wc.js", "js"]
 ];
 
 $assetsCacheLocation = $template_dir . '/cache/assets/';
@@ -145,6 +145,10 @@ foreach ($special_caches as $cache) {
 
 		if ($assetFile == 'remix-icons.css') {
 			$object = str_replace('remixicon.', 'https://cdn.jsdelivr.net/npm/remixicon@latest/fonts/remixicon.', $object);
+		}
+
+		if ($assetFile == 'dotlottie-wc.js') {
+			$object = str_replace('./chunk', 'https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/chunk', $object);
 		}
 
 		file_put_contents($cachedObject, $object);

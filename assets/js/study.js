@@ -1115,18 +1115,6 @@ function UserHome_WelcomeCard(props) {
     }
 
     return [
-      e(
-        'div',
-        { className: '' },
-        e(
-          'dotlottie-player',
-          {
-            src: 'https://lottie.host/64422eaa-8e12-49f4-be02-b9a1669420af/6eGNYM7l0Q.json',
-            background: "transparent", speed: "1", style: { height: '300px', width: '300px' }, 
-            loop: true, autoplay: true
-          }
-        )
-      ),
       theList
     ];
 

@@ -46,14 +46,14 @@
   border: 0;
   /* background: linear-gradient(170deg, #ffffff, #dbdfe4); */
   background: var(--guyra-white);
-  box-shadow:  5px 5px 10px var(--guyra-neumorphic-bottom-color),
-              -5px -5px 10px var(--guyra-neumorphic-top-color);
+  box-shadow:  4px 4px 8px var(--guyra-neumorphic-bottom-color),
+              -4px -4px 8px var(--guyra-neumorphic-top-color);
 }
 
 .btn-tall:hover {
   /* background: var(--guyra-grey-darker);
   border-bottom-color: var(--guyra-grey-darkest); */
-  filter:brightness(0.97);
+  filter:brightness(.97) saturate(1.5);
   cursor: pointer;
 }
 
@@ -64,8 +64,8 @@
 	border-width: 1px;
   border-bottom-width: 2px;
   border-radius: calc(var(--guyra-border-radius-bigger) / 1.4)!important;
-  box-shadow:  3px 3px 7px var(--guyra-neumorphic-bottom-color),
-              -3px -3px 7px var(--guyra-neumorphic-top-color);
+  box-shadow:  2px 2px 4px var(--guyra-neumorphic-bottom-color),
+              -2px -2px 4px var(--guyra-neumorphic-top-color);
 }
 
 .btn-tall.btn-lg {
@@ -223,8 +223,8 @@ input.form-control:not(.bs),
   background-color: var(--guyra-grey);
   border-radius: var(--guyra-border-radius-bigger);
   width: 100%;
-  box-shadow:  5px 5px 10px var(--guyra-neumorphic-bottom-color),
-              -5px -5px 10px var(--guyra-neumorphic-top-color);
+  box-shadow:  4px 4px 8px var(--guyra-neumorphic-bottom-color),
+              -4px -4px 8px var(--guyra-neumorphic-top-color);
 }
 
 input.form-control:focus:not(.bs),
@@ -334,15 +334,15 @@ img.left-side-image {
 .dialog-box.info,
 .dialog-box.blue {
   /* background: var(--guyra-blue-lightest); */
-  border-color: var(--guyra-blue-lighter);
-  color: var(--guyra-blue-darkest);
+  border-color: var(--guyra-blue);
+  color: var(--guyra-blue);
 }
 
 .dialog-box.warn,
 .dialog-box.red {
   /* background: var(--guyra-red-lightest); */
-  border-color: var(--guyra-red-lighter);
-  color: var(--guyra-red-darkest);
+  border-color: var(--guyra-red);
+  color: var(--guyra-red);
 }
 
 .form-check-input[type=checkbox] {

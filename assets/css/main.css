@@ -115,8 +115,8 @@
   --guyra-blacker: #a1a1a1;
   --guyra-body-bg: #373a3d;
 
-  --guyra-neumorphic-top-color: #3f4346;
-  --guyra-neumorphic-bottom-color: #2f3134;
+  --guyra-neumorphic-top-color: #333333;
+  --guyra-neumorphic-bottom-color: #252525;
 
 }
 
@@ -939,6 +939,13 @@ progress.progress[value]::-moz-progress-bar {
 
 .userpage {
   overflow-x: clip;
+}
+
+.userpage h1 {
+  background: var(--guyra-grey);
+  padding: var(--guyra-fonts-textsize-sss) var(--guyra-fonts-textsize-n);
+  border: var(--bs-black);
+  border-radius: var(--guyra-border-radius-bigger);
 }
 
 .userpage a {
