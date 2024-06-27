@@ -87,6 +87,86 @@ function PriceFeaturette(props) {
 
 }
 
+function Hints_Hint(props) {
+
+  return e(
+    'div',
+    { className: '' },
+    props.backButton,
+    e('h1', { className: '' }, props.hint.title),
+    e(
+      'div',
+      { className: 'markdown mb-5' },
+      window.HTMLReactParser(marked.parse(props.hint.contents)),
+    )
+  );
+  
+}
+
+function Hints_HintListing(props) {
+
+  return e(
+    'div',
+    {
+      className: 'card trans cursor-pointer hoverable me-2 mb-2 justify-content-between',
+      onClick: () => { props.onClick() }
+    },
+    //e('img', { className: 'page-icon small', src: GuyraGetImage(props.icon, { size: 128 }) }),
+    e(
+      'div',
+      { className: 'text-x fw-bold d-flex justify-content-between align-items-center' },
+      props.title,
+    ),
+    e(
+      'div',
+      { className: 'text-x fw-bold d-flex justify-content-end align-items-center' },
+      e(
+        'button',
+        { className: 'btn-tall blue flat' },
+        e('i', { className: 'ri-corner-down-right-fill' })
+      ),
+    )
+  );
+  
+}
+
+function Hints(props) {
+
+  var backButton = e(
+    'button',
+    {
+      id: 'back-button',
+      className: 'btn-tall blue round-border',
+      onClick: () => {
+        setView(listing);
+      }
+    },
+    e('i', { className: 'ri-corner-down-left-fill' }),
+    e('span', { className: 'ms-1' }, thei18n.back)
+  );
+
+  var listing = Object.values(props.hints).map(hint => {
+
+    return e(Hints_HintListing, {
+      title: hint.title,
+      onClick: () => {
+
+        setView(e(
+          Hints_Hint,
+          { hint: hint, i18n: thei18n, backButton: backButton }
+        ))
+
+      }
+    })
+
+  });
+
+  const [view, setView] = React.useState(listing);
+
+  return view;
+  
+}
+
 class UserHome_ReplyCard extends React.Component {
   constructor(props) {
     super(props);
@@ -532,6 +612,26 @@ function UserHome_WelcomeCard(props) {
             thei18n.exercises
           ],
           color: 'green'
+        },
+      )),
+      e(HomeContext.Consumer, null, ({addCard}) => e(
+        WelcomeGreeting_Button,
+        {
+          onClick: () => {
+
+            GuyraFetchData({}, 'api?fetch_exercise_hints=1', 'guyra_hints', 1440).then(hints => {
+
+              addCard([
+                { id: 'boards', element: e(Hints, { userdata: userdata, i18n: thei18n, hints }) }
+              ], 1);
+
+            });
+
+          },
+          value: [
+            e('img', { src: thei18n.api_link + '?get_image=icons/quadro-negro.png&size=32' }),
+            'Quadros Explicativos'
+          ],
         },
       )),
       e(HomeContext.Consumer, null, ({addCard}) => e(
@@ -1174,7 +1274,6 @@ export class UserHome extends React.Component {
 
     this.defaultCards = [
       { id: 'welcome', element: e(UserHome_WelcomeCard) },
-      { id: 'ad', element: e(GoogleAd) }
     ];
 
     this.state = {

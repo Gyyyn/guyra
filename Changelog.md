@@ -1,3 +1,7 @@
+# 1.0.1
+* added separate hint viewer
+
+
 # 1.0.0
 * add snake and wheel to arcade
 * add contract information and signing
