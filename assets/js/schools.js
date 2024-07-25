@@ -1260,6 +1260,8 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
           {
             className: 'btn-tall green flat',
             onClick: () => {
+
+              // TODO: Add a is admin here
   
               var userdata = this.state.userdata;
   
@@ -1341,9 +1343,11 @@ class GroupAdminHome_AdminPanel_ControlsView extends React.Component {
         )
       );
 
-      cards.push(this.groupSeeUserDiary, this.groupRemoveUsers);
+      cards.push(groupSeeUserDiary, groupRemoveUsers);
 
     }
+
+    console.log(this.props, cards);
 
     return e(
       'div',

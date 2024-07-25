@@ -1,6 +1,8 @@
+# 1.0.2
+* added internal log viewer
+
 # 1.0.1
 * added separate hint viewer
-
 
 # 1.0.0
 * add snake and wheel to arcade

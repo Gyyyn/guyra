@@ -461,13 +461,16 @@ function GrammaticalTime_ListingSection(props) {
   });
 
   // Unlisted Irregulars
-
   if (theVerb == 'lie') {
     theVerbModBase = 'ly';
   }
 
-  // Pronouns
+  if (theVerb == 'do') {
+    theVerbPast = 'did';
+    theVerbPastParticiple = 'done';
+  }
 
+  // Pronouns
   if(thePronoun == "he" || thePronoun == "she" || thePronoun == "it") {
     theAuxBe = "is";
   } else if (thePronoun == "i") {

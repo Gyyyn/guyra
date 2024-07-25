@@ -38,20 +38,27 @@ GetComponent('Header', ['css' => 'admin.css']); ?>
 
 </div>
 
-<?php if($_GET['exercise_log']):
+<?php if($_GET['exercise_log'])
 $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
+
+<?php if($_GET['internal_log'])
+$theLog = guyra_get_internal_log($_GET['internal_log'], true); ?>
 
 <div class="admin-section">
 
   <?php
 
-  foreach ($theLog as $logItem) {
-
-    $theObject = json_decode($logItem['object']);
-
-    ?>
+  foreach ($theLog as $logItem) { ?>
 
     <div class="entry my-3">
+      
+      <?php if($_GET['internal_log']): ?>
+      Flags: <?php echo $logItem['flags']; ?> | Path: <?php echo $logItem['path']; ?> | <b><?php echo $logItem['object']; ?></b> | <span class="text-muted">Log ID: <?php echo $logItem['log_id']; ?></span>
+      <?php endif; ?>
+
+      <?php if($_GET['exercise_log']):
+      $theObject = json_decode($logItem['object']); ?>
+      
       User: <?php echo $logItem['user_id']; ?> | Date: <?php echo $logItem['date']; ?> | <span class="text-muted">Log ID: <?php echo $logItem['log_id']; ?></span>
 
       <div class="d-flex flex-wrap">
@@ -65,6 +72,9 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
 
           <?php endforeach; ?>
       </div>
+
+      <?php endif; ?>
+
     </div>
 
   <?php }
@@ -72,8 +82,6 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
   ?>
 
 </div>
-
-<?php endif; ?>
 
 <div class="admin-section">
 
@@ -294,6 +302,7 @@ $theLog = guyra_get_logdb_items($_GET['exercise_log'], true); ?>
   <a href="<?php echo $site_api_url . '?delete_cache=audio&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Delete Audio Cache</a>
   <a href="<?php echo $site_api_url . '?action=refreshPWA&redirect=' . $gi18n['guyra_admin_link']; ?>" class="btn btn-sm btn-primary me-3 mb-3">Refresh PWA</a>
   <a href="<?php echo $gi18n['guyra_admin_link']; ?>?exercise_log=10" class="btn btn-sm btn-primary me-3 mb-3">See LogDB</a>
+  <a href="<?php echo $gi18n['guyra_admin_link']; ?>?internal_log=10" class="btn btn-sm btn-primary me-3 mb-3">See Internal Log</a>
 
   </div>
 

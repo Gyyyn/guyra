@@ -320,6 +320,31 @@ function guyra_get_logdb_items($amount=10, $return=false) {
 
 }
 
+function guyra_get_internal_log($amount=10, $return=false) {
+
+  $db = Guyra_GetDBConnection();
+
+  $sql = sprintf("SELECT * FROM (
+     SELECT * FROM guyra_internal ORDER BY log_id DESC LIMIT %u
+  )Var1", $amount);
+
+  $result = $db->query($sql);
+  $output = false;
+
+  while ($row = $result->fetch_assoc()) {
+      $output[] = $row;
+  }
+
+  if (!$return) {
+    guyra_output_json($output, true);
+  } else {
+    return $output;
+  }
+
+  $db->close();
+
+}
+
 function guyra_log_error_todb($object) {
 
   $db = Guyra_GetDBConnection();

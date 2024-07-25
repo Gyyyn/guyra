@@ -293,10 +293,10 @@ if ($_GET['log_exercise_data']) {
   $current_user_gamedata['completed_units'] = $completed_units;
   $current_user_gamedata['elo'] = $theData['elo'];
 
-  $levels_gained = 1;
+  $levels_gained = 3;
 
   if ($theData['score'] == 100)
-  $levels_gained = 3;
+  $levels_gained = 5;
 
   $newdata = Guyra_increase_user_level($current_user_id, $levels_gained, true);
   $newdata['completed_units'] = json_encode($completed_units);
