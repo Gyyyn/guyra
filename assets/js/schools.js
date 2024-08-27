@@ -126,7 +126,7 @@ class DiaryEntry extends React.Component {
         },
         e('i', { className: "ri-pencil-fill" })
       ),
-      diary.entries[this.props.id].date
+      diary.entries[this.props.id].date.slice(0, 10)
     ));
 
     this.state = {
@@ -145,7 +145,7 @@ class DiaryEntry extends React.Component {
       e(
         'div',
         {
-          className: 'date col-lg-3',
+          className: 'date col-lg-2',
           title: this.props.entry.date
         },
         this.state.dateSection
@@ -367,7 +367,7 @@ function DiaryEntries(props) {
       e(
         'div',
         { className: 'diary-info text-grey-darker mb-2 pb-2 border-bottom row' },
-        e('span', { className: 'col-3' }, i18n.date),
+        e('span', { className: 'col-2' }, i18n.date),
         e('span', { className: 'col-2' }, i18n.status),
         e('span', { className: 'col' }, i18n.comment)
       ),
