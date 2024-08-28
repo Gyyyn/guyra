@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;900&family=Patrick+Hand+SC&family=Work+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;900&family=Patrick+Hand+SC&family=Work+Sans:ital,wght@0,400;0,700;1,400&display=swap'); */
 
 :root {
   --guyra-blue: #0caee4;
@@ -62,8 +62,10 @@
   --guyra-box-shadow-outline-onwhite: 0 0 0 1rem rgba(166, 241, 255, .33);
   --guyra-box-shadow-outline-onwhite-smaller: 0 0 0 .33rem rgba(166, 241, 255, .33);
 
-  --guyra-fonts-text: 'Work Sans',var(--bs-font-sans-serif);
-  --guyra-fonts-title: 'Hanken Grotesk',var(--bs-font-sans-serif);
+  /* --guyra-fonts-text: 'Work Sans',var(--bs-font-sans-serif);
+  --guyra-fonts-title: 'Hanken Grotesk',var(--bs-font-sans-serif); */
+  --guyra-fonts-text: 'system-ui',var(--bs-font-sans-serif);
+  --guyra-fonts-title: 'system-ui',var(--bs-font-sans-serif);
   --guyra-fonts-textsize-sss: calc(0.45rem + 0.25vw);
   --guyra-fonts-textsize-ss: calc(0.45rem + 0.35vw);
   --guyra-fonts-textsize-s: calc(0.75rem + 0.15vw);

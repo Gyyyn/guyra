@@ -332,7 +332,9 @@ class UserHome_ReplyCard extends React.Component {
                 if (!this.easyMDE) {
                 return; }
 
-                this.easyMDE.value(GuyraLocalStorage('get', 'notepad').value);
+                var newValue = this.easyMDE.value() + ' ' + GuyraLocalStorage('get', 'notepad').value;
+
+                this.easyMDE.value(newValue);
 
               }
             },
