@@ -2,7 +2,7 @@
 
 /**
  * Init.php
- * loads all of the required functions for
+ * loads all the required functions for
  * user authentication and server settings, etc.
  */
 
@@ -74,7 +74,7 @@ $is_logged_in = Guyra_IsLoggedIn();
 // Make sure this var is acessible anywhere.
 global $current_user_meta;
 
-// Build an user meta associative array.
+// Build a user meta associative array.
 $current_user_meta = guyra_get_user_meta($current_user_id, null, true);
 
 if (is_array($current_user_meta)) {

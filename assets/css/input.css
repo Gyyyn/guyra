@@ -40,10 +40,8 @@
   font-weight: bold;
   border: 0;
   border-bottom: var(--guyra-border-size) solid var(--guyra-grey-darker);
-  background: var(--guyra-grey-dark);
   text-decoration: none;
   transition: var(--guyra-transition);
-  border: 0;
   /* background: linear-gradient(170deg, #ffffff, #dbdfe4); */
   background: var(--guyra-white);
   box-shadow:  4px 4px 8px var(--guyra-neumorphic-bottom-color),

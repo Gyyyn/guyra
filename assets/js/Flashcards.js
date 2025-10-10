@@ -98,7 +98,7 @@ class Flashcards_Exercise_CurrentView extends React.Component {
           e(
             'button',
             { className: 'btn btn-sm text-x', onClick: () => { this.flipCard() } },
-            e('i', { className: 'ri-repeat' })
+            e('i', { className: 'ri-flip-horizontal-2-line' })
           )
         )
       ),
