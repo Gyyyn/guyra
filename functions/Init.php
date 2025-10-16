@@ -7,10 +7,10 @@
  */
 
 // Force HTTPS independent of server config.
-if($_SERVER["HTTPS"] != "on") {
-    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-    exit;
-}
+// if($_SERVER["HTTPS"] != "on") {
+//     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+//     exit;
+// }
 
 // Force disable error reporting.
 error_reporting(0);
@@ -27,7 +27,7 @@ $secondsForA = [
 
 $site_url =
 	$_SERVER['REQUEST_SCHEME'] . '://' .
-	$_SERVER['SERVER_NAME'] .
+	$_SERVER['HTTP_HOST'] .
 	explode('index.php', $_SERVER['PHP_SELF'])[0];
 
 if(substr($site_url, -1) == '/')
@@ -58,12 +58,7 @@ include_once $template_dir . '/functions/Security.php';
 
 $gSettings = GuyraGetSettings();
 
-// Define DB access.
-define('DB_NAME', $gSettings['db_name']);
-define('DB_USER', $gSettings['db_user']);
-define('DB_PASSWORD', $gSettings['db_password']);
-define('DB_HOST', $gSettings['db_host']);
-define('DB_CHARSET', $gSettings['db_charset']);
+// DB access is now handled by PDO in Database.php.
 
 // Load database functions
 include_once $template_dir . '/functions/Database.php';

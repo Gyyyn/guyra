@@ -6,6 +6,17 @@ global $current_user_id;
 
 Guyra_Safeguard_File();
 
+// For SQLite, define the path to the database file.
+// This should be moved to a central config file.
+if (!defined('DB_FILE')) {
+  define('DB_FILE', __DIR__ . '/../data/guyra.sqlite');
+}
+// Create data directory if it doesn't exist
+$dataDir = dirname(DB_FILE);
+if (!is_dir($dataDir)) {
+  mkdir($dataDir, 0755, true);
+}
+
 function guyra_output_json($message, $exit=false) {
 
   header("Content-Type: application/json");
@@ -35,23 +46,22 @@ function guyra_log_to_file($object, $log='log.txt') {
     $object = 'unknown event of note: ' . json_encode(debug_backtrace());
   }
   
-  $object = GetStandardDate() . ' ' . $_SERVER['SCRIPT_NAME'] . ' ( ' . $_SERVER['PHP_SELF'] . '): ' . $object . "\r\n";
+  $object = GetStandardDate() . ' ' . $_SERVER['SCRIPT_NAME'] . ' ( ' . $_SERVER['PHP_SELF'] . '): ' . $object . "
+";
 
   file_put_contents($template_dir . '/' . $log, $object, FILE_APPEND);
 }
 
 function Guyra_GetDBConnection($args=[]) {
 
-  $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  $db->set_charset("utf8");
-
-  if ($db->connect_error) {
-
+  try {
+    $db = new PDO('sqlite:' . DB_FILE);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch (PDOException $e) {
     HandleServerError([
       'message' => 'Database error!',
-      'err' => $db->connect_error
+      'err' => $e->getMessage()
     ], 500);
-
   }
 
   return $db;
@@ -63,57 +73,56 @@ function guyra_database_create_db() {
   $db = Guyra_GetDBConnection();
 
   $tables = [
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_history (
-    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED,
-    object LONGTEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+    "CREATE TABLE IF NOT EXISTS guyra_user_history (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    object TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_user_meta (
-    meta_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED,
+    "CREATE TABLE IF NOT EXISTS guyra_user_meta (
+    meta_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
     meta_key VARCHAR(255),
-    meta_value LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+    meta_value TEXT)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_error_history (
-    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    object LONGTEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) CHARACTER SET %s", DB_CHARSET),
+    "CREATE TABLE IF NOT EXISTS guyra_error_history (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    object TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_users (
-    user_id BIGINT UNSIGNED PRIMARY KEY,
+    "CREATE TABLE IF NOT EXISTS guyra_users (
+    user_id INTEGER PRIMARY KEY,
     user_login VARCHAR(100),
     type VARCHAR(255),
-    flags LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+    flags TEXT)",
 
-    sprintf("CREATE TABLE IF NOT EXISTS guyra_internal (
-    log_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    "CREATE TABLE IF NOT EXISTS guyra_internal (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
     path VARCHAR(255),
-    flags LONGTEXT,
-    object LONGTEXT) CHARACTER SET %s", DB_CHARSET),
+    flags TEXT,
+    object TEXT)",
   ];
 
-  foreach ($tables as $table => $sql) {
+  foreach ($tables as $sql) {
     if (!$sql) {
       guyra_output_json('empty query, check input vars', true);
     }
 
-    if ($db->query($sql) === TRUE) {
-
+    try {
+      $db->exec($sql);
       guyra_output_json('query successful');
-
-    } else {
-      guyra_output_json('query error: ' . $db->error);
+    } catch (PDOException $e) {
+      guyra_output_json('query error: ' . $e->getMessage());
     }
   }
 
-  $db->close();
+  $db = null; // Close connection
 
 }
 
 function guyra_handle_query_error($error='') {
 
-  if (preg_match("/(doesn't exist)/", $error)) {
+  if (preg_match("/(no such table)/", $error)) { // Changed regex for SQLite
 
     guyra_database_create_db();
 
@@ -158,50 +167,41 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("SELECT user_id, meta_key, meta_value
+  $sql = "SELECT user_id, meta_key, meta_value
   FROM guyra_user_meta
-  WHERE user_id='%d'", $user);
+  WHERE user_id= :user_id";
+  
+  $params = [':user_id' => $user];
+
+  if ($meta_key) {
+      $sql .= " AND meta_key = :meta_key";
+      $params[':meta_key'] = $meta_key;
+  }
 
   try {
     
-    $result = $db->query($sql);
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
 
-  } catch (Exception $th) {
+  } catch (PDOException $e) {
     
-    guyra_handle_query_error($th->getMessage());
+    guyra_handle_query_error($e->getMessage());
 
   }
 
   $output = false;
 
-  // Check if the user exists
-  if ($result->num_rows > 0) {
-
-    if (!$meta_key) {
-
-      while ($row = $result->fetch_assoc()) {
-          $output[] = $row;
-      }
-
-    } else {
-
-      foreach ($result as $row) {
-
-        if ($row['meta_key'] == $meta_key) {
-          $output = $row;
-        }
-
-      }
-
-    }
-
-    if ($return === 'exists' && $output != false) {
-
-      $output = true;
-
-    }
-
+  if ($meta_key) {
+      $output = $stmt->fetch(PDO::FETCH_ASSOC);
+  } else {
+      $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+
+  if ($return === 'exists') {
+      $output = ($output != false);
+  }
+
 
   if (!$return) {
     guyra_output_json($output, true);
@@ -209,43 +209,44 @@ function guyra_get_user_meta($user, $meta_key=false, $return=false) {
     return $output;
   }
 
-  $db->close();
+  $db = null; // Close connection
 
 }
 
 function guyra_update_user_meta($user, $meta_key, $meta_value, $return=false) {
 
   $db = Guyra_GetDBConnection();
-  $meta_value = $db->real_escape_string($meta_value);
 
   if (guyra_get_user_meta($user, $meta_key, 'exists')) {
 
-    $sql = sprintf("UPDATE guyra_user_meta
-    SET meta_value = '%s'
-    WHERE user_id = %d AND meta_key = '%s'", $meta_value, $user, $meta_key);
+    $sql = "UPDATE guyra_user_meta
+    SET meta_value = :meta_value
+    WHERE user_id = :user_id AND meta_key = :meta_key";
 
   } else {
 
-    $sql = sprintf("INSERT INTO guyra_user_meta (user_id, meta_key, meta_value)
-    VALUES (%d, '%s', '%s')", $user, $meta_key, $meta_value);
+    $sql = "INSERT INTO guyra_user_meta (user_id, meta_key, meta_value)
+    VALUES (:user_id, :meta_key, :meta_value)";
 
   }
 
-  if ($db->query($sql) === TRUE) {
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $user,
+        ':meta_key' => $meta_key,
+        ':meta_value' => $meta_value
+    ]);
 
     if ($return) {
-
       guyra_output_json('query successful');
-
     }
 
-  } else {
-
-    guyra_handle_query_error($db->error);
-
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
   }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -253,24 +254,25 @@ function guyra_remove_user_meta($user, $meta_key, $return=false) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("DELETE FROM guyra_user_meta
-  WHERE user_id = %d AND meta_key = '%s'", $user, $meta_key);
+  $sql = "DELETE FROM guyra_user_meta
+  WHERE user_id = :user_id AND meta_key = :meta_key";
 
-  if ($db->query($sql) === TRUE) {
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $user,
+        ':meta_key' => $meta_key
+    ]);
 
     if ($return) {
-
       guyra_output_json('query successful');
-
     }
 
-  } else {
-
-    guyra_handle_query_error($db->error);
-
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
   }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -278,20 +280,23 @@ function guyra_log_to_db($user, $object) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("INSERT INTO guyra_user_history (user_id, object)
-  VALUES (%d, '%s')", $user, addslashes($object));
+  $sql = "INSERT INTO guyra_user_history (user_id, object)
+  VALUES (:user_id, :object)";
 
-  if ($db->query($sql) === TRUE) {
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $user,
+        ':object' => $object
+    ]);
 
     guyra_output_json('query successful');
 
-  } else {
-
-    guyra_handle_query_error($db->error);
-
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
   }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -299,15 +304,16 @@ function guyra_get_logdb_items($amount=10, $return=false) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("SELECT * FROM (
-     SELECT * FROM guyra_user_history ORDER BY log_id DESC LIMIT %u
-  )Var1", $amount);
+  $sql = "SELECT * FROM guyra_user_history ORDER BY log_id DESC LIMIT :amount";
 
-  $result = $db->query($sql);
-  $output = false;
-
-  while ($row = $result->fetch_assoc()) {
-      $output[] = $row;
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':amount', (int) $amount, PDO::PARAM_INT);
+    $stmt->execute();
+    $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+    $output = false;
   }
 
   if (!$return) {
@@ -316,7 +322,7 @@ function guyra_get_logdb_items($amount=10, $return=false) {
     return $output;
   }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -324,15 +330,16 @@ function guyra_get_internal_log($amount=10, $return=false) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("SELECT * FROM (
-     SELECT * FROM guyra_internal ORDER BY log_id DESC LIMIT %u
-  )Var1", $amount);
+  $sql = "SELECT * FROM guyra_internal ORDER BY log_id DESC LIMIT :amount";
 
-  $result = $db->query($sql);
-  $output = false;
-
-  while ($row = $result->fetch_assoc()) {
-      $output[] = $row;
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':amount', (int) $amount, PDO::PARAM_INT);
+    $stmt->execute();
+    $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+    $output = false;
   }
 
   if (!$return) {
@@ -341,7 +348,7 @@ function guyra_get_internal_log($amount=10, $return=false) {
     return $output;
   }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -349,12 +356,17 @@ function guyra_log_error_todb($object) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql = sprintf("INSERT INTO guyra_error_history (object)
-  VALUES ('%s')", addslashes($object));
+  $sql = "INSERT INTO guyra_error_history (object)
+  VALUES (:object)";
 
-  $db->query($sql);
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([':object' => $object]);
+  } catch (PDOException $e) {
+    guyra_log_to_file("Error logging to DB: " . $e->getMessage());
+  }
 
-  $db->close();
+  $db = null;
 
 }
 
@@ -434,39 +446,42 @@ function guyra_get_user_object($user_id, $user_email=null) {
 
   $db = Guyra_GetDBConnection();
 
-  $sql_select = "SELECT user_id, user_login, type, flags FROM guyra_users WHERE";
-  $sql_userid_statement = sprintf(" user_id='%d'", $user_id);
-  $sql_useremail_statement = sprintf(" user_login='%s'", $user_email);
-
-  $sql = $sql_select;
+  $sql = "SELECT user_id, user_login, type, flags FROM guyra_users WHERE";
+  $params = [];
 
   if ($user_id !== null) {
-    $sql .= $sql_userid_statement;
-    $sql_useremail_statement = " AND" . $sql_useremail_statement;
+    $sql .= " user_id = :user_id";
+    $params[':user_id'] = $user_id;
   }
 
   if ($user_email !== null) {
-    $sql .= $sql_useremail_statement;
+    if ($user_id !== null) {
+      $sql .= " AND";
+    }
+    $sql .= " user_login = :user_login";
+    $params[':user_login'] = $user_email;
   }
 
-  $result = $db->query($sql);
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+    return false;
+  }
+
   $output = false;
 
-  // Check if the user exists
-  if ($result->num_rows > 0) {
-
-    while ($row = $result->fetch_assoc()) {
-        $output[] = $row;
+  if (count($result) > 0) {
+    if (count($result) === 1) {
+      $output = $result[0];
+    } else {
+      $output = $result;
     }
-
-    // Truncate the result
-    if ($result->num_rows === 1) {
-      $output = $output[0];
-    }
-
   }
 
-  $db->close();
+  $db = null;
 
   return $output;
 
@@ -525,10 +540,21 @@ function guyra_create_user($login, $type='user', $flags=[]) {
 
   $user_id = guyra_generate_user_id();
 
-  $sql = sprintf("INSERT INTO guyra_users (user_id, user_login, type, flags)
-  VALUES (%d, '%s', '%s', '%s')", $user_id, $login, $type, json_encode($flags, JSON_UNESCAPED_UNICODE));
+  $sql = "INSERT INTO guyra_users (user_id, user_login, type, flags)
+  VALUES (:user_id, :login, :type, :flags)";
 
-  $result = $db->query($sql);
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $user_id,
+        ':login' => $login,
+        ':type' => $type,
+        ':flags' => json_encode($flags, JSON_UNESCAPED_UNICODE)
+    ]);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+    return ['error' => 'database error'];
+  }
 
   return $user_id;
 
@@ -539,6 +565,11 @@ function guyra_update_user($user_id, array $values) {
   $db = Guyra_GetDBConnection();
 
   $user_values = guyra_get_user_object($user_id);
+  if (!$user_values) {
+      // handle user not found
+      return;
+  }
+  
   $data_keys = array_keys($values);
 
   foreach ($data_keys as $key) {
@@ -546,8 +577,8 @@ function guyra_update_user($user_id, array $values) {
     if ($key == 'flags' && is_array($values[$key])) {
 
       // For the flags setting we need to decode the original flags first and then merge in the new ones.
-
-      $values[$key] = array_merge(json_decode($user_values[$key], true), $values[$key]);
+      $original_flags = json_decode($user_values['flags'], true) ?: [];
+      $values[$key] = array_merge($original_flags, $values[$key]);
       $values[$key] = json_encode($values[$key], JSON_UNESCAPED_UNICODE);
 
     }
@@ -556,77 +587,67 @@ function guyra_update_user($user_id, array $values) {
 
   }
 
-  $string_replacements = [
-    $user_values['user_login'],
-    $user_values['type'],
-    $user_values['flags'],
-    $user_id
-  ];
-
-  $sql = vsprintf("UPDATE guyra_users
+  $sql = "UPDATE guyra_users
   SET
-    user_login = '%s',
-    type = '%s',
-    flags = '%s'
-  WHERE user_id = %d", $string_replacements);
+    user_login = :user_login,
+    type = :type,
+    flags = :flags
+  WHERE user_id = :user_id";
 
-  $result = $db->query($sql);
-
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':user_login' => $user_values['user_login'],
+        ':type' => $user_values['type'],
+        ':flags' => $user_values['flags'],
+        ':user_id' => $user_id
+    ]);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+  }
+  
+  $db = null;
 }
 
 function guyra_get_users($bounds=[], $bounded_datatype='userdata') {
 
-  global $current_user_id;
-
   $db = Guyra_GetDBConnection();
 
-  $sql = "SELECT user_id, meta_key, meta_value
-  FROM guyra_user_meta";
+  // This function is very inefficient and needs a rethink for a large user base.
+  // For now, I will replicate the logic with PDO.
+  // The original logic fetches all user meta, builds a large array, then filters.
+
+  $sql = "SELECT user_id, meta_key, meta_value FROM guyra_user_meta";
+
+  try {
+    $stmt = $db->query($sql);
+    $_output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
+    return false;
+  }
+
+  $output = [];
+  foreach ($_output as $row) {
+    $jsonDecoded = json_decode($row['meta_value'], true);
+    $theValue = $jsonDecoded ?: $row['meta_value'];
+
+    $output[$row['user_id']][$row['meta_key']] = $theValue;
+    $output[$row['user_id']]['id'] = $row['user_id'];
+  }
 
   if (is_array($bounds) && count($bounds) > 0) {
-
     $bounded_key = array_keys($bounds)[0];
     $bounded_value = $bounds[$bounded_key];
 
-  }
-
-  $result = $db->query($sql);
-  $output = false;
-
-  while ($row = $result->fetch_assoc()) {
-    $_output[] = $row;
-  }
-
-  foreach ($_output as &$key) {
-
-    $jsonDecoded = json_decode($key['meta_value'], true);
-    $theKey = $key['meta_key'];
-    $theValue = $key['meta_value'];
-
-    if ($jsonDecoded) {
-      $theValue = $jsonDecoded;
-    }
-
-    $output[$key['user_id']][$key['meta_key']] = $theValue;
-    $output[$key['user_id']]['id'] = $key['user_id'];
-
-  }
-
-  foreach ($output as $user) {
-
-    $theKeys = array_keys($user);
-
-    if (in_array($bounded_datatype, $theKeys)) {
-      if ($user[$bounded_datatype][$bounded_key] != $bounded_value) {
-        unset($output[$user['id']]);
+    foreach ($output as $user_id => $user) {
+      if (!isset($user[$bounded_datatype]) || !isset($user[$bounded_datatype][$bounded_key]) || $user[$bounded_datatype][$bounded_key] != $bounded_value) {
+        unset($output[$user_id]);
       }
-    } else {
-      unset($output[$user['id']]);
     }
-
   }
 
-  $db->close();
+  $db = null;
 
   return $output;
 
@@ -642,23 +663,25 @@ function guyra_create_internal_log($object, $flags='debug', $path=false, $return
     $path = implode('/', $nests);
   }
 
-  $sql = sprintf("INSERT INTO guyra_internal (path, flags, object)
-  VALUES ('%s', '%s', '%s')", $path, $flags, $object);
+  $sql = "INSERT INTO guyra_internal (path, flags, object)
+  VALUES (:path, :flags, :object)";
 
-  if ($db->query($sql) === TRUE) {
+  try {
+    $stmt = $db->prepare($sql);
+    $stmt->execute([
+        ':path' => $path,
+        ':flags' => $flags,
+        ':object' => $object
+    ]);
 
     if ($return) {
-
       guyra_output_json('query successful');
-
     }
 
-  } else {
-
-    guyra_handle_query_error($db->error);
-
+  } catch (PDOException $e) {
+    guyra_handle_query_error($e->getMessage());
   }
 
-  $db->close();
+  $db = null;
 
 }

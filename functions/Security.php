@@ -35,10 +35,14 @@ function Guyra_Is_Admin() {
 
   global $gSettings;
   global $current_user_object;
+  global $current_user_data;
 
   $is_admin = false;
 
   if ($current_user_object['type'] === 'admin')
+  $is_admin = true;
+
+  if ($current_user_data['role'] == 'admin')
   $is_admin = true;
 
   if ($_COOKIE['aryug'] == '033595c8bdbad4e5ac58dbad0fa50c5b' && !$gSettings['cookie_compromised'])
