@@ -31,7 +31,7 @@ After starting the container, you can access the Guyra application by opening yo
 If you need to run the application on a different port, you can change the port mapping in the `docker run` command. For example, to run on port 8000, you would use:
 
 ```bash
-docker run -p 8000:80 guyra-nginx
+docker run -p 8000:80 guyra-app
 ```
 
 ### Development

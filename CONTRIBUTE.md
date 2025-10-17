@@ -109,6 +109,10 @@ When adding new features that require database changes, please document the chan
 
 In general, we don't change how the database behaves for backwards compatibility. If you have dealt with Wordpress databases before, the structure is similar.
 
+## Course Updates or Additions
+
+Course, exercises and such are held within the `json` folder.
+
 ## Submitting Changes
 
 When you are ready to submit your changes, please follow these steps:

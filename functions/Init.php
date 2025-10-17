@@ -6,11 +6,11 @@
  * user authentication and server settings, etc.
  */
 
-// Force HTTPS independent of server config.
-// if($_SERVER["HTTPS"] != "on") {
-//     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-//     exit;
-// }
+// Force HTTPS.
+if($_SERVER["HTTPS"] != "on") {
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit;
+}
 
 // Force disable error reporting.
 error_reporting(0);
