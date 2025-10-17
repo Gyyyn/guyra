@@ -6,12 +6,6 @@
  * user authentication and server settings, etc.
  */
 
-// Force HTTPS.
-if($_SERVER["HTTPS"] != "on") {
-    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-    exit;
-}
-
 // Force disable error reporting.
 error_reporting(0);
 
@@ -26,7 +20,7 @@ $secondsForA = [
 ];
 
 $site_url =
-	$_SERVER['REQUEST_SCHEME'] . '://' .
+	'https://' .
 	$_SERVER['HTTP_HOST'] .
 	explode('index.php', $_SERVER['PHP_SELF'])[0];
 
